@@ -3,109 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>今日の安心</title>
+
+<title>今日の安心DX</title>
 
 <style>
 
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  background:#eef3f8;
-  font-family:sans-serif;
+  background:#edf2f7;
+  font-family:
+  "Hiragino Sans",
+  "Yu Gothic",
+  sans-serif;
   color:#222;
 }
 
 .top{
-  background:linear-gradient(135deg,#1976d2,#0d47a1);
+  background:
+  linear-gradient(
+  135deg,
+  #1565c0,
+  #0d47a1
+  );
+
   color:white;
-  padding:34px 20px 40px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
-  text-align:center;
+
+  padding:
+  40px 24px 48px;
+
+  border-bottom-left-radius:40px;
+  border-bottom-right-radius:40px;
+
+  box-shadow:
+  0 8px 24px rgba(0,0,0,.18);
 }
 
 .title{
-  font-size:44px;
+  font-size:52px;
   font-weight:900;
+  line-height:1.3;
+}
+
+.sub{
+  margin-top:14px;
+  font-size:24px;
+  line-height:1.8;
+  opacity:.95;
 }
 
 .date{
-  font-size:26px;
-  margin-top:14px;
+  margin-top:22px;
+  font-size:24px;
   font-weight:900;
 }
 
 .wrap{
-  padding:18px;
+  padding:20px;
 }
 
 .card{
   background:white;
-  border-radius:30px;
-  padding:28px;
+
+  border-radius:34px;
+
+  padding:30px;
+
   margin-bottom:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
-  text-align:center;
+
+  box-shadow:
+  0 8px 22px rgba(0,0,0,.10);
 }
 
-.card-title{
+.schedule-title{
   font-size:26px;
   color:#1565c0;
   font-weight:900;
-  margin-bottom:14px;
+  margin-bottom:16px;
 }
 
-.big-text{
-  font-size:44px;
+.schedule-main{
+  font-size:48px;
   font-weight:900;
   line-height:1.4;
 }
 
-.sub{
+.schedule-sub{
+  margin-top:14px;
   font-size:24px;
   color:#666;
-  line-height:1.7;
-  margin-top:12px;
+  line-height:1.8;
 }
 
-button{
+.big-button{
   width:100%;
+
   border:none;
-  border-radius:28px;
-  padding:34px;
-  margin-bottom:22px;
+
+  border-radius:34px;
+
+  padding:38px 26px;
+
+  margin-bottom:24px;
+
   color:white;
-  font-size:38px;
+
+  font-size:42px;
+
   font-weight:900;
+
+  letter-spacing:.02em;
+
+  box-shadow:
+  0 8px 20px rgba(0,0,0,.16);
+
+  transition:.2s;
+}
+
+.big-button:active{
+  transform:scale(.98);
 }
 
 .green{
-  background:#43a047;
+  background:
+  linear-gradient(
+  135deg,
+  #43a047,
+  #2e7d32
+  );
 }
 
 .blue{
-  background:#1565c0;
+  background:
+  linear-gradient(
+  135deg,
+  #1e88e5,
+  #1565c0
+  );
 }
 
 .red{
-  background:#d32f2f;
+  background:
+  linear-gradient(
+  135deg,
+  #ef5350,
+  #c62828
+  );
 }
 
 .gray{
-  background:#546e7a;
+  background:
+  linear-gradient(
+  135deg,
+  #78909c,
+  #546e7a
+  );
+}
+
+.orange{
+  background:
+  linear-gradient(
+  135deg,
+  #ffb300,
+  #f57c00
+  );
 }
 
 .result{
   text-align:center;
   font-size:28px;
   font-weight:900;
-  margin:16px 0;
+  color:#1565c0;
+  margin:10px 0 24px;
 }
 
 .checked{
-  opacity:.55;
+  opacity:.6;
+
   box-shadow:
   0 0 0 6px #fff,
   0 0 0 12px #00c853;
+}
+
+.menu-title{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:18px;
+  color:#1565c0;
 }
 
 </style>
@@ -116,7 +203,12 @@ button{
 <div class="top">
 
   <div class="title">
-    今日の安心
+    今日の安心DX
+  </div>
+
+  <div class="sub">
+    毎日の見守りと、<br>
+    地域の安心をつなぐページ
   </div>
 
   <div class="date" id="todayDate"></div>
@@ -127,15 +219,15 @@ button{
 
   <div class="card">
 
-    <div class="card-title">
+    <div class="schedule-title">
       📅 今日の予定
     </div>
 
-    <div class="big-text">
+    <div class="schedule-main">
       今日は予定ありません
     </div>
 
-    <div class="sub">
+    <div class="schedule-sub">
       今日も元気にお過ごしください
     </div>
 
@@ -143,7 +235,7 @@ button{
 
   <button
   id="btn-genki"
-  class="green"
+  class="big-button green"
   onclick="sendData('btn-genki','正常','😊 元気です')">
 
   😊 元気です
@@ -152,7 +244,7 @@ button{
 
   <button
   id="btn-go"
-  class="blue"
+  class="big-button blue"
   onclick="sendData('btn-go','外出','🏥 出発しました')">
 
   🏥 出発しました
@@ -161,7 +253,7 @@ button{
 
   <button
   id="btn-emergency"
-  class="red"
+  class="big-button red"
   onclick="emergencyAction()">
 
   🚨 緊急
@@ -170,21 +262,37 @@ button{
 
   <div class="result" id="result"></div>
 
-  <button
-  class="gray"
-  onclick="location.href='map.html'">
+  <div class="card">
 
-  🗺️ 行き先案内
+    <div class="menu-title">
+      地域と暮らし
+    </div>
 
-  </button>
+    <button
+    class="big-button blue"
+    onclick="location.href='news.html'">
 
-  <button
-  class="gray"
-  onclick="location.href='family.html'">
+    📰 4市情報
 
-  👨‍👩‍👧 家族確認
+    </button>
 
-  </button>
+    <button
+    class="big-button orange"
+    onclick="location.href='map.html'">
+
+    🗺️ 行き先案内
+
+    </button>
+
+    <button
+    class="big-button gray"
+    onclick="location.href='family.html'">
+
+    👨‍👩‍👧 家族確認
+
+    </button>
+
+  </div>
 
 </div>
 
@@ -217,7 +325,7 @@ function showToday(){
 
 function clearChecks(){
 
-  document.querySelectorAll('button').forEach(btn=>{
+  document.querySelectorAll('.big-button').forEach(btn=>{
 
     btn.classList.remove('checked');
 
