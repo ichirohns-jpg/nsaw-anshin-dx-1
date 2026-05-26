@@ -195,6 +195,25 @@ body{
   color:#1565c0;
 }
 
+.city-select{
+  width:100%;
+  padding:22px;
+  border-radius:20px;
+  border:3px solid #ccc;
+  font-size:28px;
+  margin-bottom:20px;
+}
+
+.gomi-box{
+  background:#f5f9ff;
+  border-radius:24px;
+  padding:24px;
+  font-size:28px;
+  font-weight:900;
+  color:#1565c0;
+  line-height:1.8;
+}
+
 </style>
 </head>
 
@@ -216,6 +235,33 @@ body{
 </div>
 
 <div class="wrap">
+
+  <div class="card">
+
+    <div class="menu-title">
+      お住まいの地域
+    </div>
+
+    <select
+    id="citySelect"
+    class="city-select">
+
+      <option>志木市</option>
+      <option>朝霞市</option>
+      <option>和光市</option>
+      <option>新座市</option>
+
+    </select>
+
+    <div
+    class="gomi-box"
+    id="gomiInfo">
+
+    ゴミ情報を確認しています
+
+    </div>
+
+  </div>
 
   <div class="card">
 
@@ -433,6 +479,56 @@ async function emergencyAction(){
       'tel:09012345678';
 
   }
+
+}
+
+const gomiData = {
+
+  '志木市':'今日は 燃えるゴミ の日です',
+  '朝霞市':'今日は 資源ゴミ の日です',
+  '和光市':'今日は 燃えないゴミ の日です',
+  '新座市':'今日は ペットボトル の日です'
+
+};
+
+const citySelect =
+document.getElementById('citySelect');
+
+const gomiInfo =
+document.getElementById('gomiInfo');
+
+const savedCity =
+localStorage.getItem('savedCity');
+
+if(savedCity){
+
+  citySelect.value =
+  savedCity;
+
+}
+
+updateGomi();
+
+citySelect.addEventListener(
+  'change',
+  function(){
+
+    localStorage.setItem(
+      'savedCity',
+      citySelect.value
+    );
+
+    updateGomi();
+
+  }
+);
+
+function updateGomi(){
+
+  gomiInfo.innerHTML =
+    gomiData[
+      citySelect.value
+    ];
 
 }
 
