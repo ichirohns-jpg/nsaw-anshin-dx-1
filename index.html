@@ -78,24 +78,36 @@ body{
   0 8px 22px rgba(0,0,0,.10);
 }
 
-.schedule-title{
-  font-size:26px;
+.menu-title{
+  font-size:30px;
+  font-weight:900;
+  margin-bottom:18px;
   color:#1565c0;
-  font-weight:900;
-  margin-bottom:16px;
 }
 
-.schedule-main{
-  font-size:48px;
-  font-weight:900;
-  line-height:1.4;
+.city-select{
+  width:100%;
+  padding:22px;
+  border-radius:20px;
+  border:3px solid #ccc;
+  font-size:28px;
+  margin-bottom:18px;
 }
 
-.schedule-sub{
-  margin-top:14px;
-  font-size:24px;
-  color:#666;
+.gomi-box{
+  background:#f5f9ff;
+
+  border-radius:24px;
+
+  padding:26px;
+
+  font-size:28px;
+
   line-height:1.8;
+
+  font-weight:900;
+
+  color:#1565c0;
 }
 
 .big-button{
@@ -119,12 +131,6 @@ body{
 
   box-shadow:
   0 8px 20px rgba(0,0,0,.16);
-
-  transition:.2s;
-}
-
-.big-button:active{
-  transform:scale(.98);
 }
 
 .green{
@@ -154,21 +160,21 @@ body{
   );
 }
 
-.gray{
-  background:
-  linear-gradient(
-  135deg,
-  #78909c,
-  #546e7a
-  );
-}
-
 .orange{
   background:
   linear-gradient(
   135deg,
   #ffb300,
   #f57c00
+  );
+}
+
+.gray{
+  background:
+  linear-gradient(
+  135deg,
+  #78909c,
+  #546e7a
   );
 }
 
@@ -188,29 +194,23 @@ body{
   0 0 0 12px #00c853;
 }
 
-.menu-title{
-  font-size:28px;
-  font-weight:900;
-  margin-bottom:18px;
+.schedule-title{
+  font-size:26px;
   color:#1565c0;
+  font-weight:900;
+  margin-bottom:16px;
 }
 
-.city-select{
-  width:100%;
-  padding:22px;
-  border-radius:20px;
-  border:3px solid #ccc;
-  font-size:28px;
-  margin-bottom:20px;
+.schedule-main{
+  font-size:48px;
+  font-weight:900;
+  line-height:1.4;
 }
 
-.gomi-box{
-  background:#f5f9ff;
-  border-radius:24px;
-  padding:24px;
-  font-size:28px;
-  font-weight:900;
-  color:#1565c0;
+.schedule-sub{
+  margin-top:14px;
+  font-size:24px;
+  color:#666;
   line-height:1.8;
 }
 
@@ -250,6 +250,18 @@ body{
       <option>朝霞市</option>
       <option>和光市</option>
       <option>新座市</option>
+
+    </select>
+
+    <select
+    id="areaSelect"
+    class="city-select">
+
+      <option>本町</option>
+      <option>宗岡</option>
+      <option>柏町</option>
+      <option>幸町</option>
+      <option>館</option>
 
     </select>
 
@@ -346,6 +358,21 @@ body{
 
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbz-cMT63Wl9f9-WFM8R6lNsGK_aXx-kavrl0_uOjzJARzahG1j_9hmh-kyAodMGUCvP/exec';
+
+const SHEET_ID =
+'1hMbXOCMloUQbT1F25sBFuufoDgr83fEO';
+
+const GOMI_SHEET =
+'ゴミ';
+
+const citySelect =
+document.getElementById('citySelect');
+
+const areaSelect =
+document.getElementById('areaSelect');
+
+const gomiInfo =
+document.getElementById('gomiInfo');
 
 function showToday(){
 
@@ -482,20 +509,110 @@ async function emergencyAction(){
 
 }
 
-const gomiData = {
+function loadGomiSheet(){
 
-  '志木市':'今日は 燃えるゴミ の日です',
-  '朝霞市':'今日は 資源ゴミ の日です',
-  '和光市':'今日は 燃えないゴミ の日です',
-  '新座市':'今日は ペットボトル の日です'
+  window.google = {
+    visualization:{
+      Query:{
+        setResponse:function(json){
 
-};
+          handleGomiSheet(json);
 
-const citySelect =
-document.getElementById('citySelect');
+        }
+      }
+    }
+  };
 
-const gomiInfo =
-document.getElementById('gomiInfo');
+  const script =
+  document.createElement('script');
+
+  script.src =
+  'https://docs.google.com/spreadsheets/d/' +
+  SHEET_ID +
+  '/gviz/tq?sheet=' +
+  encodeURIComponent(GOMI_SHEET) +
+  '&tqx=out:json';
+
+  document.body.appendChild(script);
+
+}
+
+function handleGomiSheet(json){
+
+  const rows =
+  json.table.rows || [];
+
+  const city =
+  citySelect.value;
+
+  const area =
+  areaSelect.value;
+
+  const week = [
+    '日',
+    '月',
+    '火',
+    '水',
+    '木',
+    '金',
+    '土'
+  ];
+
+  const today =
+  week[
+    new Date().getDay()
+  ];
+
+  let found = false;
+
+  rows.forEach(row=>{
+
+    const cityName =
+    row.c[0]?.v || '';
+
+    const areaName =
+    row.c[1]?.v || '';
+
+    const day =
+    row.c[2]?.v || '';
+
+    const type =
+    row.c[3]?.v || '';
+
+    const message =
+    row.c[4]?.v || '';
+
+    if(
+      cityName === city &&
+      areaName === area &&
+      (
+        day === today ||
+        day === '毎朝'
+      )
+    ){
+
+      gomiInfo.innerHTML =
+
+      '【' + areaName + '】<br><br>' +
+
+      type + '<br><br>' +
+
+      message;
+
+      found = true;
+
+    }
+
+  });
+
+  if(!found){
+
+    gomiInfo.innerHTML =
+    '本日のゴミ情報はありません';
+
+  }
+
+}
 
 const savedCity =
 localStorage.getItem('savedCity');
@@ -507,7 +624,15 @@ if(savedCity){
 
 }
 
-updateGomi();
+const savedArea =
+localStorage.getItem('savedArea');
+
+if(savedArea){
+
+  areaSelect.value =
+  savedArea;
+
+}
 
 citySelect.addEventListener(
   'change',
@@ -518,23 +643,30 @@ citySelect.addEventListener(
       citySelect.value
     );
 
-    updateGomi();
+    loadGomiSheet();
 
   }
 );
 
-function updateGomi(){
+areaSelect.addEventListener(
+  'change',
+  function(){
 
-  gomiInfo.innerHTML =
-    gomiData[
-      citySelect.value
-    ];
+    localStorage.setItem(
+      'savedArea',
+      areaSelect.value
+    );
 
-}
+    loadGomiSheet();
+
+  }
+);
 
 showToday();
 
 restoreLastButton();
+
+loadGomiSheet();
 
 </script>
 
