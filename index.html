@@ -23,6 +23,7 @@ body{
 }
 
 .top{
+
   background:
   linear-gradient(
   135deg,
@@ -40,6 +41,7 @@ body{
 
   box-shadow:
   0 8px 24px rgba(0,0,0,.18);
+
 }
 
 .title{
@@ -66,6 +68,7 @@ body{
 }
 
 .card{
+
   background:white;
 
   border-radius:34px;
@@ -76,6 +79,7 @@ body{
 
   box-shadow:
   0 8px 22px rgba(0,0,0,.10);
+
 }
 
 .menu-title{
@@ -86,15 +90,23 @@ body{
 }
 
 .city-select{
+
   width:100%;
+
   padding:22px;
+
   border-radius:20px;
+
   border:3px solid #ccc;
+
   font-size:28px;
+
   margin-bottom:18px;
+
 }
 
 .gomi-box{
+
   background:#f5f9ff;
 
   border-radius:24px;
@@ -108,9 +120,11 @@ body{
   font-weight:900;
 
   color:#1565c0;
+
 }
 
 .big-button{
+
   width:100%;
 
   border:none;
@@ -131,6 +145,7 @@ body{
 
   box-shadow:
   0 8px 20px rgba(0,0,0,.16);
+
 }
 
 .green{
@@ -187,11 +202,13 @@ body{
 }
 
 .checked{
+
   opacity:.6;
 
   box-shadow:
   0 0 0 6px #fff,
   0 0 0 12px #00c853;
+
 }
 
 .schedule-title{
@@ -256,12 +273,6 @@ body{
     <select
     id="areaSelect"
     class="city-select">
-
-      <option>本町</option>
-      <option>宗岡</option>
-      <option>柏町</option>
-      <option>幸町</option>
-      <option>館</option>
 
     </select>
 
@@ -360,7 +371,7 @@ const GAS_URL =
 'https://script.google.com/macros/s/AKfycbz-cMT63Wl9f9-WFM8R6lNsGK_aXx-kavrl0_uOjzJARzahG1j_9hmh-kyAodMGUCvP/exec';
 
 const SHEET_ID =
-'1hMbXOCMloUQbT1F25sBFuufoDgr83fEO';
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
 const GOMI_SHEET =
 'ゴミ';
@@ -373,6 +384,59 @@ document.getElementById('areaSelect');
 
 const gomiInfo =
 document.getElementById('gomiInfo');
+
+const areaData = {
+
+  '志木市':[
+    '本町',
+    '宗岡',
+    '柏町',
+    '幸町',
+    '館'
+  ],
+
+  '朝霞市':[
+    '朝志ヶ丘',
+    '本町',
+    '仲町',
+    '根岸台'
+  ],
+
+  '和光市':[
+    '白子',
+    '本町',
+    '中央'
+  ],
+
+  '新座市':[
+    '野火止',
+    '東北',
+    '栗原'
+  ]
+
+};
+
+function updateAreaSelect(){
+
+  const city =
+  citySelect.value;
+
+  areaSelect.innerHTML = '';
+
+  areaData[city].forEach(area=>{
+
+    const option =
+    document.createElement('option');
+
+    option.value = area;
+
+    option.textContent = area;
+
+    areaSelect.appendChild(option);
+
+  });
+
+}
 
 function showToday(){
 
@@ -624,6 +688,8 @@ if(savedCity){
 
 }
 
+updateAreaSelect();
+
 const savedArea =
 localStorage.getItem('savedArea');
 
@@ -642,6 +708,8 @@ citySelect.addEventListener(
       'savedCity',
       citySelect.value
     );
+
+    updateAreaSelect();
 
     loadGomiSheet();
 
