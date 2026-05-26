@@ -8,87 +8,179 @@
 
 <style>
 
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   background:#eef3f8;
-  font-family:sans-serif;
+  font-family:
+  "Hiragino Sans",
+  "Yu Gothic",
+  sans-serif;
   color:#222;
 }
 
 .top{
-  background:linear-gradient(135deg,#1565c0,#0d47a1);
+  background:
+  linear-gradient(
+  135deg,
+  #1565c0,
+  #0d47a1
+  );
+
   color:white;
-  padding:34px 20px 40px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
+
+  padding:
+  40px 24px 48px;
+
+  border-bottom-left-radius:40px;
+  border-bottom-right-radius:40px;
+
   text-align:center;
+
+  box-shadow:
+  0 8px 24px rgba(0,0,0,.18);
 }
 
 .title{
-  font-size:44px;
+  font-size:50px;
   font-weight:900;
+  line-height:1.3;
 }
 
 .sub{
+  margin-top:14px;
   font-size:24px;
-  margin-top:12px;
-  line-height:1.7;
+  line-height:1.8;
 }
 
 .wrap{
-  padding:18px;
+  padding:20px;
 }
 
 .card{
   background:white;
-  border-radius:30px;
+
+  border-radius:34px;
+
   padding:28px;
-  margin-bottom:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
+
+  margin-bottom:26px;
+
+  box-shadow:
+  0 8px 22px rgba(0,0,0,.10);
+}
+
+.date{
+  font-size:22px;
+  color:#666;
+  margin-bottom:10px;
 }
 
 .city{
-  font-size:24px;
-  font-weight:900;
-  color:#1565c0;
-  margin-bottom:12px;
-}
+  display:inline-block;
 
-.headline{
-  font-size:34px;
+  background:#1565c0;
+
+  color:white;
+
+  padding:10px 18px;
+
+  border-radius:18px;
+
+  font-size:22px;
+
   font-weight:900;
-  line-height:1.5;
+
   margin-bottom:16px;
 }
 
+.headline{
+  font-size:36px;
+  font-weight:900;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
 .detail{
-  font-size:24px;
-  line-height:1.8;
+  font-size:25px;
+  line-height:1.9;
   color:#444;
+}
+
+.media{
+  width:100%;
+  border-radius:24px;
+  margin-top:22px;
+}
+
+iframe{
+  width:100%;
+  height:240px;
+  border:none;
+  border-radius:24px;
+  margin-top:22px;
 }
 
 .button{
   width:100%;
   border:none;
-  border-radius:24px;
+
+  border-radius:26px;
+
   padding:28px;
-  margin-top:20px;
-  background:#1565c0;
+
+  margin-top:22px;
+
+  background:
+  linear-gradient(
+  135deg,
+  #1e88e5,
+  #1565c0
+  );
+
   color:white;
+
   font-size:30px;
+
   font-weight:900;
 }
 
-.red{
-  background:#d32f2f;
+.top-button{
+  width:100%;
+  border:none;
+
+  border-radius:30px;
+
+  padding:32px;
+
+  margin-top:20px;
+
+  background:
+  linear-gradient(
+  135deg,
+  #78909c,
+  #546e7a
+  );
+
+  color:white;
+
+  font-size:34px;
+
+  font-weight:900;
 }
 
-.green{
-  background:#43a047;
+.archive{
+  margin-top:40px;
 }
 
-.gray{
-  background:#546e7a;
+.archive-title{
+  font-size:30px;
+  font-weight:900;
+  margin-bottom:18px;
+  color:#1565c0;
 }
 
 </style>
@@ -104,55 +196,27 @@ body{
 
   <div class="sub">
     志木・新座・朝霞・和光の<br>
-    地域情報をお届けします
+    地域情報・動画・暮らし情報
   </div>
 
 </div>
 
 <div class="wrap">
 
-  <div class="card">
+  <div id="latestArea"></div>
 
-    <div class="city">
-      志木市
+  <div class="archive">
+
+    <div class="archive-title">
+      📚 アーカイブ
     </div>
 
-    <div class="headline">
-      4市情報テスト
-    </div>
-
-    <div class="detail">
-      今後ここへスプレッドシート連動で、
-      地域情報・動画・イベント情報を表示します。
-    </div>
-
-    <button
-    class="button">
-
-    詳しく見る
-
-    </button>
+    <div id="archiveArea"></div>
 
   </div>
 
   <button
-  class="button red"
-  onclick="location.href='map.html'">
-
-  🗺️ 行き先案内
-
-  </button>
-
-  <button
-  class="button green"
-  onclick="location.href='family.html'">
-
-  👨‍👩‍👧 家族確認
-
-  </button>
-
-  <button
-  class="button gray"
+  class="top-button"
   onclick="location.href='index.html'">
 
   ← 今日の安心へ戻る
@@ -160,6 +224,214 @@ body{
   </button>
 
 </div>
+
+<script>
+
+const SHEET_ID =
+'1hMbXOCMloUQbT1F25sBFuufoDgr83fEO';
+
+const SHEET_NAME =
+'data';
+
+function loadSheet(){
+
+  window.google = {
+    visualization:{
+      Query:{
+        setResponse:function(json){
+
+          handleSheet(json);
+
+        }
+      }
+    }
+  };
+
+  const script =
+  document.createElement('script');
+
+  script.src =
+  'https://docs.google.com/spreadsheets/d/' +
+  SHEET_ID +
+  '/gviz/tq?sheet=' +
+  encodeURIComponent(SHEET_NAME) +
+  '&tqx=out:json';
+
+  document.body.appendChild(script);
+
+}
+
+function youtubeEmbed(url){
+
+  if(!url)return '';
+
+  if(url.includes('watch?v=')){
+
+    return url.replace(
+      'watch?v=',
+      'embed/'
+    );
+
+  }
+
+  if(url.includes('youtu.be/')){
+
+    return url.replace(
+      'youtu.be/',
+      'www.youtube.com/embed/'
+    );
+
+  }
+
+  if(url.includes('/shorts/')){
+
+    return url.replace(
+      '/shorts/',
+      '/embed/'
+    );
+
+  }
+
+  return url;
+
+}
+
+function createCard(row){
+
+  const cells = row.c;
+
+  const date =
+  cells[0]?.v || '';
+
+  const city =
+  cells[1]?.v || '';
+
+  const title =
+  cells[2]?.v || '';
+
+  const detail =
+  cells[4]?.v || '';
+
+  const image =
+  cells[17]?.v || '';
+
+  const video =
+  cells[18]?.v || '';
+
+  const link =
+  cells[19]?.v || '';
+
+  let mediaHtml = '';
+
+  if(image){
+
+    mediaHtml +=
+    '<img class="media" src="' +
+    image +
+    '">';
+
+  }
+
+  if(video){
+
+    if(
+      video.includes('youtube') ||
+      video.includes('youtu.be')
+    ){
+
+      mediaHtml +=
+      '<iframe src="' +
+      youtubeEmbed(video) +
+      '" allowfullscreen></iframe>';
+
+    }else{
+
+      mediaHtml +=
+      '<video class="media" controls playsinline src="' +
+      video +
+      '"></video>';
+
+    }
+
+  }
+
+  let buttonHtml = '';
+
+  if(link){
+
+    buttonHtml =
+    '<button class="button" onclick="window.open(`' +
+    link +
+    '`)">詳しく見る</button>';
+
+  }
+
+  return `
+  <div class="card">
+
+    <div class="date">
+      ${date}
+    </div>
+
+    <div class="city">
+      ${city}
+    </div>
+
+    <div class="headline">
+      ${title}
+    </div>
+
+    <div class="detail">
+      ${detail}
+    </div>
+
+    ${mediaHtml}
+
+    ${buttonHtml}
+
+  </div>
+  `;
+
+}
+
+function handleSheet(json){
+
+  const rows =
+  json.table.rows || [];
+
+  const latest =
+  document.getElementById('latestArea');
+
+  const archive =
+  document.getElementById('archiveArea');
+
+  latest.innerHTML = '';
+  archive.innerHTML = '';
+
+  rows.reverse();
+
+  rows.forEach((row,index)=>{
+
+    const html =
+    createCard(row);
+
+    if(index < 5){
+
+      latest.innerHTML += html;
+
+    }else{
+
+      archive.innerHTML += html;
+
+    }
+
+  });
+
+}
+
+loadSheet();
+
+</script>
 
 </body>
 </html>
