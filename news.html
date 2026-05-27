@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>NSAW 今日の安心DX</title>
 
@@ -22,39 +22,39 @@ sans-serif;
 color:#222;
 }
 
-header{
+.top{
 background:
-linear-gradient(135deg,#175d96,#3c82bf);
-padding:22px 12px;
-text-align:center;
+linear-gradient(135deg,#17639b,#4b91c7);
+padding:24px 16px;
 color:white;
+text-align:center;
 }
 
-header h1{
+.top h1{
 margin:0;
-font-size:32px;
+font-size:34px;
 line-height:1.4;
 }
 
-header p{
-margin:8px 0 0;
-font-size:16px;
+.top p{
+margin:10px 0 0;
+font-size:17px;
 opacity:.95;
 }
 
 .wrap{
-max-width:860px;
+max-width:900px;
 margin:auto;
 padding:12px;
 }
 
 .card{
 background:white;
-border-radius:24px;
+border-radius:22px;
 overflow:hidden;
-margin-bottom:24px;
+margin-bottom:22px;
 box-shadow:
-0 6px 18px rgba(0,0,0,.12);
+0 4px 14px rgba(0,0,0,.12);
 }
 
 .media{
@@ -62,34 +62,21 @@ display:flex;
 overflow-x:auto;
 gap:8px;
 padding:8px;
-background:#dfe8ef;
-scroll-snap-type:x mandatory;
+background:#dde7ef;
 }
 
 .media img{
-width:100%;
-max-width:100%;
-aspect-ratio:16/9;
+height:240px;
+border-radius:16px;
 object-fit:cover;
-border-radius:18px;
-scroll-snap-align:start;
 }
 
 .media iframe{
-width:100%;
-aspect-ratio:16/9;
+width:420px;
+height:236px;
 border:none;
-border-radius:18px;
+border-radius:16px;
 background:black;
-scroll-snap-align:start;
-}
-
-.media video{
-width:100%;
-aspect-ratio:16/9;
-border-radius:18px;
-background:black;
-scroll-snap-align:start;
 }
 
 .body{
@@ -115,7 +102,7 @@ line-height:1.9;
 white-space:pre-wrap;
 }
 
-.btns{
+.buttons{
 display:grid;
 gap:10px;
 margin-top:18px;
@@ -126,19 +113,18 @@ display:block;
 text-decoration:none;
 padding:16px;
 border-radius:16px;
+text-align:center;
 font-size:18px;
 font-weight:700;
-text-align:center;
+color:white;
 }
 
 .blue{
 background:#1976d2;
-color:white;
 }
 
 .green{
 background:#16a34a;
-color:white;
 }
 
 .loading{
@@ -147,27 +133,22 @@ text-align:center;
 font-size:24px;
 }
 
-.error{
-padding:40px;
-text-align:center;
-font-size:22px;
-color:red;
-}
-
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="top">
+
 <h1>
 NSAW 今日の安心DX
 </h1>
 
 <p>
-志木・新座・朝霞・和光の地域情報
+志木・新座・朝霞・和光 四市情報
 </p>
-</header>
+
+</div>
 
 <div class="wrap">
 
@@ -189,26 +170,21 @@ if(!c)return'';
 return c.v || c.f || '';
 }
 
-function youtubeEmbed(url){
-
-if(!url)return'';
+function youtube(url){
 
 if(url.includes('watch?v=')){
-const id =
+return 'https://www.youtube.com/embed/' +
 url.split('watch?v=')[1].split('&')[0];
-return 'https://www.youtube.com/embed/'+id;
 }
 
 if(url.includes('youtu.be/')){
-const id =
+return 'https://www.youtube.com/embed/' +
 url.split('youtu.be/')[1].split('?')[0];
-return 'https://www.youtube.com/embed/'+id;
 }
 
 if(url.includes('/shorts/')){
-const id =
+return 'https://www.youtube.com/embed/' +
 url.split('/shorts/')[1].split('?')[0];
-return 'https://www.youtube.com/embed/'+id;
 }
 
 return '';
@@ -220,8 +196,6 @@ Query:{
 setResponse:function(res){
 
 document.getElementById('loading').style.display='none';
-
-try{
 
 const rows =
 res.table.rows || [];
@@ -261,32 +235,14 @@ val.includes('youtube.com')
 val.includes('youtu.be')
 ){
 
-const embed =
-youtubeEmbed(val);
-
 media += `
 <iframe
-src="${embed}"
-allowfullscreen
-loading="lazy">
+src="${youtube(val)}"
+allowfullscreen>
 </iframe>
 `;
 
-}
-
-else if(
-val.match(/\.(mp4|mov|webm)$/i)
-){
-
-media += `
-<video controls playsinline>
-<source src="${val}">
-</video>
-`;
-
-}
-
-else{
+}else{
 
 media += `
 <img src="${val}">
@@ -320,7 +276,7 @@ ${title}
 ${text}
 </div>
 
-<div class="btns">
+<div class="buttons">
 
 <a class="btn blue"
 href="map.html">
@@ -341,15 +297,6 @@ href="family.html">
 `;
 
 });
-
-}catch(e){
-
-document.getElementById('news').innerHTML =
-'<div class="error">表示エラー</div>';
-
-console.log(e);
-
-}
 
 }
 }
