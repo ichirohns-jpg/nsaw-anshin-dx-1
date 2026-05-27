@@ -52,7 +52,7 @@ padding:12px;
 font-size:30px;
 font-weight:800;
 margin:
-20px 0 18px;
+24px 0 18px;
 }
 
 .archive-buttons{
@@ -60,6 +60,7 @@ display:flex;
 gap:10px;
 overflow-x:auto;
 margin-bottom:18px;
+padding-bottom:4px;
 }
 
 .archive-buttons button{
@@ -168,7 +169,7 @@ font-size:22px;
 color:red;
 }
 
-.hidden{
+.archive-group{
 display:none;
 }
 
@@ -205,7 +206,10 @@ NSAW 今日の安心DX
 月別アーカイブ
 </h2>
 
-<div class="archive-buttons" id="monthButtons"></div>
+<div
+class="archive-buttons"
+id="monthButtons">
+</div>
 
 <div id="archive"></div>
 
@@ -292,9 +296,7 @@ ${name}：${title}
 
 }
 
-function renderCard(r,target){
-
-const c = r.c || [];
+function cardHtml(c){
 
 const date =
 val(c[0]);
@@ -344,11 +346,9 @@ url(c[17]);
 const embed =
 yt(videoUrl);
 
-document.getElementById(target)
-.innerHTML += `
+return `
 
-<div class="card archive-card"
-data-month="${monthLabel(date)}">
+<div class="card">
 
 ${image ? `
 <img class="mainimg"
@@ -426,12 +426,36 @@ allowfullscreen>
 
 }
 
+function showMonth(month){
+
+document
+.querySelectorAll('.archive-group')
+.forEach(g=>{
+
+g.style.display='none';
+
+});
+
+const el =
+document.getElementById(
+'month-'+month
+);
+
+if(el){
+
+el.style.display='block';
+
+}
+
+}
+
 window.google = {
 visualization:{
 Query:{
 setResponse:function(res){
 
-document.getElementById('loading')
+document
+.getElementById('loading')
 .style.display='none';
 
 try{
@@ -442,71 +466,84 @@ res.table.rows || [];
 const rev =
 rows.reverse();
 
+const news =
+document.getElementById('news');
+
+const archive =
+document.getElementById('archive');
+
+const months = {};
+
 rev.slice(0,5)
 .forEach(r=>{
 
-renderCard(
-r,
-'news'
-);
+news.innerHTML +=
+cardHtml(r.c || []);
 
 });
 
 rev.slice(5)
 .forEach(r=>{
 
-renderCard(
-r,
-'archive'
+const c =
+r.c || [];
+
+const month =
+monthLabel(
+val(c[0])
 );
 
-});
+if(!months[month]){
 
-const cards =
-document.querySelectorAll('.archive-card');
-
-const months =
-[...new Set(
-[...cards].map(
-c=>c.dataset.month
-)
-)];
-
-const btns =
-document.getElementById('monthButtons');
-
-months.forEach(m=>{
-
-btns.innerHTML += `
-<button onclick="filterMonth('${m}')">
-${m}
-</button>
-`;
-
-});
-
-window.filterMonth =
-function(month){
-
-cards.forEach(c=>{
-
-if(c.dataset.month===month){
-
-c.classList.remove('hidden');
-
-}else{
-
-c.classList.add('hidden');
+months[month]=[];
 
 }
 
+months[month]
+.push(c);
+
 });
 
-};
+const btns =
+document.getElementById(
+'monthButtons'
+);
+
+Object.keys(months)
+.forEach(month=>{
+
+btns.innerHTML += `
+<button
+onclick="showMonth('${month}')">
+${month}
+</button>
+`;
+
+archive.innerHTML += `
+<div
+class="archive-group"
+id="month-${month}">
+</div>
+`;
+
+months[month]
+.forEach(c=>{
+
+document
+.getElementById(
+'month-'+month
+)
+.innerHTML +=
+cardHtml(c);
+
+});
+
+});
 
 }catch(e){
 
-document.getElementById('news')
+document
+.getElementById('news')
 .innerHTML =
 '<div class="error">表示エラー</div>';
 
