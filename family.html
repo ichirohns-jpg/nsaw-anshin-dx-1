@@ -386,10 +386,10 @@ function showLogs(json){
 
   rows.filter(row=>{
 
-    const city =
-    getCell(row,4);
+    const region =
+    getCell(row,5);
 
-    return city.includes(targetPlace);
+    return region.includes(targetPlace);
 
   }).slice(0,10).forEach(row=>{
 
@@ -405,8 +405,8 @@ function showLogs(json){
     const content =
     getCell(row,3);
 
-    const city =
-    getCell(row,4);
+    const region =
+    getCell(row,5);
 
     const ago =
     timeAgo(time);
@@ -436,7 +436,7 @@ function showLogs(json){
 
       <div class="city">
 
-        ${city || '地域未設定'}
+        ${region || '地域未設定'}
 
       </div>
 
@@ -458,6 +458,12 @@ function showLogs(json){
 }
 
 loadSheet();
+
+setInterval(function(){
+
+  loadSheet();
+
+},30000);
 
 </script>
 
