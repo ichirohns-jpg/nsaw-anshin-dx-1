@@ -54,7 +54,6 @@ body{
   margin-top:14px;
   font-size:24px;
   line-height:1.8;
-  opacity:.95;
 }
 
 .date{
@@ -141,8 +140,6 @@ body{
 
   font-weight:900;
 
-  letter-spacing:.02em;
-
   box-shadow:
   0 8px 20px rgba(0,0,0,.16);
 
@@ -202,13 +199,10 @@ body{
 }
 
 .checked{
-
   opacity:.6;
-
   box-shadow:
   0 0 0 6px #fff,
   0 0 0 12px #00c853;
-
 }
 
 .schedule-title{
@@ -259,9 +253,7 @@ body{
       お住まいの地域
     </div>
 
-    <select
-    id="citySelect"
-    class="city-select">
+    <select id="citySelect" class="city-select">
 
       <option>志木市</option>
       <option>朝霞市</option>
@@ -270,18 +262,10 @@ body{
 
     </select>
 
-    <select
-    id="areaSelect"
-    class="city-select">
+    <select id="areaSelect" class="city-select"></select>
 
-    </select>
-
-    <div
-    class="gomi-box"
-    id="gomiInfo">
-
-    ゴミ情報を確認しています
-
+    <div class="gomi-box" id="gomiInfo">
+      ゴミ情報を確認しています
     </div>
 
   </div>
@@ -370,12 +354,6 @@ body{
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbz-cMT63Wl9f9-WFM8R6lNsGK_aXx-kavrl0_uOjzJARzahG1j_9hmh-kyAodMGUCvP/exec';
 
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-const GOMI_SHEET =
-'ゴミ';
-
 const citySelect =
 document.getElementById('citySelect');
 
@@ -392,7 +370,8 @@ const areaData = {
     '宗岡',
     '柏町',
     '幸町',
-    '館'
+    '館',
+    '中宗岡'
   ],
 
   '朝霞市':[
@@ -421,6 +400,9 @@ function updateAreaSelect(){
   const city =
   citySelect.value;
 
+  const savedArea =
+  localStorage.getItem('savedArea');
+
   areaSelect.innerHTML = '';
 
   areaData[city].forEach(area=>{
@@ -436,11 +418,22 @@ function updateAreaSelect(){
 
   });
 
+  if(
+    savedArea &&
+    areaData[city].includes(savedArea)
+  ){
+
+    areaSelect.value =
+    savedArea;
+
+  }
+
 }
 
 function showToday(){
 
-  const now = new Date();
+  const now =
+  new Date();
 
   const week = [
     '日曜日',
@@ -453,21 +446,29 @@ function showToday(){
   ];
 
   document.getElementById('todayDate').innerHTML =
-    now.getFullYear() + '年 ' +
-    (now.getMonth()+1) + '月 ' +
-    now.getDate() + '日 ' +
+
+    now.getFullYear() +
+    '年 ' +
+
+    (now.getMonth()+1) +
+    '月 ' +
+
+    now.getDate() +
+    '日 ' +
+
     week[now.getDay()];
 
 }
 
 function clearChecks(){
 
-  document.querySelectorAll('.big-button').forEach(btn=>{
+  document.querySelectorAll('.big-button')
+  .forEach(btn=>{
 
     btn.classList.remove('checked');
 
     btn.innerHTML =
-      btn.innerHTML.replace(' ✅','');
+    btn.innerHTML.replace(' ✅','');
 
   });
 
@@ -490,7 +491,7 @@ function restoreLastButton(){
   if(!btn.innerHTML.includes('✅')){
 
     btn.innerHTML =
-      btn.innerHTML + ' ✅';
+    btn.innerHTML + ' ✅';
 
   }
 
@@ -516,6 +517,12 @@ async function sendData(
 
         name:'山口さん',
 
+        city:
+        citySelect.value,
+
+        area:
+        areaSelect.value,
+
         status:status,
 
         content:content
@@ -536,7 +543,7 @@ async function sendData(
     if(!btn.innerHTML.includes('✅')){
 
       btn.innerHTML =
-        btn.innerHTML + ' ✅';
+      btn.innerHTML + ' ✅';
 
     }
 
@@ -545,8 +552,18 @@ async function sendData(
       buttonId
     );
 
+    localStorage.setItem(
+      'savedCity',
+      citySelect.value
+    );
+
+    localStorage.setItem(
+      'savedArea',
+      areaSelect.value
+    );
+
     document.getElementById('result').innerHTML =
-      '送信しました';
+    '送信しました';
 
   }catch(error){
 
@@ -564,47 +581,9 @@ async function emergencyAction(){
     '🚨 緊急です'
   );
 
-  if(confirm('家族へ電話しますか？')){
-
-    location.href =
-      'tel:09012345678';
-
-  }
-
 }
 
-function loadGomiSheet(){
-
-  window.google = {
-    visualization:{
-      Query:{
-        setResponse:function(json){
-
-          handleGomiSheet(json);
-
-        }
-      }
-    }
-  };
-
-  const script =
-  document.createElement('script');
-
-  script.src =
-  'https://docs.google.com/spreadsheets/d/' +
-  SHEET_ID +
-  '/gviz/tq?sheet=' +
-  encodeURIComponent(GOMI_SHEET) +
-  '&tqx=out:json';
-
-  document.body.appendChild(script);
-
-}
-
-function handleGomiSheet(json){
-
-  const rows =
-  json.table.rows || [];
+function showGomi(){
 
   const city =
   citySelect.value;
@@ -612,69 +591,15 @@ function handleGomiSheet(json){
   const area =
   areaSelect.value;
 
-  const week = [
-    '日',
-    '月',
-    '火',
-    '水',
-    '木',
-    '金',
-    '土'
-  ];
+  gomiInfo.innerHTML =
 
-  const today =
-  week[
-    new Date().getDay()
-  ];
+    '【' +
+    city +
+    ' ' +
+    area +
+    '】<br><br>' +
 
-  let found = false;
-
-  rows.forEach(row=>{
-
-    const cityName =
-    row.c[0]?.v || '';
-
-    const areaName =
-    row.c[1]?.v || '';
-
-    const day =
-    row.c[2]?.v || '';
-
-    const type =
-    row.c[3]?.v || '';
-
-    const message =
-    row.c[4]?.v || '';
-
-    if(
-      cityName === city &&
-      areaName === area &&
-      (
-        day === today ||
-        day === '毎朝'
-      )
-    ){
-
-      gomiInfo.innerHTML =
-
-      '【' + areaName + '】<br><br>' +
-
-      type + '<br><br>' +
-
-      message;
-
-      found = true;
-
-    }
-
-  });
-
-  if(!found){
-
-    gomiInfo.innerHTML =
-    '本日のゴミ情報はありません';
-
-  }
+    '本日のゴミ情報を表示します';
 
 }
 
@@ -690,51 +615,44 @@ if(savedCity){
 
 updateAreaSelect();
 
-const savedArea =
-localStorage.getItem('savedArea');
-
-if(savedArea){
-
-  areaSelect.value =
-  savedArea;
-
-}
-
 citySelect.addEventListener(
-  'change',
-  function(){
+'change',
+function(){
 
-    localStorage.setItem(
-      'savedCity',
-      citySelect.value
-    );
+  localStorage.setItem(
+    'savedCity',
+    citySelect.value
+  );
 
-    updateAreaSelect();
+  updateAreaSelect();
 
-    loadGomiSheet();
+  localStorage.setItem(
+    'savedArea',
+    areaSelect.value
+  );
 
-  }
-);
+  showGomi();
+
+});
 
 areaSelect.addEventListener(
-  'change',
-  function(){
+'change',
+function(){
 
-    localStorage.setItem(
-      'savedArea',
-      areaSelect.value
-    );
+  localStorage.setItem(
+    'savedArea',
+    areaSelect.value
+  );
 
-    loadGomiSheet();
+  showGomi();
 
-  }
-);
+});
 
 showToday();
 
 restoreLastButton();
 
-loadGomiSheet();
+showGomi();
 
 </script>
 
