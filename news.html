@@ -3,409 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>NSAW 今日の安心DX</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
-margin:0;
-background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-color:#222;
+  margin:0;
+  background:#eef3f8;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#222;
 }
-
 .top{
-background:
-linear-gradient(135deg,#175d96,#3c82bf);
-padding:24px 16px;
-color:white;
-text-align:center;
+  background:linear-gradient(135deg,#175d96,#3c82bf);
+  padding:24px 16px;
+  color:white;
+  text-align:center;
 }
-
-.top h1{
-margin:0;
-font-size:34px;
-line-height:1.4;
-}
-
-.top p{
-margin:10px 0 0;
-font-size:17px;
-opacity:.95;
-}
-
-.wrap{
-max-width:920px;
-margin:auto;
-padding:12px;
-}
-
+.top h1{margin:0;font-size:34px;line-height:1.4}
+.top p{margin:10px 0 0;font-size:17px}
+.wrap{max-width:900px;margin:auto;padding:12px}
 .card{
-background:white;
-border-radius:24px;
-overflow:hidden;
-margin-bottom:24px;
-box-shadow:
-0 4px 14px rgba(0,0,0,.12);
+  background:white;
+  border-radius:24px;
+  overflow:hidden;
+  margin-bottom:24px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
 }
-
-.media{
-display:flex;
-overflow-x:auto;
-gap:8px;
-padding:8px;
-background:#dde7ef;
-scroll-snap-type:x mandatory;
+.mainimg{
+  width:100%;
+  display:block;
+  max-height:none;
+  object-fit:contain;
+  background:#eef3f8;
 }
-
-.media img{
-height:240px;
-border-radius:16px;
-object-fit:cover;
-scroll-snap-align:start;
-}
-
-.media iframe{
-width:420px;
-height:236px;
-border:none;
-border-radius:16px;
-background:black;
-scroll-snap-align:start;
-}
-
-.body{
-padding:18px;
-}
-
-.date{
-font-size:15px;
-color:#666;
-margin-bottom:10px;
-}
-
-.title{
-font-size:28px;
-font-weight:800;
-line-height:1.5;
-margin-bottom:14px;
-}
-
-.text{
-font-size:19px;
-line-height:1.9;
-white-space:pre-wrap;
-}
-
+.body{padding:18px}
+.date{font-size:15px;color:#666;margin-bottom:10px}
+.title{font-size:28px;font-weight:800;line-height:1.5;margin-bottom:14px}
+.text{font-size:19px;line-height:1.9;white-space:pre-wrap}
 .citybox{
-margin-top:18px;
-padding:14px;
-background:#f5f9fc;
-border-radius:18px;
+  margin-top:18px;
+  padding:14px;
+  background:#f5f9fc;
+  border-radius:18px;
 }
-
-.city{
-margin-bottom:10px;
-font-size:17px;
-line-height:1.7;
-}
-
 .city a{
-color:#1976d2;
-text-decoration:none;
-font-weight:700;
+  display:block;
+  background:#1976d2;
+  color:white;
+  text-decoration:none;
+  font-weight:800;
+  font-size:18px;
+  padding:14px;
+  border-radius:14px;
+  margin-top:10px;
 }
-
-.videoTitle{
-font-size:22px;
-font-weight:800;
-margin-top:18px;
-margin-bottom:12px;
+.videoTitle{font-size:22px;font-weight:800;margin-top:18px}
+.videoText{font-size:18px;line-height:1.8;margin-top:8px;white-space:pre-wrap}
+.video iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:18px;
+  margin-top:14px;
 }
-
-.loading{
-padding:40px;
-text-align:center;
-font-size:24px;
+.loading,.error{
+  padding:40px;
+  text-align:center;
+  font-size:24px;
 }
-
-.error{
-padding:40px;
-text-align:center;
-font-size:22px;
-color:red;
-}
-
+.error{color:red}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-
-<h1>
-NSAW 今日の安心DX
-</h1>
-
-<p>
-志木・新座・朝霞・和光 四市情報
-</p>
-
+  <h1>NSAW 今日の安心DX</h1>
+  <p>志木・新座・朝霞・和光 四市情報</p>
 </div>
 
 <div class="wrap">
-
-<div id="loading" class="loading">
-読み込み中...
-</div>
-
-<div id="news"></div>
-
+  <div id="loading" class="loading">読み込み中...</div>
+  <div id="news"></div>
 </div>
 
 <script>
+const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-function getVal(c){
-
-if(!c)return '';
-
-if(c.v !== undefined)return String(c.v);
-
-if(c.f !== undefined)return String(c.f);
-
-return '';
-
+function val(c){
+  if(!c)return '';
+  return String(c.v ?? c.f ?? '');
 }
 
-function youtube(url){
-
-try{
-
-if(url.includes('watch?v=')){
-return 'https://www.youtube.com/embed/' +
-url.split('watch?v=')[1].split('&')[0];
+function url(c){
+  if(!c)return '';
+  const raw=JSON.stringify(c);
+  const m=raw.match(/https?:\/\/[^"\\\s<>]+/);
+  return m ? m[0] : val(c);
 }
 
-if(url.includes('youtu.be/')){
-return 'https://www.youtube.com/embed/' +
-url.split('youtu.be/')[1].split('?')[0];
+function yt(u){
+  if(!u)return '';
+  if(u.includes('watch?v='))return 'https://www.youtube.com/embed/'+u.split('watch?v=')[1].split('&')[0];
+  if(u.includes('youtu.be/'))return 'https://www.youtube.com/embed/'+u.split('youtu.be/')[1].split('?')[0];
+  if(u.includes('/shorts/'))return 'https://www.youtube.com/embed/'+u.split('/shorts/')[1].split('?')[0];
+  return '';
 }
 
-if(url.includes('/shorts/')){
-return 'https://www.youtube.com/embed/' +
-url.split('/shorts/')[1].split('?')[0];
+function linkBlock(name,title,u){
+  if(!title || !u)return '';
+  return `<div class="city"><a href="${u}" target="_blank" rel="noopener">${name}：${title}</a></div>`;
 }
 
-}catch(e){}
-
-return '';
-
-}
-
-window.google = {
-visualization:{
-Query:{
-setResponse:function(res){
-
-document.getElementById('loading').style.display='none';
-
-try{
-
-const rows =
-res.table.rows || [];
-
-const area =
-document.getElementById('news');
-
-area.innerHTML='';
-
-rows.reverse();
-
-rows.slice(0,5).forEach(r=>{
-
-try{
-
-const c = r.c || [];
-
-const date =
-getVal(c[0]);
-
-const title =
-getVal(c[2]);
-
-const image =
-getVal(c[3]);
-
-const text =
-getVal(c[4]);
-
-const city1 =
-getVal(c[5]);
-
-const city1url =
-getVal(c[6]);
-
-const city2 =
-getVal(c[7]);
-
-const city2url =
-getVal(c[8]);
-
-const city3 =
-getVal(c[9]);
-
-const city3url =
-getVal(c[10]);
-
-const city4 =
-getVal(c[11]);
-
-const city4url =
-getVal(c[12]);
-
-const videoTitle =
-getVal(c[15]);
-
-const videoUrl =
-getVal(c[17]);
-
-let media='';
-
-if(image){
-
-media += `
-<img src="${image}">
-`;
-
-}
-
-if(videoUrl){
-
-const y =
-youtube(videoUrl);
-
-if(y){
-
-media += `
-<iframe
-src="${y}"
-allowfullscreen>
-</iframe>
-`;
-
-}
-
-}
-
-area.innerHTML += `
-
-<div class="card">
-
-${media ? `
-<div class="media">
-${media}
-</div>
-`:''}
-
-<div class="body">
-
-<div class="date">
-${date}
-</div>
-
-<div class="title">
-${title}
-</div>
-
-<div class="text">
-${text}
-</div>
-
-<div class="citybox">
-
-<div class="city">
-<strong>志木市：</strong>
-<a href="${city1url}" target="_blank">
-${city1}
-</a>
-</div>
-
-<div class="city">
-<strong>新座市：</strong>
-<a href="${city2url}" target="_blank">
-${city2}
-</a>
-</div>
-
-<div class="city">
-<strong>朝霞市：</strong>
-<a href="${city3url}" target="_blank">
-${city3}
-</a>
-</div>
-
-<div class="city">
-<strong>和光市：</strong>
-<a href="${city4url}" target="_blank">
-${city4}
-</a>
-</div>
-
-</div>
-
-${videoTitle ? `
-<div class="videoTitle">
-🎬 ${videoTitle}
-</div>
-`:''}
-
-</div>
-
-</div>
-
-`;
-
-}catch(e){
-console.log(e);
-}
-
-});
-
-}catch(e){
-
-document.getElementById('news').innerHTML =
-'<div class="error">表示エラー</div>';
-
-console.log(e);
-
-}
-
-}
-}
-}
-};
-
-const script =
-document.createElement('script');
-
-script.src =
-'https://docs.google.com/spreadsheets/d/'
-+SHEET_ID+
-'/gviz/tq?tqx=out:json';
-
-document.body.appendChild(script);
-
+window.google={visualization:{Query:{setResponse:function(res){
+  document.getElementById('loading').style.display='none';
+
+  try{
+    const rows=res.table.rows || [];
+    const area=document.getElementById('news');
+    area.innerHTML='';
+
+    rows.reverse().slice(0,5).forEach(r=>{
+      const c=r.c || [];
+
+      const date=val(c[0]);
+      const title=val(c[2]);
+      const image=url(c[3]);
+      const text=val(c[4]);
+
+      const shikiTitle=val(c[5]);
+      const shikiUrl=url(c[6]);
+
+      const niizaTitle=val(c[7]);
+      const niizaUrl=url(c[8]);
+
+      const asakaTitle=val(c[9]);
+      const asakaUrl=url(c[10]);
+
+      const wakoTitle=val(c[11]);
+      const wakoUrl=url(c[12]);
+
+      const videoTitle=val(c[15]);
+      const videoText=val(c[16]);
+      const videoUrl=url(c[17]);
+      const embed=yt(videoUrl);
+
+      area.innerHTML += `
+        <div class="card">
+          ${image ? `<img class="mainimg" src="${image}">` : ''}
+
+          <div class="body">
+            <div class="date">${date}</div>
+            <div class="title">${title}</div>
+            <div class="text">${text}</div>
+
+            <div class="citybox">
+              ${linkBlock('志木市',shikiTitle,shikiUrl)}
+              ${linkBlock('新座市',niizaTitle,niizaUrl)}
+              ${linkBlock('朝霞市',asakaTitle,asakaUrl)}
+              ${linkBlock('和光市',wakoTitle,wakoUrl)}
+            </div>
+
+            ${videoTitle ? `<div class="videoTitle">🎬 ${videoTitle}</div>` : ''}
+            ${videoText ? `<div class="videoText">${videoText}</div>` : ''}
+            ${embed ? `<div class="video"><iframe src="${embed}" allowfullscreen></iframe></div>` : ''}
+          </div>
+        </div>
+      `;
+    });
+
+  }catch(e){
+    document.getElementById('news').innerHTML='<div class="error">表示エラー</div>';
+    console.log(e);
+  }
+}}}};
+
+const s=document.createElement('script');
+s.src='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json';
+document.body.appendChild(s);
 </script>
 
 </body>
