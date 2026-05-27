@@ -82,14 +82,6 @@ background:black;
 scroll-snap-align:start;
 }
 
-.media video{
-width:420px;
-height:236px;
-border-radius:16px;
-background:black;
-scroll-snap-align:start;
-}
-
 .body{
 padding:18px;
 }
@@ -113,29 +105,30 @@ line-height:1.9;
 white-space:pre-wrap;
 }
 
-.buttons{
-display:grid;
-gap:10px;
+.citybox{
 margin-top:18px;
+padding:14px;
+background:#f5f9fc;
+border-radius:18px;
 }
 
-.btn{
-display:block;
+.city{
+margin-bottom:10px;
+font-size:17px;
+line-height:1.7;
+}
+
+.city a{
+color:#1976d2;
 text-decoration:none;
-padding:16px;
-border-radius:16px;
-text-align:center;
-font-size:18px;
 font-weight:700;
-color:white;
 }
 
-.blue{
-background:#1976d2;
-}
-
-.green{
-background:#16a34a;
+.videoTitle{
+font-size:22px;
+font-weight:800;
+margin-top:18px;
+margin-bottom:12px;
 }
 
 .loading{
@@ -248,32 +241,59 @@ const c = r.c || [];
 const date =
 getVal(c[0]);
 
-const number =
-getVal(c[1]);
-
 const title =
 getVal(c[2]);
 
-const text =
+const image =
 getVal(c[3]);
+
+const text =
+getVal(c[4]);
+
+const city1 =
+getVal(c[5]);
+
+const city1url =
+getVal(c[6]);
+
+const city2 =
+getVal(c[7]);
+
+const city2url =
+getVal(c[8]);
+
+const city3 =
+getVal(c[9]);
+
+const city3url =
+getVal(c[10]);
+
+const city4 =
+getVal(c[11]);
+
+const city4url =
+getVal(c[12]);
+
+const videoTitle =
+getVal(c[15]);
+
+const videoUrl =
+getVal(c[17]);
 
 let media='';
 
-for(let i=4;i<c.length;i++){
+if(image){
 
-const val =
-getVal(c[i]);
+media += `
+<img src="${image}">
+`;
 
-if(!val)continue;
+}
 
-if(
-val.includes('youtube.com')
-||
-val.includes('youtu.be')
-){
+if(videoUrl){
 
 const y =
-youtube(val);
+youtube(videoUrl);
 
 if(y){
 
@@ -282,22 +302,6 @@ media += `
 src="${y}"
 allowfullscreen>
 </iframe>
-`;
-
-}
-
-}
-
-else if(
-val.match(/\.(jpg|jpeg|png|webp)$/i)
-||
-val.includes('googleusercontent')
-||
-val.includes('drive.google')
-){
-
-media += `
-<img src="${val}">
 `;
 
 }
@@ -328,19 +332,43 @@ ${title}
 ${text}
 </div>
 
-<div class="buttons">
+<div class="citybox">
 
-<a class="btn blue"
-href="map.html">
-地域マップを見る
+<div class="city">
+<strong>志木市：</strong>
+<a href="${city1url}" target="_blank">
+${city1}
 </a>
+</div>
 
-<a class="btn green"
-href="family.html">
-家族・安心ページ
+<div class="city">
+<strong>新座市：</strong>
+<a href="${city2url}" target="_blank">
+${city2}
 </a>
+</div>
+
+<div class="city">
+<strong>朝霞市：</strong>
+<a href="${city3url}" target="_blank">
+${city3}
+</a>
+</div>
+
+<div class="city">
+<strong>和光市：</strong>
+<a href="${city4url}" target="_blank">
+${city4}
+</a>
+</div>
 
 </div>
+
+${videoTitle ? `
+<div class="videoTitle">
+🎬 ${videoTitle}
+</div>
+`:''}
 
 </div>
 
