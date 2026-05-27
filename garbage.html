@@ -25,47 +25,47 @@ color:#222;
 .header{
 background:#2e7d32;
 color:white;
-padding:22px;
-font-size:32px;
+padding:24px;
+font-size:34px;
 font-weight:900;
 text-align:center;
 }
 
 .wrap{
-max-width:900px;
+max-width:920px;
 margin:auto;
-padding:14px;
+padding:16px;
 }
 
 .box{
 background:white;
 border-radius:24px;
-padding:20px;
-margin-bottom:18px;
+padding:22px;
+margin-bottom:20px;
 box-shadow:
 0 4px 14px rgba(0,0,0,.12);
 }
 
 .title{
-font-size:26px;
+font-size:28px;
 font-weight:900;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 select,
 input{
 width:100%;
 padding:18px;
-font-size:22px;
+font-size:24px;
 border-radius:18px;
 border:1px solid #ccc;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 button{
 width:100%;
-padding:18px;
-font-size:24px;
+padding:20px;
+font-size:26px;
 font-weight:900;
 border:none;
 border-radius:18px;
@@ -73,20 +73,10 @@ background:#43a047;
 color:white;
 }
 
-.result{
-margin-top:20px;
-padding:18px;
-background:#f5f9fc;
-border-radius:18px;
-font-size:22px;
-line-height:1.8;
-white-space:pre-wrap;
-}
-
 .card{
 background:white;
 border-radius:22px;
-padding:18px;
+padding:20px;
 margin-top:18px;
 box-shadow:
 0 4px 12px rgba(0,0,0,.12);
@@ -95,24 +85,24 @@ box-shadow:
 .city{
 font-size:18px;
 color:#666;
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
 .area{
 font-size:30px;
 font-weight:900;
-margin-bottom:10px;
-}
-
-.gomi{
-font-size:26px;
-font-weight:900;
-color:#2e7d32;
 margin-bottom:12px;
 }
 
+.day{
+font-size:22px;
+font-weight:900;
+color:#2e7d32;
+margin-bottom:10px;
+}
+
 .desc{
-font-size:21px;
+font-size:22px;
 line-height:1.8;
 white-space:pre-wrap;
 }
@@ -135,41 +125,53 @@ white-space:pre-wrap;
 </div>
 
 <select id="city">
-<option value="">市を選択</option>
-<option>志木市</option>
-<option>朝霞市</option>
-<option>新座市</option>
-<option>和光市</option>
+
+<option value="">
+市を選択
+</option>
+
+<option>
+志木市
+</option>
+
+<option>
+朝霞市
+</option>
+
+<option>
+新座市
+</option>
+
+<option>
+和光市
+</option>
+
 </select>
 
 <input
 id="area"
-placeholder="地域名を入力">
+placeholder="例：本町、白子、朝志ケ丘">
 
 <button onclick="searchArea()">
-今日のごみを見る
+地域検索
 </button>
 
-<div
-id="result"
-class="result"
-style="display:none">
-</div>
+<div id="result"></div>
 
 </div>
 
 <div class="box">
 
 <div class="title">
-ごみ検索
+ごみ名から検索
 </div>
 
 <input
 id="keyword"
-placeholder="例：電池、ペットボトル、生ごみ">
+placeholder="例：電池、生ごみ、ペットボトル">
 
 <button onclick="searchKeyword()">
-検索する
+ごみ検索
 </button>
 
 <div id="keywordResult"></div>
@@ -180,51 +182,64 @@ placeholder="例：電池、ペットボトル、生ごみ">
 
 <script>
 
-const data = [
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
-{
-city:"志木市",
-keyword:"燃える 燃やす 生ごみ 台所ごみ 可燃",
-name:"燃やすごみ",
-text:"今日は燃やすごみの日です。朝8時30分までに出してください。"
-},
+const SHEET_NAME =
+'ゴミ';
 
-{
-city:"志木市",
-keyword:"プラ プラスチック容器 包装 トレー",
-name:"プラスチック",
-text:"今日はプラスチックの日です。汚れを落として出してください。"
-},
+let rows = [];
 
-{
-city:"志木市",
-keyword:"ペット ボトル 飲み物",
-name:"ペットボトル",
-text:"今日はペットボトルの日です。中をすすいで出してください。"
-},
+window.handleSheet =
+function(json){
 
-{
-city:"志木市",
-keyword:"不燃 金属 陶器 ガラス 小型家電",
-name:"燃やせないごみ",
-text:"今日は燃やせないごみの日です。分別して出してください。"
-},
+const table =
+json.table.rows;
 
-{
-city:"志木市",
-keyword:"電池 蛍光灯 スプレー ライター 有害",
-name:"有害ごみ",
-text:"今日は有害ごみの日です。分別して出してください。"
-},
+rows = table.map(r=>{
 
-{
-city:"志木市",
-keyword:"資源 紙 布 缶 びん 段ボール 古紙 古布 リサイクル",
-name:"リサイクル資源",
-text:"今日はリサイクル資源の日です。紙、布、缶、びんを分別してください。"
-}
+const c = r.c || [];
 
-];
+return {
+
+city:
+c[0]?.v || '',
+
+area:
+c[1]?.v || '',
+
+day:
+c[2]?.v || '',
+
+type:
+c[3]?.v || '',
+
+desc:
+c[4]?.v || '',
+
+keyword:
+c[5]?.v || '',
+
+ai:
+c[6]?.v || ''
+
+};
+
+});
+
+};
+
+const script =
+document.createElement('script');
+
+script.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID +
+'/gviz/tq?sheet='
++ encodeURIComponent(SHEET_NAME)
++ '&tqx=out:json&responseHandler=handleSheet';
+
+document.body.appendChild(script);
 
 function searchArea(){
 
@@ -242,55 +257,111 @@ const result =
 document
 .getElementById('result');
 
-result.style.display='block';
+result.innerHTML='';
+
+const filtered =
+rows.filter(r=>
+
+r.city.includes(city)
+&&
+r.area.includes(area)
+
+);
+
+if(filtered.length===0){
 
 result.innerHTML =
-city + "\n" +
-area + "\n\n" +
-"地域データ検索は次段階で接続します。";
+'<div class="card">データが見つかりません</div>';
+
+return;
 
 }
 
-function searchKeyword(){
+filtered.forEach(r=>{
 
-const word =
-document
-.getElementById('keyword')
-.value;
-
-const box =
-document
-.getElementById('keywordResult');
-
-box.innerHTML='';
-
-data.forEach(d=>{
-
-if(
-d.keyword.includes(word)
-){
-
-box.innerHTML += `
+result.innerHTML += `
 
 <div class="card">
 
 <div class="city">
-${d.city}
+${r.city}
 </div>
 
-<div class="gomi">
-${d.name}
+<div class="area">
+${r.area}
+</div>
+
+<div class="day">
+${r.day}
 </div>
 
 <div class="desc">
-${d.text}
+${r.ai || r.desc}
 </div>
 
 </div>
 
 `;
 
+});
+
 }
+
+function searchKeyword(){
+
+const keyword =
+document
+.getElementById('keyword')
+.value;
+
+const result =
+document
+.getElementById('keywordResult');
+
+result.innerHTML='';
+
+const filtered =
+rows.filter(r=>
+
+(r.keyword || '')
+.includes(keyword)
+
+);
+
+if(filtered.length===0){
+
+result.innerHTML =
+'<div class="card">見つかりません</div>';
+
+return;
+
+}
+
+filtered.forEach(r=>{
+
+result.innerHTML += `
+
+<div class="card">
+
+<div class="city">
+${r.city}
+</div>
+
+<div class="area">
+${r.area}
+</div>
+
+<div class="day">
+${r.day}
+</div>
+
+<div class="desc">
+${r.ai || r.desc}
+</div>
+
+</div>
+
+`;
 
 });
 
