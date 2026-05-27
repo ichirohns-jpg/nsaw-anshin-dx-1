@@ -6,6 +6,18 @@
 
 <title>NSAW 月別アーカイブ</title>
 
+<meta name="description" content="NSAW 暮らし情報局 月別アーカイブ">
+
+<meta property="og:title" content="NSAW 月別アーカイブ">
+<meta property="og:description" content="志木・新座・朝霞・和光の暮らし情報アーカイブ">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+
 <style>
 
 *{
@@ -135,10 +147,41 @@ border-radius:18px;
 background:black;
 }
 
-.loading{
-padding:40px;
+.share{
+display:grid;
+grid-template-columns:
+1fr 1fr;
+gap:10px;
+margin-top:22px;
+}
+
+.share a,
+.share button{
+border:none;
+display:block;
+text-decoration:none;
 text-align:center;
-font-size:24px;
+padding:14px;
+border-radius:16px;
+font-size:18px;
+font-weight:900;
+color:white;
+}
+
+.fb{
+background:#1877f2;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#111;
+}
+
+.copy{
+background:#ff9800;
 }
 
 .error{
@@ -176,6 +219,15 @@ class="month">
 </div>
 
 <script>
+
+function copyArticle(url){
+
+navigator.clipboard
+.writeText(url);
+
+alert('URLをコピーしました');
+
+}
 
 const SHEET_ID =
 '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
@@ -309,6 +361,55 @@ ${name}：${title}
 
 }
 
+function shareButtons(title){
+
+const u =
+encodeURIComponent(
+location.href
+);
+
+const t =
+encodeURIComponent(
+title
+);
+
+return `
+
+<div class="share">
+
+<a
+class="fb"
+target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=${u}">
+Facebook
+</a>
+
+<a
+class="line"
+target="_blank"
+href="https://social-plugins.line.me/lineit/share?url=${u}">
+LINE
+</a>
+
+<a
+class="x"
+target="_blank"
+href="https://twitter.com/intent/tweet?url=${u}&text=${t}">
+X
+</a>
+
+<button
+class="copy"
+onclick="copyArticle(location.href)">
+URLコピー
+</button>
+
+</div>
+
+`;
+
+}
+
 function cardHtml(c){
 
 const date =
@@ -399,6 +500,8 @@ allowfullscreen>
 </iframe>
 </div>
 ` : ''}
+
+${shareButtons(title)}
 
 </div>
 
