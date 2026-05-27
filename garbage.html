@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>ごみ検索DX</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#222;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:22px;
+font-size:32px;
+font-weight:900;
+text-align:center;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:14px;
+}
+
+.box{
+background:white;
+border-radius:24px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:
+0 4px 14px rgba(0,0,0,.12);
+}
+
+.title{
+font-size:26px;
+font-weight:900;
+margin-bottom:14px;
+}
+
+select,
+input{
+width:100%;
+padding:18px;
+font-size:22px;
+border-radius:18px;
+border:1px solid #ccc;
+margin-bottom:14px;
+}
+
+button{
+width:100%;
+padding:18px;
+font-size:24px;
+font-weight:900;
+border:none;
+border-radius:18px;
+background:#43a047;
+color:white;
+}
+
+.result{
+margin-top:20px;
+padding:18px;
+background:#f5f9fc;
+border-radius:18px;
+font-size:22px;
+line-height:1.8;
+white-space:pre-wrap;
+}
+
+.card{
+background:white;
+border-radius:22px;
+padding:18px;
+margin-top:18px;
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+}
+
+.city{
+font-size:18px;
+color:#666;
+margin-bottom:6px;
+}
+
+.area{
+font-size:30px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.gomi{
+font-size:26px;
+font-weight:900;
+color:#2e7d32;
+margin-bottom:12px;
+}
+
+.desc{
+font-size:21px;
+line-height:1.8;
+white-space:pre-wrap;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+ごみ検索DX
+</div>
+
+<div class="wrap">
+
+<div class="box">
+
+<div class="title">
+地域から探す
+</div>
+
+<select id="city">
+<option value="">市を選択</option>
+<option>志木市</option>
+<option>朝霞市</option>
+<option>新座市</option>
+<option>和光市</option>
+</select>
+
+<input
+id="area"
+placeholder="地域名を入力">
+
+<button onclick="searchArea()">
+今日のごみを見る
+</button>
+
+<div
+id="result"
+class="result"
+style="display:none">
+</div>
+
+</div>
+
+<div class="box">
+
+<div class="title">
+ごみ検索
+</div>
+
+<input
+id="keyword"
+placeholder="例：電池、ペットボトル、生ごみ">
+
+<button onclick="searchKeyword()">
+検索する
+</button>
+
+<div id="keywordResult"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const data = [
+
+{
+city:"志木市",
+keyword:"燃える 燃やす 生ごみ 台所ごみ 可燃",
+name:"燃やすごみ",
+text:"今日は燃やすごみの日です。朝8時30分までに出してください。"
+},
+
+{
+city:"志木市",
+keyword:"プラ プラスチック容器 包装 トレー",
+name:"プラスチック",
+text:"今日はプラスチックの日です。汚れを落として出してください。"
+},
+
+{
+city:"志木市",
+keyword:"ペット ボトル 飲み物",
+name:"ペットボトル",
+text:"今日はペットボトルの日です。中をすすいで出してください。"
+},
+
+{
+city:"志木市",
+keyword:"不燃 金属 陶器 ガラス 小型家電",
+name:"燃やせないごみ",
+text:"今日は燃やせないごみの日です。分別して出してください。"
+},
+
+{
+city:"志木市",
+keyword:"電池 蛍光灯 スプレー ライター 有害",
+name:"有害ごみ",
+text:"今日は有害ごみの日です。分別して出してください。"
+},
+
+{
+city:"志木市",
+keyword:"資源 紙 布 缶 びん 段ボール 古紙 古布 リサイクル",
+name:"リサイクル資源",
+text:"今日はリサイクル資源の日です。紙、布、缶、びんを分別してください。"
+}
+
+];
+
+function searchArea(){
+
+const city =
+document
+.getElementById('city')
+.value;
+
+const area =
+document
+.getElementById('area')
+.value;
+
+const result =
+document
+.getElementById('result');
+
+result.style.display='block';
+
+result.innerHTML =
+city + "\n" +
+area + "\n\n" +
+"地域データ検索は次段階で接続します。";
+
+}
+
+function searchKeyword(){
+
+const word =
+document
+.getElementById('keyword')
+.value;
+
+const box =
+document
+.getElementById('keywordResult');
+
+box.innerHTML='';
+
+data.forEach(d=>{
+
+if(
+d.keyword.includes(word)
+){
+
+box.innerHTML += `
+
+<div class="card">
+
+<div class="city">
+${d.city}
+</div>
+
+<div class="gomi">
+${d.name}
+</div>
+
+<div class="desc">
+${d.text}
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
