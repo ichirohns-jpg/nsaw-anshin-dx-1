@@ -200,6 +200,7 @@ body{
 
 .checked{
   opacity:.6;
+
   box-shadow:
   0 0 0 6px #fff,
   0 0 0 12px #00c853;
@@ -265,7 +266,9 @@ body{
     <select id="areaSelect" class="city-select"></select>
 
     <div class="gomi-box" id="gomiInfo">
+
       ゴミ情報を確認しています
+
     </div>
 
   </div>
@@ -307,7 +310,7 @@ body{
   <button
   id="btn-emergency"
   class="big-button red"
-  onclick="emergencyAction()">
+  onclick="sendData('btn-emergency','緊急','🚨 緊急です')">
 
   🚨 緊急
 
@@ -352,7 +355,7 @@ body{
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbz-cMT63Wl9f9-WFM8R6lNsGK_aXx-kavrl0_uOjzJARzahG1j_9hmh-kyAodMGUCvP/exec';
+'https://script.google.com/macros/s/AKfycbyQKsVKLgbkInDJwG39B00erucU_0nROI4QjLo30kDlBwiNfb9frcan5LDkEz4Ta9SA/exec';
 
 const citySelect =
 document.getElementById('citySelect');
@@ -570,16 +573,6 @@ async function sendData(
     alert('通信エラー');
 
   }
-
-}
-
-async function emergencyAction(){
-
-  await sendData(
-    'btn-emergency',
-    '緊急',
-    '🚨 緊急です'
-  );
 
 }
 
