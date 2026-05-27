@@ -3,156 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ご家族確認</title>
 
 <style>
-
-body{
-  margin:0;
-  background:#eef3f8;
-  font-family:sans-serif;
-  color:#222;
-}
-
-.top{
-  background:linear-gradient(135deg,#1565c0,#0d47a1);
-  color:white;
-  padding:34px 20px 40px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
-  text-align:center;
-}
-
-.title{
-  font-size:44px;
-  font-weight:900;
-}
-
-.wrap{
-  padding:18px;
-}
-
-.card{
-  background:white;
-  border-radius:30px;
-  padding:28px;
-  margin-bottom:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
-}
-
-.status{
-  font-size:36px;
-  font-weight:900;
-  margin-bottom:16px;
-}
-
-.time{
-  font-size:24px;
-  color:#666;
-  margin-bottom:12px;
-}
-
-.log{
-  font-size:28px;
-  line-height:1.7;
-}
-
-.green{
-  color:#43a047;
-}
-
-.blue{
-  color:#1565c0;
-}
-
-.red{
-  color:#d32f2f;
-}
-
-.top-button{
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:32px;
-  background:#546e7a;
-  color:white;
-  font-size:34px;
-  font-weight:900;
-}
-
+body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
+.top{background:linear-gradient(135deg,#1565c0,#0d47a1);color:white;padding:40px 24px 48px;border-bottom-left-radius:40px;border-bottom-right-radius:40px;text-align:center}
+.title{font-size:48px;font-weight:900}
+.wrap{padding:20px}
+.card{background:white;border-radius:34px;padding:28px;margin-bottom:24px;box-shadow:0 8px 22px rgba(0,0,0,.10)}
+.status{font-size:38px;font-weight:900;line-height:1.5;margin-bottom:12px}
+.time{font-size:24px;color:#666;margin-bottom:10px}
+.note{font-size:26px;line-height:1.7;color:#444}
+.green{color:#2e7d32}.blue{color:#1565c0}.red{color:#d32f2f}.yellow{color:#f9a825}
+.button{width:100%;border:none;border-radius:30px;padding:32px;margin-top:20px;background:#546e7a;color:white;font-size:34px;font-weight:900}
+.loading{text-align:center;font-size:30px;font-weight:900;color:#666;padding:50px 0}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-
-  <div class="title">
-    ご家族確認
-  </div>
-
+  <div class="title">ご家族確認</div>
 </div>
 
 <div class="wrap">
-
-  <div class="card">
-
-    <div class="status green">
-      😊 元気です
-    </div>
-
-    <div class="time">
-      今日 08:12
-    </div>
-
-    <div class="log">
-      朝の確認がありました
-    </div>
-
+  <div id="list">
+    <div class="loading">読み込み中...</div>
   </div>
 
-  <div class="card">
-
-    <div class="status blue">
-      🏥 出発しました
-    </div>
-
-    <div class="time">
-      今日 14:20
-    </div>
-
-    <div class="log">
-      病院へ向かいました
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="status red">
-      🚨 緊急
-    </div>
-
-    <div class="time">
-      未送信
-    </div>
-
-    <div class="log">
-      現在緊急通知はありません
-    </div>
-
-  </div>
-
-  <button
-  class="top-button"
-  onclick="location.href='index.html'">
-
-  ← 今日の安心へ戻る
-
+  <button class="button" onclick="location.href='index.html'">
+    ← 今日の安心へ戻る
   </button>
-
 </div>
+
+<script>
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+const SHEET_NAME =
+'見守り記録';
+
+function loadSheet(){
+  window.google = {
+    visualization:{
+      Query:{
+        setResponse:function(json){
+          showLogs(json);
+        }
+      }
+    }
+  };
+
+  const script = document.createElement('script');
+  script.src =
+    'https://docs.google.com/spreadsheets/d/' +
+    SHEET_ID +
+    '/gviz/tq?sheet=' +
+    encodeURIComponent(SHEET_NAME) +
+    '&tqx=out:json';
+
+  document.body.appendChild(script);
+}
+
+function getCell(row,index){
+  return row.c[index]?.f || row.c[index]?.v || '';
+}
+
+function colorClass(status){
+  if(status.includes('緊急')) return 'red';
+  if(status.includes('外出')) return 'blue';
+  if(status.includes('注意')) return 'yellow';
+  return 'green';
+}
+
+function showLogs(json){
+  const rows = json.table.rows || [];
+  const list = document.getElementById('list');
+
+  if(rows.length === 0){
+    list.innerHTML =
+      '<div class="card"><div class="status">記録がありません</div></div>';
+    return;
+  }
+
+  let html = '';
+  rows.reverse();
+
+  rows.slice(0,10).forEach(row=>{
+    const time = getCell(row,0);
+    const name = getCell(row,1);
+    const status = getCell(row,2);
+    const content = getCell(row,3);
+
+    html += `
+    <div class="card">
+      <div class="status ${colorClass(status)}">${content || status}</div>
+      <div class="time">${time}</div>
+      <div class="note">${name || ''}</div>
+    </div>`;
+  });
+
+  list.innerHTML = html;
+}
+
+loadSheet();
+</script>
 
 </body>
 </html>
