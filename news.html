@@ -43,16 +43,16 @@ opacity:.95;
 }
 
 .wrap{
-max-width:900px;
+max-width:920px;
 margin:auto;
 padding:12px;
 }
 
 .card{
 background:white;
-border-radius:22px;
+border-radius:24px;
 overflow:hidden;
-margin-bottom:22px;
+margin-bottom:24px;
 box-shadow:
 0 4px 14px rgba(0,0,0,.12);
 }
@@ -63,12 +63,14 @@ overflow-x:auto;
 gap:8px;
 padding:8px;
 background:#dde7ef;
+scroll-snap-type:x mandatory;
 }
 
 .media img{
 height:240px;
 border-radius:16px;
 object-fit:cover;
+scroll-snap-align:start;
 }
 
 .media iframe{
@@ -77,6 +79,15 @@ height:236px;
 border:none;
 border-radius:16px;
 background:black;
+scroll-snap-align:start;
+}
+
+.media video{
+width:420px;
+height:236px;
+border-radius:16px;
+background:black;
+scroll-snap-align:start;
 }
 
 .body{
@@ -237,15 +248,18 @@ const c = r.c || [];
 const date =
 getVal(c[0]);
 
-const title =
+const number =
 getVal(c[1]);
 
-const text =
+const title =
 getVal(c[2]);
+
+const text =
+getVal(c[3]);
 
 let media='';
 
-for(let i=3;i<c.length;i++){
+for(let i=4;i<c.length;i++){
 
 const val =
 getVal(c[i]);
