@@ -24,7 +24,7 @@ color:#222;
 
 .top{
 background:
-linear-gradient(135deg,#17639b,#4b91c7);
+linear-gradient(135deg,#175d96,#3c82bf);
 padding:24px 16px;
 color:white;
 text-align:center;
@@ -133,6 +133,13 @@ text-align:center;
 font-size:24px;
 }
 
+.error{
+padding:40px;
+text-align:center;
+font-size:22px;
+color:red;
+}
+
 </style>
 </head>
 
@@ -166,11 +173,20 @@ const SHEET_ID =
 '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
 function getVal(c){
-if(!c)return'';
-return c.v || c.f || '';
+
+if(!c)return '';
+
+if(c.v !== undefined)return String(c.v);
+
+if(c.f !== undefined)return String(c.f);
+
+return '';
+
 }
 
 function youtube(url){
+
+try{
 
 if(url.includes('watch?v=')){
 return 'https://www.youtube.com/embed/' +
@@ -187,7 +203,10 @@ return 'https://www.youtube.com/embed/' +
 url.split('/shorts/')[1].split('?')[0];
 }
 
+}catch(e){}
+
 return '';
+
 }
 
 window.google = {
@@ -196,6 +215,8 @@ Query:{
 setResponse:function(res){
 
 document.getElementById('loading').style.display='none';
+
+try{
 
 const rows =
 res.table.rows || [];
@@ -208,6 +229,8 @@ area.innerHTML='';
 rows.reverse();
 
 rows.slice(0,5).forEach(r=>{
+
+try{
 
 const c = r.c || [];
 
@@ -235,14 +258,29 @@ val.includes('youtube.com')
 val.includes('youtu.be')
 ){
 
+const y =
+youtube(val);
+
+if(y){
+
 media += `
 <iframe
-src="${youtube(val)}"
+src="${y}"
 allowfullscreen>
 </iframe>
 `;
 
-}else{
+}
+
+}
+
+else if(
+val.match(/\.(jpg|jpeg|png|webp)$/i)
+||
+val.includes('googleusercontent')
+||
+val.includes('drive.google')
+){
 
 media += `
 <img src="${val}">
@@ -296,7 +334,20 @@ href="family.html">
 
 `;
 
+}catch(e){
+console.log(e);
+}
+
 });
+
+}catch(e){
+
+document.getElementById('news').innerHTML =
+'<div class="error">表示エラー</div>';
+
+console.log(e);
+
+}
 
 }
 }
