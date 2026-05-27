@@ -140,7 +140,7 @@ body{
 }
 
 .name{
-  font-size:30px;
+  font-size:34px;
   font-weight:900;
   margin-bottom:12px;
 }
@@ -382,6 +382,8 @@ function showLogs(json){
 
   let html = '';
 
+  const latestMap = {};
+
   rows.reverse();
 
   rows.filter(row=>{
@@ -391,7 +393,20 @@ function showLogs(json){
 
     return region.includes(targetPlace);
 
-  }).slice(0,10).forEach(row=>{
+  }).forEach(row=>{
+
+    const name =
+    getCell(row,1);
+
+    if(!latestMap[name]){
+
+      latestMap[name] = row;
+
+    }
+
+  });
+
+  Object.values(latestMap).forEach(row=>{
 
     const time =
     getCell(row,0);
