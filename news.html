@@ -55,6 +55,24 @@ margin:
 20px 0 18px;
 }
 
+.archive-buttons{
+display:flex;
+gap:10px;
+overflow-x:auto;
+margin-bottom:18px;
+}
+
+.archive-buttons button{
+border:none;
+background:#1976d2;
+color:white;
+padding:12px 18px;
+border-radius:14px;
+font-size:18px;
+font-weight:700;
+white-space:nowrap;
+}
+
 .card{
 background:white;
 border-radius:24px;
@@ -150,6 +168,10 @@ font-size:22px;
 color:red;
 }
 
+.hidden{
+display:none;
+}
+
 </style>
 </head>
 
@@ -180,8 +202,10 @@ NSAW 今日の安心DX
 <div id="news"></div>
 
 <h2 class="section-title">
-アーカイブ
+月別アーカイブ
 </h2>
+
+<div class="archive-buttons" id="monthButtons"></div>
 
 <div id="archive"></div>
 
@@ -236,6 +260,19 @@ u.split('/shorts/')[1].split('?')[0];
 }
 
 return '';
+
+}
+
+function monthLabel(dateStr){
+
+const d = new Date(dateStr);
+
+if(isNaN(d)) return 'その他';
+
+return d.getFullYear() +
+'年' +
+(d.getMonth()+1) +
+'月';
 
 }
 
@@ -310,7 +347,8 @@ yt(videoUrl);
 document.getElementById(target)
 .innerHTML += `
 
-<div class="card">
+<div class="card archive-card"
+data-month="${monthLabel(date)}">
 
 ${image ? `
 <img class="mainimg"
@@ -423,6 +461,48 @@ r,
 );
 
 });
+
+const cards =
+document.querySelectorAll('.archive-card');
+
+const months =
+[...new Set(
+[...cards].map(
+c=>c.dataset.month
+)
+)];
+
+const btns =
+document.getElementById('monthButtons');
+
+months.forEach(m=>{
+
+btns.innerHTML += `
+<button onclick="filterMonth('${m}')">
+${m}
+</button>
+`;
+
+});
+
+window.filterMonth =
+function(month){
+
+cards.forEach(c=>{
+
+if(c.dataset.month===month){
+
+c.classList.remove('hidden');
+
+}else{
+
+c.classList.add('hidden');
+
+}
+
+});
+
+};
 
 }catch(e){
 
