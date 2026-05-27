@@ -371,11 +371,27 @@ function showLogs(json){
 
   }
 
+  const savedCity =
+  localStorage.getItem('savedCity') || '';
+
+  const savedArea =
+  localStorage.getItem('savedArea') || '';
+
+  const targetPlace =
+  savedCity + ' ' + savedArea;
+
   let html = '';
 
   rows.reverse();
 
-  rows.slice(0,10).forEach(row=>{
+  rows.filter(row=>{
+
+    const city =
+    getCell(row,4);
+
+    return city.includes(targetPlace);
+
+  }).slice(0,10).forEach(row=>{
 
     const time =
     getCell(row,0);
@@ -429,6 +445,13 @@ function showLogs(json){
     `;
 
   });
+
+  if(html === ''){
+
+    html =
+    '<div class="card"><div class="status">この地域の記録はありません</div></div>';
+
+  }
 
   list.innerHTML = html;
 
