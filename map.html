@@ -3,227 +3,155 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>行き先案内</title>
 
 <style>
-
+*{box-sizing:border-box}
 body{
   margin:0;
-  background:#eef3f8;
-  font-family:sans-serif;
+  background:#edf2f7;
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
   color:#222;
 }
-
 .top{
   background:linear-gradient(135deg,#1565c0,#0d47a1);
   color:white;
-  padding:34px 20px 40px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
+  padding:40px 24px 48px;
+  border-bottom-left-radius:40px;
+  border-bottom-right-radius:40px;
   text-align:center;
 }
-
 .title{
-  font-size:44px;
+  font-size:50px;
   font-weight:900;
 }
-
-.wrap{
-  padding:18px;
+.sub{
+  margin-top:14px;
+  font-size:24px;
+  line-height:1.8;
 }
-
+.wrap{padding:20px}
 .card{
   background:white;
-  border-radius:30px;
-  padding:28px;
+  border-radius:34px;
+  padding:30px;
   margin-bottom:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  box-shadow:0 8px 22px rgba(0,0,0,.10);
   text-align:center;
 }
-
+.label{
+  font-size:28px;
+  font-weight:900;
+  color:#1565c0;
+  margin-bottom:18px;
+}
 .input{
   width:100%;
-  box-sizing:border-box;
-  font-size:32px;
   padding:24px;
-  border-radius:22px;
+  border-radius:24px;
   border:3px solid #ccc;
-  margin-bottom:24px;
+  font-size:32px;
+  margin-bottom:22px;
 }
-
 .big-button{
   width:100%;
   border:none;
-  border-radius:28px;
-  padding:34px;
+  border-radius:34px;
+  padding:34px 24px;
   margin-bottom:22px;
   color:white;
   font-size:36px;
   font-weight:900;
 }
-
-.green{
-  background:#43a047;
-}
-
-.blue{
-  background:#1565c0;
-}
-
-.red{
-  background:#d32f2f;
-}
-
-.orange{
-  background:#fb8c00;
-}
-
-.teal{
-  background:#00897b;
-}
-
-.gray{
-  background:#546e7a;
-}
-
+.green{background:linear-gradient(135deg,#43a047,#2e7d32)}
+.blue{background:linear-gradient(135deg,#1e88e5,#1565c0)}
+.red{background:linear-gradient(135deg,#ef5350,#c62828)}
+.orange{background:linear-gradient(135deg,#ffb300,#f57c00)}
+.teal{background:linear-gradient(135deg,#26a69a,#00897b)}
+.gray{background:linear-gradient(135deg,#78909c,#546e7a)}
 .quick{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:14px;
-  margin-top:20px;
 }
-
 .quick button{
   border:none;
-  border-radius:22px;
-  padding:24px;
+  border-radius:26px;
+  padding:28px 12px;
   color:white;
-  font-size:26px;
+  font-size:28px;
   font-weight:900;
 }
-
-.sub{
+.note{
   font-size:24px;
   color:#666;
-  line-height:1.7;
-  margin-top:12px;
+  line-height:1.8;
+  margin-top:16px;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="top">
-
-  <div class="title">
-    行き先案内
-  </div>
-
+  <div class="title">行き先案内</div>
+  <div class="sub">行きたい場所を入れると<br>Googleマップで案内します</div>
 </div>
 
 <div class="wrap">
 
   <div class="card">
+    <div class="label">行きたい場所</div>
 
-    <input
-    id="destination"
-    class="input"
-    placeholder="例：近くの薬局">
+    <input id="destination" class="input" placeholder="例：近くの薬局">
 
-    <button
-    class="big-button green"
-    onclick="goMap()">
-
-    🚶 ご案内します
-
+    <button class="big-button green" onclick="goMap()">
+      🚶 案内します
     </button>
 
-    <div class="sub">
-      入力欄を押して、<br>
-      iPhoneキーボードの🎤で話して入力できます。
+    <div class="note">
+      入力欄を押して、iPhoneキーボードの🎤で話して入力できます。
     </div>
-
-    <div class="quick">
-
-      <button
-      class="red"
-      onclick="quickMap('近くの病院')">
-
-      🏥 病院
-
-      </button>
-
-      <button
-      class="orange"
-      onclick="quickMap('近くの薬局')">
-
-      💊 薬局
-
-      </button>
-
-      <button
-      class="teal"
-      onclick="quickMap('近くのコンビニ')">
-
-      🏪 コンビニ
-
-      </button>
-
-      <button
-      class="gray"
-      onclick="quickMap('近くのトイレ')">
-
-      🚻 トイレ
-
-      </button>
-
-    </div>
-
   </div>
 
-  <button
-  class="big-button blue"
-  onclick="location.href='index.html'">
+  <div class="card">
+    <div class="label">よく使う行き先</div>
 
-  ← 今日の安心へ戻る
+    <div class="quick">
+      <button class="red" onclick="quickMap('近くの病院')">🏥 病院</button>
+      <button class="orange" onclick="quickMap('近くの薬局')">💊 薬局</button>
+      <button class="teal" onclick="quickMap('近くのコンビニ')">🏪 コンビニ</button>
+      <button class="gray" onclick="quickMap('近くのトイレ')">🚻 トイレ</button>
+      <button class="blue" onclick="quickMap('近くのバス停')">🚌 バス停</button>
+      <button class="green" onclick="quickMap('地域包括支援センター')">🏢 包括</button>
+    </div>
+  </div>
 
+  <button class="big-button blue" onclick="location.href='index.html'">
+    ← 今日の安心へ戻る
   </button>
 
 </div>
 
 <script>
-
 function goMap(){
-
-  const destination =
-  document.getElementById(
-    'destination'
-  ).value.trim();
+  const destination = document.getElementById('destination').value.trim();
 
   if(!destination){
-
     alert('行きたい場所を入れてください');
-
     return;
-
   }
 
   location.href =
-  'https://www.google.com/maps/search/?api=1&query=' +
-  encodeURIComponent(destination);
-
+    'https://www.google.com/maps/search/?api=1&query=' +
+    encodeURIComponent(destination);
 }
 
 function quickMap(word){
-
   location.href =
-  'https://www.google.com/maps/search/?api=1&query=' +
-  encodeURIComponent(word);
-
+    'https://www.google.com/maps/search/?api=1&query=' +
+    encodeURIComponent(word);
 }
-
 </script>
 
 </body>
