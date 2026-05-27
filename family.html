@@ -406,7 +406,21 @@ function showLogs(json){
 
   });
 
-  Object.values(latestMap).forEach(row=>{
+  Object.values(latestMap)
+
+  .sort((a,b)=>{
+
+    const timeA =
+    new Date(getCell(a,0));
+
+    const timeB =
+    new Date(getCell(b,0));
+
+    return timeB - timeA;
+
+  })
+
+  .forEach(row=>{
 
     const time =
     getCell(row,0);
