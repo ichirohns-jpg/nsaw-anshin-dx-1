@@ -46,6 +46,44 @@ margin:auto;
 padding:12px;
 }
 
+.share{
+display:grid;
+grid-template-columns:
+1fr 1fr;
+gap:12px;
+margin:
+20px 0 28px;
+}
+
+.share a,
+.share button{
+border:none;
+display:block;
+text-decoration:none;
+text-align:center;
+padding:16px;
+border-radius:18px;
+font-size:20px;
+font-weight:900;
+color:white;
+}
+
+.fb{
+background:#1877f2;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#111;
+}
+
+.copy{
+background:#ff9800;
+}
+
 .section-title{
 font-size:30px;
 font-weight:900;
@@ -179,6 +217,37 @@ class="banner">
 
 <div class="wrap">
 
+<div class="share">
+
+<a
+class="fb"
+target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/news.html">
+Facebook
+</a>
+
+<a
+class="line"
+target="_blank"
+href="https://social-plugins.line.me/lineit/share?url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/news.html">
+LINE
+</a>
+
+<a
+class="x"
+target="_blank"
+href="https://twitter.com/intent/tweet?url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/news.html&text=NSAW 暮らし情報局">
+X
+</a>
+
+<button
+class="copy"
+onclick="copyUrl()">
+URLコピー
+</button>
+
+</div>
+
 <h2 class="section-title">
 最新情報
 </h2>
@@ -203,6 +272,16 @@ class="archive-buttons">
 </div>
 
 <script>
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert('URLをコピーしました');
+
+}
 
 const SHEET_ID =
 '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
