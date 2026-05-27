@@ -4,469 +4,194 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NSAW暮らし情報局</title>
+<title>NSAW 今日の安心DX</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   background:#eef3f8;
-  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+  font-family:
+  "Hiragino Sans",
+  "Yu Gothic",
+  sans-serif;
   color:#222;
 }
 
-.top{
-  background:linear-gradient(135deg,#1565c0,#0d47a1);
+header{
+  background:#2d5f9a;
   color:white;
-  padding:40px 24px 48px;
-  border-bottom-left-radius:40px;
-  border-bottom-right-radius:40px;
+  padding:18px;
   text-align:center;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
-}
-
-.title{
-  font-size:50px;
-  font-weight:900;
-  line-height:1.3;
-}
-
-.sub{
-  margin-top:14px;
-  font-size:24px;
-  line-height:1.8;
+  font-size:26px;
+  font-weight:700;
 }
 
 .wrap{
-  padding:20px;
-}
-
-.city-box{
-  background:white;
-  border-radius:30px;
-  padding:24px;
-  margin-bottom:24px;
-  box-shadow:0 8px 22px rgba(0,0,0,.10);
-}
-
-.city-label{
-  font-size:24px;
-  font-weight:900;
-  color:#1565c0;
-  margin-bottom:14px;
-}
-
-select{
-  width:100%;
-  padding:22px;
-  border-radius:20px;
-  border:3px solid #ccc;
-  font-size:28px;
+  max-width:900px;
+  margin:auto;
+  padding:14px;
 }
 
 .card{
   background:white;
-  border-radius:34px;
-  padding:28px;
-  margin-bottom:26px;
-  box-shadow:0 8px 22px rgba(0,0,0,.10);
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  background:#ddd;
+}
+
+.content{
+  padding:16px;
 }
 
 .date{
-  font-size:22px;
+  font-size:14px;
   color:#666;
+  margin-bottom:8px;
+}
+
+.title{
+  font-size:24px;
+  font-weight:700;
+  line-height:1.5;
   margin-bottom:10px;
 }
 
-.city{
-  display:inline-block;
-  background:#1565c0;
-  color:white;
-  padding:10px 18px;
-  border-radius:18px;
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:16px;
-}
-
-.headline{
-  font-size:36px;
-  font-weight:900;
-  line-height:1.5;
-  margin-bottom:18px;
-}
-
-.detail{
-  font-size:25px;
-  line-height:1.9;
-  color:#444;
-}
-
-.media{
-  width:100%;
-  border-radius:24px;
-  margin-top:22px;
-}
-
-iframe{
-  width:100%;
-  height:240px;
-  border:none;
-  border-radius:24px;
-  margin-top:22px;
-}
-
-.button{
-  width:100%;
-  border:none;
-  border-radius:26px;
-  padding:28px;
-  margin-top:22px;
-  background:linear-gradient(135deg,#1e88e5,#1565c0);
-  color:white;
-  font-size:30px;
-  font-weight:900;
-}
-
-.top-button{
-  width:100%;
-  border:none;
-  border-radius:30px;
-  padding:32px;
-  margin-top:20px;
-  background:linear-gradient(135deg,#78909c,#546e7a);
-  color:white;
-  font-size:34px;
-  font-weight:900;
-}
-
-.archive{
-  margin-top:40px;
-}
-
-.archive-title{
-  font-size:30px;
-  font-weight:900;
-  margin-bottom:18px;
-  color:#1565c0;
+.text{
+  font-size:18px;
+  line-height:1.8;
+  white-space:pre-wrap;
 }
 
 .loading{
-  font-size:28px;
-  font-weight:900;
   text-align:center;
-  color:#666;
-  padding:40px 0;
+  padding:40px;
+  font-size:22px;
+}
+
+.error{
+  color:red;
+  text-align:center;
+  padding:30px;
+  font-size:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">
-  <div class="title">NSAW暮らし情報局</div>
-  <div class="sub">
-    志木・新座・朝霞・和光の<br>
-    地域情報・動画・暮らし情報
-  </div>
-</div>
+<header>
+NSAW 今日の安心DX
+</header>
 
 <div class="wrap">
 
-  <div class="city-box">
-    <div class="city-label">表示する地域</div>
+<div id="loading" class="loading">
+読み込み中...
+</div>
 
-    <select id="citySelect">
-      <option>志木市</option>
-      <option>朝霞市</option>
-      <option>和光市</option>
-      <option>新座市</option>
-      <option>すべて</option>
-    </select>
-  </div>
-
-  <div id="latestArea">
-    <div class="loading">読み込み中...</div>
-  </div>
-
-  <div class="archive">
-    <div class="archive-title">📚 アーカイブ</div>
-    <div id="archiveArea"></div>
-  </div>
-
-  <button class="top-button" onclick="location.href='index.html'">
-    ← 今日の安心へ戻る
-  </button>
+<div id="news"></div>
 
 </div>
 
 <script>
+const SHEET_ID = '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+window.google = {
+  visualization:{
+    Query:{
+      setResponse:function(res){
 
-const SHEET_NAME =
-'data';
+        document.getElementById('loading').style.display='none';
 
-let allRows = [];
+        try{
 
-const citySelect =
-document.getElementById('citySelect');
+          const rows = res.table.rows || [];
+          const area = document.getElementById('news');
 
-const savedCity =
-localStorage.getItem('savedCity');
+          area.innerHTML='';
 
-if(savedCity){
-  citySelect.value = savedCity;
-}
+          rows.reverse();
 
-citySelect.addEventListener('change',function(){
-  localStorage.setItem('savedCity',citySelect.value);
-  renderRows();
-});
+          rows.slice(0,5).forEach(r=>{
 
-function loadSheet(){
+            const c = r.c || [];
 
-  window.google = {
-    visualization:{
-      Query:{
-        setResponse:function(json){
-          allRows = json.table.rows || [];
-          renderRows();
-        }
-      }
-    }
-  };
+            const date =
+              c[0]?.v || '';
 
-  const script =
-  document.createElement('script');
+            const title =
+              c[1]?.v || '';
 
-  script.src =
-  'https://docs.google.com/spreadsheets/d/' +
-  SHEET_ID +
-  '/gviz/tq?sheet=' +
-  encodeURIComponent(SHEET_NAME) +
-  '&tqx=out:json';
+            const text =
+              c[2]?.v || '';
 
-  document.body.appendChild(script);
+            const image =
+              c[3]?.v || '';
 
-}
+            area.innerHTML += `
+              <div class="card">
 
-function getCell(row,index){
-  return row.c[index]?.v || row.c[index]?.f || '';
-}
+                ${
+                  image
+                  ? `<img class="thumb" src="${image}">`
+                  : ''
+                }
 
-function findUrlInRow(row,words){
+                <div class="content">
 
-  let found = '';
+                  <div class="date">
+                    ${date}
+                  </div>
 
-  row.c.forEach(cell=>{
+                  <div class="title">
+                    ${title}
+                  </div>
 
-    if(!cell)return;
+                  <div class="text">
+                    ${text}
+                  </div>
 
-    const text =
-    JSON.stringify(cell);
+                </div>
 
-    if(!text)return;
+              </div>
+            `;
 
-    words.forEach(w=>{
+          });
 
-      if(text.includes(w) && !found){
+        }catch(e){
 
-        const match =
-        text.match(/https?:\/\/[^"\\\s]+/);
+          document.getElementById('news').innerHTML =
+          '<div class="error">表示エラー</div>';
 
-        if(match){
-          found = match[0];
+          console.log(e);
+
         }
 
       }
-
-    });
-
-  });
-
-  return found;
-
-}
-
-function youtubeEmbed(url){
-
-  if(!url)return '';
-
-  if(url.includes('watch?v=')){
-    return url.replace('watch?v=','embed/');
-  }
-
-  if(url.includes('youtu.be/')){
-    return url.replace('youtu.be/','www.youtube.com/embed/');
-  }
-
-  if(url.includes('/shorts/')){
-    return url.replace('/shorts/','/embed/');
-  }
-
-  return url;
-
-}
-
-function createCard(row){
-
-  const date =
-  getCell(row,0);
-
-  const city =
-  getCell(row,1);
-
-  const title =
-  getCell(row,2);
-
-  const detail =
-  getCell(row,4);
-
-  let image =
-  getCell(row,17);
-
-  let video =
-  getCell(row,18);
-
-  let link =
-  getCell(row,19);
-
-  if(!image){
-    image = findUrlInRow(row,['drive.google','thumbnail','jpg','png','jpeg','webp']);
-  }
-
-  if(!video){
-    video = findUrlInRow(row,['youtube.com','youtu.be','shorts']);
-  }
-
-  if(!link){
-    link = findUrlInRow(row,['http']);
-  }
-
-  let mediaHtml = '';
-
-  if(image && !image.includes('youtube') && !image.includes('youtu.be')){
-
-    mediaHtml +=
-    '<img class="media" src="' +
-    image +
-    '">';
-
-  }
-
-  if(video){
-
-    if(
-      video.includes('youtube') ||
-      video.includes('youtu.be')
-    ){
-
-      mediaHtml +=
-      '<iframe src="' +
-      youtubeEmbed(video) +
-      '" allowfullscreen></iframe>';
-
-    }else{
-
-      mediaHtml +=
-      '<video class="media" controls playsinline src="' +
-      video +
-      '"></video>';
-
     }
-
   }
+};
 
-  let buttonHtml = '';
+const script = document.createElement('script');
 
-  if(link){
+script.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID +
+'/gviz/tq?tqx=out:json';
 
-    buttonHtml =
-    '<button class="button" onclick="window.open(`' +
-    link +
-    '`)">詳しく見る</button>';
-
-  }
-
-  return `
-  <div class="card">
-    <div class="date">${date}</div>
-    <div class="city">${city}</div>
-    <div class="headline">${title}</div>
-    <div class="detail">${detail}</div>
-    ${mediaHtml}
-    ${buttonHtml}
-  </div>
-  `;
-
-}
-
-function renderRows(){
-
-  const selectedCity =
-  citySelect.value;
-
-  const latest =
-  document.getElementById('latestArea');
-
-  const archive =
-  document.getElementById('archiveArea');
-
-  latest.innerHTML = '';
-  archive.innerHTML = '';
-
-  let rows =
-  [...allRows];
-
-  rows.reverse();
-
-  if(selectedCity !== 'すべて'){
-
-    rows =
-    rows.filter(row=>{
-
-      const city =
-      getCell(row,1);
-
-      return city === selectedCity;
-
-    });
-
-  }
-
-  if(rows.length === 0){
-
-    latest.innerHTML =
-    '<div class="card"><div class="headline">表示できる情報がありません</div></div>';
-
-    return;
-
-  }
-
-  rows.forEach((row,index)=>{
-
-    const html =
-    createCard(row);
-
-    if(index < 5){
-
-      latest.innerHTML += html;
-
-    }else{
-
-      archive.innerHTML += html;
-
-    }
-
-  });
-
-}
-
-loadSheet();
-
+document.body.appendChild(script);
 </script>
 
 </body>
