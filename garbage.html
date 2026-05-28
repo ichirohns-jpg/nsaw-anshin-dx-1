@@ -525,19 +525,25 @@ onclick="location.href='concierge.html'">
 
 </div>
 
-<button class="greenBtn">
+<button
+class="greenBtn"
+onclick="sendStatus('元気です','😊')">
 
 😊 元気です
 
 </button>
 
-<button class="orangeBtn">
+<button
+class="orangeBtn"
+onclick="sendStatus('少し困っています','😓')">
 
 😓 少し困っています
 
 </button>
 
-<button class="redBtn">
+<button
+class="redBtn"
+onclick="sendStatus('助けてください','🚨')">
 
 🚨 助けてください
 
@@ -610,6 +616,9 @@ const SHEET_ID =
 
 const SHEET_NAME =
 'ゴミ';
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
 
 let rows = [];
 
@@ -1167,6 +1176,47 @@ box.style.display='none';
 
 }
 
+function sendStatus(status,emoji){
+
+const city =
+localStorage.getItem('gomiCity') || '';
+
+const area =
+localStorage.getItem('gomiArea') || '';
+
+const gps =
+localStorage.getItem('gps') || '';
+
+const url =
+GAS_URL
++
+'?mode=save'
++
+'&name=' + encodeURIComponent('利用者')
++
+'&status=' + encodeURIComponent(status)
++
+'&emoji=' + encodeURIComponent(emoji)
++
+'&area=' + encodeURIComponent(city + ' ' + area)
++
+'&gps=' + encodeURIComponent(gps);
+
+fetch(url)
+.then(r=>r.text())
+.then(data=>{
+
+alert('記録しました');
+
+})
+.catch(err=>{
+
+alert('通信エラー');
+
+});
+
+}
+
 window.onload = function(){
 
 if(
@@ -1178,6 +1228,18 @@ localStorage.getItem('gomiArea')
 navigator.geolocation.getCurrentPosition(
 
 function(position){
+
+const gps =
+position.coords.latitude
++
+','
++
+position.coords.longitude;
+
+localStorage.setItem(
+'gps',
+gps
+);
 
 loadSavedArea();
 
