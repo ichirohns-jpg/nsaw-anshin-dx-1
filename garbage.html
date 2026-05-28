@@ -551,11 +551,13 @@ onclick="sendStatus('助けてください','🚨')">
 
 <div class="qrText">
 
-このページ下のQRコードを、
+このQRコードを、
 家族・地域包括・ケアマネ・
 見守りの人が読み込んで使います。
 
 </div>
+
+<div id="qrArea"></div>
 
 </div>
 
@@ -1178,6 +1180,14 @@ box.style.display='none';
 
 function sendStatus(status,emoji){
 
+const params =
+new URLSearchParams(
+location.search
+);
+
+const name =
+params.get('name') || '利用者';
+
 const city =
 localStorage.getItem('gomiCity') || '';
 
@@ -1192,7 +1202,7 @@ GAS_URL
 +
 '?mode=save'
 +
-'&name=' + encodeURIComponent('利用者')
+'&name=' + encodeURIComponent(name)
 +
 '&status=' + encodeURIComponent(status)
 +
@@ -1217,7 +1227,62 @@ alert('通信エラー');
 
 }
 
+function createQR(){
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const name =
+params.get('name') || '利用者';
+
+const url =
+location.origin
++
+location.pathname
++
+'?name='
++
+encodeURIComponent(name);
+
+document
+.getElementById('qrArea')
+.innerHTML = `
+
+<div style="
+margin-top:20px;
+text-align:center;
+">
+
+<img
+src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}"
+style="
+width:220px;
+border-radius:20px;
+background:white;
+padding:10px;
+">
+
+<div style="
+margin-top:12px;
+font-size:24px;
+font-weight:900;
+">
+
+${name}さん用QR
+
+</div>
+
+</div>
+
+`;
+
+}
+
 window.onload = function(){
+
+createQR();
 
 if(
 localStorage.getItem('gomiCity')
