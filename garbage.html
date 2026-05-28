@@ -3,185 +3,550 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>ごみ検索DX</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
-.header{background:#2e7d32;color:white;padding:24px;font-size:34px;font-weight:900;text-align:center}
-.wrap{max-width:920px;margin:auto;padding:16px}
-.box{background:white;border-radius:24px;padding:22px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
-.title{font-size:28px;font-weight:900;margin-bottom:16px}
-select,input{width:100%;padding:18px;font-size:24px;border-radius:18px;border:1px solid #ccc;margin-bottom:16px}
-button{width:100%;padding:20px;font-size:26px;font-weight:900;border:none;border-radius:18px;background:#43a047;color:white}
-.status{font-size:18px;background:#fff3cd;padding:12px;border-radius:14px;margin-bottom:16px}
-.card{background:white;border-radius:22px;padding:20px;margin-top:18px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
-.city{font-size:18px;color:#666;margin-bottom:8px}
-.area{font-size:30px;font-weight:900;margin-bottom:12px}
-.day{font-size:22px;font-weight:900;color:#2e7d32;margin-bottom:10px}
-.gomi{font-size:22px;font-weight:900;margin-bottom:10px}
-.desc{font-size:22px;line-height:1.8;white-space:pre-wrap}
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#222;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:24px;
+font-size:34px;
+font-weight:900;
+text-align:center;
+}
+
+.wrap{
+max-width:920px;
+margin:auto;
+padding:16px;
+}
+
+.box{
+background:white;
+border-radius:24px;
+padding:22px;
+margin-bottom:20px;
+box-shadow:
+0 4px 14px rgba(0,0,0,.12);
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+select,
+input{
+width:100%;
+padding:18px;
+font-size:24px;
+border-radius:18px;
+border:1px solid #ccc;
+margin-bottom:16px;
+}
+
+button{
+width:100%;
+padding:20px;
+font-size:26px;
+font-weight:900;
+border:none;
+border-radius:18px;
+background:#43a047;
+color:white;
+}
+
+.status{
+font-size:18px;
+background:#fff3cd;
+padding:12px;
+border-radius:14px;
+margin-bottom:16px;
+}
+
+.card{
+background:white;
+border-radius:22px;
+padding:20px;
+margin-top:18px;
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+}
+
+.city{
+font-size:18px;
+color:#666;
+margin-bottom:8px;
+}
+
+.area{
+font-size:30px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.day{
+font-size:22px;
+font-weight:900;
+color:#2e7d32;
+margin-bottom:10px;
+}
+
+.gomi{
+font-size:24px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.desc{
+font-size:22px;
+line-height:1.8;
+white-space:pre-wrap;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="header">ごみ検索DX</div>
+<div class="header">
+ごみ検索DX
+</div>
 
 <div class="wrap">
 
-<div id="status" class="status">シート読み込み中...</div>
-
-<div class="box">
-<div class="title">地域から探す</div>
-
-<select id="city">
-<option value="">市を選択</option>
-<option>志木市</option>
-<option>朝霞市</option>
-<option>新座市</option>
-<option>和光市</option>
-</select>
-
-<input id="area" placeholder="例：本町、白子、朝志ケ丘">
-
-<button onclick="searchArea()">地域検索</button>
-
-<div id="result"></div>
+<div id="status" class="status">
+シート読み込み中...
 </div>
 
 <div class="box">
-<div class="title">ごみ名から検索</div>
 
-<input id="keyword" placeholder="例：電池、生ごみ、ペット">
+<div class="title">
+地域から探す
+</div>
 
-<button onclick="searchKeyword()">ごみ検索</button>
+<select id="city">
+
+<option value="">
+市を選択
+</option>
+
+<option>
+志木市
+</option>
+
+<option>
+朝霞市
+</option>
+
+<option>
+新座市
+</option>
+
+<option>
+和光市
+</option>
+
+</select>
+
+<input
+id="area"
+placeholder="例：本町、白子、朝志ケ丘">
+
+<button onclick="searchArea()">
+今日のごみを見る
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<div class="box">
+
+<div class="title">
+ごみ名から検索
+</div>
+
+<input
+id="keyword"
+placeholder="例：電池、生ごみ、ペット">
+
+<button onclick="searchKeyword()">
+ごみ検索
+</button>
 
 <div id="keywordResult"></div>
+
 </div>
 
 </div>
 
 <script>
-const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-const SHEET_NAME='ゴミ';
 
-let rows=[];
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+const SHEET_NAME =
+'ゴミ';
+
+let rows = [];
 
 function cell(c){
-  if(!c)return '';
-  return String(c.v ?? c.f ?? '').trim();
+
+if(!c)return '';
+
+return String(
+c.v ?? c.f ?? ''
+).trim();
+
 }
 
 function receiveSheet(json){
-  try{
-    const table=json.table.rows || [];
-    rows=table.map(r=>{
-      const c=r.c || [];
-      return{
-        city:cell(c[0]),
-        area:cell(c[1]),
-        day:cell(c[2]),
-        type:cell(c[3]),
-        desc:cell(c[4]),
-        keyword:cell(c[5]),
-        ai:cell(c[6])
-      };
-    }).filter(r=>r.city || r.area || r.type);
 
-    document.getElementById('status').innerHTML =
-      '読み込み成功：' + rows.length + '件';
+try{
 
-  }catch(e){
-    document.getElementById('status').innerHTML =
-      '読み込みエラー：シートを確認してください';
-    console.log(e);
-  }
-}
+const table =
+json.table.rows || [];
 
-window.google={
-  visualization:{
-    Query:{
-      setResponse:receiveSheet
-    }
-  }
+rows = table.map(r=>{
+
+const c = r.c || [];
+
+return {
+
+city:
+cell(c[0]),
+
+area:
+cell(c[1]),
+
+day:
+cell(c[2]),
+
+type:
+cell(c[3]),
+
+desc:
+cell(c[4]),
+
+keyword:
+cell(c[5]),
+
+ai:
+cell(c[6])
+
 };
 
-window.handleSheet=receiveSheet;
+}).filter(r=>
 
-const s=document.createElement('script');
-s.src='https://docs.google.com/spreadsheets/d/'
-  +SHEET_ID+
-  '/gviz/tq?sheet='+
-  encodeURIComponent(SHEET_NAME)+
-  '&tqx=out:json';
+r.city ||
+r.area ||
+r.type
+
+);
+
+document.getElementById('status')
+.innerHTML =
+'読み込み成功：'
++ rows.length +
+'件';
+
+}catch(e){
+
+document.getElementById('status')
+.innerHTML =
+'読み込みエラー';
+
+console.log(e);
+
+}
+
+}
+
+window.google = {
+visualization:{
+Query:{
+setResponse:receiveSheet
+}
+}
+};
+
+window.handleSheet =
+receiveSheet;
+
+const s =
+document.createElement('script');
+
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
 document.body.appendChild(s);
 
+function todayJapanese(){
+
+const week = [
+'日',
+'月',
+'火',
+'水',
+'木',
+'金',
+'土'
+];
+
+return week[
+new Date().getDay()
+];
+
+}
+
+function matchToday(dayText){
+
+const today =
+todayJapanese();
+
+if(!dayText)
+return false;
+
+if(dayText.includes('毎日'))
+return true;
+
+if(dayText.includes('毎朝'))
+return true;
+
+if(
+dayText === today
+)
+return true;
+
+const d =
+new Date().getDate();
+
+if(
+dayText.includes('第1')
+&& d>=1
+&& d<=7
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第2')
+&& d>=8
+&& d<=14
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第3')
+&& d>=15
+&& d<=21
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第4')
+&& d>=22
+&& d<=28
+&& dayText.includes(today)
+)
+return true;
+
+return false;
+
+}
+
 function searchArea(){
-  const city=document.getElementById('city').value.trim();
-  const area=document.getElementById('area').value.trim();
-  const result=document.getElementById('result');
-  result.innerHTML='';
 
-  if(rows.length===0){
-    result.innerHTML='<div class="card">まだシートを読み込めていません</div>';
-    return;
-  }
+const city =
+document
+.getElementById('city')
+.value
+.trim();
 
-  const filtered=rows.filter(r=>
-    (!city || r.city.includes(city)) &&
-    (!area || r.area.includes(area))
-  );
+const area =
+document
+.getElementById('area')
+.value
+.trim();
 
-  if(filtered.length===0){
-    result.innerHTML='<div class="card">データが見つかりません</div>';
-    return;
-  }
+const result =
+document
+.getElementById('result');
 
-  filtered.forEach(r=>{
-    result.innerHTML+=`
-    <div class="card">
-      <div class="city">${r.city}</div>
-      <div class="area">${r.area}</div>
-      <div class="day">${r.day}</div>
-      <div class="gomi">${r.type}</div>
-      <div class="desc">${r.ai || r.desc}</div>
-    </div>`;
-  });
+result.innerHTML='';
+
+if(rows.length===0){
+
+result.innerHTML =
+'<div class="card">まだシートを読み込めていません</div>';
+
+return;
+
+}
+
+const filtered =
+rows.filter(r=>
+
+(!city ||
+r.city.includes(city))
+
+&&
+
+(!area ||
+r.area.includes(area))
+
+&&
+
+matchToday(r.day)
+
+);
+
+if(filtered.length===0){
+
+result.innerHTML =
+'<div class="card">今日のごみデータが見つかりません</div>';
+
+return;
+
+}
+
+filtered.forEach(r=>{
+
+result.innerHTML += `
+
+<div class="card">
+
+<div class="city">
+${r.city}
+</div>
+
+<div class="area">
+${r.area}
+</div>
+
+<div class="day">
+今日：${r.day}
+</div>
+
+<div class="gomi">
+${r.type}
+</div>
+
+<div class="desc">
+${r.ai || r.desc}
+</div>
+
+</div>
+
+`;
+
+});
+
 }
 
 function searchKeyword(){
-  const keyword=document.getElementById('keyword').value.trim();
-  const result=document.getElementById('keywordResult');
-  result.innerHTML='';
 
-  if(rows.length===0){
-    result.innerHTML='<div class="card">まだシートを読み込めていません</div>';
-    return;
-  }
+const keyword =
+document
+.getElementById('keyword')
+.value
+.trim();
 
-  const filtered=rows.filter(r=>
-    r.keyword.includes(keyword) ||
-    r.type.includes(keyword) ||
-    r.desc.includes(keyword) ||
-    r.ai.includes(keyword)
-  );
+const result =
+document
+.getElementById('keywordResult');
 
-  if(filtered.length===0){
-    result.innerHTML='<div class="card">見つかりません</div>';
-    return;
-  }
+result.innerHTML='';
 
-  filtered.forEach(r=>{
-    result.innerHTML+=`
-    <div class="card">
-      <div class="city">${r.city}</div>
-      <div class="area">${r.area}</div>
-      <div class="day">${r.day}</div>
-      <div class="gomi">${r.type}</div>
-      <div class="desc">${r.ai || r.desc}</div>
-    </div>`;
-  });
+if(rows.length===0){
+
+result.innerHTML =
+'<div class="card">まだシートを読み込めていません</div>';
+
+return;
+
 }
+
+const filtered =
+rows.filter(r=>
+
+r.keyword.includes(keyword)
+||
+r.type.includes(keyword)
+||
+r.desc.includes(keyword)
+||
+r.ai.includes(keyword)
+
+);
+
+if(filtered.length===0){
+
+result.innerHTML =
+'<div class="card">見つかりません</div>';
+
+return;
+
+}
+
+filtered.forEach(r=>{
+
+result.innerHTML += `
+
+<div class="card">
+
+<div class="city">
+${r.city}
+</div>
+
+<div class="area">
+${r.area}
+</div>
+
+<div class="day">
+${r.day}
+</div>
+
+<div class="gomi">
+${r.type}
+</div>
+
+<div class="desc">
+${r.ai || r.desc}
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
 </script>
 
 </body>
