@@ -277,76 +277,6 @@ encodeURIComponent(SHEET_NAME) +
 
 document.body.appendChild(s);
 
-function todayJapanese(){
-
-const week = [
-'日',
-'月',
-'火',
-'水',
-'木',
-'金',
-'土'
-];
-
-return week[
-new Date().getDay()
-];
-
-}
-
-function matchToday(dayText){
-
-const today =
-todayJapanese();
-
-if(!dayText)
-return false;
-
-if(
-dayText === today
-)
-return true;
-
-const d =
-new Date().getDate();
-
-if(
-dayText.includes('第1')
-&& d>=1
-&& d<=7
-&& dayText.includes(today)
-)
-return true;
-
-if(
-dayText.includes('第2')
-&& d>=8
-&& d<=14
-&& dayText.includes(today)
-)
-return true;
-
-if(
-dayText.includes('第3')
-&& d>=15
-&& d<=21
-&& dayText.includes(today)
-)
-return true;
-
-if(
-dayText.includes('第4')
-&& d>=22
-&& d<=28
-&& dayText.includes(today)
-)
-return true;
-
-return false;
-
-}
-
 function makeAreaButtons(){
 
 const city =
@@ -411,16 +341,14 @@ rows.filter(r=>
 
 r.city===city
 &&
-r.area===area
-&&
-matchToday(r.day)
+r.area.includes(area)
 
 );
 
 if(filtered.length===0){
 
 result.innerHTML =
-'<div class="card">今日のごみデータが見つかりません</div>';
+'<div class="card">データが見つかりません</div>';
 
 return;
 
@@ -441,7 +369,7 @@ ${r.area}
 </div>
 
 <div class="day">
-今日：${r.day}
+${r.day}
 </div>
 
 <div class="gomi">
