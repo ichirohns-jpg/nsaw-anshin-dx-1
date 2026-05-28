@@ -75,9 +75,9 @@ border:none;
 
 border-radius:24px;
 
-padding:26px;
+padding:24px;
 
-font-size:30px;
+font-size:28px;
 
 font-weight:900;
 
@@ -101,6 +101,38 @@ background:#e53935;
 
 .blue{
 background:#1976d2;
+}
+
+.checkBtn{
+
+width:100%;
+
+background:white;
+
+border:3px solid #ddd;
+
+border-radius:22px;
+
+padding:22px;
+
+font-size:28px;
+
+font-weight:900;
+
+margin-bottom:16px;
+
+text-align:left;
+
+}
+
+.checked{
+
+background:#e8f5e9;
+
+border-color:#43a047;
+
+color:#2e7d32;
+
 }
 
 .message{
@@ -147,14 +179,6 @@ onclick="sendLog('😊 元気です','😊')">
 </button>
 
 <button
-class="bigBtn orange"
-onclick="sendLog('💊 朝の薬を飲みました','💊')">
-
-💊 朝の薬を飲みました
-
-</button>
-
-<button
 class="bigBtn blue"
 onclick="sendLog('😓 少し困っています','😓')">
 
@@ -167,6 +191,43 @@ class="bigBtn red"
 onclick="sendLog('🚨 助けてください','🚨')">
 
 🚨 助けてください
+
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="sub">
+
+今日の薬チェック
+
+</div>
+
+<button
+id="morningBtn"
+class="checkBtn"
+onclick="checkMedicine('morning')">
+
+□ 朝の薬
+
+</button>
+
+<button
+id="noonBtn"
+class="checkBtn"
+onclick="checkMedicine('noon')">
+
+□ 昼の薬
+
+</button>
+
+<button
+id="nightBtn"
+class="checkBtn"
+onclick="checkMedicine('night')">
+
+□ 夜の薬
 
 </button>
 
@@ -227,6 +288,59 @@ document
 '送信しました';
 
 });
+
+}
+
+function checkMedicine(type){
+
+let text='';
+let btn='';
+
+if(type==='morning'){
+
+text='💊 朝の薬を飲みました';
+btn='morningBtn';
+
+}
+
+if(type==='noon'){
+
+text='💊 昼の薬を飲みました';
+btn='noonBtn';
+
+}
+
+if(type==='night'){
+
+text='💊 夜の薬を飲みました';
+btn='nightBtn';
+
+}
+
+sendLog(text,'💊');
+
+const b =
+document.getElementById(btn);
+
+b.classList.add('checked');
+
+if(type==='morning'){
+
+b.innerHTML='☑ 朝の薬';
+
+}
+
+if(type==='noon'){
+
+b.innerHTML='☑ 昼の薬';
+
+}
+
+if(type==='night'){
+
+b.innerHTML='☑ 夜の薬';
+
+}
 
 }
 
