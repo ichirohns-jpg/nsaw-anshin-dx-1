@@ -173,6 +173,55 @@ font-weight:900;
 
 }
 
+.weekBox{
+
+margin-top:24px;
+
+background:#ffffff;
+
+border-radius:24px;
+
+padding:20px;
+
+box-shadow:
+0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.weekItem{
+
+padding:16px;
+
+border-bottom:1px solid #eee;
+
+}
+
+.weekItem:last-child{
+
+border-bottom:none;
+
+}
+
+.weekDay{
+
+font-size:22px;
+
+font-weight:900;
+
+color:#2e7d32;
+
+margin-bottom:6px;
+
+}
+
+.weekGomi{
+
+font-size:28px;
+
+font-weight:900;
+
+}
+
 select,
 input{
 
@@ -888,6 +937,15 @@ matchDay(r.day,1)
 
 );
 
+const week =
+rows.filter(r=>
+
+r.city===city
+&&
+r.area===area
+
+);
+
 box.innerHTML =
 `<div class="area">${city} ${area}</div>`;
 
@@ -926,6 +984,39 @@ box.innerHTML += `
 <div class="tomorrowGomi">
 
 ${r.type}
+
+</div>
+
+`;
+
+});
+
+box.innerHTML += '</div>';
+
+}
+
+if(week.length){
+
+box.innerHTML +=
+'<div class="weekBox"><div class="title">今週の予定</div>';
+
+week.forEach(r=>{
+
+box.innerHTML += `
+
+<div class="weekItem">
+
+<div class="weekDay">
+
+${r.day}
+
+</div>
+
+<div class="weekGomi">
+
+${r.type}
+
+</div>
 
 </div>
 
