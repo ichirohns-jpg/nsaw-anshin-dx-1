@@ -150,7 +150,29 @@ margin-bottom:24px;
 
 }
 
-.backBtn{
+.orangeBtn{
+
+width:100%;
+
+background:#fb8c00;
+
+border:none;
+
+border-radius:30px;
+
+padding:34px;
+
+font-size:38px;
+
+font-weight:900;
+
+color:white;
+
+margin-bottom:24px;
+
+}
+
+.grayBtn{
 
 width:100%;
 
@@ -162,11 +184,13 @@ border-radius:30px;
 
 padding:34px;
 
-font-size:42px;
+font-size:38px;
 
 font-weight:900;
 
 color:white;
+
+margin-bottom:24px;
 
 }
 
@@ -419,7 +443,15 @@ id="scheduleList">
 </div>
 
 <button
-class="backBtn"
+class="orangeBtn"
+onclick="location.href='med.html'">
+
+薬・見守りを見る
+
+</button>
+
+<button
+class="grayBtn"
 onclick="location.href='garbage.html'">
 
 戻る
@@ -431,7 +463,7 @@ onclick="location.href='garbage.html'">
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
+'https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2JKKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
 
 function renderSchedule(){
 
