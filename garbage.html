@@ -81,6 +81,10 @@ background:#1976d2;
 background:#ef6c00;
 }
 
+.saveBtn{
+background:#8e24aa;
+}
+
 .status{
 font-size:18px;
 background:#fff3cd;
@@ -174,6 +178,14 @@ white-space:pre-wrap;
 
 </select>
 
+<button
+class="saveBtn"
+onclick="loadSavedArea()">
+
+保存した地域を開く
+
+</button>
+
 <div id="areaButtons"></div>
 
 <div id="result"></div>
@@ -209,6 +221,9 @@ const SHEET_NAME =
 'ゴミ';
 
 let rows = [];
+
+let selectedArea = '';
+let selectedCity = '';
 
 function cell(c){
 
@@ -333,10 +348,15 @@ ${area}
 
 function selectArea(area){
 
-const city =
+selectedArea = area;
+
+selectedCity =
 document
 .getElementById('city')
 .value;
+
+const city =
+selectedCity;
 
 const result =
 document
@@ -376,6 +396,14 @@ onclick="makeAreaButtons()">
 
 </button>
 
+<button
+class="saveBtn"
+onclick="saveArea()">
+
+この地域を保存
+
+</button>
+
 `;
 
 filtered.forEach(r=>{
@@ -409,6 +437,64 @@ ${r.desc}
 `;
 
 });
+
+}
+
+function saveArea(){
+
+if(!selectedArea){
+
+alert(
+'地域を選択してください'
+);
+
+return;
+
+}
+
+localStorage.setItem(
+'gomiCity',
+selectedCity
+);
+
+localStorage.setItem(
+'gomiArea',
+selectedArea
+);
+
+alert(
+'地域を保存しました'
+);
+
+}
+
+function loadSavedArea(){
+
+const city =
+localStorage.getItem(
+'gomiCity'
+);
+
+const area =
+localStorage.getItem(
+'gomiArea'
+);
+
+if(!city || !area){
+
+alert(
+'保存された地域がありません'
+);
+
+return;
+
+}
+
+document
+.getElementById('city')
+.value = city;
+
+selectArea(area);
 
 }
 
