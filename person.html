@@ -6,18 +6,12 @@
 <title>利用者ページ</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
 background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 }
 
 .wrap{
@@ -27,172 +21,120 @@ padding:16px;
 }
 
 .card{
-
 background:white;
-
 border-radius:24px;
-
 padding:20px;
-
 margin-bottom:18px;
-
-box-shadow:
-0 6px 16px rgba(0,0,0,.08);
-
+box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
 .name{
-
 font-size:32px;
-
 font-weight:900;
-
 color:#1976d2;
-
 margin-bottom:10px;
-
 }
 
 .area{
-
 font-size:20px;
-
 font-weight:900;
-
 color:#666;
-
 margin-bottom:12px;
+}
 
+.statusBox{
+background:#e8f5e9;
+border-radius:22px;
+padding:18px;
+margin-top:14px;
+}
+
+.statusLabel{
+font-size:18px;
+font-weight:900;
+color:#666;
+margin-bottom:8px;
 }
 
 .status{
-
-font-size:28px;
-
+font-size:30px;
 font-weight:900;
+color:#2e7d32;
+line-height:1.4;
+}
 
-margin-bottom:10px;
-
-color:#43a047;
-
+.statusTime{
+font-size:20px;
+font-weight:900;
+color:#666;
+margin-top:8px;
 }
 
 .subTitle{
-
 font-size:26px;
-
 font-weight:900;
-
 margin-bottom:16px;
-
 color:#546e7a;
-
 }
 
 .logCard{
-
 background:#fafcff;
-
 border-radius:20px;
-
 padding:16px;
-
 margin-bottom:14px;
-
 }
 
 .logEmoji{
-
 font-size:42px;
-
 margin-bottom:8px;
-
 }
 
 .logText{
-
 font-size:22px;
-
 font-weight:900;
-
 line-height:1.4;
-
 margin-bottom:8px;
-
 }
 
 .logDate{
-
 font-size:18px;
-
 font-weight:900;
-
 color:#666;
-
 }
 
 .orangeBtn{
-
 width:100%;
-
 background:#fb8c00;
-
 border:none;
-
 border-radius:20px;
-
 padding:22px;
-
 font-size:28px;
-
 font-weight:900;
-
 color:white;
-
 margin-bottom:16px;
-
 }
 
 .grayBtn{
-
 width:100%;
-
 background:#546e7a;
-
 border:none;
-
 border-radius:20px;
-
 padding:22px;
-
 font-size:28px;
-
 font-weight:900;
-
 color:white;
-
 margin-bottom:16px;
-
 }
 
 .empty{
-
 background:white;
-
 border-radius:24px;
-
 padding:28px;
-
 font-size:24px;
-
 font-weight:900;
-
 text-align:center;
-
 color:#7d8b99;
-
 }
-
 </style>
 </head>
 
@@ -202,27 +144,26 @@ color:#7d8b99;
 
 <div class="card">
 
-<div
-class="name"
-id="personName">
-
+<div class="name" id="personName">
 読み込み中...
-
 </div>
 
-<div
-class="area"
-id="personArea">
-
+<div class="area" id="personArea">
 志木市
-
 </div>
 
-<div
-class="status"
-id="personStatus">
+<div class="statusBox">
 
+<div class="statusLabel">
+最新状態
+</div>
+
+<div class="status" id="personStatus">
 確認中...
+</div>
+
+<div class="statusTime" id="personTime">
+</div>
 
 </div>
 
@@ -231,19 +172,13 @@ id="personStatus">
 <div class="card">
 
 <div class="subTitle">
-
 見守り履歴
-
 </div>
 
 <div id="logList">
-
 <div class="empty">
-
 読み込み中...
-
 </div>
-
 </div>
 
 </div>
@@ -251,17 +186,13 @@ id="personStatus">
 <button
 class="orangeBtn"
 onclick="openMed()">
-
 薬・見守りページ
-
 </button>
 
 <button
 class="grayBtn"
 onclick="location.href='support2.html'">
-
 一覧へ戻る
-
 </button>
 
 </div>
@@ -272,11 +203,7 @@ const SHEET_ID =
 '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
 function cell(c){
-
-return c
-? String(c.v ?? c.f ?? '').trim()
-: '';
-
+return c ? String(c.v ?? c.f ?? '').trim() : '';
 }
 
 function formatDate(v){
@@ -286,27 +213,12 @@ try{
 const d = new Date(v);
 
 const y = d.getFullYear();
+const m = String(d.getMonth()+1).padStart(2,'0');
+const day = String(d.getDate()).padStart(2,'0');
+const h = String(d.getHours()).padStart(2,'0');
+const min = String(d.getMinutes()).padStart(2,'0');
 
-const m =
-String(d.getMonth()+1)
-.padStart(2,'0');
-
-const day =
-String(d.getDate())
-.padStart(2,'0');
-
-const h =
-String(d.getHours())
-.padStart(2,'0');
-
-const min =
-String(d.getMinutes())
-.padStart(2,'0');
-
-return y + '/'
-+ m + '/'
-+ day + ' '
-+ h + ':' + min;
+return y + '/' + m + '/' + day + ' ' + h + ':' + min;
 
 }catch(e){
 
@@ -317,9 +229,7 @@ return v;
 }
 
 const params =
-new URLSearchParams(
-location.search
-);
+new URLSearchParams(location.search);
 
 const targetName =
 params.get('name') || '';
@@ -341,20 +251,16 @@ const c =
 r.c || [];
 
 return{
-
 date:cell(c[0]),
 name:cell(c[1]),
 text:cell(c[2]),
 emoji:cell(c[3])
-
 };
 
 });
 
 const personLogs =
-logs.filter(
-l=>l.name.includes(targetName)
-);
+logs.filter(l=>l.name.includes(targetName));
 
 const latest =
 personLogs[personLogs.length-1];
@@ -366,6 +272,11 @@ document
 .innerHTML =
 latest.text;
 
+document
+.getElementById('personTime')
+.innerHTML =
+formatDate(latest.date);
+
 }else{
 
 document
@@ -373,23 +284,22 @@ document
 .innerHTML =
 '今日はまだ確認がありません';
 
+document
+.getElementById('personTime')
+.innerHTML =
+'';
+
 }
 
 const box =
-document.getElementById(
-'logList'
-);
+document.getElementById('logList');
 
 if(personLogs.length===0){
 
 box.innerHTML=`
-
 <div class="empty">
-
 履歴がありません
-
 </div>
-
 `;
 
 return;
@@ -401,29 +311,21 @@ box.innerHTML='';
 personLogs.reverse().forEach(log=>{
 
 box.innerHTML += `
-
 <div class="logCard">
 
 <div class="logEmoji">
-
 ${log.emoji}
-
 </div>
 
 <div class="logText">
-
 ${log.text}
-
 </div>
 
 <div class="logDate">
-
 ${formatDate(log.date)}
-
 </div>
 
 </div>
-
 `;
 
 });
