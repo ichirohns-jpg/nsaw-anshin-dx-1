@@ -168,7 +168,7 @@ placeholder="例：本町、白子、朝志ケ丘">
 
 <input
 id="keyword"
-placeholder="例：電池、生ごみ、ペットボトル">
+placeholder="例：電池、生ごみ、ペット">
 
 <button onclick="searchKeyword()">
 ごみ検索
@@ -184,9 +184,6 @@ placeholder="例：電池、生ごみ、ペットボトル">
 
 const SHEET_ID =
 '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-const SHEET_NAME =
-'ゴミ';
 
 let rows = [];
 
@@ -241,10 +238,8 @@ document.createElement('script');
 
 script.src =
 'https://docs.google.com/spreadsheets/d/'
-+ SHEET_ID +
-'/gviz/tq?sheet='
-+ encodeURIComponent(SHEET_NAME)
-+ '&tqx=out:json';
++ SHEET_ID
++ '/gviz/tq?tqx=out:json';
 
 document.body.appendChild(script);
 
