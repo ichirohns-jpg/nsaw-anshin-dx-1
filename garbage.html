@@ -20,26 +20,26 @@ color:#222;
 
 .header{
 background:
-linear-gradient(rgba(0,0,0,.20),rgba(0,0,0,.20)),
+linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.18)),
 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop');
 background-size:cover;
 background-position:center;
-padding:22px 14px 18px;
+padding:20px 12px 16px;
 text-align:center;
 color:white;
-border-bottom-left-radius:22px;
-border-bottom-right-radius:22px;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
 }
 
 .headerTitle{
-font-size:24px;
+font-size:22px;
 font-weight:900;
 }
 
 .headerSub{
-font-size:13px;
+font-size:12px;
 margin-top:4px;
-opacity:.92;
+opacity:.9;
 }
 
 .wrap{
@@ -50,67 +50,67 @@ padding:10px;
 
 .box{
 background:white;
-border-radius:20px;
-padding:14px;
-margin-bottom:14px;
+border-radius:18px;
+padding:12px;
+margin-bottom:12px;
 box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:20px;
+font-size:18px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .todayCard{
 background:
 linear-gradient(135deg,#43a047,#66bb6a);
 color:white;
-padding:18px;
-border-radius:20px;
-margin-bottom:12px;
+padding:16px;
+border-radius:18px;
+margin-bottom:10px;
 }
 
 .todayLabel{
-font-size:15px;
+font-size:14px;
 font-weight:700;
 margin-bottom:4px;
 }
 
 .todayGomi{
-font-size:32px;
+font-size:28px;
 font-weight:900;
 line-height:1.3;
 }
 
 .tomorrowCard{
 background:#f5f8fc;
-padding:14px;
-border-radius:16px;
-margin-top:10px;
+padding:12px;
+border-radius:14px;
+margin-top:8px;
 }
 
 .tomorrowLabel{
-font-size:14px;
+font-size:13px;
 font-weight:700;
 margin-bottom:4px;
 color:#666;
 }
 
 .tomorrowGomi{
-font-size:22px;
+font-size:20px;
 font-weight:900;
 }
 
 button{
 width:100%;
-padding:15px;
-font-size:21px;
+padding:14px;
+font-size:19px;
 font-weight:900;
 border:none;
-border-radius:16px;
+border-radius:14px;
 color:white;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .areaBtn{
@@ -146,28 +146,28 @@ background:#e53935;
 }
 
 .smallBtn{
-padding:11px;
-font-size:16px;
-border-radius:13px;
+padding:10px;
+font-size:15px;
+border-radius:12px;
 }
 
 .status{
-font-size:13px;
+font-size:12px;
 background:#fff3cd;
-padding:8px;
-border-radius:10px;
+padding:6px;
+border-radius:8px;
 margin-bottom:10px;
 }
 
 .card{
 background:#fafcff;
-border-radius:16px;
-padding:14px;
-margin-top:10px;
+border-radius:14px;
+padding:12px;
+margin-top:8px;
 }
 
 .scheduleItem{
-padding:10px 0;
+padding:8px 0;
 border-bottom:1px solid #ddd;
 }
 
@@ -176,48 +176,48 @@ border-bottom:none;
 }
 
 .scheduleDate{
-font-size:14px;
+font-size:13px;
 font-weight:700;
 color:#666;
 }
 
 .scheduleTime{
-font-size:22px;
+font-size:20px;
 font-weight:900;
 margin-top:2px;
 }
 
 .scheduleTitle{
-font-size:18px;
+font-size:16px;
 margin-top:2px;
 }
 
 .qrText{
-font-size:15px;
-line-height:1.7;
+font-size:14px;
+line-height:1.6;
 margin-top:6px;
 color:#555;
 }
 
 select{
 width:100%;
-padding:12px;
-font-size:18px;
-border-radius:14px;
+padding:10px;
+font-size:16px;
+border-radius:12px;
 border:1px solid #ccc;
-margin-bottom:10px;
+margin-bottom:8px;
 background:white;
 }
 
 .weekBox{
-margin-top:12px;
+margin-top:10px;
 background:#fafcff;
-border-radius:16px;
-padding:12px;
+border-radius:14px;
+padding:10px;
 }
 
 .weekItem{
-padding:8px 0;
+padding:6px 0;
 border-bottom:1px solid #e5e5e5;
 }
 
@@ -226,13 +226,13 @@ border-bottom:none;
 }
 
 .weekDay{
-font-size:14px;
+font-size:13px;
 font-weight:900;
 color:#2e7d32;
 }
 
 .weekGomi{
-font-size:20px;
+font-size:18px;
 font-weight:900;
 }
 
@@ -335,8 +335,40 @@ onclick="alert('あとでドラマ・音楽ページ接続')">
 <div class="box">
 
 <div class="title">
-見守り・安否確認
+薬・見守り
 </div>
+
+<button
+class="areaBtn smallBtn"
+onclick="sendMedicine('朝の薬を飲みました')">
+
+🌞 朝の薬を飲みました
+
+</button>
+
+<button
+class="areaBtn smallBtn"
+onclick="sendMedicine('昼の薬を飲みました')">
+
+☀ 昼の薬を飲みました
+
+</button>
+
+<button
+class="areaBtn smallBtn"
+onclick="sendMedicine('夜の薬を飲みました')">
+
+🌙 夜の薬を飲みました
+
+</button>
+
+<button
+class="redBtn smallBtn"
+onclick="sendMedicine('今日は薬を飲んでいません')">
+
+💊 今日は薬を飲んでいません
+
+</button>
 
 <button
 class="greenBtn"
@@ -363,9 +395,11 @@ onclick="sendStatus('助けてください','🚨')">
 </button>
 
 <div class="qrText">
+
 このQRコードを、
 家族・地域包括・ケアマネ・
 見守りの人が読み込んで使います。
+
 </div>
 
 <div id="qrArea"></div>
@@ -411,14 +445,11 @@ onchange="makeAreaButtons()">
 
 <script>
 
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
-const SHEET_NAME =
-'ゴミ';
+const SHEET_NAME='ゴミ';
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
+const GAS_URL='https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
 
 let rows=[];
 
@@ -432,14 +463,11 @@ return c
 
 function receiveSheet(json){
 
-const table =
-json.table.rows || [];
+const table=json.table.rows || [];
 
-rows =
-table.map(r=>{
+rows=table.map(r=>{
 
-const c =
-r.c || [];
+const c=r.c || [];
 
 return{
 
@@ -453,9 +481,7 @@ desc:cell(c[4])
 
 });
 
-document
-.getElementById('status')
-.innerHTML='読み込み成功';
+document.getElementById('status').innerHTML='読み込み成功';
 
 autoMorning();
 
@@ -469,10 +495,9 @@ setResponse:receiveSheet
 }
 };
 
-const s =
-document.createElement('script');
+const s=document.createElement('script');
 
-s.src =
+s.src=
 'https://docs.google.com/spreadsheets/d/'
 + SHEET_ID
 + '/gviz/tq?sheet='
@@ -483,12 +508,9 @@ document.body.appendChild(s);
 
 function todayJapanese(offset=0){
 
-const d =
-new Date();
+const d=new Date();
 
-d.setDate(
-d.getDate()+offset
-);
+d.setDate(d.getDate()+offset);
 
 return[
 '日','月','火','水','木','金','土'
@@ -498,14 +520,11 @@ return[
 
 function matchDay(dayText,offset=0){
 
-const today =
-todayJapanese(offset);
+const today=todayJapanese(offset);
 
-if(!dayText)
-return false;
+if(!dayText)return false;
 
-if(dayText===today)
-return true;
+if(dayText===today)return true;
 
 return dayText.includes(today);
 
@@ -513,80 +532,71 @@ return dayText.includes(today);
 
 function autoMorning(){
 
-const city =
+const city=
 localStorage.getItem('gomiCity');
 
-const area =
+const area=
 localStorage.getItem('gomiArea');
 
-const box =
+const box=
 document.getElementById('morning');
 
 if(!city || !area){
 
-box.innerHTML=
-'地域を設定してください';
+box.innerHTML='地域を設定してください';
 
 return;
 
 }
 
-const today =
+const today=
 rows.filter(r=>
 r.city===city &&
 r.area===area &&
 matchDay(r.day,0)
 );
 
-const tomorrow =
+const tomorrow=
 rows.filter(r=>
 r.city===city &&
 r.area===area &&
 matchDay(r.day,1)
 );
 
-box.innerHTML =
-'<div style="font-size:18px;font-weight:900;margin-bottom:8px;">'
+box.innerHTML=
+'<div style="font-size:16px;font-weight:900;margin-bottom:6px;">'
 + city + ' ' + area +
 '</div>';
 
 if(today.length){
 
-box.innerHTML +=
-'<div class="todayCard"><div class="todayLabel">今日</div>';
+box.innerHTML+='<div class="todayCard"><div class="todayLabel">今日</div>';
 
 today.forEach(r=>{
 
-box.innerHTML +=
-'<div class="todayGomi">'
-+ r.type +
-'</div>';
+box.innerHTML+='<div class="todayGomi">'+r.type+'</div>';
 
 });
 
-box.innerHTML += '</div>';
+box.innerHTML+='</div>';
 
 }
 
 if(tomorrow.length){
 
-box.innerHTML +=
-'<div class="tomorrowCard"><div class="tomorrowLabel">明日</div>';
+box.innerHTML+='<div class="tomorrowCard"><div class="tomorrowLabel">明日</div>';
 
 tomorrow.forEach(r=>{
 
-box.innerHTML +=
-'<div class="tomorrowGomi">'
-+ r.type +
-'</div>';
+box.innerHTML+='<div class="tomorrowGomi">'+r.type+'</div>';
 
 });
 
-box.innerHTML += '</div>';
+box.innerHTML+='</div>';
 
 }
 
-box.innerHTML += `
+box.innerHTML+=`
 
 <button
 class="areaBtn smallBtn"
@@ -610,7 +620,7 @@ r.area===area
 )
 .forEach(r=>{
 
-box.innerHTML += `
+box.innerHTML+=`
 
 <div class="weekItem">
 
@@ -632,16 +642,16 @@ ${r.type}
 
 });
 
-box.innerHTML += '</div>';
+box.innerHTML+='</div>';
 
 }
 
 function toggleWeek(){
 
-const box =
+const box=
 document.getElementById('weekArea');
 
-box.style.display =
+box.style.display=
 box.style.display==='none'
 ? 'block'
 : 'none';
@@ -650,10 +660,10 @@ box.style.display==='none'
 
 function toggleSchedule(){
 
-const box =
+const box=
 document.getElementById('scheduleBox');
 
-box.style.display =
+box.style.display=
 box.style.display==='none'
 ? 'block'
 : 'none';
@@ -662,18 +672,18 @@ box.style.display==='none'
 
 function renderSchedule(){
 
-let list =
+let list=
 JSON.parse(
 localStorage.getItem('todayScheduleList')
 || '[]'
 );
 
-const box =
+const box=
 document.getElementById('scheduleList');
 
 if(list.length===0){
 
-box.innerHTML =
+box.innerHTML=
 'まだ予定はありません';
 
 return;
@@ -684,7 +694,7 @@ box.innerHTML='';
 
 list.forEach((item,index)=>{
 
-box.innerHTML += `
+box.innerHTML+=`
 
 <div class="scheduleItem">
 
@@ -724,28 +734,28 @@ onclick="deleteSchedule(${index})">
 
 function addSchedule(){
 
-const date =
+const date=
 prompt(
 '日付を入力\n例：2026/05/30'
 );
 
 if(!date)return;
 
-const time =
+const time=
 prompt(
 '時間を入力\n例：15:00'
 );
 
 if(!time)return;
 
-const title =
+const title=
 prompt(
 '予定を入力\n例：病院'
 );
 
 if(!title)return;
 
-let list =
+let list=
 JSON.parse(
 localStorage.getItem('todayScheduleList')
 || '[]'
@@ -762,13 +772,13 @@ localStorage.setItem(
 JSON.stringify(list)
 );
 
-const params =
+const params=
 new URLSearchParams(location.search);
 
-const name =
+const name=
 params.get('name') || '利用者';
 
-const url =
+const url=
 GAS_URL
 +
 '?mode=calendar'
@@ -789,7 +799,7 @@ renderSchedule();
 
 function deleteSchedule(index){
 
-let list =
+let list=
 JSON.parse(
 localStorage.getItem('todayScheduleList')
 || '[]'
@@ -808,10 +818,10 @@ renderSchedule();
 
 function toggleAreaBox(){
 
-const box =
+const box=
 document.getElementById('areaBox');
 
-box.style.display =
+box.style.display=
 box.style.display==='none'
 ? 'block'
 : 'none';
@@ -820,15 +830,15 @@ box.style.display==='none'
 
 function makeAreaButtons(){
 
-const city =
+const city=
 document.getElementById('city').value;
 
-const box =
+const box=
 document.getElementById('areaButtons');
 
 box.innerHTML='';
 
-const areas = [
+const areas=[
 ...new Set(
 rows
 .filter(r=>r.city===city)
@@ -841,7 +851,7 @@ a.localeCompare(b,'ja')
 
 areas.forEach(area=>{
 
-box.innerHTML += `
+box.innerHTML+=`
 
 <button
 class="areaBtn smallBtn"
@@ -875,24 +885,61 @@ location.reload();
 
 }
 
-function sendStatus(status,emoji){
+function sendMedicine(text){
 
-const params =
+const params=
 new URLSearchParams(location.search);
 
-const name =
+const name=
 params.get('name') || '利用者';
 
-const city =
+const city=
 localStorage.getItem('gomiCity') || '';
 
-const area =
+const area=
 localStorage.getItem('gomiArea') || '';
 
-const gps =
+const url=
+GAS_URL
++
+'?mode=save'
++
+'&name=' + encodeURIComponent(name)
++
+'&status=' + encodeURIComponent(text)
++
+'&emoji=' + encodeURIComponent('💊')
++
+'&area=' + encodeURIComponent(city+' '+area);
+
+fetch(url)
+.then(r=>r.text())
+.then(data=>{
+
+alert('薬を記録しました');
+
+});
+
+}
+
+function sendStatus(status,emoji){
+
+const params=
+new URLSearchParams(location.search);
+
+const name=
+params.get('name') || '利用者';
+
+const city=
+localStorage.getItem('gomiCity') || '';
+
+const area=
+localStorage.getItem('gomiArea') || '';
+
+const gps=
 localStorage.getItem('gps') || '';
 
-const url =
+const url=
 GAS_URL
 +
 '?mode=save'
@@ -910,23 +957,22 @@ GAS_URL
 fetch(url)
 .then(r=>r.text())
 .then(data=>{
+
 alert('記録しました');
-})
-.catch(err=>{
-alert('通信エラー');
+
 });
 
 }
 
 function createQR(){
 
-const params =
+const params=
 new URLSearchParams(location.search);
 
-const name =
+const name=
 params.get('name') || '利用者';
 
-const url =
+const url=
 location.origin
 +
 location.pathname
@@ -935,25 +981,25 @@ location.pathname
 +
 encodeURIComponent(name);
 
-document.getElementById('qrArea').innerHTML = `
+document.getElementById('qrArea').innerHTML=`
 
 <div style="
-margin-top:16px;
+margin-top:14px;
 text-align:center;
 ">
 
 <img
-src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}"
+src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encodeURIComponent(url)}"
 style="
-width:180px;
-border-radius:18px;
+width:170px;
+border-radius:16px;
 background:white;
 padding:10px;
 ">
 
 <div style="
-margin-top:8px;
-font-size:17px;
+margin-top:6px;
+font-size:15px;
 font-weight:900;
 ">
 
@@ -977,7 +1023,7 @@ navigator.geolocation.getCurrentPosition(
 
 function(position){
 
-const gps =
+const gps=
 position.coords.latitude
 +
 ','
