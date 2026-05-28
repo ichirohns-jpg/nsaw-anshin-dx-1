@@ -22,130 +22,307 @@ color:#222;
 }
 
 .header{
-background:#2e7d32;
+
+background:
+linear-gradient(
+rgba(0,0,0,.35),
+rgba(0,0,0,.35)
+),
+
+url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop');
+
+background-size:cover;
+background-position:center;
+
 color:white;
-padding:24px;
-font-size:34px;
+
+padding:70px 24px;
+
+font-size:40px;
+
 font-weight:900;
+
 text-align:center;
+
+border-bottom-left-radius:32px;
+border-bottom-right-radius:32px;
+
+box-shadow:
+0 4px 14px rgba(0,0,0,.18);
+
 }
 
 .header small{
+
 display:block;
+
 font-size:20px;
-margin-top:8px;
+
+margin-top:10px;
+
 font-weight:500;
+
 }
 
 .wrap{
+
 max-width:920px;
+
 margin:auto;
+
 padding:16px;
+
 }
 
 .box{
+
 background:white;
-border-radius:24px;
+
+border-radius:28px;
+
 padding:22px;
-margin-bottom:20px;
+
+margin-bottom:22px;
+
 box-shadow:
-0 4px 14px rgba(0,0,0,.12);
+0 4px 14px rgba(0,0,0,.10);
+
 }
 
 .title{
-font-size:28px;
+
+font-size:30px;
+
 font-weight:900;
+
 margin-bottom:16px;
+
+}
+
+.todayBox{
+
+background:
+linear-gradient(
+135deg,
+#43a047,
+#66bb6a
+);
+
+color:white;
+
+border-radius:28px;
+
+padding:26px;
+
+margin-bottom:20px;
+
+box-shadow:
+0 6px 18px rgba(0,0,0,.18);
+
+}
+
+.todayLabel{
+
+font-size:22px;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+}
+
+.todayGomi{
+
+font-size:42px;
+
+font-weight:900;
+
+line-height:1.3;
+
+}
+
+.tomorrowBox{
+
+background:#f4f7fb;
+
+border-radius:24px;
+
+padding:22px;
+
+margin-top:18px;
+
+}
+
+.tomorrowLabel{
+
+font-size:20px;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+color:#666;
+
+}
+
+.tomorrowGomi{
+
+font-size:30px;
+
+font-weight:900;
+
 }
 
 select,
 input{
+
 width:100%;
+
 padding:18px;
+
 font-size:24px;
+
 border-radius:18px;
+
 border:1px solid #ccc;
+
 margin-bottom:16px;
+
 }
 
 button{
+
 width:100%;
+
 padding:20px;
+
 font-size:26px;
+
 font-weight:900;
+
 border:none;
-border-radius:18px;
+
+border-radius:20px;
+
 background:#43a047;
+
 color:white;
+
 margin-bottom:12px;
+
 }
 
 .areaBtn{
+
 background:#1976d2;
+
 }
 
 .backBtn{
+
 background:#ef6c00;
+
 }
 
 .saveBtn{
+
 background:#8e24aa;
+
 }
 
 .status{
+
 font-size:18px;
+
 background:#fff3cd;
+
 padding:12px;
+
 border-radius:14px;
+
 margin-bottom:16px;
+
 }
 
 .card{
+
 background:white;
+
 border-radius:22px;
+
 padding:20px;
+
 margin-top:18px;
+
 box-shadow:
-0 4px 12px rgba(0,0,0,.12);
+0 4px 12px rgba(0,0,0,.10);
+
 }
 
 .city{
+
 font-size:18px;
+
 color:#666;
+
 margin-bottom:8px;
+
 }
 
 .area{
+
 font-size:34px;
+
 font-weight:900;
+
 margin-bottom:16px;
+
 }
 
 .day{
+
 font-size:24px;
+
 font-weight:900;
+
 color:#2e7d32;
+
 margin-bottom:12px;
+
 }
 
 .gomi{
+
 font-size:34px;
+
 font-weight:900;
+
 margin-bottom:18px;
+
 }
 
 .desc{
+
 font-size:24px;
+
 line-height:1.8;
+
 white-space:pre-wrap;
+
 }
 
 .video iframe{
+
 width:100%;
+
 aspect-ratio:16/9;
+
 border:0;
-border-radius:18px;
+
+border-radius:22px;
+
 background:#000;
+
 }
 
 </style>
@@ -158,7 +335,9 @@ background:#000;
 おはようございます
 
 <small>
+
 朝の地域トップページ
+
 </small>
 
 </div>
@@ -166,18 +345,24 @@ background:#000;
 <div class="wrap">
 
 <div id="status" class="status">
+
 シート読み込み中...
+
 </div>
 
 <div class="box">
 
 <div class="title">
+
 今日のごみ
+
 </div>
 
 <div id="morning">
+
 地域を保存すると、
 ここに今日のごみが出ます。
+
 </div>
 
 </div>
@@ -185,7 +370,9 @@ background:#000;
 <div class="box">
 
 <div class="title">
+
 今日の3分動画
+
 </div>
 
 <div class="video">
@@ -198,7 +385,9 @@ allowfullscreen>
 </div>
 
 <div class="desc">
+
 ※動画URLはあとで差し替えます。
+
 </div>
 
 </div>
@@ -206,7 +395,9 @@ allowfullscreen>
 <div class="box">
 
 <div class="title">
+
 地域から探す
+
 </div>
 
 <select
@@ -252,7 +443,9 @@ onclick="loadSavedArea()">
 <div class="box">
 
 <div class="title">
+
 ごみ名から検索
+
 </div>
 
 <input
@@ -260,7 +453,9 @@ id="keyword"
 placeholder="例：電池、生ごみ、ペット">
 
 <button onclick="searchKeyword()">
+
 ごみ検索
+
 </button>
 
 <div id="keywordResult"></div>
@@ -699,21 +894,15 @@ box.innerHTML =
 if(today.length){
 
 box.innerHTML +=
-'<div class="day">今日</div>';
+'<div class="todayBox"><div class="todayLabel">今日</div>';
 
 today.forEach(r=>{
 
 box.innerHTML += `
 
-<div class="card">
+<div class="todayGomi">
 
-<div class="gomi">
 ${r.type}
-</div>
-
-<div class="desc">
-${r.desc}
-</div>
 
 </div>
 
@@ -721,37 +910,30 @@ ${r.desc}
 
 });
 
-}else{
-
-box.innerHTML +=
-'<div class="card">今日は該当するごみデータがありません。</div>';
+box.innerHTML += '</div>';
 
 }
 
 if(tomorrow.length){
 
 box.innerHTML +=
-'<div class="day">明日</div>';
+'<div class="tomorrowBox"><div class="tomorrowLabel">明日</div>';
 
 tomorrow.forEach(r=>{
 
 box.innerHTML += `
 
-<div class="card">
+<div class="tomorrowGomi">
 
-<div class="gomi">
 ${r.type}
-</div>
-
-<div class="desc">
-${r.desc}
-</div>
 
 </div>
 
 `;
 
 });
+
+box.innerHTML += '</div>';
 
 }
 
