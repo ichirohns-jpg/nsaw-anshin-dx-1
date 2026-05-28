@@ -190,8 +190,10 @@ const SHEET_NAME =
 
 let rows = [];
 
-window.handleSheet =
-function(json){
+window.google = {
+visualization: {
+Query: {
+setResponse: function(json){
 
 const table =
 json.table.rows;
@@ -227,6 +229,11 @@ c[6]?.v || ''
 
 });
 
+console.log(rows);
+
+}
+}
+}
 };
 
 const script =
@@ -237,7 +244,7 @@ script.src =
 + SHEET_ID +
 '/gviz/tq?sheet='
 + encodeURIComponent(SHEET_NAME)
-+ '&tqx=out:json&responseHandler=handleSheet';
++ '&tqx=out:json';
 
 document.body.appendChild(script);
 
