@@ -325,24 +325,71 @@ document.getElementById(btn);
 b.classList.add('checked');
 
 if(type==='morning'){
-
 b.innerHTML='☑ 朝の薬';
-
 }
 
 if(type==='noon'){
-
 b.innerHTML='☑ 昼の薬';
-
 }
 
 if(type==='night'){
-
 b.innerHTML='☑ 夜の薬';
+}
+
+localStorage.setItem(
+targetName + '_' + type,
+'1'
+);
 
 }
 
+window.onload=function(){
+
+['morning','noon','night']
+.forEach(type=>{
+
+if(
+localStorage.getItem(
+targetName + '_' + type
+)==='1'
+){
+
+let btn='';
+
+if(type==='morning'){
+btn='morningBtn';
 }
+
+if(type==='noon'){
+btn='noonBtn';
+}
+
+if(type==='night'){
+btn='nightBtn';
+}
+
+const b =
+document.getElementById(btn);
+
+b.classList.add('checked');
+
+if(type==='morning'){
+b.innerHTML='☑ 朝の薬';
+}
+
+if(type==='noon'){
+b.innerHTML='☑ 昼の薬';
+}
+
+if(type==='night'){
+b.innerHTML='☑ 夜の薬';
+}
+
+}
+
+});
+
+};
 
 </script>
 
