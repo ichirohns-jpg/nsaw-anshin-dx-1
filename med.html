@@ -6,128 +6,420 @@
 <title>薬・見守り</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
-.header{background:#43a047;color:white;text-align:center;padding:20px 12px;border-bottom-left-radius:20px;border-bottom-right-radius:20px}
-.headerTitle{font-size:24px;font-weight:900}
-.wrap{max-width:760px;margin:auto;padding:12px}
-.box{background:white;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
-.title{font-size:20px;font-weight:900;margin-bottom:10px}
-button{width:100%;padding:16px;font-size:20px;font-weight:900;border:none;border-radius:16px;color:white;margin-bottom:10px}
-.greenBtn{background:#43a047}
-.blueBtn{background:#1976d2}
-.orangeBtn{background:#fb8c00}
-.redBtn{background:#e53935}
-.grayBtn{background:#546e7a}
-.qrText{font-size:16px;line-height:1.7;color:#555;margin-top:8px}
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#222;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:18px;
+}
+
+.card{
+
+background:white;
+
+border-radius:30px;
+
+padding:24px;
+
+margin-bottom:24px;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.title{
+
+font-size:34px;
+
+font-weight:900;
+
+margin-bottom:20px;
+
+color:#43a047;
+
+}
+
+button{
+
+width:100%;
+
+padding:30px;
+
+font-size:38px;
+
+font-weight:900;
+
+border:none;
+
+border-radius:28px;
+
+color:white;
+
+margin-bottom:20px;
+
+}
+
+.blueBtn{
+background:#1976d2;
+}
+
+.greenBtn{
+background:#43a047;
+}
+
+.orangeBtn{
+background:#fb8c00;
+}
+
+.redBtn{
+background:#e53935;
+}
+
+.grayBtn{
+background:#546e7a;
+}
+
+.qrText{
+
+font-size:28px;
+
+line-height:1.6;
+
+color:#555;
+
+margin-top:10px;
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<div class="headerTitle">薬・見守り</div>
-</div>
-
 <div class="wrap">
 
-<div class="box">
-<div class="title">薬の記録</div>
+<div class="card">
 
-<button class="blueBtn" onclick="sendMedicine('朝の薬を飲みました')">🌞 朝の薬を飲みました</button>
-<button class="blueBtn" onclick="sendMedicine('昼の薬を飲みました')">☀ 昼の薬を飲みました</button>
-<button class="blueBtn" onclick="sendMedicine('夜の薬を飲みました')">🌙 夜の薬を飲みました</button>
-<button class="redBtn" onclick="sendMedicine('今日は薬を飲んでいません')">💊 今日は薬を飲んでいません</button>
+<div class="title">
+
+薬の記録
+
 </div>
 
-<div class="box">
-<div class="title">安否確認</div>
+<button
+class="blueBtn"
+onclick="sendMedicine('朝の薬を飲みました')">
 
-<button class="greenBtn" onclick="sendStatus('元気です','😊')">😊 元気です</button>
-<button class="orangeBtn" onclick="sendStatus('少し困っています','😓')">😓 少し困っています</button>
-<button class="redBtn" onclick="sendStatus('助けてください','🚨')">🚨 助けてください</button>
+🌞 朝の薬を飲みました
+
+</button>
+
+<button
+class="blueBtn"
+onclick="sendMedicine('昼の薬を飲みました')">
+
+☀ 昼の薬を飲みました
+
+</button>
+
+<button
+class="blueBtn"
+onclick="sendMedicine('夜の薬を飲みました')">
+
+🌙 夜の薬を飲みました
+
+</button>
+
+<button
+class="redBtn"
+onclick="sendMedicine('今日は薬を飲んでいません')">
+
+💊 今日は薬を飲んでいません
+
+</button>
+
 </div>
 
-<div class="box">
-<div class="title">見守り用QR</div>
+<div class="card">
+
+<div class="title">
+
+安否確認
+
+</div>
+
+<button
+class="greenBtn"
+onclick="sendStatus('元気です','😊')">
+
+😊 元気です
+
+</button>
+
+<button
+class="orangeBtn"
+onclick="sendStatus('少し困っています','😓')">
+
+😓 少し困っています
+
+</button>
+
+<button
+class="redBtn"
+onclick="sendStatus('助けてください','🚨')">
+
+🚨 助けてください
+
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+
+見守り用QR
+
+</div>
 
 <div class="qrText">
-このQRコードを、家族・地域包括・ケアマネ・見守りの人が読み込んで使います。
+
+このQRコードを、
+家族・地域包括・ケアマネ・
+見守りの人が読み込んで使います。
+
 </div>
 
 <div id="qrArea"></div>
+
 </div>
 
-<div class="box">
-<button class="grayBtn" onclick="location.href='garbage.html'">朝トップへ戻る</button>
-</div>
+<button
+class="grayBtn"
+onclick="location.href='garbage.html'">
+
+戻る
+
+</button>
 
 </div>
 
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2JKKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
 
 function getName(){
-const params=new URLSearchParams(location.search);
-return params.get('name') || '利用者';
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+return params.get('name')
+|| '利用者';
+
+}
+
+function saveLog(emoji,text){
+
+let logs =
+JSON.parse(
+localStorage.getItem(
+'watchLogs'
+) || '[]'
+);
+
+logs.push({
+
+emoji:emoji,
+text:text,
+date:new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+'watchLogs',
+JSON.stringify(logs)
+);
+
 }
 
 function sendMedicine(text){
-const name=getName();
-const city=localStorage.getItem('gomiCity') || '';
-const area=localStorage.getItem('gomiArea') || '';
 
-const url=GAS_URL+
-'?mode=save'+
-'&name='+encodeURIComponent(name)+
-'&status='+encodeURIComponent(text)+
-'&emoji='+encodeURIComponent('💊')+
-'&area='+encodeURIComponent(city+' '+area);
+const name =
+getName();
+
+const city =
+localStorage.getItem(
+'gomiCity'
+) || '';
+
+const area =
+localStorage.getItem(
+'gomiArea'
+) || '';
+
+const url =
+GAS_URL
++
+'?mode=save'
++
+'&name='
++ encodeURIComponent(name)
++
+'&status='
++ encodeURIComponent(text)
++
+'&emoji='
++ encodeURIComponent('💊')
++
+'&area='
++ encodeURIComponent(city+' '+area);
 
 fetch(url)
 .then(r=>r.text())
-.then(()=>alert('薬を記録しました'))
-.catch(()=>alert('通信エラー'));
+.then(()=>{
+
+saveLog('💊',text);
+
+alert('薬を記録しました');
+
+})
+.catch(()=>{
+
+alert('通信エラー');
+
+});
+
 }
 
 function sendStatus(status,emoji){
-const name=getName();
-const city=localStorage.getItem('gomiCity') || '';
-const area=localStorage.getItem('gomiArea') || '';
-const gps=localStorage.getItem('gps') || '';
 
-const url=GAS_URL+
-'?mode=save'+
-'&name='+encodeURIComponent(name)+
-'&status='+encodeURIComponent(status)+
-'&emoji='+encodeURIComponent(emoji)+
-'&area='+encodeURIComponent(city+' '+area)+
-'&gps='+encodeURIComponent(gps);
+const name =
+getName();
+
+const city =
+localStorage.getItem(
+'gomiCity'
+) || '';
+
+const area =
+localStorage.getItem(
+'gomiArea'
+) || '';
+
+const gps =
+localStorage.getItem(
+'gps'
+) || '';
+
+const url =
+GAS_URL
++
+'?mode=save'
++
+'&name='
++ encodeURIComponent(name)
++
+'&status='
++ encodeURIComponent(status)
++
+'&emoji='
++ encodeURIComponent(emoji)
++
+'&area='
++ encodeURIComponent(city+' '+area)
++
+'&gps='
++ encodeURIComponent(gps);
 
 fetch(url)
 .then(r=>r.text())
-.then(()=>alert('記録しました'))
-.catch(()=>alert('通信エラー'));
+.then(()=>{
+
+saveLog(emoji,status);
+
+alert('記録しました');
+
+})
+.catch(()=>{
+
+alert('通信エラー');
+
+});
+
 }
 
 function createQR(){
-const name=getName();
-const url=location.origin+location.pathname+'?name='+encodeURIComponent(name);
 
-document.getElementById('qrArea').innerHTML=`
-<div style="margin-top:16px;text-align:center;">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}"
-style="width:180px;border-radius:18px;background:white;padding:10px;">
-<div style="margin-top:8px;font-size:17px;font-weight:900;">
+const name =
+getName();
+
+const url =
+location.origin
++
+location.pathname
++
+'?name='
++
+encodeURIComponent(name);
+
+document
+.getElementById('qrArea')
+.innerHTML = `
+
+<div style="
+margin-top:20px;
+text-align:center;
+">
+
+<img
+src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}"
+style="
+width:220px;
+border-radius:24px;
+background:white;
+padding:10px;
+">
+
+<div style="
+margin-top:10px;
+font-size:28px;
+font-weight:900;
+">
+
 ${name}さん用QR
+
 </div>
+
 </div>
+
 `;
+
 }
 
 window.onload=function(){
+
 createQR();
+
 };
+
 </script>
 
 </body>
