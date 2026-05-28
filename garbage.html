@@ -6,264 +6,834 @@
 <title>朝の地域トップページ</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
-.header{background:#2e7d32;color:white;padding:24px;font-size:34px;font-weight:900;text-align:center}
-.header small{display:block;font-size:20px;margin-top:8px;font-weight:500}
-.wrap{max-width:920px;margin:auto;padding:16px}
-.box{background:white;border-radius:24px;padding:22px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
-.title{font-size:28px;font-weight:900;margin-bottom:16px}
-select,input{width:100%;padding:18px;font-size:24px;border-radius:18px;border:1px solid #ccc;margin-bottom:16px}
-button{width:100%;padding:20px;font-size:26px;font-weight:900;border:none;border-radius:18px;background:#43a047;color:white;margin-bottom:12px}
-.areaBtn{background:#1976d2}
-.backBtn{background:#ef6c00}
-.saveBtn{background:#8e24aa}
-.status{font-size:18px;background:#fff3cd;padding:12px;border-radius:14px;margin-bottom:16px}
-.card{background:white;border-radius:22px;padding:20px;margin-top:18px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
-.city{font-size:18px;color:#666;margin-bottom:8px}
-.area{font-size:34px;font-weight:900;margin-bottom:16px}
-.day{font-size:24px;font-weight:900;color:#2e7d32;margin-bottom:12px}
-.gomi{font-size:34px;font-weight:900;margin-bottom:18px}
-.desc{font-size:24px;line-height:1.8;white-space:pre-wrap}
-.video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:18px;background:#000}
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#222;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:24px;
+font-size:34px;
+font-weight:900;
+text-align:center;
+}
+
+.header small{
+display:block;
+font-size:20px;
+margin-top:8px;
+font-weight:500;
+}
+
+.wrap{
+max-width:920px;
+margin:auto;
+padding:16px;
+}
+
+.box{
+background:white;
+border-radius:24px;
+padding:22px;
+margin-bottom:20px;
+box-shadow:
+0 4px 14px rgba(0,0,0,.12);
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+select,
+input{
+width:100%;
+padding:18px;
+font-size:24px;
+border-radius:18px;
+border:1px solid #ccc;
+margin-bottom:16px;
+}
+
+button{
+width:100%;
+padding:20px;
+font-size:26px;
+font-weight:900;
+border:none;
+border-radius:18px;
+background:#43a047;
+color:white;
+margin-bottom:12px;
+}
+
+.areaBtn{
+background:#1976d2;
+}
+
+.backBtn{
+background:#ef6c00;
+}
+
+.saveBtn{
+background:#8e24aa;
+}
+
+.status{
+font-size:18px;
+background:#fff3cd;
+padding:12px;
+border-radius:14px;
+margin-bottom:16px;
+}
+
+.card{
+background:white;
+border-radius:22px;
+padding:20px;
+margin-top:18px;
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+}
+
+.city{
+font-size:18px;
+color:#666;
+margin-bottom:8px;
+}
+
+.area{
+font-size:34px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.day{
+font-size:24px;
+font-weight:900;
+color:#2e7d32;
+margin-bottom:12px;
+}
+
+.gomi{
+font-size:34px;
+font-weight:900;
+margin-bottom:18px;
+}
+
+.desc{
+font-size:24px;
+line-height:1.8;
+white-space:pre-wrap;
+}
+
+.video iframe{
+width:100%;
+aspect-ratio:16/9;
+border:0;
+border-radius:18px;
+background:#000;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="header">
+
 おはようございます
-<small>朝の地域トップページ</small>
+
+<small>
+朝の地域トップページ
+</small>
+
 </div>
 
 <div class="wrap">
 
-<div id="status" class="status">シート読み込み中...</div>
-
-<div class="box">
-<div class="title">今日のごみ</div>
-<div id="morning">地域を保存すると、ここに今日のごみが出ます。</div>
+<div id="status" class="status">
+シート読み込み中...
 </div>
 
 <div class="box">
-<div class="title">今日の3分動画</div>
+
+<div class="title">
+今日のごみ
+</div>
+
+<div id="morning">
+地域を保存すると、
+ここに今日のごみが出ます。
+</div>
+
+</div>
+
+<div class="box">
+
+<div class="title">
+今日の3分動画
+</div>
+
 <div class="video">
-<iframe src="https://www.youtube.com/embed/" allowfullscreen></iframe>
+
+<iframe
+src="https://www.youtube.com/embed/"
+allowfullscreen>
+</iframe>
+
 </div>
-<div class="desc">※動画URLはあとで差し替えます。</div>
+
+<div class="desc">
+※動画URLはあとで差し替えます。
+</div>
+
 </div>
 
 <div class="box">
-<div class="title">地域から探す</div>
 
-<select id="city" onchange="makeAreaButtons()">
-<option value="">市を選択</option>
-<option>志木市</option>
-<option>朝霞市</option>
-<option>新座市</option>
-<option>和光市</option>
+<div class="title">
+地域から探す
+</div>
+
+<select
+id="city"
+onchange="makeAreaButtons()">
+
+<option value="">
+市を選択
+</option>
+
+<option>
+志木市
+</option>
+
+<option>
+朝霞市
+</option>
+
+<option>
+新座市
+</option>
+
+<option>
+和光市
+</option>
+
 </select>
 
-<button class="saveBtn" onclick="loadSavedArea()">保存した地域を開く</button>
+<button
+class="saveBtn"
+onclick="loadSavedArea()">
+
+保存した地域を開く
+
+</button>
 
 <div id="areaButtons"></div>
+
 <div id="result"></div>
+
 </div>
 
 <div class="box">
-<div class="title">ごみ名から検索</div>
-<input id="keyword" placeholder="例：電池、生ごみ、ペット">
-<button onclick="searchKeyword()">ごみ検索</button>
+
+<div class="title">
+ごみ名から検索
+</div>
+
+<input
+id="keyword"
+placeholder="例：電池、生ごみ、ペット">
+
+<button onclick="searchKeyword()">
+ごみ検索
+</button>
+
 <div id="keywordResult"></div>
+
 </div>
 
 </div>
 
 <script>
-const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-const SHEET_NAME='ゴミ';
 
-let rows=[];
-let selectedArea='';
-let selectedCity='';
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
-function cell(c){return c ? String(c.v ?? c.f ?? '').trim() : ''}
+const SHEET_NAME =
+'ゴミ';
 
-function receiveSheet(json){
-  const table=json.table.rows || [];
-  rows=table.map(r=>{
-    const c=r.c || [];
-    return{
-      city:cell(c[0]),
-      area:cell(c[1]),
-      day:cell(c[2]),
-      type:cell(c[3]),
-      desc:cell(c[4]),
-      keyword:cell(c[5])
-    };
-  });
+let rows = [];
 
-  document.getElementById('status').innerHTML='読み込み成功：'+rows.length+'件';
-  autoMorning();
+let selectedArea = '';
+let selectedCity = '';
+
+function cell(c){
+
+return c
+? String(c.v ?? c.f ?? '').trim()
+: '';
+
 }
 
-window.google={visualization:{Query:{setResponse:receiveSheet}}};
+function receiveSheet(json){
 
-const s=document.createElement('script');
-s.src='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?sheet='+encodeURIComponent(SHEET_NAME)+'&tqx=out:json';
+const table =
+json.table.rows || [];
+
+rows = table.map(r=>{
+
+const c = r.c || [];
+
+return {
+
+city:
+cell(c[0]),
+
+area:
+cell(c[1]),
+
+day:
+cell(c[2]),
+
+type:
+cell(c[3]),
+
+desc:
+cell(c[4]),
+
+keyword:
+cell(c[5])
+
+};
+
+});
+
+document
+.getElementById('status')
+.innerHTML =
+'読み込み成功：'
++ rows.length +
+'件';
+
+autoMorning();
+
+}
+
+window.google = {
+visualization:{
+Query:{
+setResponse:receiveSheet
+}
+}
+};
+
+const s =
+document.createElement('script');
+
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
 document.body.appendChild(s);
 
 function todayJapanese(offset=0){
-  const d=new Date();
-  d.setDate(d.getDate()+offset);
-  return ['日','月','火','水','木','金','土'][d.getDay()];
+
+const d = new Date();
+
+d.setDate(
+d.getDate()+offset
+);
+
+return [
+'日',
+'月',
+'火',
+'水',
+'木',
+'金',
+'土'
+][d.getDay()];
+
 }
 
 function matchDay(dayText,offset=0){
-  const today=todayJapanese(offset);
-  if(!dayText)return false;
-  if(dayText===today)return true;
 
-  const d=new Date();
-  d.setDate(d.getDate()+offset);
-  const date=d.getDate();
+const today =
+todayJapanese(offset);
 
-  if(dayText.includes('第1')&&date>=1&&date<=7&&dayText.includes(today))return true;
-  if(dayText.includes('第2')&&date>=8&&date<=14&&dayText.includes(today))return true;
-  if(dayText.includes('第3')&&date>=15&&date<=21&&dayText.includes(today))return true;
-  if(dayText.includes('第4')&&date>=22&&date<=28&&dayText.includes(today))return true;
+if(!dayText)
+return false;
 
-  return false;
+if(dayText===today)
+return true;
+
+const d = new Date();
+
+d.setDate(
+d.getDate()+offset
+);
+
+const date =
+d.getDate();
+
+if(
+dayText.includes('第1')
+&& date>=1
+&& date<=7
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第2')
+&& date>=8
+&& date<=14
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第3')
+&& date>=15
+&& date<=21
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第4')
+&& date>=22
+&& date<=28
+&& dayText.includes(today)
+)
+return true;
+
+return false;
+
 }
 
 function makeAreaButtons(){
-  const city=document.getElementById('city').value;
-  const box=document.getElementById('areaButtons');
-  const result=document.getElementById('result');
-  result.innerHTML='';
-  box.innerHTML='';
 
-  const areas=[...new Set(rows.filter(r=>r.city===city).map(r=>r.area))]
-    .sort((a,b)=>a.localeCompare(b,'ja'));
+const city =
+document
+.getElementById('city')
+.value;
 
-  areas.forEach(area=>{
-    box.innerHTML += `<button class="areaBtn" onclick="selectArea('${area}')">${area}</button>`;
-  });
+const box =
+document
+.getElementById('areaButtons');
+
+const result =
+document
+.getElementById('result');
+
+result.innerHTML='';
+
+box.innerHTML='';
+
+const areas = [
+...new Set(
+rows
+.filter(r=>r.city===city)
+.map(r=>r.area)
+)
+].sort((a,b)=>
+a.localeCompare(
+b,
+'ja'
+)
+);
+
+areas.forEach(area=>{
+
+box.innerHTML += `
+
+<button
+class="areaBtn"
+onclick="selectArea('${area}')">
+
+${area}
+
+</button>
+
+`;
+
+});
+
 }
 
 function renderRows(list,target){
-  const el=document.getElementById(target);
-  list.forEach(r=>{
-    el.innerHTML += `
-    <div class="card">
-      <div class="city">${r.city}</div>
-      <div class="area">${r.area}</div>
-      <div class="day">${r.day}</div>
-      <div class="gomi">${r.type}</div>
-      <div class="desc">${r.desc}</div>
-    </div>`;
-  });
+
+const el =
+document
+.getElementById(target);
+
+list.forEach(r=>{
+
+el.innerHTML += `
+
+<div class="card">
+
+<div class="city">
+${r.city}
+</div>
+
+<div class="area">
+${r.area}
+</div>
+
+<div class="day">
+${r.day}
+</div>
+
+<div class="gomi">
+${r.type}
+</div>
+
+<div class="desc">
+${r.desc}
+</div>
+
+</div>
+
+`;
+
+});
+
 }
 
 function selectArea(area){
-  selectedArea=area;
-  selectedCity=document.getElementById('city').value;
 
-  document.getElementById('areaButtons').innerHTML='';
-  const result=document.getElementById('result');
+selectedArea = area;
 
-  const filtered=rows.filter(r=>r.city===selectedCity && r.area===area);
+selectedCity =
+document
+.getElementById('city')
+.value;
 
-  result.innerHTML=`
-  <button class="backBtn" onclick="makeAreaButtons()">← 地域を選び直す</button>
-  <button class="saveBtn" onclick="saveArea()">この地域を保存</button>
-  `;
+const city =
+selectedCity;
 
-  if(filtered.length===0){
-    result.innerHTML+='<div class="card">データが見つかりません</div>';
-    return;
-  }
+const result =
+document
+.getElementById('result');
 
-  renderRows(filtered,'result');
+const box =
+document
+.getElementById('areaButtons');
+
+box.innerHTML='';
+
+const filtered =
+rows.filter(r=>
+
+r.city===city
+&&
+r.area===area
+
+);
+
+result.innerHTML = `
+
+<button
+class="backBtn"
+onclick="makeAreaButtons()">
+
+← 地域を選び直す
+
+</button>
+
+<button
+class="saveBtn"
+onclick="saveArea()">
+
+この地域を保存
+
+</button>
+
+`;
+
+if(filtered.length===0){
+
+result.innerHTML +=
+'<div class="card">データが見つかりません</div>';
+
+return;
+
+}
+
+renderRows(filtered,'result');
+
 }
 
 function saveArea(){
-  if(!selectedArea){
-    alert('地域を選択してください');
-    return;
-  }
 
-  localStorage.setItem('gomiCity',selectedCity);
-  localStorage.setItem('gomiArea',selectedArea);
-  alert('地域を保存しました');
-  autoMorning();
+if(!selectedArea){
+
+alert(
+'地域を選択してください'
+);
+
+return;
+
+}
+
+localStorage.setItem(
+'gomiCity',
+selectedCity
+);
+
+localStorage.setItem(
+'gomiArea',
+selectedArea
+);
+
+alert(
+'地域を保存しました'
+);
+
+autoMorning();
+
 }
 
 function loadSavedArea(){
-  const city=localStorage.getItem('gomiCity');
-  const area=localStorage.getItem('gomiArea');
 
-  if(!city || !area){
-    alert('保存された地域がありません');
-    return;
-  }
+const city =
+localStorage.getItem(
+'gomiCity'
+);
 
-  document.getElementById('city').value=city;
-  selectedCity=city;
-  selectArea(area);
+const area =
+localStorage.getItem(
+'gomiArea'
+);
+
+if(!city || !area){
+
+alert(
+'保存された地域がありません'
+);
+
+return;
+
+}
+
+document
+.getElementById('city')
+.value = city;
+
+selectedCity = city;
+
+selectArea(area);
+
 }
 
 function autoMorning(){
-  const city=localStorage.getItem('gomiCity');
-  const area=localStorage.getItem('gomiArea');
-  const box=document.getElementById('morning');
 
-  if(!city || !area){
-    box.innerHTML='地域を保存すると、ここに今日のごみが出ます。';
-    return;
-  }
+const city =
+localStorage.getItem(
+'gomiCity'
+);
 
-  const today=rows.filter(r=>r.city===city && r.area===area && matchDay(r.day,0));
-  const tomorrow=rows.filter(r=>r.city===city && r.area===area && matchDay(r.day,1));
+const area =
+localStorage.getItem(
+'gomiArea'
+);
 
-  box.innerHTML=`<div class="area">${city} ${area}</div>`;
+const box =
+document
+.getElementById('morning');
 
-  if(today.length){
-    box.innerHTML+='<div class="day">今日</div>';
-    today.forEach(r=>{
-      box.innerHTML+=`<div class="card"><div class="gomi">${r.type}</div><div class="desc">${r.desc}</div></div>`;
-    });
-  }else{
-    box.innerHTML+='<div class="card">今日は該当するごみデータがありません。</div>';
-  }
+if(!city || !area){
 
-  if(tomorrow.length){
-    box.innerHTML+='<div class="day">明日</div>';
-    tomorrow.forEach(r=>{
-      box.innerHTML+=`<div class="card"><div class="gomi">${r.type}</div><div class="desc">${r.desc}</div></div>`;
-    });
-  }
+box.innerHTML =
+'地域を保存すると、ここに今日のごみが出ます。';
+
+return;
+
+}
+
+const today =
+rows.filter(r=>
+
+r.city===city
+&&
+r.area===area
+&&
+matchDay(r.day,0)
+
+);
+
+const tomorrow =
+rows.filter(r=>
+
+r.city===city
+&&
+r.area===area
+&&
+matchDay(r.day,1)
+
+);
+
+box.innerHTML =
+`<div class="area">${city} ${area}</div>`;
+
+if(today.length){
+
+box.innerHTML +=
+'<div class="day">今日</div>';
+
+today.forEach(r=>{
+
+box.innerHTML += `
+
+<div class="card">
+
+<div class="gomi">
+${r.type}
+</div>
+
+<div class="desc">
+${r.desc}
+</div>
+
+</div>
+
+`;
+
+});
+
+}else{
+
+box.innerHTML +=
+'<div class="card">今日は該当するごみデータがありません。</div>';
+
+}
+
+if(tomorrow.length){
+
+box.innerHTML +=
+'<div class="day">明日</div>';
+
+tomorrow.forEach(r=>{
+
+box.innerHTML += `
+
+<div class="card">
+
+<div class="gomi">
+${r.type}
+</div>
+
+<div class="desc">
+${r.desc}
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
 }
 
 function searchKeyword(){
-  const keyword=document.getElementById('keyword').value.trim();
-  const result=document.getElementById('keywordResult');
-  result.innerHTML='';
 
-  const filtered=rows.filter(r=>
-    r.type.includes(keyword) ||
-    r.desc.includes(keyword) ||
-    r.keyword.includes(keyword) ||
-    (keyword.includes('電池')&&(r.type.includes('有害')||r.desc.includes('電池')))
-  );
+const keyword =
+document
+.getElementById('keyword')
+.value
+.trim();
 
-  if(filtered.length===0){
-    result.innerHTML='<div class="card">見つかりません</div>';
-    return;
-  }
+const result =
+document
+.getElementById('keywordResult');
 
-  renderRows(filtered,'keywordResult');
+result.innerHTML='';
+
+const filtered =
+rows.filter(r=>
+
+r.type.includes(keyword)
+||
+r.desc.includes(keyword)
+||
+r.keyword.includes(keyword)
+
+||
+(
+keyword.includes('電池')
+&&
+(
+r.type.includes('有害')
+||
+r.desc.includes('電池')
+)
+)
+
+);
+
+if(filtered.length===0){
+
+result.innerHTML =
+'<div class="card">見つかりません</div>';
+
+return;
+
 }
+
+renderRows(filtered,'keywordResult');
+
+}
+
+window.onload = function(){
+
+if(
+localStorage.getItem('gomiCity')
+&&
+localStorage.getItem('gomiArea')
+){
+
+navigator.geolocation.getCurrentPosition(
+
+function(position){
+
+loadSavedArea();
+
+},
+
+function(){
+
+loadSavedArea();
+
+}
+
+);
+
+}
+
+};
+
 </script>
 
 </body>
