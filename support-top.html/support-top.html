@@ -4,15 +4,309 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>支援者トップ</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:16px;
+}
+
+.title{
+
+font-size:32px;
+
+font-weight:900;
+
+margin-bottom:20px;
+
+color:#fb8c00;
+
+}
+
+.card{
+
+background:white;
+
+border-radius:24px;
+
+padding:20px;
+
+margin-bottom:18px;
+
+box-shadow:
+0 6px 16px rgba(0,0,0,.08);
+
+}
+
+.name{
+
+font-size:30px;
+
+font-weight:900;
+
+color:#1976d2;
+
+margin-bottom:10px;
+
+}
+
+.area{
+
+font-size:20px;
+
+font-weight:900;
+
+color:#666;
+
+margin-bottom:12px;
+
+}
+
+.status{
+
+font-size:22px;
+
+font-weight:900;
+
+margin-bottom:18px;
+
+}
+
+.openBtn{
+
+width:100%;
+
+background:#fb8c00;
+
+border:none;
+
+border-radius:20px;
+
+padding:20px;
+
+font-size:28px;
+
+font-weight:900;
+
+color:white;
+
+}
+
+.empty{
+
+background:white;
+
+border-radius:24px;
+
+padding:28px;
+
+font-size:24px;
+
+font-weight:900;
+
+text-align:center;
+
+color:#7d8b99;
+
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>
+<div class="wrap">
+
+<div class="title">
 
 支援者トップ
 
-</h1>
+</div>
+
+<div id="listBox">
+
+<div class="empty">
+
+読み込み中...
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+function cell(c){
+
+return c
+? String(c.v ?? c.f ?? '').trim()
+: '';
+
+}
+
+window.watchLogs=[];
+
+function receiveLogs(json){
+
+const rows =
+json.table.rows || [];
+
+window.watchLogs =
+rows.map(r=>{
+
+const c =
+r.c || [];
+
+return{
+
+name:cell(c[1])
+
+};
+
+});
+
+loadTargets();
+
+}
+
+function loadTargets(){
+
+window.google.visualization.Query.setResponse =
+receiveTargets;
+
+const s2 =
+document.createElement('script');
+
+s2.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID
++ '/gviz/tq?sheet='
++ encodeURIComponent('見守り対象')
++ '&tqx=out:json';
+
+document.body.appendChild(s2);
+
+}
+
+function receiveTargets(json){
+
+const rows =
+json.table.rows || [];
+
+const targets =
+rows.map(r=>{
+
+const c =
+r.c || [];
+
+return{
+
+name:cell(c[0]),
+area:cell(c[1]),
+status:cell(c[2]),
+note:cell(c[3])
+
+};
+
+});
+
+const checkedNames =
+window.watchLogs.map(
+l=>l.name
+);
+
+const box =
+document.getElementById(
+'listBox'
+);
+
+box.innerHTML='';
+
+targets.forEach(t=>{
+
+const checked =
+checkedNames.includes(t.name);
+
+box.innerHTML += `
+
+<div class="card">
+
+<div class="name">
+
+${t.name}
+
+</div>
+
+<div class="area">
+
+${t.area}
+
+</div>
+
+<div class="status">
+
+${checked
+? '✅ 今日確認あり'
+: '🚨 今日未確認'}
+
+</div>
+
+<button
+class="openBtn"
+onclick="location.href='../../person.html?name=${encodeURIComponent(t.name)}'">
+
+開く
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.google={
+visualization:{
+Query:{
+setResponse:receiveLogs
+}
+}
+};
+
+const s =
+document.createElement('script');
+
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID
++ '/gviz/tq?sheet='
++ encodeURIComponent('見守り記録')
++ '&tqx=out:json';
+
+document.body.appendChild(s);
+
+</script>
 
 </body>
 </html>
