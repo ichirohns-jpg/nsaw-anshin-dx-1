@@ -53,6 +53,18 @@ color:#fb8c00;
 
 }
 
+.subTitle{
+
+font-size:30px;
+
+font-weight:900;
+
+margin-bottom:18px;
+
+color:#546e7a;
+
+}
+
 label{
 
 display:block;
@@ -266,6 +278,51 @@ margin-top:20px;
 
 }
 
+.logCard{
+
+background:white;
+
+border-radius:30px;
+
+padding:24px;
+
+margin-bottom:24px;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.logEmoji{
+
+font-size:54px;
+
+margin-bottom:12px;
+
+}
+
+.logText{
+
+font-size:34px;
+
+font-weight:900;
+
+line-height:1.4;
+
+margin-bottom:10px;
+
+}
+
+.logDate{
+
+font-size:24px;
+
+font-weight:900;
+
+color:#666;
+
+}
+
 </style>
 </head>
 
@@ -326,8 +383,38 @@ id="message">
 
 </div>
 
+<div class="card">
+
+<div class="subTitle">
+
+予定一覧
+
+</div>
+
 <div
 id="scheduleList">
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="subTitle">
+
+見守り履歴
+
+</div>
+
+<div id="logList">
+
+<div class="empty">
+
+まだ履歴はありません
+
+</div>
+
+</div>
 
 </div>
 
@@ -532,9 +619,75 @@ renderSchedule();
 
 }
 
+function renderLogs(){
+
+let logs =
+JSON.parse(
+localStorage.getItem(
+'watchLogs'
+) || '[]'
+);
+
+const box =
+document.getElementById(
+'logList'
+);
+
+if(logs.length===0){
+
+box.innerHTML=`
+
+<div class="empty">
+
+まだ履歴はありません
+
+</div>
+
+`;
+
+return;
+
+}
+
+box.innerHTML='';
+
+logs.reverse().forEach(log=>{
+
+box.innerHTML += `
+
+<div class="logCard">
+
+<div class="logEmoji">
+
+${log.emoji}
+
+</div>
+
+<div class="logText">
+
+${log.text}
+
+</div>
+
+<div class="logDate">
+
+${log.date}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
 window.onload=function(){
 
 renderSchedule();
+
+renderLogs();
 
 };
 
