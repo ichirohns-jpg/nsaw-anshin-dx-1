@@ -6,760 +6,257 @@
 <title>朝の地域トップページ</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-background:#edf3f8;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#222;
-}
-
-.header{
-background:
-linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.18)),
-url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop');
-background-size:cover;
-background-position:center;
-padding:20px 12px 16px;
-text-align:center;
-color:white;
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
-}
-
-.headerTitle{
-font-size:22px;
-font-weight:900;
-}
-
-.headerSub{
-font-size:12px;
-margin-top:4px;
-opacity:.9;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:10px;
-}
-
-.box{
-background:white;
-border-radius:18px;
-padding:12px;
-margin-bottom:12px;
-box-shadow:0 3px 10px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:18px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.todayCard{
-background:
-linear-gradient(135deg,#43a047,#66bb6a);
-color:white;
-padding:16px;
-border-radius:18px;
-margin-bottom:10px;
-}
-
-.todayLabel{
-font-size:14px;
-font-weight:700;
-margin-bottom:4px;
-}
-
-.todayGomi{
-font-size:28px;
-font-weight:900;
-line-height:1.3;
-}
-
-.tomorrowCard{
-background:#f5f8fc;
-padding:12px;
-border-radius:14px;
-margin-top:8px;
-}
-
-.tomorrowLabel{
-font-size:13px;
-font-weight:700;
-margin-bottom:4px;
-color:#666;
-}
-
-.tomorrowGomi{
-font-size:20px;
-font-weight:900;
-}
-
-button{
-width:100%;
-padding:14px;
-font-size:19px;
-font-weight:900;
-border:none;
-border-radius:14px;
-color:white;
-margin-bottom:8px;
-}
-
-.areaBtn{
-background:#1976d2;
-}
-
-.videoBtn{
-background:#8e24aa;
-}
-
-.calendarBtn{
-background:#00897b;
-}
-
-.musicBtn{
-background:#5e35b1;
-}
-
-.settingBtn{
-background:#546e7a;
-}
-
-.greenBtn{
-background:#43a047;
-}
-
-.orangeBtn{
-background:#fb8c00;
-}
-
-.redBtn{
-background:#e53935;
-}
-
-.smallBtn{
-padding:10px;
-font-size:15px;
-border-radius:12px;
-}
-
-.status{
-font-size:12px;
-background:#fff3cd;
-padding:6px;
-border-radius:8px;
-margin-bottom:10px;
-}
-
-.card{
-background:#fafcff;
-border-radius:14px;
-padding:12px;
-margin-top:8px;
-}
-
-.scheduleItem{
-padding:8px 0;
-border-bottom:1px solid #ddd;
-}
-
-.scheduleItem:last-child{
-border-bottom:none;
-}
-
-.scheduleDate{
-font-size:13px;
-font-weight:700;
-color:#666;
-}
-
-.scheduleTime{
-font-size:20px;
-font-weight:900;
-margin-top:2px;
-}
-
-.scheduleTitle{
-font-size:16px;
-margin-top:2px;
-}
-
-.qrText{
-font-size:14px;
-line-height:1.6;
-margin-top:6px;
-color:#555;
-}
-
-select{
-width:100%;
-padding:10px;
-font-size:16px;
-border-radius:12px;
-border:1px solid #ccc;
-margin-bottom:8px;
-background:white;
-}
-
-.weekBox{
-margin-top:10px;
-background:#fafcff;
-border-radius:14px;
-padding:10px;
-}
-
-.weekItem{
-padding:6px 0;
-border-bottom:1px solid #e5e5e5;
-}
-
-.weekItem:last-child{
-border-bottom:none;
-}
-
-.weekDay{
-font-size:13px;
-font-weight:900;
-color:#2e7d32;
-}
-
-.weekGomi{
-font-size:18px;
-font-weight:900;
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#edf3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
+.header{background:linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.18)),url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop');background-size:cover;background-position:center;padding:20px 12px 16px;text-align:center;color:white;border-bottom-left-radius:20px;border-bottom-right-radius:20px}
+.headerTitle{font-size:22px;font-weight:900}
+.headerSub{font-size:12px;margin-top:4px;opacity:.9}
+.wrap{max-width:760px;margin:auto;padding:10px}
+.box{background:white;border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.title{font-size:18px;font-weight:900;margin-bottom:8px}
+.todayCard{background:linear-gradient(135deg,#43a047,#66bb6a);color:white;padding:16px;border-radius:18px;margin-bottom:10px}
+.todayLabel{font-size:14px;font-weight:700;margin-bottom:4px}
+.todayGomi{font-size:28px;font-weight:900;line-height:1.3}
+.tomorrowCard{background:#f5f8fc;padding:12px;border-radius:14px;margin-top:8px}
+.tomorrowLabel{font-size:13px;font-weight:700;margin-bottom:4px;color:#666}
+.tomorrowGomi{font-size:20px;font-weight:900}
+button{width:100%;padding:14px;font-size:19px;font-weight:900;border:none;border-radius:14px;color:white;margin-bottom:8px}
+.areaBtn{background:#1976d2}
+.videoBtn{background:#8e24aa}
+.calendarBtn{background:#00897b}
+.musicBtn{background:#5e35b1}
+.settingBtn{background:#546e7a}
+.greenBtn{background:#43a047}
+.orangeBtn{background:#fb8c00}
+.redBtn{background:#e53935}
+.smallBtn{padding:10px;font-size:15px;border-radius:12px}
+.status{font-size:12px;background:#fff3cd;padding:6px;border-radius:8px;margin-bottom:10px}
+.card{background:#fafcff;border-radius:14px;padding:12px;margin-top:8px}
+.scheduleItem{padding:8px 0;border-bottom:1px solid #ddd}
+.scheduleItem:last-child{border-bottom:none}
+.scheduleDate{font-size:13px;font-weight:700;color:#666}
+.scheduleTime{font-size:20px;font-weight:900;margin-top:2px}
+.scheduleTitle{font-size:16px;margin-top:2px}
+.qrText{font-size:14px;line-height:1.6;margin-top:6px;color:#555}
+select{width:100%;padding:10px;font-size:16px;border-radius:12px;border:1px solid #ccc;margin-bottom:8px;background:white}
+.weekBox{margin-top:10px;background:#fafcff;border-radius:14px;padding:10px}
+.weekItem{padding:6px 0;border-bottom:1px solid #e5e5e5}
+.weekItem:last-child{border-bottom:none}
+.weekDay{font-size:13px;font-weight:900;color:#2e7d32}
+.weekGomi{font-size:18px;font-weight:900}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-
-<div class="headerTitle">
-おはようございます
-</div>
-
-<div class="headerSub">
-今日の地域情報
-</div>
-
+<div class="headerTitle">おはようございます</div>
+<div class="headerSub">今日の地域情報</div>
 </div>
 
 <div class="wrap">
 
-<div id="status" class="status">
-シート読み込み中...
+<div id="status" class="status">シート読み込み中...</div>
+
+<div class="box">
+<div class="title">今日のごみ</div>
+<div id="morning">地域を設定してください</div>
 </div>
 
 <div class="box">
+<button class="videoBtn" onclick="alert('あとで動画ページへ接続')">🎥 今日の3分動画</button>
+<button class="calendarBtn" onclick="toggleSchedule()">📅 今日の予定</button>
 
-<div class="title">
-今日のごみ
-</div>
-
-<div id="morning">
-地域を設定してください
-</div>
-
-</div>
-
-<div class="box">
-
-<button
-class="videoBtn"
-onclick="alert('あとで動画ページへ接続')">
-
-🎥 今日の3分動画
-
-</button>
-
-<button
-class="calendarBtn"
-onclick="toggleSchedule()">
-
-📅 今日の予定
-
-</button>
-
-<div
-id="scheduleBox"
-style="display:none;">
-
+<div id="scheduleBox" style="display:none;">
 <div class="card">
-
-<div
-id="scheduleList">
-
-まだ予定はありません
-
+<div id="scheduleList">まだ予定はありません</div>
+<button class="greenBtn smallBtn" onclick="addSchedule()">＋ 予定を追加</button>
+</div>
 </div>
 
-<button
-class="greenBtn smallBtn"
-onclick="addSchedule()">
-
-＋ 予定を追加
-
-</button>
-
-</div>
-
-</div>
-
-<button
-class="areaBtn"
-onclick="location.href='news.html'">
-
-📰 瓦版
-
-</button>
-
-<button
-class="musicBtn"
-onclick="alert('あとでドラマ・音楽ページ接続')">
-
-🎵 ドラマ・音楽
-
-</button>
-
+<button class="areaBtn" onclick="location.href='news.html'">📰 瓦版</button>
+<button class="musicBtn" onclick="alert('あとでドラマ・音楽ページ接続')">🎵 ドラマ・音楽</button>
+<button class="settingBtn" onclick="location.href='support.html'">👥 支援者ページ</button>
 </div>
 
 <div class="box">
+<div class="title">薬・見守り</div>
 
-<div class="title">
-薬・見守り
-</div>
+<button class="areaBtn smallBtn" onclick="sendMedicine('朝の薬を飲みました')">🌞 朝の薬を飲みました</button>
+<button class="areaBtn smallBtn" onclick="sendMedicine('昼の薬を飲みました')">☀ 昼の薬を飲みました</button>
+<button class="areaBtn smallBtn" onclick="sendMedicine('夜の薬を飲みました')">🌙 夜の薬を飲みました</button>
+<button class="redBtn smallBtn" onclick="sendMedicine('今日は薬を飲んでいません')">💊 今日は薬を飲んでいません</button>
 
-<button
-class="areaBtn smallBtn"
-onclick="sendMedicine('朝の薬を飲みました')">
-
-🌞 朝の薬を飲みました
-
-</button>
-
-<button
-class="areaBtn smallBtn"
-onclick="sendMedicine('昼の薬を飲みました')">
-
-☀ 昼の薬を飲みました
-
-</button>
-
-<button
-class="areaBtn smallBtn"
-onclick="sendMedicine('夜の薬を飲みました')">
-
-🌙 夜の薬を飲みました
-
-</button>
-
-<button
-class="redBtn smallBtn"
-onclick="sendMedicine('今日は薬を飲んでいません')">
-
-💊 今日は薬を飲んでいません
-
-</button>
-
-<button
-class="greenBtn"
-onclick="sendStatus('元気です','😊')">
-
-😊 元気です
-
-</button>
-
-<button
-class="orangeBtn"
-onclick="sendStatus('少し困っています','😓')">
-
-😓 少し困っています
-
-</button>
-
-<button
-class="redBtn"
-onclick="sendStatus('助けてください','🚨')">
-
-🚨 助けてください
-
-</button>
+<button class="greenBtn" onclick="sendStatus('元気です','😊')">😊 元気です</button>
+<button class="orangeBtn" onclick="sendStatus('少し困っています','😓')">😓 少し困っています</button>
+<button class="redBtn" onclick="sendStatus('助けてください','🚨')">🚨 助けてください</button>
 
 <div class="qrText">
-
-このQRコードを、
-家族・地域包括・ケアマネ・
-見守りの人が読み込んで使います。
-
+このQRコードを、家族・地域包括・ケアマネ・見守りの人が読み込んで使います。
 </div>
 
 <div id="qrArea"></div>
-
 </div>
 
 <div class="box">
+<button class="settingBtn smallBtn" onclick="toggleAreaBox()">⚙ 地域変更</button>
 
-<button
-class="settingBtn smallBtn"
-onclick="toggleAreaBox()">
+<div id="areaBox" style="display:none;">
 
-⚙ 地域変更
-
-</button>
-
-<div
-id="areaBox"
-style="display:none;">
-
-<select
-id="city"
-onchange="makeAreaButtons()">
-
-<option value="">
-市を選択
-</option>
-
+<select id="city" onchange="makeAreaButtons()">
+<option value="">市を選択</option>
 <option>志木市</option>
 <option>朝霞市</option>
 <option>新座市</option>
 <option>和光市</option>
-
 </select>
 
 <div id="areaButtons"></div>
-
 </div>
-
 </div>
 
 </div>
 
 <script>
-
 const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
 const SHEET_NAME='ゴミ';
-
 const GAS_URL='https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
 
 let rows=[];
 
 function cell(c){
-
-return c
-? String(c.v ?? c.f ?? '').trim()
-: '';
-
+return c ? String(c.v ?? c.f ?? '').trim() : '';
 }
 
 function receiveSheet(json){
-
 const table=json.table.rows || [];
 
 rows=table.map(r=>{
-
 const c=r.c || [];
-
 return{
-
 city:cell(c[0]),
 area:cell(c[1]),
 day:cell(c[2]),
 type:cell(c[3]),
 desc:cell(c[4])
-
 };
-
 });
 
 document.getElementById('status').innerHTML='読み込み成功';
-
 autoMorning();
-
 }
 
-window.google={
-visualization:{
-Query:{
-setResponse:receiveSheet
-}
-}
-};
+window.google={visualization:{Query:{setResponse:receiveSheet}}};
 
 const s=document.createElement('script');
-
-s.src=
-'https://docs.google.com/spreadsheets/d/'
-+ SHEET_ID
-+ '/gviz/tq?sheet='
-+ encodeURIComponent(SHEET_NAME)
-+ '&tqx=out:json';
-
+s.src='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?sheet='+encodeURIComponent(SHEET_NAME)+'&tqx=out:json';
 document.body.appendChild(s);
 
 function todayJapanese(offset=0){
-
 const d=new Date();
-
 d.setDate(d.getDate()+offset);
-
-return[
-'日','月','火','水','木','金','土'
-][d.getDay()];
-
+return['日','月','火','水','木','金','土'][d.getDay()];
 }
 
 function matchDay(dayText,offset=0){
-
 const today=todayJapanese(offset);
-
 if(!dayText)return false;
-
 if(dayText===today)return true;
-
 return dayText.includes(today);
-
 }
 
 function autoMorning(){
-
-const city=
-localStorage.getItem('gomiCity');
-
-const area=
-localStorage.getItem('gomiArea');
-
-const box=
-document.getElementById('morning');
+const city=localStorage.getItem('gomiCity');
+const area=localStorage.getItem('gomiArea');
+const box=document.getElementById('morning');
 
 if(!city || !area){
-
 box.innerHTML='地域を設定してください';
-
 return;
-
 }
 
-const today=
-rows.filter(r=>
-r.city===city &&
-r.area===area &&
-matchDay(r.day,0)
-);
+const today=rows.filter(r=>r.city===city && r.area===area && matchDay(r.day,0));
+const tomorrow=rows.filter(r=>r.city===city && r.area===area && matchDay(r.day,1));
 
-const tomorrow=
-rows.filter(r=>
-r.city===city &&
-r.area===area &&
-matchDay(r.day,1)
-);
-
-box.innerHTML=
-'<div style="font-size:16px;font-weight:900;margin-bottom:6px;">'
-+ city + ' ' + area +
-'</div>';
+box.innerHTML='<div style="font-size:16px;font-weight:900;margin-bottom:6px;">'+city+' '+area+'</div>';
 
 if(today.length){
-
 box.innerHTML+='<div class="todayCard"><div class="todayLabel">今日</div>';
-
 today.forEach(r=>{
-
 box.innerHTML+='<div class="todayGomi">'+r.type+'</div>';
-
 });
-
 box.innerHTML+='</div>';
-
 }
 
 if(tomorrow.length){
-
 box.innerHTML+='<div class="tomorrowCard"><div class="tomorrowLabel">明日</div>';
-
 tomorrow.forEach(r=>{
-
 box.innerHTML+='<div class="tomorrowGomi">'+r.type+'</div>';
-
 });
-
 box.innerHTML+='</div>';
-
 }
 
 box.innerHTML+=`
-
-<button
-class="areaBtn smallBtn"
-onclick="toggleWeek()">
-
-▼ 今週を見る
-
-</button>
-
-<div
-id="weekArea"
-style="display:none"
-class="weekBox">
-
+<button class="areaBtn smallBtn" onclick="toggleWeek()">▼ 今週を見る</button>
+<div id="weekArea" style="display:none" class="weekBox">
 `;
 
-rows
-.filter(r=>
-r.city===city &&
-r.area===area
-)
-.forEach(r=>{
-
+rows.filter(r=>r.city===city && r.area===area).forEach(r=>{
 box.innerHTML+=`
-
 <div class="weekItem">
-
-<div class="weekDay">
-
-${r.day}
-
+<div class="weekDay">${r.day}</div>
+<div class="weekGomi">${r.type}</div>
 </div>
-
-<div class="weekGomi">
-
-${r.type}
-
-</div>
-
-</div>
-
 `;
-
 });
 
 box.innerHTML+='</div>';
-
 }
 
 function toggleWeek(){
-
-const box=
-document.getElementById('weekArea');
-
-box.style.display=
-box.style.display==='none'
-? 'block'
-: 'none';
-
+const box=document.getElementById('weekArea');
+box.style.display=box.style.display==='none'?'block':'none';
 }
 
 function toggleSchedule(){
-
-const box=
-document.getElementById('scheduleBox');
-
-box.style.display=
-box.style.display==='none'
-? 'block'
-: 'none';
-
+const box=document.getElementById('scheduleBox');
+box.style.display=box.style.display==='none'?'block':'none';
 }
 
 function renderSchedule(){
-
-let list=
-JSON.parse(
-localStorage.getItem('todayScheduleList')
-|| '[]'
-);
-
-const box=
-document.getElementById('scheduleList');
+let list=JSON.parse(localStorage.getItem('todayScheduleList') || '[]');
+const box=document.getElementById('scheduleList');
 
 if(list.length===0){
-
-box.innerHTML=
-'まだ予定はありません';
-
+box.innerHTML='まだ予定はありません';
 return;
-
 }
 
 box.innerHTML='';
 
 list.forEach((item,index)=>{
-
 box.innerHTML+=`
-
 <div class="scheduleItem">
-
-<div class="scheduleDate">
-
-${item.date}
-
+<div class="scheduleDate">${item.date}</div>
+<div class="scheduleTime">${item.time}</div>
+<div class="scheduleTitle">${item.title}</div>
+<button class="redBtn smallBtn" onclick="deleteSchedule(${index})">削除</button>
 </div>
-
-<div class="scheduleTime">
-
-${item.time}
-
-</div>
-
-<div class="scheduleTitle">
-
-${item.title}
-
-</div>
-
-<button
-class="redBtn smallBtn"
-onclick="deleteSchedule(${index})">
-
-削除
-
-</button>
-
-</div>
-
 `;
-
 });
-
 }
 
 function addSchedule(){
-
-const date=
-prompt(
-'日付を入力\n例：2026/05/30'
-);
-
+const date=prompt('日付を入力\n例：2026/05/30');
 if(!date)return;
 
-const time=
-prompt(
-'時間を入力\n例：15:00'
-);
-
+const time=prompt('時間を入力\n例：15:00');
 if(!time)return;
 
-const title=
-prompt(
-'予定を入力\n例：病院'
-);
-
+const title=prompt('予定を入力\n例：病院');
 if(!title)return;
 
-let list=
-JSON.parse(
-localStorage.getItem('todayScheduleList')
-|| '[]'
-);
+let list=JSON.parse(localStorage.getItem('todayScheduleList') || '[]');
 
 list.push({
 date:date,
@@ -767,288 +264,131 @@ time:time,
 title:title
 });
 
-localStorage.setItem(
-'todayScheduleList',
-JSON.stringify(list)
-);
+localStorage.setItem('todayScheduleList',JSON.stringify(list));
 
-const params=
-new URLSearchParams(location.search);
+const params=new URLSearchParams(location.search);
+const name=params.get('name') || '利用者';
 
-const name=
-params.get('name') || '利用者';
-
-const url=
-GAS_URL
-+
-'?mode=calendar'
-+
-'&name=' + encodeURIComponent(name)
-+
-'&date=' + encodeURIComponent(date)
-+
-'&time=' + encodeURIComponent(time)
-+
+const url=GAS_URL+
+'?mode=calendar'+
+'&name=' + encodeURIComponent(name)+
+'&date=' + encodeURIComponent(date)+
+'&time=' + encodeURIComponent(time)+
 '&title=' + encodeURIComponent(title);
 
 fetch(url);
-
 renderSchedule();
-
 }
 
 function deleteSchedule(index){
-
-let list=
-JSON.parse(
-localStorage.getItem('todayScheduleList')
-|| '[]'
-);
-
+let list=JSON.parse(localStorage.getItem('todayScheduleList') || '[]');
 list.splice(index,1);
-
-localStorage.setItem(
-'todayScheduleList',
-JSON.stringify(list)
-);
-
+localStorage.setItem('todayScheduleList',JSON.stringify(list));
 renderSchedule();
-
 }
 
 function toggleAreaBox(){
-
-const box=
-document.getElementById('areaBox');
-
-box.style.display=
-box.style.display==='none'
-? 'block'
-: 'none';
-
+const box=document.getElementById('areaBox');
+box.style.display=box.style.display==='none'?'block':'none';
 }
 
 function makeAreaButtons(){
-
-const city=
-document.getElementById('city').value;
-
-const box=
-document.getElementById('areaButtons');
-
+const city=document.getElementById('city').value;
+const box=document.getElementById('areaButtons');
 box.innerHTML='';
 
-const areas=[
-...new Set(
-rows
-.filter(r=>r.city===city)
-.map(r=>r.area)
-)
-]
-.sort((a,b)=>
-a.localeCompare(b,'ja')
-);
+const areas=[...new Set(rows.filter(r=>r.city===city).map(r=>r.area))]
+.sort((a,b)=>a.localeCompare(b,'ja'));
 
 areas.forEach(area=>{
-
 box.innerHTML+=`
-
-<button
-class="areaBtn smallBtn"
-onclick="saveArea('${city}','${area}')">
-
-${area}
-
-</button>
-
+<button class="areaBtn smallBtn" onclick="saveArea('${city}','${area}')">${area}</button>
 `;
-
 });
-
 }
 
 function saveArea(city,area){
-
-localStorage.setItem(
-'gomiCity',
-city
-);
-
-localStorage.setItem(
-'gomiArea',
-area
-);
-
+localStorage.setItem('gomiCity',city);
+localStorage.setItem('gomiArea',area);
 alert('保存しました');
-
 location.reload();
-
 }
 
 function sendMedicine(text){
+const params=new URLSearchParams(location.search);
+const name=params.get('name') || '利用者';
+const city=localStorage.getItem('gomiCity') || '';
+const area=localStorage.getItem('gomiArea') || '';
 
-const params=
-new URLSearchParams(location.search);
-
-const name=
-params.get('name') || '利用者';
-
-const city=
-localStorage.getItem('gomiCity') || '';
-
-const area=
-localStorage.getItem('gomiArea') || '';
-
-const url=
-GAS_URL
-+
-'?mode=save'
-+
-'&name=' + encodeURIComponent(name)
-+
-'&status=' + encodeURIComponent(text)
-+
-'&emoji=' + encodeURIComponent('💊')
-+
+const url=GAS_URL+
+'?mode=save'+
+'&name=' + encodeURIComponent(name)+
+'&status=' + encodeURIComponent(text)+
+'&emoji=' + encodeURIComponent('💊')+
 '&area=' + encodeURIComponent(city+' '+area);
 
 fetch(url)
 .then(r=>r.text())
 .then(data=>{
-
 alert('薬を記録しました');
-
 });
-
 }
 
 function sendStatus(status,emoji){
+const params=new URLSearchParams(location.search);
+const name=params.get('name') || '利用者';
+const city=localStorage.getItem('gomiCity') || '';
+const area=localStorage.getItem('gomiArea') || '';
+const gps=localStorage.getItem('gps') || '';
 
-const params=
-new URLSearchParams(location.search);
-
-const name=
-params.get('name') || '利用者';
-
-const city=
-localStorage.getItem('gomiCity') || '';
-
-const area=
-localStorage.getItem('gomiArea') || '';
-
-const gps=
-localStorage.getItem('gps') || '';
-
-const url=
-GAS_URL
-+
-'?mode=save'
-+
-'&name=' + encodeURIComponent(name)
-+
-'&status=' + encodeURIComponent(status)
-+
-'&emoji=' + encodeURIComponent(emoji)
-+
-'&area=' + encodeURIComponent(city+' '+area)
-+
+const url=GAS_URL+
+'?mode=save'+
+'&name=' + encodeURIComponent(name)+
+'&status=' + encodeURIComponent(status)+
+'&emoji=' + encodeURIComponent(emoji)+
+'&area=' + encodeURIComponent(city+' '+area)+
 '&gps=' + encodeURIComponent(gps);
 
 fetch(url)
 .then(r=>r.text())
 .then(data=>{
-
 alert('記録しました');
-
 });
-
 }
 
 function createQR(){
+const params=new URLSearchParams(location.search);
+const name=params.get('name') || '利用者';
 
-const params=
-new URLSearchParams(location.search);
-
-const name=
-params.get('name') || '利用者';
-
-const url=
-location.origin
-+
-location.pathname
-+
-'?name='
-+
-encodeURIComponent(name);
+const url=location.origin+location.pathname+'?name='+encodeURIComponent(name);
 
 document.getElementById('qrArea').innerHTML=`
-
-<div style="
-margin-top:14px;
-text-align:center;
-">
-
+<div style="margin-top:14px;text-align:center;">
 <img
 src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encodeURIComponent(url)}"
-style="
-width:170px;
-border-radius:16px;
-background:white;
-padding:10px;
-">
-
-<div style="
-margin-top:6px;
-font-size:15px;
-font-weight:900;
-">
-
+style="width:170px;border-radius:16px;background:white;padding:10px;">
+<div style="margin-top:6px;font-size:15px;font-weight:900;">
 ${name}さん用QR
-
 </div>
-
 </div>
-
 `;
-
 }
 
 window.onload=function(){
-
 createQR();
-
 renderSchedule();
 
 navigator.geolocation.getCurrentPosition(
-
 function(position){
-
-const gps=
-position.coords.latitude
-+
-','
-+
-position.coords.longitude;
-
-localStorage.setItem(
-'gps',
-gps
-);
-
+const gps=position.coords.latitude+','+position.coords.longitude;
+localStorage.setItem('gps',gps);
 autoMorning();
-
 },
-
 function(){
-
 autoMorning();
-
 }
-
 );
-
 };
-
 </script>
 
 </body>
