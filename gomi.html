@@ -41,6 +41,18 @@ box-shadow:
 
 }
 
+.city{
+
+font-size:22px;
+
+font-weight:900;
+
+color:#666;
+
+margin-bottom:10px;
+
+}
+
 .title{
 
 font-size:30px;
@@ -181,6 +193,14 @@ color:#43a047;
 
 <div class="card">
 
+<div
+class="city"
+id="cityName">
+
+地域未設定
+
+</div>
+
 <div class="title">
 
 今日のごみ
@@ -193,7 +213,9 @@ color:#43a047;
 
 </div>
 
-<div class="gomi" id="todayGomi">
+<div
+class="gomi"
+id="todayGomi">
 
 燃えるごみ
 
@@ -209,7 +231,9 @@ color:#43a047;
 
 </div>
 
-<div class="gomi" id="tomorrowGomi">
+<div
+class="gomi"
+id="tomorrowGomi">
 
 資源ごみ
 
@@ -257,6 +281,65 @@ onclick="location.href='garbage.html'">
 </div>
 
 <script>
+
+const city =
+localStorage.getItem(
+'gomiCity'
+) || '';
+
+const area =
+localStorage.getItem(
+'gomiArea'
+) || '';
+
+document
+.getElementById('cityName')
+.innerHTML =
+city + ' ' + area;
+
+const todayBox =
+document.getElementById(
+'todayGomi'
+);
+
+const tomorrowBox =
+document.getElementById(
+'tomorrowGomi'
+);
+
+if(city==='志木市'){
+
+if(area==='本町'){
+
+todayBox.innerHTML =
+'燃えるごみ';
+
+tomorrowBox.innerHTML =
+'資源ごみ';
+
+}
+
+if(area==='館'){
+
+todayBox.innerHTML =
+'資源ごみ';
+
+tomorrowBox.innerHTML =
+'燃えるごみ';
+
+}
+
+if(area==='柏町'){
+
+todayBox.innerHTML =
+'燃えないごみ';
+
+tomorrowBox.innerHTML =
+'燃えるごみ';
+
+}
+
+}
 
 function toggleWeek(){
 
