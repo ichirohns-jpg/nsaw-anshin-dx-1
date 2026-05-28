@@ -217,7 +217,7 @@ id="cityName">
 class="gomi"
 id="todayGomi">
 
-燃えるごみ
+読み込み中...
 
 </div>
 
@@ -235,7 +235,7 @@ id="todayGomi">
 class="gomi"
 id="tomorrowGomi">
 
-資源ごみ
+読み込み中...
 
 </div>
 
@@ -253,21 +253,6 @@ onclick="toggleWeek()">
 class="weekBox"
 id="weekBox">
 
-<div class="weekItem">
-<div class="weekDay">月曜日</div>
-<div class="weekGomi">燃えるごみ</div>
-</div>
-
-<div class="weekItem">
-<div class="weekDay">火曜日</div>
-<div class="weekGomi">資源ごみ</div>
-</div>
-
-<div class="weekItem">
-<div class="weekDay">水曜日</div>
-<div class="weekGomi">燃えないごみ</div>
-</div>
-
 </div>
 
 <button
@@ -281,6 +266,12 @@ onclick="location.href='garbage.html'">
 </div>
 
 <script>
+
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+const SHEET_NAME =
+'ゴミ';
 
 const city =
 localStorage.getItem(
@@ -297,49 +288,155 @@ document
 .innerHTML =
 city + ' ' + area;
 
-const todayBox =
-document.getElementById(
-'todayGomi'
+function cell(c){
+
+return c
+? String(c.v ?? c.f ?? '').trim()
+: '';
+
+}
+
+function todayJapanese(offset=0){
+
+const d =
+new Date();
+
+d.setDate(
+d.getDate()+offset
 );
 
-const tomorrowBox =
-document.getElementById(
-'tomorrowGomi'
+return[
+'日','月','火','水','木','金','土'
+][d.getDay()];
+
+}
+
+function matchDay(dayText,offset=0){
+
+const today =
+todayJapanese(offset);
+
+if(!dayText)
+return false;
+
+if(dayText===today)
+return true;
+
+return dayText.includes(today);
+
+}
+
+function receiveSheet(json){
+
+const rows =
+json.table.rows || [];
+
+const data =
+rows.map(r=>{
+
+const c =
+r.c || [];
+
+return{
+
+city:cell(c[0]),
+area:cell(c[1]),
+day:cell(c[2]),
+type:cell(c[3])
+
+};
+
+});
+
+const todayData =
+data.find(r=>
+r.city===city &&
+r.area===area &&
+matchDay(r.day,0)
 );
 
-if(city==='志木市'){
+const tomorrowData =
+data.find(r=>
+r.city===city &&
+r.area===area &&
+matchDay(r.day,1)
+);
 
-if(area==='本町'){
+if(todayData){
 
-todayBox.innerHTML =
-'燃えるごみ';
-
-tomorrowBox.innerHTML =
-'資源ごみ';
-
-}
-
-if(area==='館'){
-
-todayBox.innerHTML =
-'資源ごみ';
-
-tomorrowBox.innerHTML =
-'燃えるごみ';
+document
+.getElementById('todayGomi')
+.innerHTML =
+todayData.type;
 
 }
 
-if(area==='柏町'){
+if(tomorrowData){
 
-todayBox.innerHTML =
-'燃えないごみ';
+document
+.getElementById('tomorrowGomi')
+.innerHTML =
+tomorrowData.type;
 
-tomorrowBox.innerHTML =
-'燃えるごみ';
+}
+
+const weekBox =
+document.getElementById(
+'weekBox'
+);
+
+weekBox.innerHTML='';
+
+data
+.filter(r=>
+r.city===city &&
+r.area===area
+)
+.forEach(r=>{
+
+weekBox.innerHTML += `
+
+<div class="weekItem">
+
+<div class="weekDay">
+
+${r.day}
+
+</div>
+
+<div class="weekGomi">
+
+${r.type}
+
+</div>
+
+</div>
+
+`;
+
+});
 
 }
 
+window.google={
+visualization:{
+Query:{
+setResponse:receiveSheet
 }
+}
+};
+
+const s =
+document.createElement('script');
+
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID
++ '/gviz/tq?sheet='
++ encodeURIComponent(SHEET_NAME)
++ '&tqx=out:json';
+
+document.body.appendChild(s);
 
 function toggleWeek(){
 
