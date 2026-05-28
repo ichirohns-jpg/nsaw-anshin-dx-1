@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>今日のごみ</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+
+background:white;
+
+border-radius:30px;
+
+padding:24px;
+
+margin-bottom:24px;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.title{
+
+font-size:30px;
+
+font-weight:900;
+
+margin-bottom:18px;
+
+color:#43a047;
+
+}
+
+.day{
+
+font-size:24px;
+
+font-weight:900;
+
+color:#666;
+
+margin-bottom:10px;
+
+}
+
+.gomi{
+
+font-size:54px;
+
+font-weight:900;
+
+line-height:1.3;
+
+color:#43a047;
+
+}
+
+.weekBtn{
+
+width:100%;
+
+background:#1976d2;
+
+border:none;
+
+border-radius:28px;
+
+padding:28px;
+
+margin-bottom:24px;
+
+font-size:34px;
+
+font-weight:900;
+
+color:white;
+
+}
+
+.backBtn{
+
+width:100%;
+
+background:#546e7a;
+
+border:none;
+
+border-radius:28px;
+
+padding:28px;
+
+font-size:34px;
+
+font-weight:900;
+
+color:white;
+
+}
+
+.weekBox{
+
+display:none;
+
+background:white;
+
+border-radius:30px;
+
+padding:24px;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
+
+margin-bottom:24px;
+
+}
+
+.weekItem{
+
+padding:16px 0;
+
+border-bottom:1px solid #ddd;
+
+}
+
+.weekItem:last-child{
+
+border-bottom:none;
+
+}
+
+.weekDay{
+
+font-size:26px;
+
+font-weight:900;
+
+color:#666;
+
+margin-bottom:6px;
+
+}
+
+.weekGomi{
+
+font-size:42px;
+
+font-weight:900;
+
+color:#43a047;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+
+今日のごみ
+
+</div>
+
+<div class="day">
+
+今日
+
+</div>
+
+<div class="gomi" id="todayGomi">
+
+燃えるごみ
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="day">
+
+明日
+
+</div>
+
+<div class="gomi" id="tomorrowGomi">
+
+資源ごみ
+
+</div>
+
+</div>
+
+<button
+class="weekBtn"
+onclick="toggleWeek()">
+
+今週を見る
+
+</button>
+
+<div
+class="weekBox"
+id="weekBox">
+
+<div class="weekItem">
+<div class="weekDay">月曜日</div>
+<div class="weekGomi">燃えるごみ</div>
+</div>
+
+<div class="weekItem">
+<div class="weekDay">火曜日</div>
+<div class="weekGomi">資源ごみ</div>
+</div>
+
+<div class="weekItem">
+<div class="weekDay">水曜日</div>
+<div class="weekGomi">燃えないごみ</div>
+</div>
+
+</div>
+
+<button
+class="backBtn"
+onclick="location.href='garbage.html'">
+
+戻る
+
+</button>
+
+</div>
+
+<script>
+
+function toggleWeek(){
+
+const box =
+document.getElementById(
+'weekBox'
+);
+
+box.style.display =
+box.style.display==='block'
+? 'none'
+: 'block';
+
+}
+
+</script>
+
+</body>
+</html>
