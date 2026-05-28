@@ -214,6 +214,8 @@ id="personName">
 class="area"
 id="personArea">
 
+志木市
+
 </div>
 
 <div
@@ -256,7 +258,7 @@ onclick="openMed()">
 
 <button
 class="grayBtn"
-onclick="location.href='support-top.html'">
+onclick="location.href='support2.html'">
 
 一覧へ戻る
 
@@ -283,7 +285,7 @@ location.search
 );
 
 const targetName =
-params.get('name') || '名前なし';
+params.get('name') || '';
 
 document
 .getElementById('personName')
@@ -306,8 +308,7 @@ return{
 date:cell(c[0]),
 name:cell(c[1]),
 text:cell(c[2]),
-emoji:cell(c[3]),
-area:cell(c[4])
+emoji:cell(c[3])
 
 };
 
@@ -315,7 +316,7 @@ area:cell(c[4])
 
 const personLogs =
 logs.filter(
-l=>l.name===targetName
+l=>l.name.includes(targetName)
 );
 
 const latest =
@@ -324,14 +325,9 @@ personLogs[personLogs.length-1];
 if(latest){
 
 document
-.getElementById('personArea')
-.innerHTML =
-latest.area;
-
-document
 .getElementById('personStatus')
 .innerHTML =
-latest.emoji + ' ' + latest.text;
+latest.text;
 
 }else{
 
@@ -426,4 +422,7 @@ s.src =
 
 document.body.appendChild(s);
 
-</
+</script>
+
+</body>
+</html>
