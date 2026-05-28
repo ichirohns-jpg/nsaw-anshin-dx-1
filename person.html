@@ -4,15 +4,426 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>利用者ページ</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+
+background:white;
+
+border-radius:24px;
+
+padding:20px;
+
+margin-bottom:18px;
+
+box-shadow:
+0 6px 16px rgba(0,0,0,.08);
+
+}
+
+.name{
+
+font-size:32px;
+
+font-weight:900;
+
+color:#1976d2;
+
+margin-bottom:10px;
+
+}
+
+.area{
+
+font-size:20px;
+
+font-weight:900;
+
+color:#666;
+
+margin-bottom:12px;
+
+}
+
+.status{
+
+font-size:28px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+color:#43a047;
+
+}
+
+.subTitle{
+
+font-size:26px;
+
+font-weight:900;
+
+margin-bottom:16px;
+
+color:#546e7a;
+
+}
+
+.logCard{
+
+background:#fafcff;
+
+border-radius:20px;
+
+padding:16px;
+
+margin-bottom:14px;
+
+}
+
+.logEmoji{
+
+font-size:42px;
+
+margin-bottom:8px;
+
+}
+
+.logText{
+
+font-size:22px;
+
+font-weight:900;
+
+line-height:1.4;
+
+margin-bottom:8px;
+
+}
+
+.logDate{
+
+font-size:18px;
+
+font-weight:900;
+
+color:#666;
+
+}
+
+.orangeBtn{
+
+width:100%;
+
+background:#fb8c00;
+
+border:none;
+
+border-radius:20px;
+
+padding:22px;
+
+font-size:28px;
+
+font-weight:900;
+
+color:white;
+
+margin-bottom:16px;
+
+}
+
+.grayBtn{
+
+width:100%;
+
+background:#546e7a;
+
+border:none;
+
+border-radius:20px;
+
+padding:22px;
+
+font-size:28px;
+
+font-weight:900;
+
+color:white;
+
+margin-bottom:16px;
+
+}
+
+.empty{
+
+background:white;
+
+border-radius:24px;
+
+padding:28px;
+
+font-size:24px;
+
+font-weight:900;
+
+text-align:center;
+
+color:#7d8b99;
+
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>
+<div class="wrap">
 
-利用者ページ
+<div class="card">
 
-</h1>
+<div
+class="name"
+id="personName">
 
-</body>
-</html>
+読み込み中...
+
+</div>
+
+<div
+class="area"
+id="personArea">
+
+</div>
+
+<div
+class="status"
+id="personStatus">
+
+確認中...
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="subTitle">
+
+見守り履歴
+
+</div>
+
+<div id="logList">
+
+<div class="empty">
+
+読み込み中...
+
+</div>
+
+</div>
+
+</div>
+
+<button
+class="orangeBtn"
+onclick="openMed()">
+
+薬・見守りページ
+
+</button>
+
+<button
+class="grayBtn"
+onclick="location.href='support-top.html'">
+
+一覧へ戻る
+
+</button>
+
+</div>
+
+<script>
+
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+function cell(c){
+
+return c
+? String(c.v ?? c.f ?? '').trim()
+: '';
+
+}
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const targetName =
+params.get('name') || '名前なし';
+
+document
+.getElementById('personName')
+.innerHTML =
+targetName;
+
+function receiveLogs(json){
+
+const rows =
+json.table.rows || [];
+
+const logs =
+rows.map(r=>{
+
+const c =
+r.c || [];
+
+return{
+
+date:cell(c[0]),
+name:cell(c[1]),
+text:cell(c[2]),
+emoji:cell(c[3]),
+area:cell(c[4])
+
+};
+
+});
+
+const personLogs =
+logs.filter(
+l=>l.name===targetName
+);
+
+const latest =
+personLogs[personLogs.length-1];
+
+if(latest){
+
+document
+.getElementById('personArea')
+.innerHTML =
+latest.area;
+
+document
+.getElementById('personStatus')
+.innerHTML =
+latest.emoji + ' ' + latest.text;
+
+}else{
+
+document
+.getElementById('personStatus')
+.innerHTML =
+'今日はまだ確認がありません';
+
+}
+
+const box =
+document.getElementById(
+'logList'
+);
+
+if(personLogs.length===0){
+
+box.innerHTML=`
+
+<div class="empty">
+
+履歴がありません
+
+</div>
+
+`;
+
+return;
+
+}
+
+box.innerHTML='';
+
+personLogs.reverse().forEach(log=>{
+
+box.innerHTML += `
+
+<div class="logCard">
+
+<div class="logEmoji">
+
+${log.emoji}
+
+</div>
+
+<div class="logText">
+
+${log.text}
+
+</div>
+
+<div class="logDate">
+
+${log.date}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function openMed(){
+
+location.href =
+'med.html?name='
++
+encodeURIComponent(targetName);
+
+}
+
+window.google={
+visualization:{
+Query:{
+setResponse:receiveLogs
+}
+}
+};
+
+const s =
+document.createElement('script');
+
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID
++ '/gviz/tq?sheet='
++ encodeURIComponent('見守り記録')
++ '&tqx=out:json';
+
+document.body.appendChild(s);
+
+</
