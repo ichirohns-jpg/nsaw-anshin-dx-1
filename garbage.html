@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>ごみ検索DX</title>
 
 <style>
@@ -446,9 +445,44 @@ result.innerHTML='';
 const filtered =
 rows.filter(r=>
 
-r.keyword.includes(keyword)
-||
 r.type.includes(keyword)
+||
+r.desc.includes(keyword)
+||
+r.keyword.includes(keyword)
+
+||
+(
+keyword.includes('電池')
+&&
+(
+r.type.includes('有害')
+||
+r.desc.includes('電池')
+)
+)
+
+||
+(
+keyword.includes('缶')
+&&
+(
+r.type.includes('缶')
+||
+r.desc.includes('缶')
+)
+)
+
+||
+(
+keyword.includes('ペット')
+&&
+(
+r.type.includes('ペット')
+||
+r.desc.includes('ペット')
+)
+)
 
 );
 
