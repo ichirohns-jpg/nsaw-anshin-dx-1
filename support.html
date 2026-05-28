@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>支援者ページ</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#222;
+}
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#1976d2,
+#42a5f5
+);
+
+color:white;
+
+padding:22px 14px;
+
+text-align:center;
+
+font-size:24px;
+
+font-weight:900;
+
+}
+
+.wrap{
+
+max-width:760px;
+
+margin:auto;
+
+padding:12px;
+
+}
+
+.box{
+
+background:white;
+
+border-radius:18px;
+
+padding:14px;
+
+margin-bottom:14px;
+
+box-shadow:
+0 3px 10px rgba(0,0,0,.08);
+
+}
+
+.title{
+
+font-size:20px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+button{
+
+width:100%;
+
+padding:14px;
+
+font-size:18px;
+
+font-weight:900;
+
+border:none;
+
+border-radius:14px;
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.addBtn{
+
+background:#43a047;
+
+}
+
+.reloadBtn{
+
+background:#1976d2;
+
+}
+
+.card{
+
+background:#fafcff;
+
+border-radius:14px;
+
+padding:12px;
+
+margin-top:10px;
+
+}
+
+.item{
+
+padding:10px 0;
+
+border-bottom:1px solid #ddd;
+
+}
+
+.item:last-child{
+
+border-bottom:none;
+
+}
+
+.date{
+
+font-size:14px;
+
+color:#666;
+
+font-weight:700;
+
+}
+
+.time{
+
+font-size:22px;
+
+font-weight:900;
+
+margin-top:2px;
+
+}
+
+.text{
+
+font-size:18px;
+
+margin-top:2px;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+支援者ページ
+
+</div>
+
+<div class="wrap">
+
+<div class="box">
+
+<div class="title">
+
+予定管理
+
+</div>
+
+<button
+class="addBtn"
+onclick="addSchedule()">
+
+＋ 予定を追加
+
+</button>
+
+<button
+class="reloadBtn"
+onclick="renderSchedule()">
+
+更新
+
+</button>
+
+<div id="scheduleList"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbxWrgnXRBN7os2J9KKr9yo357_hoK1ki1W0p0OP7-LneMeRk273nATGrz34xfDxtNsb/exec';
+
+function renderSchedule(){
+
+let list =
+JSON.parse(
+localStorage.getItem('todayScheduleList')
+|| '[]'
+);
+
+const box =
+document.getElementById(
+'scheduleList'
+);
+
+if(list.length===0){
+
+box.innerHTML =
+'予定はありません';
+
+return;
+
+}
+
+box.innerHTML='';
+
+list.forEach((item,index)=>{
+
+box.innerHTML += `
+
+<div class="card">
+
+<div class="item">
+
+<div class="date">
+
+${item.date}
+
+</div>
+
+<div class="time">
+
+${item.time}
+
+</div>
+
+<div class="text">
+
+${item.title}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function addSchedule(){
+
+const date =
+prompt(
+'日付\n例：2026/05/30'
+);
+
+if(!date)return;
+
+const time =
+prompt(
+'時間\n例：15:00'
+);
+
+if(!time)return;
+
+const title =
+prompt(
+'予定\n例：病院'
+);
+
+if(!title)return;
+
+let list =
+JSON.parse(
+localStorage.getItem('todayScheduleList')
+|| '[]'
+);
+
+list.push({
+
+date:date,
+time:time,
+title:title
+
+});
+
+localStorage.setItem(
+'todayScheduleList',
+JSON.stringify(list)
+);
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const name =
+params.get('name') || '利用者';
+
+const url =
+GAS_URL
++
+'?mode=calendar'
++
+'&name=' + encodeURIComponent(name)
++
+'&date=' + encodeURIComponent(date)
++
+'&time=' + encodeURIComponent(time)
++
+'&title=' + encodeURIComponent(title);
+
+fetch(url);
+
+renderSchedule();
+
+alert('予定を追加しました');
+
+}
+
+window.onload=function(){
+
+renderSchedule();
+
+};
+
+</script>
+
+</body>
+</html>
