@@ -3,348 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>ごみ検索DX</title>
-
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-color:#222;
-}
-
-.header{
-background:#2e7d32;
-color:white;
-padding:24px;
-font-size:34px;
-font-weight:900;
-text-align:center;
-}
-
-.wrap{
-max-width:920px;
-margin:auto;
-padding:16px;
-}
-
-.box{
-background:white;
-border-radius:24px;
-padding:22px;
-margin-bottom:20px;
-box-shadow:
-0 4px 14px rgba(0,0,0,.12);
-}
-
-.title{
-font-size:28px;
-font-weight:900;
-margin-bottom:16px;
-}
-
-select,
-input{
-width:100%;
-padding:18px;
-font-size:24px;
-border-radius:18px;
-border:1px solid #ccc;
-margin-bottom:16px;
-}
-
-button{
-width:100%;
-padding:20px;
-font-size:26px;
-font-weight:900;
-border:none;
-border-radius:18px;
-background:#43a047;
-color:white;
-}
-
-.card{
-background:white;
-border-radius:22px;
-padding:20px;
-margin-top:18px;
-box-shadow:
-0 4px 12px rgba(0,0,0,.12);
-}
-
-.city{
-font-size:18px;
-color:#666;
-margin-bottom:8px;
-}
-
-.area{
-font-size:30px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.day{
-font-size:22px;
-font-weight:900;
-color:#2e7d32;
-margin-bottom:10px;
-}
-
-.desc{
-font-size:22px;
-line-height:1.8;
-white-space:pre-wrap;
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
+.header{background:#2e7d32;color:white;padding:24px;font-size:34px;font-weight:900;text-align:center}
+.wrap{max-width:920px;margin:auto;padding:16px}
+.box{background:white;border-radius:24px;padding:22px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.title{font-size:28px;font-weight:900;margin-bottom:16px}
+select,input{width:100%;padding:18px;font-size:24px;border-radius:18px;border:1px solid #ccc;margin-bottom:16px}
+button{width:100%;padding:20px;font-size:26px;font-weight:900;border:none;border-radius:18px;background:#43a047;color:white}
+.status{font-size:18px;background:#fff3cd;padding:12px;border-radius:14px;margin-bottom:16px}
+.card{background:white;border-radius:22px;padding:20px;margin-top:18px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.city{font-size:18px;color:#666;margin-bottom:8px}
+.area{font-size:30px;font-weight:900;margin-bottom:12px}
+.day{font-size:22px;font-weight:900;color:#2e7d32;margin-bottom:10px}
+.gomi{font-size:22px;font-weight:900;margin-bottom:10px}
+.desc{font-size:22px;line-height:1.8;white-space:pre-wrap}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-ごみ検索DX
-</div>
+<div class="header">ごみ検索DX</div>
 
 <div class="wrap">
 
-<div class="box">
+<div id="status" class="status">シート読み込み中...</div>
 
-<div class="title">
-地域から探す
-</div>
+<div class="box">
+<div class="title">地域から探す</div>
 
 <select id="city">
-
-<option value="">
-市を選択
-</option>
-
-<option>
-志木市
-</option>
-
-<option>
-朝霞市
-</option>
-
-<option>
-新座市
-</option>
-
-<option>
-和光市
-</option>
-
+<option value="">市を選択</option>
+<option>志木市</option>
+<option>朝霞市</option>
+<option>新座市</option>
+<option>和光市</option>
 </select>
 
-<input
-id="area"
-placeholder="例：本町、白子、朝志ケ丘">
+<input id="area" placeholder="例：本町、白子、朝志ケ丘">
 
-<button onclick="searchArea()">
-地域検索
-</button>
+<button onclick="searchArea()">地域検索</button>
 
 <div id="result"></div>
-
 </div>
 
 <div class="box">
+<div class="title">ごみ名から検索</div>
 
-<div class="title">
-ごみ名から検索
-</div>
+<input id="keyword" placeholder="例：電池、生ごみ、ペット">
 
-<input
-id="keyword"
-placeholder="例：電池、生ごみ、ペット">
-
-<button onclick="searchKeyword()">
-ごみ検索
-</button>
+<button onclick="searchKeyword()">ごみ検索</button>
 
 <div id="keywordResult"></div>
-
 </div>
 
 </div>
 
 <script>
+const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+const SHEET_NAME='ゴミ';
 
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+let rows=[];
 
-const SHEET_NAME =
-'ゴミ';
-
-let rows = [];
-
-window.handleSheet = function(json){
-
-const table = json.table.rows;
-
-rows = table.map(r=>{
-
-const c = r.c || [];
-
-return {
-
-city: c[0]?.v || '',
-area: c[1]?.v || '',
-day: c[2]?.v || '',
-type: c[3]?.v || '',
-desc: c[4]?.v || '',
-keyword: c[5]?.v || '',
-ai: c[6]?.v || ''
-
-};
-
-});
-
-console.log(rows);
-
-};
-
-const script =
-document.createElement('script');
-
-script.src =
-'https://docs.google.com/spreadsheets/d/'
-+ SHEET_ID +
-'/gviz/tq?sheet='
-+ encodeURIComponent(SHEET_NAME)
-+ '&tqx=out:json;responseHandler=handleSheet';
-
-document.body.appendChild(script);
-
-function searchArea(){
-
-const city =
-document.getElementById('city').value;
-
-const area =
-document.getElementById('area').value;
-
-const result =
-document.getElementById('result');
-
-result.innerHTML='';
-
-const filtered =
-rows.filter(r=>
-
-r.city.includes(city)
-&&
-r.area.includes(area)
-
-);
-
-if(filtered.length===0){
-
-result.innerHTML =
-'<div class="card">データが見つかりません</div>';
-
-return;
-
+function cell(c){
+  if(!c)return '';
+  return String(c.v ?? c.f ?? '').trim();
 }
 
-filtered.forEach(r=>{
+function receiveSheet(json){
+  try{
+    const table=json.table.rows || [];
+    rows=table.map(r=>{
+      const c=r.c || [];
+      return{
+        city:cell(c[0]),
+        area:cell(c[1]),
+        day:cell(c[2]),
+        type:cell(c[3]),
+        desc:cell(c[4]),
+        keyword:cell(c[5]),
+        ai:cell(c[6])
+      };
+    }).filter(r=>r.city || r.area || r.type);
 
-result.innerHTML += `
+    document.getElementById('status').innerHTML =
+      '読み込み成功：' + rows.length + '件';
 
-<div class="card">
+  }catch(e){
+    document.getElementById('status').innerHTML =
+      '読み込みエラー：シートを確認してください';
+    console.log(e);
+  }
+}
 
-<div class="city">
-${r.city}
-</div>
+window.google={
+  visualization:{
+    Query:{
+      setResponse:receiveSheet
+    }
+  }
+};
 
-<div class="area">
-${r.area}
-</div>
+window.handleSheet=receiveSheet;
 
-<div class="day">
-${r.day}
-</div>
+const s=document.createElement('script');
+s.src='https://docs.google.com/spreadsheets/d/'
+  +SHEET_ID+
+  '/gviz/tq?sheet='+
+  encodeURIComponent(SHEET_NAME)+
+  '&tqx=out:json';
+document.body.appendChild(s);
 
-<div class="desc">
-${r.ai || r.desc}
-</div>
+function searchArea(){
+  const city=document.getElementById('city').value.trim();
+  const area=document.getElementById('area').value.trim();
+  const result=document.getElementById('result');
+  result.innerHTML='';
 
-</div>
+  if(rows.length===0){
+    result.innerHTML='<div class="card">まだシートを読み込めていません</div>';
+    return;
+  }
 
-`;
+  const filtered=rows.filter(r=>
+    (!city || r.city.includes(city)) &&
+    (!area || r.area.includes(area))
+  );
 
-});
+  if(filtered.length===0){
+    result.innerHTML='<div class="card">データが見つかりません</div>';
+    return;
+  }
 
+  filtered.forEach(r=>{
+    result.innerHTML+=`
+    <div class="card">
+      <div class="city">${r.city}</div>
+      <div class="area">${r.area}</div>
+      <div class="day">${r.day}</div>
+      <div class="gomi">${r.type}</div>
+      <div class="desc">${r.ai || r.desc}</div>
+    </div>`;
+  });
 }
 
 function searchKeyword(){
+  const keyword=document.getElementById('keyword').value.trim();
+  const result=document.getElementById('keywordResult');
+  result.innerHTML='';
 
-const keyword =
-document.getElementById('keyword').value;
+  if(rows.length===0){
+    result.innerHTML='<div class="card">まだシートを読み込めていません</div>';
+    return;
+  }
 
-const result =
-document.getElementById('keywordResult');
+  const filtered=rows.filter(r=>
+    r.keyword.includes(keyword) ||
+    r.type.includes(keyword) ||
+    r.desc.includes(keyword) ||
+    r.ai.includes(keyword)
+  );
 
-result.innerHTML='';
+  if(filtered.length===0){
+    result.innerHTML='<div class="card">見つかりません</div>';
+    return;
+  }
 
-const filtered =
-rows.filter(r=>
-
-(r.keyword || '').includes(keyword)
-
-);
-
-if(filtered.length===0){
-
-result.innerHTML =
-'<div class="card">見つかりません</div>';
-
-return;
-
+  filtered.forEach(r=>{
+    result.innerHTML+=`
+    <div class="card">
+      <div class="city">${r.city}</div>
+      <div class="area">${r.area}</div>
+      <div class="day">${r.day}</div>
+      <div class="gomi">${r.type}</div>
+      <div class="desc">${r.ai || r.desc}</div>
+    </div>`;
+  });
 }
-
-filtered.forEach(r=>{
-
-result.innerHTML += `
-
-<div class="card">
-
-<div class="city">
-${r.city}
-</div>
-
-<div class="area">
-${r.area}
-</div>
-
-<div class="day">
-${r.day}
-</div>
-
-<div class="desc">
-${r.ai || r.desc}
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
 </script>
 
 </body>
