@@ -1,3 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ごみ検索DX</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#222;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:24px;
+font-size:34px;
+font-weight:900;
+text-align:center;
+}
+
+.wrap{
+max-width:920px;
+margin:auto;
+padding:16px;
+}
+
+.box{
+background:white;
+border-radius:24px;
+padding:22px;
+margin-bottom:20px;
+box-shadow:
+0 4px 14px rgba(0,0,0,.12);
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+select,
+input{
+width:100%;
+padding:18px;
+font-size:24px;
+border-radius:18px;
+border:1px solid #ccc;
+margin-bottom:16px;
+}
+
+button{
+width:100%;
+padding:20px;
+font-size:26px;
+font-weight:900;
+border:none;
+border-radius:18px;
+background:#43a047;
+color:white;
+margin-bottom:12px;
+}
+
+.areaBtn{
+background:#1976d2;
+}
+
+.status{
+font-size:18px;
+background:#fff3cd;
+padding:12px;
+border-radius:14px;
+margin-bottom:16px;
+}
+
+.card{
+background:white;
+border-radius:22px;
+padding:20px;
+margin-top:18px;
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+}
+
+.city{
+font-size:18px;
+color:#666;
+margin-bottom:8px;
+}
+
+.area{
+font-size:34px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.day{
+font-size:24px;
+font-weight:900;
+color:#2e7d32;
+margin-bottom:12px;
+}
+
+.gomi{
+font-size:34px;
+font-weight:900;
+margin-bottom:18px;
+}
+
+.desc{
+font-size:24px;
+line-height:1.8;
+white-space:pre-wrap;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+ごみ検索DX
+</div>
+
+<div class="wrap">
+
+<div id="status" class="status">
+シート読み込み中...
+</div>
+
+<div class="box">
+
+<div class="title">
+地域から探す
+</div>
+
+<select id="city" onchange="makeAreaButtons()">
+
+<option value="">
+市を選択
+</option>
+
+<option>
+志木市
+</option>
+
+<option>
+朝霞市
+</option>
+
+<option>
+新座市
+</option>
+
+<option>
+和光市
+</option>
+
+</select>
+
+<div id="areaButtons"></div>
+
+<div id="result"></div>
+
+</div>
+
+<div class="box">
+
+<div class="title">
+ごみ名から検索
+</div>
+
+<input
+id="keyword"
+placeholder="例：電池、生ごみ、ペット">
+
+<button onclick="searchKeyword()">
+ごみ検索
+</button>
+
+<div id="keywordResult"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+const SHEET_NAME =
+'ゴミ';
+
+let rows = [];
+
+function cell(c){
+
+if(!c)return '';
+
+return String(
+c.v ?? c.f ?? ''
+).trim();
+
+}
+
+function receiveSheet(json){
+
+const table =
+json.table.rows || [];
+
+rows = table.map(r=>{
+
+const c = r.c || [];
+
+return {
+
+city:
+cell(c[0]),
+
+area:
+cell(c[1]),
+
+day:
+cell(c[2]),
+
+type:
+cell(c[3]),
+
+desc:
+cell(c[4]),
+
+keyword:
+cell(c[5])
+
+};
+
+});
+
+document.getElementById('status')
+.innerHTML =
+'読み込み成功：'
++ rows.length +
+'件';
+
+}
+
+window.google = {
+visualization:{
+Query:{
+setResponse:receiveSheet
+}
+}
+};
+
+const s =
+document.createElement('script');
+
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
+document.body.appendChild(s);
+
+function todayJapanese(){
+
+const week = [
+'日',
+'月',
+'火',
+'水',
+'木',
+'金',
+'土'
+];
+
+return week[
+new Date().getDay()
+];
+
+}
+
+function matchToday(dayText){
+
+const today =
+todayJapanese();
+
+if(!dayText)
+return false;
+
+if(
+dayText === today
+)
+return true;
+
+const d =
+new Date().getDate();
+
+if(
+dayText.includes('第1')
+&& d>=1
+&& d<=7
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第2')
+&& d>=8
+&& d<=14
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第3')
+&& d>=15
+&& d<=21
+&& dayText.includes(today)
+)
+return true;
+
+if(
+dayText.includes('第4')
+&& d>=22
+&& d<=28
+&& dayText.includes(today)
+)
+return true;
+
+return false;
+
+}
+
 function makeAreaButtons(){
 
 const city =
@@ -17,17 +366,19 @@ rows
 .filter(r=>r.city===city)
 .map(r=>r.area)
 )
-];
+].sort((a,b)=>
+a.localeCompare(
+b,
+'ja'
+)
+);
 
 areas.forEach(area=>{
 
 box.innerHTML += `
 
 <button
-style="
-margin-bottom:12px;
-background:#1976d2;
-"
+class="areaBtn"
 onclick="selectArea('${area}')">
 
 ${area}
@@ -108,3 +459,87 @@ ${r.desc}
 });
 
 }
+
+function searchKeyword(){
+
+const keyword =
+document
+.getElementById('keyword')
+.value
+.trim();
+
+const result =
+document
+.getElementById('keywordResult');
+
+result.innerHTML='';
+
+const filtered =
+rows.filter(r=>
+
+r.type.includes(keyword)
+||
+r.desc.includes(keyword)
+||
+r.keyword.includes(keyword)
+
+||
+(
+keyword.includes('電池')
+&&
+(
+r.type.includes('有害')
+||
+r.desc.includes('電池')
+)
+)
+
+);
+
+if(filtered.length===0){
+
+result.innerHTML =
+'<div class="card">見つかりません</div>';
+
+return;
+
+}
+
+filtered.forEach(r=>{
+
+result.innerHTML += `
+
+<div class="card">
+
+<div class="city">
+${r.city}
+</div>
+
+<div class="area">
+${r.area}
+</div>
+
+<div class="day">
+${r.day}
+</div>
+
+<div class="gomi">
+${r.type}
+</div>
+
+<div class="desc">
+${r.desc}
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
