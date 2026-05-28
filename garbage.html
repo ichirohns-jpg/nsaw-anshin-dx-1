@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>朝トップ</title>
 
 <style>
@@ -19,347 +18,84 @@ font-family:
 "Hiragino Sans",
 "Yu Gothic",
 sans-serif;
-color:#222;
-}
-
-.header{
-
-background:
-linear-gradient(
-135deg,
-#1976d2,
-#42a5f5
-);
-
-color:white;
-
-padding:18px 12px;
-
-text-align:center;
-
-border-bottom-left-radius:18px;
-border-bottom-right-radius:18px;
-
-}
-
-.headerTitle{
-
-font-size:22px;
-
-font-weight:900;
-
-}
-
-.headerSub{
-
-font-size:12px;
-
-margin-top:4px;
-
-opacity:.9;
-
 }
 
 .wrap{
-
 max-width:760px;
-
 margin:auto;
-
-padding:10px;
-
+padding:18px;
 }
 
-.box{
+.bigBtn{
+
+width:100%;
 
 background:white;
 
-border-radius:16px;
+border:none;
 
-padding:12px;
+border-radius:34px;
 
-margin-bottom:12px;
+padding:42px 24px;
 
-box-shadow:
-0 3px 10px rgba(0,0,0,.08);
+margin-bottom:26px;
 
-}
-
-.title{
-
-font-size:18px;
-
-font-weight:900;
-
-margin-bottom:8px;
-
-}
-
-.todayCard{
-
-background:
-linear-gradient(
-135deg,
-#43a047,
-#66bb6a
-);
-
-color:white;
-
-padding:14px;
-
-border-radius:16px;
-
-margin-bottom:8px;
-
-}
-
-.todayLabel{
-
-font-size:13px;
-
-font-weight:700;
-
-margin-bottom:4px;
-
-}
-
-.todayGomi{
-
-font-size:26px;
+font-size:46px;
 
 font-weight:900;
 
 line-height:1.3;
 
-}
+text-align:center;
 
-.tomorrowCard{
+color:#1565c0;
 
-background:#f5f8fc;
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
 
-padding:10px;
-
-border-radius:12px;
-
-margin-top:8px;
+position:relative;
 
 }
 
-.tomorrowLabel{
+.bigBtn::before{
 
-font-size:12px;
+content:'';
 
-font-weight:700;
+position:absolute;
 
-margin-bottom:4px;
+left:0;
+top:0;
+bottom:0;
 
-color:#666;
+width:18px;
 
-}
-
-.tomorrowGomi{
-
-font-size:18px;
-
-font-weight:900;
+border-top-left-radius:34px;
+border-bottom-left-radius:34px;
 
 }
 
-button{
-
-width:100%;
-
-padding:14px;
-
-font-size:18px;
-
-font-weight:900;
-
-border:none;
-
-border-radius:14px;
-
-color:white;
-
-margin-bottom:8px;
-
-}
-
-.newsBtn{
-
-background:#1976d2;
-
-}
-
-.medBtn{
-
+.gomi::before{
 background:#43a047;
-
 }
 
-.musicBtn{
-
-background:#5e35b1;
-
-}
-
-.supportBtn{
-
-background:#fb8c00;
-
-}
-
-.settingBtn{
-
-background:#546e7a;
-
-}
-
-.calendarBtn{
-
+.schedule::before{
 background:#00897b;
-
 }
 
-.smallBtn{
-
-padding:10px;
-
-font-size:15px;
-
-border-radius:12px;
-
+.news::before{
+background:#1976d2;
 }
 
-.card{
-
-background:#fafcff;
-
-border-radius:12px;
-
-padding:10px;
-
-margin-top:8px;
-
+.med::before{
+background:#e53935;
 }
 
-.scheduleItem{
-
-padding:8px 0;
-
-border-bottom:1px solid #ddd;
-
+.support::before{
+background:#fb8c00;
 }
 
-.scheduleItem:last-child{
-
-border-bottom:none;
-
-}
-
-.scheduleDate{
-
-font-size:12px;
-
-color:#666;
-
-font-weight:700;
-
-}
-
-.scheduleTime{
-
-font-size:18px;
-
-font-weight:900;
-
-margin-top:2px;
-
-}
-
-.scheduleTitle{
-
-font-size:15px;
-
-margin-top:2px;
-
-}
-
-.weekBox{
-
-margin-top:10px;
-
-background:#fafcff;
-
-border-radius:12px;
-
-padding:10px;
-
-}
-
-.weekItem{
-
-padding:6px 0;
-
-border-bottom:1px solid #e5e5e5;
-
-}
-
-.weekItem:last-child{
-
-border-bottom:none;
-
-}
-
-.weekDay{
-
-font-size:12px;
-
-font-weight:900;
-
-color:#2e7d32;
-
-}
-
-.weekGomi{
-
-font-size:16px;
-
-font-weight:900;
-
-}
-
-select{
-
-width:100%;
-
-padding:10px;
-
-font-size:16px;
-
-border-radius:12px;
-
-border:1px solid #ccc;
-
-margin-bottom:8px;
-
-background:white;
-
-}
-
-.status{
-
-font-size:12px;
-
-background:#fff3cd;
-
-padding:6px;
-
-border-radius:8px;
-
-margin-bottom:10px;
-
+.setting::before{
+background:#546e7a;
 }
 
 </style>
@@ -367,601 +103,57 @@ margin-bottom:10px;
 
 <body>
 
-<div class="header">
-
-<div class="headerTitle">
-
-朝トップ
-
-</div>
-
-<div class="headerSub">
-
-今日の地域情報
-
-</div>
-
-</div>
-
 <div class="wrap">
 
-<div id="status" class="status">
-
-シート読み込み中...
-
-</div>
-
-<div class="box">
-
-<div class="title">
+<button
+class="bigBtn gomi"
+onclick="location.href='gomi.html'">
 
 今日のごみ
 
-</div>
-
-<div id="morning">
-
-地域を設定してください
-
-</div>
-
-</div>
-
-<div class="box">
+</button>
 
 <button
-class="calendarBtn"
-onclick="toggleSchedule()">
+class="bigBtn schedule"
+onclick="location.href='schedule.html'">
 
-📅 今日の予定
+今日の予定
 
 </button>
 
-<div
-id="scheduleBox"
-style="display:none;">
-
-<div class="card">
-
-<div
-id="scheduleList">
-
-まだ予定はありません
-
-</div>
-
 <button
-class="calendarBtn smallBtn"
-onclick="addSchedule()">
-
-＋ 予定追加
-
-</button>
-
-</div>
-
-</div>
-
-<button
-class="newsBtn"
+class="bigBtn news"
 onclick="location.href='news.html'">
 
-📰 瓦版
+瓦版
 
 </button>
 
 <button
-class="medBtn"
+class="bigBtn med"
 onclick="location.href='med.html'">
 
-💊 薬・見守り
+薬・見守り
 
 </button>
 
 <button
-class="musicBtn"
-onclick="location.href='music.html'">
-
-🎵 ドラマ・音楽
-
-</button>
-
-<button
-class="supportBtn"
+class="bigBtn support"
 onclick="location.href='support.html'">
 
-👥 支援者ページ
+支援者ページ
 
 </button>
-
-</div>
-
-<div class="box">
 
 <button
-class="settingBtn smallBtn"
-onclick="toggleAreaBox()">
+class="bigBtn setting"
+onclick="location.href='setting.html'">
 
-⚙ 地域変更
+地域変更
 
 </button>
 
-<div
-id="areaBox"
-style="display:none;">
-
-<select
-id="city"
-onchange="makeAreaButtons()">
-
-<option value="">
-市を選択
-</option>
-
-<option>志木市</option>
-<option>朝霞市</option>
-<option>新座市</option>
-<option>和光市</option>
-
-</select>
-
-<div id="areaButtons"></div>
-
 </div>
-
-</div>
-
-</div>
-
-<script>
-
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-const SHEET_NAME =
-'ゴミ';
-
-let rows=[];
-
-function cell(c){
-
-return c
-? String(c.v ?? c.f ?? '').trim()
-: '';
-
-}
-
-function receiveSheet(json){
-
-const table =
-json.table.rows || [];
-
-rows =
-table.map(r=>{
-
-const c =
-r.c || [];
-
-return{
-
-city:cell(c[0]),
-area:cell(c[1]),
-day:cell(c[2]),
-type:cell(c[3])
-
-};
-
-});
-
-document
-.getElementById('status')
-.innerHTML='読み込み成功';
-
-autoMorning();
-
-}
-
-window.google={
-visualization:{
-Query:{
-setResponse:receiveSheet
-}
-}
-};
-
-const s =
-document.createElement('script');
-
-s.src =
-'https://docs.google.com/spreadsheets/d/'
-+ SHEET_ID
-+ '/gviz/tq?sheet='
-+ encodeURIComponent(SHEET_NAME)
-+ '&tqx=out:json';
-
-document.body.appendChild(s);
-
-function todayJapanese(offset=0){
-
-const d =
-new Date();
-
-d.setDate(
-d.getDate()+offset
-);
-
-return[
-'日','月','火','水','木','金','土'
-][d.getDay()];
-
-}
-
-function matchDay(dayText,offset=0){
-
-const today =
-todayJapanese(offset);
-
-if(!dayText)return false;
-
-if(dayText===today)return true;
-
-return dayText.includes(today);
-
-}
-
-function autoMorning(){
-
-const city =
-localStorage.getItem('gomiCity');
-
-const area =
-localStorage.getItem('gomiArea');
-
-const box =
-document.getElementById('morning');
-
-if(!city || !area){
-
-box.innerHTML =
-'地域を設定してください';
-
-return;
-
-}
-
-const today =
-rows.filter(r=>
-r.city===city &&
-r.area===area &&
-matchDay(r.day,0)
-);
-
-const tomorrow =
-rows.filter(r=>
-r.city===city &&
-r.area===area &&
-matchDay(r.day,1)
-);
-
-box.innerHTML =
-'<div style="font-size:15px;font-weight:900;margin-bottom:6px;">'
-+ city + ' ' + area +
-'</div>';
-
-if(today.length){
-
-box.innerHTML +=
-'<div class="todayCard"><div class="todayLabel">今日</div>';
-
-today.forEach(r=>{
-
-box.innerHTML +=
-'<div class="todayGomi">'
-+ r.type +
-'</div>';
-
-});
-
-box.innerHTML += '</div>';
-
-}
-
-if(tomorrow.length){
-
-box.innerHTML +=
-'<div class="tomorrowCard"><div class="tomorrowLabel">明日</div>';
-
-tomorrow.forEach(r=>{
-
-box.innerHTML +=
-'<div class="tomorrowGomi">'
-+ r.type +
-'</div>';
-
-});
-
-box.innerHTML += '</div>';
-
-}
-
-box.innerHTML += `
-
-<button
-class="newsBtn smallBtn"
-onclick="toggleWeek()">
-
-▼ 今週を見る
-
-</button>
-
-<div
-id="weekArea"
-style="display:none"
-class="weekBox">
-
-`;
-
-rows
-.filter(r=>
-r.city===city &&
-r.area===area
-)
-.forEach(r=>{
-
-box.innerHTML += `
-
-<div class="weekItem">
-
-<div class="weekDay">
-
-${r.day}
-
-</div>
-
-<div class="weekGomi">
-
-${r.type}
-
-</div>
-
-</div>
-
-`;
-
-});
-
-box.innerHTML += '</div>';
-
-}
-
-function toggleWeek(){
-
-const box =
-document.getElementById('weekArea');
-
-box.style.display =
-box.style.display==='none'
-? 'block'
-: 'none';
-
-}
-
-function toggleSchedule(){
-
-const box =
-document.getElementById('scheduleBox');
-
-box.style.display =
-box.style.display==='none'
-? 'block'
-: 'none';
-
-}
-
-function renderSchedule(){
-
-let list =
-JSON.parse(
-localStorage.getItem('todayScheduleList')
-|| '[]'
-);
-
-const box =
-document.getElementById('scheduleList');
-
-if(list.length===0){
-
-box.innerHTML =
-'まだ予定はありません';
-
-return;
-
-}
-
-box.innerHTML='';
-
-list.forEach((item,index)=>{
-
-box.innerHTML += `
-
-<div class="scheduleItem">
-
-<div class="scheduleDate">
-
-${item.date}
-
-</div>
-
-<div class="scheduleTime">
-
-${item.time}
-
-</div>
-
-<div class="scheduleTitle">
-
-${item.title}
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
-function addSchedule(){
-
-const date =
-prompt(
-'日付\n例：2026/05/30'
-);
-
-if(!date)return;
-
-const time =
-prompt(
-'時間\n例：15:00'
-);
-
-if(!time)return;
-
-const title =
-prompt(
-'予定\n例：病院'
-);
-
-if(!title)return;
-
-let list =
-JSON.parse(
-localStorage.getItem('todayScheduleList')
-|| '[]'
-);
-
-list.push({
-
-date:date,
-time:time,
-title:title
-
-});
-
-localStorage.setItem(
-'todayScheduleList',
-JSON.stringify(list)
-);
-
-renderSchedule();
-
-}
-
-function toggleAreaBox(){
-
-const box =
-document.getElementById('areaBox');
-
-box.style.display =
-box.style.display==='none'
-? 'block'
-: 'none';
-
-}
-
-function makeAreaButtons(){
-
-const city =
-document.getElementById('city').value;
-
-const box =
-document.getElementById('areaButtons');
-
-box.innerHTML='';
-
-const areas = [
-...new Set(
-rows
-.filter(r=>r.city===city)
-.map(r=>r.area)
-)
-]
-.sort((a,b)=>
-a.localeCompare(b,'ja')
-);
-
-areas.forEach(area=>{
-
-box.innerHTML += `
-
-<button
-class="newsBtn smallBtn"
-onclick="saveArea('${city}','${area}')">
-
-${area}
-
-</button>
-
-`;
-
-});
-
-}
-
-function saveArea(city,area){
-
-localStorage.setItem(
-'gomiCity',
-city
-);
-
-localStorage.setItem(
-'gomiArea',
-area
-);
-
-alert('保存しました');
-
-location.reload();
-
-}
-
-window.onload=function(){
-
-renderSchedule();
-
-navigator.geolocation.getCurrentPosition(
-
-function(position){
-
-const gps =
-position.coords.latitude
-+
-','
-+
-position.coords.longitude;
-
-localStorage.setItem(
-'gps',
-gps
-);
-
-autoMorning();
-
-},
-
-function(){
-
-autoMorning();
-
-}
-
-);
-
-};
-
-</script>
 
 </body>
 </html>
