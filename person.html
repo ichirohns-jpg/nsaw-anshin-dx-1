@@ -144,56 +144,31 @@ color:#7d8b99;
 
 <div class="card">
 
-<div class="name" id="personName">
-読み込み中...
-</div>
+<div class="name" id="personName">読み込み中...</div>
 
-<div class="area" id="personArea">
-志木市
-</div>
+<div class="area" id="personArea">志木市</div>
 
 <div class="statusBox">
-
-<div class="statusLabel">
-最新状態
-</div>
-
-<div class="status" id="personStatus">
-確認中...
-</div>
-
-<div class="statusTime" id="personTime">
-</div>
-
+<div class="statusLabel">最新状態</div>
+<div class="status" id="personStatus">確認中...</div>
+<div class="statusTime" id="personTime"></div>
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="subTitle">
-見守り履歴
-</div>
+<div class="subTitle">見守り履歴</div>
 
 <div id="logList">
-<div class="empty">
-読み込み中...
-</div>
+<div class="empty">読み込み中...</div>
 </div>
 
 </div>
 
-<button
-class="orangeBtn"
-onclick="openMed()">
-薬・見守りページ
-</button>
+<button class="orangeBtn" onclick="openMed()">薬・見守りページ</button>
 
-<button
-class="grayBtn"
-onclick="location.href='support2.html'">
-一覧へ戻る
-</button>
+<button class="grayBtn" onclick="location.href='support2.html'">一覧へ戻る</button>
 
 </div>
 
@@ -208,9 +183,26 @@ return c ? String(c.v ?? c.f ?? '').trim() : '';
 
 function formatDate(v){
 
-try{
+if(!v) return '';
 
-const d = new Date(v);
+let s = String(v);
+
+if(s.startsWith('Date(')){
+
+const nums = s
+.replace('Date(','')
+.replace(')','')
+.split(',')
+.map(n=>parseInt(n,10));
+
+const d = new Date(
+nums[0],
+nums[1],
+nums[2],
+nums[3] || 0,
+nums[4] || 0,
+nums[5] || 0
+);
 
 const y = d.getFullYear();
 const m = String(d.getMonth()+1).padStart(2,'0');
@@ -220,11 +212,9 @@ const min = String(d.getMinutes()).padStart(2,'0');
 
 return y + '/' + m + '/' + day + ' ' + h + ':' + min;
 
-}catch(e){
-
-return v;
-
 }
+
+return s;
 
 }
 
