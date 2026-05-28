@@ -185,15 +185,14 @@ placeholder="例：電池、生ごみ、ペット">
 const SHEET_ID =
 '13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
 
+const SHEET_NAME =
+'ゴミ';
+
 let rows = [];
 
-window.google = {
-visualization: {
-Query: {
-setResponse: function(json){
+window.handleSheet = function(json){
 
-const table =
-json.table.rows;
+const table = json.table.rows;
 
 rows = table.map(r=>{
 
@@ -201,26 +200,13 @@ const c = r.c || [];
 
 return {
 
-city:
-c[0]?.v || '',
-
-area:
-c[1]?.v || '',
-
-day:
-c[2]?.v || '',
-
-type:
-c[3]?.v || '',
-
-desc:
-c[4]?.v || '',
-
-keyword:
-c[5]?.v || '',
-
-ai:
-c[6]?.v || ''
+city: c[0]?.v || '',
+area: c[1]?.v || '',
+day: c[2]?.v || '',
+type: c[3]?.v || '',
+desc: c[4]?.v || '',
+keyword: c[5]?.v || '',
+ai: c[6]?.v || ''
 
 };
 
@@ -228,9 +214,6 @@ c[6]?.v || ''
 
 console.log(rows);
 
-}
-}
-}
 };
 
 const script =
@@ -238,26 +221,23 @@ document.createElement('script');
 
 script.src =
 'https://docs.google.com/spreadsheets/d/'
-+ SHEET_ID
-+ '/gviz/tq?tqx=out:json';
++ SHEET_ID +
+'/gviz/tq?sheet='
++ encodeURIComponent(SHEET_NAME)
++ '&tqx=out:json;responseHandler=handleSheet';
 
 document.body.appendChild(script);
 
 function searchArea(){
 
 const city =
-document
-.getElementById('city')
-.value;
+document.getElementById('city').value;
 
 const area =
-document
-.getElementById('area')
-.value;
+document.getElementById('area').value;
 
 const result =
-document
-.getElementById('result');
+document.getElementById('result');
 
 result.innerHTML='';
 
@@ -312,21 +292,17 @@ ${r.ai || r.desc}
 function searchKeyword(){
 
 const keyword =
-document
-.getElementById('keyword')
-.value;
+document.getElementById('keyword').value;
 
 const result =
-document
-.getElementById('keywordResult');
+document.getElementById('keywordResult');
 
 result.innerHTML='';
 
 const filtered =
 rows.filter(r=>
 
-(r.keyword || '')
-.includes(keyword)
+(r.keyword || '').includes(keyword)
 
 );
 
