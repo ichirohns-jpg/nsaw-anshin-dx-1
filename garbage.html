@@ -13,7 +13,7 @@ box-sizing:border-box;
 
 body{
 margin:0;
-background:#eef3f8;
+background:#edf3f8;
 font-family:
 "Hiragino Sans",
 "Yu Gothic",
@@ -25,8 +25,8 @@ color:#222;
 
 background:
 linear-gradient(
-rgba(0,0,0,.35),
-rgba(0,0,0,.35)
+rgba(0,0,0,.38),
+rgba(0,0,0,.38)
 ),
 
 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop');
@@ -34,43 +34,41 @@ url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&au
 background-size:cover;
 background-position:center;
 
-color:white;
-
-padding:70px 24px;
-
-font-size:40px;
-
-font-weight:900;
+padding:80px 24px 70px;
 
 text-align:center;
 
-border-bottom-left-radius:32px;
-border-bottom-right-radius:32px;
+color:white;
+
+border-bottom-left-radius:36px;
+border-bottom-right-radius:36px;
 
 box-shadow:
-0 4px 14px rgba(0,0,0,.18);
+0 6px 20px rgba(0,0,0,.18);
 
 }
 
-.header small{
+.headerTitle{
 
-display:block;
+font-size:44px;
+font-weight:900;
+line-height:1.4;
 
-font-size:20px;
+}
 
-margin-top:10px;
+.headerSub{
 
-font-weight:500;
+font-size:22px;
+margin-top:14px;
+opacity:.95;
 
 }
 
 .wrap{
 
 max-width:920px;
-
 margin:auto;
-
-padding:16px;
+padding:18px;
 
 }
 
@@ -78,28 +76,28 @@ padding:16px;
 
 background:white;
 
-border-radius:28px;
+border-radius:30px;
 
-padding:22px;
+padding:24px;
 
-margin-bottom:22px;
+margin-bottom:24px;
 
 box-shadow:
-0 4px 14px rgba(0,0,0,.10);
+0 4px 14px rgba(0,0,0,.08);
 
 }
 
 .title{
 
-font-size:30px;
+font-size:32px;
 
 font-weight:900;
 
-margin-bottom:16px;
+margin-bottom:18px;
 
 }
 
-.todayBox{
+.todayCard{
 
 background:
 linear-gradient(
@@ -110,30 +108,30 @@ linear-gradient(
 
 color:white;
 
-border-radius:28px;
+padding:28px;
 
-padding:26px;
+border-radius:30px;
 
 margin-bottom:20px;
 
 box-shadow:
-0 6px 18px rgba(0,0,0,.18);
+0 6px 18px rgba(0,0,0,.15);
 
 }
 
 .todayLabel{
 
-font-size:22px;
+font-size:24px;
 
 font-weight:700;
 
-margin-bottom:10px;
+margin-bottom:12px;
 
 }
 
 .todayGomi{
 
-font-size:42px;
+font-size:48px;
 
 font-weight:900;
 
@@ -141,13 +139,13 @@ line-height:1.3;
 
 }
 
-.tomorrowBox{
+.tomorrowCard{
 
-background:#f4f7fb;
+background:#f5f8fc;
 
-border-radius:24px;
+padding:24px;
 
-padding:22px;
+border-radius:26px;
 
 margin-top:18px;
 
@@ -155,7 +153,7 @@ margin-top:18px;
 
 .tomorrowLabel{
 
-font-size:20px;
+font-size:22px;
 
 font-weight:700;
 
@@ -167,7 +165,7 @@ color:#666;
 
 .tomorrowGomi{
 
-font-size:30px;
+font-size:34px;
 
 font-weight:900;
 
@@ -177,22 +175,19 @@ font-weight:900;
 
 margin-top:24px;
 
-background:#ffffff;
+background:#fafcff;
 
 border-radius:24px;
 
-padding:20px;
-
-box-shadow:
-0 4px 12px rgba(0,0,0,.08);
+padding:22px;
 
 }
 
 .weekItem{
 
-padding:16px;
+padding:16px 0;
 
-border-bottom:1px solid #eee;
+border-bottom:1px solid #e5e5e5;
 
 }
 
@@ -204,7 +199,7 @@ border-bottom:none;
 
 .weekDay{
 
-font-size:22px;
+font-size:24px;
 
 font-weight:900;
 
@@ -216,7 +211,7 @@ margin-bottom:6px;
 
 .weekGomi{
 
-font-size:28px;
+font-size:30px;
 
 font-weight:900;
 
@@ -231,11 +226,13 @@ padding:18px;
 
 font-size:24px;
 
-border-radius:18px;
+border-radius:20px;
 
 border:1px solid #ccc;
 
 margin-bottom:16px;
+
+background:white;
 
 }
 
@@ -251,13 +248,11 @@ font-weight:900;
 
 border:none;
 
-border-radius:20px;
-
-background:#43a047;
+border-radius:22px;
 
 color:white;
 
-margin-bottom:12px;
+margin-bottom:14px;
 
 }
 
@@ -267,15 +262,21 @@ background:#1976d2;
 
 }
 
+.saveBtn{
+
+background:#8e24aa;
+
+}
+
 .backBtn{
 
 background:#ef6c00;
 
 }
 
-.saveBtn{
+.mainBtn{
 
-background:#8e24aa;
+background:#43a047;
 
 }
 
@@ -297,14 +298,14 @@ margin-bottom:16px;
 
 background:white;
 
-border-radius:22px;
+border-radius:24px;
 
 padding:20px;
 
 margin-top:18px;
 
 box-shadow:
-0 4px 12px rgba(0,0,0,.10);
+0 4px 12px rgba(0,0,0,.08);
 
 }
 
@@ -320,11 +321,11 @@ margin-bottom:8px;
 
 .area{
 
-font-size:34px;
+font-size:36px;
 
 font-weight:900;
 
-margin-bottom:16px;
+margin-bottom:18px;
 
 }
 
@@ -342,7 +343,7 @@ margin-bottom:12px;
 
 .gomi{
 
-font-size:34px;
+font-size:36px;
 
 font-weight:900;
 
@@ -360,17 +361,31 @@ white-space:pre-wrap;
 
 }
 
-.video iframe{
+.videoWrap{
 
-width:100%;
+position:relative;
 
-aspect-ratio:16/9;
+padding-top:56.25%;
 
-border:0;
+border-radius:24px;
 
-border-radius:22px;
+overflow:hidden;
 
 background:#000;
+
+}
+
+.videoWrap iframe{
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+border:none;
 
 }
 
@@ -381,13 +396,17 @@ background:#000;
 
 <div class="header">
 
+<div class="headerTitle">
+
 おはようございます
 
-<small>
+</div>
+
+<div class="headerSub">
 
 朝の地域トップページ
 
-</small>
+</div>
 
 </div>
 
@@ -424,7 +443,7 @@ background:#000;
 
 </div>
 
-<div class="video">
+<div class="videoWrap">
 
 <iframe
 src="https://www.youtube.com/embed/"
@@ -433,7 +452,7 @@ allowfullscreen>
 
 </div>
 
-<div class="desc">
+<div class="desc" style="margin-top:16px;">
 
 ※動画URLはあとで差し替えます。
 
@@ -501,7 +520,9 @@ onclick="loadSavedArea()">
 id="keyword"
 placeholder="例：電池、生ごみ、ペット">
 
-<button onclick="searchKeyword()">
+<button
+class="mainBtn"
+onclick="searchKeyword()">
 
 ごみ検索
 
@@ -737,23 +758,33 @@ el.innerHTML += `
 <div class="card">
 
 <div class="city">
+
 ${r.city}
+
 </div>
 
 <div class="area">
+
 ${r.area}
+
 </div>
 
 <div class="day">
+
 ${r.day}
+
 </div>
 
 <div class="gomi">
+
 ${r.type}
+
 </div>
 
 <div class="desc">
+
 ${r.desc}
+
 </div>
 
 </div>
@@ -952,7 +983,7 @@ box.innerHTML =
 if(today.length){
 
 box.innerHTML +=
-'<div class="todayBox"><div class="todayLabel">今日</div>';
+'<div class="todayCard"><div class="todayLabel">今日</div>';
 
 today.forEach(r=>{
 
@@ -975,7 +1006,7 @@ box.innerHTML += '</div>';
 if(tomorrow.length){
 
 box.innerHTML +=
-'<div class="tomorrowBox"><div class="tomorrowLabel">明日</div>';
+'<div class="tomorrowCard"><div class="tomorrowLabel">明日</div>';
 
 tomorrow.forEach(r=>{
 
@@ -997,8 +1028,28 @@ box.innerHTML += '</div>';
 
 if(week.length){
 
-box.innerHTML +=
-'<div class="weekBox"><div class="title">今週の予定</div>';
+box.innerHTML += `
+
+<button
+class="areaBtn"
+onclick="toggleWeek()">
+
+▼ 今週の予定を見る
+
+</button>
+
+<div
+id="weekArea"
+style="display:none"
+class="weekBox">
+
+<div class="title">
+
+今週の予定
+
+</div>
+
+`;
 
 week.forEach(r=>{
 
@@ -1025,6 +1076,26 @@ ${r.type}
 });
 
 box.innerHTML += '</div>';
+
+}
+
+}
+
+function toggleWeek(){
+
+const box =
+document
+.getElementById('weekArea');
+
+if(
+box.style.display==='none'
+){
+
+box.style.display='block';
+
+}else{
+
+box.style.display='none';
 
 }
 
