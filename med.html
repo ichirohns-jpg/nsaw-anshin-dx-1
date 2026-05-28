@@ -123,6 +123,8 @@ margin-bottom:16px;
 
 text-align:left;
 
+color:#2962ff;
+
 }
 
 .checked{
@@ -258,6 +260,27 @@ document
 .getElementById('personName')
 .innerHTML =
 targetName;
+
+const today =
+new Date().toLocaleDateString('ja-JP');
+
+const savedDate =
+localStorage.getItem(
+targetName + '_date'
+);
+
+if(savedDate !== today){
+
+localStorage.removeItem(targetName + '_morning');
+localStorage.removeItem(targetName + '_noon');
+localStorage.removeItem(targetName + '_night');
+
+localStorage.setItem(
+targetName + '_date',
+today
+);
+
+}
 
 function sendLog(text,emoji){
 
