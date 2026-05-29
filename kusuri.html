@@ -7,21 +7,17 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
 margin:0;
 background:#fdfbf7;
-color:#333;
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-font-size:18px;
+color:#333;
 }
-
 .app-box{
 max-width:520px;
 margin:1.5rem auto;
 padding:0 1rem;
 }
-
 .badge{
 display:inline-block;
 background:#777;
@@ -30,21 +26,18 @@ border-radius:999px;
 padding:8px 14px;
 font-size:15px;
 }
-
 .card{
 background:#fff;
 border-radius:18px;
 padding:24px;
 box-shadow:0 6px 14px rgba(0,0,0,.06);
 }
-
 .title{
 font-size:28px;
 font-weight:900;
 text-align:center;
 margin:0 0 22px;
 }
-
 .menu-btn{
 display:block;
 width:100%;
@@ -58,7 +51,6 @@ color:#fff;
 text-align:left;
 cursor:pointer;
 }
-
 .btn-orange{background:#e96d42;}
 .btn-blue{background:#4a90e2;}
 .btn-green{background:#4ebfa5;}
@@ -84,12 +76,6 @@ font-weight:900;
 text-decoration:none;
 color:#666;
 }
-
-.sent{
-background:#dff6dd;
-border:1px solid #4ebfa5;
-color:#2e7d32;
-}
 </style>
 </head>
 
@@ -108,32 +94,32 @@ color:#2e7d32;
 </h1>
 
 <button class="menu-btn btn-green"
-onclick="sendData('😊 元気です')">
+onclick="sendData('見守り','😊 元気です','通常')">
 😊 元気です
 </button>
 
 <button class="menu-btn btn-blue"
-onclick="sendData('☀ 朝の薬を飲みました')">
+onclick="sendData('薬','☀ 朝の薬を飲みました','通常')">
 ☀ 朝の薬
 </button>
 
 <button class="menu-btn btn-blue"
-onclick="sendData('🌤 昼の薬を飲みました')">
+onclick="sendData('薬','🌤 昼の薬を飲みました','通常')">
 🌤 昼の薬
 </button>
 
 <button class="menu-btn btn-blue"
-onclick="sendData('🌙 夜の薬を飲みました')">
+onclick="sendData('薬','🌙 夜の薬を飲みました','通常')">
 🌙 夜の薬
 </button>
 
 <button class="menu-btn btn-orange"
-onclick="sendData('😓 少し困っています')">
+onclick="sendData('相談','😓 少し困っています','注意')">
 😓 少し困っています
 </button>
 
 <button class="menu-btn btn-red"
-onclick="sendData('🚨 助けてください')">
+onclick="sendData('緊急','🚨 助けてください','緊急')">
 🚨 助けてください
 </button>
 
@@ -153,7 +139,7 @@ onclick="sendData('🚨 助けてください')">
 
 const GAS_URL='https://script.google.com/macros/s/AKfycbyQKsVKLgbkInDJwG39B00erucU_0nROI4QjLo30kDlBwiNfb9frcan5LDkEz4Ta9SA/exec';
 
-async function sendData(text){
+async function sendData(type,content,level){
 
 const status=document.getElementById('status');
 
@@ -169,15 +155,16 @@ headers:{
 body:JSON.stringify({
 name:'利用者',
 city:'志木市',
-type:'見守り',
-content:text,
+area:'',
+type:type,
+content:content,
+level:level,
 time:new Date().toLocaleString('ja-JP')
 }),
 keepalive:true
 });
 
-status.classList.add('sent');
-status.innerHTML='送信完了<br>'+text;
+status.innerHTML='送信完了<br>'+content;
 
 }catch(e){
 
