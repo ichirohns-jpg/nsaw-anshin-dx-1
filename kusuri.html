@@ -7,75 +7,18 @@
 
 <style>
 *{box-sizing:border-box}
-body{
-margin:0;
-background:#fdfbf7;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#333;
-}
-.app-box{
-max-width:520px;
-margin:1.5rem auto;
-padding:0 1rem;
-}
-.badge{
-display:inline-block;
-background:#777;
-color:#fff;
-border-radius:999px;
-padding:8px 14px;
-font-size:15px;
-}
-.card{
-background:#fff;
-border-radius:18px;
-padding:24px;
-box-shadow:0 6px 14px rgba(0,0,0,.06);
-}
-.title{
-font-size:28px;
-font-weight:900;
-text-align:center;
-margin:0 0 22px;
-}
-.menu-btn{
-display:block;
-width:100%;
-border:none;
-border-radius:14px;
-padding:22px 18px;
-margin-bottom:16px;
-font-size:23px;
-font-weight:900;
-color:#fff;
-text-align:left;
-cursor:pointer;
-}
-.btn-orange{background:#e96d42;}
-.btn-blue{background:#4a90e2;}
-.btn-green{background:#4ebfa5;}
-.btn-red{background:#e05d5d;}
-
-.status{
-background:#f7f9fa;
-border:1px dashed #ccc;
-border-radius:12px;
-padding:16px;
-margin-top:18px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-color:#666;
-}
-
-.back{
-display:block;
-margin-top:20px;
-text-align:center;
-font-weight:900;
-text-decoration:none;
-color:#666;
-}
+body{margin:0;background:#fdfbf7;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#333}
+.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
+.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
+.menu-btn{display:block;width:100%;border:none;border-radius:14px;padding:22px 18px;margin-bottom:16px;font-size:23px;font-weight:900;color:#fff;text-align:left;cursor:pointer}
+.btn-orange{background:#e96d42}
+.btn-blue{background:#4a90e2}
+.btn-green{background:#4ebfa5}
+.btn-red{background:#e05d5d}
+.status{background:#f7f9fa;border:1px dashed #ccc;border-radius:12px;padding:16px;margin-top:18px;text-align:center;font-size:22px;font-weight:900;color:#666}
+.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
 
@@ -89,37 +32,29 @@ color:#666;
 
 <div class="card">
 
-<h1 class="title">
-お薬・元気だよ
-</h1>
+<h1 class="title">お薬・元気だよ</h1>
 
-<button class="menu-btn btn-green"
-onclick="sendData('見守り','😊 元気です','通常')">
+<button class="menu-btn btn-green" onclick="sendData('見守り','😊 元気です','通常')">
 😊 元気です
 </button>
 
-<button class="menu-btn btn-blue"
-onclick="sendData('薬','☀ 朝の薬を飲みました','通常')">
+<button class="menu-btn btn-blue" onclick="sendData('薬','☀ 朝の薬を飲みました','通常')">
 ☀ 朝の薬
 </button>
 
-<button class="menu-btn btn-blue"
-onclick="sendData('薬','🌤 昼の薬を飲みました','通常')">
+<button class="menu-btn btn-blue" onclick="sendData('薬','🌤 昼の薬を飲みました','通常')">
 🌤 昼の薬
 </button>
 
-<button class="menu-btn btn-blue"
-onclick="sendData('薬','🌙 夜の薬を飲みました','通常')">
+<button class="menu-btn btn-blue" onclick="sendData('薬','🌙 夜の薬を飲みました','通常')">
 🌙 夜の薬
 </button>
 
-<button class="menu-btn btn-orange"
-onclick="sendData('相談','😓 少し困っています','注意')">
+<button class="menu-btn btn-orange" onclick="sendData('相談','😓 少し困っています','注意')">
 😓 少し困っています
 </button>
 
-<button class="menu-btn btn-red"
-onclick="sendData('緊急','🚨 助けてください','緊急')">
+<button class="menu-btn btn-red" onclick="sendData('緊急','🚨 助けてください','緊急')">
 🚨 助けてください
 </button>
 
@@ -137,7 +72,7 @@ onclick="sendData('緊急','🚨 助けてください','緊急')">
 
 <script>
 
-const GAS_URL='https://script.google.com/macros/s/AKfycbyQKsVKLgbkInDJwG39B00erucU_0nROI4QjLo30kDlBwiNfb9frcan5LDkEz4Ta9SA/exec';
+const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
 
 async function sendData(type,content,level){
 
@@ -153,12 +88,13 @@ headers:{
 'Content-Type':'text/plain'
 },
 body:JSON.stringify({
-name:'利用者',
+name:'山口さん',
 city:'志木市',
 area:'',
 type:type,
 content:content,
 level:level,
+gps:'',
 time:new Date().toLocaleString('ja-JP')
 }),
 keepalive:true
