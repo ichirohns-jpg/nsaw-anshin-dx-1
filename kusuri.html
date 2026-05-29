@@ -24,14 +24,12 @@ body{margin:0;background:#fdfbf7;font-family:"Hiragino Sans","Yu Gothic",sans-se
 </div>
 <div class="card">
 <h1 class="title">お薬・元気だよ</h1>
-
 <button class="menu-btn btn-green" onclick="sendData('見守り','😊 元気です','通常')">😊 元気です</button>
 <button class="menu-btn btn-blue" onclick="sendData('薬','☀ 朝の薬を飲みました','通常')">☀ 朝の薬</button>
 <button class="menu-btn btn-blue" onclick="sendData('薬','🌤 昼の薬を飲みました','通常')">🌤 昼の薬</button>
 <button class="menu-btn btn-blue" onclick="sendData('薬','🌙 夜の薬を飲みました','通常')">🌙 夜の薬</button>
 <button class="menu-btn btn-orange" onclick="sendData('相談','😓 少し困っています','注意')">😓 少し困っています</button>
 <button class="menu-btn btn-red" onclick="sendData('緊急','🚨 助けてください','緊急')">🚨 助けてください</button>
-
 <div class="status" id="status">本日の状態：未送信</div>
 <a href="index.html" class="back">トップへ戻る</a>
 </div>
@@ -39,51 +37,62 @@ body{margin:0;background:#fdfbf7;font-family:"Hiragino Sans","Yu Gothic",sans-se
 
 <script>
 const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
+
+const params=new URLSearchParams(location.search);
+const URL_ID=params.get("id")||"";
+
+if(URL_ID){
+localStorage.setItem("personId",URL_ID);
+}
+
+const PERSON_ID=localStorage.getItem("personId")||URL_ID||"yamaguchi";
 const USER_NAME=localStorage.getItem("name")||"山口さん";
 const USER_CITY=localStorage.getItem("city")||"志木市";
 const USER_AREA=localStorage.getItem("area")||"";
+
 document.getElementById("userBadge").innerHTML=USER_NAME+" さん";
 
 function sendData(type,content,level){
-  const status=document.getElementById('status');
-  status.innerHTML='送信中...';
+const status=document.getElementById('status');
+status.innerHTML='送信中...';
 
-  const send=function(gps){
-    fetch(GAS_URL,{
-      method:'POST',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({
-        name:USER_NAME,
-        city:USER_CITY,
-        area:USER_AREA,
-        type:type,
-        content:content,
-        level:level,
-        gps:gps||"",
-        time:new Date().toLocaleString('ja-JP')
-      }),
-      keepalive:true
-    })
-    .then(function(){
-      status.innerHTML='送信完了<br>'+content;
-    })
-    .catch(function(){
-      status.innerHTML='通信エラー';
-    });
-  };
+const send=function(gps){
+fetch(GAS_URL,{
+method:'POST',
+headers:{'Content-Type':'text/plain'},
+body:JSON.stringify({
+personId:PERSON_ID,
+name:USER_NAME,
+city:USER_CITY,
+area:USER_AREA,
+type:type,
+content:content,
+level:level,
+gps:gps||"",
+time:new Date().toLocaleString('ja-JP')
+}),
+keepalive:true
+})
+.then(function(){
+status.innerHTML='送信完了<br>'+content;
+})
+.catch(function(){
+status.innerHTML='通信エラー';
+});
+};
 
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      function(pos){
-        send(pos.coords.latitude+","+pos.coords.longitude);
-      },
-      function(){
-        send("");
-      }
-    );
-  }else{
-    send("");
-  }
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(
+function(pos){
+send(pos.coords.latitude+","+pos.coords.longitude);
+},
+function(){
+send("");
+}
+);
+}else{
+send("");
+}
 }
 </script>
 </body>
