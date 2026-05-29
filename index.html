@@ -3,41 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>地域設定</title>
+<title>あんしん生活ボタン</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
-.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
-.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
-.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
-.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
-label{display:block;font-size:20px;font-weight:900;margin:14px 0 8px}
-input,select{
-width:100%;
-padding:16px;
-font-size:20px;
-border:2px solid #ddd;
-border-radius:12px;
+
+body{
+margin:0;
+background:#fdfbf7;
+color:#333;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+font-size:18px;
 }
-.btn{
+
+.app-box{
+max-width:520px;
+margin:1.5rem auto;
+padding:0 1rem;
+}
+
+.badge{
+display:inline-block;
+background:#777;
+color:#fff;
+border-radius:999px;
+padding:8px 14px;
+font-size:15px;
+}
+
+.card{
+background:#fff;
+border-radius:18px;
+padding:24px;
+box-shadow:0 6px 14px rgba(0,0,0,.06);
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+text-align:center;
+margin:0 0 18px;
+}
+
+.info{
+background:#f7f9fa;
+border:1px dashed #ccc;
+border-radius:12px;
+padding:14px;
+margin-bottom:18px;
+font-size:18px;
+line-height:1.8;
+text-align:center;
+color:#666;
+font-weight:900;
+}
+
+.menu-btn{
+display:block;
 width:100%;
 border:none;
 border-radius:14px;
 padding:22px 18px;
-margin-top:20px;
+margin-bottom:16px;
 font-size:23px;
 font-weight:900;
-background:#4ebfa5;
 color:#fff;
+text-align:left;
+cursor:pointer;
 }
-.back{
-display:block;
-margin-top:20px;
+
+.btn-orange{background:#e96d42;}
+.btn-blue{background:#4a90e2;}
+.btn-green{background:#4ebfa5;}
+.btn-red{background:#e05d5d;}
+
+.footer{
+margin-top:18px;
 text-align:center;
-font-weight:900;
-text-decoration:none;
-color:#666;
+font-size:14px;
+color:#999;
 }
 </style>
 </head>
@@ -47,71 +91,72 @@ color:#666;
 <div class="app-box">
 
 <div style="text-align:center;margin-bottom:14px">
-<span class="badge">利用者設定</span>
+<span class="badge" id="userInfo">利用者ページ</span>
 </div>
 
 <div class="card">
 
-<h1 class="title">地域設定</h1>
+<h1 class="title">
+今日も一日あんしん
+</h1>
 
-<label>お名前</label>
-<input id="name" value="山口さん">
+<div class="info" id="profileInfo">
+読込中...
+</div>
 
-<label>市</label>
-<select id="city">
-<option>志木市</option>
-<option>朝霞市</option>
-<option>和光市</option>
-<option>新座市</option>
-</select>
-
-<label>地区</label>
-<input id="area" placeholder="本町">
-
-<button class="btn" onclick="saveData()">
-保存する
+<button class="menu-btn btn-orange"
+onclick="location.href='kusuri.html'">
+💊 お薬をのんだ・元気だよ
 </button>
 
-<a href="index.html" class="back">
-トップへ戻る
-</a>
+<button class="menu-btn btn-blue"
+onclick="location.href='board.html'">
+📅 今日の予定 と 回覧板
+</button>
+
+<button class="menu-btn btn-green"
+onclick="location.href='news.html'">
+📰 まちのニュース・天気
+</button>
+
+<button class="menu-btn btn-green"
+onclick="location.href='gomi.html'">
+🗑️ ゴミの日
+</button>
+
+<button class="menu-btn btn-red"
+onclick="location.href='map.html'">
+🗺️ 近くの病院・避難ばしょ
+</button>
+
+<button class="menu-btn btn-blue"
+onclick="location.href='family.html'">
+👨‍👩‍👧 家族・支援者ページ
+</button>
+
+<button class="menu-btn btn-green"
+onclick="location.href='setting.html'">
+⚙️ 地域設定
+</button>
+
+<div class="footer">
+安心安全な暮らし応援DX
+</div>
 
 </div>
 
 </div>
 
 <script>
+const USER_NAME=localStorage.getItem("name")||"山口さん";
+const USER_CITY=localStorage.getItem("city")||"志木市";
+const USER_AREA=localStorage.getItem("area")||"";
 
-document.getElementById("name").value=
-localStorage.getItem("name")||"山口さん";
+document.getElementById("userInfo").innerHTML=
+USER_NAME+" さん";
 
-document.getElementById("city").value=
-localStorage.getItem("city")||"志木市";
-
-document.getElementById("area").value=
-localStorage.getItem("area")||"";
-
-function saveData(){
-
-localStorage.setItem(
-"name",
-document.getElementById("name").value
-);
-
-localStorage.setItem(
-"city",
-document.getElementById("city").value
-);
-
-localStorage.setItem(
-"area",
-document.getElementById("area").value
-);
-
-alert("保存しました");
-
-}
-
+document.getElementById("profileInfo").innerHTML=
+"👤 "+USER_NAME+"<br>📍 "+USER_CITY+" "+USER_AREA;
 </script>
 
 </body>
