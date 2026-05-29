@@ -11,8 +11,8 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 .badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
 .card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
 .title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
-.info{background:#f7f9fa;border-left:6px solid #4ebfa5;border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900;line-height:1.8}
 select{width:100%;padding:16px;font-size:20px;border-radius:12px;border:2px solid #ddd;margin-bottom:14px}
+.info{background:#f7f9fa;border-left:6px solid #4ebfa5;border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900;line-height:1.8}
 .back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
@@ -23,7 +23,7 @@ select{width:100%;padding:16px;font-size:20px;border-radius:12px;border:2px soli
 </div>
 <div class="card">
 <h1 class="title">ゴミの日</h1>
-<select id="area" onchange="loadGomi()">
+<select id="city" onchange="loadGomi()">
 <option>志木市</option>
 <option>朝霞市</option>
 <option>和光市</option>
@@ -41,7 +41,7 @@ const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS
 
 async function loadGomi(){
 try{
-const city=document.getElementById('area').value;
+const city=document.getElementById('city').value;
 const res=await fetch(GAS_URL+'?mode=gomi&city='+encodeURIComponent(city));
 const data=await res.json();
 let html='';
@@ -49,8 +49,9 @@ data.forEach(item=>{
 html+=`
 <div class="info">
 ${item.city}<br>
-${item.day}<br>
-${item.type}
+${item.area||''}<br>
+${item.day||''}<br>
+${item.type||''}
 </div>`;
 });
 document.getElementById('gomiArea').innerHTML=html||'<div class="info">ゴミ情報がありません</div>';
