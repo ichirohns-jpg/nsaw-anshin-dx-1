@@ -6,14 +6,12 @@
 <title>支援者トップ</title>
 
 <style>
+*{box-sizing:border-box}
 
 body{
 margin:0;
 background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 }
 
 .wrap{
@@ -23,29 +21,80 @@ padding:16px;
 }
 
 .title{
-font-size:32px;
+font-size:30px;
 font-weight:900;
 color:#fb8c00;
-margin-bottom:20px;
+margin-bottom:18px;
+}
+
+.summary{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.summaryBox{
+background:white;
+border-radius:18px;
+padding:14px 8px;
+text-align:center;
+box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+.summaryNum{
+font-size:30px;
+font-weight:900;
+}
+
+.summaryText{
+font-size:14px;
+font-weight:900;
+color:#666;
 }
 
 .card{
 background:white;
 border-radius:24px;
-padding:20px;
-margin-bottom:18px;
+padding:18px;
+margin-bottom:16px;
 box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
+.card.emergency{
+border:4px solid #e53935;
+}
+
+.card.caution{
+border:4px solid #fb8c00;
+}
+
+.card.ok{
+border:4px solid #43a047;
+}
+
 .name{
-font-size:30px;
+font-size:28px;
 font-weight:900;
 color:#1976d2;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .area{
-font-size:20px;
+font-size:18px;
+font-weight:900;
+color:#666;
+margin-bottom:10px;
+}
+
+.status{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.time{
+font-size:18px;
 font-weight:900;
 color:#666;
 margin-bottom:14px;
@@ -57,11 +106,20 @@ background:#fb8c00;
 border:none;
 border-radius:20px;
 padding:20px;
-font-size:28px;
+font-size:26px;
 font-weight:900;
 color:white;
 }
 
+.empty{
+background:white;
+border-radius:24px;
+padding:28px;
+font-size:24px;
+font-weight:900;
+text-align:center;
+color:#7d8b99;
+}
 </style>
 </head>
 
@@ -69,85 +127,260 @@ color:white;
 
 <div class="wrap">
 
-<div class="title">
+<div class="title">支援者トップ</div>
 
-支援者トップ
+<div class="summary">
+<div class="summaryBox">
+<div class="summaryNum" id="emergencyCount">0</div>
+<div class="summaryText">緊急</div>
+</div>
+<div class="summaryBox">
+<div class="summaryNum" id="cautionCount">0</div>
+<div class="summaryText">注意</div>
+</div>
+<div class="summaryBox">
+<div class="summaryNum" id="okCount">0</div>
+<div class="summaryText">確認済</div>
+</div>
+</div>
+
+<div id="listBox">
+<div class="empty">読み込み中...</div>
+</div>
 
 </div>
 
-<div class="card">
+<script>
+const SHEET_ID =
+'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
+
+function cell(c){
+return c ? String(c.v ?? c.f ?? '').trim() : '';
+}
+
+function formatDate(v){
+
+if(!v) return '';
+
+let s = String(v);
+
+if(s.startsWith('Date(')){
+
+const nums = s
+.replace('Date(','')
+.replace(')','')
+.split(',')
+.map(n=>parseInt(n,10));
+
+const d = new Date(
+nums[0],
+nums[1],
+nums[2],
+nums[3] || 0,
+nums[4] || 0,
+nums[5] || 0
+);
+
+const h = String(d.getHours()).padStart(2,'0');
+const min = String(d.getMinutes()).padStart(2,'0');
+
+return h + ':' + min;
+
+}
+
+return s;
+
+}
+
+let logs = [];
+
+function receiveLogs(json){
+
+const rows = json.table.rows || [];
+
+logs = rows.map(r=>{
+
+const c = r.c || [];
+
+return{
+date:cell(c[0]),
+name:cell(c[1]),
+text:cell(c[2]),
+emoji:cell(c[3])
+};
+
+});
+
+loadTargets();
+
+}
+
+function loadTargets(){
+
+window.google.visualization.Query.setResponse =
+receiveTargets;
+
+const s2 = document.createElement('script');
+
+s2.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID
++ '/gviz/tq?sheet='
++ encodeURIComponent('見守り対象')
++ '&tqx=out:json';
+
+document.body.appendChild(s2);
+
+}
+
+function receiveTargets(json){
+
+const rows = json.table.rows || [];
+
+const targets = rows.map(r=>{
+
+const c = r.c || [];
+
+return{
+name:cell(c[0]),
+area:cell(c[1])
+};
+
+});
+
+const list = targets.map(t=>{
+
+const personLogs =
+logs.filter(l=>l.name.includes(t.name));
+
+const latest =
+personLogs[personLogs.length-1];
+
+let state = 'caution';
+let status = '🚨 今日未確認';
+let time = '';
+
+if(latest){
+
+status = latest.text;
+time = formatDate(latest.date);
+
+if(latest.text.includes('助けて')){
+state = 'emergency';
+}else if(latest.text.includes('困って')){
+state = 'caution';
+}else{
+state = 'ok';
+}
+
+}
+
+return{
+name:t.name,
+area:t.area,
+status:status,
+time:time,
+state:state
+};
+
+});
+
+list.sort((a,b)=>{
+
+const order = {
+emergency:0,
+caution:1,
+ok:2
+};
+
+return order[a.state] - order[b.state];
+
+});
+
+renderList(list);
+
+}
+
+function renderList(list){
+
+let emergency = 0;
+let caution = 0;
+let ok = 0;
+
+const box =
+document.getElementById('listBox');
+
+box.innerHTML='';
+
+list.forEach(p=>{
+
+if(p.state==='emergency') emergency++;
+if(p.state==='caution') caution++;
+if(p.state==='ok') ok++;
+
+box.innerHTML += `
+
+<div class="card ${p.state}">
 
 <div class="name">
-
-山田太郎
-
+${p.name}
 </div>
 
 <div class="area">
+${p.area}
+</div>
 
-志木市 本町
+<div class="status">
+${p.status}
+</div>
 
+<div class="time">
+${p.time ? '最終確認 ' + p.time : '最終確認なし'}
 </div>
 
 <button
 class="openBtn"
-onclick="location.href='person.html?name=山田太郎'">
-
+onclick="location.href='person.html?name=${encodeURIComponent(p.name)}'">
 開く
-
 </button>
 
 </div>
+`;
 
-<div class="card">
+});
 
-<div class="name">
+document.getElementById('emergencyCount').innerHTML = emergency;
+document.getElementById('cautionCount').innerHTML = caution;
+document.getElementById('okCount').innerHTML = ok;
 
-鈴木花子
+if(list.length===0){
 
-</div>
+box.innerHTML =
+'<div class="empty">対象者がありません</div>';
 
-<div class="area">
+}
 
-志木市 館
+}
 
-</div>
+window.google={
+visualization:{
+Query:{
+setResponse:receiveLogs
+}
+}
+};
 
-<button
-class="openBtn"
-onclick="location.href='person.html?name=鈴木花子'">
+const s = document.createElement('script');
 
-開く
+s.src =
+'https://docs.google.com/spreadsheets/d/'
++ SHEET_ID
++ '/gviz/tq?sheet='
++ encodeURIComponent('見守り記録')
++ '&tqx=out:json';
 
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="name">
-
-佐藤一郎
-
-</div>
-
-<div class="area">
-
-志木市 柏町
-
-</div>
-
-<button
-class="openBtn"
-onclick="location.href='person.html?name=佐藤一郎'">
-
-開く
-
-</button>
-
-</div>
-
-</div>
+document.body.appendChild(s);
+</script>
 
 </body>
 </html>
