@@ -4,29 +4,99 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>地域設定</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
-.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
-.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
-.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
-.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
-label{display:block;font-size:20px;font-weight:900;margin:14px 0 8px}
-input,select{width:100%;padding:16px;font-size:20px;border:2px solid #ddd;border-radius:12px}
-.btn{width:100%;border:none;border-radius:14px;padding:22px 18px;margin-top:20px;font-size:23px;font-weight:900;background:#4ebfa5;color:#fff}
-.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
+body{
+margin:0;
+background:#fdfbf7;
+color:#333;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+}
+.app-box{
+max-width:520px;
+margin:1.5rem auto;
+padding:0 1rem;
+}
+.badge{
+display:inline-block;
+background:#777;
+color:#fff;
+border-radius:999px;
+padding:8px 14px;
+font-size:15px;
+}
+.card{
+background:#fff;
+border-radius:18px;
+padding:24px;
+box-shadow:0 6px 14px rgba(0,0,0,.06);
+}
+.title{
+font-size:28px;
+font-weight:900;
+text-align:center;
+margin:0 0 22px;
+}
+label{
+display:block;
+font-size:20px;
+font-weight:900;
+margin:14px 0 8px;
+}
+input,select{
+width:100%;
+padding:16px;
+font-size:20px;
+border:2px solid #ddd;
+border-radius:12px;
+}
+.btn{
+width:100%;
+border:none;
+border-radius:14px;
+padding:22px 18px;
+margin-top:20px;
+font-size:23px;
+font-weight:900;
+background:#4ebfa5;
+color:#fff;
+cursor:pointer;
+}
+.info{
+background:#f7f9fa;
+border-radius:12px;
+padding:16px;
+margin-top:16px;
+font-size:16px;
+word-break:break-all;
+line-height:1.8;
+}
+.back{
+display:block;
+margin-top:20px;
+text-align:center;
+font-weight:900;
+text-decoration:none;
+color:#666;
+}
 </style>
 </head>
+
 <body>
+
 <div class="app-box">
+
 <div style="text-align:center;margin-bottom:14px">
 <span class="badge">利用者設定</span>
 </div>
+
 <div class="card">
+
 <h1 class="title">地域設定</h1>
 
 <label>個人ID</label>
-<input id="personId" placeholder="例 yamaguchi">
+<input id="personId" placeholder="yamaguchi">
 
 <label>お名前</label>
 <input id="name" placeholder="山口さん">
@@ -45,27 +115,103 @@ input,select{width:100%;padding:16px;font-size:20px;border:2px solid #ddd;border
 <label>緊急連絡先</label>
 <input id="tel" placeholder="090-0000-0000">
 
-<button class="btn" onclick="saveData()">保存する</button>
+<button class="btn" onclick="saveData()">
+保存する
+</button>
 
-<a href="index.html" class="back">トップへ戻る</a>
+<div class="info" id="userUrl">
+本人URL
 </div>
+
+<div class="info" id="familyUrl">
+家族URL
+</div>
+
+<a href="index.html" class="back">
+トップへ戻る
+</a>
+
+</div>
+
 </div>
 
 <script>
-document.getElementById("personId").value=localStorage.getItem("personId")||"yamaguchi";
-document.getElementById("name").value=localStorage.getItem("name")||"山口さん";
-document.getElementById("city").value=localStorage.getItem("city")||"志木市";
-document.getElementById("area").value=localStorage.getItem("area")||"";
-document.getElementById("tel").value=localStorage.getItem("tel")||"";
+
+document.getElementById("personId").value=
+localStorage.getItem("personId")||"yamaguchi";
+
+document.getElementById("name").value=
+localStorage.getItem("name")||"山口さん";
+
+document.getElementById("city").value=
+localStorage.getItem("city")||"志木市";
+
+document.getElementById("area").value=
+localStorage.getItem("area")||"";
+
+document.getElementById("tel").value=
+localStorage.getItem("tel")||"";
 
 function saveData(){
-localStorage.setItem("personId",document.getElementById("personId").value);
-localStorage.setItem("name",document.getElementById("name").value);
-localStorage.setItem("city",document.getElementById("city").value);
-localStorage.setItem("area",document.getElementById("area").value);
-localStorage.setItem("tel",document.getElementById("tel").value);
+
+localStorage.setItem(
+"personId",
+document.getElementById("personId").value
+);
+
+localStorage.setItem(
+"name",
+document.getElementById("name").value
+);
+
+localStorage.setItem(
+"city",
+document.getElementById("city").value
+);
+
+localStorage.setItem(
+"area",
+document.getElementById("area").value
+);
+
+localStorage.setItem(
+"tel",
+document.getElementById("tel").value
+);
+
+makeLinks();
+
 alert("保存しました");
+
 }
+
+function makeLinks(){
+
+const id=
+document.getElementById("personId").value||"yamaguchi";
+
+const base=
+location.origin+
+location.pathname.replace(
+"setting.html",
+""
+);
+
+document.getElementById("userUrl").innerHTML=
+"本人URL<br>"+
+base+
+"index.html?id="+id;
+
+document.getElementById("familyUrl").innerHTML=
+"家族URL<br>"+
+base+
+"family.html?id="+id;
+
+}
+
+makeLinks();
+
 </script>
+
 </body>
 </html>
