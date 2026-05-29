@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>今日の予定と回覧板</title>
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
@@ -14,87 +13,45 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 .title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
 .info{background:#f7f9fa;border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900}
 .notice{background:#f7f9fa;border-left:6px solid #4a90e2;border-radius:12px;padding:16px;margin-bottom:14px;font-size:18px;line-height:1.7}
+.notice-title{font-size:20px;font-weight:900;color:#4a90e2;margin-bottom:6px}
 .back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
-
 <body>
-
 <div class="app-box">
-
 <div style="text-align:center;margin-bottom:14px">
 <span class="badge">利用者ページ</span>
 </div>
-
 <div class="card">
-
 <h1 class="title">今日の予定</h1>
-
-<div class="info" id="schedule">
-📅 本日の予定はありません
+<div class="info" id="schedule">📅 本日の予定はありません</div>
 </div>
-
-</div>
-
 <div class="card">
-
 <h1 class="title">回覧板</h1>
-
-<div id="boardArea">
-
-<div class="notice">
-回覧板を読み込み中...
+<div id="boardArea"><div class="notice">回覧板を読み込み中...</div></div>
+<a href="index.html" class="back">トップへ戻る</a>
 </div>
-
 </div>
-
-<a href="index.html" class="back">
-トップへ戻る
-</a>
-
-</div>
-
-</div>
-
 <script>
-
 const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
-
 async function loadBoard(){
-
 try{
-
 const res=await fetch(GAS_URL+'?mode=board');
-
 const data=await res.json();
-
 let html='';
-
-data.forEach(row=>{
-
+data.forEach(item=>{
 html+=`
 <div class="notice">
-${row.title}<br>
-${row.detail}
-</div>
-`;
-
+<div class="notice-title">${item.title||'お知らせ'}</div>
+${item.detail||''}
+</div>`;
 });
-
-document.getElementById('boardArea').innerHTML=html;
-
+document.getElementById('boardArea').innerHTML=html||'<div class="notice">現在、回覧板はありません</div>';
 }catch(e){
-
-document.getElementById('boardArea').innerHTML=
-'<div class="notice">回覧板の取得に失敗しました</div>';
-
+document.getElementById('boardArea').innerHTML='<div class="notice">回覧板の取得に失敗しました</div>';
 }
-
 }
-
 loadBoard();
-
 </script>
-
 </body>
 </html>
