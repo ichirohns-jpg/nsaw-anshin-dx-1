@@ -15,6 +15,7 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 .weather{background:#f7f9fa;border-radius:12px;padding:16px;margin-bottom:14px;font-size:22px;font-weight:900;text-align:center;color:#4ebfa5}
 .news{background:#f7f9fa;border-left:6px solid #4ebfa5;border-radius:12px;padding:16px;margin-bottom:14px;font-size:18px;line-height:1.7}
 .back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
+.city{font-size:20px;font-weight:900;color:#4ebfa5}
 </style>
 </head>
 
@@ -33,7 +34,7 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 </h1>
 
 <div class="weather">
-☀ 今日の地域情報
+📰 4市最新情報
 </div>
 
 <div id="newsArea">
@@ -61,17 +62,16 @@ async function loadNews(){
 try{
 
 const res=await fetch(GAS_URL+'?mode=news');
-
 const data=await res.json();
 
 let html='';
 
-data.forEach(row=>{
+data.forEach(item=>{
 
 html+=`
 <div class="news">
-<b>${row.city}</b><br>
-${row.title}
+<div class="city">${item.city}</div>
+${item.title}
 </div>
 `;
 
