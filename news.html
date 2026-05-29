@@ -7,73 +7,14 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#fdfbf7;
-color:#333;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-}
-
-.app-box{
-max-width:520px;
-margin:1.5rem auto;
-padding:0 1rem;
-}
-
-.badge{
-display:inline-block;
-background:#777;
-color:#fff;
-border-radius:999px;
-padding:8px 14px;
-font-size:15px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:24px;
-box-shadow:0 6px 14px rgba(0,0,0,.06);
-margin-bottom:18px;
-}
-
-.title{
-font-size:28px;
-font-weight:900;
-text-align:center;
-margin:0 0 22px;
-}
-
-.weather{
-background:#f7f9fa;
-border-radius:12px;
-padding:16px;
-margin-bottom:14px;
-font-size:22px;
-font-weight:900;
-text-align:center;
-color:#4ebfa5;
-}
-
-.news{
-background:#f7f9fa;
-border-left:6px solid #4ebfa5;
-border-radius:12px;
-padding:16px;
-margin-bottom:14px;
-font-size:18px;
-line-height:1.7;
-}
-
-.back{
-display:block;
-margin-top:20px;
-text-align:center;
-font-weight:900;
-text-decoration:none;
-color:#666;
-}
+body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
+.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
+.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
+.weather{background:#f7f9fa;border-radius:12px;padding:16px;margin-bottom:14px;font-size:22px;font-weight:900;text-align:center;color:#4ebfa5}
+.news{background:#f7f9fa;border-left:6px solid #4ebfa5;border-radius:12px;padding:16px;margin-bottom:14px;font-size:18px;line-height:1.7}
+.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
 
@@ -92,23 +33,15 @@ color:#666;
 </h1>
 
 <div class="weather">
-☀ 天気情報
+☀ 今日の地域情報
 </div>
 
-<div class="news">
-志木市のお知らせを表示
-</div>
+<div id="newsArea">
 
 <div class="news">
-朝霞市のお知らせを表示
+情報を読み込み中...
 </div>
 
-<div class="news">
-和光市のお知らせを表示
-</div>
-
-<div class="news">
-新座市のお知らせを表示
 </div>
 
 <a href="index.html" class="back">
@@ -118,6 +51,46 @@ color:#666;
 </div>
 
 </div>
+
+<script>
+
+const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
+
+async function loadNews(){
+
+try{
+
+const res=await fetch(GAS_URL+'?mode=news');
+
+const data=await res.json();
+
+let html='';
+
+data.forEach(row=>{
+
+html+=`
+<div class="news">
+<b>${row.city}</b><br>
+${row.title}
+</div>
+`;
+
+});
+
+document.getElementById('newsArea').innerHTML=html;
+
+}catch(e){
+
+document.getElementById('newsArea').innerHTML=
+'<div class="news">情報取得失敗</div>';
+
+}
+
+}
+
+loadNews();
+
+</script>
 
 </body>
 </html>
