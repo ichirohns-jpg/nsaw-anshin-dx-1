@@ -144,31 +144,58 @@ color:#7d8b99;
 
 <div class="card">
 
-<div class="name" id="personName">読み込み中...</div>
+<div class="name" id="personName">
+読み込み中...
+</div>
 
-<div class="area" id="personArea">志木市</div>
+<div class="area" id="personArea">
+志木市
+</div>
 
 <div class="statusBox">
-<div class="statusLabel">最新状態</div>
-<div class="status" id="personStatus">確認中...</div>
-<div class="statusTime" id="personTime"></div>
+
+<div class="statusLabel">
+最新状態
+</div>
+
+<div class="status" id="personStatus">
+確認中...
+</div>
+
+<div class="statusTime" id="personTime">
+</div>
+
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="subTitle">見守り履歴</div>
+<div class="subTitle">
+見守り履歴
+</div>
 
 <div id="logList">
-<div class="empty">読み込み中...</div>
+
+<div class="empty">
+読み込み中...
 </div>
 
 </div>
 
-<button class="orangeBtn" onclick="openMed()">薬・見守りページ</button>
+</div>
 
-<button class="grayBtn" onclick="location.href='support2.html'">一覧へ戻る</button>
+<button
+class="orangeBtn"
+onclick="openMed()">
+薬・見守りページ
+</button>
+
+<button
+class="grayBtn"
+onclick="location.href='support2.html'">
+一覧へ戻る
+</button>
 
 </div>
 
@@ -224,21 +251,16 @@ new URLSearchParams(location.search);
 const targetName =
 params.get('name') || '';
 
-document
-.getElementById('personName')
-.innerHTML =
+document.getElementById('personName').innerHTML =
 targetName;
 
 function receiveLogs(json){
 
-const rows =
-json.table.rows || [];
+const rows = json.table.rows || [];
 
-const logs =
-rows.map(r=>{
+const logs = rows.map(r=>{
 
-const c =
-r.c || [];
+const c = r.c || [];
 
 return{
 date:cell(c[0]),
@@ -257,26 +279,18 @@ personLogs[personLogs.length-1];
 
 if(latest){
 
-document
-.getElementById('personStatus')
-.innerHTML =
+document.getElementById('personStatus').innerHTML =
 latest.text;
 
-document
-.getElementById('personTime')
-.innerHTML =
+document.getElementById('personTime').innerHTML =
 formatDate(latest.date);
 
 }else{
 
-document
-.getElementById('personStatus')
-.innerHTML =
+document.getElementById('personStatus').innerHTML =
 '今日はまだ確認がありません';
 
-document
-.getElementById('personTime')
-.innerHTML =
+document.getElementById('personTime').innerHTML =
 '';
 
 }
@@ -286,11 +300,8 @@ document.getElementById('logList');
 
 if(personLogs.length===0){
 
-box.innerHTML=`
-<div class="empty">
-履歴がありません
-</div>
-`;
+box.innerHTML =
+'<div class="empty">履歴がありません</div>';
 
 return;
 
@@ -325,8 +336,7 @@ ${formatDate(log.date)}
 function openMed(){
 
 location.href =
-'med.html?name='
-+
+'med.html?name=' +
 encodeURIComponent(targetName);
 
 }
