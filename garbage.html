@@ -3,180 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>朝トップ</title>
-
+<title>ゴミ情報</title>
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:14px;
-}
-
-.banner{
-
-width:100%;
-
-height:220px;
-
-object-fit:cover;
-
-border-radius:28px;
-
-display:block;
-
-margin-bottom:24px;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.08);
-
-}
-
-.bigBtn{
-
-width:100%;
-
-background:white;
-
-border:none;
-
-border-radius:30px;
-
-padding:34px 22px;
-
-margin-bottom:22px;
-
-font-size:40px;
-
-font-weight:900;
-
-line-height:1.3;
-
-text-align:center;
-
-color:#1565c0;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.08);
-
-position:relative;
-
-}
-
-.bigBtn::before{
-
-content:'';
-
-position:absolute;
-
-left:0;
-top:0;
-bottom:0;
-
-width:18px;
-
-border-top-left-radius:30px;
-border-bottom-left-radius:30px;
-
-}
-
-.gomi::before{
-background:#43a047;
-}
-
-.schedule::before{
-background:#00897b;
-}
-
-.news::before{
-background:#1976d2;
-}
-
-.med::before{
-background:#e53935;
-}
-
-.support::before{
-background:#fb8c00;
-}
-
-.setting::before{
-background:#546e7a;
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#222}
+.wrap{max-width:760px;margin:auto;padding:18px}
+.top{background:linear-gradient(135deg,#00897b,#00695c);color:white;padding:34px 22px;border-radius:0 0 34px 34px;text-align:center}
+.title{font-size:46px;font-weight:900}
+.sub{font-size:22px;line-height:1.6;margin-top:10px}
+.card{background:white;border-radius:28px;padding:24px;margin:22px 0;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+label{display:block;font-size:24px;font-weight:900;color:#555;margin-bottom:10px}
+select{width:100%;font-size:30px;font-weight:900;padding:22px;border-radius:22px;border:3px solid #d7dde5;margin-bottom:18px;background:white}
+.box{background:#ecfeff;border-left:10px solid #00897b;border-radius:20px;padding:22px;font-size:28px;font-weight:900;line-height:1.7}
+.btn{width:100%;border:none;border-radius:26px;padding:28px;margin-top:16px;font-size:34px;font-weight:900;color:white;background:#00897b}
+.gray{background:#546e7a}
 </style>
 </head>
-
 <body>
-
-<div class="wrap">
-
-<img
-src="https://ichirohns-jpg.github.io/ShikiConcierge-18/top-banner.jpg"
-class="banner">
-
-<button
-class="bigBtn gomi"
-onclick="location.href='gomi.html'">
-
-今日のごみ
-
-</button>
-
-<button
-class="bigBtn schedule"
-onclick="location.href='schedule.html'">
-
-今日の予定
-
-</button>
-
-<button
-class="bigBtn news"
-onclick="location.href='news.html'">
-
-瓦版
-
-</button>
-
-<button
-class="bigBtn med"
-onclick="location.href='med.html'">
-
-薬・見守り
-
-</button>
-
-<button
-class="bigBtn support"
-onclick="location.href='support.html'">
-
-支援者ページ
-
-</button>
-
-<button
-class="bigBtn setting"
-onclick="location.href='setting.html'">
-
-地域変更
-
-</button>
-
+<div class="top">
+<div class="title">ゴミ情報</div>
+<div class="sub">お住まいの地域を選ぶと<br>今日の確認先を表示します</div>
 </div>
 
+<div class="wrap">
+<div class="card">
+<label>市を選択</label>
+<select id="city" onchange="setArea()">
+<option>志木市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+<option>新座市</option>
+</select>
+
+<label>地区を選択</label>
+<select id="area" onchange="showGomi()"></select>
+
+<div class="box" id="info">確認中...</div>
+
+<button class="btn" onclick="openOfficial()">公式ゴミ情報を見る</button>
+<button class="btn gray" onclick="location.href='index.html'">← 今日の安心へ戻る</button>
+</div>
+</div>
+
+<script>
+const areas={
+'志木市':['本町','宗岡','柏町','幸町','館','中宗岡'],
+'朝霞市':['本町','仲町','根岸台','朝志ヶ丘'],
+'和光市':['本町','白子','中央','新倉'],
+'新座市':['野火止','東北','栗原','片山']
+};
+const links={
+'志木市':'https://www.city.shiki.lg.jp/',
+'朝霞市':'https://www.city.asaka.lg.jp/',
+'和光市':'https://www.city.wako.lg.jp/',
+'新座市':'https://www.city.niiza.lg.jp/'
+};
+function setArea(){
+let c=city.value;
+area.innerHTML='';
+areas[c].forEach(a=>area.innerHTML+=`<option>${a}</option>`);
+localStorage.savedCity=c;
+showGomi();
+}
+function showGomi(){
+localStorage.savedArea=area.value;
+info.innerHTML='【'+city.value+' '+area.value+'】<br>ゴミ出し日は地域で変わります。<br>下のボタンから公式情報を確認してください。';
+}
+function openOfficial(){
+window.open(links[city.value],'_blank');
+}
+if(localStorage.savedCity)city.value=localStorage.savedCity;
+setArea();
+if(localStorage.savedArea)area.value=localStorage.savedArea;
+showGomi();
+</script>
 </body>
 </html>
