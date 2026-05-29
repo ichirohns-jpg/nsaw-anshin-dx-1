@@ -22,12 +22,14 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 <div class="app-box">
 
 <div style="text-align:center;margin-bottom:14px">
-<span class="badge">家族・支援者ページ</span>
+<span class="badge" id="userBadge">家族・支援者ページ</span>
 </div>
 
 <div class="card">
 
-<h1 class="title">見守り状況</h1>
+<h1 class="title">
+見守り状況
+</h1>
 
 <div class="info" id="userName">
 👤 利用者：読込中...
@@ -61,15 +63,24 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
 
+const USER_NAME=
+localStorage.getItem("name")||"山口さん";
+
+document.getElementById("userBadge").innerHTML=
+USER_NAME+" 家族ページ";
+
 async function loadData(){
 
 try{
 
-const res=await fetch(GAS_URL+'?mode=latest');
-const data=await res.json();
+const res=
+await fetch(GAS_URL+'?mode=latest');
+
+const data=
+await res.json();
 
 document.getElementById('userName').innerHTML=
-'👤 利用者：'+(data.name||'山口さん');
+'👤 利用者：'+(data.name||USER_NAME);
 
 document.getElementById('latestStatus').innerHTML=
 '😊 最新状態：'+(data.content||'未確認');
@@ -93,6 +104,8 @@ document.getElementById('latestStatus').innerHTML=
 }
 
 loadData();
+
+setInterval(loadData,30000);
 
 </script>
 
