@@ -2,330 +2,136 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ご家族確認</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>家族・支援者ページ</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  background:#eef3f8;
-  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-  color:#222;
+margin:0;
+background:#fdfbf7;
+color:#333;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 }
 
-.top{
-  background:linear-gradient(135deg,#1565c0,#0d47a1);
-  color:white;
-  padding:34px 20px 40px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
-  text-align:center;
+.app-box{
+max-width:520px;
+margin:1.5rem auto;
+padding:0 1rem;
 }
 
-.title{
-  font-size:48px;
-  font-weight:900;
-}
-
-.sub{
-  margin-top:12px;
-  font-size:22px;
-  line-height:1.7;
-}
-
-.wrap{
-  padding:16px;
-}
-
-.alert-box{
-  background:#fff8e1;
-  border:4px solid #f9a825;
-  border-radius:28px;
-  padding:18px;
-  margin-bottom:18px;
-}
-
-.alert-title{
-  font-size:26px;
-  font-weight:900;
-  color:#f57f17;
-  margin-bottom:10px;
-}
-
-.alert-text{
-  font-size:20px;
-  line-height:1.6;
-  color:#555;
+.badge{
+display:inline-block;
+background:#777;
+color:#fff;
+border-radius:999px;
+padding:8px 14px;
+font-size:15px;
 }
 
 .card{
-  background:white;
-  border-radius:30px;
-  padding:24px;
-  margin-bottom:20px;
-  box-shadow:0 8px 20px rgba(0,0,0,.10);
+background:#fff;
+border-radius:18px;
+padding:24px;
+box-shadow:0 6px 14px rgba(0,0,0,.06);
 }
 
-.status{
-  font-size:40px;
-  font-weight:900;
-  line-height:1.4;
-  margin-bottom:16px;
+.title{
+font-size:28px;
+font-weight:900;
+text-align:center;
+margin:0 0 22px;
 }
 
-.green{color:#2e7d32}
-.blue{color:#1565c0}
-.yellow{color:#f9a825}
-
-.red{
-  color:#d32f2f;
-  animation:blink 1s infinite;
+.info{
+background:#f7f9fa;
+border-radius:12px;
+padding:16px;
+margin-bottom:14px;
+font-size:20px;
+font-weight:900;
+line-height:1.8;
 }
 
-@keyframes blink{
-  0%{opacity:1}
-  50%{opacity:.3}
-  100%{opacity:1}
+.btn{
+display:block;
+width:100%;
+border:none;
+border-radius:14px;
+padding:22px 18px;
+margin-bottom:16px;
+font-size:23px;
+font-weight:900;
+color:#fff;
+text-align:left;
+cursor:pointer;
 }
 
-.time{
-  font-size:24px;
-  color:#666;
-  line-height:1.7;
-  margin-bottom:16px;
-}
+.blue{background:#4a90e2;}
+.green{background:#4ebfa5;}
+.red{background:#e05d5d;}
 
-.name{
-  font-size:34px;
-  font-weight:900;
-  margin-bottom:12px;
-}
-
-.city{
-  display:inline-block;
-  background:#1565c0;
-  color:white;
-  padding:10px 18px;
-  border-radius:18px;
-  font-size:20px;
-  font-weight:900;
-}
-
-.button{
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:30px;
-  margin-top:16px;
-  background:linear-gradient(135deg,#78909c,#546e7a);
-  color:white;
-  font-size:34px;
-  font-weight:900;
-}
-
-.loading{
-  text-align:center;
-  font-size:28px;
-  font-weight:900;
-  color:#666;
-  padding:40px 0;
+.back{
+display:block;
+margin-top:20px;
+text-align:center;
+font-weight:900;
+text-decoration:none;
+color:#666;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">
-  <div class="title">ご家族確認</div>
-  <div class="sub">ご家族の最新確認状況を表示しています</div>
+<div class="app-box">
+
+<div style="text-align:center;margin-bottom:14px">
+<span class="badge">家族・支援者ページ</span>
 </div>
 
-<div class="wrap">
+<div class="card">
 
-  <div class="alert-box">
-    <div class="alert-title">⏰ 最終確認時間</div>
-    <div class="alert-text">
-      長時間更新がない場合は、ご家族へ連絡してください
-    </div>
-  </div>
+<h1 class="title">
+見守り状況
+</h1>
 
-  <div id="list">
-    <div class="loading">読み込み中...</div>
-  </div>
+<div class="info">
+👤 利用者：山口さん
+</div>
 
-  <button class="button" onclick="location.href='index.html'">
-    ← 今日の安心へ戻る
-  </button>
+<div class="info">
+😊 最新状態：未確認
+</div>
+
+<div class="info">
+🕒 最終確認：未確認
+</div>
+
+<div class="info">
+💊 薬の状況：未確認
+</div>
+
+<button class="btn blue">
+📋 履歴を見る
+</button>
+
+<button class="btn green">
+📞 利用者へ連絡
+</button>
+
+<button class="btn red">
+🚨 緊急連絡
+</button>
+
+<a href="index.html" class="back">
+トップへ戻る
+</a>
 
 </div>
 
-<script>
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-const SHEET_NAME =
-'見守り記録';
-
-function loadSheet(){
-
-  window.google = {
-    visualization:{
-      Query:{
-        setResponse:function(json){
-          showLogs(json);
-        }
-      }
-    }
-  };
-
-  const script = document.createElement('script');
-
-  script.src =
-    'https://docs.google.com/spreadsheets/d/' +
-    SHEET_ID +
-    '/gviz/tq?sheet=' +
-    encodeURIComponent(SHEET_NAME) +
-    '&tqx=out:json';
-
-  document.body.appendChild(script);
-}
-
-function getCell(row,index){
-  return row.c[index]?.f || row.c[index]?.v || '';
-}
-
-function colorClass(status){
-
-  if(status.includes('緊急')){
-    return 'red';
-  }
-
-  if(status.includes('外出')){
-    return 'blue';
-  }
-
-  if(status.includes('注意')){
-    return 'yellow';
-  }
-
-  return 'green';
-}
-
-function timeAgo(dateString){
-
-  const now = new Date();
-  const past = new Date(dateString);
-
-  const diff = Math.floor((now - past) / 1000);
-
-  if(diff < 60){
-    return 'たった今';
-  }
-
-  if(diff < 3600){
-    return Math.floor(diff / 60) + '分前';
-  }
-
-  if(diff < 86400){
-    return Math.floor(diff / 3600) + '時間前';
-  }
-
-  return Math.floor(diff / 86400) + '日前';
-}
-
-function showLogs(json){
-
-  const rows = json.table.rows || [];
-  const list = document.getElementById('list');
-
-  if(rows.length === 0){
-    list.innerHTML =
-      '<div class="card"><div class="status">記録がありません</div></div>';
-    return;
-  }
-
-  const savedCity = localStorage.getItem('savedCity') || '';
-  const savedArea = localStorage.getItem('savedArea') || '';
-  const targetPlace = savedCity + ' ' + savedArea;
-
-  let html = '';
-  const latestMap = {};
-
-  rows.reverse();
-
-  rows.filter(row=>{
-
-    const region = getCell(row,5);
-    return region.includes(targetPlace);
-
-  }).forEach(row=>{
-
-    const name = getCell(row,1);
-
-    if(!latestMap[name]){
-      latestMap[name] = row;
-    }
-
-  });
-
-  Object.values(latestMap)
-  .sort((a,b)=>{
-
-    const timeA = new Date(getCell(a,0));
-    const timeB = new Date(getCell(b,0));
-
-    return timeB - timeA;
-
-  })
-  .forEach(row=>{
-
-    const time = getCell(row,0);
-    const name = getCell(row,1);
-    const status = getCell(row,2);
-    const content = getCell(row,3);
-    const region = getCell(row,5);
-    const ago = timeAgo(time);
-
-    html += `
-    <div class="card">
-      <div class="status ${colorClass(status)}">
-        ${content || status}
-      </div>
-
-      <div class="time">
-        ${time}<br>
-        (${ago})
-      </div>
-
-      <div class="name">
-        ${name || ''}
-      </div>
-
-      <div class="city">
-        ${region || '地域未設定'}
-      </div>
-    </div>
-    `;
-
-  });
-
-  if(html === ''){
-    html =
-    '<div class="card"><div class="status">この地域の記録はありません</div></div>';
-  }
-
-  list.innerHTML = html;
-}
-
-loadSheet();
-
-setInterval(function(){
-  loadSheet();
-},30000);
-</script>
+</div>
 
 </body>
 </html>
