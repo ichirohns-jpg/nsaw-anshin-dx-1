@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>まちのニュース・天気</title>
+<title>今日の予定と回覧板</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
 margin:0;
 background:#fdfbf7;
@@ -44,65 +45,77 @@ text-align:center;
 margin:0 0 22px;
 }
 
-.news{
-padding:16px;
+.info{
 background:#f7f9fa;
 border-radius:12px;
-margin-bottom:12px;
+padding:16px;
+margin-bottom:14px;
+font-size:20px;
+font-weight:900;
+line-height:1.8;
+}
+
+.notice{
+background:#f7f9fa;
+border-left:6px solid #4a90e2;
+border-radius:12px;
+padding:16px;
+margin-bottom:14px;
 font-size:18px;
 line-height:1.7;
 }
 
-.weather{
-font-size:24px;
-font-weight:900;
-color:#4ebfa5;
-margin-bottom:18px;
-text-align:center;
-}
-
 .back{
 display:block;
-text-align:center;
 margin-top:20px;
+text-align:center;
 font-weight:900;
-color:#555;
 text-decoration:none;
+color:#666;
 }
 </style>
 </head>
+
 <body>
 
 <div class="app-box">
 
 <div style="text-align:center;margin-bottom:14px">
-<span class="badge">志木市 太郎 さんのページ</span>
+<span class="badge">利用者ページ</span>
 </div>
 
 <div class="card">
 
-<div class="title">
-まちのニュース・天気
+<h1 class="title">
+今日の予定
+</h1>
+
+<div class="info">
+📅 本日の予定はありません
 </div>
 
-<div class="weather">
-☀ 天気情報を表示
 </div>
 
-<div class="news">
-志木市のお知らせを表示します
+<div class="card">
+
+<h1 class="title">
+回覧板
+</h1>
+
+<div class="notice">
+📢 地域のお知らせを表示
 </div>
 
-<div class="news">
-朝霞市のお知らせを表示します
+<div class="notice">
+🎪 イベント情報を表示
 </div>
 
-<div class="news">
-和光市のお知らせを表示します
+<div class="notice">
+🏛 市役所からのお知らせを表示
 </div>
 
-<div class="news">
-新座市のお知らせを表示します
+<div class="notice">
+🚨 防災・防犯情報を表示
 </div>
 
 <a href="index.html" class="back">
