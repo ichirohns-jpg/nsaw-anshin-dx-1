@@ -3,677 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>NSAW 暮らし情報局</title>
-
-<meta name="description" content="志木・新座・朝霞・和光の暮らし情報をまとめた地域回覧板DX">
-
-<meta property="og:title" content="NSAW 暮らし情報局">
-<meta property="og:description" content="志木・新座・朝霞・和光の暮らし情報をまとめた地域回覧板DX">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/news.html">
-<meta property="og:type" content="website">
-
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>まちのニュース・天気</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
-background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-color:#222;
+background:#fdfbf7;
+color:#333;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 }
 
-.banner{
-width:100%;
-display:block;
+.app-box{
+max-width:520px;
+margin:1.5rem auto;
+padding:0 1rem;
 }
 
-.wrap{
-max-width:920px;
-margin:auto;
-padding:12px;
-}
-
-.section-title{
-font-size:30px;
-font-weight:900;
-margin:
-24px 0 18px;
-}
-
-.archive-buttons{
-display:grid;
-grid-template-columns:
-1fr 1fr;
-gap:12px;
-margin-bottom:30px;
-}
-
-.archive-buttons a{
-display:block;
-background:#1976d2;
-color:white;
-text-decoration:none;
-text-align:center;
-font-size:22px;
-font-weight:900;
-padding:18px;
-border-radius:18px;
+.badge{
+display:inline-block;
+background:#777;
+color:#fff;
+border-radius:999px;
+padding:8px 14px;
+font-size:15px;
 }
 
 .card{
-background:white;
-border-radius:24px;
-overflow:hidden;
-margin-bottom:24px;
-box-shadow:
-0 4px 14px rgba(0,0,0,.12);
-}
-
-.mainimg{
-width:100%;
-display:block;
-background:#ddd;
-}
-
-.body{
-padding:18px;
-}
-
-.date{
-font-size:15px;
-color:#666;
-margin-bottom:10px;
+background:#fff;
+border-radius:18px;
+padding:24px;
+box-shadow:0 6px 14px rgba(0,0,0,.06);
+margin-bottom:18px;
 }
 
 .title{
 font-size:28px;
 font-weight:900;
-line-height:1.5;
+text-align:center;
+margin:0 0 22px;
+}
+
+.weather{
+background:#f7f9fa;
+border-radius:12px;
+padding:16px;
 margin-bottom:14px;
-}
-
-.text{
-font-size:19px;
-line-height:1.9;
-white-space:pre-wrap;
-}
-
-.citybox{
-margin-top:18px;
-padding:14px;
-background:#f5f9fc;
-border-radius:18px;
-}
-
-.city{
-margin-top:10px;
-}
-
-.city a{
-display:block;
-background:#1976d2;
-color:white;
-text-decoration:none;
-font-weight:800;
-font-size:18px;
-padding:14px;
-border-radius:14px;
-}
-
-.videoTitle{
-font-size:24px;
-font-weight:900;
-margin-top:20px;
-margin-bottom:12px;
-}
-
-.videoText{
-font-size:18px;
-line-height:1.8;
-margin-bottom:14px;
-white-space:pre-wrap;
-}
-
-.video iframe{
-width:100%;
-aspect-ratio:16/9;
-border:none;
-border-radius:18px;
-background:black;
-}
-
-.share{
-display:grid;
-grid-template-columns:
-1fr 1fr;
-gap:10px;
-margin-top:22px;
-}
-
-.share a,
-.share button{
-border:none;
-display:block;
-text-decoration:none;
-text-align:center;
-padding:14px;
-border-radius:16px;
-font-size:18px;
-font-weight:900;
-color:white;
-}
-
-.fb{
-background:#1877f2;
-}
-
-.line{
-background:#06c755;
-}
-
-.x{
-background:#111;
-}
-
-.copy{
-background:#ff9800;
-}
-
-.loading{
-padding:40px;
-text-align:center;
-font-size:24px;
-}
-
-.error{
-padding:40px;
-text-align:center;
 font-size:22px;
-color:red;
+font-weight:900;
+text-align:center;
+color:#4ebfa5;
 }
 
+.news{
+background:#f7f9fa;
+border-left:6px solid #4ebfa5;
+border-radius:12px;
+padding:16px;
+margin-bottom:14px;
+font-size:18px;
+line-height:1.7;
+}
+
+.back{
+display:block;
+margin-top:20px;
+text-align:center;
+font-weight:900;
+text-decoration:none;
+color:#666;
+}
 </style>
 </head>
 
 <body>
 
-<img
-src="top-banner.jpg"
-class="banner">
+<div class="app-box">
 
-<div class="wrap">
-
-<h2 class="section-title">
-最新情報
-</h2>
-
-<div
-id="loading"
-class="loading">
-読み込み中...
+<div style="text-align:center;margin-bottom:14px">
+<span class="badge">利用者ページ</span>
 </div>
-
-<div id="news"></div>
-
-<h2 class="section-title">
-月別アーカイブ
-</h2>
-
-<div
-id="monthButtons"
-class="archive-buttons">
-</div>
-
-</div>
-
-<script>
-
-const params =
-new URLSearchParams(
-location.search
-);
-
-const targetId =
-params.get('id');
-
-function copyArticle(url){
-
-navigator.clipboard
-.writeText(url);
-
-alert('URLをコピーしました');
-
-}
-
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-function val(c){
-
-if(!c)return '';
-
-return String(
-c.v ?? c.f ?? ''
-);
-
-}
-
-function url(c){
-
-if(!c)return '';
-
-const raw =
-JSON.stringify(c);
-
-const m =
-raw.match(
-/https?:\/\/[^"\\\s<>]+/
-);
-
-return m ? m[0] : val(c);
-
-}
-
-function monthKey(dateStr){
-
-const m =
-String(dateStr)
-.match(
-/Date\((\d+),(\d+),(\d+)\)/
-);
-
-if(m){
-
-const y =
-m[1];
-
-const mo =
-String(
-Number(m[2])+1
-).padStart(2,'0');
-
-return y+'-'+mo;
-
-}
-
-const d =
-new Date(dateStr);
-
-if(isNaN(d))
-return '';
-
-return d.getFullYear()
-+'-'+
-String(
-d.getMonth()+1
-).padStart(2,'0');
-
-}
-
-function monthLabel(key){
-
-const p =
-key.split('-');
-
-return p[0]
-+'年'+
-Number(p[1])
-+'月';
-
-}
-
-function yt(u){
-
-if(!u)return '';
-
-if(u.includes('watch?v=')){
-return 'https://www.youtube.com/embed/' +
-u.split('watch?v=')[1]
-.split('&')[0];
-}
-
-if(u.includes('youtu.be/')){
-return 'https://www.youtube.com/embed/' +
-u.split('youtu.be/')[1]
-.split('?')[0];
-}
-
-if(u.includes('/shorts/')){
-return 'https://www.youtube.com/embed/' +
-u.split('/shorts/')[1]
-.split('?')[0];
-}
-
-return '';
-
-}
-
-function cityBtn(
-name,
-title,
-link
-){
-
-if(!title || !link)
-return '';
-
-return `
-<div class="city">
-<a href="${link}"
-target="_blank"
-rel="noopener">
-${name}：${title}
-</a>
-</div>
-`;
-
-}
-
-function shareButtons(title,id){
-
-const shareUrl =
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/news.html?id='
-+id;
-
-const u =
-encodeURIComponent(
-shareUrl
-);
-
-const t =
-encodeURIComponent(
-title
-);
-
-return `
-
-<div class="share">
-
-<a
-class="fb"
-target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=${u}">
-Facebook
-</a>
-
-<a
-class="line"
-target="_blank"
-href="https://social-plugins.line.me/lineit/share?url=${u}">
-LINE
-</a>
-
-<a
-class="x"
-target="_blank"
-href="https://twitter.com/intent/tweet?url=${u}&text=${t}">
-X
-</a>
-
-<button
-class="copy"
-onclick="copyArticle('${shareUrl}')">
-URLコピー
-</button>
-
-</div>
-
-`;
-
-}
-
-function cardHtml(c){
-
-const id =
-val(c[1]);
-
-const date =
-val(c[0]);
-
-const title =
-val(c[2]);
-
-const image =
-url(c[3]);
-
-const text =
-val(c[4]);
-
-const embed =
-yt(
-url(c[17])
-);
-
-return `
 
 <div class="card">
 
-${image ? `
-<img class="mainimg"
-src="${image}">
-` : ''}
+<h1 class="title">
+まちのニュース・天気
+</h1>
 
-<div class="body">
-
-<div class="date">
-${date}
+<div class="weather">
+☀ 天気情報
 </div>
 
-<div class="title">
-${title}
+<div class="news">
+志木市のお知らせを表示
 </div>
 
-<div class="text">
-${text}
+<div class="news">
+朝霞市のお知らせを表示
 </div>
 
-<div class="citybox">
-
-${cityBtn(
-'志木市',
-val(c[5]),
-url(c[6])
-)}
-
-${cityBtn(
-'新座市',
-val(c[7]),
-url(c[8])
-)}
-
-${cityBtn(
-'朝霞市',
-val(c[9]),
-url(c[10])
-)}
-
-${cityBtn(
-'和光市',
-val(c[11]),
-url(c[12])
-)}
-
+<div class="news">
+和光市のお知らせを表示
 </div>
 
-${val(c[15]) ? `
-<div class="videoTitle">
-🎬 ${val(c[15])}
-</div>
-` : ''}
-
-${val(c[16]) ? `
-<div class="videoText">
-${val(c[16])}
-</div>
-` : ''}
-
-${embed ? `
-<div class="video">
-<iframe
-src="${embed}"
-allowfullscreen>
-</iframe>
-</div>
-` : ''}
-
-${shareButtons(
-title,
-id
-)}
-
+<div class="news">
+新座市のお知らせを表示
 </div>
 
-</div>
-
-`;
-
-}
-
-window.google = {
-visualization:{
-Query:{
-setResponse:function(res){
-
-document
-.getElementById(
-'loading'
-)
-.style.display='none';
-
-try{
-
-const rows =
-(
-res.table.rows || []
-)
-.reverse();
-
-const news =
-document
-.getElementById(
-'news'
-);
-
-const monthButtons =
-document
-.getElementById(
-'monthButtons'
-);
-
-const months = [];
-
-if(targetId){
-
-rows.forEach(r=>{
-
-const c =
-r.c || [];
-
-if(
-val(c[1])===targetId
-){
-
-news.innerHTML +=
-cardHtml(c);
-
-}
-
-});
-
-}else{
-
-rows
-.slice(0,5)
-.forEach(r=>{
-
-news.innerHTML +=
-cardHtml(
-r.c || []
-);
-
-});
-
-rows.forEach(r=>{
-
-const c =
-r.c || [];
-
-const key =
-monthKey(
-val(c[0])
-);
-
-if(
-key &&
-!months.includes(key)
-){
-
-months.push(key);
-
-}
-
-});
-
-months.forEach(key=>{
-
-monthButtons.innerHTML += `
-<a href="
-archive.html?month=${key}
-">
-📁 ${monthLabel(key)}
+<a href="index.html" class="back">
+トップへ戻る
 </a>
-`;
 
-});
+</div>
 
-}
-
-}catch(e){
-
-document
-.getElementById(
-'news'
-)
-.innerHTML =
-'<div class="error">表示エラー</div>';
-
-console.log(e);
-
-}
-
-}
-}
-}
-};
-
-const s =
-document
-.createElement(
-'script'
-);
-
-s.src =
-'https://docs.google.com/spreadsheets/d/'
-+SHEET_ID+
-'/gviz/tq?tqx=out:json';
-
-document.body
-.appendChild(s);
-
-</script>
+</div>
 
 </body>
 </html>
