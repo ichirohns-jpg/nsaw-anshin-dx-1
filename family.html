@@ -27,22 +27,28 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 <div class="card">
 
-<h1 class="title">見守り状況</h1>
+<h1 class="title">
+見守り状況
+</h1>
 
 <div class="info" id="userName">
-👤 利用者：読み込み中...
+👤 利用者：山口さん
 </div>
 
 <div class="info" id="latestStatus">
-😊 最新状態：読み込み中...
+😊 最新状態：未確認
 </div>
 
 <div class="info" id="latestTime">
-🕒 最終確認：読み込み中...
+🕒 最終確認：未確認
 </div>
 
 <div class="info" id="latestMedicine">
-💊 薬の状況：読み込み中...
+💊 薬の状況：未確認
+</div>
+
+<div class="info" id="gpsInfo">
+📍 位置情報：未確認
 </div>
 
 <a href="index.html" class="back">
@@ -54,10 +60,42 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 </div>
 
 <script>
-document.getElementById('userName').innerHTML='👤 利用者：利用者';
-document.getElementById('latestStatus').innerHTML='😊 最新状態：未取得';
-document.getElementById('latestTime').innerHTML='🕒 最終確認：未取得';
-document.getElementById('latestMedicine').innerHTML='💊 薬の状況：未取得';
+
+const GAS_URL='https://script.google.com/macros/s/AKfycbyQKsVKLgbkInDJwG39B00erucU_0nROI4QjLo30kDlBwiNfb9frcan5LDkEz4Ta9SA/exec';
+
+async function loadData(){
+
+try{
+
+const res=await fetch(GAS_URL+'?mode=latest');
+
+const data=await res.json();
+
+document.getElementById('userName').innerHTML=
+'👤 利用者：'+(data.name||'山口さん');
+
+document.getElementById('latestStatus').innerHTML=
+'😊 最新状態：'+(data.content||'未確認');
+
+document.getElementById('latestTime').innerHTML=
+'🕒 最終確認：'+(data.time||'未確認');
+
+document.getElementById('latestMedicine').innerHTML=
+'💊 薬の状況：'+(data.medicine||'未確認');
+
+document.getElementById('gpsInfo').innerHTML=
+'📍 位置情報：'+(data.gps||'未確認');
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+loadData();
+
 </script>
 
 </body>
