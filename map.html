@@ -12,7 +12,7 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 .badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
 .card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
 .title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
-.btn{display:block;width:100%;border:none;border-radius:14px;padding:22px 18px;margin-bottom:16px;font-size:23px;font-weight:900;color:#fff;text-align:left}
+.btn{display:block;width:100%;border:none;border-radius:14px;padding:22px 18px;margin-bottom:16px;font-size:23px;font-weight:900;color:#fff;text-align:left;cursor:pointer}
 .red{background:#e05d5d}
 .blue{background:#4a90e2}
 .green{background:#4ebfa5}
@@ -26,7 +26,7 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 <div class="app-box">
 
 <div style="text-align:center;margin-bottom:14px">
-<span class="badge">利用者ページ</span>
+<span class="badge" id="userBadge">利用者ページ</span>
 </div>
 
 <div class="card">
@@ -35,20 +35,28 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 近くの病院・避難ばしょ
 </h1>
 
-<button class="btn red" onclick="openHospital()">
-🚑 近くの病院を探す
+<button class="btn red" onclick="openMap('病院')">
+🚑 近くの病院
 </button>
 
-<button class="btn blue" onclick="openDoctor()">
-🏥 当番医を探す
+<button class="btn blue" onclick="openMap('薬局')">
+💊 近くの薬局
 </button>
 
-<button class="btn green" onclick="openShelter()">
-🏫 避難所を探す
+<button class="btn green" onclick="openMap('避難所')">
+🏫 避難所
 </button>
 
-<div class="info" id="gps">
-位置情報を取得していません
+<button class="btn blue" onclick="openMap('コンビニ')">
+🏪 コンビニ
+</button>
+
+<button class="btn green" onclick="openMap('スーパー')">
+🛒 スーパー
+</button>
+
+<div class="info" id="gpsInfo">
+現在地を取得中...
 </div>
 
 <a href="index.html" class="back">
@@ -61,35 +69,44 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 <script>
 
-let lat=0;
-let lng=0;
+const USER_NAME=
+localStorage.getItem("name")||"山口さん";
 
-navigator.geolocation.getCurrentPosition(function(pos){
+document.getElementById("userBadge").innerHTML=
+USER_NAME+" さん";
 
-lat=pos.coords.latitude;
-lng=pos.coords.longitude;
+let LAT=0;
+let LNG=0;
 
-document.getElementById("gps").innerHTML=
-"現在地取得済み<br>"+lat+" , "+lng;
+navigator.geolocation.getCurrentPosition(
 
-});
+function(pos){
 
-function openHospital(){
-window.open(
-"https://www.google.com/maps/search/病院/@"+lat+","+lng+",15z"
-);
+LAT=pos.coords.latitude;
+LNG=pos.coords.longitude;
+
+document.getElementById("gpsInfo").innerHTML=
+"📍現在地取得済み";
+
+},
+
+function(){
+
+document.getElementById("gpsInfo").innerHTML=
+"位置情報取得失敗";
+
 }
 
-function openDoctor(){
-window.open(
-"https://www.google.com/maps/search/当番医/@"+lat+","+lng+",15z"
 );
-}
 
-function openShelter(){
+function openMap(word){
+
 window.open(
-"https://www.google.com/maps/search/避難所/@"+lat+","+lng+",15z"
+'https://www.google.com/maps/search/'+
+encodeURIComponent(word)+
+'/@'+LAT+','+LNG+',15z'
 );
+
 }
 
 </script>
