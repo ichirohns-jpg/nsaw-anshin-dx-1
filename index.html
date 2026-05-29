@@ -1,387 +1,57 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="card">
 
-<title>今日の安心DX</title>
-
-<style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:#f1f5f9;
-  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-  color:#1f2937;
-}
-
-.top{
-  background:linear-gradient(135deg,#0f766e,#2563eb);
-  color:white;
-  padding:34px 22px 42px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
-}
-
-.title{
-  font-size:44px;
-  font-weight:900;
-  line-height:1.25;
-}
-
-.sub{
-  margin-top:12px;
-  font-size:22px;
-  line-height:1.7;
-  opacity:.95;
-}
-
-.date{
-  margin-top:18px;
-  font-size:22px;
-  font-weight:900;
-}
-
-.wrap{
-  max-width:720px;
-  margin:0 auto;
-  padding:18px;
-}
-
-.card{
-  background:white;
-  border-radius:28px;
-  padding:24px;
-  margin-bottom:20px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-.menu-title{
-  font-size:28px;
-  font-weight:900;
-  margin-bottom:16px;
-  color:#0f766e;
-}
-
-.city-select{
-  width:100%;
-  padding:20px;
-  border-radius:18px;
-  border:3px solid #cbd5e1;
-  font-size:26px;
-  margin-bottom:14px;
-  background:white;
-}
-
-.gomi-box{
-  background:#ecfeff;
-  border-left:8px solid #0f766e;
-  border-radius:20px;
-  padding:22px;
-  font-size:24px;
-  line-height:1.7;
-  font-weight:900;
-  color:#0f766e;
-}
-
-.schedule-title{
-  font-size:24px;
-  color:#2563eb;
-  font-weight:900;
-  margin-bottom:12px;
-}
-
-.schedule-main{
-  font-size:38px;
-  font-weight:900;
-  line-height:1.4;
-}
-
-.schedule-sub{
-  margin-top:10px;
-  font-size:22px;
-  color:#64748b;
-  line-height:1.7;
-}
-
-.section-label{
-  font-size:24px;
-  font-weight:900;
-  color:#475569;
-  margin:8px 0 14px;
-}
-
-.big-button{
-  width:100%;
-  border:none;
-  border-radius:30px;
-  padding:30px 20px;
-  margin-bottom:18px;
-  color:white;
-  font-size:36px;
-  font-weight:900;
-  line-height:1.25;
-  box-shadow:0 8px 18px rgba(0,0,0,.16);
-}
-
-.green{background:linear-gradient(135deg,#22c55e,#15803d)}
-.blue{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
-.red{background:linear-gradient(135deg,#ef4444,#b91c1c)}
-.orange{background:linear-gradient(135deg,#f59e0b,#d97706)}
-.purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
-.teal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
-
-.result{
-  text-align:center;
-  font-size:28px;
-  font-weight:900;
-  color:#0f766e;
-  margin:10px 0 22px;
-}
-
-.checked{
-  opacity:.68;
-  box-shadow:0 0 0 6px #fff,0 0 0 12px #22c55e;
-}
-
-.small-note{
-  font-size:20px;
-  line-height:1.7;
-  color:#64748b;
-  margin-top:-4px;
-  margin-bottom:18px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="top">
-  <div class="title">今日の安心DX</div>
-  <div class="sub">
-    毎日の見守りと、<br>
-    地域の安心をつなぐページ
-  </div>
-  <div class="date" id="todayDate"></div>
-</div>
-
-<div class="wrap">
-
-  <div class="card">
-    <div class="menu-title">お住まいの地域</div>
-
-    <select id="citySelect" class="city-select">
-      <option>志木市</option>
-      <option>朝霞市</option>
-      <option>和光市</option>
-      <option>新座市</option>
-    </select>
-
-    <select id="areaSelect" class="city-select"></select>
-
-    <div class="gomi-box" id="gomiInfo">
-      ゴミ情報を確認しています
-    </div>
+  <div class="menu-title">
+    💊 薬の確認
   </div>
 
-  <div class="card">
-    <div class="schedule-title">📅 今日の予定</div>
-    <div class="schedule-main">今日は予定ありません</div>
-    <div class="schedule-sub">今日も元気にお過ごしください</div>
-  </div>
+  <div style="
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  ">
 
-  <div class="section-label">今日の見守り</div>
-
-  <button id="btn-genki" class="big-button green"
-  onclick="sendData('btn-genki','正常','😊 元気です')">
-    😊 元気です
-  </button>
-
-  <button id="btn-help" class="big-button orange"
-  onclick="sendData('btn-help','相談','😓 少し困っています')">
-    😓 少し困っています
-  </button>
-
-  <button id="btn-emergency" class="big-button red"
-  onclick="sendData('btn-emergency','緊急','🚨 助けてください')">
-    🚨 助けてください
-  </button>
-
-  <div class="card">
-    <div class="menu-title">薬の確認</div>
-    <div class="small-note">
-      飲んだら押してください。家族・支援者側で確認できます。
-    </div>
-
-    <button id="btn-morning-med" class="big-button blue"
+    <button
+    id="btn-morning-med"
+    class="big-button blue"
+    style="
+    margin:0;
+    font-size:28px;
+    padding:24px 10px;
+    "
     onclick="sendData('btn-morning-med','薬','☀ 朝の薬を飲みました')">
-      ☀ 朝の薬
+
+      ☀ 朝
+
     </button>
 
-    <button id="btn-noon-med" class="big-button purple"
+    <button
+    id="btn-noon-med"
+    class="big-button purple"
+    style="
+    margin:0;
+    font-size:28px;
+    padding:24px 10px;
+    "
     onclick="sendData('btn-noon-med','薬','🌤 昼の薬を飲みました')">
-      🌤 昼の薬
+
+      🌤 昼
+
     </button>
 
-    <button id="btn-night-med" class="big-button teal"
+    <button
+    id="btn-night-med"
+    class="big-button teal"
+    style="
+    margin:0;
+    font-size:28px;
+    padding:24px 10px;
+    "
     onclick="sendData('btn-night-med','薬','🌙 夜の薬を飲みました')">
-      🌙 夜の薬
-    </button>
-  </div>
 
-  <div class="result" id="result"></div>
+      🌙 夜
 
-  <div class="card">
-    <div class="menu-title">地域と暮らし</div>
-
-    <button class="big-button blue" onclick="location.href='news.html'">
-      📰 4市情報
     </button>
 
-    <button class="big-button orange" onclick="location.href='map.html'">
-      🗺️ 行き先案内
-    </button>
   </div>
 
 </div>
-
-<script>
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyQKsVKLgbkInDJwG39B00erucU_0nROI4QjLo30kDlBwiNfb9frcan5LDkEz4Ta9SA/exec';
-
-const citySelect = document.getElementById('citySelect');
-const areaSelect = document.getElementById('areaSelect');
-const gomiInfo = document.getElementById('gomiInfo');
-
-const areaData = {
-  '志木市':['本町','宗岡','柏町','幸町','館','中宗岡'],
-  '朝霞市':['朝志ヶ丘','本町','仲町','根岸台'],
-  '和光市':['白子','本町','中央'],
-  '新座市':['野火止','東北','栗原']
-};
-
-function updateAreaSelect(){
-  const city = citySelect.value;
-  const savedArea = localStorage.getItem('savedArea');
-
-  areaSelect.innerHTML = '';
-
-  areaData[city].forEach(area=>{
-    const option = document.createElement('option');
-    option.value = area;
-    option.textContent = area;
-    areaSelect.appendChild(option);
-  });
-
-  if(savedArea && areaData[city].includes(savedArea)){
-    areaSelect.value = savedArea;
-  }
-}
-
-function showToday(){
-  const now = new Date();
-  const week = ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
-
-  document.getElementById('todayDate').innerHTML =
-    now.getFullYear() + '年 ' +
-    (now.getMonth()+1) + '月 ' +
-    now.getDate() + '日 ' +
-    week[now.getDay()];
-}
-
-function clearChecks(){
-  document.querySelectorAll('.big-button').forEach(btn=>{
-    btn.classList.remove('checked');
-    btn.innerHTML = btn.innerHTML.replace(' ✅','');
-  });
-}
-
-function restoreLastButton(){
-  const lastButton = localStorage.getItem('lastButton');
-  if(!lastButton)return;
-
-  const btn = document.getElementById(lastButton);
-  if(!btn)return;
-
-  btn.classList.add('checked');
-
-  if(!btn.innerHTML.includes('✅')){
-    btn.innerHTML = btn.innerHTML + ' ✅';
-  }
-}
-
-async function sendData(buttonId,status,content){
-  try{
-    await fetch(GAS_URL,{
-      method:'POST',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({
-        name:'山口さん',
-        city:citySelect.value,
-        area:areaSelect.value,
-        status:status,
-        content:content
-      }),
-      keepalive:true
-    });
-
-    clearChecks();
-
-    const btn = document.getElementById(buttonId);
-    btn.classList.add('checked');
-
-    if(!btn.innerHTML.includes('✅')){
-      btn.innerHTML = btn.innerHTML + ' ✅';
-    }
-
-    localStorage.setItem('lastButton',buttonId);
-    localStorage.setItem('savedCity',citySelect.value);
-    localStorage.setItem('savedArea',areaSelect.value);
-
-    document.getElementById('result').innerHTML =
-    '送信しました';
-
-  }catch(error){
-    alert('通信エラー');
-  }
-}
-
-function showGomi(){
-  const city = citySelect.value;
-  const area = areaSelect.value;
-
-  gomiInfo.innerHTML =
-    '【' + city + ' ' + area + '】<br><br>' +
-    '本日のゴミ情報を表示します';
-}
-
-const savedCity = localStorage.getItem('savedCity');
-
-if(savedCity){
-  citySelect.value = savedCity;
-}
-
-updateAreaSelect();
-
-citySelect.addEventListener('change',function(){
-  localStorage.setItem('savedCity',citySelect.value);
-  updateAreaSelect();
-  localStorage.setItem('savedArea',areaSelect.value);
-  showGomi();
-});
-
-areaSelect.addEventListener('change',function(){
-  localStorage.setItem('savedArea',areaSelect.value);
-  showGomi();
-});
-
-showToday();
-restoreLastButton();
-showGomi();
-</script>
-
-</body>
-</html>
