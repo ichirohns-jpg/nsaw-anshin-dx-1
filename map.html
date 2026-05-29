@@ -7,78 +7,17 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#fdfbf7;
-color:#333;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-}
-
-.app-box{
-max-width:520px;
-margin:1.5rem auto;
-padding:0 1rem;
-}
-
-.badge{
-display:inline-block;
-background:#777;
-color:#fff;
-border-radius:999px;
-padding:8px 14px;
-font-size:15px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:24px;
-box-shadow:0 6px 14px rgba(0,0,0,.06);
-}
-
-.title{
-font-size:28px;
-font-weight:900;
-text-align:center;
-margin:0 0 22px;
-}
-
-.btn{
-display:block;
-width:100%;
-border:none;
-border-radius:14px;
-padding:22px 18px;
-margin-bottom:16px;
-font-size:23px;
-font-weight:900;
-color:#fff;
-text-align:left;
-cursor:pointer;
-}
-
-.red{background:#e05d5d;}
-.blue{background:#4a90e2;}
-.green{background:#4ebfa5;}
-
-.info{
-background:#f7f9fa;
-border-radius:12px;
-padding:16px;
-margin-top:12px;
-font-size:18px;
-line-height:1.7;
-}
-
-.back{
-display:block;
-margin-top:20px;
-text-align:center;
-font-weight:900;
-text-decoration:none;
-color:#666;
-}
+body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
+.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
+.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
+.btn{display:block;width:100%;border:none;border-radius:14px;padding:22px 18px;margin-bottom:16px;font-size:23px;font-weight:900;color:#fff;text-align:left}
+.red{background:#e05d5d}
+.blue{background:#4a90e2}
+.green{background:#4ebfa5}
+.info{background:#f7f9fa;border-radius:12px;padding:16px;margin-top:12px;font-size:18px;line-height:1.7}
+.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
 
@@ -96,20 +35,20 @@ color:#666;
 近くの病院・避難ばしょ
 </h1>
 
-<button class="btn red">
+<button class="btn red" onclick="openHospital()">
 🚑 近くの病院を探す
 </button>
 
-<button class="btn blue">
+<button class="btn blue" onclick="openDoctor()">
 🏥 当番医を探す
 </button>
 
-<button class="btn green">
+<button class="btn green" onclick="openShelter()">
 🏫 避難所を探す
 </button>
 
-<div class="info">
-現在地を利用して病院や避難所を表示する予定です。
+<div class="info" id="gps">
+位置情報を取得していません
 </div>
 
 <a href="index.html" class="back">
@@ -119,6 +58,41 @@ color:#666;
 </div>
 
 </div>
+
+<script>
+
+let lat=0;
+let lng=0;
+
+navigator.geolocation.getCurrentPosition(function(pos){
+
+lat=pos.coords.latitude;
+lng=pos.coords.longitude;
+
+document.getElementById("gps").innerHTML=
+"現在地取得済み<br>"+lat+" , "+lng;
+
+});
+
+function openHospital(){
+window.open(
+"https://www.google.com/maps/search/病院/@"+lat+","+lng+",15z"
+);
+}
+
+function openDoctor(){
+window.open(
+"https://www.google.com/maps/search/当番医/@"+lat+","+lng+",15z"
+);
+}
+
+function openShelter(){
+window.open(
+"https://www.google.com/maps/search/避難所/@"+lat+","+lng+",15z"
+);
+}
+
+</script>
 
 </body>
 </html>
