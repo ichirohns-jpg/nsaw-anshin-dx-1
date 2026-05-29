@@ -3,315 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>地域変更</title>
+<title>地域設定</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:18px;
-}
-
-.card{
-
-background:white;
-
-border-radius:30px;
-
-padding:24px;
-
-margin-bottom:24px;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.08);
-
-}
-
-.title{
-
-font-size:34px;
-
-font-weight:900;
-
-margin-bottom:20px;
-
-color:#546e7a;
-
-}
-
-select{
-
+*{box-sizing:border-box}
+body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
+.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
+.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
+label{display:block;font-size:20px;font-weight:900;margin:14px 0 8px}
+input,select{
 width:100%;
-
-padding:24px;
-
-margin-bottom:20px;
-
-font-size:34px;
-
-font-weight:900;
-
-border-radius:24px;
-
+padding:16px;
+font-size:20px;
 border:2px solid #ddd;
-
-background:white;
-
+border-radius:12px;
 }
-
-.saveBtn{
-
+.btn{
 width:100%;
-
-background:#43a047;
-
 border:none;
-
-border-radius:30px;
-
-padding:32px;
-
-font-size:42px;
-
-font-weight:900;
-
-color:white;
-
-margin-bottom:24px;
-
-}
-
-.backBtn{
-
-width:100%;
-
-background:#546e7a;
-
-border:none;
-
-border-radius:30px;
-
-padding:32px;
-
-font-size:42px;
-
-font-weight:900;
-
-color:white;
-
-}
-
-.message{
-
-font-size:30px;
-
-font-weight:900;
-
-color:#43a047;
-
+border-radius:14px;
+padding:22px 18px;
 margin-top:20px;
-
-text-align:center;
-
+font-size:23px;
+font-weight:900;
+background:#4ebfa5;
+color:#fff;
 }
-
+.back{
+display:block;
+margin-top:20px;
+text-align:center;
+font-weight:900;
+text-decoration:none;
+color:#666;
+}
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="app-box">
+
+<div style="text-align:center;margin-bottom:14px">
+<span class="badge">利用者設定</span>
+</div>
 
 <div class="card">
 
-<div class="title">
+<h1 class="title">地域設定</h1>
 
-地域変更
+<label>お名前</label>
+<input id="name">
 
-</div>
-
+<label>市</label>
 <select id="city">
-
-<option value="">
-市を選択
-</option>
-
-<option value="志木市">
-志木市
-</option>
-
-<option value="朝霞市">
-朝霞市
-</option>
-
-<option value="新座市">
-新座市
-</option>
-
-<option value="和光市">
-和光市
-</option>
-
+<option>志木市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+<option>新座市</option>
 </select>
 
-<select id="area">
+<label>地区</label>
+<input id="area">
 
-<option value="">
-地区を選択
-</option>
+<label>緊急連絡先</label>
+<input id="tel">
 
-</select>
-
-<button
-class="saveBtn"
-onclick="saveArea()">
-
+<button class="btn" onclick="saveData()">
 保存する
-
 </button>
 
-<div
-class="message"
-id="message">
+<a href="index.html" class="back">
+トップへ戻る
+</a>
 
 </div>
-
-</div>
-
-<button
-class="backBtn"
-onclick="location.href='garbage.html'">
-
-戻る
-
-</button>
 
 </div>
 
 <script>
 
-const areas = {
+document.getElementById("name").value=
+localStorage.getItem("name")||"山口さん";
 
-'志木市':[
-'本町',
-'館',
-'柏町',
-'幸町',
-'中宗岡',
-'上宗岡',
-'下宗岡'
-],
+document.getElementById("city").value=
+localStorage.getItem("city")||"志木市";
 
-'朝霞市':[
-'朝志ケ丘',
-'根岸台',
-'溝沼',
-'本町'
-],
+document.getElementById("area").value=
+localStorage.getItem("area")||"";
 
-'新座市':[
-'東',
-'野火止',
-'栗原'
-],
+document.getElementById("tel").value=
+localStorage.getItem("tel")||"";
 
-'和光市':[
-'白子',
-'本町',
-'新倉'
-]
+function saveData(){
 
-};
+localStorage.setItem("name",
+document.getElementById("name").value);
 
-const citySelect =
-document.getElementById(
-'city'
-);
+localStorage.setItem("city",
+document.getElementById("city").value);
 
-const areaSelect =
-document.getElementById(
-'area'
-);
+localStorage.setItem("area",
+document.getElementById("area").value);
 
-citySelect.addEventListener(
-'change',
-function(){
+localStorage.setItem("tel",
+document.getElementById("tel").value);
 
-const city =
-citySelect.value;
-
-areaSelect.innerHTML =
-'<option value="">地区を選択</option>';
-
-if(!areas[city]) return;
-
-areas[city].forEach(area=>{
-
-areaSelect.innerHTML += `
-
-<option value="${area}">
-
-${area}
-
-</option>
-
-`;
-
-});
-
-}
-);
-
-function saveArea(){
-
-const city =
-citySelect.value;
-
-const area =
-areaSelect.value;
-
-if(!city || !area){
-
-alert('市と地区を選んでください');
-
-return;
-
-}
-
-localStorage.setItem(
-'gomiCity',
-city
-);
-
-localStorage.setItem(
-'gomiArea',
-area
-);
-
-document
-.getElementById('message')
-.innerHTML =
-'保存しました';
-
-setTimeout(function(){
-
-location.href='garbage.html';
-
-},800);
+alert("保存しました");
 
 }
 
