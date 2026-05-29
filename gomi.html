@@ -3,456 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>今日のごみ</title>
-
+<title>ゴミの日</title>
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-background:#eef3f8;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:16px;
-}
-
-.card{
-
-background:white;
-
-border-radius:30px;
-
-padding:24px;
-
-margin-bottom:24px;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.08);
-
-}
-
-.city{
-
-font-size:22px;
-
-font-weight:900;
-
-color:#666;
-
-margin-bottom:10px;
-
-}
-
-.title{
-
-font-size:30px;
-
-font-weight:900;
-
-margin-bottom:18px;
-
-color:#43a047;
-
-}
-
-.day{
-
-font-size:24px;
-
-font-weight:900;
-
-color:#666;
-
-margin-bottom:10px;
-
-}
-
-.gomi{
-
-font-size:54px;
-
-font-weight:900;
-
-line-height:1.3;
-
-color:#43a047;
-
-}
-
-.weekBtn{
-
-width:100%;
-
-background:#1976d2;
-
-border:none;
-
-border-radius:28px;
-
-padding:28px;
-
-margin-bottom:24px;
-
-font-size:34px;
-
-font-weight:900;
-
-color:white;
-
-}
-
-.backBtn{
-
-width:100%;
-
-background:#546e7a;
-
-border:none;
-
-border-radius:28px;
-
-padding:28px;
-
-font-size:34px;
-
-font-weight:900;
-
-color:white;
-
-}
-
-.weekBox{
-
-display:none;
-
-background:white;
-
-border-radius:30px;
-
-padding:24px;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.08);
-
-margin-bottom:24px;
-
-}
-
-.weekItem{
-
-padding:16px 0;
-
-border-bottom:1px solid #ddd;
-
-}
-
-.weekItem:last-child{
-
-border-bottom:none;
-
-}
-
-.weekDay{
-
-font-size:26px;
-
-font-weight:900;
-
-color:#666;
-
-margin-bottom:6px;
-
-}
-
-.weekGomi{
-
-font-size:42px;
-
-font-weight:900;
-
-color:#43a047;
-
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
+.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
+.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
+.info{background:#f7f9fa;border-left:6px solid #4ebfa5;border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900;line-height:1.8}
+select{width:100%;padding:16px;font-size:20px;border-radius:12px;border:2px solid #ddd;margin-bottom:14px}
+.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
-
 <body>
-
-<div class="wrap">
-
+<div class="app-box">
+<div style="text-align:center;margin-bottom:14px">
+<span class="badge">利用者ページ</span>
+</div>
 <div class="card">
-
-<div
-class="city"
-id="cityName">
-
-地域未設定
-
+<h1 class="title">ゴミの日</h1>
+<select id="area" onchange="loadGomi()">
+<option>志木市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+<option>新座市</option>
+</select>
+<div id="gomiArea">
+<div class="info">ゴミ情報を読み込み中...</div>
 </div>
-
-<div class="title">
-
-今日のごみ
-
+<a href="index.html" class="back">トップへ戻る</a>
 </div>
-
-<div class="day">
-
-今日
-
-</div>
-
-<div
-class="gomi"
-id="todayGomi">
-
-読み込み中...
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="day">
-
-明日
-
-</div>
-
-<div
-class="gomi"
-id="tomorrowGomi">
-
-読み込み中...
-
-</div>
-
-</div>
-
-<button
-class="weekBtn"
-onclick="toggleWeek()">
-
-今週を見る
-
-</button>
-
-<div
-class="weekBox"
-id="weekBox">
-
-</div>
-
-<button
-class="backBtn"
-onclick="location.href='garbage.html'">
-
-戻る
-
-</button>
-
 </div>
 
 <script>
+const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
 
-const SHEET_ID =
-'13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-const SHEET_NAME =
-'ゴミ';
-
-const city =
-localStorage.getItem(
-'gomiCity'
-) || '';
-
-const area =
-localStorage.getItem(
-'gomiArea'
-) || '';
-
-document
-.getElementById('cityName')
-.innerHTML =
-city + ' ' + area;
-
-function cell(c){
-
-return c
-? String(c.v ?? c.f ?? '').trim()
-: '';
-
-}
-
-function todayJapanese(offset=0){
-
-const d =
-new Date();
-
-d.setDate(
-d.getDate()+offset
-);
-
-return[
-'日','月','火','水','木','金','土'
-][d.getDay()];
-
-}
-
-function matchDay(dayText,offset=0){
-
-const today =
-todayJapanese(offset);
-
-if(!dayText)
-return false;
-
-if(dayText===today)
-return true;
-
-return dayText.includes(today);
-
-}
-
-function receiveSheet(json){
-
-const rows =
-json.table.rows || [];
-
-const data =
-rows.map(r=>{
-
-const c =
-r.c || [];
-
-return{
-
-city:cell(c[0]),
-area:cell(c[1]),
-day:cell(c[2]),
-type:cell(c[3])
-
-};
-
+async function loadGomi(){
+try{
+const city=document.getElementById('area').value;
+const res=await fetch(GAS_URL+'?mode=gomi&city='+encodeURIComponent(city));
+const data=await res.json();
+let html='';
+data.forEach(item=>{
+html+=`
+<div class="info">
+${item.city}<br>
+${item.day}<br>
+${item.type}
+</div>`;
 });
-
-const todayData =
-data.find(r=>
-r.city===city &&
-r.area===area &&
-matchDay(r.day,0)
-);
-
-const tomorrowData =
-data.find(r=>
-r.city===city &&
-r.area===area &&
-matchDay(r.day,1)
-);
-
-if(todayData){
-
-document
-.getElementById('todayGomi')
-.innerHTML =
-todayData.type;
-
-}
-
-if(tomorrowData){
-
-document
-.getElementById('tomorrowGomi')
-.innerHTML =
-tomorrowData.type;
-
-}
-
-const weekBox =
-document.getElementById(
-'weekBox'
-);
-
-weekBox.innerHTML='';
-
-data
-.filter(r=>
-r.city===city &&
-r.area===area
-)
-.forEach(r=>{
-
-weekBox.innerHTML += `
-
-<div class="weekItem">
-
-<div class="weekDay">
-
-${r.day}
-
-</div>
-
-<div class="weekGomi">
-
-${r.type}
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
-window.google={
-visualization:{
-Query:{
-setResponse:receiveSheet
+document.getElementById('gomiArea').innerHTML=html||'<div class="info">ゴミ情報がありません</div>';
+}catch(e){
+document.getElementById('gomiArea').innerHTML='<div class="info">取得に失敗しました</div>';
 }
 }
-};
-
-const s =
-document.createElement('script');
-
-s.src =
-'https://docs.google.com/spreadsheets/d/'
-+ SHEET_ID
-+ '/gviz/tq?sheet='
-+ encodeURIComponent(SHEET_NAME)
-+ '&tqx=out:json';
-
-document.body.appendChild(s);
-
-function toggleWeek(){
-
-const box =
-document.getElementById(
-'weekBox'
-);
-
-box.style.display =
-box.style.display==='block'
-? 'none'
-: 'block';
-
-}
-
+loadGomi();
 </script>
-
 </body>
 </html>
