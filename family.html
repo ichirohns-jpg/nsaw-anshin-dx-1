@@ -7,79 +7,13 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#fdfbf7;
-color:#333;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-}
-
-.app-box{
-max-width:520px;
-margin:1.5rem auto;
-padding:0 1rem;
-}
-
-.badge{
-display:inline-block;
-background:#777;
-color:#fff;
-border-radius:999px;
-padding:8px 14px;
-font-size:15px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:24px;
-box-shadow:0 6px 14px rgba(0,0,0,.06);
-}
-
-.title{
-font-size:28px;
-font-weight:900;
-text-align:center;
-margin:0 0 22px;
-}
-
-.info{
-background:#f7f9fa;
-border-radius:12px;
-padding:16px;
-margin-bottom:14px;
-font-size:20px;
-font-weight:900;
-line-height:1.8;
-}
-
-.btn{
-display:block;
-width:100%;
-border:none;
-border-radius:14px;
-padding:22px 18px;
-margin-bottom:16px;
-font-size:23px;
-font-weight:900;
-color:#fff;
-text-align:left;
-cursor:pointer;
-}
-
-.blue{background:#4a90e2;}
-.green{background:#4ebfa5;}
-.red{background:#e05d5d;}
-
-.back{
-display:block;
-margin-top:20px;
-text-align:center;
-font-weight:900;
-text-decoration:none;
-color:#666;
-}
+body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
+.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
+.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
+.info{background:#f7f9fa;border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900;line-height:1.8}
+.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
 
@@ -93,37 +27,23 @@ color:#666;
 
 <div class="card">
 
-<h1 class="title">
-見守り状況
-</h1>
+<h1 class="title">見守り状況</h1>
 
-<div class="info">
-👤 利用者：山口さん
+<div class="info" id="userName">
+👤 利用者：読み込み中...
 </div>
 
-<div class="info">
-😊 最新状態：未確認
+<div class="info" id="latestStatus">
+😊 最新状態：読み込み中...
 </div>
 
-<div class="info">
-🕒 最終確認：未確認
+<div class="info" id="latestTime">
+🕒 最終確認：読み込み中...
 </div>
 
-<div class="info">
-💊 薬の状況：未確認
+<div class="info" id="latestMedicine">
+💊 薬の状況：読み込み中...
 </div>
-
-<button class="btn blue">
-📋 履歴を見る
-</button>
-
-<button class="btn green">
-📞 利用者へ連絡
-</button>
-
-<button class="btn red">
-🚨 緊急連絡
-</button>
 
 <a href="index.html" class="back">
 トップへ戻る
@@ -132,6 +52,13 @@ color:#666;
 </div>
 
 </div>
+
+<script>
+document.getElementById('userName').innerHTML='👤 利用者：利用者';
+document.getElementById('latestStatus').innerHTML='😊 最新状態：未取得';
+document.getElementById('latestTime').innerHTML='🕒 最終確認：未取得';
+document.getElementById('latestMedicine').innerHTML='💊 薬の状況：未取得';
+</script>
 
 </body>
 </html>
