@@ -27,28 +27,26 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 <div class="card">
 
-<h1 class="title">
-見守り状況
-</h1>
+<h1 class="title">見守り状況</h1>
 
 <div class="info" id="userName">
-👤 利用者：山口さん
+👤 利用者：読込中...
 </div>
 
 <div class="info" id="latestStatus">
-😊 最新状態：未確認
+😊 最新状態：読込中...
 </div>
 
 <div class="info" id="latestTime">
-🕒 最終確認：未確認
+🕒 最終確認：読込中...
 </div>
 
 <div class="info" id="latestMedicine">
-💊 薬の状況：未確認
+💊 薬の状況：読込中...
 </div>
 
 <div class="info" id="gpsInfo">
-📍 位置情報：未確認
+📍 位置情報：読込中...
 </div>
 
 <a href="index.html" class="back">
@@ -61,14 +59,13 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 <script>
 
-const GAS_URL='https://script.google.com/macros/s/AKfycbyQKsVKLgbkInDJwG39B00erucU_0nROI4QjLo30kDlBwiNfb9frcan5LDkEz4Ta9SA/exec';
+const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
 
 async function loadData(){
 
 try{
 
 const res=await fetch(GAS_URL+'?mode=latest');
-
 const data=await res.json();
 
 document.getElementById('userName').innerHTML=
@@ -88,7 +85,8 @@ document.getElementById('gpsInfo').innerHTML=
 
 }catch(e){
 
-console.log(e);
+document.getElementById('latestStatus').innerHTML=
+'😊 最新状態：取得失敗';
 
 }
 
