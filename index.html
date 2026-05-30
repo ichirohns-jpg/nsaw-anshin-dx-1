@@ -3,105 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>地域あんしんホーム</title>
+<title>地域あんしんポータル</title>
 
 <style>
+*{
+  box-sizing:border-box;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+}
+
 body{
   margin:0;
-  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-  background:#f5f8ff;
+  background:#f3f6fb;
+  color:#1f2d3d;
 }
 
-.wrap{
+/* 全体 */
+.container{
   max-width:720px;
   margin:0 auto;
-  padding:20px;
+  padding:18px;
 }
 
+/* ヘッダー（少し高級感） */
 .header{
-  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  background:linear-gradient(135deg,#0f172a,#334155);
   color:#fff;
-  padding:30px 20px;
-  border-radius:22px;
-  text-align:center;
+  padding:28px;
+  border-radius:26px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
 .header h1{
   margin:0;
-  font-size:26px;
+  font-size:24px;
+  font-weight:900;
 }
 
 .header p{
   margin-top:6px;
   font-size:13px;
-  opacity:0.9;
+  opacity:0.8;
 }
 
-.card{
-  background:#fff;
-  border-radius:20px;
-  padding:18px;
+/* 安心カード */
+.status-card{
   margin-top:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  background:#ffffff;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  text-align:center;
 }
 
-.title{
-  font-size:13px;
-  color:#6b7c93;
-  font-weight:700;
-  margin-bottom:10px;
+.status{
+  font-size:28px;
+  font-weight:900;
 }
 
+/* メニューグリッド */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:14px;
+  margin-top:16px;
 }
 
+/* ボタン（少し丸く・今っぽく） */
 .btn{
   border:none;
-  border-radius:18px;
-  padding:18px;
+  border-radius:22px;
+  padding:20px 12px;
   font-size:15px;
   font-weight:800;
-  color:#fff;
   cursor:pointer;
+  color:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+  transition:0.2s;
 }
 
-.green{background:#22c55e;}
-.blue{background:#3b82f6;}
-.orange{background:#f59e0b;}
-.red{background:#ef4444;}
+.btn:active{
+  transform:scale(0.96);
+}
 
+/* 色 */
+.green{background:linear-gradient(135deg,#22c55e,#16a34a);}
+.blue{background:linear-gradient(135deg,#3b82f6,#2563eb);}
+.orange{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.red{background:linear-gradient(135deg,#ef4444,#dc2626);}
+
+/* QRカード */
+.qr{
+  margin-top:16px;
+  background:#fff;
+  border-radius:22px;
+  padding:18px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+
+.qr-title{
+  font-size:13px;
+  color:#64748b;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+/* フッター */
 .footer{
   text-align:center;
   font-size:12px;
-  color:#9aa7b2;
-  margin-top:20px;
+  color:#94a3b8;
+  margin-top:18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="container">
 
+  <!-- ヘッダー -->
   <div class="header">
-    <h1>地域あんしんホーム</h1>
+    <h1>地域あんしんポータル</h1>
     <p>志木・新座・朝霞・和光</p>
   </div>
 
-  <div class="card">
-    <div class="title">メニュー</div>
-
-    <div class="grid">
-      <button class="btn green" onclick="go('care.html')">🛟 見守り</button>
-      <button class="btn blue" onclick="go('calendar.html')">📅 予定</button>
-      <button class="btn orange" onclick="go('trash.html')">🗑 ゴミ</button>
-      <button class="btn red" onclick="go('map.html')">📍 現在地</button>
-    </div>
+  <!-- 状態 -->
+  <div class="status-card">
+    <div class="status">😊 元気です</div>
   </div>
 
+  <!-- メニュー -->
+  <div class="grid">
+
+    <button class="btn green" onclick="go('care.html')">
+      🛟 見守り
+    </button>
+
+    <button class="btn blue" onclick="go('calendar.html')">
+      📅 予定
+    </button>
+
+    <button class="btn orange" onclick="go('trash.html')">
+      🗑 ゴミ
+    </button>
+
+    <button class="btn red" onclick="go('map.html')">
+      📍 現在地
+    </button>
+
+  </div>
+
+  <!-- QR -->
+  <div class="qr">
+    <div class="qr-title">見守り用QR</div>
+    QRコード表示エリア
+  </div>
+
+  <!-- フッター -->
   <div class="footer">
     地域DXシステム
   </div>
