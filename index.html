@@ -7,130 +7,154 @@
 
 <style>
 :root {
-  --bg: #f4f7f6;
-  --card-bg: #ffffff;
-  --text-main: #2d3748;
-  --text-sub: #718096;
+  /* 高齢者の方が最も識別しやすく、かつ洗練された配色（高コントラスト） */
+  --bg-color: #f4f6f9;
+  --panel-bg: #ffffff;
+  --text-dark: #111827;
+  --text-muted: #4b5563;
   
-  /* 洗練されたモダンな配色 */
-  --color-green: #2ecc71;
-  --color-blue: #3498db;
-  --color-orange: #e67e22;
-  --color-red: #e74c3c;
+  /* くっきり見えて美しいユニバーサルカラー */
+  --btn-green: #008542;  /* 視認性の高い深い緑 */
+  --btn-blue: #005bac;   /* 認識しやすい鮮明な青 */
+  --btn-orange: #d9531e; /* ぼやけない濃いオレンジ */
+  --btn-red: #d9383a;    /* 警告色としてもハッキリ映える赤 */
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text-main);
-  line-height: 1.6;
-  padding: 24px 16px;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-/* ヘッダー：グラデーションとシャドウで上質感を演出 */
-.header {
-  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-  color: #ffffff;
-  padding: 32px 24px;
-  border-radius: 24px;
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.header h1 {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-}
-
-.header p {
-  margin-top: 8px;
-  font-size: 14px;
-  opacity: 0.9;
-  font-weight: 500;
-}
-
-/* カード：浮遊感のある柔らかな立体感 */
-.card {
-  background: var(--card-bg);
-  border-radius: 24px;
+.dashboard-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--panel-bg);
+  border-radius: 32px;
   padding: 24px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-  margin-bottom: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.01);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
-/* ステータス：視認性と親しみやすさを両立 */
-.status {
-  font-size: 24px;
-  font-weight: 700;
+/* ヘッダー：文字サイズを大きく、太く、読みやすく */
+.header-area {
   text-align: center;
-  color: #2d3748;
+  margin-bottom: 24px;
+  border-bottom: 3px solid #e5e7eb;
+  padding-bottom: 16px;
+}
+
+.header-area h1 {
+  font-size: 32px; /* 圧倒的に見やすい大文字 */
+  font-weight: 900;
+  color: var(--text-dark);
+  letter-spacing: 1px;
+}
+
+.header-area p {
+  margin-top: 8px;
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* 状態表示：一目で状況がわかる巨大なバッジ構造 */
+.status-container {
+  margin-bottom: 24px;
+}
+
+.status-display {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+  background: #f0fdf4;
+  border: 3px solid #bbf7d0;
+  padding: 18px;
+  border-radius: 24px;
 }
 
 .status-icon {
-  font-size: 28px;
+  font-size: 38px; /* アイコンを巨大化 */
 }
 
-/* グリッドレイアウト */
-.grid {
+.status-text {
+  font-size: 26px;
+  font-weight: 900;
+  color: #166534;
+}
+
+/* ボタンレイアウト：押し間違えない十分な隙間とサイズ */
+.button-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr; /* 1コずつ大きく並べることで誤操作を完全に防止 */
   gap: 16px;
+  margin-bottom: 16px;
 }
 
-/* ボタン：押しやすさを追求したフラットかつモダンな造形 */
-.btn {
+/* ボタン：指が震えても確実に押せる巨大な設計 */
+.huge-btn {
   border: none;
-  border-radius: 20px;
-  padding: 24px 16px;
-  font-size: 16px;
-  font-weight: 700;
+  border-radius: 24px;
+  padding: 24px 28px;
   cursor: pointer;
-  color: #ffffff;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  position: relative;
+  transition: transform 0.1s ease, filter 0.1s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 色弱・弱視の方でも完全に識別できるコントラスト */
+.huge-btn.green  { background: var(--btn-green); }
+.huge-btn.blue   { background: var(--btn-blue); }
+.huge-btn.orange { background: var(--btn-orange); }
+.huge-btn.red    { background: var(--btn-red); }
+
+.btn-label {
+  font-size: 26px; /* 圧倒的な視認性 */
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.btn-arrow {
+  font-size: 28px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.25);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
 }
 
-/* ボタン毎のグラデーション指定 */
-.green  { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow: 0 6px 15px rgba(46, 204, 113, 0.25); }
-.blue   { background: linear-gradient(135deg, #3498db, #2980b9); box-shadow: 0 6px 15px rgba(52, 152, 219, 0.25); }
-.orange { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 6px 15px rgba(230, 126, 34, 0.25); }
-.red    { background: linear-gradient(135deg, #e74c3c, #c0392b); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.25); }
-
-/* タップ・クリック時のインタラクション */
-.btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  filter: brightness(0.9);
+/* 押した感触がはっきりわかるインターフェース */
+.huge-btn:active {
+  transform: scale(0.95);
+  filter: brightness(0.85);
 }
 
-.footer {
+.footer-copy {
   text-align: center;
-  font-size: 13px;
-  color: var(--text-sub);
-  margin-top: 24px;
-  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 16px;
 }
 </style>
 
@@ -138,31 +162,44 @@ body {
 
 <body>
 
-<div class="container">
+<div class="dashboard-card">
 
-  <div class="header">
+  <div class="header-area">
     <h1>地域ダッシュボード</h1>
-    <p>志木 • 新座 • 朝霞 • 和光</p>
+    <p>志木 ・ 新座 ・ 朝霞 ・ 和光</p>
   </div>
 
-  <div class="card">
-    <div class="status">
+  <div class="status-container">
+    <div class="status-display">
       <span class="status-icon">😊</span>
-      <span>元気です</span>
+      <span class="status-text">元気です</span>
     </div>
   </div>
 
-  <div class="card" style="padding: 16px;">
-    <div class="grid">
-      <button class="btn green" onclick="go('care.html')">見守り</button>
-      <button class="btn blue" onclick="go('calendar.html')">予定</button>
-      <button class="btn orange" onclick="go('trash.html')">ゴミ</button>
-      <button class="btn red" onclick="go('map.html')">現在地</button>
-    </div>
+  <div class="button-grid">
+    <button class="huge-btn green" onclick="go('care.html')">
+      <span class="btn-label">見守り</span>
+      <span class="btn-arrow">▶</span>
+    </button>
+
+    <button class="huge-btn blue" onclick="go('calendar.html')">
+      <span class="btn-label">予 定</span>
+      <span class="btn-arrow">▶</span>
+    </button>
+
+    <button class="huge-btn orange" onclick="go('trash.html')">
+      <span class="btn-label">ゴ ミ</span>
+      <span class="btn-arrow">▶</span>
+    </button>
+
+    <button class="huge-btn red" onclick="go('map.html')">
+      <span class="btn-label">現在地</span>
+      <span class="btn-arrow">▶</span>
+    </button>
   </div>
 
-  <div class="footer">
-    Modern Dashboard UI
+  <div class="footer-copy">
+    あんしん画面
   </div>
 
 </div>
