@@ -4,62 +4,160 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ゴミの日</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
-.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
-.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
-.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
-.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
-select{width:100%;padding:16px;font-size:20px;border-radius:12px;border:2px solid #ddd;margin-bottom:14px}
-.info{background:#f7f9fa;border-left:6px solid #4ebfa5;border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900;line-height:1.8}
-.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
+
+body{
+margin:0;
+background:#fdfbf7;
+color:#333;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+}
+
+.app-box{
+max-width:520px;
+margin:1.5rem auto;
+padding:0 1rem;
+}
+
+.badge{
+display:inline-block;
+background:#777;
+color:#fff;
+border-radius:999px;
+padding:8px 14px;
+font-size:15px;
+}
+
+.card{
+background:#fff;
+border-radius:18px;
+padding:24px;
+box-shadow:0 6px 14px rgba(0,0,0,.06);
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+text-align:center;
+margin:0 0 22px;
+}
+
+select{
+width:100%;
+padding:16px;
+font-size:20px;
+border-radius:12px;
+border:2px solid #ddd;
+margin-bottom:14px;
+}
+
+.info{
+background:#f7f9fa;
+border-left:6px solid #4ebfa5;
+border-radius:12px;
+padding:16px;
+margin-bottom:14px;
+font-size:20px;
+font-weight:900;
+line-height:1.8;
+}
+
+.back{
+display:block;
+margin-top:20px;
+text-align:center;
+font-weight:900;
+text-decoration:none;
+color:#666;
+}
 </style>
 </head>
+
 <body>
+
 <div class="app-box">
+
 <div style="text-align:center;margin-bottom:14px">
-<span class="badge">利用者ページ</span>
+<span class="badge" id="userBadge">利用者ページ</span>
 </div>
+
 <div class="card">
+
 <h1 class="title">ゴミの日</h1>
+
 <select id="city" onchange="loadGomi()">
 <option>志木市</option>
 <option>朝霞市</option>
 <option>和光市</option>
 <option>新座市</option>
 </select>
+
 <div id="gomiArea">
 <div class="info">ゴミ情報を読み込み中...</div>
 </div>
+
 <a href="index.html" class="back">トップへ戻る</a>
+
 </div>
 </div>
 
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
+
+const GAS_URL='https://script.google.com/macros/s/AKfycbyvBmPlbFXN7VlO3bbeAoQV1J8lBx3t7wQ5C4zaE8FAYgjm-6oEkZHv-fBfHoefQ0q2/exec';
+
+const USER_NAME=localStorage.getItem("name")||"山口さん";
+
+document.getElementById("userBadge").innerHTML=
+USER_NAME+" さん";
 
 async function loadGomi(){
+
 try{
-const city=document.getElementById('city').value;
-const res=await fetch(GAS_URL+'?mode=gomi&city='+encodeURIComponent(city));
+
+const city=
+document.getElementById("city").value;
+
+const res=await fetch(
+GAS_URL+
+'?mode=gomi&city='+
+encodeURIComponent(city)
+);
+
 const data=await res.json();
+
 let html='';
+
 data.forEach(item=>{
+
 html+=`
 <div class="info">
-${item.city}<br>
-${item.area||''}<br>
-${item.day||''}<br>
-${item.type||''}
-</div>`;
+🏠 ${item.city||''}<br>
+📍 ${item.area||''}<br>
+🗓️ ${item.day||''}<br>
+🗑️ ${item.type||''}
+</div>
+`;
+
 });
-document.getElementById('gomiArea').innerHTML=html||'<div class="info">ゴミ情報がありません</div>';
+
+document.getElementById("gomiArea").innerHTML=
+html||
+'<div class="info">ゴミ情報がありません</div>';
+
 }catch(e){
-document.getElementById('gomiArea').innerHTML='<div class="info">取得に失敗しました</div>';
+
+document.getElementById("gomiArea").innerHTML=
+'<div class="info">取得に失敗しました</div>';
+
 }
+
 }
+
 loadGomi();
+
 </script>
+
 </body>
 </html>
