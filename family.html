@@ -47,7 +47,7 @@ boxes.forEach(b=>b.classList.add(cls));
 }
 async function loadData(){
 try{
-const res=await fetch(GAS_URL+'?mode=latest&id='+encodeURIComponent(PERSON_ID));
+const res=await fetch(GAS_URL+'?mode=latest')
 const data=await res.json();
 setLevel(data.level||"通常");
 document.getElementById("userBadge").innerHTML=(data.name||PERSON_ID)+" 家族ページ";
