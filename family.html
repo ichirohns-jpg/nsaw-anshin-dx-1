@@ -16,14 +16,14 @@ color:#1f2d3d;
 }
 
 .wrap{
-max-width:600px;
-margin:auto;
+max-width:620px;
+margin:0 auto;
 padding:18px 14px 34px;
 }
 
 .card{
 background:#fff;
-border-radius:26px;
+border-radius:28px;
 padding:24px 20px;
 margin-bottom:18px;
 box-shadow:0 8px 22px rgba(0,0,0,.10);
@@ -34,39 +34,52 @@ font-size:34px;
 font-weight:900;
 text-align:center;
 color:#7e57c2;
+margin-bottom:10px;
 }
 
 .name{
-font-size:30px;
+font-size:32px;
 font-weight:900;
 text-align:center;
 margin-top:12px;
 }
 
-.status{
-font-size:30px;
+.area{
+font-size:23px;
 font-weight:900;
 text-align:center;
-padding:22px;
-border-radius:20px;
-margin-top:16px;
+margin-top:8px;
+color:#666;
+}
+
+.status{
+font-size:32px;
+font-weight:900;
+text-align:center;
+padding:24px 16px;
+border-radius:22px;
+margin-top:18px;
 background:#e8f5e9;
+color:#2e7d32;
+line-height:1.5;
 }
 
 .label{
-font-size:22px;
+font-size:23px;
 font-weight:900;
 margin-bottom:10px;
+color:#333;
 }
 
 .value{
-font-size:20px;
+font-size:21px;
+font-weight:800;
 line-height:1.8;
 word-break:break-all;
 }
 
 .mapBtn{
-display:block;
+display:none;
 width:100%;
 background:#1976d2;
 color:#fff;
@@ -84,7 +97,6 @@ display:block;
 width:100%;
 background:#2eaf66;
 color:#fff;
-text-decoration:none;
 text-align:center;
 padding:22px;
 border-radius:20px;
@@ -93,6 +105,20 @@ font-weight:900;
 margin-top:16px;
 border:none;
 }
+
+.back{
+display:block;
+width:100%;
+background:#607d8b;
+color:#fff;
+text-decoration:none;
+text-align:center;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+margin-top:16px;
+}
 </style>
 </head>
 
@@ -100,137 +126,141 @@ border:none;
 
 <div class="wrap">
 
-<div class="card">
+  <div class="card">
 
-<div class="title">
-家族ページ
-</div>
+    <div class="title">家族ページ</div>
 
-<div class="name" id="name">
-読み込み中...
-</div>
+    <div class="name" id="name">読み込み中...</div>
 
-<div class="status" id="status">
-確認中...
-</div>
+    <div class="area" id="area">--</div>
 
-<button class="reload" onclick="loadData()">
-更新する
-</button>
+    <div class="status" id="status">確認中...</div>
 
-</div>
+    <button class="reload" onclick="loadData()">更新する</button>
 
-<div class="card">
+  </div>
 
-<div class="label">
-最終確認時刻
-</div>
+  <div class="card">
+    <div class="label">最終確認時刻</div>
+    <div class="value" id="time">--</div>
+  </div>
 
-<div class="value" id="time">
---
-</div>
+  <div class="card">
+    <div class="label">種別</div>
+    <div class="value" id="type">--</div>
+  </div>
 
-</div>
+  <div class="card">
+    <div class="label">GPS</div>
+    <div class="value" id="gps">--</div>
 
-<div class="card">
+    <a id="mapLink" class="mapBtn" target="_blank">
+      Googleマップで見る
+    </a>
+  </div>
 
-<div class="label">
-種別
-</div>
-
-<div class="value" id="type">
---
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="label">
-GPS
-</div>
-
-<div class="value" id="gps">
---
-</div>
-
-<a
-id="mapLink"
-class="mapBtn"
-target="_blank">
-Googleマップで見る
-</a>
-
-</div>
+  <a href="index.html" class="back">トップへ戻る</a>
 
 </div>
 
 <script>
-
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/exec";
 
-const params =
-new URLSearchParams(location.search);
+const params = new URLSearchParams(location.search);
 
 const personId =
 params.get("id") ||
 localStorage.getItem("personId") ||
 "yamaguchi";
 
+function setStatusColor(content){
+
+  const statusBox = document.getElementById("status");
+
+  if(!content){
+    statusBox.style.background = "#f7f9fb";
+    statusBox.style.color = "#333";
+    return;
+  }
+
+  if(content.indexOf("助けて") >= 0){
+    statusBox.style.background = "#ffebee";
+    statusBox.style.color = "#c62828";
+    return;
+  }
+
+  if(content.indexOf("困って") >= 0){
+    statusBox.style.background = "#fff3e0";
+    statusBox.style.color = "#ef6c00";
+    return;
+  }
+
+  statusBox.style.background = "#e8f5e9";
+  statusBox.style.color = "#2e7d32";
+}
+
 function loadData(){
 
-fetch(
-GAS_URL + "?id=" + personId
-)
+  document.getElementById("status").innerHTML = "確認中...";
 
-.then(r=>r.json())
+  fetch(GAS_URL + "?id=" + encodeURIComponent(personId))
+  .then(function(r){
+    return r.json();
+  })
+  .then(function(data){
 
-.then(data=>{
+    document.getElementById("name").innerHTML =
+      data.name || "未登録";
 
-document.getElementById("name").innerHTML =
-data.name || "未登録";
+    document.getElementById("area").innerHTML =
+      (data.city || "") + " " + (data.area || "");
 
-document.getElementById("status").innerHTML =
-data.content || "データなし";
+    document.getElementById("status").innerHTML =
+      data.content || "データなし";
 
-document.getElementById("time").innerHTML =
-data.time || "--";
+    setStatusColor(data.content || "");
 
-document.getElementById("type").innerHTML =
-data.type || "--";
+    document.getElementById("time").innerHTML =
+      data.time || "--";
 
-document.getElementById("gps").innerHTML =
-data.gps || "GPSなし";
+    document.getElementById("type").innerHTML =
+      data.type || "--";
 
-if(data.gps){
+    document.getElementById("gps").innerHTML =
+      data.gps || "GPSなし";
 
-const gps =
-data.gps.split(",");
+    const mapLink = document.getElementById("mapLink");
 
-if(gps.length===2){
+    if(data.gps){
+      const gps = String(data.gps).split(",");
 
-document.getElementById("mapLink").href =
-"https://maps.google.com/?q=" +
-gps[0] + "," + gps[1];
+      if(gps.length === 2){
+        mapLink.href =
+          "https://maps.google.com/?q=" +
+          gps[0] + "," + gps[1];
 
-}
+        mapLink.style.display = "block";
+      }else{
+        mapLink.style.display = "none";
+      }
+    }else{
+      mapLink.style.display = "none";
+    }
 
-}
+  })
+  .catch(function(){
 
-})
+    document.getElementById("status").innerHTML =
+      "取得失敗";
 
-.catch(()=>{
+    setStatusColor("");
 
-document.getElementById("status").innerHTML =
-"取得失敗";
-
-});
+  });
 
 }
 
 loadData();
-
 </script>
 
 </body>
