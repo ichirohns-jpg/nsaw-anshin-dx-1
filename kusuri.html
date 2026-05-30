@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>お薬・元気だよ</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#fdfbf7;font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:#333}
@@ -12,50 +13,143 @@ body{margin:0;background:#fdfbf7;font-family:"Hiragino Sans","Yu Gothic",sans-se
 .card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
 .title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
 .menu-btn{display:block;width:100%;border:none;border-radius:14px;padding:22px 18px;margin-bottom:16px;font-size:23px;font-weight:900;color:#fff;text-align:left;cursor:pointer}
-.btn-orange{background:#e96d42}.btn-blue{background:#4a90e2}.btn-green{background:#4ebfa5}.btn-red{background:#e05d5d}
+.btn-orange{background:#e96d42}
+.btn-blue{background:#4a90e2}
+.btn-green{background:#4ebfa5}
+.btn-red{background:#e05d5d}
 .status{background:#f7f9fa;border:1px dashed #ccc;border-radius:12px;padding:16px;margin-top:18px;text-align:center;font-size:22px;font-weight:900;color:#666}
 .back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
+
 <body>
+
 <div class="app-box">
+
 <div style="text-align:center;margin-bottom:14px">
 <span class="badge" id="userBadge">利用者ページ</span>
 </div>
+
 <div class="card">
+
 <h1 class="title">お薬・元気だよ</h1>
+
 <button class="menu-btn btn-green" onclick="sendData('見守り','😊 元気です','通常')">😊 元気です</button>
+
 <button class="menu-btn btn-blue" onclick="sendData('薬','☀ 朝の薬を飲みました','通常')">☀ 朝の薬</button>
+
 <button class="menu-btn btn-blue" onclick="sendData('薬','🌤 昼の薬を飲みました','通常')">🌤 昼の薬</button>
+
 <button class="menu-btn btn-blue" onclick="sendData('薬','🌙 夜の薬を飲みました','通常')">🌙 夜の薬</button>
+
 <button class="menu-btn btn-orange" onclick="sendData('相談','😓 少し困っています','注意')">😓 少し困っています</button>
+
 <button class="menu-btn btn-red" onclick="sendData('緊急','🚨 助けてください','緊急')">🚨 助けてください</button>
-<div class="status" id="status">本日の状態：未送信</div>
+
+<div class="status" id="status">
+本日の状態：未送信
+</div>
+
 <a href="index.html" class="back">トップへ戻る</a>
+
 </div>
+
 </div>
+
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbyvBmPlbFXN7VlO3bbeAoQV1J8lBx3t7wQ5C4zaE8FAYgjm-6oEkZHv-fBfHoefQ0q2/exec';
+
+const GAS_URL='https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/dev';
+
 const params=new URLSearchParams(location.search);
 const urlId=params.get("id");
-if(urlId){localStorage.setItem("personId",urlId)}
+
+if(urlId){
+localStorage.setItem("personId",urlId);
+}
+
 const PERSON_ID=localStorage.getItem("personId")||urlId||"yamaguchi";
 const USER_NAME=localStorage.getItem("name")||"山口さん";
 const USER_CITY=localStorage.getItem("city")||"志木市";
 const USER_AREA=localStorage.getItem("area")||"";
-document.getElementById("userBadge").innerHTML=USER_NAME+" さん";
+
+document.getElementById("userBadge").innerHTML=
+USER_NAME+" さん";
+
 function sendData(type,content,level){
+
 const status=document.getElementById("status");
+
 status.innerHTML="送信中...";
+
 const send=function(gps){
-fetch(GAS_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({personId:PERSON_ID,name:USER_NAME,city:USER_CITY,area:USER_AREA,type:type,content:content,level:level,gps:gps||"",time:new Date().toLocaleString("ja-JP")}),keepalive:true})
-.then(function(){status.innerHTML="送信完了<br>"+content})
-.catch(function(){status.innerHTML="通信エラー"});
-};
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(pos){send(pos.coords.latitude+","+pos.coords.longitude)},function(){send("")});
-}else{send("")}
+
+fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"text/plain"
+},
+body:JSON.stringify({
+personId:PERSON_ID,
+name:USER_NAME,
+city:USER_CITY,
+area:USER_AREA,
+type:type,
+content:content,
+level:level,
+gps:gps||"",
+time:new Date().toLocaleString("ja-JP")
+}),
+keepalive:true
 }
+)
+.then(function(){
+
+status.innerHTML=
+"送信完了<br>"+content;
+
+})
+.catch(function(){
+
+status.innerHTML=
+"通信エラー";
+
+});
+
+};
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(
+
+function(pos){
+
+send(
+pos.coords.latitude+
+","+
+pos.coords.longitude
+);
+
+},
+
+function(){
+
+send("");
+
+}
+
+);
+
+}else{
+
+send("");
+
+}
+
+}
+
 </script>
+
 </body>
 </html>
