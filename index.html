@@ -4,61 +4,170 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>あんしん生活ボタン</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:18px}
-.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
-.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
-.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
-.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 18px}
-.info{background:#f7f9fa;border:1px dashed #ccc;border-radius:12px;padding:14px;margin-bottom:18px;font-size:18px;line-height:1.8;text-align:center;color:#666;font-weight:900}
-.menu-btn{display:block;width:100%;border:none;border-radius:14px;padding:22px 18px;margin-bottom:16px;font-size:23px;font-weight:900;color:#fff;text-align:left}
-.btn-orange{background:#e96d42}.btn-blue{background:#4a90e2}.btn-green{background:#4ebfa5}.btn-red{background:#e05d5d}
-.footer{margin-top:18px;text-align:center;font-size:14px;color:#999}
+
+body{
+margin:0;
+background:#fdfbf7;
+color:#333;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+font-size:18px;
+}
+
+.app-box{
+max-width:520px;
+margin:1.5rem auto;
+padding:0 1rem;
+}
+
+.badge{
+display:inline-block;
+background:#777;
+color:#fff;
+border-radius:999px;
+padding:8px 14px;
+font-size:15px;
+}
+
+.card{
+background:#fff;
+border-radius:18px;
+padding:24px;
+box-shadow:0 6px 14px rgba(0,0,0,.06);
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+text-align:center;
+margin:0 0 18px;
+}
+
+.info{
+background:#f7f9fa;
+border:1px dashed #ccc;
+border-radius:12px;
+padding:14px;
+margin-bottom:18px;
+font-size:18px;
+line-height:1.8;
+text-align:center;
+color:#666;
+font-weight:900;
+}
+
+.menu-btn{
+display:block;
+width:100%;
+border:none;
+border-radius:14px;
+padding:22px 18px;
+margin-bottom:16px;
+font-size:23px;
+font-weight:900;
+color:#fff;
+text-align:left;
+}
+
+.btn-orange{background:#e96d42}
+.btn-blue{background:#4a90e2}
+.btn-green{background:#4ebfa5}
+.btn-red{background:#e05d5d}
+
+.footer{
+margin-top:18px;
+text-align:center;
+font-size:14px;
+color:#999;
+}
 </style>
 </head>
+
 <body>
+
 <div class="app-box">
+
 <div style="text-align:center;margin-bottom:14px">
 <span class="badge" id="userInfo">利用者ページ</span>
 </div>
 
 <div class="card">
+
 <h1 class="title">今日も一日あんしん</h1>
-<div class="info" id="profileInfo">読込中...</div>
+
+<div class="info" id="profileInfo">
+読込中...
+</div>
 
 <button class="menu-btn btn-orange" onclick="go('kusuri.html')">💊 お薬をのんだ・元気だよ</button>
+
 <button class="menu-btn btn-blue" onclick="go('yotei.html')">📅 今日の予定</button>
+
 <button class="menu-btn btn-blue" onclick="go('board.html')">📋 回覧板</button>
+
 <button class="menu-btn btn-green" onclick="go('news.html')">📰 まちのニュース・天気</button>
+
 <button class="menu-btn btn-green" onclick="go('gomi.html')">🗑️ ゴミの日</button>
+
 <button class="menu-btn btn-red" onclick="go('map.html')">🗺️ 近くの病院・避難ばしょ</button>
+
 <button class="menu-btn btn-blue" onclick="go('family.html')">👨‍👩‍👧 家族・支援者ページ</button>
+
 <button class="menu-btn btn-green" onclick="go('setting.html')">⚙️ 地域設定・QRコード</button>
 
-<div class="footer">安心安全な暮らし応援DX</div>
+<div class="footer">
+安心安全な暮らし応援DX
 </div>
+
+</div>
+
 </div>
 
 <script>
+
 const params=new URLSearchParams(location.search);
 const urlId=params.get("id");
 
 if(urlId){
-  localStorage.setItem("personId",urlId);
+localStorage.setItem("personId",urlId);
 }
 
-const USER_ID=localStorage.getItem("personId")||"yamaguchi";
-const USER_NAME=localStorage.getItem("name")||"山口さん";
-const USER_CITY=localStorage.getItem("city")||"志木市";
-const USER_AREA=localStorage.getItem("area")||"";
+const USER_ID=
+localStorage.getItem("personId")||
+"yamaguchi";
 
-document.getElementById("userInfo").innerHTML=USER_NAME+" さん";
-document.getElementById("profileInfo").innerHTML="👤 "+USER_NAME+"<br>📍 "+USER_CITY+" "+USER_AREA+"<br>ID："+USER_ID;
+const USER_NAME=
+localStorage.getItem("name")||
+"山口さん";
+
+const USER_CITY=
+localStorage.getItem("city")||
+"志木市";
+
+const USER_AREA=
+localStorage.getItem("area")||
+"";
+
+document.getElementById("userInfo").innerHTML=
+USER_NAME+" さん";
+
+document.getElementById("profileInfo").innerHTML=
+"👤 "+USER_NAME+
+"<br>📍 "+USER_CITY+" "+USER_AREA+
+"<br>ID："+USER_ID;
 
 function go(page){
-  location.href=page+"?id="+encodeURIComponent(USER_ID);
+
+location.href=
+page+
+"?id="+
+encodeURIComponent(USER_ID);
+
 }
+
 </script>
+
 </body>
 </html>
