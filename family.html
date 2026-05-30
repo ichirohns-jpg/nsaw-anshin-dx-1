@@ -3,42 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>家族・支援者ページ</title>
+<title>家族ページ</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
-.app-box{max-width:520px;margin:1.5rem auto;padding:0 1rem}
-.badge{display:inline-block;background:#777;color:#fff;border-radius:999px;padding:8px 14px;font-size:15px}
-.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
-.title{font-size:28px;font-weight:900;text-align:center;margin:0 0 22px}
-.info{border-radius:12px;padding:16px;margin-bottom:14px;font-size:20px;font-weight:900;line-height:1.8;background:#f7f9fa}
-.normal{border-left:8px solid #4ebfa5}
-.caution{border-left:8px solid #e96d42}
-.emergency{border-left:8px solid #e05d5d;background:#fff1f1}
-.back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
+
+body{
+margin:0;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#333;
+}
+
+.wrap{
+max-width:600px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+text-align:center;
+color:#1976d2;
+}
+
+.name{
+font-size:30px;
+font-weight:900;
+text-align:center;
+margin-top:12px;
+}
+
+.status{
+font-size:32px;
+font-weight:900;
+text-align:center;
+padding:20px;
+border-radius:18px;
+margin-top:16px;
+background:#e8f5e9;
+}
+
+.label{
+font-size:22px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.value{
+font-size:20px;
+line-height:1.8;
+word-break:break-all;
+}
+
+.mapBtn{
+display:block;
+width:100%;
+background:#1976d2;
+color:#fff;
+text-decoration:none;
+text-align:center;
+padding:20px;
+border-radius:18px;
+font-size:24px;
+font-weight:900;
+margin-top:16px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="app-box">
+<div class="wrap">
 
-<div style="text-align:center;margin-bottom:14px">
-<span class="badge" id="userBadge">家族・支援者ページ</span>
+<div class="card">
+
+<div class="title">
+家族ページ
+</div>
+
+<div class="name" id="name">
+山口さん
+</div>
+
+<div class="status" id="status">
+😊 元気です
+</div>
+
 </div>
 
 <div class="card">
 
-<h1 class="title">見守り状況</h1>
+<div class="label">
+最終確認時刻
+</div>
 
-<div class="info normal" id="userName">👤 利用者：読込中...</div>
-<div class="info normal" id="latestStatus">😊 最新状態：読込中...</div>
-<div class="info normal" id="latestTime">🕒 最終確認：読込中...</div>
-<div class="info normal" id="latestMedicine">💊 薬の状況：読込中...</div>
-<div class="info normal" id="gpsInfo">📍 位置情報：読込中...</div>
+<div class="value" id="time">
+未確認
+</div>
 
-<a href="index.html" class="back">トップへ戻る</a>
+</div>
+
+<div class="card">
+
+<div class="label">
+現在地
+</div>
+
+<div class="value" id="gps">
+取得されていません
+</div>
+
+<a
+id="mapLink"
+class="mapBtn"
+target="_blank">
+Googleマップで見る
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="label">
+薬の記録
+</div>
+
+<div class="value" id="kusuri">
+記録なし
+</div>
 
 </div>
 
@@ -46,72 +148,43 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 <script>
 
-const GAS_URL='https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/dev';
+document.getElementById("name").innerHTML=
+localStorage.getItem("name")||"山口さん";
 
-const params=new URLSearchParams(location.search);
-const PERSON_ID=params.get("id")||localStorage.getItem("personId")||"yamaguchi";
+const lat=
+localStorage.getItem("lat");
 
-function setLevel(level){
+const lng=
+localStorage.getItem("lng");
 
-const boxes=document.querySelectorAll(".info");
+if(lat&&lng){
 
-boxes.forEach(b=>{
-b.classList.remove("normal","caution","emergency");
-});
+document.getElementById("gps").innerHTML=
+"緯度："+lat+
+"<br>経度："+lng;
 
-let cls="normal";
+document.getElementById("mapLink").href=
+"https://maps.google.com/?q="+
+lat+","+lng;
 
-if(level==="注意") cls="caution";
-if(level==="緊急") cls="emergency";
+}else{
 
-boxes.forEach(b=>{
-b.classList.add(cls);
-});
-
-}
-
-async function loadData(){
-
-try{
-
-const res=await fetch(
-GAS_URL+'?mode=latest&id='+PERSON_ID
-);
-
-const data=await res.json();
-
-setLevel(data.level||"通常");
-
-document.getElementById("userBadge").innerHTML=
-(data.name||PERSON_ID)+" 家族ページ";
-
-document.getElementById("userName").innerHTML=
-"👤 利用者："+(data.name||PERSON_ID);
-
-document.getElementById("latestStatus").innerHTML=
-"😊 最新状態："+(data.content||"未確認");
-
-document.getElementById("latestTime").innerHTML=
-"🕒 最終確認："+(data.time||"未確認");
-
-document.getElementById("latestMedicine").innerHTML=
-"💊 薬の状況："+(data.type==="薬" ? data.content : "未確認");
-
-document.getElementById("gpsInfo").innerHTML=
-"📍 位置情報："+(data.gps||"未確認");
-
-}catch(e){
-
-document.getElementById("latestStatus").innerHTML=
-"😊 最新状態：取得失敗";
+document.getElementById("gps").innerHTML=
+"GPS未取得";
 
 }
 
-}
+document.getElementById("status").innerHTML=
+localStorage.getItem("status")||
+"😊 元気です";
 
-loadData();
+document.getElementById("time").innerHTML=
+localStorage.getItem("statusTime")||
+"未確認";
 
-setInterval(loadData,30000);
+document.getElementById("kusuri").innerHTML=
+localStorage.getItem("kusuriLog")||
+"記録なし";
 
 </script>
 
