@@ -6,90 +6,131 @@
 <title>地域ダッシュボード</title>
 
 <style>
-:root{
-  --primary:#1a73e8;
-  --bg:#f5f7fb;
-  --card:#ffffff;
-  --text:#202124;
-  --sub:#5f6368;
+:root {
+  --bg: #f4f7f6;
+  --card-bg: #ffffff;
+  --text-main: #2d3748;
+  --text-sub: #718096;
+  
+  /* 洗練されたモダンな配色 */
+  --color-green: #2ecc71;
+  --color-blue: #3498db;
+  --color-orange: #e67e22;
+  --color-red: #e74c3c;
 }
 
-*{
-  box-sizing:border-box;
-  font-family:Roboto,"Hiragino Sans","Yu Gothic",sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
 }
 
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
+body {
+  background-color: var(--bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  padding: 24px 16px;
 }
 
-.container{
-  max-width:760px;
-  margin:0 auto;
-  padding:20px;
+.container {
+  max-width: 480px;
+  margin: 0 auto;
 }
 
-.header{
-  background:linear-gradient(135deg,#1a73e8,#4285f4);
-  color:#fff;
-  padding:28px;
-  border-radius:18px;
+/* ヘッダー：グラデーションとシャドウで上質感を演出 */
+.header {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  color: #ffffff;
+  padding: 32px 24px;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.header h1{
-  margin:0;
-  font-size:22px;
+.header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
 }
 
-.header p{
-  margin-top:6px;
-  font-size:13px;
-  opacity:0.9;
+.header p {
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: 0.9;
+  font-weight: 500;
 }
 
-.card{
-  background:var(--card);
-  margin-top:16px;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+/* カード：浮遊感のある柔らかな立体感 */
+.card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.01);
 }
 
-.status{
-  font-size:22px;
-  font-weight:700;
-  text-align:center;
+/* ステータス：視認性と親しみやすさを両立 */
+.status {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:12px;
+.status-icon {
+  font-size: 28px;
 }
 
-.btn{
-  border:none;
-  border-radius:14px;
-  padding:16px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-  color:#fff;
+/* グリッドレイアウト */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
-.blue{background:#1a73e8;}
-.green{background:#34a853;}
-.orange{background:#f9ab00;}
-.red{background:#ea4335;}
+/* ボタン：押しやすさを追求したフラットかつモダンな造形 */
+.btn {
+  border: none;
+  border-radius: 20px;
+  padding: 24px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
 
-.footer{
-  text-align:center;
-  font-size:12px;
-  color:var(--sub);
-  margin-top:18px;
+/* ボタン毎のグラデーション指定 */
+.green  { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow: 0 6px 15px rgba(46, 204, 113, 0.25); }
+.blue   { background: linear-gradient(135deg, #3498db, #2980b9); box-shadow: 0 6px 15px rgba(52, 152, 219, 0.25); }
+.orange { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 6px 15px rgba(230, 126, 34, 0.25); }
+.red    { background: linear-gradient(135deg, #e74c3c, #c0392b); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.25); }
+
+/* タップ・クリック時のインタラクション */
+.btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  filter: brightness(0.9);
+}
+
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 24px;
+  font-weight: 500;
 }
 </style>
 
@@ -101,39 +142,27 @@ body{
 
   <div class="header">
     <h1>地域ダッシュボード</h1>
-    <p>志木・新座・朝霞・和光</p>
+    <p>志木 • 新座 • 朝霞 • 和光</p>
   </div>
 
   <div class="card">
-    <div class="status">😊 元気です</div>
-  </div>
-
-  <div class="card">
-
-    <div class="grid">
-
-      <button class="btn green" onclick="go('care.html')">
-        見守り
-      </button>
-
-      <button class="btn blue" onclick="go('calendar.html')">
-        予定
-      </button>
-
-      <button class="btn orange" onclick="go('trash.html')">
-        ゴミ
-      </button>
-
-      <button class="btn red" onclick="go('map.html')">
-        現在地
-      </button>
-
+    <div class="status">
+      <span class="status-icon">😊</span>
+      <span>元気です</span>
     </div>
+  </div>
 
+  <div class="card" style="padding: 16px;">
+    <div class="grid">
+      <button class="btn green" onclick="go('care.html')">見守り</button>
+      <button class="btn blue" onclick="go('calendar.html')">予定</button>
+      <button class="btn orange" onclick="go('trash.html')">ゴミ</button>
+      <button class="btn red" onclick="go('map.html')">現在地</button>
+    </div>
   </div>
 
   <div class="footer">
-    Material Design UI
+    Modern Dashboard UI
   </div>
 
 </div>
