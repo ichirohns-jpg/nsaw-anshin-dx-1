@@ -29,51 +29,45 @@ box-shadow:0 8px 22px rgba(0,0,0,.10);
 margin-bottom:18px;
 }
 
-.badge{
-display:inline-block;
-background:#1976d2;
-color:#fff;
-border-radius:999px;
-padding:10px 18px;
-font-size:17px;
-font-weight:900;
-}
-
-.header{
-text-align:center;
-margin-bottom:16px;
-}
-
-.title{
-font-size:34px;
+.date{
+font-size:28px;
 font-weight:900;
 text-align:center;
 color:#1976d2;
-margin:0 0 8px;
+}
+
+.clock{
+font-size:44px;
+font-weight:900;
+text-align:center;
+color:#111;
+margin-top:8px;
 }
 
 .name{
 font-size:34px;
 font-weight:900;
 text-align:center;
-color:#1f2d3d;
-margin-top:12px;
+margin-top:18px;
 }
 
 .area{
 font-size:23px;
 font-weight:900;
 text-align:center;
-margin-top:10px;
+margin-top:8px;
 color:#555;
 }
 
-.msg{
-font-size:22px;
+.status{
+font-size:28px;
 font-weight:900;
 text-align:center;
-margin-top:16px;
-color:#2eaf66;
+margin-top:18px;
+padding:18px;
+border-radius:22px;
+background:#e8f5e9;
+color:#1b5e20;
 }
 
 .grid{
@@ -128,7 +122,6 @@ background:#fff;
 font-size:20px;
 font-weight:900;
 margin-bottom:10px;
-color:#333;
 }
 
 .note{
@@ -175,24 +168,19 @@ box-shadow:0 7px 14px rgba(0,0,0,.14);
 
 <div class="wrap">
 
-  <div class="header">
-    <span class="badge">あんしん生活ボタン</span>
-  </div>
-
   <div class="card">
-    <h1 class="title">地域の操作盤</h1>
 
-    <div class="name" id="name">
-      山口さん
+    <div class="date" id="todayDate">日付</div>
+    <div class="clock" id="clock">00:00</div>
+
+    <div class="name" id="name">山口さん</div>
+
+    <div class="area" id="area">志木市</div>
+
+    <div class="status" id="status">
+      まだ確認されていません
     </div>
 
-    <div class="area" id="area">
-      志木市
-    </div>
-
-    <div class="msg">
-      今日も一日あんしん
-    </div>
   </div>
 
   <div class="grid">
@@ -243,18 +231,18 @@ box-shadow:0 7px 14px rgba(0,0,0,.14);
 </div>
 
 <script>
-const nameBox = document.getElementById("name");
-const areaBox = document.getElementById("area");
-
 const userName = localStorage.getItem("name") || "山口さん";
 const city = localStorage.getItem("city") || "志木市";
 const area = localStorage.getItem("area") || "";
 const id = localStorage.getItem("personId") || "yamaguchi";
 
-nameBox.innerHTML = userName;
+document.getElementById("name").innerHTML = userName;
 
-areaBox.innerHTML =
+document.getElementById("area").innerHTML =
   city + (area ? " " + area : "");
+
+document.getElementById("status").innerHTML =
+  localStorage.getItem("status") || "まだ確認されていません";
 
 const base =
   location.origin +
@@ -268,6 +256,27 @@ document.getElementById("familyQr").src =
   encodeURIComponent(family);
 
 document.getElementById("familyBtn").href = family;
+
+function updateClock(){
+  const now = new Date();
+
+  const week = ["日","月","火","水","木","金","土"];
+
+  document.getElementById("todayDate").innerHTML =
+    now.getFullYear() + "年" +
+    (now.getMonth()+1) + "月" +
+    now.getDate() + "日" +
+    "（" + week[now.getDay()] + "）";
+
+  const h = String(now.getHours()).padStart(2,"0");
+  const m = String(now.getMinutes()).padStart(2,"0");
+
+  document.getElementById("clock").innerHTML =
+    h + ":" + m;
+}
+
+updateClock();
+setInterval(updateClock,1000);
 </script>
 
 </body>
