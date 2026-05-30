@@ -10,162 +10,162 @@
 
 body{
 margin:0;
-background:#fdfbf7;
-color:#333;
+background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-font-size:18px;
+color:#333;
 }
 
-.app-box{
-max-width:520px;
-margin:1.5rem auto;
-padding:0 1rem;
-}
-
-.badge{
-display:inline-block;
-background:#777;
-color:#fff;
-border-radius:999px;
-padding:8px 14px;
-font-size:15px;
+.wrap{
+max-width:560px;
+margin:auto;
+padding:16px;
 }
 
 .card{
 background:#fff;
-border-radius:18px;
+border-radius:26px;
 padding:24px;
-box-shadow:0 6px 14px rgba(0,0,0,.06);
-}
-
-.title{
-font-size:28px;
-font-weight:900;
-text-align:center;
-margin:0 0 18px;
-}
-
-.info{
-background:#f7f9fa;
-border:1px dashed #ccc;
-border-radius:12px;
-padding:14px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 margin-bottom:18px;
-font-size:18px;
-line-height:1.8;
-text-align:center;
-color:#666;
-font-weight:900;
 }
 
-.menu-btn{
+.name{
+font-size:34px;
+font-weight:900;
+color:#1976d2;
+text-align:center;
+}
+
+.area{
+font-size:22px;
+font-weight:900;
+text-align:center;
+margin-top:10px;
+color:#666;
+}
+
+.msg{
+font-size:22px;
+font-weight:900;
+text-align:center;
+margin-top:16px;
+}
+
+.btn{
 display:block;
 width:100%;
-border:none;
-border-radius:14px;
-padding:22px 18px;
-margin-bottom:16px;
-font-size:23px;
+text-decoration:none;
+border-radius:22px;
+padding:26px;
+font-size:30px;
 font-weight:900;
+text-align:center;
 color:#fff;
-text-align:left;
+margin-top:18px;
 }
 
-.btn-orange{background:#e96d42}
-.btn-blue{background:#4a90e2}
-.btn-green{background:#4ebfa5}
-.btn-red{background:#e05d5d}
+.orange{background:#f39c12}
+.blue{background:#1976d2}
+.green{background:#2eaf66}
+.red{background:#e53935}
 
-.footer{
-margin-top:18px;
+.qrbox{
 text-align:center;
-font-size:14px;
-color:#999;
+margin-top:20px;
+}
+
+.qrbox img{
+width:180px;
+height:180px;
+}
+
+.small{
+font-size:18px;
+font-weight:900;
+margin-bottom:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app-box">
-
-<div style="text-align:center;margin-bottom:14px">
-<span class="badge" id="userInfo">利用者ページ</span>
-</div>
+<div class="wrap">
 
 <div class="card">
 
-<h1 class="title">今日も一日あんしん</h1>
-
-<div class="info" id="profileInfo">
-読込中...
+<div class="name" id="name">
+山口さん
 </div>
 
-<button class="menu-btn btn-orange" onclick="go('kusuri.html')">💊 お薬をのんだ・元気だよ</button>
+<div class="area" id="area">
+志木市
+</div>
 
-<button class="menu-btn btn-blue" onclick="go('yotei.html')">📅 今日の予定</button>
-
-<button class="menu-btn btn-blue" onclick="go('board.html')">📋 回覧板</button>
-
-<button class="menu-btn btn-green" onclick="go('news.html')">📰 まちのニュース・天気</button>
-
-<button class="menu-btn btn-green" onclick="go('gomi.html')">🗑️ ゴミの日</button>
-
-<button class="menu-btn btn-red" onclick="go('map.html')">🗺️ 近くの病院・避難ばしょ</button>
-
-<button class="menu-btn btn-blue" onclick="go('family.html')">👨‍👩‍👧 家族・支援者ページ</button>
-
-<button class="menu-btn btn-green" onclick="go('setting.html')">⚙️ 地域設定・QRコード</button>
-
-<div class="footer">
-安心安全な暮らし応援DX
+<div class="msg">
+今日も一日あんしん
 </div>
 
 </div>
+
+<a class="btn orange" href="kusuri.html">
+💊 お薬・元気だよ
+</a>
+
+<a class="btn blue" href="yotei.html">
+📅 今日の予定
+</a>
+
+<a class="btn green" href="news.html">
+📰 まちのニュース
+</a>
+
+<a class="btn red" href="map.html">
+🗺 病院・避難所
+</a>
+
+<div class="card">
+
+<div class="qrbox">
+
+<div class="small">
+家族ページ
+</div>
+
+<img id="familyQr">
+
+</div>
+
+</div>
+
+<a class="btn blue" href="setting.html">
+⚙ 設定
+</a>
 
 </div>
 
 <script>
 
-const params=new URLSearchParams(location.search);
-const urlId=params.get("id");
+document.getElementById("name").innerHTML=
+localStorage.getItem("name")||"山口さん";
 
-if(urlId){
-localStorage.setItem("personId",urlId);
-}
+document.getElementById("area").innerHTML=
+(localStorage.getItem("city")||"志木市")
++" "
++(localStorage.getItem("area")||"");
 
-const USER_ID=
-localStorage.getItem("personId")||
-"yamaguchi";
+const id=
+localStorage.getItem("personId")||"yamaguchi";
 
-const USER_NAME=
-localStorage.getItem("name")||
-"山口さん";
+const family=
+location.origin+
+location.pathname.replace(
+"index.html",
+"family.html?id="+id
+);
 
-const USER_CITY=
-localStorage.getItem("city")||
-"志木市";
-
-const USER_AREA=
-localStorage.getItem("area")||
-"";
-
-document.getElementById("userInfo").innerHTML=
-USER_NAME+" さん";
-
-document.getElementById("profileInfo").innerHTML=
-"👤 "+USER_NAME+
-"<br>📍 "+USER_CITY+" "+USER_AREA+
-"<br>ID："+USER_ID;
-
-function go(page){
-
-location.href=
-page+
-"?id="+
-encodeURIComponent(USER_ID);
-
-}
+document.getElementById("familyQr").src=
+"https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="
++encodeURIComponent(family);
 
 </script>
 
