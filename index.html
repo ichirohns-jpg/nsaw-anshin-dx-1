@@ -3,158 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>地域ダッシュボード</title>
+<title>地域安心ホーム</title>
 
 <style>
-:root {
-  /* 高齢者の方が最も識別しやすく、かつ洗練された配色（高コントラスト） */
-  --bg-color: #f4f6f9;
-  --panel-bg: #ffffff;
-  --text-dark: #111827;
-  --text-muted: #4b5563;
-  
-  /* くっきり見えて美しいユニバーサルカラー */
-  --btn-green: #008542;  /* 視認性の高い深い緑 */
-  --btn-blue: #005bac;   /* 認識しやすい鮮明な青 */
-  --btn-orange: #d9531e; /* ぼやけない濃いオレンジ */
-  --btn-red: #d9383a;    /* 警告色としてもハッキリ映える赤 */
+:root{
+  --bg:#f6f8fc;
+  --card:#ffffff;
+  --text:#0f172a;
+
+  --green:#0f8a4b;
+  --blue:#1a73e8;
+  --orange:#e67700;
+  --red:#d93025;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-  -webkit-tap-highlight-color: transparent;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
 }
 
-body {
-  background-color: var(--bg-color);
-  color: var(--text-dark);
-  padding: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+body{
+  background:var(--bg);
+  color:var(--text);
 }
 
-.dashboard-card {
-  width: 100%;
-  max-width: 440px;
-  background: var(--panel-bg);
-  border-radius: 32px;
-  padding: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+/* 全体 */
+.wrap{
+  max-width:680px;
+  margin:0 auto;
+  padding:18px;
 }
 
-/* ヘッダー：文字サイズを大きく、太く、読みやすく */
-.header-area {
-  text-align: center;
-  margin-bottom: 24px;
-  border-bottom: 3px solid #e5e7eb;
-  padding-bottom: 16px;
+/* ヘッダー */
+.header{
+  background:linear-gradient(135deg,#1a73e8,#60a5fa);
+  color:#fff;
+  padding:26px;
+  border-radius:22px;
 }
 
-.header-area h1 {
-  font-size: 32px; /* 圧倒的に見やすい大文字 */
-  font-weight: 900;
-  color: var(--text-dark);
-  letter-spacing: 1px;
+.header h1{
+  font-size:22px;
+  font-weight:900;
 }
 
-.header-area p {
-  margin-top: 8px;
-  font-size: 16px;
-  color: var(--text-muted);
-  font-weight: 700;
-  letter-spacing: 1px;
+.header p{
+  margin-top:6px;
+  font-size:13px;
+  opacity:.9;
 }
 
-/* 状態表示：一目で状況がわかる巨大なバッジ構造 */
-.status-container {
-  margin-bottom: 24px;
+/* ステータス */
+.status{
+  margin-top:14px;
+  background:#fff;
+  border-radius:20px;
+  padding:18px;
+  font-size:24px;
+  font-weight:900;
+  text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.05);
 }
 
-.status-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: #f0fdf4;
-  border: 3px solid #bbf7d0;
-  padding: 18px;
-  border-radius: 24px;
+/* メニュー */
+.menu{
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-.status-icon {
-  font-size: 38px; /* アイコンを巨大化 */
+/* ボタン */
+.btn{
+  border:none;
+  border-radius:22px;
+  padding:22px;
+  font-size:20px;
+  font-weight:900;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
 }
 
-.status-text {
-  font-size: 26px;
-  font-weight: 900;
-  color: #166534;
+.btn:active{
+  transform:scale(0.98);
 }
 
-/* ボタンレイアウト：押し間違えない十分な隙間とサイズ */
-.button-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* 1コずつ大きく並べることで誤操作を完全に防止 */
-  gap: 16px;
-  margin-bottom: 16px;
+/* 色 */
+.green{background:var(--green);}
+.blue{background:var(--blue);}
+.orange{background:var(--orange);}
+.red{background:var(--red);}
+
+/* 小さな矢印 */
+.arrow{
+  background:rgba(255,255,255,0.25);
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
 }
 
-/* ボタン：指が震えても確実に押せる巨大な設計 */
-.huge-btn {
-  border: none;
-  border-radius: 24px;
-  padding: 24px 28px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #ffffff;
-  position: relative;
-  transition: transform 0.1s ease, filter 0.1s ease;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* 色弱・弱視の方でも完全に識別できるコントラスト */
-.huge-btn.green  { background: var(--btn-green); }
-.huge-btn.blue   { background: var(--btn-blue); }
-.huge-btn.orange { background: var(--btn-orange); }
-.huge-btn.red    { background: var(--btn-red); }
-
-.btn-label {
-  font-size: 26px; /* 圧倒的な視認性 */
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.btn-arrow {
-  font-size: 28px;
-  font-weight: 900;
-  background: rgba(255, 255, 255, 0.25);
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 押した感触がはっきりわかるインターフェース */
-.huge-btn:active {
-  transform: scale(0.95);
-  filter: brightness(0.85);
-}
-
-.footer-copy {
-  text-align: center;
-  font-size: 14px;
-  color: var(--text-muted);
-  font-weight: 700;
-  margin-top: 16px;
+/* フッター */
+.footer{
+  margin-top:18px;
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
 }
 </style>
 
@@ -162,51 +125,50 @@ body {
 
 <body>
 
-<div class="dashboard-card">
+<div class="wrap">
 
-  <div class="header-area">
-    <h1>地域ダッシュボード</h1>
-    <p>志木 ・ 新座 ・ 朝霞 ・ 和光</p>
+  <div class="header">
+    <h1>地域安心ホーム</h1>
+    <p>志木・新座・朝霞・和光</p>
   </div>
 
-  <div class="status-container">
-    <div class="status-display">
-      <span class="status-icon">😊</span>
-      <span class="status-text">元気です</span>
-    </div>
+  <div class="status">
+    😊 元気です
   </div>
 
-  <div class="button-grid">
-    <button class="huge-btn green" onclick="go('care.html')">
-      <span class="btn-label">見守り</span>
-      <span class="btn-arrow">▶</span>
+  <div class="menu">
+
+    <button class="btn green" onclick="go('care.html')">
+      見守り
+      <div class="arrow">›</div>
     </button>
 
-    <button class="huge-btn blue" onclick="go('calendar.html')">
-      <span class="btn-label">予 定</span>
-      <span class="btn-arrow">▶</span>
+    <button class="btn blue" onclick="go('calendar.html')">
+      今日の予定
+      <div class="arrow">›</div>
     </button>
 
-    <button class="huge-btn orange" onclick="go('trash.html')">
-      <span class="btn-label">ゴ ミ</span>
-      <span class="btn-arrow">▶</span>
+    <button class="btn orange" onclick="go('trash.html')">
+      ゴミの日
+      <div class="arrow">›</div>
     </button>
 
-    <button class="huge-btn red" onclick="go('map.html')">
-      <span class="btn-label">現在地</span>
-      <span class="btn-arrow">▶</span>
+    <button class="btn red" onclick="go('map.html')">
+      現在地
+      <div class="arrow">›</div>
     </button>
+
   </div>
 
-  <div class="footer-copy">
-    あんしん画面
+  <div class="footer">
+    地域デジタル安心システム
   </div>
 
 </div>
 
 <script>
 function go(page){
-  window.location.href = page;
+  location.href = page;
 }
 </script>
 
