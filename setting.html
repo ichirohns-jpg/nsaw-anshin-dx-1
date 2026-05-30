@@ -86,12 +86,6 @@ border-radius:16px;
 background:#fbfdff;
 }
 
-input:focus,select:focus{
-outline:none;
-border-color:#1976d2;
-background:#fff;
-}
-
 .btn{
 width:100%;
 border:none;
@@ -101,13 +95,10 @@ margin-top:18px;
 font-size:25px;
 font-weight:900;
 color:#fff;
-box-shadow:0 6px 12px rgba(0,0,0,.12);
 }
 
-.btn-blue{background:#1976d2}
 .btn-green{background:#2eaf66}
 .btn-orange{background:#f39c12}
-.btn-gray{background:#607d8b}
 
 .gps-box{
 background:#f2f8ff;
@@ -118,7 +109,6 @@ margin-top:14px;
 font-size:18px;
 font-weight:800;
 line-height:1.7;
-word-break:break-all;
 }
 
 .info{
@@ -142,14 +132,6 @@ border-radius:12px;
 background:#fff;
 }
 
-.small-note{
-font-size:15px;
-font-weight:800;
-color:#666;
-line-height:1.6;
-margin-top:8px;
-}
-
 .back{
 display:block;
 margin-top:22px;
@@ -159,10 +141,6 @@ font-weight:900;
 text-decoration:none;
 color:#1976d2;
 }
-
-.footer-space{
-height:20px;
-}
 </style>
 </head>
 
@@ -170,170 +148,171 @@ height:20px;
 
 <div class="app-box">
 
-  <div class="header">
-    <span class="badge">利用者設定</span>
-  </div>
+<div class="header">
+<span class="badge">利用者設定</span>
+</div>
 
-  <div class="card">
-    <h1 class="title">地域設定</h1>
-    <p class="lead">
-      名前・地域・電話・現在地を保存します。<br>
-      ゴミの日、予定、家族ページで使います。
-    </p>
+<div class="card">
 
-    <div class="section-title">基本情報</div>
+<h1 class="title">地域設定</h1>
 
-    <label for="personId">個人ID</label>
-    <input id="personId" type="text" placeholder="例：yamaguchi">
+<p class="lead">
+名前・地域・電話・現在地を保存します
+</p>
 
-    <label for="name">お名前</label>
-    <input id="name" type="text" placeholder="例：山口さん">
+<div class="section-title">基本情報</div>
 
-    <label for="tel">緊急連絡先</label>
-    <input id="tel" type="tel" placeholder="例：090-0000-0000">
+<label>個人ID</label>
+<input id="personId" type="text">
 
-    <div class="section-title">地域</div>
+<label>お名前</label>
+<input id="name" type="text">
 
-    <label for="city">市</label>
-    <select id="city">
-      <option value="志木市">志木市</option>
-      <option value="新座市">新座市</option>
-      <option value="朝霞市">朝霞市</option>
-      <option value="和光市">和光市</option>
-    </select>
+<label>緊急連絡先</label>
+<input id="tel" type="tel">
 
-    <label for="area">地区</label>
-    <input id="area" type="text" placeholder="例：柏町3丁目">
+<div class="section-title">地域</div>
 
-    <div class="section-title">現在地</div>
+<label>市</label>
+<select id="city"></select>
 
-    <button class="btn btn-orange" onclick="getGps()">📍 現在地を取得する</button>
+<label>地区</label>
+<select id="area"></select>
 
-    <div class="gps-box" id="gpsStatus">
-      現在地はまだ取得していません。
-    </div>
+<div class="section-title">現在地</div>
 
-    <button class="btn btn-green" onclick="saveData()">✅ 保存する</button>
+<button class="btn btn-orange" onclick="getGps()">
+📍 現在地を取得する
+</button>
 
-    <div class="section-title">本人ページ</div>
-    <div class="info" id="userUrl">本人URLを表示します</div>
-    <img class="qr" id="userQr" alt="本人ページQR">
+<div class="gps-box" id="gpsStatus">
+現在地はまだ取得していません
+</div>
 
-    <div class="section-title">家族ページ</div>
-    <div class="info" id="familyUrl">家族URLを表示します</div>
-    <img class="qr" id="familyQr" alt="家族ページQR">
+<button class="btn btn-green" onclick="saveData()">
+✅ 保存する
+</button>
 
-    <a href="index.html" class="back">トップへ戻る</a>
-  </div>
+<div class="section-title">本人ページ</div>
 
-  <div class="footer-space"></div>
+<div class="info" id="userUrl"></div>
+
+<img class="qr" id="userQr">
+
+<div class="section-title">家族ページ</div>
+
+<div class="info" id="familyUrl"></div>
+
+<img class="qr" id="familyQr">
+
+<a href="index.html" class="back">
+トップへ戻る
+</a>
+
+</div>
 
 </div>
 
 <script>
-const personId = document.getElementById("personId");
-const nameInput = document.getElementById("name");
-const tel = document.getElementById("tel");
-const city = document.getElementById("city");
-const area = document.getElementById("area");
-const gpsStatus = document.getElementById("gpsStatus");
 
-personId.value = localStorage.getItem("personId") || "yamaguchi";
-nameInput.value = localStorage.getItem("name") || "山口さん";
-tel.value = localStorage.getItem("tel") || "";
-city.value = localStorage.getItem("city") || "志木市";
-area.value = localStorage.getItem("area") || "";
+const AREA_DATA={
 
-function getGps(){
-  if(!navigator.geolocation){
-    gpsStatus.innerHTML = "このスマホでは現在地取得が使えません。";
-    return;
-  }
+"志木市":[
+"本町","幸町","館","柏町",
+"中宗岡","上宗岡","下宗岡","宗岡"
+],
 
-  gpsStatus.innerHTML = "現在地を取得しています…";
+"新座市":[
+"野火止","東北","栗原","石神",
+"栄","池田","新堀","馬場",
+"畑中","片山","大和田","北野"
+],
 
-  navigator.geolocation.getCurrentPosition(
-    function(pos){
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+"朝霞市":[
+"本町","仲町","栄町","膝折",
+"根岸","根岸台","幸町",
+"三原","浜崎","西原"
+],
 
-      localStorage.setItem("lat", lat);
-      localStorage.setItem("lng", lng);
-      localStorage.setItem("gpsSavedAt", new Date().toLocaleString("ja-JP"));
+"和光市":[
+"本町","新倉","白子",
+"中央","下新倉",
+"丸山台","広沢"
+]
 
-      gpsStatus.innerHTML =
-        "現在地を保存しました。<br>" +
-        "緯度：" + lat + "<br>" +
-        "経度：" + lng;
+};
 
-      makeLinks();
-    },
-    function(){
-      gpsStatus.innerHTML =
-        "現在地を取得できませんでした。<br>" +
-        "スマホの位置情報許可を確認してください。";
-    },
-    {
-      enableHighAccuracy:true,
-      timeout:10000,
-      maximumAge:0
-    }
-  );
+const personId=document.getElementById("personId");
+const nameInput=document.getElementById("name");
+const tel=document.getElementById("tel");
+const city=document.getElementById("city");
+const area=document.getElementById("area");
+const gpsStatus=document.getElementById("gpsStatus");
+
+function buildCity(){
+
+city.innerHTML="";
+
+Object.keys(AREA_DATA).forEach(function(c){
+
+const op=document.createElement("option");
+
+op.value=c;
+op.textContent=c;
+
+city.appendChild(op);
+
+});
+
+city.value=
+localStorage.getItem("city")
+||"志木市";
+
+buildArea();
+
 }
 
-function saveData(){
-  localStorage.setItem("personId", personId.value.trim() || "yamaguchi");
-  localStorage.setItem("name", nameInput.value.trim() || "山口さん");
-  localStorage.setItem("tel", tel.value.trim());
-  localStorage.setItem("city", city.value);
-  localStorage.setItem("area", area.value.trim());
+function buildArea(){
 
-  makeLinks();
+area.innerHTML="";
 
-  alert("保存しました");
+AREA_DATA[city.value].forEach(function(a){
+
+const op=document.createElement("option");
+
+op.value=a;
+op.textContent=a;
+
+area.appendChild(op);
+
+});
+
+const savedArea=
+localStorage.getItem("area");
+
+if(savedArea){
+
+area.value=savedArea;
+
 }
 
-function makeQr(url){
-  return "https://api.qrserver.com/v1/create-qr-code/?size=190x190&data=" + encodeURIComponent(url);
 }
 
-function makeLinks(){
-  const id = (personId.value.trim() || "yamaguchi");
+city.addEventListener(
+"change",
+buildArea
+);
 
-  const base =
-    location.origin +
-    location.pathname.replace("setting.html","");
+personId.value=
+localStorage.getItem("personId")
+||"yamaguchi";
 
-  const user =
-    base + "index.html?id=" + encodeURIComponent(id);
+nameInput.value=
+localStorage.getItem("name")
+||"山口さん";
 
-  const family =
-    base + "family.html?id=" + encodeURIComponent(id);
+tel.value=
+localStorage.getItem("tel")
+||"";
 
-  document.getElementById("userUrl").innerHTML =
-    "本人URL<br>" + user;
-
-  document.getElementById("familyUrl").innerHTML =
-    "家族URL<br>" + family;
-
-  document.getElementById("userQr").src = makeQr(user);
-  document.getElementById("familyQr").src = makeQr(family);
-
-  const lat = localStorage.getItem("lat");
-  const lng = localStorage.getItem("lng");
-  const savedAt = localStorage.getItem("gpsSavedAt");
-
-  if(lat && lng){
-    gpsStatus.innerHTML =
-      "現在地は保存済みです。<br>" +
-      "緯度：" + lat + "<br>" +
-      "経度：" + lng + "<br>" +
-      "保存日時：" + (savedAt || "");
-  }
-}
-
-makeLinks();
-</script>
-
-</body>
-</html>
+buildCity();
