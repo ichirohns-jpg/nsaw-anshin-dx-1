@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>地域安心ホーム</title>
+<title>NSAW 見守りDX</title>
 
 <style>
 :root{
-  --bg:#f6f8fc;
+  --bg:#f5f7fb;
   --card:#ffffff;
   --text:#0f172a;
 
-  --green:#0f8a4b;
-  --blue:#1a73e8;
-  --orange:#e67700;
-  --red:#d93025;
+  --green:#16a34a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#dc2626;
 }
 
 *{
+  box-sizing:border-box;
   margin:0;
   padding:0;
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 }
 
 body{
@@ -31,17 +31,18 @@ body{
 
 /* 全体 */
 .wrap{
-  max-width:680px;
+  max-width:720px;
   margin:0 auto;
   padding:18px;
 }
 
 /* ヘッダー */
 .header{
-  background:linear-gradient(135deg,#1a73e8,#60a5fa);
+  background:linear-gradient(135deg,#1d4ed8,#60a5fa);
   color:#fff;
-  padding:26px;
+  padding:28px;
   border-radius:22px;
+  text-align:center;
 }
 
 .header h1{
@@ -50,21 +51,21 @@ body{
 }
 
 .header p{
-  margin-top:6px;
   font-size:13px;
+  margin-top:6px;
   opacity:.9;
 }
 
-/* ステータス */
+/* 状態カード */
 .status{
-  margin-top:14px;
   background:#fff;
-  border-radius:20px;
-  padding:18px;
-  font-size:24px;
-  font-weight:900;
+  margin-top:14px;
+  padding:20px;
+  border-radius:18px;
   text-align:center;
-  box-shadow:0 6px 16px rgba(0,0,0,0.05);
+  font-size:28px;
+  font-weight:900;
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
 }
 
 /* メニュー */
@@ -90,17 +91,13 @@ body{
   box-shadow:0 8px 18px rgba(0,0,0,0.08);
 }
 
-.btn:active{
-  transform:scale(0.98);
-}
-
 /* 色 */
 .green{background:var(--green);}
 .blue{background:var(--blue);}
 .orange{background:var(--orange);}
 .red{background:var(--red);}
 
-/* 小さな矢印 */
+/* 矢印 */
 .arrow{
   background:rgba(255,255,255,0.25);
   width:44px;
@@ -114,10 +111,10 @@ body{
 
 /* フッター */
 .footer{
-  margin-top:18px;
   text-align:center;
   font-size:12px;
-  opacity:.6;
+  color:#64748b;
+  margin-top:18px;
 }
 </style>
 
@@ -127,15 +124,18 @@ body{
 
 <div class="wrap">
 
+  <!-- ヘッダー -->
   <div class="header">
-    <h1>地域安心ホーム</h1>
+    <h1>NSAW 見守りDX</h1>
     <p>志木・新座・朝霞・和光</p>
   </div>
 
+  <!-- 状態 -->
   <div class="status">
     😊 元気です
   </div>
 
+  <!-- メニュー -->
   <div class="menu">
 
     <button class="btn green" onclick="go('care.html')">
@@ -160,15 +160,16 @@ body{
 
   </div>
 
+  <!-- フッター -->
   <div class="footer">
-    地域デジタル安心システム
+    地域見守りシステム
   </div>
 
 </div>
 
 <script>
 function go(page){
-  location.href = page;
+  window.location.href = page;
 }
 </script>
 
