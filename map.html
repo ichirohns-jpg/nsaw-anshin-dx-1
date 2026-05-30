@@ -1,17 +1,127 @@
-function showGps(lat,lng){
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NSAW 見守りDX / 現在地</title>
 
-const savedAt =
-localStorage.getItem("gpsSavedAt") || "";
-
-document.getElementById("gpsBox").innerHTML =
-
-"📍現在地取得済<br>" +
-
-(savedAt ?
-("保存日時<br>" + savedAt)
-:
-"");
-
-setLinks(lat,lng);
-
+<style>
+:root{
+  --bg:#f5f7fb;
+  --text:#0f172a;
+  --blue:#2563eb;
+  --red:#dc2626;
 }
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+}
+
+.wrap{
+  max-width:720px;
+  margin:0 auto;
+  padding:18px;
+}
+
+/* ヘッダー */
+.header{
+  background:linear-gradient(135deg,#1d4ed8,#60a5fa);
+  color:#fff;
+  padding:28px;
+  border-radius:22px;
+  text-align:center;
+}
+
+.header h1{
+  font-size:22px;
+  font-weight:900;
+}
+
+.header p{
+  font-size:13px;
+  margin-top:6px;
+  opacity:.9;
+}
+
+/* 現在地カード */
+.map-card{
+  background:#fff;
+  margin-top:14px;
+  padding:26px;
+  border-radius:18px;
+  text-align:center;
+  font-size:26px;
+  font-weight:900;
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* ボタン */
+.btn{
+  margin-top:16px;
+  border:none;
+  border-radius:22px;
+  padding:22px;
+  font-size:20px;
+  font-weight:900;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  background:var(--red);
+}
+
+.arrow{
+  background:rgba(255,255,255,0.25);
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#64748b;
+  margin-top:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <h1>NSAW 見守りDX</h1>
+    <p>現在地・安全情報</p>
+  </div>
+
+  <div class="map-card">
+    📍 現在地情報
+  </div>
+
+  <button class="btn">
+    病院・避難場所を見る
+    <div class="arrow">▶</div>
+  </button>
+
+  <div class="footer">
+    位置情報サポートページ
+  </div>
+
+</div>
+
+</body>
+</html>
