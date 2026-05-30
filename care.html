@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NSAW 見守りDX / 見守り</title>
+
+<style>
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#0f172a;
+
+  --green:#16a34a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#dc2626;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* 全体 */
+.wrap{
+  max-width:720px;
+  margin:0 auto;
+  padding:18px;
+}
+
+/* ヘッダー（トップと統一） */
+.header{
+  background:linear-gradient(135deg,#1d4ed8,#60a5fa);
+  color:#fff;
+  padding:28px;
+  border-radius:22px;
+  text-align:center;
+}
+
+.header h1{
+  font-size:22px;
+  font-weight:900;
+}
+
+.header p{
+  font-size:13px;
+  margin-top:6px;
+  opacity:.9;
+}
+
+/* 状態（主役） */
+.status{
+  background:#ffffff;
+  margin-top:14px;
+  padding:22px;
+  border-radius:18px;
+  text-align:center;
+  font-size:34px;
+  font-weight:900;
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* 説明 */
+.sub{
+  margin-top:10px;
+  text-align:center;
+  font-size:14px;
+  color:#64748b;
+  font-weight:700;
+}
+
+/* ボタン */
+.menu{
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.btn{
+  border:none;
+  border-radius:22px;
+  padding:22px;
+  font-size:20px;
+  font-weight:900;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
+}
+
+.green{background:var(--green);}
+.red{background:var(--red);}
+.blue{background:var(--blue);}
+
+.arrow{
+  background:rgba(255,255,255,0.25);
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#64748b;
+  margin-top:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <h1>NSAW 見守りDX</h1>
+    <p>見守り・安心・緊急対応</p>
+  </div>
+
+  <div class="status">
+    😊 元気です
+  </div>
+
+  <div class="sub">
+    現在の状態は自動で更新されます
+  </div>
+
+  <div class="menu">
+
+    <button class="btn green" onclick="send('元気です')">
+      元気です
+      <div class="arrow">▶</div>
+    </button>
+
+    <button class="btn red" onclick="send('助けてください')">
+      助けてください
+      <div class="arrow">▶</div>
+    </button>
+
+    <button class="btn blue" onclick="send('少し困っています')">
+      少し困っています
+      <div class="arrow">▶</div>
+    </button>
+
+  </div>
+
+  <div class="footer">
+    見守りシステム
+  </div>
+
+</div>
+
+<script>
+function send(text){
+  alert("送信：" + text);
+}
+</script>
+
+</body>
+</html>
