@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>家族・支援者ページ</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
@@ -18,68 +19,101 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 .back{display:block;margin-top:20px;text-align:center;font-weight:900;text-decoration:none;color:#666}
 </style>
 </head>
+
 <body>
+
 <div class="app-box">
+
 <div style="text-align:center;margin-bottom:14px">
 <span class="badge" id="userBadge">家族・支援者ページ</span>
 </div>
+
 <div class="card">
+
 <h1 class="title">見守り状況</h1>
+
 <div class="info normal" id="userName">👤 利用者：読込中...</div>
 <div class="info normal" id="latestStatus">😊 最新状態：読込中...</div>
 <div class="info normal" id="latestTime">🕒 最終確認：読込中...</div>
 <div class="info normal" id="latestMedicine">💊 薬の状況：読込中...</div>
 <div class="info normal" id="gpsInfo">📍 位置情報：読込中...</div>
+
 <a href="index.html" class="back">トップへ戻る</a>
+
 </div>
+
 </div>
+
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbyvBmPlbFXN7VlO3bbeAoQV1J8lBx3t7wQ5C4zaE8FAYgjm-6oEkZHv-fBfHoefQ0q2/exec';
+
+const GAS_URL='https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/dev';
+
 const params=new URLSearchParams(location.search);
 const PERSON_ID=params.get("id")||localStorage.getItem("personId")||"yamaguchi";
 
 function setLevel(level){
-const boxes=document.querySelectorAll(".info");
-boxes.forEach(b=>b.classList.remove("normal","caution","emergency"));
-let cls="normal";
-if(level==="注意")cls="caution";
-if(level==="緊急")cls="emergency";
-boxes.forEach(b=>b.classList.add(cls));
-}
 
-function formatTime(t){
-if(!t)return"未確認";
-const d=new Date(t);
-if(isNaN(d.getTime()))return t;
-return d.toLocaleString("ja-JP");
+const boxes=document.querySelectorAll(".info");
+
+boxes.forEach(b=>{
+b.classList.remove("normal","caution","emergency");
+});
+
+let cls="normal";
+
+if(level==="注意") cls="caution";
+if(level==="緊急") cls="emergency";
+
+boxes.forEach(b=>{
+b.classList.add(cls);
+});
+
 }
 
 async function loadData(){
+
 try{
-const res=await fetch(GAS_URL+'?mode=latest&id='+encodeURIComponent(PERSON_ID));
+
+const res=await fetch(
+GAS_URL+'?mode=latest&id='+PERSON_ID
+);
+
 const data=await res.json();
 
 setLevel(data.level||"通常");
 
-document.getElementById("userBadge").innerHTML=(data.name||PERSON_ID)+" 家族ページ";
-document.getElementById("userName").innerHTML="👤 利用者："+(data.name||PERSON_ID);
-document.getElementById("latestStatus").innerHTML="😊 最新状態："+(data.content||"未確認");
-document.getElementById("latestTime").innerHTML="🕒 最終確認："+formatTime(data.time);
+document.getElementById("userBadge").innerHTML=
+(data.name||PERSON_ID)+" 家族ページ";
 
-let medicineText="未確認";
-if(data.type==="薬"){
-medicineText=data.content||"未確認";
-}
-document.getElementById("latestMedicine").innerHTML="💊 薬の状況："+medicineText;
-document.getElementById("gpsInfo").innerHTML="📍 位置情報："+(data.gps||"未確認");
+document.getElementById("userName").innerHTML=
+"👤 利用者："+(data.name||PERSON_ID);
+
+document.getElementById("latestStatus").innerHTML=
+"😊 最新状態："+(data.content||"未確認");
+
+document.getElementById("latestTime").innerHTML=
+"🕒 最終確認："+(data.time||"未確認");
+
+document.getElementById("latestMedicine").innerHTML=
+"💊 薬の状況："+(data.type==="薬" ? data.content : "未確認");
+
+document.getElementById("gpsInfo").innerHTML=
+"📍 位置情報："+(data.gps||"未確認");
 
 }catch(e){
-document.getElementById("latestStatus").innerHTML="😊 最新状態：取得失敗";
+
+document.getElementById("latestStatus").innerHTML=
+"😊 最新状態：取得失敗";
+
 }
+
 }
 
 loadData();
+
 setInterval(loadData,30000);
+
 </script>
+
 </body>
 </html>
