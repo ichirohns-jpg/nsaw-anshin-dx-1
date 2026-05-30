@@ -55,7 +55,7 @@ body{margin:0;background:#fdfbf7;color:#333;font-family:"Hiragino Sans","Yu Goth
 
 <script>
 
-const GAS_URL='https://script.google.com/macros/s/AKfycby1NsOe0hOQALNR5Tx2DwwIMS8E-a7nCGa-wZG9vSi8I_DvrnQlKisxhA2ppR8RDehX/exec';
+const GAS_URL='https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/dev';
 
 async function loadNews(){
 
@@ -70,14 +70,15 @@ data.forEach(item=>{
 
 html+=`
 <div class="news">
-<div class="city">${item.city}</div>
-${item.title}
+<div class="city">${item.city||''}</div>
+${item.title||''}
 </div>
 `;
 
 });
 
-document.getElementById('newsArea').innerHTML=html;
+document.getElementById('newsArea').innerHTML=
+html||'<div class="news">情報がありません</div>';
 
 }catch(e){
 
