@@ -3,243 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>四市情報｜見守りDX</title>
-
+<title>四市瓦版｜見守りDX</title>
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:640px;
-margin:auto;
-padding:16px;
-}
-
-.header{
-background:#1565c0;
-color:#fff;
-border-radius:28px;
-padding:24px;
-margin-bottom:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.back{
-font-size:16px;
-font-weight:900;
-margin-bottom:12px;
-cursor:pointer;
-}
-
-.title{
-font-size:38px;
-font-weight:900;
-}
-
-.sub{
-font-size:17px;
-margin-top:8px;
-opacity:.95;
-line-height:1.6;
-}
-
-.card{
-background:#fff;
-border-radius:28px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.banner{
-width:100%;
-border-radius:22px;
-margin-bottom:16px;
-}
-
-.cardTitle{
-font-size:28px;
-font-weight:900;
-margin-bottom:14px;
-line-height:1.5;
-color:#1565c0;
-}
-
-.cardText{
-font-size:20px;
-font-weight:700;
-line-height:1.8;
-color:#444;
-margin-bottom:18px;
-}
-
-.linkBtn{
-display:block;
-width:100%;
-background:#1976d2;
-color:#fff;
-text-decoration:none;
-text-align:center;
-padding:18px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.videoBox{
-background:#fff8e1;
-border-radius:22px;
-padding:18px;
-margin-top:14px;
-}
-
-.videoTitle{
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
-color:#ef6c00;
-}
-
-.videoBtn{
-display:block;
-width:100%;
-background:#ef6c00;
-color:#fff;
-text-decoration:none;
-text-align:center;
-padding:18px;
-border-radius:18px;
-font-size:22px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:900;
-color:#666;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#eef4fb;font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;color:#1f2d3d}
+.wrap{max-width:640px;margin:auto;padding:16px}
+.header{background:#1565c0;color:#fff;border-radius:28px;padding:24px;margin-bottom:18px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.back{font-size:16px;font-weight:900;margin-bottom:12px;cursor:pointer}
+.title{font-size:38px;font-weight:900}
+.sub{font-size:17px;margin-top:8px;opacity:.95;line-height:1.6}
+.card{background:#fff;border-radius:28px;padding:20px;margin-bottom:18px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.kawaraban{width:100%;border-radius:22px;margin-bottom:16px;background:#ddd}
+.cardTitle{font-size:28px;font-weight:900;margin-bottom:14px;line-height:1.5;color:#1565c0}
+.cardText{font-size:20px;font-weight:700;line-height:1.8;color:#444;margin-bottom:18px;white-space:pre-wrap}
+.sectionTitle{font-size:24px;font-weight:900;margin:18px 0 12px;color:#1565c0}
+.linkBtn{display:block;width:100%;background:#1976d2;color:#fff;text-decoration:none;text-align:center;padding:18px;border-radius:20px;font-size:22px;font-weight:900;margin-bottom:12px}
+.videoBox{background:#fff8e1;border-radius:22px;padding:18px;margin-top:18px}
+.videoTitle{font-size:24px;font-weight:900;margin-bottom:12px;color:#ef6c00}
+.videoBtn{display:block;width:100%;background:#ef6c00;color:#fff;text-decoration:none;text-align:center;padding:18px;border-radius:18px;font-size:22px;font-weight:900;margin-bottom:12px}
+.loading{font-size:24px;font-weight:900;text-align:center;padding:40px}
+.footer{display:flex;justify-content:space-around;margin-top:20px;padding:18px 0;background:#fff;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.08);font-size:14px;font-weight:900;color:#666}
 </style>
 </head>
 
 <body>
-
 <div class="wrap">
 
 <div class="header">
-
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
+<div class="back" onclick="location.href='index.html'">← トップへ戻る</div>
+<div class="title">📰 四市瓦版</div>
+<div class="sub">志木・新座・朝霞・和光の情報と<br>お楽しみ動画をまとめて確認します</div>
 </div>
 
-<div class="title">
-📰 四市情報
-</div>
-
-<div class="sub">
-志木・新座・朝霞・和光の<br>
-暮らし情報とお楽しみ動画
-</div>
-
-</div>
-
-<div class="card">
-
-<img src="top.jpg" class="banner">
-
-<div class="cardTitle">
-本日の四市瓦版
-</div>
-
-<div class="cardText">
-
-今日は各市でイベント情報や地域のお知らせがあります。<br>
-詳しくは下のリンクから確認できます。
-
-</div>
-
-<a class="linkBtn" href="https://www.city.shiki.lg.jp/" target="_blank">
-志木市情報
-</a>
-
-<a class="linkBtn" href="https://www.city.niiza.lg.jp/" target="_blank">
-新座市情報
-</a>
-
-<a class="linkBtn" href="https://www.city.asaka.lg.jp/" target="_blank">
-朝霞市情報
-</a>
-
-<a class="linkBtn" href="https://www.city.wako.lg.jp/" target="_blank">
-和光市情報
-</a>
-
-<div class="videoBox">
-
-<div class="videoTitle">
-🎬 本日のお楽しみ動画
-</div>
-
-<a class="videoBtn" href="https://www.youtube.com/" target="_blank">
-時代劇を見る
-</a>
-
-<a class="videoBtn" href="https://www.youtube.com/" target="_blank">
-懐かし音楽を見る
-</a>
-
-<a class="videoBtn" href="https://www.youtube.com/" target="_blank">
-地域ラジオを聞く
-</a>
-
-</div>
-
+<div id="content">
+<div class="card"><div class="loading">読み込み中...</div></div>
 </div>
 
 <div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='calendar.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
+<div onclick="location.href='index.html'">見守り</div>
+<div onclick="location.href='calendar.html'">予定</div>
+<div onclick="location.href='gomi.html'">ゴミ</div>
+<div onclick="location.href='news.html'">地域情報</div>
 </div>
 
 </div>
 
+<script>
+const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+const SHEET_NAME="瓦版";
+
+const url="https://docs.google.com/spreadsheets/d/"+SHEET_ID+
+"/gviz/tq?sheet="+encodeURIComponent(SHEET_NAME)+"&tqx=out:json";
+
+function v(row,index){
+return row.c[index] && row.c[index].v ? row.c[index].v : "";
+}
+
+function safeUrl(url){
+if(!url)return "";
+return String(url).trim();
+}
+
+fetch(url)
+.then(res=>res.text())
+.then(text=>{
+const json=JSON.parse(text.substring(47).slice(0,-2));
+const rows=json.table.rows;
+
+let html="";
+
+rows.reverse().forEach(row=>{
+
+const date=v(row,0);
+const id=v(row,1);
+const title=v(row,2);
+const image=v(row,3);
+const body=v(row,4);
+
+if(!title && !image && !body)return;
+
+html+=`<div class="card">`;
+
+if(image){
+html+=`<img class="kawaraban" src="${image}" alt="四市瓦版">`;
+}
+
+html+=`
+<div class="cardTitle">${title || "四市瓦版"}</div>
+<div class="cardText">${body || ""}</div>
+`;
+
+html+=`<div class="sectionTitle">🔗 情報リンク</div>`;
+
+for(let i=5;i<=14;i+=2){
+const linkTitle=v(row,i);
+const linkUrl=safeUrl(v(row,i+1));
+
+if(linkTitle && linkUrl){
+html+=`<a class="linkBtn" href="${linkUrl}" target="_blank">${linkTitle}</a>`;
+}
+}
+
+let videoHtml="";
+
+for(let i=15;i<=24;i+=2){
+const videoTitle=v(row,i);
+const videoUrl=safeUrl(v(row,i+1));
+
+if(videoTitle && videoUrl){
+videoHtml+=`<a class="videoBtn" href="${videoUrl}" target="_blank">${videoTitle}</a>`;
+}
+}
+
+if(videoHtml){
+html+=`
+<div class="videoBox">
+<div class="videoTitle">🎬 本日のお楽しみ</div>
+${videoHtml}
 </div>
+`;
+}
+
+html+=`</div>`;
+
+});
+
+if(!html){
+html=`<div class="card"><div class="loading">表示できる情報がありません</div></div>`;
+}
+
+document.getElementById("content").innerHTML=html;
+
+})
+.catch(err=>{
+document.getElementById("content").innerHTML=
+`<div class="card"><div class="loading">読み込みできませんでした</div></div>`;
+});
+</script>
 
 </body>
 </html>
