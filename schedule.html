@@ -10,7 +10,12 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 background:#eef4fb;
@@ -37,6 +42,7 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 font-size:16px;
 font-weight:900;
 margin-bottom:12px;
+cursor:pointer;
 }
 
 .title{
@@ -90,18 +96,24 @@ font-size:16px;
 font-weight:700;
 color:#666;
 margin-top:6px;
+line-height:1.6;
 }
 
-.btn{
+.doneBtn{
 width:100%;
 border:none;
-border-radius:22px;
-padding:20px;
-font-size:24px;
+border-radius:18px;
+padding:16px;
+font-size:22px;
 font-weight:900;
 color:#fff;
 background:#43a047;
-margin-top:10px;
+margin-top:12px;
+cursor:pointer;
+}
+
+.doneBtn:active{
+transform:scale(.97);
 }
 
 .footer{
@@ -116,6 +128,23 @@ font-size:14px;
 font-weight:900;
 color:#666;
 }
+
+.toast{
+position:fixed;
+left:50%;
+bottom:30px;
+transform:translateX(-50%);
+background:#1976d2;
+color:#fff;
+padding:16px 24px;
+border-radius:18px;
+font-size:18px;
+font-weight:900;
+display:none;
+z-index:9999;
+box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
+
 </style>
 </head>
 
@@ -124,47 +153,130 @@ color:#666;
 <div class="wrap">
 
 <div class="header">
-<div class="back" onclick="location.href='index.html'">← トップへ戻る</div>
-<div class="title">📅 今日の予定</div>
-<div class="sub">病院・薬・訪問予定を確認します</div>
+
+<div class="back" onclick="location.href='index.html'">
+← トップへ戻る
+</div>
+
+<div class="title">
+📅 今日の予定
+</div>
+
+<div class="sub">
+病院・薬・訪問予定を確認します
+</div>
+
 </div>
 
 <div class="card">
 
-<div class="day">今日の予定</div>
-
-<div class="item">
-<div class="time">09:00</div>
-<div class="text">朝の薬</div>
-<div class="memo">飲んだら確認ボタンを押してください</div>
+<div class="day">
+今日の予定
 </div>
 
 <div class="item">
-<div class="time">14:00</div>
-<div class="text">訪問予定</div>
-<div class="memo">支援者が確認します</div>
+
+<div class="time">
+09:00
 </div>
 
-<div class="item">
-<div class="time">18:00</div>
-<div class="text">夜の薬</div>
-<div class="memo">忘れずに確認してください</div>
+<div class="text">
+朝の薬
 </div>
 
-<button class="btn" onclick="alert('予定を確認しました')">
-✅ 予定を確認しました
+<div class="memo">
+飲み終わったら確認ボタンを押してください
+</div>
+
+<button class="doneBtn" onclick="done('朝の薬を確認しました')">
+✅ 確認しました
 </button>
 
 </div>
 
-<div class="footer">
-<div onclick="location.href='index.html'">見守り</div>
-<div>予定</div>
-<div>地域情報</div>
-<div>設定</div>
+<div class="item">
+
+<div class="time">
+14:00
+</div>
+
+<div class="text">
+訪問予定
+</div>
+
+<div class="memo">
+支援者が訪問確認を行います
+</div>
+
+<button class="doneBtn" onclick="done('訪問予定を確認しました')">
+✅ 確認しました
+</button>
+
+</div>
+
+<div class="item">
+
+<div class="time">
+18:00
+</div>
+
+<div class="text">
+夜の薬
+</div>
+
+<div class="memo">
+夜の薬を忘れずに確認してください
+</div>
+
+<button class="doneBtn" onclick="done('夜の薬を確認しました')">
+✅ 確認しました
+</button>
+
 </div>
 
 </div>
+
+<div class="footer">
+
+<div onclick="location.href='index.html'">
+見守り
+</div>
+
+<div>
+予定
+</div>
+
+<div>
+地域情報
+</div>
+
+<div>
+設定
+</div>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+function done(text){
+
+const toast=document.getElementById("toast");
+
+toast.innerText=text;
+
+toast.style.display="block";
+
+setTimeout(function(){
+toast.style.display="none";
+},2000);
+
+}
+
+</script>
 
 </body>
 </html>
