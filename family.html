@@ -10,12 +10,7 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 background:#eef4fb;
@@ -79,6 +74,13 @@ margin-bottom:8px;
 color:#00897b;
 }
 
+.role{
+font-size:18px;
+font-weight:900;
+color:#555;
+margin-bottom:8px;
+}
+
 .tel{
 font-size:20px;
 font-weight:700;
@@ -103,6 +105,10 @@ cursor:pointer;
 background:#06c755;
 }
 
+.emergencyBtn{
+background:#e53935;
+}
+
 .btn:active{
 transform:scale(.97);
 }
@@ -119,7 +125,6 @@ font-size:14px;
 font-weight:900;
 color:#666;
 }
-
 </style>
 </head>
 
@@ -151,6 +156,10 @@ color:#666;
 山田 花子
 </div>
 
+<div class="role">
+家族
+</div>
+
 <div class="tel">
 090-1234-5678
 </div>
@@ -159,7 +168,7 @@ color:#666;
 📞 電話する
 </button>
 
-<button class="btn lineBtn">
+<button class="btn lineBtn" onclick="alert('LINE連絡は今後設定します')">
 💬 LINEする
 </button>
 
@@ -171,12 +180,36 @@ color:#666;
 支援センター
 </div>
 
+<div class="role">
+支援先
+</div>
+
 <div class="tel">
 048-123-4567
 </div>
 
 <button class="btn" onclick="location.href='tel:0481234567'">
 📞 電話する
+</button>
+
+</div>
+
+<div class="person">
+
+<div class="name">
+緊急時
+</div>
+
+<div class="role">
+命に関わる時
+</div>
+
+<div class="tel">
+119
+</div>
+
+<button class="btn emergencyBtn" onclick="location.href='tel:119'">
+🚨 119へ電話
 </button>
 
 </div>
