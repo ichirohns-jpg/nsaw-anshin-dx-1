@@ -208,17 +208,9 @@ rows.reverse().forEach(row => {
 const title = v(row,2);
 const image = safeUrl(v(row,3));
 const body = v(row,4);
-/*
-P = 動画タイトル
-Q = 動画説明
-R = 動画URL
-*/
 const mediaTitle = v(row,15);
 const mediaDetail = v(row,16);
 const mediaUrl = safeUrl(v(row,17));
-/*
-動画専用行は表示しない
-*/
 if(mediaTitle && mediaUrl && !image && !body){
 return;
 }
