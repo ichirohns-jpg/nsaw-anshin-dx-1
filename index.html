@@ -3,175 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NSAW 見守りDX</title>
+
+<title>見守りDX</title>
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 
 <style>
-:root{
-  --bg:#f5f7fb;
-  --card:#ffffff;
-  --text:#0f172a;
-
-  --green:#16a34a;
-  --blue:#2563eb;
-  --orange:#f59e0b;
-  --red:#dc2626;
-}
-
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+  box-sizing:border-box;
 }
 
 body{
-  background:var(--bg);
-  color:var(--text);
+  background:#eef4fb;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#1f2d3d;
 }
 
-/* 全体 */
 .wrap{
-  max-width:720px;
-  margin:0 auto;
-  padding:18px;
+  max-width:520px;
+  margin:auto;
+  padding:16px;
 }
 
-/* ヘッダー */
-.header{
-  background:linear-gradient(135deg,#1d4ed8,#60a5fa);
-  color:#fff;
-  padding:28px;
-  border-radius:22px;
-  text-align:center;
+.banner{
+  width:100%;
+  display:block;
+  border-radius:26px;
+  margin-bottom:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.header h1{
-  font-size:22px;
-  font-weight:900;
-}
-
-.header p{
-  font-size:13px;
-  margin-top:6px;
-  opacity:.9;
-}
-
-/* 状態カード */
-.status{
+.card{
   background:#fff;
-  margin-top:14px;
-  padding:20px;
-  border-radius:18px;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.title{
+  font-size:38px;
+  font-weight:900;
   text-align:center;
+  color:#1976d2;
+  margin-top:4px;
+}
+
+.sub{
+  text-align:center;
+  font-size:16px;
+  color:#6b7785;
+  margin-top:6px;
+  margin-bottom:24px;
+}
+
+.bigBtn{
+  width:100%;
+  border:none;
+  border-radius:24px;
+  padding:22px;
   font-size:28px;
   font-weight:900;
-  box-shadow:0 6px 16px rgba(0,0,0,0.06);
-}
-
-/* メニュー */
-.menu{
-  margin-top:16px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-/* ボタン */
-.btn{
-  border:none;
-  border-radius:22px;
-  padding:22px;
-  font-size:20px;
-  font-weight:900;
+  margin-bottom:14px;
   color:#fff;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  cursor:pointer;
-  box-shadow:0 8px 18px rgba(0,0,0,0.08);
 }
 
-/* 色 */
-.green{background:var(--green);}
-.blue{background:var(--blue);}
-.orange{background:var(--orange);}
-.red{background:var(--red);}
+.green{background:#43a047;}
+.orange{background:#fb8c00;}
+.red{background:#e53935;}
 
-/* 矢印 */
-.arrow{
-  background:rgba(255,255,255,0.25);
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-}
-
-/* フッター */
-.footer{
-  text-align:center;
-  font-size:12px;
-  color:#64748b;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
   margin-top:18px;
 }
-</style>
 
+.menu{
+  background:#fff;
+  border-radius:22px;
+  padding:24px 10px;
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.footer{
+  display:flex;
+  justify-content:space-around;
+  margin-top:24px;
+  padding:18px 0;
+  background:#fff;
+  border-radius:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  font-size:14px;
+  font-weight:700;
+  color:#666;
+}
+</style>
 </head>
 
 <body>
 
 <div class="wrap">
 
-  <!-- ヘッダー -->
-  <div class="header">
-    <h1>NSAW 見守りDX</h1>
-    <p>志木・新座・朝霞・和光</p>
-  </div>
+<img src="top.jpg" class="banner" alt="見守りDX">
 
-  <!-- 状態 -->
-  <div class="status">
-    😊 元気です
-  </div>
+<div class="card">
 
-  <!-- メニュー -->
-  <div class="menu">
+<div class="title">見守りDX</div>
+<div class="sub">地域の安心をひとつにつなぐ</div>
 
-    <button class="btn green" onclick="go('care.html')">
-      見守り
-      <div class="arrow">›</div>
-    </button>
+<button class="bigBtn green">😊 元気です</button>
+<button class="bigBtn orange">😐 少し困っています</button>
+<button class="bigBtn red">🚨 助けてください</button>
 
-    <button class="btn blue" onclick="go('calendar.html')">
-      今日の予定
-      <div class="arrow">›</div>
-    </button>
+<div class="grid">
+  <div class="menu">📅<br>今日の予定</div>
+  <div class="menu">🗑<br>ゴミの日</div>
+  <div class="menu">📍<br>現在地</div>
+  <div class="menu">📰<br>地域情報</div>
+  <div class="menu">👨‍👩‍👧<br>支援者</div>
+  <div class="menu">⚙️<br>設定</div>
+</div>
 
-    <button class="btn orange" onclick="go('trash.html')">
-      ゴミの日
-      <div class="arrow">›</div>
-    </button>
-
-    <button class="btn red" onclick="go('map.html')">
-      現在地
-      <div class="arrow">›</div>
-    </button>
-
-  </div>
-
-  <!-- フッター -->
-  <div class="footer">
-    地域見守りシステム
-  </div>
+<div class="footer">
+  <div>見守り</div>
+  <div>予定</div>
+  <div>地域情報</div>
+  <div>設定</div>
+</div>
 
 </div>
 
-<script>
-function go(page){
-  window.location.href = page;
-}
-</script>
+</div>
 
 </body>
 </html>
