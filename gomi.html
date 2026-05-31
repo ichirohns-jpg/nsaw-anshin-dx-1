@@ -64,13 +64,6 @@ margin-bottom:16px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.area{
-font-size:22px;
-font-weight:900;
-color:#43a047;
-margin-bottom:14px;
-}
-
 .item{
 background:#f1f8e9;
 border-left:8px solid #43a047;
@@ -99,16 +92,6 @@ margin-top:8px;
 line-height:1.6;
 }
 
-.notice{
-background:#fff8e1;
-border-radius:22px;
-padding:18px;
-font-size:18px;
-font-weight:900;
-line-height:1.7;
-color:#5d4037;
-}
-
 .footer{
 display:flex;
 justify-content:space-around;
@@ -120,6 +103,13 @@ box-shadow:0 6px 18px rgba(0,0,0,.08);
 font-size:14px;
 font-weight:900;
 color:#666;
+}
+
+.loading{
+font-size:22px;
+font-weight:900;
+text-align:center;
+padding:30px;
 }
 
 </style>
@@ -145,64 +135,16 @@ color:#666;
 
 </div>
 
+<div id="list">
+
 <div class="card">
 
-<div class="area">
-志木市 本町エリア
-</div>
-
-<div class="item">
-
-<div class="day">
-月曜日・木曜日
-</div>
-
-<div class="kind">
-燃えるゴミ
-</div>
-
-<div class="memo">
-朝8時までに指定場所へ出してください。
+<div class="loading">
+読み込み中...
 </div>
 
 </div>
 
-<div class="item">
-
-<div class="day">
-水曜日
-</div>
-
-<div class="kind">
-資源ゴミ
-</div>
-
-<div class="memo">
-びん・缶・ペットボトルなどを分別してください。
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="day">
-金曜日
-</div>
-
-<div class="kind">
-不燃ゴミ
-</div>
-
-<div class="memo">
-危険物や小型家電は地域ルールに従ってください。
-</div>
-
-</div>
-
-</div>
-
-<div class="notice">
-このページは仮表示です。あとで地域情報シートのゴミ収集データと連動させます。
 </div>
 
 <div class="footer">
@@ -226,6 +168,62 @@ color:#666;
 </div>
 
 </div>
+
+<script>
+
+const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const url=
+"https://docs.google.com/spreadsheets/d/"+SHEET_ID+
+"/gviz/tq?sheet=%E3%82%B4%E3%83%9F&tqx=out:json";
+
+fetch(url)
+.then(res=>res.text())
+.then(text=>{
+
+const json=JSON.parse(text.substr(47).slice(0,-2));
+
+const rows=json.table.rows;
+
+let html="";
+
+rows.forEach(r=>{
+
+const day=r.c[0]?.v || "";
+const kind=r.c[1]?.v || "";
+const memo=r.c[2]?.v || "";
+
+if(!day)return;
+
+html+=`
+<div class="card">
+
+<div class="item">
+
+<div class="day">
+${day}
+</div>
+
+<div class="kind">
+${kind}
+</div>
+
+<div class="memo">
+${memo}
+</div>
+
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("list").innerHTML=html;
+
+});
+
+</script>
 
 </body>
 </html>
