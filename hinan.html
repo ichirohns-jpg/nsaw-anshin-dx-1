@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>避難情報｜見守りDX</title>
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
+}
+
+.wrap{
+max-width:560px;
+margin:auto;
+padding:16px;
+}
+
+.header{
+background:#ef6c00;
+color:#fff;
+border-radius:26px;
+padding:22px;
+margin-bottom:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.back{
+font-size:16px;
+font-weight:900;
+margin-bottom:12px;
+cursor:pointer;
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+}
+
+.sub{
+font-size:16px;
+margin-top:6px;
+opacity:.95;
+}
+
+.card{
+background:#fff;
+border-radius:26px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.item{
+background:#fff3e0;
+border-left:8px solid #ef6c00;
+border-radius:18px;
+padding:18px;
+margin-bottom:16px;
+}
+
+.name{
+font-size:26px;
+font-weight:900;
+margin-bottom:8px;
+color:#e65100;
+}
+
+.text{
+font-size:18px;
+font-weight:700;
+line-height:1.7;
+color:#555;
+margin-bottom:14px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:22px;
+padding:20px;
+font-size:24px;
+font-weight:900;
+color:#fff;
+background:#ef6c00;
+margin-top:12px;
+cursor:pointer;
+}
+
+.mapBtn{
+background:#1976d2;
+}
+
+.btn:active{
+transform:scale(.97);
+}
+
+.footer{
+display:flex;
+justify-content:space-around;
+margin-top:20px;
+padding:18px 0;
+background:#fff;
+border-radius:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+font-size:14px;
+font-weight:900;
+color:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+
+<div class="back" onclick="location.href='index.html'">
+← トップへ戻る
+</div>
+
+<div class="title">
+🚨 避難情報
+</div>
+
+<div class="sub">
+避難所や災害情報を確認します
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="item">
+
+<div class="name">
+志木小学校
+</div>
+
+<div class="text">
+指定避難所<br>
+災害時はこちらへ避難してください。
+</div>
+
+<button class="btn mapBtn" onclick="window.open('https://maps.google.com','_blank')">
+📍 地図を見る
+</button>
+
+</div>
+
+<div class="item">
+
+<div class="name">
+水害ハザード情報
+</div>
+
+<div class="text">
+大雨・台風時は早めの避難を行ってください。
+</div>
+
+<button class="btn">
+🌧 ハザード確認
+</button>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<div onclick="location.href='index.html'">
+見守り
+</div>
+
+<div onclick="location.href='schedule.html'">
+予定
+</div>
+
+<div onclick="location.href='gomi.html'">
+ゴミ
+</div>
+
+<div onclick="location.href='news.html'">
+地域情報
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
