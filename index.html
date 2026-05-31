@@ -10,7 +10,6 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -76,17 +75,9 @@ cursor:pointer;
 transform:scale(.97);
 }
 
-.green{
-background:#43a047;
-}
-
-.orange{
-background:#fb8c00;
-}
-
-.red{
-background:#e53935;
-}
+.green{background:#43a047;}
+.orange{background:#fb8c00;}
+.red{background:#e53935;}
 
 .statusBox{
 background:#f7fbff;
@@ -210,7 +201,6 @@ display:none;
 z-index:9999;
 box-shadow:0 6px 18px rgba(0,0,0,.2);
 }
-
 </style>
 </head>
 
@@ -243,47 +233,27 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 </button>
 
 <div class="statusBox">
-
-<div class="statusTitle">
-現在の状態
-</div>
-
-<div class="statusText" id="statusText">
-未確認
-</div>
-
-<div class="timeBox" id="timeText">
-最終更新：未記録
-</div>
-
+<div class="statusTitle">現在の状態</div>
+<div class="statusText" id="statusText">未確認</div>
+<div class="timeBox" id="timeText">最終更新：未記録</div>
 </div>
 
 <div class="infoBox">
-
-<div class="infoTitle">
-📅 今日のお知らせ
-</div>
-
+<div class="infoTitle">📅 今日のお知らせ</div>
 <div class="infoText">
 ・今日は燃えるゴミの日です<br>
 ・午後2時 訪問予定<br>
 ・薬の確認を忘れずに
 </div>
-
 </div>
 
 <div class="weatherBox">
-
-<div class="weatherTitle">
-☀️ 今日の天気
-</div>
-
+<div class="weatherTitle">☀️ 今日の天気</div>
 <div class="weatherText">
 志木市 晴れ<br>
 最高気温 27℃<br>
 水分補給を忘れずに
 </div>
-
 </div>
 
 <div class="grid">
@@ -308,7 +278,7 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 地域情報
 </div>
 
-<div class="menu" onclick="showToast('👨‍👩‍👧 支援者画面を開きます')">
+<div class="menu" onclick="location.href='support.html'">
 👨‍👩‍👧<br>
 支援者
 </div>
@@ -347,7 +317,6 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 <div id="toast" class="toast"></div>
 
 <script>
-
 window.onload=function(){
 
 const savedStatus=localStorage.getItem("statusText");
@@ -366,9 +335,7 @@ document.getElementById("timeText").innerText=savedTime;
 function showToast(text){
 
 const toast=document.getElementById("toast");
-
 toast.innerText=text;
-
 toast.style.display="block";
 
 setTimeout(function(){
@@ -434,7 +401,6 @@ window.location.href="tel:119";
 }
 
 }
-
 </script>
 
 </body>
