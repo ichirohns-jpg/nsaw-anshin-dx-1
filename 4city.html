@@ -245,6 +245,32 @@ return match ? match[0] : "";
 
 }
 
+function extractYouTubeId(url){
+
+const s=String(url || '').trim();
+
+if(!s) return '';
+
+let m=s.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
+
+if(m && m[1]) return m[1];
+
+m=s.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+
+if(m && m[1]) return m[1];
+
+m=s.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
+
+if(m && m[1]) return m[1];
+
+m=s.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
+
+if(m && m[1]) return m[1];
+
+return '';
+
+}
+
 fetch(url)
 
 .then(res=>res.text())
@@ -336,6 +362,10 @@ ${linkTitle}
 
 if(mediaMap[date]){
 
+const ytId=extractYouTubeId(mediaMap[date].url);
+
+if(ytId){
+
 html+=`
 
 <div class="videoBox">
@@ -346,13 +376,16 @@ html+=`
 
 <iframe
 class="videoFrame"
-src="${mediaMap[date].url.replace('watch?v=','embed/')}"
+src="https://www.youtube.com/embed/${ytId}?playsinline=1&rel=0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 allowfullscreen>
 </iframe>
 
 </div>
 
 `;
+
+}
 
 }
 
