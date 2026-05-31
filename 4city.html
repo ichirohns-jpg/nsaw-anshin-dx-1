@@ -1,234 +1,144 @@
 <script>
-
 const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 const SHEET_NAME="瓦版";
-
-const url=
-"https://docs.google.com/spreadsheets/d/"+
-SHEET_ID+
-"/gviz/tq?sheet="+
-encodeURIComponent(SHEET_NAME)+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
 "&tqx=out:json";
-
 function v(row,index){
-
 if(!row.c[index]) return "";
-
-if(row.c[index].v!==null && row.c[index].v!==undefined){
+if(row.c[index].v !== null && row.c[index].v !== undefined){
 return String(row.c[index].v);
 }
-
 if(row.c[index].f){
 return String(row.c[index].f);
 }
-
 return "";
-
 }
-
 function safeUrl(url){
-
 if(!url) return "";
-
-url=String(url).trim();
-
-const match=url.match(/https?:\/\/[^\s"]+/);
-
+url = String(url).trim();
+const match = url.match(/https?:\/\/[^\s"]+/);
 return match ? match[0] : "";
-
 }
-
 function extractYouTubeId(url){
-
-const s=String(url || '').trim();
-
+const s = String(url || '').trim();
 if(!s) return '';
-
-let m=s.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
-
+let m = s.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
 if(m && m[1]) return m[1];
-
-m=s.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
-
+m = s.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
 if(m && m[1]) return m[1];
-
-m=s.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
-
+m = s.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
 if(m && m[1]) return m[1];
-
-m=s.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
-
+m = s.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
 if(m && m[1]) return m[1];
-
 return '';
-
 }
-
 fetch(url)
-
-.then(res=>res.text())
-
-.then(text=>{
-
-const json=JSON.parse(text.substring(47).slice(0,-2));
-
-const rows=json.table.rows;
-
-let html="";
-
-let mediaMap={};
-
+.then(res => res.text())
+.then(text => {
+const json = JSON.parse(text.substring(47).slice(0,-2));
+const rows = json.table.rows;
+let html = "";
 /*
 P = 動画タイトル
 Q = 動画説明
 R = 動画URL
 */
-
-rows.forEach(row=>{
-
-const date=v(row,0);
-
-const mediaTitle=v(row,15);
-const mediaDetail=v(row,16);
-const mediaUrl=safeUrl(v(row,17));
-
-if(mediaTitle && mediaUrl){
-
-mediaMap[date]={
-title:mediaTitle,
-detail:mediaDetail,
-url:mediaUrl
-};
-
+rows.reverse().forEach(row => {
+const title = v(row,2);
+const image = safeUrl(v(row,3));
+const body = v(row,4);
+const mediaTitle = v(row,15);
+const mediaDetail = v(row,16);
+const mediaUrl = safeUrl(v(row,17));
+/*
+動画専用行は表示しない
+*/
+if(mediaTitle && mediaUrl && !image && !body){
+return;
 }
-
-});
-
-rows.reverse().forEach(row=>{
-
-const date=v(row,0);
-
-const title=v(row,2);
-const image=safeUrl(v(row,3));
-const body=v(row,4);
-
-if(!title && !image && !body) return;
-
-html+=`
+if(!title && !image && !body && !mediaUrl){
+return;
+}
+html += `
 <div class="card">
 `;
-
 if(image){
-
-html+=`
+html += `
 <img class="kawaraban" src="${image}">
 `;
-
 }
-
-html+=`
-
+html += `
 <div class="cardTitle">
 ${title || "四市瓦版"}
 </div>
-
 <div class="cardText">
 ${body || ""}
 </div>
-
 `;
-
-html+=`
+html += `
 <div class="sectionTitle">
 🔗 情報リンク
 </div>
 `;
-
 for(let i=5;i<=14;i+=2){
-
-const linkTitle=v(row,i);
-const linkUrl=safeUrl(v(row,i+1));
-
+const linkTitle = v(row,i);
+const linkUrl = safeUrl(v(row,i+1));
 if(linkTitle && linkUrl){
-
-html+=`
+html += `
 <a class="linkBtn" href="${linkUrl}" target="_blank">
 ${linkTitle}
 </a>
 `;
-
 }
-
 }
-
-// 同じ日付の動画を取得
-let videoTarget = null;
-
-if(mediaMap[date]){
-
-videoTarget = mediaMap[date];
-
-}
-
-if(videoTarget){
-
-const ytId=extractYouTubeId(videoTarget.url);
-
+if(mediaTitle && mediaUrl){
+const ytId = extractYouTubeId(mediaUrl);
 if(ytId){
-
-html+=`
-
+html += `
 <div class="videoBox">
-
 <div class="videoTitle">
-🎬 ${videoTarget.title}<br><br>
-
-<span style="font-size:16px;font-weight:normal;color:#666;">
-${videoTarget.detail || ""}
-</span>
-
+🎬 ${mediaTitle}
+<div style="
+font-size:16px;
+font-weight:normal;
+color:#666;
+margin-top:10px;
+line-height:1.7;
+">
+${mediaDetail || ""}
 </div>
-
+</div>
 <iframe
 class="videoFrame"
 src="https://www.youtube.com/embed/${ytId}?playsinline=1&rel=0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 allowfullscreen>
 </iframe>
-
-</div>
-
-`;
-
-}
-
-}
-
-html+=`
 </div>
 `;
-
+}
+}
+html += `
+</div>
+`;
 });
-
 if(!html){
-
-html=`
+html = `
 <div class="card">
 <div class="loading">
 表示できる情報がありません
 </div>
 </div>
 `;
-
 }
-
-document.getElementById("content").innerHTML=html;
-
+document.getElementById("content").innerHTML = html;
 })
-
-.catch(err=>{
-
-document.getElementById("content").innerHTML=
+.catch(err => {
+document.getElementById("content").innerHTML =
 `
 <div class="card">
 <div class="loading">
@@ -236,9 +146,17 @@ document.getElementById("content").innerHTML=
 </div>
 </div>
 `;
-
 console.log(err);
-
 });
-
 </script>
+<style>
+.videoFrame{
+width:100%;
+aspect-ratio:16 / 9;
+height:auto;
+border:none;
+border-radius:18px;
+background:#000;
+display:block;
+}
+</style>
