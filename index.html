@@ -277,6 +277,21 @@ color:#666;
 
 <script>
 
+window.onload=function(){
+
+const savedStatus=localStorage.getItem("statusText");
+const savedTime=localStorage.getItem("timeText");
+
+if(savedStatus){
+document.getElementById("statusText").innerText=savedStatus;
+}
+
+if(savedTime){
+document.getElementById("timeText").innerText=savedTime;
+}
+
+};
+
 function showToast(text){
 
 const toast=document.getElementById("toast");
@@ -304,8 +319,12 @@ String(now.getDate()).padStart(2,'0')+" "+
 String(now.getHours()).padStart(2,'0')+":"+
 String(now.getMinutes()).padStart(2,'0');
 
-document.getElementById("timeText").innerText=
-"最終更新："+time;
+const timeText="最終更新："+time;
+
+document.getElementById("timeText").innerText=timeText;
+
+localStorage.setItem("statusText",text);
+localStorage.setItem("timeText",timeText);
 
 showToast(text + " を記録しました");
 
