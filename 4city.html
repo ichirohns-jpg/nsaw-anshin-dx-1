@@ -44,11 +44,30 @@ padding:20px;
 margin-bottom:18px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
-.kawaraban{
-width:100%;
-border-radius:22px;
-margin-bottom:16px;
-display:block;
+.latest{
+outline:6px solid #ffd84d;
+}
+.badge{
+display:inline-block;
+background:#e8f1ff;
+color:#1c4c94;
+font-size:16px;
+font-weight:900;
+padding:6px 12px;
+border-radius:999px;
+margin-bottom:12px;
+}
+.meta{
+margin-bottom:8px;
+}
+.date{
+display:inline-block;
+background:#eef4ff;
+color:#1f4d95;
+font-size:16px;
+font-weight:900;
+padding:4px 10px;
+border-radius:999px;
 }
 .cardTitle{
 font-size:28px;
@@ -65,6 +84,58 @@ line-height:1.8;
 color:#444;
 margin-bottom:18px;
 white-space:pre-wrap;
+}
+.media-wrap{
+margin-bottom:16px;
+display:flex;
+justify-content:center;
+width:100%;
+}
+.kawaraban{
+width:100%;
+border-radius:22px;
+display:block;
+height:auto;
+}
+.videoBox{
+width:100%;
+background:#fff8e1;
+border-radius:22px;
+padding:14px;
+margin-top:14px;
+}
+.ratio169{
+position:relative;
+width:100%;
+padding-top:56.25%;
+background:#000;
+border-radius:18px;
+overflow:hidden;
+border:2px solid #d9e2ec;
+}
+.ratio169 iframe,
+.ratio169 video{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+border:0;
+display:block;
+}
+.videoTitle{
+font-size:24px;
+font-weight:900;
+line-height:1.8;
+margin-bottom:10px;
+color:#ef6c00;
+white-space:pre-wrap;
+}
+.videoDetail{
+font-size:16px;
+font-weight:normal;
+line-height:1.7;
+margin-top:6px;
+color:#666;
 }
 .sectionTitle{
 font-size:24px;
@@ -85,41 +156,21 @@ font-size:22px;
 font-weight:900;
 margin-bottom:12px;
 }
-.videoBox{
-background:#fff8e1;
-border-radius:22px;
-padding:18px;
-margin-top:18px;
-}
-.videoTitle{
-font-size:24px;
-font-weight:900;
-line-height:1.8;
-margin-bottom:14px;
-color:#ef6c00;
-white-space:pre-wrap;
-}
-.videoDetail{
-font-size:16px;
-font-weight:normal;
-line-height:1.7;
-margin-top:10px;
-color:#666;
-}
-.videoFrame{
-width:100%;
-aspect-ratio:16 / 9;
-height:auto;
-border:none;
-border-radius:18px;
-background:#000;
-display:block;
-}
 .loading{
 font-size:24px;
 font-weight:900;
 text-align:center;
 padding:40px;
+}
+.error-box{
+background:#fff3f3;
+color:#9b1c1c;
+border:2px solid #f3c2c2;
+border-radius:18px;
+padding:20px;
+font-size:22px;
+font-weight:900;
+text-align:center;
 }
 .footer{
 display:flex;
@@ -161,29 +212,18 @@ color:#666;
 </div>
 </div>
 <script>
-const SHEET_ID = "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME = "瓦版";
-const url =
-"https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(SHEET_NAME) +
-"&tqx=out:json";
-function v(row,index){
-if(!row.c[index]) return "";
-if(row.c[index].v !== null && row.c[index].v !== undefined){
-return String(row.c[index].v);
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbwQ1HwtSQvJsWW8d2Pyf95E6o9MWo2Di84_01vMPqUS6CPebEd-qJwMYyRjCMTDwdcS/exec';
+function escapeHtml(str){
+return String(str || '')
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#39;');
 }
-if(row.c[index].f){
-return String(row.c[index].f);
-}
-return "";
-}
-function safeUrl(url){
-if(!url) return "";
-url = String(url).trim();
-const match = url.match(/https?:\/\/[^\s"]+/);
-return match ? match[0] : "";
+function nl2br(str){
+return escapeHtml(str).replace(/\n/g,'<br>');
 }
 function extractYouTubeId(url){
 const s = String(url || '').trim();
@@ -198,102 +238,202 @@ m = s.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
 if(m && m[1]) return m[1];
 return '';
 }
-fetch(url)
-.then(res => res.text())
-.then(text => {
-const json = JSON.parse(text.substring(47).slice(0,-2));
-const rows = json.table.rows;
-let html = "";
-rows.reverse().forEach(row => {
-const title = v(row,2);
-const image = safeUrl(v(row,3));
-const body = v(row,4);
-const mediaTitle = v(row,15);
-const mediaDetail = v(row,16);
-const mediaUrl = safeUrl(v(row,17));
-if(mediaTitle && mediaUrl && !image && !body){
-return;
+function extractDriveId(url){
+const s = String(url || '').trim();
+if(!s) return '';
+let m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+if(m && m[1]) return m[1];
+m = s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+if(m && m[1]) return m[1];
+return '';
 }
-if(!title && !image && !body && !mediaUrl){
-return;
+function isDirectVideoUrl(url){
+const s = String(url || '').trim().toLowerCase();
+return s.includes('.mp4')
+|| s.includes('.mov')
+|| s.includes('.m4v')
+|| s.includes('.webm')
+|| s.includes('.ogg');
 }
-html += `
-<div class="card">
-`;
-if(image){
-html += `
-<img class="kawaraban" src="${image}">
-`;
-}
-html += `
-<div class="cardTitle">
-${title || "四市瓦版"}
-</div>
-<div class="cardText">
-${body || ""}
-</div>
-<div class="sectionTitle">
-🔗 情報リンク
-</div>
-`;
-for(let i=5;i<=14;i+=2){
-const linkTitle = v(row,i);
-const linkUrl = safeUrl(v(row,i+1));
-if(linkTitle && linkUrl){
-html += `
-<a class="linkBtn" href="${linkUrl}" target="_blank">
-${linkTitle}
-</a>
-`;
-}
-}
-if(mediaTitle && mediaUrl){
-const ytId = extractYouTubeId(mediaUrl);
-if(ytId){
-html += `
-<div class="videoBox">
-<div class="videoTitle">
-🎬 ${mediaTitle}
-<div class="videoDetail">
-${mediaDetail || ""}
-</div>
-</div>
+function buildMediaHtml(item){
+const mediaUrl = item.mediaUrl || '';
+if(!mediaUrl) return '';
+let playerHtml = '';
+const yt = extractYouTubeId(mediaUrl);
+const driveId = extractDriveId(mediaUrl);
+if(yt){
+playerHtml = `
 <iframe
-class="videoFrame"
-src="https://www.youtube.com/embed/${ytId}?playsinline=1&rel=0"
+src="https://www.youtube.com/embed/${escapeHtml(yt)}?playsinline=1&rel=0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 allowfullscreen>
 </iframe>
+`;
+}
+else if(driveId){
+const previewUrl =
+`https://drive.google.com/file/d/${driveId}/preview`;
+playerHtml = `
+<iframe
+src="${escapeHtml(previewUrl)}"
+allow="autoplay"
+allowfullscreen>
+</iframe>
+`;
+}
+else if(isDirectVideoUrl(mediaUrl)){
+playerHtml = `
+<video
+controls
+playsinline
+preload="metadata"
+src="${escapeHtml(mediaUrl)}">
+</video>
+`;
+}
+if(playerHtml){
+return `
+<div class="videoBox">
+<div class="videoTitle">
+🎬 ${escapeHtml(item.mediaTitle || 'おすすめ動画')}
+<div class="videoDetail">
+${nl2br(item.mediaDetail || '')}
+</div>
+</div>
+<div class="ratio169">
+${playerHtml}
+</div>
 </div>
 `;
 }
+return '';
 }
+function buildCard(item,isLatest){
+let html =
+`<div class="card ${isLatest ? 'latest' : ''}">`;
+if(isLatest){
 html += `
-</div>
-`;
-});
-if(!html){
-html = `
-<div class="card">
-<div class="loading">
-表示できる情報がありません
-</div>
+<div class="badge">
+最新のお知らせ
 </div>
 `;
 }
-document.getElementById("content").innerHTML = html;
-})
-.catch(err => {
-document.getElementById("content").innerHTML =
-`
+if(item.date){
+html += `
+<div class="meta">
+<span class="date">
+${escapeHtml(item.date)}
+</span>
+</div>
+`;
+}
+if(item.title){
+html += `
+<div class="cardTitle">
+${nl2br(item.title)}
+</div>
+`;
+}
+if(item.imageUrl){
+html += `
+<div class="media-wrap">
+<img
+class="kawaraban"
+src="${escapeHtml(item.imageUrl)}"
+alt="掲示板画像">
+</div>
+`;
+}
+if(item.detail){
+html += `
+<div class="cardText">
+${nl2br(item.detail)}
+</div>
+`;
+}
+let linkHtml = '';
+if(item.applyUrl){
+linkHtml += `
+<a
+href="${escapeHtml(item.applyUrl)}"
+class="linkBtn"
+target="_blank"
+rel="noopener noreferrer">
+タップして申込みフォームへ
+</a>
+`;
+}
+if(item.homeUrl){
+linkHtml += `
+<a
+href="${escapeHtml(item.homeUrl)}"
+class="linkBtn"
+target="_blank"
+rel="noopener noreferrer">
+タップして詳細を見る（公式ページへ）
+</a>
+`;
+}
+if(linkHtml){
+html += `
+<div class="sectionTitle">
+🔗 情報リンク
+</div>
+${linkHtml}
+`;
+}
+html += buildMediaHtml(item);
+html += `</div>`;
+return html;
+}
+async function loadBoard(){
+const contentDiv =
+document.getElementById('content');
+try{
+const res =
+await fetch(
+`${GAS_URL}?mode=board`,
+{ cache:'no-store' }
+);
+if(!res.ok){
+throw new Error(`HTTP ${res.status}`);
+}
+const data = await res.json();
+if(!data.ok){
+throw new Error(
+data.error || 'データ取得失敗'
+);
+}
+const items =
+Array.isArray(data.items)
+? data.items
+: [];
+if(items.length === 0){
+contentDiv.innerHTML = `
 <div class="card">
 <div class="loading">
-読み込みできませんでした
+表示できるお知らせがまだありません。
 </div>
+</div>
+`;
+return;
+}
+contentDiv.innerHTML =
+items.map((item,idx)=>
+buildCard(item,idx===0)
+).join('');
+}
+catch(err){
+contentDiv.innerHTML = `
+<div class="error-box">
+読み込みに失敗しました。<br>
+${escapeHtml(err.message || String(err))}
 </div>
 `;
 console.log(err);
-});
+}
+}
+loadBoard();
 </script>
 </body>
 </html>
