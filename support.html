@@ -72,7 +72,7 @@ margin-bottom:10px;
 }
 
 .status{
-font-size:24px;
+font-size:26px;
 font-weight:900;
 margin-bottom:10px;
 }
@@ -93,6 +93,34 @@ font-weight:700;
 line-height:1.7;
 }
 
+.sectionTitle{
+font-size:22px;
+font-weight:900;
+color:#7b1fa2;
+margin-bottom:12px;
+}
+
+.item{
+background:#f8f5fb;
+border-left:8px solid #7b1fa2;
+border-radius:18px;
+padding:16px;
+margin-bottom:12px;
+}
+
+.itemTitle{
+font-size:20px;
+font-weight:900;
+}
+
+.itemText{
+font-size:16px;
+font-weight:700;
+color:#666;
+margin-top:6px;
+line-height:1.6;
+}
+
 .btn{
 width:100%;
 border:none;
@@ -104,6 +132,10 @@ color:#fff;
 background:#7b1fa2;
 margin-top:14px;
 cursor:pointer;
+}
+
+.callBtn{
+background:#e53935;
 }
 
 .footer{
@@ -158,11 +190,72 @@ color:#666;
 
 <div class="memo">
 本日は朝の薬確認済み。<br>
-午後2時に訪問予定があります。
+午後2時に訪問予定があります。<br>
+緊急対応は不要です。
 </div>
 
 <button class="btn" onclick="alert('支援確認しました')">
-✅ 確認しました
+✅ 支援確認しました
+</button>
+
+<button class="btn callBtn" onclick="location.href='tel:119'">
+🚨 緊急時 119へ電話
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+📅 今日の予定
+</div>
+
+<div class="item">
+<div class="itemTitle">
+09:00 朝の薬
+</div>
+<div class="itemText">
+確認済み
+</div>
+</div>
+
+<div class="item">
+<div class="itemTitle">
+14:00 訪問予定
+</div>
+<div class="itemText">
+支援者が訪問予定
+</div>
+</div>
+
+<div class="item">
+<div class="itemTitle">
+18:00 夜の薬
+</div>
+<div class="itemText">
+未確認
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+📍 位置情報
+</div>
+
+<div class="item">
+<div class="itemTitle">
+現在地確認
+</div>
+<div class="itemText">
+必要な場合は本人の現在地ボタンから確認します。
+</div>
+</div>
+
+<button class="btn" onclick="window.open('https://www.google.com/maps','_blank')">
+📍 Googleマップを開く
 </button>
 
 </div>
