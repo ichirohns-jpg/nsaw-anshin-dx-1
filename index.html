@@ -298,7 +298,7 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 ゴミの日
 </div>
 
-<div class="menu" onclick="getLocation()">
+<div class="menu" onclick="location.href='map.html'">
 📍<br>
 現在地
 </div>
@@ -311,6 +311,11 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 <div class="menu" onclick="location.href='support.html'">
 👨‍👩‍👧<br>
 支援者
+</div>
+
+<div class="menu" onclick="location.href='settings.html'">
+⚙️<br>
+設定
 </div>
 
 <div class="menu emergency" onclick="callEmergency()">
@@ -402,32 +407,6 @@ localStorage.setItem("statusText",text);
 localStorage.setItem("timeText",timeText);
 
 showToast(text+" を記録しました");
-
-}
-
-function getLocation(){
-
-if(!navigator.geolocation){
-showToast("位置情報が使えません");
-return;
-}
-
-showToast("現在地を取得しています");
-
-navigator.geolocation.getCurrentPosition(function(pos){
-
-const lat=pos.coords.latitude;
-const lng=pos.coords.longitude;
-
-const url="https://www.google.com/maps?q="+lat+","+lng;
-
-window.open(url,"_blank");
-
-},function(){
-
-showToast("位置情報を取得できませんでした");
-
-});
 
 }
 
