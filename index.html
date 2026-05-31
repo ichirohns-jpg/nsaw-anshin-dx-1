@@ -161,6 +161,13 @@ font-size:22px;
 font-weight:900;
 }
 
+.timeBox{
+margin-top:14px;
+font-size:16px;
+font-weight:700;
+color:#666;
+}
+
 </style>
 </head>
 
@@ -200,6 +207,10 @@ font-weight:900;
 
 <div class="statusText" id="statusText">
 未確認
+</div>
+
+<div class="timeBox" id="timeText">
+最終更新：未記録
 </div>
 
 </div>
@@ -283,6 +294,18 @@ toast.style.display="none";
 function setStatus(text){
 
 document.getElementById("statusText").innerText=text;
+
+const now=new Date();
+
+const time=
+now.getFullYear()+"-"+
+String(now.getMonth()+1).padStart(2,'0')+"-"+
+String(now.getDate()).padStart(2,'0')+" "+
+String(now.getHours()).padStart(2,'0')+":"+
+String(now.getMinutes()).padStart(2,'0');
+
+document.getElementById("timeText").innerText=
+"最終更新："+time;
 
 showToast(text + " を記録しました");
 
