@@ -127,6 +127,26 @@ font-weight:800;
 line-height:1.7;
 }
 
+.weatherBox{
+margin-top:16px;
+background:#e3f2fd;
+border-radius:22px;
+padding:18px;
+}
+
+.weatherTitle{
+font-size:18px;
+font-weight:900;
+color:#1565c0;
+margin-bottom:8px;
+}
+
+.weatherText{
+font-size:20px;
+font-weight:900;
+line-height:1.7;
+}
+
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -183,26 +203,6 @@ z-index:9999;
 box-shadow:0 6px 18px rgba(0,0,0,.2);
 }
 
-.weatherBox{
-margin-top:16px;
-background:#e3f2fd;
-border-radius:22px;
-padding:18px;
-}
-
-.weatherTitle{
-font-size:18px;
-font-weight:900;
-color:#1565c0;
-margin-bottom:8px;
-}
-
-.weatherText{
-font-size:20px;
-font-weight:900;
-line-height:1.7;
-}
-
 </style>
 </head>
 
@@ -214,8 +214,13 @@ line-height:1.7;
 
 <div class="card">
 
-<div class="title">見守りDX</div>
-<div class="sub">地域の安心をひとつにつなぐ</div>
+<div class="title">
+見守りDX
+</div>
+
+<div class="sub">
+地域の安心をひとつにつなぐ
+</div>
 
 <button class="bigBtn green" onclick="setStatus('😊 元気です')">
 😊 元気です
@@ -280,7 +285,7 @@ line-height:1.7;
 今日の予定
 </div>
 
-<div class="menu" onclick="showToast('🗑 ゴミの日を確認します')">
+<div class="menu" onclick="location.href='gomi.html'">
 🗑<br>
 ゴミの日
 </div>
@@ -317,8 +322,8 @@ line-height:1.7;
 予定
 </div>
 
-<div onclick="showToast('地域情報を開きます')">
-地域情報
+<div onclick="location.href='gomi.html'">
+ゴミ
 </div>
 
 <div onclick="showToast('設定を開きます')">
