@@ -10,7 +10,12 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 background:#eef4fb;
@@ -197,6 +202,7 @@ display:none;
 z-index:9999;
 box-shadow:0 6px 18px rgba(0,0,0,.2);
 }
+
 </style>
 </head>
 
@@ -208,66 +214,191 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 
 <div class="card">
 
-<div class="title">見守りDX</div>
-<div class="sub">地域の安心をひとつにつなぐ</div>
+<div class="title">
+見守りDX
+</div>
 
-<button class="bigBtn green" onclick="setStatus('😊 元気です')">😊 元気です</button>
-<button class="bigBtn orange" onclick="setStatus('😐 少し困っています')">😐 少し困っています</button>
-<button class="bigBtn red" onclick="setStatus('🚨 助けてください')">🚨 助けてください</button>
+<div class="sub">
+地域の安心をひとつにつなぐ
+</div>
+
+<button class="bigBtn green" onclick="setStatus('😊 元気です')">
+😊 元気です
+</button>
+
+<button class="bigBtn orange" onclick="setStatus('😐 少し困っています')">
+😐 少し困っています
+</button>
+
+<button class="bigBtn red" onclick="setStatus('🚨 助けてください')">
+🚨 助けてください
+</button>
 
 <div class="statusBox">
-<div class="statusTitle">現在の状態</div>
-<div class="statusText" id="statusText">未確認</div>
-<div class="timeBox" id="timeText">最終更新：未記録</div>
+
+<div class="statusTitle">
+現在の状態
+</div>
+
+<div class="statusText" id="statusText">
+未確認
+</div>
+
+<div class="timeBox" id="timeText">
+最終更新：未記録
+</div>
+
 </div>
 
 <div class="infoBox">
-<div class="infoTitle">📅 今日のお知らせ</div>
+
+<div class="infoTitle">
+📅 今日のお知らせ
+</div>
+
 <div class="infoText">
 ・今日は燃えるゴミの日です<br>
 ・午後2時 訪問予定<br>
 ・薬の確認を忘れずに
 </div>
+
 </div>
 
 <div class="weatherBox">
-<div class="weatherTitle">☀️ 今日の天気</div>
+
+<div class="weatherTitle">
+☀️ 今日の天気
+</div>
+
 <div class="weatherText">
 志木市 晴れ<br>
 最高気温 27℃<br>
 水分補給を忘れずに
 </div>
+
 </div>
 
 <div class="grid">
 
-<div class="menu" onclick="location.href='schedule.html'">📅<br>今日の予定</div>
-<div class="menu" onclick="location.href='gomi.html'">🗑<br>ゴミの日</div>
-<div class="menu" onclick="location.href='medicine.html'">💊<br>薬確認</div>
-<div class="menu" onclick="location.href='medicine-history.html'">📘<br>服薬履歴</div>
-<div class="menu" onclick="location.href='history.html'">📋<br>安否履歴</div>
-<div class="menu" onclick="location.href='voice.html'">🎤<br>音声メモ</div>
-<div class="menu" onclick="location.href='radio.html'">📻<br>地域ラジオ</div>
-<div class="menu" onclick="location.href='album.html'">📸<br>写真アルバム</div>
-<div class="menu" onclick="location.href='family.html'">👨‍👩‍👧<br>家族連絡</div>
-<div class="menu" onclick="location.href='hospital.html'">🏥<br>病院・薬局</div>
-<div class="menu" onclick="location.href='hinan.html'">🚨<br>避難情報</div>
-<div class="menu" onclick="location.href='shopping.html'">🛒<br>買い物メモ</div>
-<div class="menu" onclick="location.href='nearby.html'">📍<br>周辺施設</div>
-<div class="menu" onclick="location.href='map.html'">🗺️<br>現在地</div>
-<div class="menu" onclick="location.href='news.html'">📰<br>地域情報</div>
-<div class="menu" onclick="location.href='support.html'">👨‍👩‍👧<br>支援者</div>
-<div class="menu" onclick="location.href='settings.html'">⚙️<br>設定</div>
-<div class="menu emergency" onclick="callEmergency()">☎️<br>緊急連絡</div>
+<div class="menu" onclick="location.href='calendar.html'">
+📅<br>
+カレンダー
+</div>
+
+<div class="menu" onclick="location.href='schedule.html'">
+📝<br>
+今日の予定
+</div>
+
+<div class="menu" onclick="location.href='gomi.html'">
+🗑<br>
+ゴミの日
+</div>
+
+<div class="menu" onclick="location.href='medicine.html'">
+💊<br>
+薬確認
+</div>
+
+<div class="menu" onclick="location.href='medicine-history.html'">
+📘<br>
+服薬履歴
+</div>
+
+<div class="menu" onclick="location.href='history.html'">
+📋<br>
+安否履歴
+</div>
+
+<div class="menu" onclick="location.href='voice.html'">
+🎤<br>
+音声メモ
+</div>
+
+<div class="menu" onclick="location.href='radio.html'">
+📻<br>
+地域ラジオ
+</div>
+
+<div class="menu" onclick="location.href='album.html'">
+📸<br>
+写真アルバム
+</div>
+
+<div class="menu" onclick="location.href='family.html'">
+👨‍👩‍👧<br>
+家族連絡
+</div>
+
+<div class="menu" onclick="location.href='hospital.html'">
+🏥<br>
+病院・薬局
+</div>
+
+<div class="menu" onclick="location.href='hinan.html'">
+🚨<br>
+避難情報
+</div>
+
+<div class="menu" onclick="location.href='shopping.html'">
+🛒<br>
+買い物メモ
+</div>
+
+<div class="menu" onclick="location.href='nearby.html'">
+📍<br>
+周辺施設
+</div>
+
+<div class="menu" onclick="location.href='map.html'">
+🗺️<br>
+現在地
+</div>
+
+<div class="menu" onclick="location.href='news.html'">
+📰<br>
+地域情報
+</div>
+
+<div class="menu" onclick="location.href='support.html'">
+👨‍👩‍👧<br>
+支援者
+</div>
+
+<div class="menu" onclick="location.href='settings.html'">
+⚙️<br>
+設定
+</div>
+
+<div class="menu emergency" onclick="callEmergency()">
+☎️<br>
+緊急連絡
+</div>
 
 </div>
 
 <div class="footer">
-<div onclick="location.href='index.html'">見守り</div>
-<div onclick="location.href='schedule.html'">予定</div>
-<div onclick="location.href='gomi.html'">ゴミ</div>
-<div onclick="location.href='news.html'">地域情報</div>
-<div onclick="location.href='settings.html'">設定</div>
+
+<div onclick="location.href='index.html'">
+見守り
+</div>
+
+<div onclick="location.href='calendar.html'">
+予定
+</div>
+
+<div onclick="location.href='gomi.html'">
+ゴミ
+</div>
+
+<div onclick="location.href='news.html'">
+地域情報
+</div>
+
+<div onclick="location.href='settings.html'">
+設定
+</div>
+
 </div>
 
 </div>
@@ -277,7 +408,9 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 <div id="toast" class="toast"></div>
 
 <script>
+
 window.onload=function(){
+
 const savedStatus=localStorage.getItem("statusText");
 const savedTime=localStorage.getItem("timeText");
 
@@ -288,19 +421,25 @@ document.getElementById("statusText").innerText=savedStatus;
 if(savedTime){
 document.getElementById("timeText").innerText=savedTime;
 }
+
 };
 
 function showToast(text){
+
 const toast=document.getElementById("toast");
+
 toast.innerText=text;
+
 toast.style.display="block";
 
 setTimeout(function(){
 toast.style.display="none";
 },2000);
+
 }
 
 function setStatus(text){
+
 document.getElementById("statusText").innerText=text;
 
 const now=new Date();
@@ -320,13 +459,17 @@ localStorage.setItem("statusText",text);
 localStorage.setItem("timeText",timeText);
 
 showToast(text+" を記録しました");
+
 }
 
 function callEmergency(){
+
 if(confirm("119へ電話しますか？")){
 window.location.href="tel:119";
 }
+
 }
+
 </script>
 
 </body>
