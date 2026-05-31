@@ -78,6 +78,7 @@ font-weight:900;
 margin-bottom:14px;
 line-height:1.5;
 color:#1565c0;
+white-space:pre-wrap;
 }
 
 .cardText{
@@ -122,7 +123,7 @@ font-size:24px;
 font-weight:900;
 margin-bottom:14px;
 color:#ef6c00;
-line-height:1.6;
+line-height:1.8;
 white-space:pre-wrap;
 }
 
@@ -226,9 +227,13 @@ function v(row,index){
 
 if(!row.c[index]) return "";
 
-if(row.c[index].v) return String(row.c[index].v);
+if(row.c[index].v!==null && row.c[index].v!==undefined){
+return String(row.c[index].v);
+}
 
-if(row.c[index].f) return String(row.c[index].f);
+if(row.c[index].f){
+return String(row.c[index].f);
+}
 
 return "";
 
@@ -290,13 +295,21 @@ rows.forEach(row=>{
 
 const date=v(row,0);
 
-const mediaTitle=v(row,16);
+/*
+P = 動画タイトル
+Q = 動画詳細
+R = メディアURL
+*/
+
+const mediaTitle=v(row,15);
+const mediaDetail=v(row,16);
 const mediaUrl=safeUrl(v(row,17));
 
 if(mediaTitle && mediaUrl){
 
 mediaMap[date]={
 title:mediaTitle,
+detail:mediaDetail,
 url:mediaUrl
 };
 
@@ -310,11 +323,7 @@ const date=v(row,0);
 
 const title=v(row,2);
 const image=safeUrl(v(row,3));
-
-const body=
-(v(row,4) || "") +
-"\n\n" +
-(v(row,16) || "");
+const body=v(row,4);
 
 if(!title && !image && !body) return;
 
@@ -377,6 +386,8 @@ html+=`
 
 <div class="videoTitle">
 🎬 ${mediaMap[date].title}
+
+${mediaMap[date].detail || ""}
 </div>
 
 <iframe
