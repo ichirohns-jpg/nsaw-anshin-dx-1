@@ -123,6 +123,7 @@ font-weight:900;
 margin-bottom:14px;
 color:#ef6c00;
 line-height:1.6;
+white-space:pre-wrap;
 }
 
 .videoFrame{
@@ -289,8 +290,8 @@ rows.forEach(row=>{
 
 const date=v(row,0);
 
-const mediaTitle=v(row,15);
-const mediaUrl=safeUrl(v(row,16));
+const mediaTitle=v(row,16);
+const mediaUrl=safeUrl(v(row,17));
 
 if(mediaTitle && mediaUrl){
 
@@ -309,7 +310,11 @@ const date=v(row,0);
 
 const title=v(row,2);
 const image=safeUrl(v(row,3));
-const body=v(row,4);
+
+const body=
+(v(row,4) || "") +
+"\n\n" +
+(v(row,16) || "");
 
 if(!title && !image && !body) return;
 
