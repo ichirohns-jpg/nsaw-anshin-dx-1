@@ -10,185 +10,177 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+  background:#eef4fb;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#1f2d3d;
 }
 
 .wrap{
-max-width:520px;
-margin:auto;
-padding:16px;
+  max-width:560px;
+  margin:auto;
+  padding:14px;
 }
 
 .banner{
-width:100%;
-display:block;
-border-radius:26px;
-margin-bottom:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+  width:100%;
+  display:block;
+  border-radius:26px;
+  margin-bottom:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .card{
-background:#fff;
-border-radius:28px;
-padding:22px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+  background:#fff;
+  border-radius:28px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:38px;
-font-weight:900;
-text-align:center;
-color:#1976d2;
-margin-top:4px;
+  font-size:38px;
+  font-weight:900;
+  text-align:center;
+  color:#1976d2;
 }
 
 .sub{
-text-align:center;
-font-size:16px;
-color:#6b7785;
-margin-top:6px;
-margin-bottom:24px;
+  text-align:center;
+  font-size:16px;
+  color:#6b7785;
+  margin-top:6px;
+  margin-bottom:22px;
 }
 
 .bigBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:22px;
-font-size:28px;
-font-weight:900;
-margin-bottom:14px;
-color:#fff;
-cursor:pointer;
-transition:.2s;
+  width:100%;
+  border:none;
+  border-radius:24px;
+  padding:22px;
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:14px;
+  color:#fff;
+  cursor:pointer;
 }
 
 .bigBtn:active{
-transform:scale(.97);
+  transform:scale(.97);
 }
 
-.green{
-background:#43a047;
-}
-
-.orange{
-background:#fb8c00;
-}
-
-.red{
-background:#e53935;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
-
-.menu{
-background:#fff;
-border-radius:22px;
-padding:24px 10px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-cursor:pointer;
-transition:.2s;
-}
-
-.menu:active{
-transform:scale(.97);
-}
-
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:24px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:700;
-color:#666;
-}
-
-.toast{
-position:fixed;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-background:#1976d2;
-color:#fff;
-padding:16px 24px;
-border-radius:18px;
-font-size:18px;
-font-weight:700;
-display:none;
-z-index:9999;
-box-shadow:0 6px 18px rgba(0,0,0,.2);
-}
+.green{background:#43a047;}
+.orange{background:#fb8c00;}
+.red{background:#e53935;}
 
 .statusBox{
-background:#f7fbff;
-border-radius:22px;
-padding:18px;
-margin-top:18px;
-box-shadow:0 4px 12px rgba(0,0,0,.06);
+  background:#f7fbff;
+  border-radius:22px;
+  padding:18px;
+  margin-top:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
 }
 
 .statusTitle{
-font-size:18px;
-font-weight:900;
-margin-bottom:10px;
-color:#1976d2;
+  font-size:18px;
+  font-weight:900;
+  color:#1976d2;
+  margin-bottom:8px;
 }
 
 .statusText{
-font-size:22px;
-font-weight:900;
+  font-size:24px;
+  font-weight:900;
 }
 
 .timeBox{
-margin-top:14px;
-font-size:16px;
-font-weight:700;
-color:#666;
+  margin-top:10px;
+  font-size:16px;
+  font-weight:700;
+  color:#666;
 }
 
-.todayBox{
-margin-top:18px;
-background:#fff8e1;
-border-radius:22px;
-padding:18px;
-box-shadow:0 4px 12px rgba(0,0,0,.06);
+.infoBox{
+  background:#fff8e1;
+  border-radius:22px;
+  padding:18px;
+  margin-top:16px;
 }
 
-.todayTitle{
-font-size:18px;
-font-weight:900;
-color:#ef6c00;
-margin-bottom:10px;
+.infoTitle{
+  font-size:20px;
+  font-weight:900;
+  color:#ef6c00;
+  margin-bottom:10px;
 }
 
-.todayText{
-font-size:20px;
-font-weight:900;
-line-height:1.6;
+.infoText{
+  font-size:19px;
+  font-weight:800;
+  line-height:1.7;
 }
 
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:18px;
+}
+
+.menu{
+  background:#fff;
+  border-radius:22px;
+  padding:24px 10px;
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  cursor:pointer;
+}
+
+.menu:active{
+  transform:scale(.97);
+}
+
+.emergency{
+  background:#ffebee;
+  color:#c62828;
+}
+
+.footer{
+  display:flex;
+  justify-content:space-around;
+  margin-top:20px;
+  padding:18px 0;
+  background:#fff;
+  border-radius:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  font-size:14px;
+  font-weight:900;
+  color:#666;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:30px;
+  transform:translateX(-50%);
+  background:#1976d2;
+  color:#fff;
+  padding:16px 24px;
+  border-radius:18px;
+  font-size:18px;
+  font-weight:900;
+  display:none;
+  z-index:9999;
+  box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
 </style>
 </head>
 
@@ -200,108 +192,61 @@ line-height:1.6;
 
 <div class="card">
 
-<div class="title">
-見守りDX
-</div>
+<div class="title">見守りDX</div>
+<div class="sub">地域の安心をひとつにつなぐ</div>
 
-<div class="sub">
-地域の安心をひとつにつなぐ
-</div>
-
-<button class="bigBtn green" onclick="setStatus('😊 元気です')">
-😊 元気です
-</button>
-
-<button class="bigBtn orange" onclick="setStatus('😐 少し困っています')">
-😐 少し困っています
-</button>
-
-<button class="bigBtn red" onclick="setStatus('🚨 助けてください')">
-🚨 助けてください
-</button>
+<button class="bigBtn green" onclick="setStatus('😊 元気です')">😊 元気です</button>
+<button class="bigBtn orange" onclick="setStatus('😐 少し困っています')">😐 少し困っています</button>
+<button class="bigBtn red" onclick="setStatus('🚨 助けてください')">🚨 助けてください</button>
 
 <div class="statusBox">
-
-<div class="statusTitle">
-現在の状態
+  <div class="statusTitle">現在の状態</div>
+  <div class="statusText" id="statusText">未確認</div>
+  <div class="timeBox" id="timeText">最終更新：未記録</div>
 </div>
 
-<div class="statusText" id="statusText">
-未確認
-</div>
-
-<div class="timeBox" id="timeText">
-最終更新：未記録
-</div>
-
-</div>
-
-<div class="todayBox">
-
-<div class="todayTitle">
-📅 今日のお知らせ
-</div>
-
-<div class="todayText">
-・今日は燃えるゴミの日です<br>
-・午後2時 訪問予定<br>
-・水分補給を忘れずに
-</div>
-
+<div class="infoBox">
+  <div class="infoTitle">📅 今日のお知らせ</div>
+  <div class="infoText">
+    ・今日は燃えるゴミの日です<br>
+    ・午後2時 訪問予定<br>
+    ・薬の確認を忘れずに
+  </div>
 </div>
 
 <div class="grid">
 
-<div class="menu" onclick="showToast('📅 今日の予定')">
-📅<br>
-今日の予定
-</div>
+  <div class="menu" onclick="showToast('📅 今日の予定を開きます')">
+    📅<br>今日の予定
+  </div>
 
-<div class="menu" onclick="showToast('🗑 ゴミの日')">
-🗑<br>
-ゴミの日
-</div>
+  <div class="menu" onclick="showToast('🗑 ゴミの日を確認します')">
+    🗑<br>ゴミの日
+  </div>
 
-<div class="menu" onclick="showToast('📍 現在地')">
-📍<br>
-現在地
-</div>
+  <div class="menu" onclick="getLocation()">
+    📍<br>現在地
+  </div>
 
-<div class="menu" onclick="showToast('📰 地域情報')">
-📰<br>
-地域情報
-</div>
+  <div class="menu" onclick="showToast('📰 地域情報を開きます')">
+    📰<br>地域情報
+  </div>
 
-<div class="menu" onclick="showToast('👨‍👩‍👧 支援者')">
-👨‍👩‍👧<br>
-支援者
-</div>
+  <div class="menu" onclick="showToast('👨‍👩‍👧 支援者画面を開きます')">
+    👨‍👩‍👧<br>支援者
+  </div>
 
-<div class="menu" onclick="showToast('⚙️ 設定')">
-⚙️<br>
-設定
-</div>
+  <div class="menu emergency" onclick="callEmergency()">
+    ☎️<br>緊急連絡
+  </div>
 
 </div>
 
 <div class="footer">
-
-<div>
-見守り
-</div>
-
-<div>
-予定
-</div>
-
-<div>
-地域情報
-</div>
-
-<div>
-設定
-</div>
-
+  <div>見守り</div>
+  <div>予定</div>
+  <div>地域情報</div>
+  <div>設定</div>
 </div>
 
 </div>
@@ -311,60 +256,89 @@ line-height:1.6;
 <div id="toast" class="toast"></div>
 
 <script>
-
 window.onload=function(){
 
-const savedStatus=localStorage.getItem("statusText");
-const savedTime=localStorage.getItem("timeText");
+  const savedStatus=localStorage.getItem("statusText");
+  const savedTime=localStorage.getItem("timeText");
 
-if(savedStatus){
-document.getElementById("statusText").innerText=savedStatus;
-}
+  if(savedStatus){
+    document.getElementById("statusText").innerText=savedStatus;
+  }
 
-if(savedTime){
-document.getElementById("timeText").innerText=savedTime;
-}
+  if(savedTime){
+    document.getElementById("timeText").innerText=savedTime;
+  }
 
 };
 
 function showToast(text){
 
-const toast=document.getElementById("toast");
+  const toast=document.getElementById("toast");
+  toast.innerText=text;
+  toast.style.display="block";
 
-toast.innerText=text;
-
-toast.style.display="block";
-
-setTimeout(()=>{
-toast.style.display="none";
-},2000);
+  setTimeout(function(){
+    toast.style.display="none";
+  },2000);
 
 }
 
 function setStatus(text){
 
-document.getElementById("statusText").innerText=text;
+  document.getElementById("statusText").innerText=text;
 
-const now=new Date();
+  const now=new Date();
 
-const time=
-now.getFullYear()+"-"+
-String(now.getMonth()+1).padStart(2,'0')+"-"+
-String(now.getDate()).padStart(2,'0')+" "+
-String(now.getHours()).padStart(2,'0')+":"+
-String(now.getMinutes()).padStart(2,'0');
+  const time=
+  now.getFullYear()+"-"+
+  String(now.getMonth()+1).padStart(2,"0")+"-"+
+  String(now.getDate()).padStart(2,"0")+" "+
+  String(now.getHours()).padStart(2,"0")+":"+
+  String(now.getMinutes()).padStart(2,"0");
 
-const timeText="最終更新："+time;
+  const timeText="最終更新："+time;
 
-document.getElementById("timeText").innerText=timeText;
+  document.getElementById("timeText").innerText=timeText;
 
-localStorage.setItem("statusText",text);
-localStorage.setItem("timeText",timeText);
+  localStorage.setItem("statusText",text);
+  localStorage.setItem("timeText",timeText);
 
-showToast(text + " を記録しました");
+  showToast(text+" を記録しました");
 
 }
 
+function getLocation(){
+
+  if(!navigator.geolocation){
+    showToast("位置情報が使えません");
+    return;
+  }
+
+  showToast("現在地を取得しています");
+
+  navigator.geolocation.getCurrentPosition(function(pos){
+
+    const lat=pos.coords.latitude;
+    const lng=pos.coords.longitude;
+
+    const url="https://www.google.com/maps?q="+lat+","+lng;
+    window.open(url,"_blank");
+
+  },function(){
+
+    showToast("位置情報を取得できませんでした");
+
+  });
+
+}
+
+function callEmergency(){
+
+  if(confirm("緊急連絡しますか？")){
+    window.location.href="tel:119";
+  }
+
+}
 </script>
 
 </body>
