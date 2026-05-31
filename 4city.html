@@ -213,7 +213,7 @@ color:#666;
 </div>
 <script>
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwQ1HwtSQvJsWW8d2Pyf95E6o9MWo2Di84_01vMPqUS6CPebEd-qJwMYyRjCMTDwdcS/exec';
+'https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/exec';
 function escapeHtml(str){
 return String(str || '')
 .replace(/&/g,'&amp;')
@@ -308,6 +308,34 @@ ${playerHtml}
 }
 return '';
 }
+function buildLinks(item){
+if(!item.links || !Array.isArray(item.links)){
+return '';
+}
+let html = '';
+item.links.forEach(link => {
+if(link.title && link.url){
+html += `
+<a
+href="${escapeHtml(link.url)}"
+class="linkBtn"
+target="_blank"
+rel="noopener noreferrer">
+${escapeHtml(link.title)}
+</a>
+`;
+}
+});
+if(!html){
+return '';
+}
+return `
+<div class="sectionTitle">
+🔗 情報リンク
+</div>
+${html}
+`;
+}
 function buildCard(item,isLatest){
 let html =
 `<div class="card ${isLatest ? 'latest' : ''}">`;
@@ -351,37 +379,7 @@ ${nl2br(item.detail)}
 </div>
 `;
 }
-let linkHtml = '';
-if(item.applyUrl){
-linkHtml += `
-<a
-href="${escapeHtml(item.applyUrl)}"
-class="linkBtn"
-target="_blank"
-rel="noopener noreferrer">
-タップして申込みフォームへ
-</a>
-`;
-}
-if(item.homeUrl){
-linkHtml += `
-<a
-href="${escapeHtml(item.homeUrl)}"
-class="linkBtn"
-target="_blank"
-rel="noopener noreferrer">
-タップして詳細を見る（公式ページへ）
-</a>
-`;
-}
-if(linkHtml){
-html += `
-<div class="sectionTitle">
-🔗 情報リンク
-</div>
-${linkHtml}
-`;
-}
+html += buildLinks(item);
 html += buildMediaHtml(item);
 html += `</div>`;
 return html;
