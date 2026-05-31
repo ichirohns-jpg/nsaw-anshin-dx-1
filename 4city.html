@@ -29,19 +29,20 @@ margin-bottom:18px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 .title{
-font-size:38px;
+font-size:44px;
 font-weight:900;
 }
 .sub{
-font-size:17px;
-margin-top:8px;
-line-height:1.7;
+font-size:24px;
+margin-top:12px;
+line-height:1.8;
+font-weight:700;
 }
 .card{
 background:#fff;
 border-radius:28px;
-padding:20px;
-margin-bottom:18px;
+padding:24px;
+margin-bottom:20px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 .latest{
@@ -51,42 +52,43 @@ outline:6px solid #ffd84d;
 display:inline-block;
 background:#e8f1ff;
 color:#1c4c94;
-font-size:16px;
+font-size:22px;
 font-weight:900;
-padding:6px 12px;
+padding:8px 16px;
 border-radius:999px;
-margin-bottom:12px;
+margin-bottom:14px;
 }
 .meta{
-margin-bottom:8px;
+margin-bottom:12px;
 }
 .date{
 display:inline-block;
 background:#eef4ff;
 color:#1f4d95;
-font-size:16px;
+font-size:30px;
 font-weight:900;
-padding:4px 10px;
+padding:8px 16px;
 border-radius:999px;
+line-height:1.5;
 }
 .cardTitle{
-font-size:28px;
+font-size:44px;
 font-weight:900;
 line-height:1.5;
-margin-bottom:14px;
+margin-bottom:18px;
 color:#1565c0;
 white-space:pre-wrap;
 }
 .cardText{
-font-size:20px;
+font-size:32px;
 font-weight:700;
-line-height:1.8;
+line-height:2;
 color:#444;
-margin-bottom:18px;
+margin-bottom:22px;
 white-space:pre-wrap;
 }
 .media-wrap{
-margin-bottom:16px;
+margin-bottom:18px;
 display:flex;
 justify-content:center;
 width:100%;
@@ -101,8 +103,8 @@ height:auto;
 width:100%;
 background:#fff8e1;
 border-radius:22px;
-padding:14px;
-margin-top:14px;
+padding:16px;
+margin-top:16px;
 }
 .ratio169{
 position:relative;
@@ -123,24 +125,24 @@ border:0;
 display:block;
 }
 .videoTitle{
-font-size:24px;
+font-size:30px;
 font-weight:900;
 line-height:1.8;
-margin-bottom:10px;
+margin-bottom:12px;
 color:#ef6c00;
 white-space:pre-wrap;
 }
 .videoDetail{
-font-size:16px;
+font-size:22px;
 font-weight:normal;
-line-height:1.7;
-margin-top:6px;
+line-height:1.8;
+margin-top:8px;
 color:#666;
 }
 .sectionTitle{
-font-size:24px;
+font-size:30px;
 font-weight:900;
-margin:18px 0 12px;
+margin:20px 0 14px;
 color:#1565c0;
 }
 .linkBtn{
@@ -150,25 +152,26 @@ background:#1976d2;
 color:#fff;
 text-decoration:none;
 text-align:center;
-padding:18px;
+padding:22px;
 border-radius:20px;
-font-size:22px;
+font-size:28px;
 font-weight:900;
-margin-bottom:12px;
+margin-bottom:14px;
+line-height:1.6;
 }
 .loading{
-font-size:24px;
+font-size:32px;
 font-weight:900;
 text-align:center;
-padding:40px;
+padding:50px;
 }
 .error-box{
 background:#fff3f3;
 color:#9b1c1c;
 border:2px solid #f3c2c2;
 border-radius:18px;
-padding:20px;
-font-size:22px;
+padding:24px;
+font-size:28px;
 font-weight:900;
 text-align:center;
 white-space:pre-wrap;
@@ -177,11 +180,11 @@ white-space:pre-wrap;
 display:flex;
 justify-content:space-around;
 margin-top:20px;
-padding:18px 0;
+padding:22px 0;
 background:#fff;
 border-radius:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
+font-size:22px;
 font-weight:900;
 color:#666;
 }
@@ -337,6 +340,21 @@ return `
 ${html}
 `;
 }
+function formatDate(dateStr){
+if(!dateStr) return '';
+const d = new Date(dateStr);
+if(isNaN(d.getTime())){
+return escapeHtml(String(dateStr));
+}
+return d.toLocaleDateString(
+'ja-JP',
+{
+year:'numeric',
+month:'long',
+day:'numeric'
+}
+);
+}
 function buildCard(item,isLatest){
 let html =
 `<div class="card ${isLatest ? 'latest' : ''}">`;
@@ -351,7 +369,7 @@ if(item.date){
 html += `
 <div class="meta">
 <span class="date">
-${escapeHtml(item.date)}
+${formatDate(item.date)}
 </span>
 </div>
 `;
