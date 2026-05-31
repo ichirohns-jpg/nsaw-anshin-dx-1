@@ -228,17 +228,25 @@ encodeURIComponent(SHEET_NAME)+
 
 function v(row,index){
 
-return row.c[index] && row.c[index].v
-? row.c[index].v
-: "";
+if(!row.c[index]) return "";
+
+if(row.c[index].v) return String(row.c[index].v);
+
+if(row.c[index].f) return String(row.c[index].f);
+
+return "";
 
 }
 
 function safeUrl(url){
 
-if(!url)return "";
+if(!url) return "";
 
-return String(url).trim();
+url=String(url).trim();
+
+const match=url.match(/https?:\/\/[^\s"]+/);
+
+return match ? match[0] : "";
 
 }
 
@@ -258,15 +266,16 @@ let mediaMap={};
 
 rows.forEach(row=>{
 
-const title=v(row,2);
-const videoTitle=v(row,15);
-const videoUrl=v(row,16);
+const date=v(row,0);
 
-if(videoTitle && videoUrl){
+const mediaTitle=v(row,15);
+const mediaUrl=safeUrl(v(row,16));
 
-mediaMap[v(row,0)]={
-title:videoTitle,
-url:videoUrl
+if(mediaTitle && mediaUrl){
+
+mediaMap[date]={
+title:mediaTitle,
+url:mediaUrl
 };
 
 }
@@ -276,11 +285,12 @@ url:videoUrl
 rows.reverse().forEach(row=>{
 
 const date=v(row,0);
+
 const title=v(row,2);
-const image=v(row,3);
+const image=safeUrl(v(row,3));
 const body=v(row,4);
 
-if(!image && !body)return;
+if(!title && !image && !body) return;
 
 html+=`
 <div class="card">
@@ -289,7 +299,7 @@ html+=`
 if(image){
 
 html+=`
-<img class="kawaraban" src="${image}" alt="四市瓦版">
+<img class="kawaraban" src="${image}" class="kawaraban">
 `;
 
 }
@@ -381,6 +391,8 @@ document.getElementById("content").innerHTML=
 </div>
 </div>
 `;
+
+console.log(err);
 
 });
 
