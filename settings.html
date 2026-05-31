@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>設定｜見守りDX</title>
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
+}
+
+.wrap{
+max-width:560px;
+margin:auto;
+padding:16px;
+}
+
+.header{
+background:#455a64;
+color:#fff;
+border-radius:26px;
+padding:22px;
+margin-bottom:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.back{
+font-size:16px;
+font-weight:900;
+margin-bottom:12px;
+cursor:pointer;
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+}
+
+.sub{
+font-size:16px;
+margin-top:6px;
+opacity:.95;
+}
+
+.card{
+background:#fff;
+border-radius:26px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.item{
+background:#f5f7f8;
+border-left:8px solid #455a64;
+border-radius:18px;
+padding:18px;
+margin-bottom:14px;
+}
+
+.itemTitle{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.itemText{
+font-size:17px;
+font-weight:700;
+color:#666;
+line-height:1.7;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:22px;
+padding:20px;
+font-size:22px;
+font-weight:900;
+color:#fff;
+background:#455a64;
+margin-top:12px;
+cursor:pointer;
+}
+
+.footer{
+display:flex;
+justify-content:space-around;
+margin-top:20px;
+padding:18px 0;
+background:#fff;
+border-radius:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+font-size:14px;
+font-weight:900;
+color:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+
+<div class="back" onclick="location.href='index.html'">
+← トップへ戻る
+</div>
+
+<div class="title">
+⚙️ 設定
+</div>
+
+<div class="sub">
+見守りDXの設定を行います
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="item">
+
+<div class="itemTitle">
+👤 利用者情報
+</div>
+
+<div class="itemText">
+名前、住所、連絡先などを設定します。
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="itemTitle">
+👨‍👩‍👧 支援者設定
+</div>
+
+<div class="itemText">
+支援者の電話番号や連絡先を設定します。
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="itemTitle">
+🔔 通知設定
+</div>
+
+<div class="itemText">
+薬や予定の通知設定を行います。
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="itemTitle">
+📍 位置情報設定
+</div>
+
+<div class="itemText">
+現在地共有の設定を行います。
+</div>
+
+</div>
+
+<button class="btn" onclick="alert('設定を保存しました')">
+💾 設定を保存
+</button>
+
+</div>
+
+<div class="footer">
+
+<div onclick="location.href='index.html'">
+見守り
+</div>
+
+<div onclick="location.href='schedule.html'">
+予定
+</div>
+
+<div onclick="location.href='gomi.html'">
+ゴミ
+</div>
+
+<div onclick="location.href='news.html'">
+地域情報
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
