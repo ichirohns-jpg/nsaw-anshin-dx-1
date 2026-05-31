@@ -183,6 +183,26 @@ z-index:9999;
 box-shadow:0 6px 18px rgba(0,0,0,.2);
 }
 
+.weatherBox{
+margin-top:16px;
+background:#e3f2fd;
+border-radius:22px;
+padding:18px;
+}
+
+.weatherTitle{
+font-size:18px;
+font-weight:900;
+color:#1565c0;
+margin-bottom:8px;
+}
+
+.weatherText{
+font-size:20px;
+font-weight:900;
+line-height:1.7;
+}
+
 </style>
 </head>
 
@@ -210,18 +230,47 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 </button>
 
 <div class="statusBox">
-<div class="statusTitle">現在の状態</div>
-<div class="statusText" id="statusText">未確認</div>
-<div class="timeBox" id="timeText">最終更新：未記録</div>
+
+<div class="statusTitle">
+現在の状態
+</div>
+
+<div class="statusText" id="statusText">
+未確認
+</div>
+
+<div class="timeBox" id="timeText">
+最終更新：未記録
+</div>
+
 </div>
 
 <div class="infoBox">
-<div class="infoTitle">📅 今日のお知らせ</div>
+
+<div class="infoTitle">
+📅 今日のお知らせ
+</div>
+
 <div class="infoText">
 ・今日は燃えるゴミの日です<br>
 ・午後2時 訪問予定<br>
 ・薬の確認を忘れずに
 </div>
+
+</div>
+
+<div class="weatherBox">
+
+<div class="weatherTitle">
+☀️ 今日の天気
+</div>
+
+<div class="weatherText">
+志木市 晴れ<br>
+最高気温 27℃<br>
+水分補給を忘れずに
+</div>
+
 </div>
 
 <div class="grid">
