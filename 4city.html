@@ -245,22 +245,6 @@ return match ? match[0] : "";
 
 }
 
-function youtubeEmbed(url){
-
-if(!url) return "";
-
-if(url.includes("watch?v=")){
-return url.replace("watch?v=","embed/");
-}
-
-if(url.includes("youtu.be/")){
-return url.replace("youtu.be/","www.youtube.com/embed/");
-}
-
-return url;
-
-}
-
 fetch(url)
 
 .then(res=>res.text())
@@ -362,7 +346,7 @@ html+=`
 
 <iframe
 class="videoFrame"
-src="${youtubeEmbed(mediaMap[date].url)}"
+src="${mediaMap[date].url.replace('watch?v=','embed/')}"
 allowfullscreen>
 </iframe>
 
