@@ -259,10 +259,23 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 </div>
 
 <div class="footer">
-<div>見守り</div>
-<div>予定</div>
-<div>地域情報</div>
-<div>設定</div>
+
+<div onclick="location.href='index.html'">
+見守り
+</div>
+
+<div onclick="location.href='schedule.html'">
+予定
+</div>
+
+<div onclick="showToast('地域情報を開きます')">
+地域情報
+</div>
+
+<div onclick="showToast('設定を開きます')">
+設定
+</div>
+
 </div>
 
 </div>
@@ -354,7 +367,7 @@ showToast("位置情報を取得できませんでした");
 
 function callEmergency(){
 
-if(confirm("緊急連絡しますか？")){
+if(confirm("119へ電話しますか？")){
 window.location.href="tel:119";
 }
 
