@@ -109,6 +109,13 @@ font-weight:900;
 color:#666;
 }
 
+.loading{
+font-size:22px;
+font-weight:900;
+text-align:center;
+padding:30px;
+}
+
 </style>
 </head>
 
@@ -132,42 +139,14 @@ color:#666;
 
 </div>
 
-<div class="card">
-
-<div class="category">
-お知らせ
-</div>
-
-<div class="newsTitle">
-熱中症に注意してください
-</div>
-
-<div class="newsText">
-本日は気温が高くなる予報です。外出時は水分補給を忘れず、室内でもエアコンを適切に使用してください。
-</div>
-
-<div class="date">
-2026-05-31
-</div>
-
-</div>
+<div id="newsList">
 
 <div class="card">
 
-<div class="category">
-地域イベント
+<div class="loading">
+読み込み中...
 </div>
 
-<div class="newsTitle">
-地域交流会を開催します
-</div>
-
-<div class="newsText">
-地域交流センターにて交流イベントを開催します。どなたでも参加できます。
-</div>
-
-<div class="date">
-2026-06-05
 </div>
 
 </div>
@@ -193,6 +172,65 @@ color:#666;
 </div>
 
 </div>
+
+<script>
+
+const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const url=
+"https://docs.google.com/spreadsheets/d/"+SHEET_ID+
+"/gviz/tq?sheet=%E5%9C%B0%E5%9F%9F%E6%83%85%E5%A0%B1&tqx=out:json";
+
+fetch(url)
+.then(res=>res.text())
+.then(text=>{
+
+const json=JSON.parse(text.substr(47).slice(0,-2));
+
+const rows=json.table.rows;
+
+let html="";
+
+rows.forEach(r=>{
+
+const category=r.c[0]?.v || "";
+const title=r.c[1]?.v || "";
+const body=r.c[2]?.v || "";
+const date=r.c[3]?.v || "";
+
+if(!title)return;
+
+html+=`
+
+<div class="card">
+
+<div class="category">
+${category}
+</div>
+
+<div class="newsTitle">
+${title}
+</div>
+
+<div class="newsText">
+${body}
+</div>
+
+<div class="date">
+${date}
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("newsList").innerHTML=html;
+
+});
+
+</script>
 
 </body>
 </html>
