@@ -141,6 +141,26 @@ z-index:9999;
 box-shadow:0 6px 18px rgba(0,0,0,.2);
 }
 
+.statusBox{
+background:#f7fbff;
+border-radius:22px;
+padding:18px;
+margin-top:18px;
+box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+
+.statusTitle{
+font-size:18px;
+font-weight:900;
+margin-bottom:10px;
+color:#1976d2;
+}
+
+.statusText{
+font-size:22px;
+font-weight:900;
+}
+
 </style>
 </head>
 
@@ -160,17 +180,29 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 地域の安心をひとつにつなぐ
 </div>
 
-<button class="bigBtn green" onclick="showToast('😊 元気です を記録しました')">
+<button class="bigBtn green" onclick="setStatus('😊 元気です')">
 😊 元気です
 </button>
 
-<button class="bigBtn orange" onclick="showToast('😐 少し困っています を記録しました')">
+<button class="bigBtn orange" onclick="setStatus('😐 少し困っています')">
 😐 少し困っています
 </button>
 
-<button class="bigBtn red" onclick="showToast('🚨 助けてください を送信しました')">
+<button class="bigBtn red" onclick="setStatus('🚨 助けてください')">
 🚨 助けてください
 </button>
+
+<div class="statusBox">
+
+<div class="statusTitle">
+現在の状態
+</div>
+
+<div class="statusText" id="statusText">
+未確認
+</div>
+
+</div>
 
 <div class="grid">
 
@@ -245,6 +277,14 @@ toast.style.display="block";
 setTimeout(()=>{
 toast.style.display="none";
 },2000);
+
+}
+
+function setStatus(text){
+
+document.getElementById("statusText").innerText=text;
+
+showToast(text + " を記録しました");
 
 }
 
