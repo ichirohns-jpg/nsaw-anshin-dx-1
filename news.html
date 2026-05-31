@@ -3,185 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>まちのニュース</title>
+
+<title>地域情報｜見守りDX</title>
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 
 <style>
-*{box-sizing:border-box}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
-margin:0;
 background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#333;
+color:#1f2d3d;
 }
 
-.app-box{
-max-width:600px;
-margin:0 auto;
-padding:18px 14px 34px;
+.wrap{
+max-width:560px;
+margin:auto;
+padding:16px;
 }
 
-.card{
-background:#fff;
+.header{
+background:#1976d2;
+color:#fff;
 border-radius:26px;
-padding:24px;
-box-shadow:0 8px 22px rgba(0,0,0,.10);
+padding:22px;
+margin-bottom:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.back{
+font-size:16px;
+font-weight:900;
+margin-bottom:12px;
+cursor:pointer;
 }
 
 .title{
 font-size:34px;
 font-weight:900;
-text-align:center;
-color:#2eaf66;
-margin:0 0 10px;
 }
 
-.lead{
-font-size:18px;
-font-weight:800;
-text-align:center;
-color:#666;
-margin-bottom:20px;
+.sub{
+font-size:16px;
+margin-top:6px;
+opacity:.95;
 }
 
-.news{
-background:#f7f9fb;
-border-left:8px solid #2eaf66;
-border-radius:14px;
-padding:18px;
+.card{
+background:#fff;
+border-radius:26px;
+padding:20px;
 margin-bottom:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.city{
-font-size:18px;
+.category{
+display:inline-block;
+background:#1976d2;
+color:#fff;
+padding:8px 14px;
+border-radius:999px;
+font-size:14px;
 font-weight:900;
-color:#2eaf66;
-margin-bottom:8px;
+margin-bottom:12px;
 }
 
-.headline{
-font-size:22px;
+.newsTitle{
+font-size:26px;
 font-weight:900;
-line-height:1.6;
+line-height:1.5;
+margin-bottom:10px;
 }
 
-.detail{
+.newsText{
 font-size:18px;
-line-height:1.7;
-margin-top:8px;
+font-weight:700;
+line-height:1.8;
+color:#555;
 }
 
-.link{
-display:block;
+.date{
 margin-top:12px;
-font-size:18px;
-font-weight:900;
-text-decoration:none;
-color:#1976d2;
+font-size:15px;
+font-weight:700;
+color:#888;
 }
 
-.back{
-display:block;
+.footer{
+display:flex;
+justify-content:space-around;
 margin-top:20px;
-text-align:center;
-font-size:20px;
+padding:18px 0;
+background:#fff;
+border-radius:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+font-size:14px;
 font-weight:900;
-text-decoration:none;
 color:#666;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="app-box">
+<div class="wrap">
+
+<div class="header">
+
+<div class="back" onclick="location.href='index.html'">
+← トップへ戻る
+</div>
+
+<div class="title">
+📰 地域情報
+</div>
+
+<div class="sub">
+地域のお知らせを確認します
+</div>
+
+</div>
 
 <div class="card">
 
-<h1 class="title">まちのニュース</h1>
-
-<div class="lead">
-志木・新座・朝霞・和光の地域情報
+<div class="category">
+お知らせ
 </div>
 
-<div id="newsArea">
-<div class="news">
-読み込み中...
-</div>
+<div class="newsTitle">
+熱中症に注意してください
 </div>
 
-<a href="index.html" class="back">
-トップへ戻る
-</a>
+<div class="newsText">
+本日は気温が高くなる予報です。外出時は水分補給を忘れず、室内でもエアコンを適切に使用してください。
+</div>
 
+<div class="date">
+2026-05-31
 </div>
 
 </div>
 
-<script>
+<div class="card">
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwC3CPMJlMl5o37qcxIcedcikLuxe6y_ANRjAeFnO9KtPEk9rw-LTu72Dyoq2XJKPET/exec';
-
-async function loadNews(){
-
-try{
-
-const res =
-await fetch(
-GAS_URL + '?mode=news'
-);
-
-const data =
-await res.json();
-
-let html='';
-
-data.forEach(item=>{
-
-html += `
-<div class="news">
-
-<div class="city">
-${item.city || ''}
+<div class="category">
+地域イベント
 </div>
 
-<div class="headline">
-${item.title || ''}
+<div class="newsTitle">
+地域交流会を開催します
 </div>
 
-<div class="detail">
-${item.detail || ''}
+<div class="newsText">
+地域交流センターにて交流イベントを開催します。どなたでも参加できます。
 </div>
 
-<a
-class="link"
-href="${item.url || '#'}"
-target="_blank">
-詳しく見る
-</a>
+<div class="date">
+2026-06-05
+</div>
 
 </div>
-`;
 
-});
+<div class="footer">
 
-document.getElementById("newsArea").innerHTML =
-html || '<div class="news">記事がありません</div>';
+<div onclick="location.href='index.html'">
+見守り
+</div>
 
-}
-catch(e){
+<div onclick="location.href='schedule.html'">
+予定
+</div>
 
-document.getElementById("newsArea").innerHTML =
-'<div class="news">取得失敗</div>';
+<div onclick="location.href='gomi.html'">
+ゴミ
+</div>
 
-}
+<div>
+地域情報
+</div>
 
-}
+</div>
 
-loadNews();
-
-</script>
+</div>
 
 </body>
 </html>
