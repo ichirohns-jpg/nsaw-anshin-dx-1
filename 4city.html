@@ -254,15 +254,33 @@ const rows=json.table.rows;
 
 let html="";
 
+let mediaMap={};
+
+rows.forEach(row=>{
+
+const title=v(row,2);
+const videoTitle=v(row,15);
+const videoUrl=v(row,16);
+
+if(videoTitle && videoUrl){
+
+mediaMap[v(row,0)]={
+title:videoTitle,
+url:videoUrl
+};
+
+}
+
+});
+
 rows.reverse().forEach(row=>{
 
 const date=v(row,0);
-const id=v(row,1);
 const title=v(row,2);
 const image=v(row,3);
 const body=v(row,4);
 
-if(!title && !image && !body)return;
+if(!image && !body)return;
 
 html+=`
 <div class="card">
@@ -311,10 +329,7 @@ ${linkTitle}
 
 }
 
-const videoTitle=v(row,15);
-const videoUrl=safeUrl(v(row,16));
-
-if(videoTitle && videoUrl){
+if(mediaMap[date]){
 
 html+=`
 
@@ -324,8 +339,8 @@ html+=`
 🎬 本日のお楽しみ
 </div>
 
-<a class="videoBtn" href="${videoUrl}" target="_blank">
-${videoTitle}
+<a class="videoBtn" href="${mediaMap[date].url}" target="_blank">
+${mediaMap[date].title}
 </a>
 
 </div>
