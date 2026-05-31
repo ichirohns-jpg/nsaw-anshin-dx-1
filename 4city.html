@@ -171,6 +171,7 @@ padding:20px;
 font-size:22px;
 font-weight:900;
 text-align:center;
+white-space:pre-wrap;
 }
 .footer{
 display:flex;
@@ -393,10 +394,19 @@ await fetch(
 `${GAS_URL}?mode=board`,
 { cache:'no-store' }
 );
+const raw = await res.text();
+let data = {};
+try{
+data = JSON.parse(raw);
+}
+catch(parseErr){
+throw new Error(
+'JSON変換失敗\n\n' + raw
+);
+}
 if(!res.ok){
 throw new Error(`HTTP ${res.status}`);
 }
-const data = await res.json();
 if(!data.ok){
 throw new Error(
 data.error || 'データ取得失敗'
@@ -424,7 +434,7 @@ buildCard(item,idx===0)
 catch(err){
 contentDiv.innerHTML = `
 <div class="error-box">
-読み込みに失敗しました。<br>
+読み込みに失敗しました。
 ${escapeHtml(err.message || String(err))}
 </div>
 `;
