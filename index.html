@@ -70,6 +70,11 @@ font-weight:900;
 margin-bottom:14px;
 color:#fff;
 cursor:pointer;
+transition:.2s;
+}
+
+.bigBtn:active{
+transform:scale(.97);
 }
 
 .green{
@@ -99,6 +104,12 @@ text-align:center;
 font-size:22px;
 font-weight:900;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
+cursor:pointer;
+transition:.2s;
+}
+
+.menu:active{
+transform:scale(.97);
 }
 
 .footer{
@@ -112,6 +123,22 @@ box-shadow:0 6px 18px rgba(0,0,0,.08);
 font-size:14px;
 font-weight:700;
 color:#666;
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:30px;
+transform:translateX(-50%);
+background:#1976d2;
+color:#fff;
+padding:16px 24px;
+border-radius:18px;
+font-size:18px;
+font-weight:700;
+display:none;
+z-index:9999;
+box-shadow:0 6px 18px rgba(0,0,0,.2);
 }
 
 </style>
@@ -133,46 +160,46 @@ color:#666;
 地域の安心をひとつにつなぐ
 </div>
 
-<button class="bigBtn green" onclick="genki()">
+<button class="bigBtn green" onclick="showToast('😊 元気です を記録しました')">
 😊 元気です
 </button>
 
-<button class="bigBtn orange" onclick="komatteru()">
+<button class="bigBtn orange" onclick="showToast('😐 少し困っています を記録しました')">
 😐 少し困っています
 </button>
 
-<button class="bigBtn red" onclick="tasukete()">
+<button class="bigBtn red" onclick="showToast('🚨 助けてください を送信しました')">
 🚨 助けてください
 </button>
 
 <div class="grid">
 
-<div class="menu">
+<div class="menu" onclick="showToast('📅 今日の予定')">
 📅<br>
 今日の予定
 </div>
 
-<div class="menu">
+<div class="menu" onclick="showToast('🗑 ゴミの日')">
 🗑<br>
 ゴミの日
 </div>
 
-<div class="menu">
+<div class="menu" onclick="showToast('📍 現在地')">
 📍<br>
 現在地
 </div>
 
-<div class="menu">
+<div class="menu" onclick="showToast('📰 地域情報')">
 📰<br>
 地域情報
 </div>
 
-<div class="menu">
+<div class="menu" onclick="showToast('👨‍👩‍👧 支援者')">
 👨‍👩‍👧<br>
 支援者
 </div>
 
-<div class="menu">
+<div class="menu" onclick="showToast('⚙️ 設定')">
 ⚙️<br>
 設定
 </div>
@@ -203,18 +230,22 @@ color:#666;
 
 </div>
 
+<div id="toast" class="toast"></div>
+
 <script>
 
-function genki(){
-alert("😊 元気です を記録しました");
-}
+function showToast(text){
 
-function komatteru(){
-alert("😐 少し困っています を記録しました");
-}
+const toast=document.getElementById("toast");
 
-function tasukete(){
-alert("🚨 助けてください を送信しました");
+toast.innerText=text;
+
+toast.style.display="block";
+
+setTimeout(()=>{
+toast.style.display="none";
+},2000);
+
 }
 
 </script>
