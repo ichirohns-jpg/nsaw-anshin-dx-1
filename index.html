@@ -10,99 +10,110 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
+
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-  background:#eef4fb;
-  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-  color:#1f2d3d;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
 }
 
 .wrap{
-  max-width:520px;
-  margin:auto;
-  padding:16px;
+max-width:520px;
+margin:auto;
+padding:16px;
 }
 
 .banner{
-  width:100%;
-  display:block;
-  border-radius:26px;
-  margin-bottom:18px;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
+width:100%;
+display:block;
+border-radius:26px;
+margin-bottom:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .card{
-  background:#fff;
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
+background:#fff;
+border-radius:28px;
+padding:22px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .title{
-  font-size:38px;
-  font-weight:900;
-  text-align:center;
-  color:#1976d2;
-  margin-top:4px;
+font-size:38px;
+font-weight:900;
+text-align:center;
+color:#1976d2;
+margin-top:4px;
 }
 
 .sub{
-  text-align:center;
-  font-size:16px;
-  color:#6b7785;
-  margin-top:6px;
-  margin-bottom:24px;
+text-align:center;
+font-size:16px;
+color:#6b7785;
+margin-top:6px;
+margin-bottom:24px;
 }
 
 .bigBtn{
-  width:100%;
-  border:none;
-  border-radius:24px;
-  padding:22px;
-  font-size:28px;
-  font-weight:900;
-  margin-bottom:14px;
-  color:#fff;
+width:100%;
+border:none;
+border-radius:24px;
+padding:22px;
+font-size:28px;
+font-weight:900;
+margin-bottom:14px;
+color:#fff;
+cursor:pointer;
 }
 
-.green{background:#43a047;}
-.orange{background:#fb8c00;}
-.red{background:#e53935;}
+.green{
+background:#43a047;
+}
+
+.orange{
+background:#fb8c00;
+}
+
+.red{
+background:#e53935;
+}
 
 .grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-top:18px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:18px;
 }
 
 .menu{
-  background:#fff;
-  border-radius:22px;
-  padding:24px 10px;
-  text-align:center;
-  font-size:22px;
-  font-weight:900;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+background:#fff;
+border-radius:22px;
+padding:24px 10px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
 .footer{
-  display:flex;
-  justify-content:space-around;
-  margin-top:24px;
-  padding:18px 0;
-  background:#fff;
-  border-radius:22px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-  font-size:14px;
-  font-weight:700;
-  color:#666;
+display:flex;
+justify-content:space-around;
+margin-top:24px;
+padding:18px 0;
+background:#fff;
+border-radius:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+font-size:14px;
+font-weight:700;
+color:#666;
 }
+
 </style>
 </head>
 
@@ -114,32 +125,99 @@ body{
 
 <div class="card">
 
-<div class="title">見守りDX</div>
-<div class="sub">地域の安心をひとつにつなぐ</div>
+<div class="title">
+見守りDX
+</div>
 
-<button class="bigBtn green">😊 元気です</button>
-<button class="bigBtn orange">😐 少し困っています</button>
-<button class="bigBtn red">🚨 助けてください</button>
+<div class="sub">
+地域の安心をひとつにつなぐ
+</div>
+
+<button class="bigBtn green" onclick="genki()">
+😊 元気です
+</button>
+
+<button class="bigBtn orange" onclick="komatteru()">
+😐 少し困っています
+</button>
+
+<button class="bigBtn red" onclick="tasukete()">
+🚨 助けてください
+</button>
 
 <div class="grid">
-  <div class="menu">📅<br>今日の予定</div>
-  <div class="menu">🗑<br>ゴミの日</div>
-  <div class="menu">📍<br>現在地</div>
-  <div class="menu">📰<br>地域情報</div>
-  <div class="menu">👨‍👩‍👧<br>支援者</div>
-  <div class="menu">⚙️<br>設定</div>
+
+<div class="menu">
+📅<br>
+今日の予定
+</div>
+
+<div class="menu">
+🗑<br>
+ゴミの日
+</div>
+
+<div class="menu">
+📍<br>
+現在地
+</div>
+
+<div class="menu">
+📰<br>
+地域情報
+</div>
+
+<div class="menu">
+👨‍👩‍👧<br>
+支援者
+</div>
+
+<div class="menu">
+⚙️<br>
+設定
+</div>
+
 </div>
 
 <div class="footer">
-  <div>見守り</div>
-  <div>予定</div>
-  <div>地域情報</div>
-  <div>設定</div>
+
+<div>
+見守り
+</div>
+
+<div>
+予定
+</div>
+
+<div>
+地域情報
+</div>
+
+<div>
+設定
 </div>
 
 </div>
 
 </div>
+
+</div>
+
+<script>
+
+function genki(){
+alert("😊 元気です を記録しました");
+}
+
+function komatteru(){
+alert("😐 少し困っています を記録しました");
+}
+
+function tasukete(){
+alert("🚨 助けてください を送信しました");
+}
+
+</script>
 
 </body>
 </html>
