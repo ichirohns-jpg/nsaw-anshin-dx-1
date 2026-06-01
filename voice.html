@@ -184,7 +184,7 @@ font-size:24px;
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwdZlzJO3bJhoiTK-r_zX0srvccgXZRbyMpgHA-fPvwM_iGYZyqttrOnyDBGqVIIqGL/exec';
+'https://script.google.com/macros/s/AKfycbw4PIlMoORKvdDczUe_dIVK2-IXqFI7uoBhKO1i6YkXxZbeatGUXwb1IBkO79UxKzM/exec';
 
 const micBtn =
 document.getElementById("micBtn");
@@ -212,6 +212,9 @@ if(!SpeechRecognition){
 resultBox.innerText =
 "このブラウザは音声認識に対応していません";
 
+statusBox.innerText =
+"未対応";
+
 }else{
 
 recognition =
@@ -226,9 +229,11 @@ true;
 recognition.continuous =
 true;
 
-micBtn.onclick = () => {
+micBtn.onclick =
+() => {
 
-resultBox.innerText = "";
+resultBox.innerText =
+"";
 
 recognition.start();
 
@@ -237,7 +242,8 @@ statusBox.innerText =
 
 };
 
-stopBtn.onclick = () => {
+stopBtn.onclick =
+() => {
 
 recognition.stop();
 
@@ -249,7 +255,8 @@ statusBox.innerText =
 recognition.onresult =
 (event) => {
 
-let text = "";
+let text =
+"";
 
 for(
 let i = 0;
@@ -271,7 +278,7 @@ recognition.onerror =
 (event) => {
 
 statusBox.innerText =
-"エラー : " +
+"エラー：" +
 event.error;
 
 };
@@ -327,19 +334,40 @@ console.log(data);
 
 if(data.ok){
 
+if(data.calendar_registered === true){
+
 statusBox.innerText =
-"登録成功";
+"登録成功：カレンダー登録済み";
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance(
-"登録しました"
+"カレンダーに登録しました"
 )
 );
 
 }else{
 
 statusBox.innerText =
+"登録成功：" + data.category;
+
+speechSynthesis.speak(
+new SpeechSynthesisUtterance(
+"記録しました"
+)
+);
+
+}
+
+}else{
+
+statusBox.innerText =
 "登録失敗";
+
+alert(
+data.error ||
+data.message ||
+"登録に失敗しました"
+);
 
 }
 
@@ -349,6 +377,10 @@ console.error(error);
 
 statusBox.innerText =
 "通信エラー";
+
+alert(
+"通信エラーです。GAS URLかデプロイ設定を確認してください。"
+);
 
 }
 
