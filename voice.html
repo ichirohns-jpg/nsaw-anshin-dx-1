@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>音声入力DX</title>
+<title>OpenAI 音声入力DX</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
@@ -17,7 +19,10 @@ font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#123;
 }
 
-.wrap{max-width:720px;margin:auto}
+.wrap{
+max-width:720px;
+margin:auto;
+}
 
 .card{
 background:#fff;
@@ -27,22 +32,24 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:42px;
+font-size:40px;
 font-weight:900;
 text-align:center;
 color:#1565c0;
 margin-bottom:12px;
+line-height:1.4;
 }
 
 .sub{
-font-size:24px;
+font-size:23px;
 text-align:center;
 line-height:1.7;
-margin-bottom:24px;
+margin-bottom:22px;
+font-weight:800;
 }
 
 .note{
-font-size:22px;
+font-size:21px;
 line-height:1.7;
 font-weight:800;
 color:#555;
@@ -58,26 +65,49 @@ gap:12px;
 margin-bottom:18px;
 }
 
-.micBtn,.stopBtn,.clearBtn{
+.recBtn,
+.stopBtn,
+.clearBtn{
 flex:1;
 border:none;
 border-radius:24px;
 padding:24px 8px;
 color:white;
-font-size:24px;
+font-size:23px;
 font-weight:900;
 cursor:pointer;
 }
 
-.micBtn{background:#1976d2}
-.stopBtn{background:#d32f2f}
-.clearBtn{background:#777}
+.recBtn{
+background:#1976d2;
+}
+
+.stopBtn{
+background:#d32f2f;
+}
+
+.clearBtn{
+background:#777;
+}
+
+.transBtn{
+width:100%;
+border:none;
+border-radius:24px;
+padding:26px 14px;
+background:#6a1b9a;
+color:white;
+font-size:30px;
+font-weight:900;
+cursor:pointer;
+margin-top:18px;
+}
 
 .readBtn{
 width:100%;
 border:none;
 border-radius:24px;
-padding:24px 12px;
+padding:24px 14px;
 background:#ef6c00;
 color:white;
 font-size:28px;
@@ -112,11 +142,12 @@ white-space:pre-wrap;
 
 .status{
 margin-top:20px;
-font-size:26px;
+font-size:25px;
 font-weight:900;
 text-align:center;
 color:#666;
 white-space:pre-wrap;
+line-height:1.6;
 }
 
 .linkBtn{
@@ -133,16 +164,55 @@ margin-top:18px;
 }
 
 @media(max-width:600px){
-body{padding:14px}
-.title{font-size:34px}
-.sub{font-size:20px}
-.note{font-size:20px}
-.micBtn,.stopBtn,.clearBtn{font-size:21px;padding:20px 6px}
-.resultBox{font-size:26px}
-.readBtn{font-size:25px}
-.saveBtn{font-size:28px}
-.status{font-size:24px}
-.linkBtn{font-size:24px}
+
+body{
+padding:14px;
+}
+
+.title{
+font-size:33px;
+}
+
+.sub{
+font-size:20px;
+}
+
+.note{
+font-size:19px;
+}
+
+.recBtn,
+.stopBtn,
+.clearBtn{
+font-size:20px;
+padding:20px 6px;
+}
+
+.resultBox{
+font-size:26px;
+}
+
+.transBtn{
+font-size:26px;
+padding:24px 10px;
+}
+
+.readBtn{
+font-size:25px;
+}
+
+.saveBtn{
+font-size:28px;
+}
+
+.status{
+font-size:23px;
+}
+
+.linkBtn{
+font-size:24px;
+}
+
 }
 </style>
 </head>
@@ -152,26 +222,32 @@ body{padding:14px}
 <div class="wrap">
 <div class="card">
 
-<div class="title">音声入力DX</div>
+<div class="title">
+OpenAI 音声入力DX
+</div>
 
 <div class="sub">
-しゃべる → 確認 → 登録
+録音 → OpenAI文字起こし → 確認 → 登録
 </div>
 
 <div class="note">
-前の内容は、話すたびに自動で消えます。<br>
-間違ったら「消す」を押して、もう一度しゃべってください。
+今度はブラウザ標準の音声認識ではなく、録音した音声をOpenAIで文字起こしします。<br>
+間違っていたら「消す」を押して、もう一度録音してください。
 </div>
 
 <div class="btnRow">
-<button class="micBtn" id="micBtn">🎤 話す</button>
-<button class="stopBtn" id="stopBtn">■ 終了</button>
+<button class="recBtn" id="recBtn">🎤 録音</button>
+<button class="stopBtn" id="stopBtn">■ 停止</button>
 <button class="clearBtn" id="clearBtn">🗑 消す</button>
 </div>
 
 <div class="resultBox" id="resultBox">
-ここに音声認識結果が表示されます
+ここにOpenAIの文字起こし結果が表示されます
 </div>
+
+<button class="transBtn" id="transBtn">
+🧠 OpenAIで文字起こし
+</button>
 
 <button class="readBtn" id="readBtn">
 🔊 内容を確認する
@@ -195,23 +271,43 @@ body{padding:14px}
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwj-czUnQmBRJy1jWOY-O6O5_By2-Hgjsnb2No_HrdHYVxb5KVz3I9ysjrjmdvl1nLX/exec';
+'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
 
-const micBtn = document.getElementById("micBtn");
-const stopBtn = document.getElementById("stopBtn");
-const clearBtn = document.getElementById("clearBtn");
-const readBtn = document.getElementById("readBtn");
-const saveBtn = document.getElementById("saveBtn");
-const resultBox = document.getElementById("resultBox");
-const statusBox = document.getElementById("status");
+const recBtn =
+document.getElementById("recBtn");
 
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
+const stopBtn =
+document.getElementById("stopBtn");
 
-let recognition = null;
-let listening = false;
-let finalText = "";
+const clearBtn =
+document.getElementById("clearBtn");
+
+const transBtn =
+document.getElementById("transBtn");
+
+const readBtn =
+document.getElementById("readBtn");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const resultBox =
+document.getElementById("resultBox");
+
+const statusBox =
+document.getElementById("status");
+
+let mediaRecorder =
+null;
+
+let audioChunks =
+[];
+
+let audioBlob =
+null;
+
+let audioMimeType =
+"";
 
 function speak(text){
 
@@ -220,19 +316,13 @@ speechSynthesis.cancel();
 const uttr =
 new SpeechSynthesisUtterance(text);
 
-uttr.lang = "ja-JP";
-uttr.rate = 0.95;
+uttr.lang =
+"ja-JP";
+
+uttr.rate =
+0.95;
 
 speechSynthesis.speak(uttr);
-
-}
-
-function resetText(){
-
-finalText = "";
-
-resultBox.innerText =
-"ここに音声認識結果が表示されます";
 
 }
 
@@ -241,7 +331,7 @@ function getText(){
 const text =
 resultBox.innerText.trim();
 
-if(text === "ここに音声認識結果が表示されます"){
+if(text === "ここにOpenAIの文字起こし結果が表示されます"){
 return "";
 }
 
@@ -249,151 +339,194 @@ return text;
 
 }
 
-function stopRecognition(){
+function resetAll(){
 
-try{
+audioChunks =
+[];
 
-if(recognition && listening){
-recognition.stop();
-}
+audioBlob =
+null;
 
-}catch(e){}
-
-listening = false;
-
-}
-
-function createRecognition(){
-
-recognition =
-new SpeechRecognition();
-
-recognition.lang =
-"ja-JP";
-
-recognition.interimResults =
-true;
-
-recognition.continuous =
-false;
-
-recognition.onstart =
-() => {
-
-listening = true;
-statusBox.innerText = "聞き取り中";
-
-};
-
-recognition.onresult =
-(event) => {
-
-let interimText = "";
-
-for(let i = 0; i < event.results.length; i++){
-
-const transcript =
-event.results[i][0].transcript;
-
-if(event.results[i].isFinal){
-
-finalText += transcript;
-
-}else{
-
-interimText += transcript;
-
-}
-
-}
+audioMimeType =
+"";
 
 resultBox.innerText =
-(finalText + interimText).trim();
-
-};
-
-recognition.onerror =
-(event) => {
-
-listening = false;
+"ここにOpenAIの文字起こし結果が表示されます";
 
 statusBox.innerText =
-"エラー：" + event.error;
-
-};
-
-recognition.onend =
-() => {
-
-listening = false;
-
-const text =
-getText();
-
-if(text){
-
-statusBox.innerText =
-"認識しました";
+"消しました。もう一度録音できます。";
 
 speak(
-"認識しました。内容を確認してください。"
+"消しました。もう一度録音できます。"
 );
 
-}else{
+}
 
-statusBox.innerText =
-"待機中";
+function pickMimeType(){
+
+if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){
+return "audio/webm;codecs=opus";
+}
+
+if(MediaRecorder.isTypeSupported("audio/webm")){
+return "audio/webm";
+}
+
+if(MediaRecorder.isTypeSupported("audio/mp4")){
+return "audio/mp4";
+}
+
+if(MediaRecorder.isTypeSupported("audio/mpeg")){
+return "audio/mpeg";
+}
+
+return "";
 
 }
+
+function blobToBase64(blob){
+
+return new Promise((resolve,reject) => {
+
+const reader =
+new FileReader();
+
+reader.onloadend =
+() => {
+
+const dataUrl =
+reader.result;
+
+const base64 =
+String(dataUrl).split(",")[1];
+
+resolve(base64);
 
 };
 
-}
+reader.onerror =
+reject;
 
-if(!SpeechRecognition){
+reader.readAsDataURL(blob);
 
-resultBox.innerText =
-"このブラウザは音声認識に対応していません";
-
-statusBox.innerText =
-"未対応";
-
-}else{
-
-createRecognition();
+});
 
 }
 
-micBtn.onclick =
-() => {
+recBtn.onclick =
+async () => {
+
+try{
 
 speechSynthesis.cancel();
 
-try{
-if(recognition && listening){
-recognition.abort();
+audioChunks =
+[];
+
+audioBlob =
+null;
+
+resultBox.innerText =
+"";
+
+statusBox.innerText =
+"マイクを準備中...";
+
+const stream =
+await navigator.mediaDevices.getUserMedia({
+audio:true
+});
+
+audioMimeType =
+pickMimeType();
+
+const options =
+audioMimeType
+? { mimeType: audioMimeType }
+: {};
+
+mediaRecorder =
+new MediaRecorder(
+stream,
+options
+);
+
+mediaRecorder.ondataavailable =
+(event) => {
+
+if(event.data && event.data.size > 0){
+
+audioChunks.push(event.data);
+
 }
-}catch(e){}
 
-finalText = "";
-resultBox.innerText = "";
-statusBox.innerText = "聞き取り準備中";
+};
 
-createRecognition();
+mediaRecorder.onstop =
+() => {
 
-setTimeout(() => {
-recognition.start();
-}, 200);
+audioBlob =
+new Blob(
+audioChunks,
+{
+type:
+audioMimeType ||
+"audio/webm"
+}
+);
+
+stream.getTracks().forEach(track => {
+track.stop();
+});
+
+statusBox.innerText =
+"録音しました。OpenAIで文字起こしを押してください。";
+
+speak(
+"録音しました。文字起こしを押してください。"
+);
+
+};
+
+mediaRecorder.start();
+
+statusBox.innerText =
+"録音中です。話し終わったら停止を押してください。";
+
+}catch(error){
+
+console.error(error);
+
+statusBox.innerText =
+"録音できませんでした。マイク許可を確認してください。";
+
+alert(
+"録音できませんでした。マイク許可を確認してください。"
+);
+
+}
 
 };
 
 stopBtn.onclick =
 () => {
 
-stopRecognition();
+try{
+
+if(mediaRecorder && mediaRecorder.state !== "inactive"){
+
+mediaRecorder.stop();
 
 statusBox.innerText =
-"停止しました";
+"停止しました。";
+
+}
+
+}catch(error){
+
+console.error(error);
+
+}
 
 };
 
@@ -401,21 +534,111 @@ clearBtn.onclick =
 () => {
 
 try{
-if(recognition && listening){
-recognition.abort();
+
+if(mediaRecorder && mediaRecorder.state !== "inactive"){
+
+mediaRecorder.stop();
+
 }
+
 }catch(e){}
 
-listening = false;
+resetAll();
 
-resetText();
+};
 
-statusBox.innerText =
-"消しました。もう一度しゃべれます。";
+transBtn.onclick =
+async () => {
+
+if(!audioBlob){
+
+alert(
+"録音がありません。先に録音してください。"
+);
 
 speak(
-"消しました。もう一度しゃべってください。"
+"録音がありません。先に録音してください。"
 );
+
+return;
+
+}
+
+statusBox.innerText =
+"OpenAIで文字起こし中...";
+
+try{
+
+const base64 =
+await blobToBase64(audioBlob);
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+body:JSON.stringify({
+mode:"transcribe",
+audioBase64:base64,
+mimeType:audioBlob.type || audioMimeType || "audio/webm"
+})
+}
+);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(!data.ok){
+
+statusBox.innerText =
+"文字起こし失敗\n" +
+(data.error || "");
+
+alert(
+data.error ||
+data.body ||
+"OpenAI文字起こしに失敗しました"
+);
+
+speak(
+"文字起こしに失敗しました。"
+);
+
+return;
+
+}
+
+resultBox.innerText =
+data.text || "";
+
+statusBox.innerText =
+"文字起こし完了";
+
+speak(
+"文字起こししました。内容を確認してください。"
+);
+
+}catch(error){
+
+console.error(error);
+
+statusBox.innerText =
+"通信エラー";
+
+alert(
+"通信エラーです。GAS URL、OpenAIキー、デプロイ設定を確認してください。"
+);
+
+speak(
+"通信エラーです。"
+);
+
+}
 
 };
 
@@ -428,10 +651,10 @@ getText();
 if(!text){
 
 statusBox.innerText =
-"音声がありません";
+"文字起こし結果がありません";
 
 speak(
-"まだ音声がありません。"
+"文字起こし結果がありません。"
 );
 
 return;
@@ -457,10 +680,12 @@ getText();
 
 if(!text){
 
-alert("音声がありません");
+alert(
+"登録する文字がありません"
+);
 
 speak(
-"音声がありません。"
+"登録する文字がありません。"
 );
 
 return;
