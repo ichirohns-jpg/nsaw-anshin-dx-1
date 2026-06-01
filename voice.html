@@ -85,12 +85,19 @@ background:#6a1b9a;
 background:#f5f7fa;
 border-radius:28px;
 padding:24px;
-min-height:210px;
+min-height:220px;
 font-size:34px;
 font-weight:900;
 line-height:1.8;
 white-space:pre-wrap;
 margin-bottom:22px;
+}
+
+.tempLabel{
+font-size:22px;
+font-weight:900;
+color:#666;
+margin-bottom:8px;
 }
 
 .actionRow{
@@ -195,7 +202,7 @@ padding:38px 12px;
 
 .resultBox{
 font-size:28px;
-min-height:190px;
+min-height:200px;
 }
 
 .saveBtn,
@@ -230,20 +237,24 @@ font-size:24px;
 </div>
 
 <div class="sub">
-押す → 話す → もう一度押す<br>
-あとは自動で文字にします
+話している間は仮文字表示<br>
+停止後にOpenAIで正式変換
 </div>
 
 <div class="guide">
 ① 青いボタンを押す<br>
-② しゃべる<br>
+② しゃべると仮文字が出ます<br>
 ③ 赤いボタンを押す<br>
-④ 自動で文字になります
+④ OpenAIで正式文字にします
 </div>
 
 <button class="mainBtn" id="mainBtn">
 🎤 話す
 </button>
+
+<div class="tempLabel">
+認識結果
+</div>
 
 <div class="resultBox" id="resultBox">
 ここに文字起こし結果が表示されます
@@ -272,8 +283,8 @@ font-size:24px;
 </a>
 
 <div class="small">
-間違っていたら「やり直す」を押してください。<br>
-キーボードで直さず、もう一度しゃべる方式です。
+録音中の文字は仮の文字です。<br>
+停止後にOpenAIで正式な文字起こしをします。
 </div>
 
 </div>
@@ -302,6 +313,10 @@ document.getElementById("resultBox");
 const statusBox =
 document.getElementById("status");
 
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
 let mediaRecorder =
 null;
 
@@ -312,6 +327,12 @@ let audioBlob =
 null;
 
 let audioMimeType =
+"";
+
+let recognition =
+null;
+
+let finalTempText =
 "";
 
 let state =
@@ -370,7 +391,7 @@ false;
 if(state === "processing"){
 
 mainBtn.innerText =
-"🧠 文字起こし中";
+"🧠 正式変換中";
 
 mainBtn.classList.add("processing");
 
@@ -414,6 +435,14 @@ mediaRecorder.stop();
 
 }catch(e){}
 
+try{
+
+if(recognition){
+recognition.abort();
+}
+
+}catch(e){}
+
 audioChunks =
 [];
 
@@ -421,6 +450,9 @@ audioBlob =
 null;
 
 audioMimeType =
+"";
+
+finalTempText =
 "";
 
 resultBox.innerText =
@@ -488,6 +520,93 @@ reader.readAsDataURL(blob);
 
 }
 
+function startTempRecognition(){
+
+if(!SpeechRecognition){
+return;
+}
+
+try{
+
+recognition =
+new SpeechRecognition();
+
+recognition.lang =
+"ja-JP";
+
+recognition.interimResults =
+true;
+
+recognition.continuous =
+true;
+
+finalTempText =
+"";
+
+recognition.onresult =
+(event) => {
+
+let interimText =
+"";
+
+for(let i = 0; i < event.results.length; i++){
+
+const transcript =
+event.results[i][0].transcript;
+
+if(event.results[i].isFinal){
+
+finalTempText += transcript;
+
+}else{
+
+interimText += transcript;
+
+}
+
+}
+
+const showText =
+(finalTempText + interimText).trim();
+
+if(showText){
+
+resultBox.innerText =
+showText;
+
+}
+
+};
+
+recognition.onerror =
+(event) => {
+
+console.log("仮認識エラー",event.error);
+
+};
+
+recognition.start();
+
+}catch(e){
+
+console.log("仮認識開始失敗",e);
+
+}
+
+}
+
+function stopTempRecognition(){
+
+try{
+
+if(recognition){
+recognition.stop();
+}
+
+}catch(e){}
+
+}
+
 async function startRecording(){
 
 try{
@@ -500,11 +619,17 @@ audioChunks =
 audioBlob =
 null;
 
+audioMimeType =
+"";
+
+finalTempText =
+"";
+
 resultBox.innerText =
 "";
 
 statusBox.innerText =
-"録音中です。話し終わったら赤いボタンを押してください。";
+"録音中です。しゃべると仮文字が出ます。話し終わったら赤いボタンを押してください。";
 
 const stream =
 await navigator.mediaDevices.getUserMedia({
@@ -539,6 +664,8 @@ audioChunks.push(event.data);
 mediaRecorder.onstop =
 async () => {
 
+stopTempRecognition();
+
 audioBlob =
 new Blob(
 audioChunks,
@@ -553,11 +680,16 @@ stream.getTracks().forEach(track => {
 track.stop();
 });
 
+statusBox.innerText =
+"録音できました。OpenAIで正式変換します。";
+
 await transcribeAudio();
 
 };
 
 mediaRecorder.start();
+
+startTempRecognition();
 
 setState("recording");
 
@@ -585,7 +717,7 @@ try{
 if(mediaRecorder && mediaRecorder.state !== "inactive"){
 
 statusBox.innerText =
-"停止しました。自動で文字起こしします。";
+"停止しました。OpenAIで正式変換します。";
 
 setState("processing");
 
@@ -617,7 +749,7 @@ return;
 }
 
 statusBox.innerText =
-"OpenAIで文字起こし中...";
+"OpenAIで正式文字起こし中...";
 
 setState("processing");
 
@@ -670,10 +802,10 @@ return;
 }
 
 resultBox.innerText =
-data.text || "";
+data.text || finalTempText || "";
 
 statusBox.innerText =
-"文字起こし完了。内容を確認してください。";
+"正式文字起こし完了。内容を確認してください。";
 
 speak(
 "文字起こししました。内容を確認してください。"
