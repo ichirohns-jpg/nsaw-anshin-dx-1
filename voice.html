@@ -148,4 +148,799 @@ margin-top:10px;
 
 .card{
 padding:16px;
-border-radius:
+border-radius:24px;
+}
+
+.title{
+font-size:28px;
+}
+
+.mainBtn{
+font-size:32px;
+padding:34px 10px;
+}
+
+.resultBox{
+font-size:27px;
+min-height:180px;
+}
+
+.saveBtn,
+.clearBtn{
+font-size:24px;
+padding:22px 6px;
+}
+
+.readBtn{
+font-size:23px;
+}
+
+.status{
+font-size:21px;
+}
+
+.linkBtn{
+font-size:22px;
+}
+
+.small{
+font-size:17px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+<div class="card">
+
+<div class="title">
+音声入力DX
+</div>
+
+<div class="status" id="status">
+青いボタンを押して話してください
+</div>
+
+<button class="mainBtn" id="mainBtn">
+🎤 話す
+</button>
+
+<div class="resultBox" id="resultBox">
+ここに文字が出ます
+</div>
+
+<button class="readBtn" id="readBtn">
+🔊 内容を聞く
+</button>
+
+<div class="actionRow">
+
+<button class="clearBtn" id="clearBtn">
+🗑 やり直す
+</button>
+
+<button class="saveBtn" id="saveBtn">
+✅ 登録する
+</button>
+
+</div>
+
+<a class="linkBtn" href="today.html">
+📅 今日の予定を見る
+</a>
+
+<div class="small">
+話している間は仮の文字が出ます。<br>
+話し終わったらOpenAIで正式に文字起こしします。
+</div>
+
+</div>
+</div>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
+
+const mainBtn =
+document.getElementById("mainBtn");
+
+const readBtn =
+document.getElementById("readBtn");
+
+const clearBtn =
+document.getElementById("clearBtn");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const resultBox =
+document.getElementById("resultBox");
+
+const statusBox =
+document.getElementById("status");
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+let mediaRecorder =
+null;
+
+let audioChunks =
+[];
+
+let audioBlob =
+null;
+
+let audioMimeType =
+"";
+
+let recognition =
+null;
+
+let finalTempText =
+"";
+
+let state =
+"ready";
+
+function speak(text){
+
+speechSynthesis.cancel();
+
+const uttr =
+new SpeechSynthesisUtterance(text);
+
+uttr.lang =
+"ja-JP";
+
+uttr.rate =
+0.95;
+
+speechSynthesis.speak(uttr);
+
+}
+
+function setState(newState){
+
+state =
+newState;
+
+mainBtn.classList.remove(
+"recording",
+"processing"
+);
+
+if(state === "ready"){
+
+mainBtn.innerText =
+"🎤 話す";
+
+mainBtn.disabled =
+false;
+
+statusBox.innerText =
+"青いボタンを押して話してください";
+
+}
+
+if(state === "recording"){
+
+mainBtn.innerText =
+"■ 話し終わった";
+
+mainBtn.classList.add("recording");
+
+mainBtn.disabled =
+false;
+
+statusBox.innerText =
+"録音中です。話し終わったら赤いボタンを押してください";
+
+}
+
+if(state === "processing"){
+
+mainBtn.innerText =
+"🧠 文字起こし中";
+
+mainBtn.classList.add("processing");
+
+mainBtn.disabled =
+true;
+
+statusBox.innerText =
+"OpenAIで文字起こし中です";
+
+}
+
+if(state === "done"){
+
+mainBtn.innerText =
+"🎤 もう一度話す";
+
+mainBtn.disabled =
+false;
+
+statusBox.innerText =
+"内容を確認してください";
+
+}
+
+}
+
+function getText(){
+
+const text =
+resultBox.innerText.trim();
+
+if(
+text === "ここに文字が出ます" ||
+text === "ここに文字起こし結果が表示されます"
+){
+return "";
+}
+
+return text;
+
+}
+
+function resetAll(){
+
+try{
+
+if(mediaRecorder && mediaRecorder.state !== "inactive"){
+mediaRecorder.stop();
+}
+
+}catch(e){}
+
+try{
+
+if(recognition){
+recognition.abort();
+}
+
+}catch(e){}
+
+audioChunks =
+[];
+
+audioBlob =
+null;
+
+audioMimeType =
+"";
+
+finalTempText =
+"";
+
+resultBox.innerText =
+"ここに文字が出ます";
+
+setState("ready");
+
+speak(
+"やり直せます。話すを押してください。"
+);
+
+}
+
+function pickMimeType(){
+
+if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){
+return "audio/webm;codecs=opus";
+}
+
+if(MediaRecorder.isTypeSupported("audio/webm")){
+return "audio/webm";
+}
+
+if(MediaRecorder.isTypeSupported("audio/mp4")){
+return "audio/mp4";
+}
+
+if(MediaRecorder.isTypeSupported("audio/mpeg")){
+return "audio/mpeg";
+}
+
+return "";
+
+}
+
+function blobToBase64(blob){
+
+return new Promise((resolve,reject) => {
+
+const reader =
+new FileReader();
+
+reader.onloadend =
+() => {
+
+const dataUrl =
+reader.result;
+
+const base64 =
+String(dataUrl).split(",")[1];
+
+resolve(base64);
+
+};
+
+reader.onerror =
+reject;
+
+reader.readAsDataURL(blob);
+
+});
+
+}
+
+function startTempRecognition(){
+
+if(!SpeechRecognition){
+return;
+}
+
+try{
+
+recognition =
+new SpeechRecognition();
+
+recognition.lang =
+"ja-JP";
+
+recognition.interimResults =
+true;
+
+recognition.continuous =
+true;
+
+finalTempText =
+"";
+
+recognition.onresult =
+(event) => {
+
+let interimText =
+"";
+
+for(let i = 0; i < event.results.length; i++){
+
+const transcript =
+event.results[i][0].transcript;
+
+if(event.results[i].isFinal){
+
+finalTempText += transcript;
+
+}else{
+
+interimText += transcript;
+
+}
+
+}
+
+const showText =
+(finalTempText + interimText).trim();
+
+if(showText){
+
+resultBox.innerText =
+showText;
+
+}
+
+};
+
+recognition.onerror =
+(event) => {
+
+console.log("仮認識エラー",event.error);
+
+};
+
+recognition.start();
+
+}catch(e){
+
+console.log("仮認識開始失敗",e);
+
+}
+
+}
+
+function stopTempRecognition(){
+
+try{
+
+if(recognition){
+recognition.stop();
+}
+
+}catch(e){}
+
+}
+
+async function startRecording(){
+
+try{
+
+speechSynthesis.cancel();
+
+audioChunks =
+[];
+
+audioBlob =
+null;
+
+audioMimeType =
+"";
+
+finalTempText =
+"";
+
+resultBox.innerText =
+"";
+
+const stream =
+await navigator.mediaDevices.getUserMedia({
+audio:true
+});
+
+audioMimeType =
+pickMimeType();
+
+const options =
+audioMimeType
+? { mimeType: audioMimeType }
+: {};
+
+mediaRecorder =
+new MediaRecorder(
+stream,
+options
+);
+
+mediaRecorder.ondataavailable =
+(event) => {
+
+if(event.data && event.data.size > 0){
+
+audioChunks.push(event.data);
+
+}
+
+};
+
+mediaRecorder.onstop =
+async () => {
+
+stopTempRecognition();
+
+audioBlob =
+new Blob(
+audioChunks,
+{
+type:
+audioMimeType ||
+"audio/webm"
+}
+);
+
+stream.getTracks().forEach(track => {
+track.stop();
+});
+
+await transcribeAudio();
+
+};
+
+mediaRecorder.start();
+
+startTempRecognition();
+
+setState("recording");
+
+}catch(error){
+
+console.error(error);
+
+statusBox.innerText =
+"録音できませんでした。マイク許可を確認してください。";
+
+alert(
+"録音できませんでした。マイク許可を確認してください。"
+);
+
+setState("ready");
+
+}
+
+}
+
+function stopRecording(){
+
+try{
+
+if(mediaRecorder && mediaRecorder.state !== "inactive"){
+
+setState("processing");
+
+mediaRecorder.stop();
+
+}
+
+}catch(error){
+
+console.error(error);
+
+setState("ready");
+
+}
+
+}
+
+async function transcribeAudio(){
+
+if(!audioBlob){
+
+statusBox.innerText =
+"録音がありません";
+
+setState("ready");
+
+return;
+
+}
+
+setState("processing");
+
+try{
+
+const base64 =
+await blobToBase64(audioBlob);
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+body:JSON.stringify({
+mode:"transcribe",
+audioBase64:base64,
+mimeType:audioBlob.type || audioMimeType || "audio/webm"
+})
+}
+);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(!data.ok){
+
+statusBox.innerText =
+"文字起こし失敗\n" +
+(data.error || data.body || "");
+
+alert(
+data.error ||
+data.body ||
+"OpenAI文字起こしに失敗しました"
+);
+
+speak(
+"文字起こしに失敗しました。"
+);
+
+setState("ready");
+
+return;
+
+}
+
+resultBox.innerText =
+data.text || finalTempText || "";
+
+speak(
+"文字起こししました。内容を確認してください。"
+);
+
+setState("done");
+
+}catch(error){
+
+console.error(error);
+
+statusBox.innerText =
+"通信エラー";
+
+alert(
+"通信エラーです。GAS URL、OpenAIキー、デプロイ設定を確認してください。"
+);
+
+speak(
+"通信エラーです。"
+);
+
+setState("ready");
+
+}
+
+}
+
+mainBtn.onclick =
+() => {
+
+if(state === "ready" || state === "done"){
+
+startRecording();
+
+return;
+
+}
+
+if(state === "recording"){
+
+stopRecording();
+
+return;
+
+}
+
+};
+
+clearBtn.onclick =
+() => {
+
+resetAll();
+
+};
+
+readBtn.onclick =
+() => {
+
+const text =
+getText();
+
+if(!text){
+
+statusBox.innerText =
+"文字がありません";
+
+speak(
+"まだ文字がありません。"
+);
+
+return;
+
+}
+
+statusBox.innerText =
+"読み上げ確認中";
+
+speak(
+"登録する内容は、" +
+text +
+"、です。よろしければ登録するを押してください。"
+);
+
+};
+
+saveBtn.onclick =
+async () => {
+
+const text =
+getText();
+
+if(!text){
+
+alert(
+"登録する文字がありません"
+);
+
+speak(
+"登録する文字がありません。"
+);
+
+return;
+
+}
+
+statusBox.innerText =
+"登録中...";
+
+try{
+
+const url =
+GAS_URL +
+'?mode=voice&text=' +
+encodeURIComponent(text) +
+'&t=' +
+Date.now();
+
+const response =
+await fetch(url);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(data.ok){
+
+if(data.calendar_registered === true){
+
+statusBox.innerText =
+"登録成功：カレンダー登録済み";
+
+speak(
+"カレンダーに登録しました。"
+);
+
+}else{
+
+statusBox.innerText =
+"登録成功：" +
+(data.category || "記録");
+
+speak(
+"記録しました。"
+);
+
+}
+
+}else{
+
+statusBox.innerText =
+"登録失敗\n" +
+(data.error || data.message || "");
+
+speak(
+"登録に失敗しました。"
+);
+
+alert(
+data.error ||
+data.message ||
+"登録に失敗しました"
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+statusBox.innerText =
+"通信エラー";
+
+speak(
+"通信エラーです。"
+);
+
+alert(
+"通信エラーです。GAS URLかデプロイ設定を確認してください。"
+);
+
+}
+
+};
+
+setState("ready");
+
+</script>
+
+</body>
+</html>
