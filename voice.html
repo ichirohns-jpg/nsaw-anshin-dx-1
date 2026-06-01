@@ -47,24 +47,33 @@ line-height:1.7;
 margin-bottom:28px;
 }
 
-.micBtn{
-width:100%;
+.btnRow{
+display:flex;
+gap:14px;
+margin-bottom:24px;
+}
+
+.micBtn,
+.stopBtn{
+flex:1;
 border:none;
 border-radius:24px;
 padding:34px 20px;
-background:#1976d2;
 color:white;
-font-size:42px;
+font-size:38px;
 font-weight:900;
 cursor:pointer;
 }
 
-.micBtn.recording{
+.micBtn{
+background:#1976d2;
+}
+
+.stopBtn{
 background:#d32f2f;
 }
 
 .resultBox{
-margin-top:24px;
 background:#f5f7fa;
 border-radius:22px;
 padding:20px;
@@ -93,9 +102,10 @@ font-size:34px;
 font-size:20px;
 }
 
-.micBtn{
-font-size:36px;
-padding:30px 16px;
+.micBtn,
+.stopBtn{
+font-size:30px;
+padding:28px 12px;
 }
 
 .resultBox{
@@ -121,9 +131,17 @@ font-size:28px;
 しゃべる → 文字になる → 登録する
 </div>
 
+<div class="btnRow">
+
 <button class="micBtn" id="micBtn">
 🎤 話す
 </button>
+
+<button class="stopBtn" id="stopBtn">
+■ 終了
+</button>
+
+</div>
 
 <div class="resultBox" id="resultBox">
 ここに音声認識結果が表示されます
@@ -140,6 +158,7 @@ font-size:28px;
 <script>
 
 const micBtn = document.getElementById("micBtn");
+const stopBtn = document.getElementById("stopBtn");
 const resultBox = document.getElementById("resultBox");
 const statusBox = document.getElementById("status");
 
@@ -160,7 +179,7 @@ const recognition = new SpeechRecognition();
 
 recognition.lang = "ja-JP";
 recognition.interimResults = true;
-recognition.continuous = false;
+recognition.continuous = true;
 
 micBtn.addEventListener("click", () => {
 
@@ -170,13 +189,15 @@ recognition.start();
 
 });
 
+stopBtn.addEventListener("click", () => {
+
+recognition.stop();
+
+});
+
 recognition.onstart = () => {
 
-micBtn.classList.add("recording");
-
-micBtn.innerText = "🔴 聞き取り中";
-
-statusBox.innerText = "話してください";
+statusBox.innerText = "聞き取り中";
 
 };
 
@@ -196,10 +217,6 @@ resultBox.innerText = text;
 
 recognition.onend = () => {
 
-micBtn.classList.remove("recording");
-
-micBtn.innerText = "🎤 話す";
-
 statusBox.innerText = "待機中";
 
 const uttr =
@@ -214,10 +231,6 @@ speechSynthesis.speak(uttr);
 };
 
 recognition.onerror = (event) => {
-
-micBtn.classList.remove("recording");
-
-micBtn.innerText = "🎤 話す";
 
 statusBox.innerText =
 "エラー：" + event.error;
