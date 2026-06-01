@@ -54,8 +54,7 @@ margin-bottom:24px;
 }
 
 .micBtn,
-.stopBtn,
-.saveBtn{
+.stopBtn{
 flex:1;
 border:none;
 border-radius:24px;
@@ -75,9 +74,16 @@ background:#d32f2f;
 }
 
 .saveBtn{
-background:#2e7d32;
-margin-top:18px;
 width:100%;
+border:none;
+border-radius:24px;
+padding:28px 14px;
+background:#2e7d32;
+color:white;
+font-size:34px;
+font-weight:900;
+cursor:pointer;
+margin-top:20px;
 }
 
 .resultBox{
@@ -92,8 +98,8 @@ white-space:pre-wrap;
 }
 
 .status{
-margin-top:18px;
-font-size:24px;
+margin-top:20px;
+font-size:28px;
 font-weight:900;
 text-align:center;
 color:#666;
@@ -110,14 +116,22 @@ font-size:20px;
 }
 
 .micBtn,
-.stopBtn,
-.saveBtn{
+.stopBtn{
 font-size:24px;
 padding:22px 10px;
 }
 
+.saveBtn{
+font-size:28px;
+padding:24px 12px;
+}
+
 .resultBox{
 font-size:26px;
+}
+
+.status{
+font-size:24px;
 }
 
 }
@@ -264,20 +278,17 @@ statusBox.innerText = "登録中...";
 
 try{
 
-const response = await fetch(GAS_URL,{
+await fetch(GAS_URL,{
 
 method:"POST",
-
+mode:"no-cors",
 body:JSON.stringify({
 text:text
 })
 
 });
 
-const data = await response.json();
-
-statusBox.innerText =
-"登録完了：" + data.category;
+statusBox.innerText = "登録しました";
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance(
@@ -287,8 +298,7 @@ new SpeechSynthesisUtterance(
 
 }catch(error){
 
-statusBox.innerText =
-"登録失敗";
+statusBox.innerText = "登録失敗";
 
 }
 
