@@ -59,6 +59,7 @@ body{
   line-height:1.5;
   color:#666;
   margin:8px 0 16px;
+  white-space:pre-wrap;
 }
 
 .sectionTitle{
@@ -125,6 +126,20 @@ body{
   padding:24px 12px;
   font-size:26px;
   font-weight:900;
+  margin-bottom:12px;
+}
+
+.deleteBtn{
+  width:100%;
+  border:none;
+  border-radius:24px;
+  padding:22px 12px;
+  font-size:26px;
+  font-weight:900;
+  color:white;
+  background:#c62828;
+  cursor:pointer;
+  margin-top:18px;
 }
 
 .error{
@@ -154,7 +169,7 @@ body{
   .time{font-size:32px}
   .eventTitle{font-size:30px}
   .empty{font-size:25px}
-  .reloadBtn,.backBtn{font-size:24px}
+  .reloadBtn,.backBtn,.deleteBtn{font-size:24px}
   .status{font-size:22px}
 }
 </style>
@@ -166,7 +181,7 @@ body{
 
 <div class="header">
   <div class="title">今日の予定</div>
-  <div class="sub">Googleカレンダーの予定を<br>大きな文字で確認します</div>
+  <div class="sub">音声入力で登録した予定だけ<br>大きな文字で表示します</div>
 </div>
 
 <div class="card">
@@ -176,13 +191,14 @@ body{
     予定を更新する
   </button>
 
-  <a class="backBtn" href="voice.html?v=reset1">
+  <a class="backBtn" href="voice.html?v=sheet-delete1">
     音声入力へ戻る
   </a>
 
   <div class="small">
-    このページは読み上げません。<br>
-    同じ予定が複数あっても、画面では1回だけ表示します。
+    このページはGoogleカレンダーを直接読みません。<br>
+    音声入力で登録済みの予定だけ表示します。<br>
+    削除すると、Googleカレンダーの予定も削除します。
   </div>
 </div>
 
@@ -205,7 +221,7 @@ body{
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyuvE3vVhq63yNMasPZhaJR3zMat9ShOAY7sDBZtIkRWUJ231LamYQDaJ7ro-qX05Fk/exec';
+'https://script.google.com/macros/s/AKfycbxNbbzhYNpR38882QZPGxIRGlNkk-oF28MWbvk7ODIDI0YbVGO7UMB0XbeYO6TzYAOq/exec';
 
 const statusBox =
 document.getElementById("status");
@@ -218,6 +234,9 @@ document.getElementById("tomorrowBox");
 
 const reloadBtn =
 document.getElementById("reloadBtn");
+
+let isDeleting =
+false;
 
 function stopAllSpeech(){
   try{
@@ -248,40 +267,9 @@ function escapeHtml(str){
     .replace(/'/g,"&#39;");
 }
 
-function uniqueEvents(events){
-
-  const seen =
-  {};
-
-  const list =
-  [];
-
-  (events || []).forEach(function(ev){
-
-    const key =
-    String(ev.start || "") +
-    "|" +
-    String(ev.end || "") +
-    "|" +
-    String(ev.title || "");
-
-    if(!seen[key]){
-      seen[key] = true;
-      list.push(ev);
-    }
-
-  });
-
-  return list;
-
-}
-
 function buildEvents(events,emptyText){
 
-  const unique =
-  uniqueEvents(events);
-
-  if(!unique || unique.length === 0){
+  if(!events || events.length === 0){
 
     return `
       <div class="empty">
@@ -294,7 +282,7 @@ function buildEvents(events,emptyText){
   let html =
   "";
 
-  unique.forEach(function(ev){
+  events.forEach(function(ev){
 
     html += `
       <div class="event">
@@ -302,9 +290,18 @@ function buildEvents(events,emptyText){
           ${escapeHtml(ev.start)} 〜<br>
           ${escapeHtml(ev.end)}
         </div>
+
         <div class="eventTitle">
           ${escapeHtml(ev.title)}
         </div>
+
+        <button
+          class="deleteBtn"
+          data-row="${escapeHtml(ev.row)}"
+          data-eventid="${escapeHtml(ev.eventId)}"
+        >
+          この予定を消す
+        </button>
       </div>
     `;
 
@@ -367,6 +364,8 @@ async function loadSchedule(){
     statusBox.innerText =
     "予定を読み込みました";
 
+    bindDeleteButtons();
+
   }catch(error){
 
     console.error(error);
@@ -389,6 +388,103 @@ async function loadSchedule(){
     `;
 
   }
+
+}
+
+function bindDeleteButtons(){
+
+  const buttons =
+  document.querySelectorAll(".deleteBtn");
+
+  buttons.forEach(function(btn){
+
+    btn.onclick =
+    async function(){
+
+      if(isDeleting){
+        return;
+      }
+
+      const row =
+      btn.getAttribute("data-row");
+
+      const eventId =
+      btn.getAttribute("data-eventid");
+
+      const ok =
+      confirm(
+        "この予定を消しますか？\nGoogleカレンダーからも削除します。"
+      );
+
+      if(!ok){
+        return;
+      }
+
+      isDeleting =
+      true;
+
+      btn.disabled =
+      true;
+
+      statusBox.innerText =
+      "削除中...";
+
+      try{
+
+        const url =
+        GAS_URL +
+        '?mode=delete&row=' +
+        encodeURIComponent(row) +
+        '&eventId=' +
+        encodeURIComponent(eventId || '') +
+        '&t=' +
+        Date.now();
+
+        const response =
+        await fetch(url);
+
+        const data =
+        await response.json();
+
+        console.log(data);
+
+        if(!data.ok){
+
+          throw new Error(
+            data.error ||
+            data.message ||
+            "削除できませんでした"
+          );
+
+        }
+
+        statusBox.innerText =
+        "削除しました";
+
+        await loadSchedule();
+
+      }catch(error){
+
+        console.error(error);
+
+        statusBox.innerText =
+        "削除失敗";
+
+        alert(
+          error.message ||
+          "削除できませんでした"
+        );
+
+      }finally{
+
+        isDeleting =
+        false;
+
+      }
+
+    };
+
+  });
 
 }
 
