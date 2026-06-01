@@ -7,25 +7,26 @@
 <title>音声入力DX</title>
 
 <style>
+
 *{
 box-sizing:border-box;
 }
 
 body{
 margin:0;
+padding:20px;
 background:#eef4f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#123;
 }
 
 .wrap{
-max-width:700px;
+max-width:720px;
 margin:auto;
-padding:20px;
 }
 
 .card{
-background:white;
+background:#fff;
 border-radius:28px;
 padding:24px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
@@ -35,11 +36,197 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 font-size:42px;
 font-weight:900;
 text-align:center;
-margin-bottom:10px;
 color:#1565c0;
+margin-bottom:12px;
 }
 
 .sub{
-font-size:22px;
+font-size:24px;
 text-align:center;
-margin
+line-height:1.7;
+margin-bottom:28px;
+}
+
+.micBtn{
+width:100%;
+border:none;
+border-radius:24px;
+padding:34px 20px;
+background:#1976d2;
+color:white;
+font-size:42px;
+font-weight:900;
+cursor:pointer;
+}
+
+.micBtn.recording{
+background:#d32f2f;
+}
+
+.resultBox{
+margin-top:24px;
+background:#f5f7fa;
+border-radius:22px;
+padding:20px;
+min-height:180px;
+font-size:30px;
+font-weight:700;
+line-height:1.8;
+white-space:pre-wrap;
+}
+
+.status{
+margin-top:18px;
+font-size:24px;
+font-weight:900;
+text-align:center;
+color:#666;
+}
+
+@media(max-width:600px){
+
+.title{
+font-size:34px;
+}
+
+.sub{
+font-size:20px;
+}
+
+.micBtn{
+font-size:36px;
+padding:30px 16px;
+}
+
+.resultBox{
+font-size:28px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+音声入力DX
+</div>
+
+<div class="sub">
+しゃべる → 文字になる → 登録する
+</div>
+
+<button class="micBtn" id="micBtn">
+🎤 話す
+</button>
+
+<div class="resultBox" id="resultBox">
+ここに音声認識結果が表示されます
+</div>
+
+<div class="status" id="status">
+待機中
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const micBtn = document.getElementById("micBtn");
+const resultBox = document.getElementById("resultBox");
+const statusBox = document.getElementById("status");
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+
+resultBox.innerText =
+"このブラウザは音声認識に対応していません";
+
+statusBox.innerText = "未対応";
+
+}else{
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = "ja-JP";
+recognition.interimResults = true;
+recognition.continuous = false;
+
+micBtn.addEventListener("click", () => {
+
+resultBox.innerText = "";
+
+recognition.start();
+
+});
+
+recognition.onstart = () => {
+
+micBtn.classList.add("recording");
+
+micBtn.innerText = "🔴 聞き取り中";
+
+statusBox.innerText = "話してください";
+
+};
+
+recognition.onresult = (event) => {
+
+let text = "";
+
+for(let i = 0; i < event.results.length; i++){
+
+text += event.results[i][0].transcript;
+
+}
+
+resultBox.innerText = text;
+
+};
+
+recognition.onend = () => {
+
+micBtn.classList.remove("recording");
+
+micBtn.innerText = "🎤 話す";
+
+statusBox.innerText = "待機中";
+
+const uttr =
+new SpeechSynthesisUtterance(
+"登録内容を確認してください"
+);
+
+uttr.lang = "ja-JP";
+
+speechSynthesis.speak(uttr);
+
+};
+
+recognition.onerror = (event) => {
+
+micBtn.classList.remove("recording");
+
+micBtn.innerText = "🎤 話す";
+
+statusBox.innerText =
+"エラー：" + event.error;
+
+};
+
+}
+
+</script>
+
+</body>
+</html>
