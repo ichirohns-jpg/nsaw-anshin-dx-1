@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>OpenAI 音声入力DX</title>
+<title>音声入力DX</title>
 
 <style>
 *{
@@ -13,7 +13,7 @@ box-sizing:border-box;
 
 body{
 margin:0;
-padding:20px;
+padding:16px;
 background:#eef4f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#123;
@@ -26,128 +26,120 @@ margin:auto;
 
 .card{
 background:#fff;
-border-radius:28px;
+border-radius:30px;
 padding:24px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:40px;
+font-size:42px;
 font-weight:900;
 text-align:center;
 color:#1565c0;
+line-height:1.35;
 margin-bottom:12px;
-line-height:1.4;
 }
 
 .sub{
-font-size:23px;
+font-size:24px;
+font-weight:900;
 text-align:center;
 line-height:1.7;
 margin-bottom:22px;
-font-weight:800;
 }
 
-.note{
-font-size:21px;
-line-height:1.7;
-font-weight:800;
-color:#555;
+.guide{
 background:#fff8e1;
-border-radius:20px;
-padding:18px;
-margin-bottom:20px;
+border-radius:24px;
+padding:22px;
+font-size:25px;
+font-weight:900;
+line-height:1.8;
+color:#444;
+margin-bottom:22px;
 }
 
-.btnRow{
+.mainBtn{
+width:100%;
+border:none;
+border-radius:34px;
+padding:42px 16px;
+font-size:42px;
+font-weight:900;
+color:white;
+background:#1976d2;
+cursor:pointer;
+box-shadow:0 8px 18px rgba(0,0,0,.18);
+margin-bottom:22px;
+}
+
+.mainBtn.recording{
+background:#d32f2f;
+}
+
+.mainBtn.processing{
+background:#6a1b9a;
+}
+
+.resultBox{
+background:#f5f7fa;
+border-radius:28px;
+padding:24px;
+min-height:210px;
+font-size:34px;
+font-weight:900;
+line-height:1.8;
+white-space:pre-wrap;
+margin-bottom:22px;
+}
+
+.actionRow{
 display:flex;
-gap:12px;
-margin-bottom:18px;
+gap:14px;
+margin-bottom:16px;
 }
 
-.recBtn,
-.stopBtn,
+.saveBtn,
 .clearBtn{
 flex:1;
 border:none;
-border-radius:24px;
-padding:24px 8px;
-color:white;
-font-size:23px;
+border-radius:28px;
+padding:28px 10px;
+font-size:30px;
 font-weight:900;
+color:white;
 cursor:pointer;
 }
 
-.recBtn{
-background:#1976d2;
-}
-
-.stopBtn{
-background:#d32f2f;
+.saveBtn{
+background:#2e7d32;
 }
 
 .clearBtn{
 background:#777;
 }
 
-.transBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:26px 14px;
-background:#6a1b9a;
-color:white;
-font-size:30px;
-font-weight:900;
-cursor:pointer;
-margin-top:18px;
-}
-
 .readBtn{
 width:100%;
 border:none;
-border-radius:24px;
-padding:24px 14px;
+border-radius:28px;
+padding:26px 14px;
+font-size:29px;
+font-weight:900;
+color:white;
 background:#ef6c00;
-color:white;
-font-size:28px;
-font-weight:900;
 cursor:pointer;
-margin-top:18px;
-}
-
-.saveBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:28px 14px;
-background:#2e7d32;
-color:white;
-font-size:32px;
-font-weight:900;
-cursor:pointer;
-margin-top:18px;
-}
-
-.resultBox{
-background:#f5f7fa;
-border-radius:22px;
-padding:20px;
-min-height:190px;
-font-size:30px;
-font-weight:700;
-line-height:1.8;
-white-space:pre-wrap;
+margin-bottom:16px;
 }
 
 .status{
-margin-top:20px;
-font-size:25px;
+font-size:27px;
 font-weight:900;
 text-align:center;
+line-height:1.7;
 color:#666;
 white-space:pre-wrap;
-line-height:1.6;
+margin:18px 0;
 }
 
 .linkBtn{
@@ -156,53 +148,64 @@ text-align:center;
 text-decoration:none;
 background:#555;
 color:white;
-border-radius:24px;
-padding:24px 14px;
-font-size:26px;
+border-radius:28px;
+padding:26px 14px;
+font-size:28px;
 font-weight:900;
 margin-top:18px;
+}
+
+.small{
+font-size:21px;
+font-weight:800;
+line-height:1.7;
+color:#666;
+text-align:center;
+margin-top:16px;
 }
 
 @media(max-width:600px){
 
 body{
-padding:14px;
+padding:12px;
+}
+
+.card{
+padding:20px;
+border-radius:28px;
 }
 
 .title{
-font-size:33px;
+font-size:34px;
 }
 
 .sub{
-font-size:20px;
+font-size:21px;
 }
 
-.note{
-font-size:19px;
+.guide{
+font-size:22px;
+padding:20px;
 }
 
-.recBtn,
-.stopBtn,
-.clearBtn{
-font-size:20px;
-padding:20px 6px;
+.mainBtn{
+font-size:34px;
+padding:38px 12px;
 }
 
 .resultBox{
-font-size:26px;
+font-size:28px;
+min-height:190px;
 }
 
-.transBtn{
-font-size:26px;
-padding:24px 10px;
+.saveBtn,
+.clearBtn{
+font-size:25px;
+padding:24px 8px;
 }
 
 .readBtn{
 font-size:25px;
-}
-
-.saveBtn{
-font-size:28px;
 }
 
 .status{
@@ -223,39 +226,42 @@ font-size:24px;
 <div class="card">
 
 <div class="title">
-OpenAI 音声入力DX
+音声入力DX
 </div>
 
 <div class="sub">
-録音 → OpenAI文字起こし → 確認 → 登録
+押す → 話す → もう一度押す<br>
+あとは自動で文字にします
 </div>
 
-<div class="note">
-今度はブラウザ標準の音声認識ではなく、録音した音声をOpenAIで文字起こしします。<br>
-間違っていたら「消す」を押して、もう一度録音してください。
+<div class="guide">
+① 青いボタンを押す<br>
+② しゃべる<br>
+③ 赤いボタンを押す<br>
+④ 自動で文字になります
 </div>
 
-<div class="btnRow">
-<button class="recBtn" id="recBtn">🎤 録音</button>
-<button class="stopBtn" id="stopBtn">■ 停止</button>
-<button class="clearBtn" id="clearBtn">🗑 消す</button>
-</div>
-
-<div class="resultBox" id="resultBox">
-ここにOpenAIの文字起こし結果が表示されます
-</div>
-
-<button class="transBtn" id="transBtn">
-🧠 OpenAIで文字起こし
+<button class="mainBtn" id="mainBtn">
+🎤 話す
 </button>
 
+<div class="resultBox" id="resultBox">
+ここに文字起こし結果が表示されます
+</div>
+
 <button class="readBtn" id="readBtn">
-🔊 内容を確認する
+🔊 内容を聞く
+</button>
+
+<div class="actionRow">
+<button class="clearBtn" id="clearBtn">
+🗑 やり直す
 </button>
 
 <button class="saveBtn" id="saveBtn">
 ✅ 登録する
 </button>
+</div>
 
 <div class="status" id="status">
 待機中
@@ -265,6 +271,11 @@ OpenAI 音声入力DX
 📅 今日の予定を見る
 </a>
 
+<div class="small">
+間違っていたら「やり直す」を押してください。<br>
+キーボードで直さず、もう一度しゃべる方式です。
+</div>
+
 </div>
 </div>
 
@@ -273,20 +284,14 @@ OpenAI 音声入力DX
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
 
-const recBtn =
-document.getElementById("recBtn");
-
-const stopBtn =
-document.getElementById("stopBtn");
-
-const clearBtn =
-document.getElementById("clearBtn");
-
-const transBtn =
-document.getElementById("transBtn");
+const mainBtn =
+document.getElementById("mainBtn");
 
 const readBtn =
 document.getElementById("readBtn");
+
+const clearBtn =
+document.getElementById("clearBtn");
 
 const saveBtn =
 document.getElementById("saveBtn");
@@ -309,6 +314,10 @@ null;
 let audioMimeType =
 "";
 
+let state =
+"ready";
+// ready / recording / processing / done
+
 function speak(text){
 
 speechSynthesis.cancel();
@@ -326,12 +335,68 @@ speechSynthesis.speak(uttr);
 
 }
 
+function setState(newState){
+
+state =
+newState;
+
+mainBtn.classList.remove(
+"recording",
+"processing"
+);
+
+if(state === "ready"){
+
+mainBtn.innerText =
+"🎤 話す";
+
+mainBtn.disabled =
+false;
+
+}
+
+if(state === "recording"){
+
+mainBtn.innerText =
+"■ 話し終わった";
+
+mainBtn.classList.add("recording");
+
+mainBtn.disabled =
+false;
+
+}
+
+if(state === "processing"){
+
+mainBtn.innerText =
+"🧠 文字起こし中";
+
+mainBtn.classList.add("processing");
+
+mainBtn.disabled =
+true;
+
+}
+
+if(state === "done"){
+
+mainBtn.innerText =
+"🎤 もう一度話す";
+
+mainBtn.disabled =
+false;
+
+}
+
+}
+
 function getText(){
 
 const text =
 resultBox.innerText.trim();
 
-if(text === "ここにOpenAIの文字起こし結果が表示されます"){
+if(text === "ここに文字起こし結果が表示されます"){
 return "";
 }
 
@@ -340,6 +405,14 @@ return text;
 }
 
 function resetAll(){
+
+try{
+
+if(mediaRecorder && mediaRecorder.state !== "inactive"){
+mediaRecorder.stop();
+}
+
+}catch(e){}
 
 audioChunks =
 [];
@@ -351,13 +424,15 @@ audioMimeType =
 "";
 
 resultBox.innerText =
-"ここにOpenAIの文字起こし結果が表示されます";
+"ここに文字起こし結果が表示されます";
 
 statusBox.innerText =
-"消しました。もう一度録音できます。";
+"待機中";
+
+setState("ready");
 
 speak(
-"消しました。もう一度録音できます。"
+"やり直せます。話すを押してください。"
 );
 
 }
@@ -413,8 +488,7 @@ reader.readAsDataURL(blob);
 
 }
 
-recBtn.onclick =
-async () => {
+async function startRecording(){
 
 try{
 
@@ -430,7 +504,7 @@ resultBox.innerText =
 "";
 
 statusBox.innerText =
-"マイクを準備中...";
+"録音中です。話し終わったら赤いボタンを押してください。";
 
 const stream =
 await navigator.mediaDevices.getUserMedia({
@@ -463,7 +537,7 @@ audioChunks.push(event.data);
 };
 
 mediaRecorder.onstop =
-() => {
+async () => {
 
 audioBlob =
 new Blob(
@@ -479,19 +553,13 @@ stream.getTracks().forEach(track => {
 track.stop();
 });
 
-statusBox.innerText =
-"録音しました。OpenAIで文字起こしを押してください。";
-
-speak(
-"録音しました。文字起こしを押してください。"
-);
+await transcribeAudio();
 
 };
 
 mediaRecorder.start();
 
-statusBox.innerText =
-"録音中です。話し終わったら停止を押してください。";
+setState("recording");
 
 }catch(error){
 
@@ -504,21 +572,24 @@ alert(
 "録音できませんでした。マイク許可を確認してください。"
 );
 
+setState("ready");
+
 }
 
-};
+}
 
-stopBtn.onclick =
-() => {
+function stopRecording(){
 
 try{
 
 if(mediaRecorder && mediaRecorder.state !== "inactive"){
 
-mediaRecorder.stop();
-
 statusBox.innerText =
-"停止しました。";
+"停止しました。自動で文字起こしします。";
+
+setState("processing");
+
+mediaRecorder.stop();
 
 }
 
@@ -526,39 +597,20 @@ statusBox.innerText =
 
 console.error(error);
 
-}
-
-};
-
-clearBtn.onclick =
-() => {
-
-try{
-
-if(mediaRecorder && mediaRecorder.state !== "inactive"){
-
-mediaRecorder.stop();
+setState("ready");
 
 }
 
-}catch(e){}
+}
 
-resetAll();
-
-};
-
-transBtn.onclick =
-async () => {
+async function transcribeAudio(){
 
 if(!audioBlob){
 
-alert(
-"録音がありません。先に録音してください。"
-);
+statusBox.innerText =
+"録音がありません";
 
-speak(
-"録音がありません。先に録音してください。"
-);
+setState("ready");
 
 return;
 
@@ -566,6 +618,8 @@ return;
 
 statusBox.innerText =
 "OpenAIで文字起こし中...";
+
+setState("processing");
 
 try{
 
@@ -597,7 +651,7 @@ if(!data.ok){
 
 statusBox.innerText =
 "文字起こし失敗\n" +
-(data.error || "");
+(data.error || data.body || "");
 
 alert(
 data.error ||
@@ -609,6 +663,8 @@ speak(
 "文字起こしに失敗しました。"
 );
 
+setState("ready");
+
 return;
 
 }
@@ -617,11 +673,13 @@ resultBox.innerText =
 data.text || "";
 
 statusBox.innerText =
-"文字起こし完了";
+"文字起こし完了。内容を確認してください。";
 
 speak(
 "文字起こししました。内容を確認してください。"
 );
+
+setState("done");
 
 }catch(error){
 
@@ -638,7 +696,37 @@ speak(
 "通信エラーです。"
 );
 
+setState("ready");
+
 }
+
+}
+
+mainBtn.onclick =
+() => {
+
+if(state === "ready" || state === "done"){
+
+startRecording();
+
+return;
+
+}
+
+if(state === "recording"){
+
+stopRecording();
+
+return;
+
+}
+
+};
+
+clearBtn.onclick =
+() => {
+
+resetAll();
 
 };
 
@@ -651,10 +739,10 @@ getText();
 if(!text){
 
 statusBox.innerText =
-"文字起こし結果がありません";
+"文字がありません";
 
 speak(
-"文字起こし結果がありません。"
+"まだ文字がありません。"
 );
 
 return;
@@ -771,6 +859,8 @@ alert(
 }
 
 };
+
+setState("ready");
 
 </script>
 
