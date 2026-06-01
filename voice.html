@@ -184,7 +184,7 @@ font-size:24px;
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwcI22by_MWHxYExwuQf4b4GQmQjkYdUSPWeicmG7b2j99SutkILo3Bxow5WjlExcw/exec';
+'https://script.google.com/macros/s/AKfycbwdZlzJO3bJhoiTK-r_zX0srvccgXZRbyMpgHA-fPvwM_iGYZyqttrOnyDBGqVIIqGL/exec';
 
 const micBtn = document.getElementById("micBtn");
 const stopBtn = document.getElementById("stopBtn");
@@ -278,15 +278,11 @@ statusBox.innerText = "登録中...";
 
 try{
 
-await fetch(GAS_URL,{
-
-method:"POST",
-mode:"no-cors",
-body:JSON.stringify({
-text:text
-})
-
-});
+await fetch(
+GAS_URL +
+'?mode=voice&text=' +
+encodeURIComponent(text)
+);
 
 statusBox.innerText = "登録しました";
 
