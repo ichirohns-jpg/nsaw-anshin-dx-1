@@ -7,7 +7,6 @@
 <title>今日の予定｜音声入力DX</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 }
@@ -140,6 +139,7 @@ text-align:center;
 line-height:1.7;
 color:#666;
 margin:16px 0;
+white-space:pre-wrap;
 }
 
 .error{
@@ -186,7 +186,6 @@ font-size:26px;
 }
 
 }
-
 </style>
 </head>
 
@@ -260,7 +259,7 @@ Googleカレンダーの予定を<br>
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbw4PIlMoORKvdDczUe_dIVK2-IXqFI7uoBhKO1i6YkXxZbeatGUXwb1IBkO79UxKzM/exec';
+'https://script.google.com/macros/s/AKfycbwj-czUnQmBRJy1jWOY-O6O5_By2-Hgjsnb2No_HrdHYVxb5KVz3I9ysjrjmdvl1nLX/exec';
 
 const statusBox =
 document.getElementById("status");
@@ -399,10 +398,13 @@ await fetch(url);
 const data =
 await res.json();
 
+console.log(data);
+
 if(!data.ok){
 
 throw new Error(
 data.error ||
+data.message ||
 "予定を取得できませんでした"
 );
 
