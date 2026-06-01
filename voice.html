@@ -150,7 +150,7 @@ font-size:24px;
 </div>
 
 <div class="sub">
-しゃべる → 文字になる → 登録する
+しゃべる → 記録 → カレンダー登録
 </div>
 
 <div class="btnRow">
@@ -186,11 +186,20 @@ font-size:24px;
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbwdZlzJO3bJhoiTK-r_zX0srvccgXZRbyMpgHA-fPvwM_iGYZyqttrOnyDBGqVIIqGL/exec';
 
-const micBtn = document.getElementById("micBtn");
-const stopBtn = document.getElementById("stopBtn");
-const saveBtn = document.getElementById("saveBtn");
-const resultBox = document.getElementById("resultBox");
-const statusBox = document.getElementById("status");
+const micBtn =
+document.getElementById("micBtn");
+
+const stopBtn =
+document.getElementById("stopBtn");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const resultBox =
+document.getElementById("resultBox");
+
+const statusBox =
+document.getElementById("status");
 
 const SpeechRecognition =
 window.SpeechRecognition ||
@@ -205,11 +214,17 @@ resultBox.innerText =
 
 }else{
 
-recognition = new SpeechRecognition();
+recognition =
+new SpeechRecognition();
 
-recognition.lang = "ja-JP";
-recognition.interimResults = true;
-recognition.continuous = true;
+recognition.lang =
+"ja-JP";
+
+recognition.interimResults =
+true;
+
+recognition.continuous =
+true;
 
 micBtn.onclick = () => {
 
@@ -217,7 +232,8 @@ resultBox.innerText = "";
 
 recognition.start();
 
-statusBox.innerText = "聞き取り中";
+statusBox.innerText =
+"聞き取り中";
 
 };
 
@@ -225,32 +241,43 @@ stopBtn.onclick = () => {
 
 recognition.stop();
 
-statusBox.innerText = "停止しました";
+statusBox.innerText =
+"停止しました";
 
 };
 
-recognition.onresult = (event) => {
+recognition.onresult =
+(event) => {
 
 let text = "";
 
-for(let i = 0; i < event.results.length; i++){
+for(
+let i = 0;
+i < event.results.length;
+i++
+){
 
-text += event.results[i][0].transcript;
+text +=
+event.results[i][0].transcript;
 
 }
 
-resultBox.innerText = text;
+resultBox.innerText =
+text;
 
 };
 
-recognition.onerror = (event) => {
+recognition.onerror =
+(event) => {
 
 statusBox.innerText =
-"エラー：" + event.error;
+"エラー : " +
+event.error;
 
 };
 
-recognition.onend = () => {
+recognition.onend =
+() => {
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance(
@@ -262,11 +289,17 @@ new SpeechSynthesisUtterance(
 
 }
 
-saveBtn.onclick = async () => {
+saveBtn.onclick =
+async () => {
 
-const text = resultBox.innerText.trim();
+const text =
+resultBox.innerText.trim();
 
-if(!text || text === "ここに音声認識結果が表示されます"){
+if(
+!text ||
+text ===
+"ここに音声認識結果が表示されます"
+){
 
 alert("音声がありません");
 
@@ -274,17 +307,28 @@ return;
 
 }
 
-statusBox.innerText = "登録中...";
+statusBox.innerText =
+"登録中...";
 
 try{
 
-await fetch(
+const url =
 GAS_URL +
 '?mode=voice&text=' +
-encodeURIComponent(text)
-);
+encodeURIComponent(text);
 
-statusBox.innerText = "登録しました";
+const response =
+await fetch(url);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(data.ok){
+
+statusBox.innerText =
+"登録成功";
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance(
@@ -292,9 +336,19 @@ new SpeechSynthesisUtterance(
 )
 );
 
+}else{
+
+statusBox.innerText =
+"登録失敗";
+
+}
+
 }catch(error){
 
-statusBox.innerText = "登録失敗";
+console.error(error);
+
+statusBox.innerText =
+"通信エラー";
 
 }
 
