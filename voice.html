@@ -4,117 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>音声メモ｜見守りDX</title>
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>音声入力DX</title>
 
 <style>
-
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+box-sizing:border-box;
+}
 
 body{
-background:#eef4fb;
+margin:0;
+background:#eef4f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+color:#123;
 }
 
 .wrap{
-max-width:560px;
+max-width:700px;
 margin:auto;
-padding:16px;
-}
-
-.header{
-background:#6a1b9a;
-color:#fff;
-border-radius:26px;
-padding:22px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.back{
-font-size:16px;
-font-weight:900;
-margin-bottom:12px;
-cursor:pointer;
-}
-
-.title{
-font-size:34px;
-font-weight:900;
-}
-
-.sub{
-font-size:16px;
-margin-top:6px;
-opacity:.95;
+padding:20px;
 }
 
 .card{
-background:#fff;
-border-radius:26px;
-padding:20px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+background:white;
+border-radius:28px;
+padding:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.mic{
-font-size:90px;
+.title{
+font-size:42px;
+font-weight:900;
 text-align:center;
-margin-top:10px;
-margin-bottom:20px;
+margin-bottom:10px;
+color:#1565c0;
 }
 
-.text{
+.sub{
 font-size:22px;
-font-weight:800;
-line-height:1.8;
 text-align:center;
-color:#555;
-margin-bottom:20px;
+margin-bottom:24px;
+line-height:1.6;
 }
 
-.result{
-background:#f3e5f5;
-border-radius:18px;
-padding:18px;
-font-size:22px;
-font-weight:800;
-line-height:1.8;
-min-height:140px;
-}
-
-.btn{
+.micBtn{
 width:100%;
 border:none;
 border-radius:24px;
-padding:24px;
-font-size:28px;
+padding:36px 20px;
+font-size:42px;
 font-weight:900;
-color:#fff;
-background:#8e24aa;
-margin-top:18px;
+background:#1976d2;
+color:white;
 cursor:pointer;
+margin-bottom:24px;
 }
 
-.stopBtn{
-background:#d32f2f;
+.micBtn:active{
+transform:scale(.98);
 }
 
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
+.resultBox{
+background:#f5f7fa;
 border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
+padding:20px;
+min-height:180px;
+font-size:30px;
+line-height:1.8;
+font-weight:700;
+white-space:pre-wrap;
+}
+
+.status{
+margin-top:18px;
+font-size:24px;
 font-weight:900;
+text-align:center;
 color:#666;
 }
 
+@media(max-width:600px){
+
+.title{
+font-size:34px;
+}
+
+.sub{
+font-size:20px;
+}
+
+.micBtn{
+font-size:36px;
+padding:30px 16px;
+}
+
+.resultBox{
+font-size:28px;
+}
+
+}
 </style>
 </head>
 
@@ -122,62 +109,26 @@ color:#666;
 
 <div class="wrap">
 
-<div class="header">
-
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
-</div>
+<div class="card">
 
 <div class="title">
-🎤 音声メモ
+音声入力DX
 </div>
 
 <div class="sub">
-話した内容を記録します
+しゃべる → 文字になる → 登録する
 </div>
 
-</div>
-
-<div class="card">
-
-<div class="mic">
-🎤
-</div>
-
-<div class="text">
-ボタンを押して話してください
-</div>
-
-<div id="result" class="result">
-ここに音声メモが表示されます
-</div>
-
-<button class="btn" onclick="startRecognition()">
-🎤 話し始める
+<button class="micBtn" id="micBtn">
+🎤 話す
 </button>
 
-<button class="btn stopBtn" onclick="stopRecognition()">
-⏹ 停止
-</button>
-
+<div class="resultBox" id="result">
+ここに音声認識結果が表示されます
 </div>
 
-<div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='schedule.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
+<div class="status" id="status">
+待機中
 </div>
 
 </div>
@@ -186,45 +137,67 @@ color:#666;
 
 <script>
 
-let recognition;
+const micBtn = document.getElementById("micBtn");
+const result = document.getElementById("result");
+const statusText = document.getElementById("status");
 
-if('webkitSpeechRecognition' in window){
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
 
-recognition=new webkitSpeechRecognition();
+if(!SpeechRecognition){
 
-recognition.lang='ja-JP';
+alert("このブラウザは音声認識に対応していません");
 
-recognition.continuous=true;
+}else{
 
-recognition.onresult=function(event){
+const recognition = new SpeechRecognition();
 
-let text='';
+recognition.lang = "ja-JP";
+recognition.interimResults = false;
+recognition.continuous = false;
 
-for(let i=event.resultIndex;i<event.results.length;i++){
+micBtn.onclick = () => {
 
-text+=event.results[i][0].transcript;
+recognition.start();
 
-}
+statusText.innerText = "聞き取り中...";
 
-document.getElementById('result').innerText=text;
+};
+
+recognition.onresult = (event) => {
+
+const text = event.results[0][0].transcript;
+
+result.innerText = text;
+
+statusText.innerText = "音声認識完了";
+
+speak("登録内容を確認してください");
+
+};
+
+recognition.onerror = () => {
+
+statusText.innerText = "音声認識エラー";
+
+};
+
+recognition.onend = () => {
+
+statusText.innerText = "待機中";
 
 };
 
 }
 
-function startRecognition(){
+function speak(text){
 
-if(recognition){
-recognition.start();
-}
+const uttr = new SpeechSynthesisUtterance(text);
 
-}
+uttr.lang = "ja-JP";
 
-function stopRecognition(){
-
-if(recognition){
-recognition.stop();
-}
+speechSynthesis.speak(uttr);
 
 }
 
