@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>音声入力DX</title>
 
 <style>
@@ -13,7 +12,7 @@ box-sizing:border-box;
 
 body{
 margin:0;
-padding:16px;
+padding:12px;
 background:#eef4f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#123;
@@ -26,51 +25,42 @@ margin:auto;
 
 .card{
 background:#fff;
-border-radius:30px;
-padding:24px;
+border-radius:26px;
+padding:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:42px;
+font-size:30px;
 font-weight:900;
 text-align:center;
 color:#1565c0;
 line-height:1.35;
-margin-bottom:12px;
+margin:0 0 8px;
 }
 
-.sub{
-font-size:24px;
+.status{
+font-size:22px;
 font-weight:900;
 text-align:center;
-line-height:1.7;
-margin-bottom:22px;
-}
-
-.guide{
-background:#fff8e1;
-border-radius:24px;
-padding:22px;
-font-size:25px;
-font-weight:900;
-line-height:1.8;
-color:#444;
-margin-bottom:22px;
+line-height:1.5;
+color:#666;
+white-space:pre-wrap;
+margin:8px 0 14px;
 }
 
 .mainBtn{
 width:100%;
 border:none;
-border-radius:34px;
-padding:42px 16px;
-font-size:42px;
+border-radius:30px;
+padding:36px 12px;
+font-size:38px;
 font-weight:900;
 color:white;
 background:#1976d2;
 cursor:pointer;
 box-shadow:0 8px 18px rgba(0,0,0,.18);
-margin-bottom:22px;
+margin-bottom:14px;
 }
 
 .mainBtn.recording{
@@ -83,36 +73,29 @@ background:#6a1b9a;
 
 .resultBox{
 background:#f5f7fa;
-border-radius:28px;
-padding:24px;
-min-height:220px;
-font-size:34px;
+border-radius:24px;
+padding:20px;
+min-height:190px;
+font-size:30px;
 font-weight:900;
-line-height:1.8;
+line-height:1.7;
 white-space:pre-wrap;
-margin-bottom:22px;
-}
-
-.tempLabel{
-font-size:22px;
-font-weight:900;
-color:#666;
-margin-bottom:8px;
+margin-bottom:14px;
 }
 
 .actionRow{
 display:flex;
-gap:14px;
-margin-bottom:16px;
+gap:12px;
+margin-bottom:12px;
 }
 
 .saveBtn,
 .clearBtn{
 flex:1;
 border:none;
-border-radius:28px;
-padding:28px 10px;
-font-size:30px;
+border-radius:24px;
+padding:24px 8px;
+font-size:26px;
 font-weight:900;
 color:white;
 cursor:pointer;
@@ -129,24 +112,14 @@ background:#777;
 .readBtn{
 width:100%;
 border:none;
-border-radius:28px;
-padding:26px 14px;
-font-size:29px;
+border-radius:24px;
+padding:22px 12px;
+font-size:25px;
 font-weight:900;
 color:white;
 background:#ef6c00;
 cursor:pointer;
-margin-bottom:16px;
-}
-
-.status{
-font-size:27px;
-font-weight:900;
-text-align:center;
-line-height:1.7;
-color:#666;
-white-space:pre-wrap;
-margin:18px 0;
+margin-bottom:12px;
 }
 
 .linkBtn{
@@ -155,846 +128,24 @@ text-align:center;
 text-decoration:none;
 background:#555;
 color:white;
-border-radius:28px;
-padding:26px 14px;
-font-size:28px;
+border-radius:24px;
+padding:22px 12px;
+font-size:24px;
 font-weight:900;
-margin-top:18px;
+margin-top:12px;
 }
 
 .small{
-font-size:21px;
+font-size:18px;
 font-weight:800;
-line-height:1.7;
+line-height:1.6;
 color:#666;
 text-align:center;
-margin-top:16px;
+margin-top:10px;
 }
 
 @media(max-width:600px){
 
-body{
-padding:12px;
-}
-
 .card{
-padding:20px;
-border-radius:28px;
-}
-
-.title{
-font-size:34px;
-}
-
-.sub{
-font-size:21px;
-}
-
-.guide{
-font-size:22px;
-padding:20px;
-}
-
-.mainBtn{
-font-size:34px;
-padding:38px 12px;
-}
-
-.resultBox{
-font-size:28px;
-min-height:200px;
-}
-
-.saveBtn,
-.clearBtn{
-font-size:25px;
-padding:24px 8px;
-}
-
-.readBtn{
-font-size:25px;
-}
-
-.status{
-font-size:23px;
-}
-
-.linkBtn{
-font-size:24px;
-}
-
-}
-</style>
-</head>
-
-<body>
-
-<div class="wrap">
-<div class="card">
-
-<div class="title">
-音声入力DX
-</div>
-
-<div class="sub">
-話している間は仮文字表示<br>
-停止後にOpenAIで正式変換
-</div>
-
-<div class="guide">
-① 青いボタンを押す<br>
-② しゃべると仮文字が出ます<br>
-③ 赤いボタンを押す<br>
-④ OpenAIで正式文字にします
-</div>
-
-<button class="mainBtn" id="mainBtn">
-🎤 話す
-</button>
-
-<div class="tempLabel">
-認識結果
-</div>
-
-<div class="resultBox" id="resultBox">
-ここに文字起こし結果が表示されます
-</div>
-
-<button class="readBtn" id="readBtn">
-🔊 内容を聞く
-</button>
-
-<div class="actionRow">
-<button class="clearBtn" id="clearBtn">
-🗑 やり直す
-</button>
-
-<button class="saveBtn" id="saveBtn">
-✅ 登録する
-</button>
-</div>
-
-<div class="status" id="status">
-待機中
-</div>
-
-<a class="linkBtn" href="today.html">
-📅 今日の予定を見る
-</a>
-
-<div class="small">
-録音中の文字は仮の文字です。<br>
-停止後にOpenAIで正式な文字起こしをします。
-</div>
-
-</div>
-</div>
-
-<script>
-
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
-
-const mainBtn =
-document.getElementById("mainBtn");
-
-const readBtn =
-document.getElementById("readBtn");
-
-const clearBtn =
-document.getElementById("clearBtn");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-const resultBox =
-document.getElementById("resultBox");
-
-const statusBox =
-document.getElementById("status");
-
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-let mediaRecorder =
-null;
-
-let audioChunks =
-[];
-
-let audioBlob =
-null;
-
-let audioMimeType =
-"";
-
-let recognition =
-null;
-
-let finalTempText =
-"";
-
-let state =
-"ready";
-// ready / recording / processing / done
-
-function speak(text){
-
-speechSynthesis.cancel();
-
-const uttr =
-new SpeechSynthesisUtterance(text);
-
-uttr.lang =
-"ja-JP";
-
-uttr.rate =
-0.95;
-
-speechSynthesis.speak(uttr);
-
-}
-
-function setState(newState){
-
-state =
-newState;
-
-mainBtn.classList.remove(
-"recording",
-"processing"
-);
-
-if(state === "ready"){
-
-mainBtn.innerText =
-"🎤 話す";
-
-mainBtn.disabled =
-false;
-
-}
-
-if(state === "recording"){
-
-mainBtn.innerText =
-"■ 話し終わった";
-
-mainBtn.classList.add("recording");
-
-mainBtn.disabled =
-false;
-
-}
-
-if(state === "processing"){
-
-mainBtn.innerText =
-"🧠 正式変換中";
-
-mainBtn.classList.add("processing");
-
-mainBtn.disabled =
-true;
-
-}
-
-if(state === "done"){
-
-mainBtn.innerText =
-"🎤 もう一度話す";
-
-mainBtn.disabled =
-false;
-
-}
-
-}
-
-function getText(){
-
-const text =
-resultBox.innerText.trim();
-
-if(text === "ここに文字起こし結果が表示されます"){
-return "";
-}
-
-return text;
-
-}
-
-function resetAll(){
-
-try{
-
-if(mediaRecorder && mediaRecorder.state !== "inactive"){
-mediaRecorder.stop();
-}
-
-}catch(e){}
-
-try{
-
-if(recognition){
-recognition.abort();
-}
-
-}catch(e){}
-
-audioChunks =
-[];
-
-audioBlob =
-null;
-
-audioMimeType =
-"";
-
-finalTempText =
-"";
-
-resultBox.innerText =
-"ここに文字起こし結果が表示されます";
-
-statusBox.innerText =
-"待機中";
-
-setState("ready");
-
-speak(
-"やり直せます。話すを押してください。"
-);
-
-}
-
-function pickMimeType(){
-
-if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){
-return "audio/webm;codecs=opus";
-}
-
-if(MediaRecorder.isTypeSupported("audio/webm")){
-return "audio/webm";
-}
-
-if(MediaRecorder.isTypeSupported("audio/mp4")){
-return "audio/mp4";
-}
-
-if(MediaRecorder.isTypeSupported("audio/mpeg")){
-return "audio/mpeg";
-}
-
-return "";
-
-}
-
-function blobToBase64(blob){
-
-return new Promise((resolve,reject) => {
-
-const reader =
-new FileReader();
-
-reader.onloadend =
-() => {
-
-const dataUrl =
-reader.result;
-
-const base64 =
-String(dataUrl).split(",")[1];
-
-resolve(base64);
-
-};
-
-reader.onerror =
-reject;
-
-reader.readAsDataURL(blob);
-
-});
-
-}
-
-function startTempRecognition(){
-
-if(!SpeechRecognition){
-return;
-}
-
-try{
-
-recognition =
-new SpeechRecognition();
-
-recognition.lang =
-"ja-JP";
-
-recognition.interimResults =
-true;
-
-recognition.continuous =
-true;
-
-finalTempText =
-"";
-
-recognition.onresult =
-(event) => {
-
-let interimText =
-"";
-
-for(let i = 0; i < event.results.length; i++){
-
-const transcript =
-event.results[i][0].transcript;
-
-if(event.results[i].isFinal){
-
-finalTempText += transcript;
-
-}else{
-
-interimText += transcript;
-
-}
-
-}
-
-const showText =
-(finalTempText + interimText).trim();
-
-if(showText){
-
-resultBox.innerText =
-showText;
-
-}
-
-};
-
-recognition.onerror =
-(event) => {
-
-console.log("仮認識エラー",event.error);
-
-};
-
-recognition.start();
-
-}catch(e){
-
-console.log("仮認識開始失敗",e);
-
-}
-
-}
-
-function stopTempRecognition(){
-
-try{
-
-if(recognition){
-recognition.stop();
-}
-
-}catch(e){}
-
-}
-
-async function startRecording(){
-
-try{
-
-speechSynthesis.cancel();
-
-audioChunks =
-[];
-
-audioBlob =
-null;
-
-audioMimeType =
-"";
-
-finalTempText =
-"";
-
-resultBox.innerText =
-"";
-
-statusBox.innerText =
-"録音中です。しゃべると仮文字が出ます。話し終わったら赤いボタンを押してください。";
-
-const stream =
-await navigator.mediaDevices.getUserMedia({
-audio:true
-});
-
-audioMimeType =
-pickMimeType();
-
-const options =
-audioMimeType
-? { mimeType: audioMimeType }
-: {};
-
-mediaRecorder =
-new MediaRecorder(
-stream,
-options
-);
-
-mediaRecorder.ondataavailable =
-(event) => {
-
-if(event.data && event.data.size > 0){
-
-audioChunks.push(event.data);
-
-}
-
-};
-
-mediaRecorder.onstop =
-async () => {
-
-stopTempRecognition();
-
-audioBlob =
-new Blob(
-audioChunks,
-{
-type:
-audioMimeType ||
-"audio/webm"
-}
-);
-
-stream.getTracks().forEach(track => {
-track.stop();
-});
-
-statusBox.innerText =
-"録音できました。OpenAIで正式変換します。";
-
-await transcribeAudio();
-
-};
-
-mediaRecorder.start();
-
-startTempRecognition();
-
-setState("recording");
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"録音できませんでした。マイク許可を確認してください。";
-
-alert(
-"録音できませんでした。マイク許可を確認してください。"
-);
-
-setState("ready");
-
-}
-
-}
-
-function stopRecording(){
-
-try{
-
-if(mediaRecorder && mediaRecorder.state !== "inactive"){
-
-statusBox.innerText =
-"停止しました。OpenAIで正式変換します。";
-
-setState("processing");
-
-mediaRecorder.stop();
-
-}
-
-}catch(error){
-
-console.error(error);
-
-setState("ready");
-
-}
-
-}
-
-async function transcribeAudio(){
-
-if(!audioBlob){
-
-statusBox.innerText =
-"録音がありません";
-
-setState("ready");
-
-return;
-
-}
-
-statusBox.innerText =
-"OpenAIで正式文字起こし中...";
-
-setState("processing");
-
-try{
-
-const base64 =
-await blobToBase64(audioBlob);
-
-const response =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-body:JSON.stringify({
-mode:"transcribe",
-audioBase64:base64,
-mimeType:audioBlob.type || audioMimeType || "audio/webm"
-})
-}
-);
-
-const data =
-await response.json();
-
-console.log(data);
-
-if(!data.ok){
-
-statusBox.innerText =
-"文字起こし失敗\n" +
-(data.error || data.body || "");
-
-alert(
-data.error ||
-data.body ||
-"OpenAI文字起こしに失敗しました"
-);
-
-speak(
-"文字起こしに失敗しました。"
-);
-
-setState("ready");
-
-return;
-
-}
-
-resultBox.innerText =
-data.text || finalTempText || "";
-
-statusBox.innerText =
-"正式文字起こし完了。内容を確認してください。";
-
-speak(
-"文字起こししました。内容を確認してください。"
-);
-
-setState("done");
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"通信エラー";
-
-alert(
-"通信エラーです。GAS URL、OpenAIキー、デプロイ設定を確認してください。"
-);
-
-speak(
-"通信エラーです。"
-);
-
-setState("ready");
-
-}
-
-}
-
-mainBtn.onclick =
-() => {
-
-if(state === "ready" || state === "done"){
-
-startRecording();
-
-return;
-
-}
-
-if(state === "recording"){
-
-stopRecording();
-
-return;
-
-}
-
-};
-
-clearBtn.onclick =
-() => {
-
-resetAll();
-
-};
-
-readBtn.onclick =
-() => {
-
-const text =
-getText();
-
-if(!text){
-
-statusBox.innerText =
-"文字がありません";
-
-speak(
-"まだ文字がありません。"
-);
-
-return;
-
-}
-
-statusBox.innerText =
-"読み上げ確認中";
-
-speak(
-"登録する内容は、" +
-text +
-"、です。よろしければ登録するを押してください。"
-);
-
-};
-
-saveBtn.onclick =
-async () => {
-
-const text =
-getText();
-
-if(!text){
-
-alert(
-"登録する文字がありません"
-);
-
-speak(
-"登録する文字がありません。"
-);
-
-return;
-
-}
-
-statusBox.innerText =
-"登録中...";
-
-try{
-
-const url =
-GAS_URL +
-'?mode=voice&text=' +
-encodeURIComponent(text) +
-'&t=' +
-Date.now();
-
-const response =
-await fetch(url);
-
-const data =
-await response.json();
-
-console.log(data);
-
-if(data.ok){
-
-if(data.calendar_registered === true){
-
-statusBox.innerText =
-"登録成功：カレンダー登録済み";
-
-speak(
-"カレンダーに登録しました。"
-);
-
-}else{
-
-statusBox.innerText =
-"登録成功：" +
-(data.category || "記録");
-
-speak(
-"記録しました。"
-);
-
-}
-
-}else{
-
-statusBox.innerText =
-"登録失敗\n" +
-(data.error || data.message || "");
-
-speak(
-"登録に失敗しました。"
-);
-
-alert(
-data.error ||
-data.message ||
-"登録に失敗しました"
-);
-
-}
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"通信エラー";
-
-speak(
-"通信エラーです。"
-);
-
-alert(
-"通信エラーです。GAS URLかデプロイ設定を確認してください。"
-);
-
-}
-
-};
-
-setState("ready");
-
-</script>
-
-</body>
-</html>
+padding:16px;
+border-radius:
