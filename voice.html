@@ -7,7 +7,6 @@
 <title>音声入力DX</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 }
@@ -103,6 +102,20 @@ font-size:28px;
 font-weight:900;
 text-align:center;
 color:#666;
+white-space:pre-wrap;
+}
+
+.linkBtn{
+display:block;
+text-align:center;
+text-decoration:none;
+background:#555;
+color:white;
+border-radius:24px;
+padding:24px 14px;
+font-size:28px;
+font-weight:900;
+margin-top:18px;
 }
 
 @media(max-width:600px){
@@ -134,8 +147,11 @@ font-size:26px;
 font-size:24px;
 }
 
+.linkBtn{
+font-size:24px;
 }
 
+}
 </style>
 </head>
 
@@ -177,6 +193,10 @@ font-size:24px;
 待機中
 </div>
 
+<a class="linkBtn" href="today.html">
+今日の予定を見る
+</a>
+
 </div>
 
 </div>
@@ -184,7 +204,7 @@ font-size:24px;
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbw4PIlMoORKvdDczUe_dIVK2-IXqFI7uoBhKO1i6YkXxZbeatGUXwb1IBkO79UxKzM/exec';
+'https://script.google.com/macros/s/AKfycbwj-czUnQmBRJy1jWOY-O6O5_By2-Hgjsnb2No_HrdHYVxb5KVz3I9ysjrjmdvl1nLX/exec';
 
 const micBtn =
 document.getElementById("micBtn");
@@ -322,7 +342,9 @@ try{
 const url =
 GAS_URL +
 '?mode=voice&text=' +
-encodeURIComponent(text);
+encodeURIComponent(text) +
+'&t=' +
+Date.now();
 
 const response =
 await fetch(url);
@@ -348,7 +370,8 @@ new SpeechSynthesisUtterance(
 }else{
 
 statusBox.innerText =
-"登録成功：" + data.category;
+"登録成功：" +
+(data.category || "記録");
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance(
@@ -361,7 +384,8 @@ new SpeechSynthesisUtterance(
 }else{
 
 statusBox.innerText =
-"登録失敗";
+"登録失敗\n" +
+(data.error || data.message || "");
 
 alert(
 data.error ||
