@@ -3,202 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>音声入力DX</title>
+<title>今日の予定</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-margin:0;
-padding:12px;
-background:#eef4f8;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#123;
+  margin:0;
+  padding:12px;
+  background:#eef4f8;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#123;
 }
 
 .wrap{
-max-width:720px;
-margin:auto;
+  max-width:720px;
+  margin:auto;
 }
 
 .card{
-background:#fff;
-border-radius:26px;
-padding:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+  background:#fff;
+  border-radius:26px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:30px;
-font-weight:900;
-text-align:center;
-color:#1565c0;
-margin:0 0 10px;
+  font-size:32px;
+  font-weight:900;
+  text-align:center;
+  color:#1565c0;
+  margin:0 0 12px;
 }
 
 .status{
-font-size:22px;
-font-weight:900;
-text-align:center;
-line-height:1.5;
-color:#666;
-white-space:pre-wrap;
-margin:8px 0 14px;
+  font-size:22px;
+  font-weight:900;
+  text-align:center;
+  line-height:1.5;
+  color:#666;
+  white-space:pre-wrap;
+  margin:8px 0 14px;
 }
 
-.guide{
-background:#fff8e1;
-border-radius:20px;
-padding:16px;
-font-size:20px;
-font-weight:900;
-line-height:1.7;
-color:#555;
-margin-bottom:14px;
+.sectionTitle{
+  font-size:30px;
+  font-weight:900;
+  color:#1565c0;
+  margin:0 0 14px;
 }
 
-.inputBox{
-width:100%;
-min-height:250px;
-border:none;
-outline:none;
-resize:vertical;
-background:#f5f7fa;
-border-radius:24px;
-padding:20px;
-font-size:30px;
-font-weight:900;
-line-height:1.7;
-color:#123;
-margin-bottom:14px;
+.event{
+  background:#f5f7fa;
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:14px;
 }
 
-.inputBox::placeholder{
-color:#999;
+.time{
+  font-size:28px;
+  font-weight:900;
+  color:#d84315;
+  margin-bottom:8px;
 }
 
-.readBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:22px 12px;
-font-size:25px;
-font-weight:900;
-color:white;
-background:#ef6c00;
-cursor:pointer;
-margin-bottom:12px;
+.eventTitle{
+  font-size:28px;
+  font-weight:900;
+  line-height:1.6;
+  white-space:pre-wrap;
 }
 
-.stopReadBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:20px 12px;
-font-size:24px;
-font-weight:900;
-color:white;
-background:#8d6e63;
-cursor:pointer;
-margin-bottom:12px;
+.empty{
+  background:#f5f7fa;
+  border-radius:22px;
+  padding:20px;
+  font-size:26px;
+  font-weight:900;
+  color:#666;
+  line-height:1.6;
 }
 
-.actionRow{
-display:flex;
-gap:12px;
-margin-bottom:12px;
+.reloadBtn{
+  width:100%;
+  border:none;
+  border-radius:24px;
+  padding:22px 12px;
+  font-size:25px;
+  font-weight:900;
+  color:white;
+  background:#1976d2;
+  cursor:pointer;
+  margin-bottom:12px;
 }
 
-.saveBtn,
-.clearBtn{
-flex:1;
-border:none;
-border-radius:24px;
-padding:24px 8px;
-font-size:26px;
-font-weight:900;
-color:white;
-cursor:pointer;
+.backBtn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#555;
+  color:white;
+  border-radius:24px;
+  padding:22px 12px;
+  font-size:24px;
+  font-weight:900;
 }
 
-.saveBtn{
-background:#2e7d32;
-}
-
-.clearBtn{
-background:#777;
-}
-
-.linkBtn{
-display:block;
-text-align:center;
-text-decoration:none;
-background:#555;
-color:white;
-border-radius:24px;
-padding:22px 12px;
-font-size:24px;
-font-weight:900;
-margin-top:12px;
+.error{
+  background:#fff3f3;
+  border-radius:22px;
+  padding:20px;
+  font-size:24px;
+  font-weight:900;
+  color:#b71c1c;
+  line-height:1.6;
+  white-space:pre-wrap;
 }
 
 .small{
-font-size:18px;
-font-weight:800;
-line-height:1.6;
-color:#666;
-text-align:center;
-margin-top:10px;
+  font-size:18px;
+  font-weight:800;
+  line-height:1.6;
+  color:#666;
+  text-align:center;
+  margin-top:10px;
 }
 
 @media(max-width:600px){
+  .card{
+    padding:16px;
+    border-radius:24px;
+  }
 
-.card{
-padding:16px;
-border-radius:24px;
-}
+  .title{
+    font-size:29px;
+  }
 
-.title{
-font-size:28px;
-}
+  .sectionTitle{
+    font-size:27px;
+  }
 
-.inputBox{
-font-size:27px;
-min-height:230px;
-}
+  .time{
+    font-size:25px;
+  }
 
-.saveBtn,
-.clearBtn{
-font-size:24px;
-padding:22px 6px;
-}
+  .eventTitle{
+    font-size:25px;
+  }
 
-.readBtn{
-font-size:23px;
-}
+  .empty{
+    font-size:23px;
+  }
 
-.stopReadBtn{
-font-size:22px;
-}
+  .reloadBtn,
+  .backBtn{
+    font-size:22px;
+  }
 
-.status{
-font-size:21px;
-}
-
-.linkBtn{
-font-size:22px;
-}
-
-.guide{
-font-size:19px;
-}
-
-.small{
-font-size:17px;
-}
-
+  .status{
+    font-size:20px;
+  }
 }
 </style>
 </head>
@@ -206,64 +171,60 @@ font-size:17px;
 <body>
 
 <div class="wrap">
+
 <div class="card">
 
 <div class="title">
-音声入力DX
+今日の予定
 </div>
 
 <div class="status" id="status">
-入力欄を押して、iPhoneのマイクで話してください
+予定を読み込み中...
 </div>
 
-<div class="guide">
-① 入力欄を押す<br>
-② iPhoneのマイクで話す<br>
-③ 文字を見て確認する<br>
-④ 合っていれば登録する
-</div>
-
-<textarea
-class="inputBox"
-id="inputBox"
-placeholder="ここを押して、iPhoneのマイクで話してください。例：6月5日13時病院"
-autocomplete="off"
-autocorrect="off"
-autocapitalize="off"
-spellcheck="false"
-></textarea>
-
-<button class="readBtn" id="readBtn">
-🔊 内容を聞く
+<button class="reloadBtn" id="reloadBtn">
+予定を更新する
 </button>
 
-<button class="stopReadBtn" id="stopReadBtn">
-■ 読み上げ停止
-</button>
-
-<div class="actionRow">
-
-<button class="clearBtn" id="clearBtn">
-🗑 消す
-</button>
-
-<button class="saveBtn" id="saveBtn">
-✅ 登録する
-</button>
-
-</div>
-
-<a class="linkBtn" href="today.html">
-📅 今日の予定を見る
+<a class="backBtn" href="voice.html?v=reset1">
+音声入力へ戻る
 </a>
 
 <div class="small">
-入力欄を押しただけでは消えません。<br>
-消えるのは「ページを開いた時」「消すを押した時」「登録成功後」だけです。<br>
-入力欄に残った文字だけを登録します。
+このページは読み上げません。<br>
+Googleカレンダーの予定を大きな文字で表示します。
 </div>
 
 </div>
+
+<div class="card">
+
+<div class="sectionTitle">
+今日
+</div>
+
+<div id="todayBox">
+<div class="empty">
+読み込み中...
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+明日
+</div>
+
+<div id="tomorrowBox">
+<div class="empty">
+読み込み中...
+</div>
+</div>
+
+</div>
+
 </div>
 
 <script>
@@ -271,246 +232,165 @@ spellcheck="false"
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyuvE3vVhq63yNMasPZhaJR3zMat9ShOAY7sDBZtIkRWUJ231LamYQDaJ7ro-qX05Fk/exec';
 
-const inputBox =
-document.getElementById("inputBox");
-
-const readBtn =
-document.getElementById("readBtn");
-
-const stopReadBtn =
-document.getElementById("stopReadBtn");
-
-const clearBtn =
-document.getElementById("clearBtn");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
 const statusBox =
 document.getElementById("status");
 
-/****************************************
-  初回読み込み時だけ消す
-****************************************/
+const todayBox =
+document.getElementById("todayBox");
+
+const tomorrowBox =
+document.getElementById("tomorrowBox");
+
+const reloadBtn =
+document.getElementById("reloadBtn");
+
+function stopAllSpeech(){
+  try{
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+    }
+  }catch(e){}
+}
+
 window.addEventListener("load",function(){
-
-inputBox.value =
-"";
-
-stopReading();
-
-statusBox.innerText =
-"入力欄を押して、iPhoneのマイクで話してください";
-
+  stopAllSpeech();
 });
 
-/****************************************
-  入力欄を押しても消さない
-****************************************/
-inputBox.addEventListener("input",function(){
-
-statusBox.innerText =
-"文字を見て、合っていれば登録してください";
-
+window.addEventListener("pageshow",function(){
+  stopAllSpeech();
 });
 
-/****************************************
-  読み上げ停止
-****************************************/
-function stopReading(){
+window.addEventListener("pagehide",function(){
+  stopAllSpeech();
+});
 
-try{
+function escapeHtml(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
 
-window.speechSynthesis.cancel();
+function buildEvents(events,emptyText){
 
-}catch(e){}
+  if(!events || events.length === 0){
+
+    return `
+      <div class="empty">
+      ${emptyText}
+      </div>
+    `;
+
+  }
+
+  let html =
+  "";
+
+  events.forEach(function(ev){
+
+    html += `
+      <div class="event">
+        <div class="time">
+          ${escapeHtml(ev.start)} 〜 ${escapeHtml(ev.end)}
+        </div>
+        <div class="eventTitle">
+          ${escapeHtml(ev.title)}
+        </div>
+      </div>
+    `;
+
+  });
+
+  return html;
 
 }
 
-/****************************************
-  文字取得
-****************************************/
-function getText(){
+async function loadSchedule(){
 
-return inputBox.value.trim();
+  stopAllSpeech();
+
+  statusBox.innerText =
+  "予定を読み込み中...";
+
+  todayBox.innerHTML =
+  '<div class="empty">読み込み中...</div>';
+
+  tomorrowBox.innerHTML =
+  '<div class="empty">読み込み中...</div>';
+
+  try{
+
+    const url =
+    GAS_URL +
+    '?mode=today&t=' +
+    Date.now();
+
+    const response =
+    await fetch(url);
+
+    const data =
+    await response.json();
+
+    console.log(data);
+
+    if(!data.ok){
+
+      throw new Error(
+        data.error ||
+        data.message ||
+        "予定を取得できませんでした"
+      );
+
+    }
+
+    todayBox.innerHTML =
+    buildEvents(
+      data.today,
+      "今日の予定はありません"
+    );
+
+    tomorrowBox.innerHTML =
+    buildEvents(
+      data.tomorrow,
+      "明日の予定はありません"
+    );
+
+    statusBox.innerText =
+    "予定を読み込みました";
+
+  }catch(error){
+
+    console.error(error);
+
+    statusBox.innerText =
+    "読み込み失敗";
+
+    todayBox.innerHTML =
+    `
+      <div class="error">
+      ${escapeHtml(error.message || String(error))}
+      </div>
+    `;
+
+    tomorrowBox.innerHTML =
+    `
+      <div class="empty">
+      予定を表示できません
+      </div>
+    `;
+
+  }
 
 }
 
-/****************************************
-  内容を聞く
-****************************************/
-readBtn.onclick =
+reloadBtn.onclick =
 function(){
-
-const text =
-getText();
-
-stopReading();
-
-if(!text){
-
-statusBox.innerText =
-"文字がありません";
-
-alert(
-"まだ文字がありません。入力欄を押して話してください。"
-);
-
-return;
-
-}
-
-statusBox.innerText =
-"読み上げています...";
-
-const utterance =
-new SpeechSynthesisUtterance(
-"登録する内容は、" +
-text +
-"、です。よろしければ登録するを押してください。"
-);
-
-utterance.lang =
-"ja-JP";
-
-utterance.rate =
-0.9;
-
-utterance.onend =
-function(){
-
-statusBox.innerText =
-"読み上げが終了しました";
-
+  loadSchedule();
 };
 
-window.speechSynthesis.speak(
-utterance
-);
-
-};
-
-/****************************************
-  読み上げ停止ボタン
-****************************************/
-stopReadBtn.onclick =
-function(){
-
-stopReading();
-
-statusBox.innerText =
-"読み上げを止めました";
-
-};
-
-/****************************************
-  消す
-****************************************/
-clearBtn.onclick =
-function(){
-
-stopReading();
-
-inputBox.value =
-"";
-
-statusBox.innerText =
-"文字を消しました";
-
-inputBox.focus();
-
-};
-
-/****************************************
-  登録
-****************************************/
-saveBtn.onclick =
-async function(){
-
-stopReading();
-
-const text =
-getText();
-
-if(!text){
-
-alert(
-"登録する文字がありません"
-);
-
-statusBox.innerText =
-"登録する文字がありません";
-
-return;
-
-}
-
-statusBox.innerText =
-"登録中...";
-
-try{
-
-const url =
-GAS_URL +
-'?mode=voice&text=' +
-encodeURIComponent(text) +
-'&t=' +
-Date.now();
-
-const response =
-await fetch(url);
-
-const data =
-await response.json();
-
-console.log(data);
-
-if(data.ok){
-
-if(data.calendar_registered === true){
-
-statusBox.innerText =
-"登録成功：カレンダー登録済み";
-
-}else{
-
-statusBox.innerText =
-"登録成功：" +
-(data.category || "記録");
-
-}
-
-inputBox.value =
-"";
-
-}else{
-
-statusBox.innerText =
-"登録失敗\n" +
-(data.error || data.message || "");
-
-alert(
-data.error ||
-data.message ||
-"登録に失敗しました"
-);
-
-}
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"通信エラー";
-
-alert(
-"通信エラーです。GAS URLかデプロイ設定を確認してください。"
-);
-
-}
-
-};
+loadSchedule();
 
 </script>
 
