@@ -100,6 +100,19 @@ cursor:pointer;
 margin-bottom:12px;
 }
 
+.stopReadBtn{
+width:100%;
+border:none;
+border-radius:24px;
+padding:20px 12px;
+font-size:24px;
+font-weight:900;
+color:white;
+background:#8d6e63;
+cursor:pointer;
+margin-bottom:12px;
+}
+
 .linkBtn{
 display:block;
 text-align:center;
@@ -139,6 +152,7 @@ margin-top:10px;
 .inputBox{font-size:27px;min-height:220px}
 .saveBtn,.clearBtn{font-size:24px;padding:22px 6px}
 .readBtn{font-size:23px}
+.stopReadBtn{font-size:22px}
 .status{font-size:21px}
 .linkBtn{font-size:22px}
 .guide{font-size:19px}
@@ -173,6 +187,10 @@ margin-top:10px;
 🔊 内容を聞く
 </button>
 
+<button class="stopReadBtn" id="stopReadBtn">
+■ 読み上げ停止
+</button>
+
 <div class="actionRow">
 <button class="clearBtn" id="clearBtn">
 🗑 消す
@@ -188,8 +206,9 @@ margin-top:10px;
 </a>
 
 <div class="small">
-このページは録音しません。<br>
-入力欄に残っている文字だけを登録します。
+勝手に録音しません。<br>
+勝手に読み上げません。<br>
+入力欄に入った文字だけを登録します。
 </div>
 
 </div>
@@ -198,90 +217,294 @@ margin-top:10px;
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
+'https://script.google.com/macros/s/AKfycbyuvE3vVhq63yNMasPZhaJR3zMat9ShOAY7sDBZtIkRWUJ231LamYQDaJ7ro-qX05Fk/exec';
 
-const inputBox = document.getElementById("inputBox");
-const readBtn = document.getElementById("readBtn");
-const clearBtn = document.getElementById("clearBtn");
-const saveBtn = document.getElementById("saveBtn");
-const statusBox = document.getElementById("status");
+const inputBox =
+document.getElementById("inputBox");
 
-inputBox.value = "";
+const readBtn =
+document.getElementById("readBtn");
 
-function speak(text){
-  speechSynthesis.cancel();
-  const uttr = new SpeechSynthesisUtterance(text);
-  uttr.lang = "ja-JP";
-  uttr.rate = 0.95;
-  speechSynthesis.speak(uttr);
-}
+const stopReadBtn =
+document.getElementById("stopReadBtn");
+
+const clearBtn =
+document.getElementById("clearBtn");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const statusBox =
+document.getElementById("status");
+
+let currentAudio =
+null;
+
+inputBox.value =
+"";
 
 function getText(){
-  return inputBox.value.trim();
+
+return inputBox.value.trim();
+
 }
 
-readBtn.onclick = () => {
-  const text = getText();
+function stopAudio(){
 
-  if(!text){
-    statusBox.innerText = "文字がありません";
-    speak("まだ文字がありません。入力欄を押して話してください。");
-    return;
-  }
+try{
 
-  statusBox.innerText = "読み上げ確認中";
-  speak("登録する内容は、" + text + "、です。よろしければ登録するを押してください。");
+if(currentAudio){
+
+currentAudio.pause();
+currentAudio.currentTime = 0;
+currentAudio = null;
+
+}
+
+}catch(e){}
+
+}
+
+async function openAiSpeak(text){
+
+stopAudio();
+
+if(!text){
+
+statusBox.innerText =
+"読む文字がありません";
+
+return;
+
+}
+
+statusBox.innerText =
+"OpenAIで読み上げ音声を作っています...";
+
+try{
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+body:JSON.stringify({
+mode:"tts",
+text:text
+})
+}
+);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(!data.ok){
+
+statusBox.innerText =
+"読み上げ失敗\n" +
+(data.error || data.body || "");
+
+alert(
+data.error ||
+data.body ||
+"読み上げに失敗しました"
+);
+
+return;
+
+}
+
+const audioSrc =
+"data:" +
+(data.mimeType || "audio/mpeg") +
+";base64," +
+data.audioBase64;
+
+currentAudio =
+new Audio(audioSrc);
+
+currentAudio.onended =
+() => {
+
+statusBox.innerText =
+"読み上げ終了";
+
+currentAudio =
+null;
+
 };
 
-clearBtn.onclick = () => {
-  inputBox.value = "";
-  statusBox.innerText = "消しました";
-  speak("消しました。もう一度入力してください。");
-  inputBox.focus();
+currentAudio.onerror =
+() => {
+
+statusBox.innerText =
+"音声再生エラー";
+
+currentAudio =
+null;
+
 };
 
-saveBtn.onclick = async () => {
-  const text = getText();
+statusBox.innerText =
+"読み上げ中...";
 
-  if(!text){
-    alert("登録する文字がありません");
-    speak("登録する文字がありません。");
-    return;
-  }
+await currentAudio.play();
 
-  statusBox.innerText = "登録中...";
+}catch(error){
 
-  try{
-    const url =
-      GAS_URL +
-      '?mode=voice&text=' +
-      encodeURIComponent(text) +
-      '&t=' +
-      Date.now();
+console.error(error);
 
-    const response = await fetch(url);
-    const data = await response.json();
+statusBox.innerText =
+"通信エラー";
 
-    if(data.ok){
-      if(data.calendar_registered === true){
-        statusBox.innerText = "登録成功：カレンダー登録済み";
-        speak("カレンダーに登録しました。");
-      }else{
-        statusBox.innerText = "登録成功：" + (data.category || "記録");
-        speak("記録しました。");
-      }
-    }else{
-      statusBox.innerText = "登録失敗\n" + (data.error || data.message || "");
-      speak("登録に失敗しました。");
-      alert(data.error || data.message || "登録に失敗しました");
-    }
+alert(
+"通信エラーです。GAS URL、OpenAIキー、デプロイ設定を確認してください。"
+);
 
-  }catch(error){
-    console.error(error);
-    statusBox.innerText = "通信エラー";
-    speak("通信エラーです。");
-    alert("通信エラーです。GAS URLかデプロイ設定を確認してください。");
-  }
+}
+
+}
+
+readBtn.onclick =
+async () => {
+
+const text =
+getText();
+
+if(!text){
+
+statusBox.innerText =
+"文字がありません";
+
+alert(
+"まだ文字がありません。入力欄を押して話してください。"
+);
+
+return;
+
+}
+
+await openAiSpeak(
+"登録する内容は、" +
+text +
+"、です。よろしければ登録するを押してください。"
+);
+
+};
+
+stopReadBtn.onclick =
+() => {
+
+stopAudio();
+
+statusBox.innerText =
+"読み上げを止めました";
+
+};
+
+clearBtn.onclick =
+() => {
+
+stopAudio();
+
+inputBox.value =
+"";
+
+statusBox.innerText =
+"消しました";
+
+inputBox.focus();
+
+};
+
+saveBtn.onclick =
+async () => {
+
+stopAudio();
+
+const text =
+getText();
+
+if(!text){
+
+alert(
+"登録する文字がありません"
+);
+
+statusBox.innerText =
+"登録する文字がありません";
+
+return;
+
+}
+
+statusBox.innerText =
+"登録中...";
+
+try{
+
+const url =
+GAS_URL +
+'?mode=voice&text=' +
+encodeURIComponent(text) +
+'&t=' +
+Date.now();
+
+const response =
+await fetch(url);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(data.ok){
+
+if(data.calendar_registered === true){
+
+statusBox.innerText =
+"登録成功：カレンダー登録済み";
+
+}else{
+
+statusBox.innerText =
+"登録成功：" +
+(data.category || "記録");
+
+}
+
+}else{
+
+statusBox.innerText =
+"登録失敗\n" +
+(data.error || data.message || "");
+
+alert(
+data.error ||
+data.message ||
+"登録に失敗しました"
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+statusBox.innerText =
+"通信エラー";
+
+alert(
+"通信エラーです。GAS URLかデプロイ設定を確認してください。"
+);
+
+}
+
 };
 
 </script>
