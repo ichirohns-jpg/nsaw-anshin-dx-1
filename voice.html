@@ -49,17 +49,18 @@ margin-bottom:28px;
 .btnRow{
 display:flex;
 gap:14px;
-margin-bottom:24px;
+margin-bottom:18px;
 }
 
 .micBtn,
-.stopBtn{
+.stopBtn,
+.clearBtn{
 flex:1;
 border:none;
 border-radius:24px;
-padding:28px 14px;
+padding:26px 12px;
 color:white;
-font-size:30px;
+font-size:28px;
 font-weight:900;
 cursor:pointer;
 }
@@ -72,24 +73,41 @@ background:#1976d2;
 background:#d32f2f;
 }
 
+.clearBtn{
+background:#777;
+}
+
 .saveBtn{
 width:100%;
 border:none;
 border-radius:24px;
-padding:28px 14px;
+padding:30px 14px;
 background:#2e7d32;
 color:white;
 font-size:34px;
 font-weight:900;
 cursor:pointer;
-margin-top:20px;
+margin-top:18px;
+}
+
+.readBtn{
+width:100%;
+border:none;
+border-radius:24px;
+padding:26px 14px;
+background:#ef6c00;
+color:white;
+font-size:30px;
+font-weight:900;
+cursor:pointer;
+margin-top:18px;
 }
 
 .resultBox{
 background:#f5f7fa;
 border-radius:22px;
 padding:20px;
-min-height:180px;
+min-height:190px;
 font-size:30px;
 font-weight:700;
 line-height:1.8;
@@ -118,7 +136,22 @@ font-weight:900;
 margin-top:18px;
 }
 
+.note{
+font-size:22px;
+line-height:1.7;
+font-weight:800;
+color:#555;
+background:#fff8e1;
+border-radius:20px;
+padding:18px;
+margin-bottom:20px;
+}
+
 @media(max-width:600px){
+
+body{
+padding:14px;
+}
 
 .title{
 font-size:34px;
@@ -129,14 +162,20 @@ font-size:20px;
 }
 
 .micBtn,
-.stopBtn{
-font-size:24px;
-padding:22px 10px;
+.stopBtn,
+.clearBtn{
+font-size:22px;
+padding:22px 8px;
 }
 
 .saveBtn{
 font-size:28px;
 padding:24px 12px;
+}
+
+.readBtn{
+font-size:26px;
+padding:22px 12px;
 }
 
 .resultBox{
@@ -149,6 +188,10 @@ font-size:24px;
 
 .linkBtn{
 font-size:24px;
+}
+
+.note{
+font-size:20px;
 }
 
 }
@@ -166,7 +209,12 @@ font-size:24px;
 </div>
 
 <div class="sub">
-しゃべる → 記録 → カレンダー登録
+しゃべる → 確認 → 登録
+</div>
+
+<div class="note">
+間違っていたら「消す」を押して、もう一度しゃべってください。<br>
+細かい修正はせず、やり直す方式です。
 </div>
 
 <div class="btnRow">
@@ -179,14 +227,22 @@ font-size:24px;
 ■ 終了
 </button>
 
+<button class="clearBtn" id="clearBtn">
+🗑 消す
+</button>
+
 </div>
 
 <div class="resultBox" id="resultBox">
 ここに音声認識結果が表示されます
 </div>
 
+<button class="readBtn" id="readBtn">
+🔊 内容を確認する
+</button>
+
 <button class="saveBtn" id="saveBtn">
-登録する
+✅ 登録する
 </button>
 
 <div class="status" id="status">
@@ -194,7 +250,7 @@ font-size:24px;
 </div>
 
 <a class="linkBtn" href="today.html">
-今日の予定を見る
+📅 今日の予定を見る
 </a>
 
 </div>
@@ -212,6 +268,12 @@ document.getElementById("micBtn");
 const stopBtn =
 document.getElementById("stopBtn");
 
+const clearBtn =
+document.getElementById("clearBtn");
+
+const readBtn =
+document.getElementById("readBtn");
+
 const saveBtn =
 document.getElementById("saveBtn");
 
@@ -226,6 +288,38 @@ window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
 let recognition;
+
+function speak(text){
+
+speechSynthesis.cancel();
+
+const uttr =
+new SpeechSynthesisUtterance(text);
+
+uttr.lang =
+"ja-JP";
+
+uttr.rate =
+0.95;
+
+speechSynthesis.speak(uttr);
+
+}
+
+function getText(){
+
+return resultBox.innerText.trim();
+
+}
+
+function isEmptyText(text){
+
+return (
+!text ||
+text === "ここに音声認識結果が表示されます"
+);
+
+}
 
 if(!SpeechRecognition){
 
@@ -306,33 +400,94 @@ event.error;
 recognition.onend =
 () => {
 
-speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-"登録内容を確認してください"
-)
+const text =
+getText();
+
+if(!isEmptyText(text)){
+
+speak(
+"認識しました。内容を確認してください。"
 );
+
+}
 
 };
 
 }
 
-saveBtn.onclick =
-async () => {
+clearBtn.onclick =
+() => {
+
+resultBox.innerText =
+"ここに音声認識結果が表示されます";
+
+statusBox.innerText =
+"消しました。もう一度しゃべれます。";
+
+speak(
+"消しました。もう一度しゃべってください。"
+);
+
+};
+
+readBtn.onclick =
+() => {
 
 const text =
-resultBox.innerText.trim();
+getText();
 
-if(
-!text ||
-text ===
-"ここに音声認識結果が表示されます"
-){
+if(isEmptyText(text)){
 
-alert("音声がありません");
+speak(
+"まだ音声がありません。"
+);
+
+statusBox.innerText =
+"音声がありません";
 
 return;
 
 }
+
+statusBox.innerText =
+"読み上げ確認中";
+
+speak(
+"登録する内容は、" +
+text +
+"、です。よろしければ登録するを押してください。"
+);
+
+};
+
+saveBtn.onclick =
+async () => {
+
+const text =
+getText();
+
+if(isEmptyText(text)){
+
+alert("音声がありません");
+
+speak(
+"音声がありません。"
+);
+
+return;
+
+}
+
+statusBox.innerText =
+"登録前確認中...";
+
+speak(
+"登録します。" +
+text
+);
+
+setTimeout(
+async () => {
 
 statusBox.innerText =
 "登録中...";
@@ -361,10 +516,8 @@ if(data.calendar_registered === true){
 statusBox.innerText =
 "登録成功：カレンダー登録済み";
 
-speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-"カレンダーに登録しました"
-)
+speak(
+"カレンダーに登録しました。"
 );
 
 }else{
@@ -373,10 +526,8 @@ statusBox.innerText =
 "登録成功：" +
 (data.category || "記録");
 
-speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-"記録しました"
-)
+speak(
+"記録しました。"
 );
 
 }
@@ -386,6 +537,10 @@ new SpeechSynthesisUtterance(
 statusBox.innerText =
 "登録失敗\n" +
 (data.error || data.message || "");
+
+speak(
+"登録に失敗しました。"
+);
 
 alert(
 data.error ||
@@ -402,11 +557,19 @@ console.error(error);
 statusBox.innerText =
 "通信エラー";
 
+speak(
+"通信エラーです。"
+);
+
 alert(
 "通信エラーです。GAS URLかデプロイ設定を確認してください。"
 );
 
 }
+
+},
+900
+);
 
 };
 
