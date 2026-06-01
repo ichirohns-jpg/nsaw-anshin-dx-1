@@ -6,157 +6,199 @@
 <title>音声入力DX</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+box-sizing:border-box;
+}
 
 body{
-  margin:0;
-  padding:12px;
-  background:#eef4f8;
-  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-  color:#123;
+margin:0;
+padding:12px;
+background:#eef4f8;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#123;
 }
 
 .wrap{
-  max-width:720px;
-  margin:auto;
+max-width:720px;
+margin:auto;
 }
 
 .card{
-  background:#fff;
-  border-radius:26px;
-  padding:18px;
-  box-shadow:0 8px 24px rgba(0,0,0,.08);
+background:#fff;
+border-radius:26px;
+padding:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-  font-size:30px;
-  font-weight:900;
-  text-align:center;
-  color:#1565c0;
-  margin:0 0 10px;
+font-size:30px;
+font-weight:900;
+text-align:center;
+color:#1565c0;
+margin:0 0 10px;
 }
 
 .status{
-  font-size:22px;
-  font-weight:900;
-  text-align:center;
-  line-height:1.5;
-  color:#666;
-  white-space:pre-wrap;
-  margin:8px 0 14px;
+font-size:22px;
+font-weight:900;
+text-align:center;
+line-height:1.5;
+color:#666;
+white-space:pre-wrap;
+margin:8px 0 14px;
 }
 
 .guide{
-  background:#fff8e1;
-  border-radius:20px;
-  padding:16px;
-  font-size:20px;
-  font-weight:900;
-  line-height:1.7;
-  color:#555;
-  margin-bottom:14px;
+background:#fff8e1;
+border-radius:20px;
+padding:16px;
+font-size:20px;
+font-weight:900;
+line-height:1.7;
+color:#555;
+margin-bottom:14px;
 }
 
 .inputBox{
-  width:100%;
-  min-height:250px;
-  border:none;
-  outline:none;
-  resize:vertical;
-  background:#f5f7fa;
-  border-radius:24px;
-  padding:20px;
-  font-size:30px;
-  font-weight:900;
-  line-height:1.7;
-  color:#123;
-  margin-bottom:14px;
+width:100%;
+min-height:250px;
+border:none;
+outline:none;
+resize:vertical;
+background:#f5f7fa;
+border-radius:24px;
+padding:20px;
+font-size:30px;
+font-weight:900;
+line-height:1.7;
+color:#123;
+margin-bottom:14px;
 }
 
 .inputBox::placeholder{
-  color:#999;
+color:#999;
 }
 
 .readBtn{
-  width:100%;
-  border:none;
-  border-radius:24px;
-  padding:22px 12px;
-  font-size:25px;
-  font-weight:900;
-  color:white;
-  background:#ef6c00;
-  cursor:pointer;
-  margin-bottom:12px;
+width:100%;
+border:none;
+border-radius:24px;
+padding:22px 12px;
+font-size:25px;
+font-weight:900;
+color:white;
+background:#ef6c00;
+cursor:pointer;
+margin-bottom:12px;
 }
 
 .stopReadBtn{
-  width:100%;
-  border:none;
-  border-radius:24px;
-  padding:20px 12px;
-  font-size:24px;
-  font-weight:900;
-  color:white;
-  background:#8d6e63;
-  cursor:pointer;
-  margin-bottom:12px;
+width:100%;
+border:none;
+border-radius:24px;
+padding:20px 12px;
+font-size:24px;
+font-weight:900;
+color:white;
+background:#8d6e63;
+cursor:pointer;
+margin-bottom:12px;
 }
 
 .actionRow{
-  display:flex;
-  gap:12px;
-  margin-bottom:12px;
+display:flex;
+gap:12px;
+margin-bottom:12px;
 }
 
 .saveBtn,
 .clearBtn{
-  flex:1;
-  border:none;
-  border-radius:24px;
-  padding:24px 8px;
-  font-size:26px;
-  font-weight:900;
-  color:white;
-  cursor:pointer;
+flex:1;
+border:none;
+border-radius:24px;
+padding:24px 8px;
+font-size:26px;
+font-weight:900;
+color:white;
+cursor:pointer;
 }
 
-.saveBtn{background:#2e7d32}
-.clearBtn{background:#777}
+.saveBtn{
+background:#2e7d32;
+}
+
+.clearBtn{
+background:#777;
+}
 
 .linkBtn{
-  display:block;
-  text-align:center;
-  text-decoration:none;
-  background:#555;
-  color:white;
-  border-radius:24px;
-  padding:22px 12px;
-  font-size:24px;
-  font-weight:900;
-  margin-top:12px;
+display:block;
+text-align:center;
+text-decoration:none;
+background:#555;
+color:white;
+border-radius:24px;
+padding:22px 12px;
+font-size:24px;
+font-weight:900;
+margin-top:12px;
 }
 
 .small{
-  font-size:18px;
-  font-weight:800;
-  line-height:1.6;
-  color:#666;
-  text-align:center;
-  margin-top:10px;
+font-size:18px;
+font-weight:800;
+line-height:1.6;
+color:#666;
+text-align:center;
+margin-top:10px;
 }
 
 @media(max-width:600px){
-  .card{padding:16px;border-radius:24px}
-  .title{font-size:28px}
-  .inputBox{font-size:27px;min-height:230px}
-  .saveBtn,.clearBtn{font-size:24px;padding:22px 6px}
-  .readBtn{font-size:23px}
-  .stopReadBtn{font-size:22px}
-  .status{font-size:21px}
-  .linkBtn{font-size:22px}
-  .guide{font-size:19px}
-  .small{font-size:17px}
+
+.card{
+padding:16px;
+border-radius:24px;
+}
+
+.title{
+font-size:28px;
+}
+
+.inputBox{
+font-size:27px;
+min-height:230px;
+}
+
+.saveBtn,
+.clearBtn{
+font-size:24px;
+padding:22px 6px;
+}
+
+.readBtn{
+font-size:23px;
+}
+
+.stopReadBtn{
+font-size:22px;
+}
+
+.status{
+font-size:21px;
+}
+
+.linkBtn{
+font-size:22px;
+}
+
+.guide{
+font-size:19px;
+}
+
+.small{
+font-size:17px;
+}
+
 }
 </style>
 </head>
@@ -171,24 +213,24 @@ body{
 </div>
 
 <div class="status" id="status">
-入力欄を押すと、前の文字は必ず消えます
+入力欄を押して、iPhoneのマイクで話してください
 </div>
 
 <div class="guide">
 ① 入力欄を押す<br>
-② 前の文字は自動で消える<br>
-③ iPhoneのマイクで話す<br>
-④ 文字を見て、合っていれば登録
+② iPhoneのマイクで話す<br>
+③ 文字を見て確認する<br>
+④ 合っていれば登録する
 </div>
 
 <textarea
-  class="inputBox"
-  id="inputBox"
-  placeholder="ここを押して、iPhoneのマイクで話してください。例：6月5日13時病院"
-  autocomplete="off"
-  autocorrect="off"
-  autocapitalize="off"
-  spellcheck="false"
+class="inputBox"
+id="inputBox"
+placeholder="ここを押して、iPhoneのマイクで話してください。例：6月5日13時病院"
+autocomplete="off"
+autocorrect="off"
+autocapitalize="off"
+spellcheck="false"
 ></textarea>
 
 <button class="readBtn" id="readBtn">
@@ -200,6 +242,7 @@ body{
 </button>
 
 <div class="actionRow">
+
 <button class="clearBtn" id="clearBtn">
 🗑 消す
 </button>
@@ -207,6 +250,7 @@ body{
 <button class="saveBtn" id="saveBtn">
 ✅ 登録する
 </button>
+
 </div>
 
 <a class="linkBtn" href="today.html">
@@ -214,9 +258,9 @@ body{
 </a>
 
 <div class="small">
-勝手に録音しません。<br>
-勝手に読み上げません。<br>
-「内容を聞く」を押した時だけ読み上げます。
+入力欄を押しただけでは消えません。<br>
+消えるのは「ページを開いた時」「消すを押した時」「登録成功後」だけです。<br>
+入力欄に残った文字だけを登録します。
 </div>
 
 </div>
@@ -245,293 +289,226 @@ document.getElementById("saveBtn");
 const statusBox =
 document.getElementById("status");
 
-let currentAudio =
-null;
+/****************************************
+  初回読み込み時だけ消す
+****************************************/
+window.addEventListener("load",function(){
 
-window.addEventListener("pageshow",function(){
-  stopAudio();
-  inputBox.value = "";
-  statusBox.innerText =
-  "入力欄を押すと、前の文字は必ず消えます";
+inputBox.value =
+"";
+
+stopReading();
+
+statusBox.innerText =
+"入力欄を押して、iPhoneのマイクで話してください";
+
 });
 
-inputBox.addEventListener("focus",function(){
-  stopAudio();
-  inputBox.value = "";
-  statusBox.innerText =
-  "前の文字を消しました。マイクで話してください";
-});
-
+/****************************************
+  入力欄を押しても消さない
+****************************************/
 inputBox.addEventListener("input",function(){
-  statusBox.innerText =
-  "文字を見て、合っていれば登録してください";
+
+statusBox.innerText =
+"文字を見て、合っていれば登録してください";
+
 });
 
+/****************************************
+  読み上げ停止
+****************************************/
+function stopReading(){
+
+try{
+
+window.speechSynthesis.cancel();
+
+}catch(e){}
+
+}
+
+/****************************************
+  文字取得
+****************************************/
 function getText(){
-  return inputBox.value.trim();
-}
 
-function stopAudio(){
-
-  try{
-
-    if(currentAudio){
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-      currentAudio = null;
-    }
-
-  }catch(e){}
+return inputBox.value.trim();
 
 }
 
-function clearInput(){
-
-  stopAudio();
-
-  inputBox.value = "";
-
-  statusBox.innerText =
-  "消しました。もう一度入力できます";
-
-  inputBox.focus();
-
-}
-
-async function openAiSpeak(text){
-
-  stopAudio();
-
-  if(!text){
-
-    statusBox.innerText =
-    "読む文字がありません";
-
-    return;
-
-  }
-
-  statusBox.innerText =
-  "読み上げ音声を作っています...";
-
-  try{
-
-    const response =
-    await fetch(
-      GAS_URL,
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"text/plain;charset=utf-8"
-        },
-        body:JSON.stringify({
-          mode:"tts",
-          text:text
-        })
-      }
-    );
-
-    const data =
-    await response.json();
-
-    console.log(data);
-
-    if(!data.ok){
-
-      statusBox.innerText =
-      "読み上げ失敗\n" +
-      (data.error || data.body || "");
-
-      alert(
-        data.error ||
-        data.body ||
-        "読み上げに失敗しました"
-      );
-
-      return;
-
-    }
-
-    const audioSrc =
-    "data:" +
-    (data.mimeType || "audio/mpeg") +
-    ";base64," +
-    data.audioBase64;
-
-    currentAudio =
-    new Audio(audioSrc);
-
-    currentAudio.onended =
-    function(){
-
-      statusBox.innerText =
-      "読み上げ終了";
-
-      currentAudio =
-      null;
-
-    };
-
-    currentAudio.onerror =
-    function(){
-
-      statusBox.innerText =
-      "音声再生エラー";
-
-      currentAudio =
-      null;
-
-    };
-
-    statusBox.innerText =
-    "読み上げ中...";
-
-    await currentAudio.play();
-
-  }catch(error){
-
-    console.error(error);
-
-    statusBox.innerText =
-    "通信エラー";
-
-    alert(
-      "通信エラーです。GAS URL、OpenAIキー、デプロイ設定を確認してください。"
-    );
-
-  }
-
-}
-
+/****************************************
+  内容を聞く
+****************************************/
 readBtn.onclick =
-async function(){
+function(){
 
-  const text =
-  getText();
+const text =
+getText();
 
-  if(!text){
+stopReading();
 
-    statusBox.innerText =
-    "文字がありません";
+if(!text){
 
-    alert(
-      "まだ文字がありません。入力欄を押して話してください。"
-    );
+statusBox.innerText =
+"文字がありません";
 
-    return;
+alert(
+"まだ文字がありません。入力欄を押して話してください。"
+);
 
-  }
+return;
 
-  await openAiSpeak(
-    "登録する内容は、" +
-    text +
-    "、です。よろしければ登録するを押してください。"
-  );
+}
+
+statusBox.innerText =
+"読み上げています...";
+
+const utterance =
+new SpeechSynthesisUtterance(
+"登録する内容は、" +
+text +
+"、です。よろしければ登録するを押してください。"
+);
+
+utterance.lang =
+"ja-JP";
+
+utterance.rate =
+0.9;
+
+utterance.onend =
+function(){
+
+statusBox.innerText =
+"読み上げが終了しました";
 
 };
 
+window.speechSynthesis.speak(
+utterance
+);
+
+};
+
+/****************************************
+  読み上げ停止ボタン
+****************************************/
 stopReadBtn.onclick =
 function(){
 
-  stopAudio();
+stopReading();
 
-  statusBox.innerText =
-  "読み上げを止めました";
+statusBox.innerText =
+"読み上げを止めました";
 
 };
 
+/****************************************
+  消す
+****************************************/
 clearBtn.onclick =
 function(){
 
-  clearInput();
+stopReading();
+
+inputBox.value =
+"";
+
+statusBox.innerText =
+"文字を消しました";
+
+inputBox.focus();
 
 };
 
+/****************************************
+  登録
+****************************************/
 saveBtn.onclick =
 async function(){
 
-  stopAudio();
+stopReading();
 
-  const text =
-  getText();
+const text =
+getText();
 
-  if(!text){
+if(!text){
 
-    alert(
-      "登録する文字がありません"
-    );
+alert(
+"登録する文字がありません"
+);
 
-    statusBox.innerText =
-    "登録する文字がありません";
+statusBox.innerText =
+"登録する文字がありません";
 
-    return;
+return;
 
-  }
+}
 
-  statusBox.innerText =
-  "登録中...";
+statusBox.innerText =
+"登録中...";
 
-  try{
+try{
 
-    const url =
-    GAS_URL +
-    '?mode=voice&text=' +
-    encodeURIComponent(text) +
-    '&t=' +
-    Date.now();
+const url =
+GAS_URL +
+'?mode=voice&text=' +
+encodeURIComponent(text) +
+'&t=' +
+Date.now();
 
-    const response =
-    await fetch(url);
+const response =
+await fetch(url);
 
-    const data =
-    await response.json();
+const data =
+await response.json();
 
-    console.log(data);
+console.log(data);
 
-    if(data.ok){
+if(data.ok){
 
-      if(data.calendar_registered === true){
+if(data.calendar_registered === true){
 
-        statusBox.innerText =
-        "登録成功：カレンダー登録済み";
+statusBox.innerText =
+"登録成功：カレンダー登録済み";
 
-      }else{
+}else{
 
-        statusBox.innerText =
-        "登録成功：" +
-        (data.category || "記録");
+statusBox.innerText =
+"登録成功：" +
+(data.category || "記録");
 
-      }
+}
 
-      inputBox.value =
-      "";
+inputBox.value =
+"";
 
-    }else{
+}else{
 
-      statusBox.innerText =
-      "登録失敗\n" +
-      (data.error || data.message || "");
+statusBox.innerText =
+"登録失敗\n" +
+(data.error || data.message || "");
 
-      alert(
-        data.error ||
-        data.message ||
-        "登録に失敗しました"
-      );
+alert(
+data.error ||
+data.message ||
+"登録に失敗しました"
+);
 
-    }
+}
 
-  }catch(error){
+}catch(error){
 
-    console.error(error);
+console.error(error);
 
-    statusBox.innerText =
-    "通信エラー";
+statusBox.innerText =
+"通信エラー";
 
-    alert(
-      "通信エラーです。GAS URLかデプロイ設定を確認してください。"
-    );
+alert(
+"通信エラーです。GAS URLかデプロイ設定を確認してください。"
+);
 
-  }
+}
 
 };
 
