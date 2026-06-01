@@ -7,9 +7,7 @@
 <title>音声入力DX</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -19,10 +17,7 @@ font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#123;
 }
 
-.wrap{
-max-width:720px;
-margin:auto;
-}
+.wrap{max-width:720px;margin:auto}
 
 .card{
 background:#fff;
@@ -43,61 +38,62 @@ margin-bottom:12px;
 font-size:24px;
 text-align:center;
 line-height:1.7;
-margin-bottom:28px;
+margin-bottom:24px;
+}
+
+.note{
+font-size:22px;
+line-height:1.7;
+font-weight:800;
+color:#555;
+background:#fff8e1;
+border-radius:20px;
+padding:18px;
+margin-bottom:20px;
 }
 
 .btnRow{
 display:flex;
-gap:14px;
+gap:12px;
 margin-bottom:18px;
 }
 
-.micBtn,
-.stopBtn,
-.clearBtn{
+.micBtn,.stopBtn,.clearBtn{
 flex:1;
 border:none;
 border-radius:24px;
-padding:26px 12px;
+padding:24px 8px;
 color:white;
-font-size:28px;
+font-size:24px;
 font-weight:900;
 cursor:pointer;
 }
 
-.micBtn{
-background:#1976d2;
-}
+.micBtn{background:#1976d2}
+.stopBtn{background:#d32f2f}
+.clearBtn{background:#777}
 
-.stopBtn{
-background:#d32f2f;
-}
-
-.clearBtn{
-background:#777;
+.readBtn{
+width:100%;
+border:none;
+border-radius:24px;
+padding:24px 12px;
+background:#ef6c00;
+color:white;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+margin-top:18px;
 }
 
 .saveBtn{
 width:100%;
 border:none;
 border-radius:24px;
-padding:30px 14px;
+padding:28px 14px;
 background:#2e7d32;
 color:white;
-font-size:34px;
-font-weight:900;
-cursor:pointer;
-margin-top:18px;
-}
-
-.readBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:26px 14px;
-background:#ef6c00;
-color:white;
-font-size:30px;
+font-size:32px;
 font-weight:900;
 cursor:pointer;
 margin-top:18px;
@@ -116,7 +112,7 @@ white-space:pre-wrap;
 
 .status{
 margin-top:20px;
-font-size:28px;
+font-size:26px;
 font-weight:900;
 text-align:center;
 color:#666;
@@ -131,69 +127,22 @@ background:#555;
 color:white;
 border-radius:24px;
 padding:24px 14px;
-font-size:28px;
+font-size:26px;
 font-weight:900;
 margin-top:18px;
 }
 
-.note{
-font-size:22px;
-line-height:1.7;
-font-weight:800;
-color:#555;
-background:#fff8e1;
-border-radius:20px;
-padding:18px;
-margin-bottom:20px;
-}
-
 @media(max-width:600px){
-
-body{
-padding:14px;
-}
-
-.title{
-font-size:34px;
-}
-
-.sub{
-font-size:20px;
-}
-
-.micBtn,
-.stopBtn,
-.clearBtn{
-font-size:22px;
-padding:22px 8px;
-}
-
-.saveBtn{
-font-size:28px;
-padding:24px 12px;
-}
-
-.readBtn{
-font-size:26px;
-padding:22px 12px;
-}
-
-.resultBox{
-font-size:26px;
-}
-
-.status{
-font-size:24px;
-}
-
-.linkBtn{
-font-size:24px;
-}
-
-.note{
-font-size:20px;
-}
-
+body{padding:14px}
+.title{font-size:34px}
+.sub{font-size:20px}
+.note{font-size:20px}
+.micBtn,.stopBtn,.clearBtn{font-size:21px;padding:20px 6px}
+.resultBox{font-size:26px}
+.readBtn{font-size:25px}
+.saveBtn{font-size:28px}
+.status{font-size:24px}
+.linkBtn{font-size:24px}
 }
 </style>
 </head>
@@ -201,36 +150,23 @@ font-size:20px;
 <body>
 
 <div class="wrap">
-
 <div class="card">
 
-<div class="title">
-音声入力DX
-</div>
+<div class="title">音声入力DX</div>
 
 <div class="sub">
 しゃべる → 確認 → 登録
 </div>
 
 <div class="note">
-間違っていたら「消す」を押して、もう一度しゃべってください。<br>
-細かい修正はせず、やり直す方式です。
+前の内容は、話すたびに自動で消えます。<br>
+間違ったら「消す」を押して、もう一度しゃべってください。
 </div>
 
 <div class="btnRow">
-
-<button class="micBtn" id="micBtn">
-🎤 話す
-</button>
-
-<button class="stopBtn" id="stopBtn">
-■ 終了
-</button>
-
-<button class="clearBtn" id="clearBtn">
-🗑 消す
-</button>
-
+<button class="micBtn" id="micBtn">🎤 話す</button>
+<button class="stopBtn" id="stopBtn">■ 終了</button>
+<button class="clearBtn" id="clearBtn">🗑 消す</button>
 </div>
 
 <div class="resultBox" id="resultBox">
@@ -254,7 +190,6 @@ font-size:20px;
 </a>
 
 </div>
-
 </div>
 
 <script>
@@ -262,32 +197,21 @@ font-size:20px;
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbwj-czUnQmBRJy1jWOY-O6O5_By2-Hgjsnb2No_HrdHYVxb5KVz3I9ysjrjmdvl1nLX/exec';
 
-const micBtn =
-document.getElementById("micBtn");
-
-const stopBtn =
-document.getElementById("stopBtn");
-
-const clearBtn =
-document.getElementById("clearBtn");
-
-const readBtn =
-document.getElementById("readBtn");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-const resultBox =
-document.getElementById("resultBox");
-
-const statusBox =
-document.getElementById("status");
+const micBtn = document.getElementById("micBtn");
+const stopBtn = document.getElementById("stopBtn");
+const clearBtn = document.getElementById("clearBtn");
+const readBtn = document.getElementById("readBtn");
+const saveBtn = document.getElementById("saveBtn");
+const resultBox = document.getElementById("resultBox");
+const statusBox = document.getElementById("status");
 
 const SpeechRecognition =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
-let recognition;
+let recognition = null;
+let listening = false;
+let finalText = "";
 
 function speak(text){
 
@@ -296,28 +220,133 @@ speechSynthesis.cancel();
 const uttr =
 new SpeechSynthesisUtterance(text);
 
-uttr.lang =
-"ja-JP";
-
-uttr.rate =
-0.95;
+uttr.lang = "ja-JP";
+uttr.rate = 0.95;
 
 speechSynthesis.speak(uttr);
 
 }
 
-function getText(){
+function resetText(){
 
-return resultBox.innerText.trim();
+finalText = "";
+
+resultBox.innerText =
+"ここに音声認識結果が表示されます";
 
 }
 
-function isEmptyText(text){
+function getText(){
 
-return (
-!text ||
-text === "ここに音声認識結果が表示されます"
+const text =
+resultBox.innerText.trim();
+
+if(text === "ここに音声認識結果が表示されます"){
+return "";
+}
+
+return text;
+
+}
+
+function stopRecognition(){
+
+try{
+
+if(recognition && listening){
+recognition.stop();
+}
+
+}catch(e){}
+
+listening = false;
+
+}
+
+function createRecognition(){
+
+recognition =
+new SpeechRecognition();
+
+recognition.lang =
+"ja-JP";
+
+recognition.interimResults =
+true;
+
+recognition.continuous =
+false;
+
+recognition.onstart =
+() => {
+
+listening = true;
+statusBox.innerText = "聞き取り中";
+
+};
+
+recognition.onresult =
+(event) => {
+
+let interimText = "";
+
+for(let i = 0; i < event.results.length; i++){
+
+const transcript =
+event.results[i][0].transcript;
+
+if(event.results[i].isFinal){
+
+finalText += transcript;
+
+}else{
+
+interimText += transcript;
+
+}
+
+}
+
+resultBox.innerText =
+(finalText + interimText).trim();
+
+};
+
+recognition.onerror =
+(event) => {
+
+listening = false;
+
+statusBox.innerText =
+"エラー：" + event.error;
+
+};
+
+recognition.onend =
+() => {
+
+listening = false;
+
+const text =
+getText();
+
+if(text){
+
+statusBox.innerText =
+"認識しました";
+
+speak(
+"認識しました。内容を確認してください。"
 );
+
+}else{
+
+statusBox.innerText =
+"待機中";
+
+}
+
+};
 
 }
 
@@ -331,95 +360,55 @@ statusBox.innerText =
 
 }else{
 
-recognition =
-new SpeechRecognition();
+createRecognition();
 
-recognition.lang =
-"ja-JP";
-
-recognition.interimResults =
-true;
-
-recognition.continuous =
-true;
+}
 
 micBtn.onclick =
 () => {
 
-resultBox.innerText =
-"";
+speechSynthesis.cancel();
 
+try{
+if(recognition && listening){
+recognition.abort();
+}
+}catch(e){}
+
+finalText = "";
+resultBox.innerText = "";
+statusBox.innerText = "聞き取り準備中";
+
+createRecognition();
+
+setTimeout(() => {
 recognition.start();
-
-statusBox.innerText =
-"聞き取り中";
+}, 200);
 
 };
 
 stopBtn.onclick =
 () => {
 
-recognition.stop();
+stopRecognition();
 
 statusBox.innerText =
 "停止しました";
 
 };
 
-recognition.onresult =
-(event) => {
-
-let text =
-"";
-
-for(
-let i = 0;
-i < event.results.length;
-i++
-){
-
-text +=
-event.results[i][0].transcript;
-
-}
-
-resultBox.innerText =
-text;
-
-};
-
-recognition.onerror =
-(event) => {
-
-statusBox.innerText =
-"エラー：" +
-event.error;
-
-};
-
-recognition.onend =
-() => {
-
-const text =
-getText();
-
-if(!isEmptyText(text)){
-
-speak(
-"認識しました。内容を確認してください。"
-);
-
-}
-
-};
-
-}
-
 clearBtn.onclick =
 () => {
 
-resultBox.innerText =
-"ここに音声認識結果が表示されます";
+try{
+if(recognition && listening){
+recognition.abort();
+}
+}catch(e){}
+
+listening = false;
+
+resetText();
 
 statusBox.innerText =
 "消しました。もう一度しゃべれます。";
@@ -436,14 +425,14 @@ readBtn.onclick =
 const text =
 getText();
 
-if(isEmptyText(text)){
+if(!text){
+
+statusBox.innerText =
+"音声がありません";
 
 speak(
 "まだ音声がありません。"
 );
-
-statusBox.innerText =
-"音声がありません";
 
 return;
 
@@ -466,7 +455,7 @@ async () => {
 const text =
 getText();
 
-if(isEmptyText(text)){
+if(!text){
 
 alert("音声がありません");
 
@@ -477,17 +466,6 @@ speak(
 return;
 
 }
-
-statusBox.innerText =
-"登録前確認中...";
-
-speak(
-"登録します。" +
-text
-);
-
-setTimeout(
-async () => {
 
 statusBox.innerText =
 "登録中...";
@@ -566,10 +544,6 @@ alert(
 );
 
 }
-
-},
-900
-);
 
 };
 
