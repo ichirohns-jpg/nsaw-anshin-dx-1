@@ -223,7 +223,7 @@ body{
       予定を更新する
     </button>
 
-    <a class="btnBack" href="voice.html?v=sheet-delete1">
+    <a class="btnBack" href="voice.html?v=google2">
       予定を入れる画面に戻る
     </a>
 
@@ -251,7 +251,7 @@ body{
 
 <script>
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxNbbzhYNpR38882QZPGxIRGlNkk-oF28MWbvk7ODIDI0YbVGO7UMB0XbeYO6TzYAOq/exec';
+'https://script.google.com/macros/s/AKfycbwZdtTsSSQOLCF-vF_CCMsvPzZziBxpmLhKTOciSS8A1HgviXvRhf8JOOsX2uEAWFV5/exec';
 
 const statusBox =
 document.getElementById("statusBox");
@@ -302,8 +302,8 @@ function normalizeList(data){
 
   if(data && data.status === "success" && Array.isArray(data.data)){
     return {
-      today:data.data,
-      tomorrow:[]
+      today:data.today || data.data,
+      tomorrow:data.tomorrow || []
     };
   }
 
