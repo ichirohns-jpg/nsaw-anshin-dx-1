@@ -6,9 +6,7 @@
 <title>音声入力DX</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -35,7 +33,6 @@ font-size:30px;
 font-weight:900;
 text-align:center;
 color:#1565c0;
-line-height:1.35;
 margin:0 0 10px;
 }
 
@@ -51,7 +48,7 @@ margin:8px 0 14px;
 
 .inputBox{
 width:100%;
-min-height:230px;
+min-height:240px;
 border:none;
 outline:none;
 resize:vertical;
@@ -87,13 +84,8 @@ color:white;
 cursor:pointer;
 }
 
-.saveBtn{
-background:#2e7d32;
-}
-
-.clearBtn{
-background:#777;
-}
+.saveBtn{background:#2e7d32}
+.clearBtn{background:#777}
 
 .readBtn{
 width:100%;
@@ -142,47 +134,15 @@ margin-top:10px;
 }
 
 @media(max-width:600px){
-
-.card{
-padding:16px;
-border-radius:24px;
-}
-
-.title{
-font-size:28px;
-}
-
-.inputBox{
-font-size:27px;
-min-height:220px;
-}
-
-.saveBtn,
-.clearBtn{
-font-size:24px;
-padding:22px 6px;
-}
-
-.readBtn{
-font-size:23px;
-}
-
-.status{
-font-size:21px;
-}
-
-.linkBtn{
-font-size:22px;
-}
-
-.guide{
-font-size:19px;
-}
-
-.small{
-font-size:17px;
-}
-
+.card{padding:16px;border-radius:24px}
+.title{font-size:28px}
+.inputBox{font-size:27px;min-height:220px}
+.saveBtn,.clearBtn{font-size:24px;padding:22px 6px}
+.readBtn{font-size:23px}
+.status{font-size:21px}
+.linkBtn{font-size:22px}
+.guide{font-size:19px}
+.small{font-size:17px}
 }
 </style>
 </head>
@@ -201,10 +161,10 @@ font-size:17px;
 </div>
 
 <div class="guide">
-① 下の入力欄を押す<br>
+① 入力欄を押す<br>
 ② キーボードのマイクで話す<br>
-③ 文字を確認する<br>
-④ 登録する
+③ 文字を見て確認する<br>
+④ 合っていれば登録する
 </div>
 
 <textarea class="inputBox" id="inputBox" placeholder="ここを押して、iPhoneのマイクで話してください。例：6月5日13時病院"></textarea>
@@ -214,7 +174,6 @@ font-size:17px;
 </button>
 
 <div class="actionRow">
-
 <button class="clearBtn" id="clearBtn">
 🗑 消す
 </button>
@@ -222,7 +181,6 @@ font-size:17px;
 <button class="saveBtn" id="saveBtn">
 ✅ 登録する
 </button>
-
 </div>
 
 <a class="linkBtn" href="today.html">
@@ -230,8 +188,8 @@ font-size:17px;
 </a>
 
 <div class="small">
-勝手に録音しません。<br>
-入力欄に入った文字だけを登録します。
+このページは録音しません。<br>
+入力欄に残っている文字だけを登録します。
 </div>
 
 </div>
@@ -242,189 +200,88 @@ font-size:17px;
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
 
-const inputBox =
-document.getElementById("inputBox");
+const inputBox = document.getElementById("inputBox");
+const readBtn = document.getElementById("readBtn");
+const clearBtn = document.getElementById("clearBtn");
+const saveBtn = document.getElementById("saveBtn");
+const statusBox = document.getElementById("status");
 
-const readBtn =
-document.getElementById("readBtn");
-
-const clearBtn =
-document.getElementById("clearBtn");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-const statusBox =
-document.getElementById("status");
+inputBox.value = "";
 
 function speak(text){
-
-speechSynthesis.cancel();
-
-const uttr =
-new SpeechSynthesisUtterance(text);
-
-uttr.lang =
-"ja-JP";
-
-uttr.rate =
-0.95;
-
-speechSynthesis.speak(uttr);
-
+  speechSynthesis.cancel();
+  const uttr = new SpeechSynthesisUtterance(text);
+  uttr.lang = "ja-JP";
+  uttr.rate = 0.95;
+  speechSynthesis.speak(uttr);
 }
 
 function getText(){
-
-return inputBox.value.trim();
-
+  return inputBox.value.trim();
 }
 
-readBtn.onclick =
-() => {
+readBtn.onclick = () => {
+  const text = getText();
 
-const text =
-getText();
+  if(!text){
+    statusBox.innerText = "文字がありません";
+    speak("まだ文字がありません。入力欄を押して話してください。");
+    return;
+  }
 
-if(!text){
-
-statusBox.innerText =
-"文字がありません";
-
-speak(
-"まだ文字がありません。入力欄を押して話してください。"
-);
-
-return;
-
-}
-
-statusBox.innerText =
-"読み上げ確認中";
-
-speak(
-"登録する内容は、" +
-text +
-"、です。よろしければ登録するを押してください。"
-);
-
+  statusBox.innerText = "読み上げ確認中";
+  speak("登録する内容は、" + text + "、です。よろしければ登録するを押してください。");
 };
 
-clearBtn.onclick =
-() => {
-
-inputBox.value =
-"";
-
-statusBox.innerText =
-"消しました";
-
-speak(
-"消しました。もう一度入力してください。"
-);
-
-inputBox.focus();
-
+clearBtn.onclick = () => {
+  inputBox.value = "";
+  statusBox.innerText = "消しました";
+  speak("消しました。もう一度入力してください。");
+  inputBox.focus();
 };
 
-saveBtn.onclick =
-async () => {
+saveBtn.onclick = async () => {
+  const text = getText();
 
-const text =
-getText();
+  if(!text){
+    alert("登録する文字がありません");
+    speak("登録する文字がありません。");
+    return;
+  }
 
-if(!text){
+  statusBox.innerText = "登録中...";
 
-alert(
-"登録する文字がありません"
-);
+  try{
+    const url =
+      GAS_URL +
+      '?mode=voice&text=' +
+      encodeURIComponent(text) +
+      '&t=' +
+      Date.now();
 
-speak(
-"登録する文字がありません。"
-);
+    const response = await fetch(url);
+    const data = await response.json();
 
-return;
+    if(data.ok){
+      if(data.calendar_registered === true){
+        statusBox.innerText = "登録成功：カレンダー登録済み";
+        speak("カレンダーに登録しました。");
+      }else{
+        statusBox.innerText = "登録成功：" + (data.category || "記録");
+        speak("記録しました。");
+      }
+    }else{
+      statusBox.innerText = "登録失敗\n" + (data.error || data.message || "");
+      speak("登録に失敗しました。");
+      alert(data.error || data.message || "登録に失敗しました");
+    }
 
-}
-
-statusBox.innerText =
-"登録中...";
-
-try{
-
-const url =
-GAS_URL +
-'?mode=voice&text=' +
-encodeURIComponent(text) +
-'&t=' +
-Date.now();
-
-const response =
-await fetch(url);
-
-const data =
-await response.json();
-
-console.log(data);
-
-if(data.ok){
-
-if(data.calendar_registered === true){
-
-statusBox.innerText =
-"登録成功：カレンダー登録済み";
-
-speak(
-"カレンダーに登録しました。"
-);
-
-}else{
-
-statusBox.innerText =
-"登録成功：" +
-(data.category || "記録");
-
-speak(
-"記録しました。"
-);
-
-}
-
-}else{
-
-statusBox.innerText =
-"登録失敗\n" +
-(data.error || data.message || "");
-
-speak(
-"登録に失敗しました。"
-);
-
-alert(
-data.error ||
-data.message ||
-"登録に失敗しました"
-);
-
-}
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"通信エラー";
-
-speak(
-"通信エラーです。"
-);
-
-alert(
-"通信エラーです。GAS URLかデプロイ設定を確認してください。"
-);
-
-}
-
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "通信エラー";
+    speak("通信エラーです。");
+    alert("通信エラーです。GAS URLかデプロイ設定を確認してください。");
+  }
 };
 
 </script>
