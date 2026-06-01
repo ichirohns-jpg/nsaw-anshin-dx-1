@@ -36,7 +36,7 @@ font-weight:900;
 text-align:center;
 color:#1565c0;
 line-height:1.35;
-margin:0 0 8px;
+margin:0 0 10px;
 }
 
 .status{
@@ -49,38 +49,24 @@ white-space:pre-wrap;
 margin:8px 0 14px;
 }
 
-.mainBtn{
+.inputBox{
 width:100%;
+min-height:230px;
 border:none;
-border-radius:30px;
-padding:36px 12px;
-font-size:38px;
-font-weight:900;
-color:white;
-background:#1976d2;
-cursor:pointer;
-box-shadow:0 8px 18px rgba(0,0,0,.18);
-margin-bottom:14px;
-}
-
-.mainBtn.recording{
-background:#d32f2f;
-}
-
-.mainBtn.processing{
-background:#6a1b9a;
-}
-
-.resultBox{
+outline:none;
+resize:vertical;
 background:#f5f7fa;
 border-radius:24px;
 padding:20px;
-min-height:190px;
 font-size:30px;
 font-weight:900;
 line-height:1.7;
-white-space:pre-wrap;
+color:#123;
 margin-bottom:14px;
+}
+
+.inputBox::placeholder{
+color:#999;
 }
 
 .actionRow{
@@ -135,6 +121,17 @@ font-weight:900;
 margin-top:12px;
 }
 
+.guide{
+background:#fff8e1;
+border-radius:20px;
+padding:16px;
+font-size:20px;
+font-weight:900;
+line-height:1.7;
+color:#555;
+margin-bottom:14px;
+}
+
 .small{
 font-size:18px;
 font-weight:800;
@@ -155,14 +152,9 @@ border-radius:24px;
 font-size:28px;
 }
 
-.mainBtn{
-font-size:32px;
-padding:34px 10px;
-}
-
-.resultBox{
+.inputBox{
 font-size:27px;
-min-height:180px;
+min-height:220px;
 }
 
 .saveBtn,
@@ -183,6 +175,10 @@ font-size:21px;
 font-size:22px;
 }
 
+.guide{
+font-size:19px;
+}
+
 .small{
 font-size:17px;
 }
@@ -201,16 +197,17 @@ font-size:17px;
 </div>
 
 <div class="status" id="status">
-青いボタンを押して話してください
+入力欄を押して、iPhoneのマイクで話してください
 </div>
 
-<button class="mainBtn" id="mainBtn">
-🎤 話す
-</button>
-
-<div class="resultBox" id="resultBox">
-ここに文字が出ます
+<div class="guide">
+① 下の入力欄を押す<br>
+② キーボードのマイクで話す<br>
+③ 文字を確認する<br>
+④ 登録する
 </div>
+
+<textarea class="inputBox" id="inputBox" placeholder="ここを押して、iPhoneのマイクで話してください。例：6月5日13時病院"></textarea>
 
 <button class="readBtn" id="readBtn">
 🔊 内容を聞く
@@ -219,7 +216,7 @@ font-size:17px;
 <div class="actionRow">
 
 <button class="clearBtn" id="clearBtn">
-🗑 やり直す
+🗑 消す
 </button>
 
 <button class="saveBtn" id="saveBtn">
@@ -233,8 +230,8 @@ font-size:17px;
 </a>
 
 <div class="small">
-話している間は仮の文字が出ます。<br>
-話し終わったらOpenAIで正式に文字起こしします。
+勝手に録音しません。<br>
+入力欄に入った文字だけを登録します。
 </div>
 
 </div>
@@ -245,8 +242,8 @@ font-size:17px;
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbxjhRqORuP56x4qPkQZxsxgna_VV4CFKihxlyvywu4zSka3HkhLyzmLqT1Z-VxuOj4L/exec';
 
-const mainBtn =
-document.getElementById("mainBtn");
+const inputBox =
+document.getElementById("inputBox");
 
 const readBtn =
 document.getElementById("readBtn");
@@ -257,36 +254,8 @@ document.getElementById("clearBtn");
 const saveBtn =
 document.getElementById("saveBtn");
 
-const resultBox =
-document.getElementById("resultBox");
-
 const statusBox =
 document.getElementById("status");
-
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-let mediaRecorder =
-null;
-
-let audioChunks =
-[];
-
-let audioBlob =
-null;
-
-let audioMimeType =
-"";
-
-let recognition =
-null;
-
-let finalTempText =
-"";
-
-let state =
-"ready";
 
 function speak(text){
 
@@ -305,508 +274,11 @@ speechSynthesis.speak(uttr);
 
 }
 
-function setState(newState){
-
-state =
-newState;
-
-mainBtn.classList.remove(
-"recording",
-"processing"
-);
-
-if(state === "ready"){
-
-mainBtn.innerText =
-"🎤 話す";
-
-mainBtn.disabled =
-false;
-
-statusBox.innerText =
-"青いボタンを押して話してください";
-
-}
-
-if(state === "recording"){
-
-mainBtn.innerText =
-"■ 話し終わった";
-
-mainBtn.classList.add("recording");
-
-mainBtn.disabled =
-false;
-
-statusBox.innerText =
-"録音中です。話し終わったら赤いボタンを押してください";
-
-}
-
-if(state === "processing"){
-
-mainBtn.innerText =
-"🧠 文字起こし中";
-
-mainBtn.classList.add("processing");
-
-mainBtn.disabled =
-true;
-
-statusBox.innerText =
-"OpenAIで文字起こし中です";
-
-}
-
-if(state === "done"){
-
-mainBtn.innerText =
-"🎤 もう一度話す";
-
-mainBtn.disabled =
-false;
-
-statusBox.innerText =
-"内容を確認してください";
-
-}
-
-}
-
 function getText(){
 
-const text =
-resultBox.innerText.trim();
-
-if(
-text === "ここに文字が出ます" ||
-text === "ここに文字起こし結果が表示されます"
-){
-return "";
-}
-
-return text;
+return inputBox.value.trim();
 
 }
-
-function resetAll(){
-
-try{
-
-if(mediaRecorder && mediaRecorder.state !== "inactive"){
-mediaRecorder.stop();
-}
-
-}catch(e){}
-
-try{
-
-if(recognition){
-recognition.abort();
-}
-
-}catch(e){}
-
-audioChunks =
-[];
-
-audioBlob =
-null;
-
-audioMimeType =
-"";
-
-finalTempText =
-"";
-
-resultBox.innerText =
-"ここに文字が出ます";
-
-setState("ready");
-
-speak(
-"やり直せます。話すを押してください。"
-);
-
-}
-
-function pickMimeType(){
-
-if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")){
-return "audio/webm;codecs=opus";
-}
-
-if(MediaRecorder.isTypeSupported("audio/webm")){
-return "audio/webm";
-}
-
-if(MediaRecorder.isTypeSupported("audio/mp4")){
-return "audio/mp4";
-}
-
-if(MediaRecorder.isTypeSupported("audio/mpeg")){
-return "audio/mpeg";
-}
-
-return "";
-
-}
-
-function blobToBase64(blob){
-
-return new Promise((resolve,reject) => {
-
-const reader =
-new FileReader();
-
-reader.onloadend =
-() => {
-
-const dataUrl =
-reader.result;
-
-const base64 =
-String(dataUrl).split(",")[1];
-
-resolve(base64);
-
-};
-
-reader.onerror =
-reject;
-
-reader.readAsDataURL(blob);
-
-});
-
-}
-
-function startTempRecognition(){
-
-if(!SpeechRecognition){
-return;
-}
-
-try{
-
-recognition =
-new SpeechRecognition();
-
-recognition.lang =
-"ja-JP";
-
-recognition.interimResults =
-true;
-
-recognition.continuous =
-true;
-
-finalTempText =
-"";
-
-recognition.onresult =
-(event) => {
-
-let interimText =
-"";
-
-for(let i = 0; i < event.results.length; i++){
-
-const transcript =
-event.results[i][0].transcript;
-
-if(event.results[i].isFinal){
-
-finalTempText += transcript;
-
-}else{
-
-interimText += transcript;
-
-}
-
-}
-
-const showText =
-(finalTempText + interimText).trim();
-
-if(showText){
-
-resultBox.innerText =
-showText;
-
-}
-
-};
-
-recognition.onerror =
-(event) => {
-
-console.log("仮認識エラー",event.error);
-
-};
-
-recognition.start();
-
-}catch(e){
-
-console.log("仮認識開始失敗",e);
-
-}
-
-}
-
-function stopTempRecognition(){
-
-try{
-
-if(recognition){
-recognition.stop();
-}
-
-}catch(e){}
-
-}
-
-async function startRecording(){
-
-try{
-
-speechSynthesis.cancel();
-
-audioChunks =
-[];
-
-audioBlob =
-null;
-
-audioMimeType =
-"";
-
-finalTempText =
-"";
-
-resultBox.innerText =
-"";
-
-const stream =
-await navigator.mediaDevices.getUserMedia({
-audio:true
-});
-
-audioMimeType =
-pickMimeType();
-
-const options =
-audioMimeType
-? { mimeType: audioMimeType }
-: {};
-
-mediaRecorder =
-new MediaRecorder(
-stream,
-options
-);
-
-mediaRecorder.ondataavailable =
-(event) => {
-
-if(event.data && event.data.size > 0){
-
-audioChunks.push(event.data);
-
-}
-
-};
-
-mediaRecorder.onstop =
-async () => {
-
-stopTempRecognition();
-
-audioBlob =
-new Blob(
-audioChunks,
-{
-type:
-audioMimeType ||
-"audio/webm"
-}
-);
-
-stream.getTracks().forEach(track => {
-track.stop();
-});
-
-await transcribeAudio();
-
-};
-
-mediaRecorder.start();
-
-startTempRecognition();
-
-setState("recording");
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"録音できませんでした。マイク許可を確認してください。";
-
-alert(
-"録音できませんでした。マイク許可を確認してください。"
-);
-
-setState("ready");
-
-}
-
-}
-
-function stopRecording(){
-
-try{
-
-if(mediaRecorder && mediaRecorder.state !== "inactive"){
-
-setState("processing");
-
-mediaRecorder.stop();
-
-}
-
-}catch(error){
-
-console.error(error);
-
-setState("ready");
-
-}
-
-}
-
-async function transcribeAudio(){
-
-if(!audioBlob){
-
-statusBox.innerText =
-"録音がありません";
-
-setState("ready");
-
-return;
-
-}
-
-setState("processing");
-
-try{
-
-const base64 =
-await blobToBase64(audioBlob);
-
-const response =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-body:JSON.stringify({
-mode:"transcribe",
-audioBase64:base64,
-mimeType:audioBlob.type || audioMimeType || "audio/webm"
-})
-}
-);
-
-const data =
-await response.json();
-
-console.log(data);
-
-if(!data.ok){
-
-statusBox.innerText =
-"文字起こし失敗\n" +
-(data.error || data.body || "");
-
-alert(
-data.error ||
-data.body ||
-"OpenAI文字起こしに失敗しました"
-);
-
-speak(
-"文字起こしに失敗しました。"
-);
-
-setState("ready");
-
-return;
-
-}
-
-resultBox.innerText =
-data.text || finalTempText || "";
-
-speak(
-"文字起こししました。内容を確認してください。"
-);
-
-setState("done");
-
-}catch(error){
-
-console.error(error);
-
-statusBox.innerText =
-"通信エラー";
-
-alert(
-"通信エラーです。GAS URL、OpenAIキー、デプロイ設定を確認してください。"
-);
-
-speak(
-"通信エラーです。"
-);
-
-setState("ready");
-
-}
-
-}
-
-mainBtn.onclick =
-() => {
-
-if(state === "ready" || state === "done"){
-
-startRecording();
-
-return;
-
-}
-
-if(state === "recording"){
-
-stopRecording();
-
-return;
-
-}
-
-};
-
-clearBtn.onclick =
-() => {
-
-resetAll();
-
-};
 
 readBtn.onclick =
 () => {
@@ -820,7 +292,7 @@ statusBox.innerText =
 "文字がありません";
 
 speak(
-"まだ文字がありません。"
+"まだ文字がありません。入力欄を押して話してください。"
 );
 
 return;
@@ -835,6 +307,23 @@ speak(
 text +
 "、です。よろしければ登録するを押してください。"
 );
+
+};
+
+clearBtn.onclick =
+() => {
+
+inputBox.value =
+"";
+
+statusBox.innerText =
+"消しました";
+
+speak(
+"消しました。もう一度入力してください。"
+);
+
+inputBox.focus();
 
 };
 
@@ -937,8 +426,6 @@ alert(
 }
 
 };
-
-setState("ready");
 
 </script>
 
