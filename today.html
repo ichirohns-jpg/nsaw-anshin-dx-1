@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>今日の予定｜音声入力DX</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+padding:18px;
+background:#eef4f8;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#123;
+}
+
+.wrap{
+max-width:720px;
+margin:auto;
+}
+
+.header{
+background:#1565c0;
+color:white;
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.10);
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+text-align:center;
+line-height:1.4;
+}
+
+.sub{
+font-size:24px;
+font-weight:800;
+text-align:center;
+line-height:1.7;
+margin-top:10px;
+}
+
+.card{
+background:white;
+border-radius:28px;
+padding:24px;
+margin-bottom:20px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.sectionTitle{
+font-size:38px;
+font-weight:900;
+color:#1565c0;
+margin-bottom:18px;
+line-height:1.4;
+}
+
+.event{
+background:#f5f8ff;
+border:3px solid #d7e6ff;
+border-radius:24px;
+padding:22px;
+margin-bottom:18px;
+}
+
+.time{
+font-size:34px;
+font-weight:900;
+color:#d84315;
+line-height:1.4;
+margin-bottom:10px;
+}
+
+.eventTitle{
+font-size:34px;
+font-weight:900;
+line-height:1.6;
+color:#1f2d3d;
+white-space:pre-wrap;
+}
+
+.empty{
+font-size:30px;
+font-weight:900;
+line-height:1.8;
+color:#666;
+background:#f7f7f7;
+border-radius:22px;
+padding:24px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:24px;
+padding:26px 14px;
+font-size:32px;
+font-weight:900;
+cursor:pointer;
+margin-top:14px;
+}
+
+.reloadBtn{
+background:#1976d2;
+color:white;
+}
+
+.readBtn{
+background:#2e7d32;
+color:white;
+}
+
+.backBtn{
+display:block;
+text-align:center;
+text-decoration:none;
+background:#555;
+color:white;
+border-radius:24px;
+padding:24px 14px;
+font-size:30px;
+font-weight:900;
+margin-top:14px;
+}
+
+.status{
+font-size:24px;
+font-weight:900;
+text-align:center;
+line-height:1.7;
+color:#666;
+margin:16px 0;
+}
+
+.error{
+background:#fff3f3;
+border:3px solid #ffcdd2;
+color:#b71c1c;
+border-radius:24px;
+padding:24px;
+font-size:28px;
+font-weight:900;
+line-height:1.7;
+white-space:pre-wrap;
+}
+
+@media(max-width:600px){
+
+.title{
+font-size:34px;
+}
+
+.sub{
+font-size:21px;
+}
+
+.sectionTitle{
+font-size:32px;
+}
+
+.time{
+font-size:30px;
+}
+
+.eventTitle{
+font-size:30px;
+}
+
+.empty{
+font-size:26px;
+}
+
+.btn,
+.backBtn{
+font-size:26px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+
+<div class="title">
+今日の予定
+</div>
+
+<div class="sub">
+Googleカレンダーの予定を<br>
+大きな文字で確認します
+</div>
+
+</div>
+
+<div class="card">
+
+<div id="status" class="status">
+読み込み中...
+</div>
+
+<button class="btn reloadBtn" id="reloadBtn">
+予定を更新する
+</button>
+
+<button class="btn readBtn" id="readBtn">
+音声で読み上げる
+</button>
+
+<a class="backBtn" href="voice.html">
+音声入力へ戻る
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+今日の予定
+</div>
+
+<div id="todayBox">
+<div class="empty">
+読み込み中...
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+明日の予定
+</div>
+
+<div id="tomorrowBox">
+<div class="empty">
+読み込み中...
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbw4PIlMoORKvdDczUe_dIVK2-IXqFI7uoBhKO1i6YkXxZbeatGUXwb1IBkO79UxKzM/exec';
+
+const statusBox =
+document.getElementById("status");
+
+const todayBox =
+document.getElementById("todayBox");
+
+const tomorrowBox =
+document.getElementById("tomorrowBox");
+
+const reloadBtn =
+document.getElementById("reloadBtn");
+
+const readBtn =
+document.getElementById("readBtn");
+
+let latestText =
+"";
+
+function escapeHtml(str){
+
+return String(str || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+
+}
+
+function buildEvents(events,emptyText){
+
+if(!events || events.length === 0){
+
+return `
+<div class="empty">
+${emptyText}
+</div>
+`;
+
+}
+
+let html =
+"";
+
+events.forEach(ev => {
+
+html += `
+<div class="event">
+<div class="time">
+${escapeHtml(ev.start)} 〜 ${escapeHtml(ev.end)}
+</div>
+<div class="eventTitle">
+${escapeHtml(ev.title)}
+</div>
+</div>
+`;
+
+});
+
+return html;
+
+}
+
+function makeReadText(data){
+
+let text =
+"今日の予定です。";
+
+if(data.today && data.today.length > 0){
+
+data.today.forEach(ev => {
+
+text +=
+ev.start +
+"、" +
+ev.title +
+"。";
+
+});
+
+}else{
+
+text +=
+"今日の予定はありません。";
+
+}
+
+text +=
+"明日の予定です。";
+
+if(data.tomorrow && data.tomorrow.length > 0){
+
+data.tomorrow.forEach(ev => {
+
+text +=
+ev.start +
+"、" +
+ev.title +
+"。";
+
+});
+
+}else{
+
+text +=
+"明日の予定はありません。";
+
+}
+
+return text;
+
+}
+
+async function loadSchedule(){
+
+statusBox.innerText =
+"予定を読み込み中...";
+
+todayBox.innerHTML =
+'<div class="empty">読み込み中...</div>';
+
+tomorrowBox.innerHTML =
+'<div class="empty">読み込み中...</div>';
+
+try{
+
+const url =
+GAS_URL +
+'?mode=today&t=' +
+Date.now();
+
+const res =
+await fetch(url);
+
+const data =
+await res.json();
+
+if(!data.ok){
+
+throw new Error(
+data.error ||
+"予定を取得できませんでした"
+);
+
+}
+
+todayBox.innerHTML =
+buildEvents(
+data.today,
+"今日の予定はありません"
+);
+
+tomorrowBox.innerHTML =
+buildEvents(
+data.tomorrow,
+"明日の予定はありません"
+);
+
+latestText =
+makeReadText(data);
+
+statusBox.innerText =
+"予定を読み込みました";
+
+}catch(error){
+
+statusBox.innerText =
+"読み込み失敗";
+
+todayBox.innerHTML =
+`
+<div class="error">
+${escapeHtml(error.message || String(error))}
+</div>
+`;
+
+tomorrowBox.innerHTML =
+`
+<div class="empty">
+予定を表示できません
+</div>
+`;
+
+}
+
+}
+
+function speak(text){
+
+if(!text){
+text = "予定がまだ読み込まれていません";
+}
+
+speechSynthesis.cancel();
+
+const uttr =
+new SpeechSynthesisUtterance(text);
+
+uttr.lang =
+"ja-JP";
+
+uttr.rate =
+0.95;
+
+speechSynthesis.speak(uttr);
+
+}
+
+reloadBtn.onclick =
+() => {
+
+loadSchedule();
+
+};
+
+readBtn.onclick =
+() => {
+
+speak(latestText);
+
+};
+
+loadSchedule();
+
+</script>
+
+</body>
+</html>
