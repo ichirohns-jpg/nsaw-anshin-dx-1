@@ -179,21 +179,46 @@ body{
   margin-top:12px;
 }
 
+.shareBox{
+  background:white;
+  border-radius:24px;
+  padding:14px;
+  margin-top:16px;
+  border:3px solid #e3edf8;
+}
+
+.shareTitle{
+  font-size:24px;
+  font-weight:900;
+  text-align:center;
+  color:#1565c0;
+  margin-bottom:12px;
+}
+
+.shareGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
 .shareBtn{
   display:block;
   width:100%;
   text-align:center;
   text-decoration:none;
   border:none;
-  border-radius:24px;
-  padding:20px 12px;
-  font-size:24px;
+  border-radius:22px;
+  padding:20px 8px;
+  font-size:22px;
   font-weight:900;
   color:white;
-  background:#555;
-  margin-top:12px;
   cursor:pointer;
 }
+
+.lineBtn{background:#06c755}
+.xBtn{background:#111}
+.facebookBtn{background:#1877f2}
+.copyBtn{background:#555}
 
 .empty{
   background:#f5f7fa;
@@ -268,9 +293,17 @@ body{
     font-size:23px;
   }
 
-  .linkBtn,
-  .shareBtn{
+  .linkBtn{
     font-size:22px;
+  }
+
+  .shareTitle{
+    font-size:22px;
+  }
+
+  .shareBtn{
+    font-size:20px;
+    padding:18px 6px;
   }
 
   .empty{
@@ -655,6 +688,85 @@ function sortItems(items){
 
 }
 
+function getItemUrl(item){
+
+  return location.origin +
+    location.pathname +
+    "?mode=" +
+    encodeURIComponent(mode) +
+    "&id=" +
+    encodeURIComponent(item.id);
+
+}
+
+function getShareUrl(item){
+
+  if(mode === "today" && String(item.id) === "1"){
+    return location.origin +
+      location.pathname.replace(/app\.html$/,"share-001.html");
+  }
+
+  return getItemUrl(item);
+
+}
+
+function getShareText(item){
+
+  return config.title + "｜" + (item.title || "お知らせ");
+
+}
+
+function buildShareBox(item){
+
+  const shareUrl =
+  getShareUrl(item);
+
+  const text =
+  getShareText(item);
+
+  const encodedUrl =
+  encodeURIComponent(shareUrl);
+
+  const encodedText =
+  encodeURIComponent(text);
+
+  const lineUrl =
+  "https://social-plugins.line.me/lineit/share?url=" + encodedUrl;
+
+  const xUrl =
+  "https://twitter.com/intent/tweet?text=" + encodedText + "&url=" + encodedUrl;
+
+  const facebookUrl =
+  "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
+
+  return `
+    <div class="shareBox">
+      <div class="shareTitle">
+        共有する
+      </div>
+
+      <div class="shareGrid">
+        <a class="shareBtn lineBtn" href="${escapeHtml(lineUrl)}" target="_blank" rel="noopener">
+          LINE
+        </a>
+
+        <a class="shareBtn xBtn" href="${escapeHtml(xUrl)}" target="_blank" rel="noopener">
+          X
+        </a>
+
+        <a class="shareBtn facebookBtn" href="${escapeHtml(facebookUrl)}" target="_blank" rel="noopener">
+          Facebook
+        </a>
+
+        <button class="shareBtn copyBtn" onclick="copyShareUrl('${escapeHtml(shareUrl)}')">
+          URLコピー
+        </button>
+      </div>
+    </div>
+  `;
+
+}
+
 function buildItem(item){
 
   const youtubeId =
@@ -715,10 +827,9 @@ function buildItem(item){
     `;
   }
 
+  html += buildShareBox(item);
+
   html += `
-      <button class="shareBtn" onclick="copyShare(${item.id})">
-        URLをコピー
-      </button>
     </div>
   `;
 
@@ -860,15 +971,7 @@ window.handleSheet = function(json){
 
 };
 
-function copyShare(id){
-
-  const url =
-  location.origin +
-  location.pathname +
-  "?mode=" +
-  encodeURIComponent(mode) +
-  "&id=" +
-  encodeURIComponent(id);
+function copyShareUrl(url){
 
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(url)
