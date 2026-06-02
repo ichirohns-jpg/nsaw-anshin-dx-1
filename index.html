@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>あんしん生活DX</title>
 
-<meta name="description" content="話して登録、大きな文字で確認。高齢者にも使いやすいあんしん生活DX。">
+<meta name="description" content="高齢者が話して登録し、予定・見守り・薬・ゴミ・地域情報・人につなぐを大きなボタンで使える生活支援DXです。">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
@@ -19,13 +19,13 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="あんしん生活DX">
 <meta property="og:title" content="あんしん生活DX">
-<meta property="og:description" content="話して登録、大きな文字で確認。高齢者にも使いやすい生活支援DX。">
+<meta property="og:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。高齢者にも使いやすい生活支援DX。">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="あんしん生活DX">
-<meta name="twitter:description" content="話して登録、大きな文字で確認。高齢者にも使いやすい生活支援DX。">
+<meta name="twitter:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
 
 <style>
@@ -98,6 +98,14 @@ body{
   box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
+.sectionTitle{
+  font-size:30px;
+  font-weight:900;
+  color:#1565c0;
+  margin:0 0 14px;
+  text-align:center;
+}
+
 .mainBtn{
   display:block;
   width:100%;
@@ -105,8 +113,8 @@ body{
   text-decoration:none;
   border:none;
   border-radius:30px;
-  padding:32px 12px;
-  font-size:32px;
+  padding:30px 12px;
+  font-size:30px;
   font-weight:900;
   color:white;
   margin-bottom:16px;
@@ -119,6 +127,9 @@ body{
 .red{background:#c62828}
 .purple{background:#6a1b9a}
 .gray{background:#555}
+.brown{background:#795548}
+.teal{background:#00897b}
+.indigo{background:#3949ab}
 
 .note{
   background:#fff8e1;
@@ -129,16 +140,7 @@ body{
   line-height:1.6;
   color:#444;
   text-align:center;
-  margin-top:4px;
   white-space:pre-wrap;
-}
-
-.sectionTitle{
-  font-size:30px;
-  font-weight:900;
-  color:#1565c0;
-  margin:0 0 14px;
-  text-align:center;
 }
 
 @media(max-width:600px){
@@ -150,17 +152,17 @@ body{
     font-size:20px;
   }
 
+  .sectionTitle{
+    font-size:27px;
+  }
+
   .mainBtn{
-    font-size:28px;
-    padding:30px 10px;
+    font-size:27px;
+    padding:28px 10px;
   }
 
   .note{
     font-size:21px;
-  }
-
-  .sectionTitle{
-    font-size:27px;
   }
 }
 </style>
@@ -173,7 +175,7 @@ body{
   <div class="topImageBox">
     <img
       class="topImage"
-      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=restore1"
+      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=allmenu1"
       alt="あんしん生活DX">
   </div>
 
@@ -185,6 +187,16 @@ body{
       話して登録<br>
       大きな文字で確認
     </div>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      登録
+    </div>
+
+    <button class="mainBtn indigo" onclick="notReady('本人登録')">
+      📝 本人登録
+    </button>
   </div>
 
   <div class="card">
@@ -238,10 +250,38 @@ body{
   </div>
 
   <div class="card">
+    <div class="sectionTitle">
+      生活情報
+    </div>
+
+    <button class="mainBtn brown" onclick="notReady('ゴミ情報')">
+      🗑 ゴミ情報
+    </button>
+
+    <button class="mainBtn teal" onclick="notReady('4市の情報')">
+      📰 4市の情報
+    </button>
+
+    <button class="mainBtn indigo" onclick="notReady('お楽しみ動画')">
+      🎥 お楽しみ動画
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      つながる
+    </div>
+
     <a class="mainBtn gray" href="connect.html?v=safephone2">
       ☎️ 人につなぐ
     </a>
 
+    <button class="mainBtn blue" onclick="notReady('見守り者画面')">
+      👀 見守り者画面
+    </button>
+  </div>
+
+  <div class="card">
     <div class="note" id="noteBox">
       迷ったら「人につなぐ」を押してください
     </div>
@@ -272,6 +312,11 @@ window.addEventListener("pageshow",function(){
   stopAllSpeech();
   window.scrollTo(0,0);
 });
+
+function notReady(name){
+  const noteBox = document.getElementById("noteBox");
+  noteBox.innerText = name + " は次に作ります";
+}
 
 async function sendQuick(text){
 
