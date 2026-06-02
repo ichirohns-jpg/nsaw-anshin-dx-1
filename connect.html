@@ -6,7 +6,9 @@
 <title>人につなぐ</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -32,14 +34,14 @@ body{
 }
 
 .title{
-  font-size:40px;
+  font-size:42px;
   font-weight:900;
   line-height:1.35;
   margin:0;
 }
 
 .sub{
-  font-size:23px;
+  font-size:24px;
   font-weight:900;
   line-height:1.6;
   margin-top:12px;
@@ -50,62 +52,18 @@ body{
   border-radius:28px;
   padding:18px;
   box-shadow:0 8px 22px rgba(0,0,0,.08);
-  margin-bottom:16px;
 }
 
-.status{
+.note{
   background:#fff8e1;
   border-radius:24px;
-  padding:18px;
-  font-size:24px;
+  padding:20px;
+  font-size:26px;
   font-weight:900;
   line-height:1.6;
   color:#444;
   text-align:center;
   margin-bottom:18px;
-  white-space:pre-wrap;
-}
-
-.contactCard{
-  background:#f8fbff;
-  border:4px solid #d7e6ff;
-  border-radius:26px;
-  padding:20px;
-  margin-bottom:18px;
-}
-
-.category{
-  display:inline-block;
-  background:#1565c0;
-  color:white;
-  border-radius:999px;
-  padding:8px 16px;
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:14px;
-}
-
-.name{
-  font-size:32px;
-  font-weight:900;
-  line-height:1.5;
-  color:#123;
-  margin-bottom:8px;
-}
-
-.phone{
-  font-size:28px;
-  font-weight:900;
-  color:#d84315;
-  margin-bottom:12px;
-}
-
-.note{
-  font-size:22px;
-  font-weight:900;
-  line-height:1.5;
-  color:#555;
-  margin-bottom:16px;
 }
 
 .callBtn{
@@ -114,80 +72,61 @@ body{
   text-align:center;
   text-decoration:none;
   border:none;
-  border-radius:28px;
-  padding:28px 12px;
-  font-size:30px;
+  border-radius:30px;
+  padding:34px 12px;
+  font-size:32px;
   font-weight:900;
   color:white;
-  background:#2e7d32;
+  margin-bottom:18px;
   cursor:pointer;
 }
 
-.reloadBtn{
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
+.blue{
   background:#1976d2;
-  margin-bottom:14px;
-  cursor:pointer;
 }
 
-.backBtn{
-  display:block;
-  width:100%;
-  text-align:center;
-  text-decoration:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
+.red{
+  background:#c62828;
+}
+
+.green{
+  background:#2e7d32;
+}
+
+.gray{
   background:#555;
 }
 
-.empty{
-  background:#f5f7fa;
-  border-radius:24px;
-  padding:24px;
-  font-size:28px;
+.small{
+  font-size:21px;
   font-weight:900;
-  color:#666;
-  line-height:1.5;
-  text-align:center;
-}
-
-.error{
-  background:#fff3f3;
-  border-radius:24px;
-  padding:22px;
-  font-size:24px;
-  font-weight:900;
-  color:#b71c1c;
   line-height:1.6;
-  white-space:pre-wrap;
+  color:#666;
+  text-align:center;
+  margin-top:10px;
 }
 
 @media(max-width:600px){
-  .title{font-size:34px}
-  .sub{font-size:21px}
-  .status{font-size:22px}
-  .category{font-size:18px}
-  .name{font-size:29px}
-  .phone{font-size:25px}
-  .note{font-size:20px}
-
-  .callBtn,
-  .reloadBtn,
-  .backBtn{
-    font-size:25px;
-    padding:26px 10px;
+  .title{
+    font-size:36px;
   }
 
-  .empty{font-size:25px}
+  .sub{
+    font-size:22px;
+  }
+
+  .note{
+    font-size:23px;
+  }
+
+  .callBtn{
+    font-size:28px;
+    padding:32px 10px;
+  }
+
+  .small{
+    font-size:19px;
+  }
 }
 </style>
 </head>
@@ -197,65 +136,53 @@ body{
 <div class="wrap">
 
   <div class="header">
-    <h1 class="title">人につなぐ</h1>
+    <h1 class="title">
+      人につなぐ
+    </h1>
     <div class="sub">
       困った時に<br>
-      電話できます
+      すぐ電話できます
     </div>
   </div>
 
   <div class="card">
-    <div class="status" id="statusBox">
-      連絡先を読み込み中...
+
+    <div class="note">
+      必要なところを押してください
     </div>
 
-    <button class="reloadBtn" id="reloadBtn">
-      🔄 連絡先を更新する
-    </button>
+    <a class="callBtn blue" href="tel:0484731111">
+      🏢 志木市役所に電話
+    </a>
 
-    <a class="backBtn" href="./?v=newgas1">
+    <a class="callBtn red" href="tel:119">
+      🚑 緊急 119
+    </a>
+
+    <a class="callBtn green" href="voice.html?v=newgas1">
+      🎤 予定を入れる
+    </a>
+
+    <a class="callBtn gray" href="./?v=newgas1">
       ⬅️ 最初の画面に戻る
     </a>
-  </div>
 
-  <div class="card" id="contactList">
-    <div class="empty">
-      読み込み中...
+    <div class="small">
+      このページは読み込みません。<br>
+      電話ボタンだけの安全版です。
     </div>
+
   </div>
 
 </div>
 
 <script>
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
+try{
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
+}catch(e){}
+</script>
 
-const statusBox =
-document.getElementById("statusBox");
-
-const contactList =
-document.getElementById("contactList");
-
-const reloadBtn =
-document.getElementById("reloadBtn");
-
-function stopAllSpeech(){
-  try{
-    if(window.speechSynthesis){
-      window.speechSynthesis.cancel();
-    }
-  }catch(e){}
-}
-
-window.addEventListener("load",function(){
-  stopAllSpeech();
-  loadContacts();
-});
-
-window.addEventListener("pageshow",function(){
-  stopAllSpeech();
-});
-
-function escapeHtml(str){
-  return String(str || "")
-    .replace(/&/g,"&
+</body>
+</html>
