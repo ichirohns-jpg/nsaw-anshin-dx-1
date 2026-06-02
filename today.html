@@ -58,6 +58,7 @@ body{
 }
 
 .bigBtn{
+  display:block;
   width:100%;
   border:none;
   border-radius:28px;
@@ -67,6 +68,8 @@ body{
   color:white;
   cursor:pointer;
   margin-bottom:14px;
+  text-align:center;
+  text-decoration:none;
 }
 
 .reloadBtn{
@@ -74,16 +77,11 @@ body{
 }
 
 .backBtn{
-  display:block;
-  width:100%;
-  text-align:center;
-  text-decoration:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
   background:#555;
+}
+
+.addBtn{
+  background:#2e7d32;
 }
 
 .sectionTitle{
@@ -153,6 +151,10 @@ body{
   white-space:pre-wrap;
 }
 
+.bottomSpace{
+  height:20px;
+}
+
 @media(max-width:600px){
   .title{
     font-size:34px;
@@ -175,7 +177,6 @@ body{
   }
 
   .bigBtn,
-  .backBtn,
   .deleteBtn{
     font-size:24px;
   }
@@ -198,17 +199,21 @@ body{
 </div>
 
 <div class="card">
-  <div class="status" id="statusBox">
-    読み込み中...
-  </div>
+  <a class="bigBtn backBtn" href="index.html?v=final1">
+    ⬅️ 最初の画面に戻る
+  </a>
+
+  <a class="bigBtn addBtn" href="voice.html?v=newgas1">
+    ➕ 予定を入れる
+  </a>
 
   <button class="bigBtn reloadBtn" id="reloadBtn">
     🔄 更新する
   </button>
 
-  <a class="backBtn" href="voice.html?v=newgas1">
-    ➕ 予定を入れる
-  </a>
+  <div class="status" id="statusBox">
+    読み込み中...
+  </div>
 </div>
 
 <div class="card">
@@ -230,6 +235,18 @@ body{
     <div class="empty">読み込み中...</div>
   </div>
 </div>
+
+<div class="card">
+  <a class="bigBtn backBtn" href="index.html?v=final1">
+    ⬅️ 最初の画面に戻る
+  </a>
+
+  <a class="bigBtn addBtn" href="voice.html?v=newgas1">
+    ➕ 予定を入れる
+  </a>
+</div>
+
+<div class="bottomSpace"></div>
 
 </div>
 
