@@ -124,9 +124,9 @@ body{
 }
 
 .itemTitle{
-  font-size:32px;
+  font-size:34px;
   font-weight:900;
-  line-height:1.5;
+  line-height:1.45;
   color:#123;
   margin-bottom:12px;
 }
@@ -143,7 +143,7 @@ body{
 .itemImg{
   width:100%;
   border-radius:22px;
-  margin:10px 0 16px;
+  margin:10px 0 18px;
   display:block;
 }
 
@@ -165,6 +165,42 @@ body{
   border:0;
 }
 
+.cityLinks{
+  margin-top:16px;
+}
+
+.cityBox{
+  background:white;
+  border:4px solid #e3edf8;
+  border-radius:24px;
+  padding:18px;
+  margin-bottom:16px;
+}
+
+.cityBadge{
+  display:inline-block;
+  color:white;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.shiki{background:#1976d2}
+.niiza{background:#2e7d32}
+.asaka{background:#ef6c00}
+.wako{background:#6a1b9a}
+.otherCity{background:#555}
+
+.cityTitle{
+  font-size:28px;
+  font-weight:900;
+  line-height:1.5;
+  color:#123;
+  margin-bottom:12px;
+}
+
 .linkBtn{
   display:block;
   width:100%;
@@ -183,7 +219,7 @@ body{
   background:white;
   border-radius:24px;
   padding:14px;
-  margin-top:16px;
+  margin-top:18px;
   border:3px solid #e3edf8;
 }
 
@@ -286,11 +322,15 @@ body{
   }
 
   .itemTitle{
-    font-size:28px;
+    font-size:29px;
   }
 
   .itemDetail{
     font-size:23px;
+  }
+
+  .cityTitle{
+    font-size:24px;
   }
 
   .linkBtn{
@@ -341,7 +381,7 @@ body{
   </div>
 
   <div class="card">
-    <div class="sectionTitle">
+    <div class="sectionTitle" id="latestTitle">
       最新
     </div>
     <div id="latestList">
@@ -378,73 +418,61 @@ body{
 const SHEET_ID =
 "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
+const MAIN_SHEET =
+"NSAW暮らし情報局_データ";
+
 const MODE_CONFIG = {
   today:{
     title:"今日のお知らせ",
     sub:"地域のお知らせを見ます",
-    sheet:"瓦版",
+    sheet:MAIN_SHEET,
     headerClass:"today",
-    keywords:[]
+    type:"normal",
+    latestTitle:"最新のお知らせ"
   },
   radio:{
     title:"地域ラジオ",
     sub:"今日の地域ラジオを聞きます",
-    sheet:"瓦版",
+    sheet:MAIN_SHEET,
     headerClass:"radio",
-    keywords:["地域ラジオ","ラジオ","朝ラジオ"]
+    type:"normal",
+    keywords:["地域ラジオ","ラジオ","朝ラジオ"],
+    latestTitle:"最新の地域ラジオ"
   },
   board:{
     title:"回覧板",
     sub:"地域の回覧板を見ます",
-    sheet:"瓦版",
+    sheet:MAIN_SHEET,
     headerClass:"board",
-    keywords:["回覧板","お知らせ","案内"]
+    type:"normal",
+    keywords:["回覧板","お知らせ","案内"],
+    latestTitle:"最新の回覧板"
   },
   city:{
-    title:"4市の情報",
-    sub:"志木・新座・朝霞・和光の公式情報",
-    sheet:"",
+    title:"4市の瓦版",
+    sub:"志木・新座・朝霞・和光の記事を1枚で見ます",
+    sheet:MAIN_SHEET,
     headerClass:"city",
-    keywords:[]
+    type:"city",
+    latestTitle:"最新の4市瓦版"
   },
   video:{
     title:"お楽しみ動画",
-    sub:"動画を見て楽しみます",
-    sheet:"瓦版",
+    sub:"YouTubeのお楽しみ動画を見ます",
+    sheet:"お楽しみ動画",
     headerClass:"video",
-    keywords:["動画","お楽しみ","YouTube","ユーチューブ"]
+    type:"video",
+    latestTitle:"最新のお楽しみ動画"
   },
   garbage:{
     title:"ゴミ情報",
     sub:"ゴミ出しや暮らしの情報",
     sheet:"ゴミ",
     headerClass:"garbage",
-    keywords:[]
+    type:"normal",
+    latestTitle:"最新のゴミ情報"
   }
 };
-
-const CITY_LINKS = [
-  {
-    name:"志木市",
-    detail:"志木市の公式ホームページを開きます。",
-    url:"https://www.city.shiki.lg.jp/"
-  },
-  {
-    name:"新座市",
-    detail:"新座市の公式ホームページを開きます。",
-    url:"https://www.city.niiza.lg.jp/"
-  },
-  {
-    name:"朝霞市",
-    detail:"朝霞市の公式ホームページを開きます。",
-    url:"https://www.city.asaka.lg.jp/"
-  },
-  {
-    name:"和光市",
-    detail:"和光市の公式ホームページを開きます。",
-    url:"https://www.city.wako.lg.jp/"
-  }
-];
 
 const params =
 new URLSearchParams(window.location.search);
@@ -488,6 +516,9 @@ document.getElementById("archiveCard");
 const archiveButtonCard =
 document.getElementById("archiveButtonCard");
 
+const latestTitle =
+document.getElementById("latestTitle");
+
 let allItems = [];
 let archiveOpen = false;
 
@@ -503,12 +534,7 @@ window.addEventListener("load",function(){
   stopAllSpeech();
   window.scrollTo(0,0);
   setupPage();
-
-  if(mode === "city"){
-    renderCityLinks();
-  }else{
-    loadSheet();
-  }
+  loadSheet();
 });
 
 window.addEventListener("pageshow",function(){
@@ -519,6 +545,7 @@ window.addEventListener("pageshow",function(){
 function setupPage(){
   pageTitle.innerText = config.title;
   pageSub.innerText = config.sub;
+  latestTitle.innerText = config.latestTitle || "最新";
   header.classList.add(config.headerClass);
   document.title = config.title + "｜あんしん生活DX";
 }
@@ -550,6 +577,12 @@ function getCell(row,index){
   return "";
 }
 
+function normalizeHeader(str){
+  return String(str || "")
+    .replace(/\s/g,"")
+    .trim();
+}
+
 function findValue(obj,names){
   for(let i=0;i<names.length;i++){
     const key = names[i];
@@ -560,13 +593,7 @@ function findValue(obj,names){
   return "";
 }
 
-function normalizeHeader(str){
-  return String(str || "")
-    .replace(/\s/g,"")
-    .trim();
-}
-
-function parseTable(table){
+function parseRows(table){
 
   const labels =
   (table.cols || []).map(function(col,index){
@@ -576,7 +603,7 @@ function parseTable(table){
   const rows =
   table.rows || [];
 
-  const items = [];
+  const parsed = [];
 
   rows.forEach(function(row,rowIndex){
 
@@ -587,60 +614,271 @@ function parseTable(table){
       obj["列" + (index + 1)] = getCell(row,index);
     });
 
+    parsed.push({
+      rowIndex:rowIndex,
+      obj:obj
+    });
+
+  });
+
+  return parsed;
+
+}
+
+function getDisplayFlag(obj){
+
+  const display =
+  findValue(obj,[
+    "表示","表示する","公開","表示可否","S列","列19"
+  ]);
+
+  return String(display || "").trim();
+
+}
+
+function isVisible(obj){
+
+  const display =
+  getDisplayFlag(obj);
+
+  if(!display){
+    return true;
+  }
+
+  return (
+    display === "はい" ||
+    display === "表示" ||
+    display === "公開" ||
+    display === "TRUE" ||
+    display === "true"
+  );
+
+}
+
+function parseNormalItems(parsed){
+
+  const items = [];
+
+  parsed.forEach(function(entry){
+
+    const obj =
+    entry.obj;
+
+    if(!isVisible(obj)){
+      return;
+    }
+
     const date =
       findValue(obj,[
-        "日付","日時","登録日時","投稿日","表示日","開催日","配信日","A列","列1"
+        "日付","日時","登録日時","投稿日","表示日","開催日","配信日","並び替え日付","T列","列20","列1"
       ]);
 
     const title =
       findValue(obj,[
-        "タイトル","件名","見出し","名称","内容","B列","列2"
+        "タイトル","件名","見出し","名称","情報タイトル","動画タイトル","B列","P列","列2","列16"
       ]);
 
     const detail =
       findValue(obj,[
-        "詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","C列","列3"
+        "説明文","詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","動画詳細","E列","Q列","列5","列17"
       ]);
 
     const image =
       findValue(obj,[
-        "画像URL","画像","サムネイル","画像リンク","D列","列4"
+        "画像URL","画像","サムネイル","画像リンク","メディアURL","D列","R列","列4","列18"
       ]);
 
     const url =
       findValue(obj,[
-        "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","E列","列5","F列","列6"
+        "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","情報1URL","G列","列7","列5","列6"
       ]);
 
     const youtube =
       findValue(obj,[
-        "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","動画","G列","列7"
+        "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","メディアURL","動画","D列","R列","列4","列18","G列","列7"
       ]);
 
     const sortValue =
       findValue(obj,[
-        "並び替え","並び替え数値","ソート","K列","列11"
+        "並び替え","並び替え数値","並び替え日付","表示順","ソート","T列","U列","列20","列21"
       ]);
 
     const rawText =
-      [
-        date,title,detail,image,url,youtube
-      ].join(" ");
+      Object.keys(obj).map(function(k){
+        return obj[k];
+      }).join(" ");
 
-    if(!title && !detail && !url && !youtube){
+    if(!title && !detail && !url && !youtube && !image){
       return;
     }
 
     items.push({
-      id: rowIndex + 1,
-      date: date,
-      title: title || detail || "お知らせ",
-      detail: detail,
-      image: image,
-      url: url,
-      youtube: youtube || extractYoutubeUrl(rawText),
-      sortValue: sortValue,
-      rawText: rawText
+      id:entry.rowIndex + 1,
+      date:date,
+      title:title || detail || "お知らせ",
+      detail:detail,
+      image:image,
+      url:url,
+      youtube:youtube || extractYoutubeUrl(rawText),
+      sortValue:sortValue,
+      rawText:rawText
+    });
+
+  });
+
+  return items;
+
+}
+
+function parseVideoItems(parsed){
+
+  const items = [];
+
+  parsed.forEach(function(entry){
+
+    const obj =
+    entry.obj;
+
+    if(!isVisible(obj)){
+      return;
+    }
+
+    const date =
+      findValue(obj,[
+        "日付","配信日","投稿日","A列","列1"
+      ]);
+
+    const title =
+      findValue(obj,[
+        "動画タイトル","タイトル","B列","列2"
+      ]);
+
+    const detail =
+      findValue(obj,[
+        "動画説明","動画詳細","説明","C列","列3"
+      ]);
+
+    const youtube =
+      findValue(obj,[
+        "YouTubeURL","YouTubeURL","YouTube","動画URL","メディアURL","D列","列4"
+      ]);
+
+    const image =
+      findValue(obj,[
+        "画像URL","サムネイル","E列","列5"
+      ]);
+
+    const sortValue =
+      findValue(obj,[
+        "並び替え日付","表示順","G列","H列","列7","列8"
+      ]);
+
+    const rawText =
+      Object.keys(obj).map(function(k){
+        return obj[k];
+      }).join(" ");
+
+    if(!title && !detail && !youtube){
+      return;
+    }
+
+    items.push({
+      id:entry.rowIndex + 1,
+      date:date,
+      title:title || "お楽しみ動画",
+      detail:detail,
+      image:image,
+      url:"",
+      youtube:youtube || extractYoutubeUrl(rawText),
+      sortValue:sortValue,
+      rawText:rawText
+    });
+
+  });
+
+  return items;
+
+}
+
+function parseCityItems(parsed){
+
+  const items = [];
+
+  parsed.forEach(function(entry){
+
+    const obj =
+    entry.obj;
+
+    if(!isVisible(obj)){
+      return;
+    }
+
+    const date =
+      findValue(obj,[
+        "日付","日時","表示日","投稿日","並び替え日付","T列","列20","列1"
+      ]);
+
+    const title =
+      findValue(obj,[
+        "タイトル","件名","見出し","地域情報タイトル","情報タイトル","B列","列2"
+      ]) || "今日の4市情報";
+
+    const image =
+      findValue(obj,[
+        "画像URL","画像","サムネイル","メディアURL","D列","R列","列4","列18"
+      ]);
+
+    const detail =
+      findValue(obj,[
+        "説明文","詳細","本文","E列","列5"
+      ]);
+
+    const sortValue =
+      findValue(obj,[
+        "並び替え日付","表示順","T列","U列","列20","列21"
+      ]);
+
+    const cityLinks = [];
+
+    for(let i=1;i<=4;i++){
+
+      const cityTitle =
+        findValue(obj,[
+          "情報" + i + "タイトル",
+          "情報" + i + "タイトル",
+          "列" + (5 + (i * 2 - 1))
+        ]);
+
+      const cityUrl =
+        findValue(obj,[
+          "情報" + i + "URL",
+          "情報" + i + "ＵＲＬ",
+          "列" + (5 + (i * 2))
+        ]);
+
+      if(cityTitle || cityUrl){
+        cityLinks.push({
+          number:i,
+          title:cityTitle || ("情報" + i),
+          url:cityUrl
+        });
+      }
+
+    }
+
+    if(!title && !detail && !image && cityLinks.length === 0){
+      return;
+    }
+
+    items.push({
+      id:entry.rowIndex + 1,
+      date:date,
+      title:title,
+      detail:detail,
+      image:image,
+      cityLinks:cityLinks,
+      sortValue:sortValue,
+      rawText:Object.keys(obj).map(function(k){return obj[k];}).join(" ")
     });
 
   });
@@ -789,7 +1027,7 @@ function buildShareBox(item){
           Facebook
         </a>
 
-        <button class="shareBtn copyBtn" onclick="copyShareUrl('${escapeHtml(shareUrl)}')">
+        <button class="shareBtn copyBtn" data-url="${escapeHtml(shareUrl)}" onclick="copyFromButton(this)">
           URLコピー
         </button>
       </div>
@@ -798,7 +1036,23 @@ function buildShareBox(item){
 
 }
 
-function buildItem(item){
+function cityClass(number){
+  if(number === 1) return "shiki";
+  if(number === 2) return "niiza";
+  if(number === 3) return "asaka";
+  if(number === 4) return "wako";
+  return "otherCity";
+}
+
+function cityName(number){
+  if(number === 1) return "志木市";
+  if(number === 2) return "新座市";
+  if(number === 3) return "朝霞市";
+  if(number === 4) return "和光市";
+  return "情報";
+}
+
+function buildNormalItem(item){
 
   const youtubeId =
   extractYoutubeId(item.youtube);
@@ -868,57 +1122,90 @@ function buildItem(item){
 
 }
 
-function buildCityCard(city,index){
+function buildCityItem(item){
 
-  const item = {
-    id:index + 1,
-    title:city.name,
-    detail:city.detail,
-    url:city.url,
-    shareUrl:city.url,
-    shareText:"4市の情報｜" + city.name + "公式ホームページ"
-  };
-
-  return `
+  let html = `
     <div class="item">
-      <div class="itemDate">
-        公式ホームページ
-      </div>
+      ${
+        item.date
+        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
+        : ""
+      }
 
       <div class="itemTitle">
-        ${escapeHtml(city.name)}
+        ${escapeHtml(item.title || "今日の4市情報")}
       </div>
+  `;
 
+  if(item.image && looksLikeImage(item.image)){
+    html += `
+      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
+    `;
+  }
+
+  if(item.detail){
+    html += `
       <div class="itemDetail">
-        ${escapeHtml(city.detail)}
+        ${escapeHtml(item.detail)}
       </div>
+    `;
+  }
 
-      <a class="linkBtn" href="${escapeHtml(city.url)}" target="_blank" rel="noopener">
-        ${escapeHtml(city.name)}ホームページを見る
-      </a>
+  html += `<div class="cityLinks">`;
 
-      ${buildShareBox(item)}
+  if(item.cityLinks && item.cityLinks.length > 0){
+
+    item.cityLinks.forEach(function(info){
+
+      html += `
+        <div class="cityBox">
+          <div class="cityBadge ${cityClass(info.number)}">
+            ${escapeHtml(cityName(info.number))}
+          </div>
+
+          <div class="cityTitle">
+            ${escapeHtml(info.title)}
+          </div>
+
+          ${
+            info.url
+            ? `<a class="linkBtn" href="${escapeHtml(info.url)}" target="_blank" rel="noopener">記事を見る</a>`
+            : ""
+          }
+        </div>
+      `;
+
+    });
+
+  }else{
+
+    html += `
+      <div class="empty">
+        4市の記事リンクがありません
+      </div>
+    `;
+
+  }
+
+  html += `</div>`;
+
+  html += buildShareBox(item);
+
+  html += `
     </div>
   `;
 
+  return html;
+
 }
 
-function renderCityLinks(){
+function buildItem(item){
 
-  statusBox.innerText =
-  "4市の公式リンクを表示しました";
+  if(config.type === "city"){
+    return buildCityItem(item);
+  }
 
-  latestList.innerHTML =
-  CITY_LINKS.map(buildCityCard).join("");
-
-  archiveList.innerHTML =
-  '<div class="empty">アーカイブはありません</div>';
-
-  archiveCard.style.display =
-  "none";
-
-  archiveButtonCard.style.display =
-  "none";
+  return buildNormalItem(item);
 
 }
 
@@ -935,6 +1222,7 @@ function render(items){
       archiveList.innerHTML = "";
       archiveCard.style.display = "none";
       archiveBtn.style.display = "none";
+      archiveButtonCard.style.display = "none";
       statusBox.innerText = "表示しました";
       return;
     }
@@ -962,10 +1250,12 @@ function render(items){
     archiveList.innerHTML =
     archive.map(buildItem).join("");
     archiveBtn.style.display = "block";
+    archiveButtonCard.style.display = "block";
   }else{
     archiveList.innerHTML =
     '<div class="empty">アーカイブはありません</div>';
     archiveBtn.style.display = "none";
+    archiveButtonCard.style.display = "none";
   }
 
   statusBox.innerText =
@@ -1028,8 +1318,18 @@ window.handleSheet = function(json){
     const table =
     json.table || {};
 
-    let items =
-    parseTable(table);
+    const parsed =
+    parseRows(table);
+
+    let items;
+
+    if(config.type === "city"){
+      items = parseCityItems(parsed);
+    }else if(config.type === "video"){
+      items = parseVideoItems(parsed);
+    }else{
+      items = parseNormalItems(parsed);
+    }
 
     items =
     filterByMode(items);
@@ -1055,6 +1355,11 @@ window.handleSheet = function(json){
   }
 
 };
+
+function copyFromButton(btn){
+  const url = btn.getAttribute("data-url") || "";
+  copyShareUrl(url);
+}
 
 function copyShareUrl(url){
 
@@ -1088,13 +1393,7 @@ function(){
 
 reloadBtn.onclick =
 function(){
-
-  if(mode === "city"){
-    renderCityLinks();
-  }else{
-    loadSheet();
-  }
-
+  loadSheet();
 };
 </script>
 
