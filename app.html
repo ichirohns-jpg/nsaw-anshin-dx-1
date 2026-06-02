@@ -349,7 +349,7 @@ body{
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" id="archiveButtonCard">
     <button class="toggleBtn" id="archiveBtn">
       📚 アーカイブを見る
     </button>
@@ -402,8 +402,8 @@ const MODE_CONFIG = {
   },
   city:{
     title:"4市の情報",
-    sub:"志木・新座・朝霞・和光の情報",
-    sheet:"地域情報",
+    sub:"志木・新座・朝霞・和光の公式情報",
+    sheet:"",
     headerClass:"city",
     keywords:[]
   },
@@ -422,6 +422,29 @@ const MODE_CONFIG = {
     keywords:[]
   }
 };
+
+const CITY_LINKS = [
+  {
+    name:"志木市",
+    detail:"志木市の公式ホームページを開きます。",
+    url:"https://www.city.shiki.lg.jp/"
+  },
+  {
+    name:"新座市",
+    detail:"新座市の公式ホームページを開きます。",
+    url:"https://www.city.niiza.lg.jp/"
+  },
+  {
+    name:"朝霞市",
+    detail:"朝霞市の公式ホームページを開きます。",
+    url:"https://www.city.asaka.lg.jp/"
+  },
+  {
+    name:"和光市",
+    detail:"和光市の公式ホームページを開きます。",
+    url:"https://www.city.wako.lg.jp/"
+  }
+];
 
 const params =
 new URLSearchParams(window.location.search);
@@ -462,6 +485,9 @@ document.getElementById("archiveBtn");
 const archiveCard =
 document.getElementById("archiveCard");
 
+const archiveButtonCard =
+document.getElementById("archiveButtonCard");
+
 let allItems = [];
 let archiveOpen = false;
 
@@ -477,7 +503,12 @@ window.addEventListener("load",function(){
   stopAllSpeech();
   window.scrollTo(0,0);
   setupPage();
-  loadSheet();
+
+  if(mode === "city"){
+    renderCityLinks();
+  }else{
+    loadSheet();
+  }
 });
 
 window.addEventListener("pageshow",function(){
@@ -719,10 +750,10 @@ function getShareText(item){
 function buildShareBox(item){
 
   const shareUrl =
-  getShareUrl(item);
+  item.shareUrl || getShareUrl(item);
 
   const text =
-  getShareText(item);
+  item.shareText || getShareText(item);
 
   const encodedUrl =
   encodeURIComponent(shareUrl);
@@ -834,6 +865,60 @@ function buildItem(item){
   `;
 
   return html;
+
+}
+
+function buildCityCard(city,index){
+
+  const item = {
+    id:index + 1,
+    title:city.name,
+    detail:city.detail,
+    url:city.url,
+    shareUrl:city.url,
+    shareText:"4市の情報｜" + city.name + "公式ホームページ"
+  };
+
+  return `
+    <div class="item">
+      <div class="itemDate">
+        公式ホームページ
+      </div>
+
+      <div class="itemTitle">
+        ${escapeHtml(city.name)}
+      </div>
+
+      <div class="itemDetail">
+        ${escapeHtml(city.detail)}
+      </div>
+
+      <a class="linkBtn" href="${escapeHtml(city.url)}" target="_blank" rel="noopener">
+        ${escapeHtml(city.name)}ホームページを見る
+      </a>
+
+      ${buildShareBox(item)}
+    </div>
+  `;
+
+}
+
+function renderCityLinks(){
+
+  statusBox.innerText =
+  "4市の公式リンクを表示しました";
+
+  latestList.innerHTML =
+  CITY_LINKS.map(buildCityCard).join("");
+
+  archiveList.innerHTML =
+  '<div class="empty">アーカイブはありません</div>';
+
+  archiveCard.style.display =
+  "none";
+
+  archiveButtonCard.style.display =
+  "none";
 
 }
 
@@ -1003,7 +1088,13 @@ function(){
 
 reloadBtn.onclick =
 function(){
-  loadSheet();
+
+  if(mode === "city"){
+    renderCityLinks();
+  }else{
+    loadSheet();
+  }
+
 };
 </script>
 
