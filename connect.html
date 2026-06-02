@@ -6,9 +6,7 @@
 <title>人につなぐ</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -174,33 +172,13 @@ body{
 }
 
 @media(max-width:600px){
-  .title{
-    font-size:34px;
-  }
-
-  .sub{
-    font-size:21px;
-  }
-
-  .status{
-    font-size:22px;
-  }
-
-  .category{
-    font-size:18px;
-  }
-
-  .name{
-    font-size:29px;
-  }
-
-  .phone{
-    font-size:25px;
-  }
-
-  .note{
-    font-size:20px;
-  }
+  .title{font-size:34px}
+  .sub{font-size:21px}
+  .status{font-size:22px}
+  .category{font-size:18px}
+  .name{font-size:29px}
+  .phone{font-size:25px}
+  .note{font-size:20px}
 
   .callBtn,
   .reloadBtn,
@@ -209,9 +187,7 @@ body{
     padding:26px 10px;
   }
 
-  .empty{
-    font-size:25px;
-  }
+  .empty{font-size:25px}
 }
 </style>
 </head>
@@ -221,9 +197,7 @@ body{
 <div class="wrap">
 
   <div class="header">
-    <h1 class="title">
-      人につなぐ
-    </h1>
+    <h1 class="title">人につなぐ</h1>
     <div class="sub">
       困った時に<br>
       電話できます
@@ -239,7 +213,7 @@ body{
       🔄 連絡先を更新する
     </button>
 
-    <a class="backBtn" href="./?v=top3">
+    <a class="backBtn" href="./?v=newgas1">
       ⬅️ 最初の画面に戻る
     </a>
   </div>
@@ -254,7 +228,7 @@ body{
 
 <script>
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwZdtTsSSQOLCF-vF_CCMsvPzZziBxpmLhKTOciSS8A1HgviXvRhf8JOOsX2uEAWFV5/exec';
+'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
 
 const statusBox =
 document.getElementById("statusBox");
@@ -284,148 +258,4 @@ window.addEventListener("pageshow",function(){
 
 function escapeHtml(str){
   return String(str || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
-}
-
-function cleanPhone(phone){
-  return String(phone || "")
-    .replace(/[^\d+]/g,"");
-}
-
-function buildContacts(list){
-
-  if(!list || list.length === 0){
-    return `
-      <div class="empty">
-        連絡先がありません
-      </div>
-    `;
-  }
-
-  let html = "";
-
-  list.forEach(function(item){
-
-    const category =
-    item.category || "連絡先";
-
-    const name =
-    item.name || "";
-
-    const phone =
-    item.phone || "";
-
-    const supporter =
-    item.supporter || "";
-
-    const note =
-    item.note || "";
-
-    const tel =
-    cleanPhone(phone);
-
-    if(!tel){
-      return;
-    }
-
-    html += `
-      <div class="contactCard">
-        <div class="category">
-          ${escapeHtml(category)}
-        </div>
-
-        <div class="name">
-          ${escapeHtml(name)}
-        </div>
-
-        <div class="phone">
-          ${escapeHtml(phone)}
-        </div>
-
-        ${
-          supporter || note
-          ? `<div class="note">${escapeHtml(supporter)} ${escapeHtml(note)}</div>`
-          : ""
-        }
-
-        <a class="callBtn" href="tel:${escapeHtml(tel)}">
-          ☎️ 電話する
-        </a>
-      </div>
-    `;
-
-  });
-
-  return html;
-
-}
-
-async function loadContacts(){
-
-  stopAllSpeech();
-
-  statusBox.innerText =
-  "連絡先を読み込み中...";
-
-  contactList.innerHTML =
-  '<div class="empty">読み込み中...</div>';
-
-  try{
-
-    const url =
-    GAS_URL +
-    '?mode=contacts&t=' +
-    Date.now();
-
-    const response =
-    await fetch(url);
-
-    const data =
-    await response.json();
-
-    console.log(data);
-
-    if(!(data.ok === true) && !(data.status === "success")){
-      throw new Error(
-        data.error ||
-        data.message ||
-        "連絡先を取得できませんでした"
-      );
-    }
-
-    contactList.innerHTML =
-    buildContacts(data.contacts || []);
-
-    statusBox.innerText =
-    "連絡先を読み込みました";
-
-  }catch(error){
-
-    console.error(error);
-
-    statusBox.innerText =
-    "読み込み失敗";
-
-    contactList.innerHTML =
-    `
-      <div class="error">
-        ${escapeHtml(error.message || String(error))}
-      </div>
-    `;
-
-  }
-
-}
-
-reloadBtn.onclick =
-function(){
-  loadContacts();
-};
-</script>
-
-</body>
-</html>
+    .replace(/&/g,"&
