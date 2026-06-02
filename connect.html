@@ -6,9 +6,7 @@
 <title>人につなぐ</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -66,6 +64,39 @@ body{
   margin-bottom:18px;
 }
 
+.contact{
+  background:#f8fbff;
+  border:4px solid #d7e6ff;
+  border-radius:26px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.label{
+  display:inline-block;
+  background:#1565c0;
+  color:white;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
+.name{
+  font-size:32px;
+  font-weight:900;
+  line-height:1.5;
+  margin-bottom:8px;
+}
+
+.phone{
+  font-size:28px;
+  font-weight:900;
+  color:#d84315;
+  margin-bottom:16px;
+}
+
 .callBtn{
   display:block;
   width:100%;
@@ -73,59 +104,54 @@ body{
   text-decoration:none;
   border:none;
   border-radius:30px;
-  padding:34px 12px;
-  font-size:32px;
+  padding:30px 12px;
+  font-size:30px;
   font-weight:900;
   color:white;
-  margin-bottom:18px;
+  background:#2e7d32;
   cursor:pointer;
-}
-
-.blue{
-  background:#1976d2;
 }
 
 .red{
   background:#c62828;
 }
 
-.green{
-  background:#2e7d32;
-}
-
 .gray{
   background:#555;
 }
 
+.backBtn{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  border-radius:30px;
+  padding:30px 12px;
+  font-size:30px;
+  font-weight:900;
+  color:white;
+  background:#555;
+  margin-top:18px;
+}
+
 .small{
-  font-size:21px;
+  font-size:20px;
   font-weight:900;
   line-height:1.6;
   color:#666;
   text-align:center;
-  margin-top:10px;
+  margin-top:12px;
 }
 
 @media(max-width:600px){
-  .title{
-    font-size:36px;
-  }
-
-  .sub{
-    font-size:22px;
-  }
-
-  .note{
-    font-size:23px;
-  }
-
-  .callBtn{
-    font-size:28px;
-    padding:32px 10px;
-  }
-
-  .small{
-    font-size:19px;
+  .title{font-size:36px}
+  .sub{font-size:22px}
+  .note{font-size:23px}
+  .name{font-size:29px}
+  .phone{font-size:25px}
+  .callBtn,.backBtn{
+    font-size:27px;
+    padding:28px 10px;
   }
 }
 </style>
@@ -136,9 +162,7 @@ body{
 <div class="wrap">
 
   <div class="header">
-    <h1 class="title">
-      人につなぐ
-    </h1>
+    <h1 class="title">人につなぐ</h1>
     <div class="sub">
       困った時に<br>
       すぐ電話できます
@@ -151,25 +175,14 @@ body{
       必要なところを押してください
     </div>
 
-    <a class="callBtn blue" href="tel:0484731111">
-      🏢 志木市役所に電話
-    </a>
+    <div id="contactList"></div>
 
-    <a class="callBtn red" href="tel:119">
-      🚑 緊急 119
-    </a>
-
-    <a class="callBtn green" href="voice.html?v=newgas1">
-      🎤 予定を入れる
-    </a>
-
-    <a class="callBtn gray" href="./?v=newgas1">
+    <a class="backBtn" href="./?v=final1">
       ⬅️ 最初の画面に戻る
     </a>
 
     <div class="small">
-      このページは読み込みません。<br>
-      電話ボタンだけの安全版です。
+      電話番号はこのページの上の設定で変えられます。
     </div>
 
   </div>
@@ -177,11 +190,96 @@ body{
 </div>
 
 <script>
-try{
-  if(window.speechSynthesis){
-    window.speechSynthesis.cancel();
+
+/*
+  ここだけ変えれば電話番号を変更できます。
+  まだ使わないところは phone を空欄 "" にしてください。
+*/
+
+const CONTACTS = [
+  {
+    label: "家族",
+    name: "家族に電話",
+    phone: ""
+  },
+  {
+    label: "支援者",
+    name: "支援者に電話",
+    phone: ""
+  },
+  {
+    label: "地域包括",
+    name: "地域包括支援センターに電話",
+    phone: ""
+  },
+  {
+    label: "市役所",
+    name: "志木市役所に電話",
+    phone: "048-473-1111"
+  },
+  {
+    label: "緊急",
+    name: "緊急 119",
+    phone: "119",
+    emergency: true
   }
-}catch(e){}
+];
+
+function stopAllSpeech(){
+  try{
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+    }
+  }catch(e){}
+}
+
+function cleanPhone(phone){
+  return String(phone || "").replace(/[^\d+]/g,"");
+}
+
+function escapeHtml(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function renderContacts(){
+
+  const box = document.getElementById("contactList");
+  let html = "";
+
+  CONTACTS.forEach(function(item){
+
+    const tel = cleanPhone(item.phone);
+
+    if(!tel){
+      return;
+    }
+
+    html += `
+      <div class="contact">
+        <div class="label">${escapeHtml(item.label)}</div>
+        <div class="name">${escapeHtml(item.name)}</div>
+        <div class="phone">${escapeHtml(item.phone)}</div>
+        <a class="callBtn ${item.emergency ? "red" : ""}" href="tel:${escapeHtml(tel)}">
+          ☎️ 電話する
+        </a>
+      </div>
+    `;
+
+  });
+
+  box.innerHTML = html;
+
+}
+
+window.addEventListener("load",function(){
+  stopAllSpeech();
+  renderContacts();
+});
 </script>
 
 </body>
