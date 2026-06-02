@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>人につなぐ</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  padding:12px;
+  background:#eef4f8;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#123;
+}
+
+.wrap{max-width:720px;margin:0 auto}
+
+.header{
+  background:#555;
+  color:white;
+  border-radius:30px;
+  padding:28px 18px;
+  text-align:center;
+  margin-bottom:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
+}
+
+.title{
+  font-size:40px;
+  font-weight:900;
+  line-height:1.35;
+  margin:0;
+}
+
+.sub{
+  font-size:23px;
+  font-weight:900;
+  line-height:1.6;
+  margin-top:12px;
+}
+
+.card{
+  background:white;
+  border-radius:28px;
+  padding:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+
+.callBtn{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  border:none;
+  border-radius:30px;
+  padding:34px 12px;
+  font-size:32px;
+  font-weight:900;
+  color:white;
+  margin-bottom:18px;
+  cursor:pointer;
+}
+
+.blue{background:#1976d2}
+.red{background:#c62828}
+.green{background:#2e7d32}
+.gray{background:#555}
+
+.note{
+  background:#fff8e1;
+  border-radius:24px;
+  padding:18px;
+  font-size:22px;
+  font-weight:900;
+  line-height:1.6;
+  color:#444;
+  text-align:center;
+  margin-bottom:18px;
+}
+
+@media(max-width:600px){
+  .title{font-size:34px}
+  .sub{font-size:21px}
+  .callBtn{font-size:28px;padding:32px 10px}
+  .note{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <h1 class="title">人につなぐ</h1>
+    <div class="sub">
+      困った時に<br>
+      すぐ電話できます
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="note">
+      まずは落ち着いて、必要なところを押してください
+    </div>
+
+    <a class="callBtn blue" href="tel:0484731111">
+      🏢 志木市役所に電話
+    </a>
+
+    <a class="callBtn red" href="tel:119">
+      🚑 緊急 119
+    </a>
+
+    <a class="callBtn green" href="voice.html?v=simple1">
+      🎤 予定を入れる
+    </a>
+
+    <a class="callBtn gray" href="./?v=top3">
+      ⬅️ 最初の画面に戻る
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+try{
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
+}catch(e){}
+</script>
+
+</body>
+</html>
