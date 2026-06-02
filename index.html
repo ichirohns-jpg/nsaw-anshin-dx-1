@@ -61,11 +61,11 @@ body{
   text-decoration:none;
   border:none;
   border-radius:30px;
-  padding:30px 12px;
-  font-size:32px;
+  padding:34px 12px;
+  font-size:34px;
   font-weight:900;
   color:white;
-  margin-bottom:16px;
+  margin-bottom:18px;
   cursor:pointer;
 }
 
@@ -77,16 +77,8 @@ body{
   background:#1976d2;
 }
 
-.orange{
-  background:#ef6c00;
-}
-
-.red{
-  background:#c62828;
-}
-
 .gray{
-  background:#777;
+  background:#555;
 }
 
 .note{
@@ -98,7 +90,7 @@ body{
   line-height:1.6;
   color:#444;
   text-align:center;
-  margin-top:18px;
+  margin-top:4px;
 }
 
 @media(max-width:600px){
@@ -111,8 +103,8 @@ body{
   }
 
   .mainBtn{
-    font-size:28px;
-    padding:28px 10px;
+    font-size:30px;
+    padding:32px 10px;
   }
 
   .note{
@@ -146,21 +138,12 @@ body{
       📅 今日の予定を見る
     </a>
 
-    <button class="mainBtn orange" onclick="comingSoon('元気です')">
-      😊 元気です
-    </button>
-
-    <button class="mainBtn red" onclick="comingSoon('困っています')">
-      🚨 困っています
-    </button>
-
-    <button class="mainBtn gray" onclick="comingSoon('人につなぐ')">
+    <button class="mainBtn gray" id="humanBtn">
       ☎️ 人につなぐ
     </button>
 
-    <div class="note">
-      まずは「予定を入れる」と<br>
-      「今日の予定を見る」から使います。
+    <div class="note" id="noteBox">
+      まずは予定登録と確認から使います
     </div>
 
   </div>
@@ -168,9 +151,23 @@ body{
 </div>
 
 <script>
-function comingSoon(name){
-  alert(name + " は次に作ります。");
+function stopAllSpeech(){
+  try{
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+    }
+  }catch(e){}
 }
+
+window.addEventListener("load",function(){
+  stopAllSpeech();
+});
+
+document.getElementById("humanBtn").onclick =
+function(){
+  document.getElementById("noteBox").innerText =
+  "人につなぐ機能は次に作ります";
+};
 </script>
 
 </body>
