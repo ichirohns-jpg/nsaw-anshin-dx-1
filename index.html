@@ -138,12 +138,12 @@ body{
       📅 今日の予定を見る
     </a>
 
-    <button class="mainBtn gray" id="humanBtn">
+    <a class="mainBtn gray" href="connect.html?v=connect1">
       ☎️ 人につなぐ
-    </button>
+    </a>
 
-    <div class="note" id="noteBox">
-      まずは予定登録と確認から使います
+    <div class="note">
+      迷ったら「人につなぐ」を押してください
     </div>
 
   </div>
@@ -151,23 +151,11 @@ body{
 </div>
 
 <script>
-function stopAllSpeech(){
-  try{
-    if(window.speechSynthesis){
-      window.speechSynthesis.cancel();
-    }
-  }catch(e){}
-}
-
-window.addEventListener("load",function(){
-  stopAllSpeech();
-});
-
-document.getElementById("humanBtn").onclick =
-function(){
-  document.getElementById("noteBox").innerText =
-  "人につなぐ機能は次に作ります";
-};
+try{
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
+}catch(e){}
 </script>
 
 </body>
