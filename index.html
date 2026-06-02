@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>あんしん生活DX</title>
 
-<meta name="description" content="話して予定を登録し、大きな文字で確認できる、あんしん生活DXです。">
+<meta name="description" content="話して登録、大きな文字で確認。高齢者にも使いやすいあんしん生活DX。">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
@@ -21,12 +21,12 @@
 <meta property="og:title" content="あんしん生活DX">
 <meta property="og:description" content="話して登録、大きな文字で確認。高齢者にも使いやすい生活支援DX。">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="あんしん生活DX">
 <meta name="twitter:description" content="話して登録、大きな文字で確認。高齢者にも使いやすい生活支援DX。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
 
 <style>
 *{
@@ -94,6 +94,7 @@ body{
   background:white;
   border-radius:28px;
   padding:18px;
+  margin-bottom:16px;
   box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
@@ -104,25 +105,20 @@ body{
   text-decoration:none;
   border:none;
   border-radius:30px;
-  padding:34px 12px;
-  font-size:34px;
+  padding:32px 12px;
+  font-size:32px;
   font-weight:900;
   color:white;
-  margin-bottom:18px;
+  margin-bottom:16px;
   cursor:pointer;
 }
 
-.green{
-  background:#2e7d32;
-}
-
-.blue{
-  background:#1976d2;
-}
-
-.gray{
-  background:#555;
-}
+.green{background:#2e7d32}
+.blue{background:#1976d2}
+.orange{background:#ef6c00}
+.red{background:#c62828}
+.purple{background:#6a1b9a}
+.gray{background:#555}
 
 .note{
   background:#fff8e1;
@@ -134,6 +130,15 @@ body{
   color:#444;
   text-align:center;
   margin-top:4px;
+  white-space:pre-wrap;
+}
+
+.sectionTitle{
+  font-size:30px;
+  font-weight:900;
+  color:#1565c0;
+  margin:0 0 14px;
+  text-align:center;
 }
 
 @media(max-width:600px){
@@ -146,12 +151,16 @@ body{
   }
 
   .mainBtn{
-    font-size:30px;
-    padding:32px 10px;
+    font-size:28px;
+    padding:30px 10px;
   }
 
   .note{
     font-size:21px;
+  }
+
+  .sectionTitle{
+    font-size:27px;
   }
 }
 </style>
@@ -164,7 +173,7 @@ body{
   <div class="topImageBox">
     <img
       class="topImage"
-      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg?v=topfix1"
+      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=restore1"
       alt="あんしん生活DX">
   </div>
 
@@ -179,6 +188,9 @@ body{
   </div>
 
   <div class="card">
+    <div class="sectionTitle">
+      予定
+    </div>
 
     <a class="mainBtn green" href="voice.html?v=backvoice1">
       🎤 予定を入れる
@@ -187,33 +199,127 @@ body{
     <a class="mainBtn blue" href="today.html?v=backtoday1">
       📅 今日の予定を見る
     </a>
+  </div>
 
+  <div class="card">
+    <div class="sectionTitle">
+      見守り
+    </div>
+
+    <button class="mainBtn green" onclick="sendQuick('元気です')">
+      😊 元気です
+    </button>
+
+    <button class="mainBtn orange" onclick="sendQuick('少し困っています')">
+      ⚠️ 少し困っています
+    </button>
+
+    <button class="mainBtn red" onclick="sendQuick('助けてください')">
+      🚨 助けてください
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      薬の確認
+    </div>
+
+    <button class="mainBtn purple" onclick="sendQuick('朝の薬を飲みました')">
+      💊 朝の薬を飲んだ
+    </button>
+
+    <button class="mainBtn purple" onclick="sendQuick('昼の薬を飲みました')">
+      💊 昼の薬を飲んだ
+    </button>
+
+    <button class="mainBtn purple" onclick="sendQuick('夜の薬を飲みました')">
+      💊 夜の薬を飲んだ
+    </button>
+  </div>
+
+  <div class="card">
     <a class="mainBtn gray" href="connect.html?v=safephone2">
       ☎️ 人につなぐ
     </a>
 
-    <div class="note">
+    <div class="note" id="noteBox">
       迷ったら「人につなぐ」を押してください
     </div>
-
   </div>
 
 </div>
 
 <script>
-try{
-  if(window.speechSynthesis){
-    window.speechSynthesis.cancel();
-  }
-}catch(e){}
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
+
+let sending = false;
+
+function stopAllSpeech(){
+  try{
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+    }
+  }catch(e){}
+}
 
 window.addEventListener("load",function(){
+  stopAllSpeech();
   window.scrollTo(0,0);
 });
 
 window.addEventListener("pageshow",function(){
+  stopAllSpeech();
   window.scrollTo(0,0);
 });
+
+async function sendQuick(text){
+
+  stopAllSpeech();
+
+  if(sending){
+    return;
+  }
+
+  sending = true;
+
+  const noteBox = document.getElementById("noteBox");
+  noteBox.innerText = "記録中...\n" + text;
+
+  try{
+
+    const url =
+      GAS_URL +
+      '?mode=voice&text=' +
+      encodeURIComponent(text) +
+      '&t=' +
+      Date.now();
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    console.log(data);
+
+    if(data.ok === true || data.status === "success"){
+      noteBox.innerText = "記録しました\n" + text;
+    }else{
+      noteBox.innerText = "記録できませんでした\n" + text;
+      alert(data.error || data.message || "記録に失敗しました");
+    }
+
+  }catch(error){
+
+    console.error(error);
+    noteBox.innerText = "通信エラー\n" + text;
+    alert("通信エラーです");
+
+  }finally{
+
+    sending = false;
+
+  }
+
+}
 </script>
 
 </body>
