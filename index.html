@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>あんしん生活DX</title>
 
-<meta name="description" content="高齢者が話して登録し、予定・見守り・薬・ゴミ・地域情報・人につなぐを大きなボタンで使える生活支援DXです。">
+<meta name="description" content="元気です、今日のお知らせ、困りごと相談、地域ラジオ、回覧板、4市情報を押すだけで使える地域の操作盤です。">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
@@ -19,13 +19,13 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="あんしん生活DX">
 <meta property="og:title" content="あんしん生活DX">
-<meta property="og:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。高齢者にも使いやすい生活支援DX。">
+<meta property="og:description" content="高齢者が押すだけで、地域のお知らせ・見守り・相談・地域ラジオにつながる操作盤です。">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="あんしん生活DX">
-<meta name="twitter:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。">
+<meta name="twitter:description" content="地域が反応する操作盤。元気です、今日のお知らせ、困りごと相談、地域ラジオ。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
 
 <style>
@@ -175,7 +175,7 @@ body{
   <div class="topImageBox">
     <img
       class="topImage"
-      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=allmenu1"
+      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=regionaltop1"
       alt="あんしん生活DX">
   </div>
 
@@ -184,19 +184,53 @@ body{
       あんしん生活DX
     </h1>
     <div class="sub">
-      話して登録<br>
-      大きな文字で確認
+      地域が反応する操作盤<br>
+      押すだけ・話すだけ
     </div>
   </div>
 
   <div class="card">
     <div class="sectionTitle">
-      登録
+      まず使う
     </div>
 
-    <button class="mainBtn indigo" onclick="notReady('本人登録')">
-      📝 本人登録
+    <button class="mainBtn green" onclick="sendQuick('元気です')">
+      😊 元気です
     </button>
+
+    <a class="mainBtn blue" href="app.html?mode=today">
+      📢 今日のお知らせ
+    </a>
+
+    <a class="mainBtn gray" href="connect.html?v=safephone2">
+      ☎️ 困りごと相談
+    </a>
+
+    <a class="mainBtn orange" href="app.html?mode=radio">
+      📻 地域ラジオ
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      暮らし情報
+    </div>
+
+    <a class="mainBtn brown" href="app.html?mode=board">
+      📋 回覧板
+    </a>
+
+    <a class="mainBtn teal" href="app.html?mode=city">
+      📰 4市の情報
+    </a>
+
+    <a class="mainBtn indigo" href="app.html?mode=video">
+      🎥 お楽しみ動画
+    </a>
+
+    <a class="mainBtn purple" href="app.html?mode=garbage">
+      🗑 ゴミ情報
+    </a>
   </div>
 
   <div class="card">
@@ -215,12 +249,8 @@ body{
 
   <div class="card">
     <div class="sectionTitle">
-      見守り
+      見守り・薬
     </div>
-
-    <button class="mainBtn green" onclick="sendQuick('元気です')">
-      😊 元気です
-    </button>
 
     <button class="mainBtn orange" onclick="sendQuick('少し困っています')">
       ⚠️ 少し困っています
@@ -229,12 +259,6 @@ body{
     <button class="mainBtn red" onclick="sendQuick('助けてください')">
       🚨 助けてください
     </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      薬の確認
-    </div>
 
     <button class="mainBtn purple" onclick="sendQuick('朝の薬を飲みました')">
       💊 朝の薬を飲んだ
@@ -251,39 +275,21 @@ body{
 
   <div class="card">
     <div class="sectionTitle">
-      生活情報
+      登録・確認
     </div>
 
-    <button class="mainBtn brown" onclick="notReady('ゴミ情報')">
-      🗑 ゴミ情報
-    </button>
-
-    <button class="mainBtn teal" onclick="notReady('4市の情報')">
-      📰 4市の情報
-    </button>
-
-    <button class="mainBtn indigo" onclick="notReady('お楽しみ動画')">
-      🎥 お楽しみ動画
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      つながる
-    </div>
-
-    <a class="mainBtn gray" href="connect.html?v=safephone2">
-      ☎️ 人につなぐ
+    <a class="mainBtn indigo" href="register.html?v=register1">
+      📝 本人登録
     </a>
 
-    <button class="mainBtn blue" onclick="notReady('見守り者画面')">
+    <a class="mainBtn gray" href="watcher.html?v=watcher1">
       👀 見守り者画面
-    </button>
+    </a>
   </div>
 
   <div class="card">
     <div class="note" id="noteBox">
-      迷ったら「人につなぐ」を押してください
+      迷ったら「困りごと相談」を押してください
     </div>
   </div>
 
@@ -312,11 +318,6 @@ window.addEventListener("pageshow",function(){
   stopAllSpeech();
   window.scrollTo(0,0);
 });
-
-function notReady(name){
-  const noteBox = document.getElementById("noteBox");
-  noteBox.innerText = name + " は次に作ります";
-}
 
 async function sendQuick(text){
 
