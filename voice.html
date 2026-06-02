@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>音声入力DX</title>
+<title>予定を入れる</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -18,81 +20,67 @@ body{
 
 .wrap{
   max-width:720px;
-  margin:auto;
+  margin:0 auto;
 }
 
 .card{
-  background:#fff;
-  border-radius:26px;
+  background:white;
+  border-radius:28px;
   padding:18px;
-  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
 .title{
-  font-size:30px;
+  font-size:40px;
   font-weight:900;
   text-align:center;
   color:#1565c0;
-  margin:0 0 10px;
+  margin:0 0 18px;
+  line-height:1.3;
 }
 
 .status{
-  font-size:22px;
-  font-weight:900;
-  text-align:center;
-  line-height:1.5;
-  color:#666;
-  white-space:pre-wrap;
-  margin:8px 0 14px;
-}
-
-.guide{
   background:#fff8e1;
-  border-radius:20px;
-  padding:16px;
-  font-size:20px;
+  border-radius:22px;
+  padding:18px;
+  font-size:28px;
   font-weight:900;
-  line-height:1.7;
-  color:#555;
-  margin-bottom:14px;
+  line-height:1.5;
+  text-align:center;
+  color:#333;
+  margin-bottom:18px;
 }
 
 .inputBox{
   width:100%;
-  min-height:250px;
-  border:none;
+  min-height:260px;
+  border:4px solid #d7e6ff;
   outline:none;
-  resize:vertical;
-  background:#f5f7fa;
-  border-radius:24px;
+  resize:none;
+  background:#f8fbff;
+  border-radius:26px;
   padding:20px;
-  font-size:30px;
+  font-size:34px;
   font-weight:900;
-  line-height:1.7;
+  line-height:1.6;
   color:#123;
-  margin-bottom:14px;
+  margin-bottom:18px;
 }
 
 .inputBox::placeholder{
   color:#999;
 }
 
-.actionRow{
-  display:flex;
-  gap:12px;
-  margin-bottom:12px;
-}
-
-.saveBtn,
-.clearBtn{
-  flex:1;
+.bigBtn{
+  width:100%;
   border:none;
-  border-radius:24px;
-  padding:24px 8px;
-  font-size:26px;
+  border-radius:28px;
+  padding:28px 12px;
+  font-size:32px;
   font-weight:900;
   color:white;
   cursor:pointer;
+  margin-bottom:14px;
 }
 
 .saveBtn{
@@ -105,61 +93,39 @@ body{
 
 .linkBtn{
   display:block;
+  width:100%;
   text-align:center;
   text-decoration:none;
-  background:#555;
-  color:white;
-  border-radius:24px;
-  padding:22px 12px;
-  font-size:24px;
+  border-radius:28px;
+  padding:26px 12px;
+  font-size:30px;
   font-weight:900;
-  margin-top:12px;
-}
-
-.small{
-  font-size:18px;
-  font-weight:800;
-  line-height:1.6;
-  color:#666;
-  text-align:center;
-  margin-top:10px;
+  color:white;
+  background:#1976d2;
+  margin-top:4px;
 }
 
 @media(max-width:600px){
-  .card{
-    padding:16px;
-    border-radius:24px;
-  }
-
   .title{
-    font-size:28px;
-  }
-
-  .inputBox{
-    font-size:27px;
-    min-height:230px;
-  }
-
-  .saveBtn,
-  .clearBtn{
-    font-size:24px;
-    padding:22px 6px;
+    font-size:34px;
   }
 
   .status{
-    font-size:21px;
+    font-size:24px;
+  }
+
+  .inputBox{
+    font-size:30px;
+    min-height:240px;
+  }
+
+  .bigBtn{
+    font-size:28px;
+    padding:26px 10px;
   }
 
   .linkBtn{
-    font-size:22px;
-  }
-
-  .guide{
-    font-size:19px;
-  }
-
-  .small{
-    font-size:17px;
+    font-size:27px;
   }
 }
 </style>
@@ -170,70 +136,55 @@ body{
 <div class="wrap">
 <div class="card">
 
-<div class="title">
-音声入力DX
-</div>
+<h1 class="title">
+予定を入れる
+</h1>
 
-<div class="status" id="status">
-入力欄を押して、iPhoneのマイクで話してください
-</div>
-
-<div class="guide">
-① 入力欄を押す<br>
-② iPhoneのマイクで話す<br>
-③ 文字を見て確認する<br>
-④ 合っていれば登録する
+<div class="status" id="statusBox">
+下の白いところを押して<br>
+マイクで話してください
 </div>
 
 <textarea
   class="inputBox"
   id="inputBox"
-  placeholder="ここを押して、iPhoneのマイクで話してください。例：6月5日13時病院"
+  placeholder="例：6月3日13時歯医者"
   autocomplete="off"
   autocorrect="off"
   autocapitalize="off"
   spellcheck="false"
 ></textarea>
 
-<div class="actionRow">
-<button class="clearBtn" id="clearBtn">
+<button class="bigBtn saveBtn" id="saveBtn">
+✅ 登録する
+</button>
+
+<button class="bigBtn clearBtn" id="clearBtn">
 🗑 消す
 </button>
 
-<button class="saveBtn" id="saveBtn">
-✅ 登録する
-</button>
-</div>
-
-<a class="linkBtn" href="today.html?v=sheet-delete1">
+<a class="linkBtn" href="today.html?v=simple1">
 📅 今日の予定を見る
 </a>
-
-<div class="small">
-このページは録音しません。<br>
-このページは読み上げません。<br>
-入力欄に入った文字だけを登録します。
-</div>
 
 </div>
 </div>
 
 <script>
-
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxNbbzhYNpR38882QZPGxIRGlNkk-oF28MWbvk7ODIDI0YbVGO7UMB0XbeYO6TzYAOq/exec';
+'https://script.google.com/macros/s/AKfycbwZdtTsSSQOLCF-vF_CCMsvPzZziBxpmLhKTOciSS8A1HgviXvRhf8JOOsX2uEAWFV5/exec';
 
 const inputBox =
 document.getElementById("inputBox");
 
-const clearBtn =
-document.getElementById("clearBtn");
-
 const saveBtn =
 document.getElementById("saveBtn");
 
+const clearBtn =
+document.getElementById("clearBtn");
+
 const statusBox =
-document.getElementById("status");
+document.getElementById("statusBox");
 
 let isSaving =
 false;
@@ -249,44 +200,33 @@ function stopAllSpeech(){
 window.addEventListener("load",function(){
   stopAllSpeech();
   inputBox.value = "";
-  statusBox.innerText =
-  "入力欄を押して、iPhoneのマイクで話してください";
 });
 
 window.addEventListener("pageshow",function(){
   stopAllSpeech();
 });
 
-window.addEventListener("pagehide",function(){
-  stopAllSpeech();
-});
-
 inputBox.addEventListener("focus",function(){
-  stopAllSpeech();
-  statusBox.innerText =
-  "そのままマイクで話してください";
+  statusBox.innerHTML =
+  "マイクで話してください";
 });
 
 inputBox.addEventListener("input",function(){
-  statusBox.innerText =
-  "文字を見て、合っていれば登録してください";
+  statusBox.innerHTML =
+  "文字を確認して<br>よければ登録";
 });
 
 function getText(){
   return inputBox.value.trim();
 }
 
-function clearInput(){
-  stopAllSpeech();
-  inputBox.value = "";
-  statusBox.innerText =
-  "消しました。もう一度入力できます";
-  inputBox.focus();
-}
-
 clearBtn.onclick =
 function(){
-  clearInput();
+  stopAllSpeech();
+  inputBox.value = "";
+  statusBox.innerHTML =
+  "消しました<br>もう一度話せます";
+  inputBox.focus();
 };
 
 saveBtn.onclick =
@@ -302,9 +242,9 @@ async function(){
   getText();
 
   if(!text){
-    alert("登録する文字がありません");
-    statusBox.innerText =
-    "登録する文字がありません";
+    alert("文字がありません");
+    statusBox.innerHTML =
+    "文字がありません";
     return;
   }
 
@@ -314,7 +254,7 @@ async function(){
   saveBtn.disabled =
   true;
 
-  statusBox.innerText =
+  statusBox.innerHTML =
   "登録中...";
 
   try{
@@ -334,29 +274,18 @@ async function(){
 
     console.log(data);
 
-    if(data.ok){
+    if(data.ok === true || data.status === "success"){
 
-      if(data.calendar_registered === true){
-
-        statusBox.innerText =
-        "登録成功：カレンダー登録済み";
-
-      }else{
-
-        statusBox.innerText =
-        "登録成功：" +
-        (data.category || "記録");
-
-      }
+      statusBox.innerHTML =
+      "登録しました";
 
       inputBox.value =
       "";
 
     }else{
 
-      statusBox.innerText =
-      "登録失敗\n" +
-      (data.error || data.message || "");
+      statusBox.innerHTML =
+      "登録できません";
 
       alert(
         data.error ||
@@ -370,11 +299,11 @@ async function(){
 
     console.error(error);
 
-    statusBox.innerText =
+    statusBox.innerHTML =
     "通信エラー";
 
     alert(
-      "通信エラーです。GAS URLかデプロイ設定を確認してください。"
+      "通信エラーです"
     );
 
   }finally{
@@ -388,7 +317,6 @@ async function(){
   }
 
 };
-
 </script>
 
 </body>
