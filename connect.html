@@ -6,7 +6,9 @@
 <title>人につなぐ</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -116,10 +118,6 @@ body{
   background:#c62828;
 }
 
-.gray{
-  background:#555;
-}
-
 .backBtn{
   display:block;
   width:100%;
@@ -144,14 +142,34 @@ body{
 }
 
 @media(max-width:600px){
-  .title{font-size:36px}
-  .sub{font-size:22px}
-  .note{font-size:23px}
-  .name{font-size:29px}
-  .phone{font-size:25px}
-  .callBtn,.backBtn{
+  .title{
+    font-size:36px;
+  }
+
+  .sub{
+    font-size:22px;
+  }
+
+  .note{
+    font-size:23px;
+  }
+
+  .name{
+    font-size:29px;
+  }
+
+  .phone{
+    font-size:25px;
+  }
+
+  .callBtn,
+  .backBtn{
     font-size:27px;
     padding:28px 10px;
+  }
+
+  .small{
+    font-size:19px;
   }
 }
 </style>
@@ -182,7 +200,7 @@ body{
     </a>
 
     <div class="small">
-      電話番号はこのページの上の設定で変えられます。
+      電話番号は、このファイル上部の設定で変えられます。
     </div>
 
   </div>
@@ -192,8 +210,8 @@ body{
 <script>
 
 /*
-  ここだけ変えれば電話番号を変更できます。
-  まだ使わないところは phone を空欄 "" にしてください。
+  電話番号はここだけ変えます。
+  空欄 "" のものは画面に出ません。
 */
 
 const CONTACTS = [
@@ -271,6 +289,14 @@ function renderContacts(){
     `;
 
   });
+
+  if(!html){
+    html = `
+      <div class="note">
+        連絡先がありません
+      </div>
+    `;
+  }
 
   box.innerHTML = html;
 
