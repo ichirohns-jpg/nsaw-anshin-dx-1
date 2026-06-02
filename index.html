@@ -3,214 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>見守りDX</title>
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>あんしん生活DX</title>
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+  margin:0;
+  padding:12px;
+  background:#eef4f8;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#123;
 }
 
 .wrap{
-max-width:560px;
-margin:auto;
-padding:14px;
+  max-width:720px;
+  margin:0 auto;
 }
 
-.banner{
-width:100%;
-display:block;
-border-radius:26px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.card{
-background:#fff;
-border-radius:28px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+.header{
+  background:#1565c0;
+  color:white;
+  border-radius:30px;
+  padding:28px 18px;
+  text-align:center;
+  margin-bottom:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
 }
 
 .title{
-font-size:38px;
-font-weight:900;
-text-align:center;
-color:#1976d2;
+  font-size:40px;
+  font-weight:900;
+  line-height:1.35;
+  margin:0;
 }
 
 .sub{
-text-align:center;
-font-size:16px;
-color:#6b7785;
-margin-top:6px;
-margin-bottom:22px;
+  font-size:23px;
+  font-weight:900;
+  line-height:1.6;
+  margin-top:12px;
 }
 
-.bigBtn{
-width:100%;
-border:none;
-border-radius:24px;
-padding:22px;
-font-size:28px;
-font-weight:900;
-margin-bottom:14px;
-color:#fff;
-cursor:pointer;
+.card{
+  background:white;
+  border-radius:28px;
+  padding:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
-.bigBtn:active{
-transform:scale(.97);
+.mainBtn{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  border:none;
+  border-radius:30px;
+  padding:30px 12px;
+  font-size:32px;
+  font-weight:900;
+  color:white;
+  margin-bottom:16px;
+  cursor:pointer;
 }
 
 .green{
-background:#43a047;
+  background:#2e7d32;
+}
+
+.blue{
+  background:#1976d2;
 }
 
 .orange{
-background:#fb8c00;
+  background:#ef6c00;
 }
 
 .red{
-background:#e53935;
+  background:#c62828;
 }
 
-.statusBox{
-background:#f7fbff;
-border-radius:22px;
-padding:18px;
-margin-top:16px;
-box-shadow:0 4px 12px rgba(0,0,0,.06);
+.gray{
+  background:#777;
 }
 
-.statusTitle{
-font-size:18px;
-font-weight:900;
-color:#1976d2;
-margin-bottom:8px;
+.note{
+  background:#fff8e1;
+  border-radius:24px;
+  padding:18px;
+  font-size:23px;
+  font-weight:900;
+  line-height:1.6;
+  color:#444;
+  text-align:center;
+  margin-top:18px;
 }
 
-.statusText{
-font-size:24px;
-font-weight:900;
-}
+@media(max-width:600px){
+  .title{
+    font-size:34px;
+  }
 
-.timeBox{
-margin-top:10px;
-font-size:16px;
-font-weight:700;
-color:#666;
-}
+  .sub{
+    font-size:21px;
+  }
 
-.infoBox{
-background:#fff8e1;
-border-radius:22px;
-padding:18px;
-margin-top:16px;
-}
+  .mainBtn{
+    font-size:28px;
+    padding:28px 10px;
+  }
 
-.infoTitle{
-font-size:20px;
-font-weight:900;
-color:#ef6c00;
-margin-bottom:10px;
+  .note{
+    font-size:21px;
+  }
 }
-
-.infoText{
-font-size:19px;
-font-weight:800;
-line-height:1.7;
-}
-
-.weatherBox{
-margin-top:16px;
-background:#e3f2fd;
-border-radius:22px;
-padding:18px;
-}
-
-.weatherTitle{
-font-size:18px;
-font-weight:900;
-color:#1565c0;
-margin-bottom:8px;
-}
-
-.weatherText{
-font-size:20px;
-font-weight:900;
-line-height:1.7;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
-
-.menu{
-background:#fff;
-border-radius:22px;
-padding:24px 10px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-cursor:pointer;
-}
-
-.menu:active{
-transform:scale(.97);
-}
-
-.emergency{
-background:#ffebee;
-color:#c62828;
-}
-
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:900;
-color:#666;
-}
-
-.toast{
-position:fixed;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-background:#1976d2;
-color:#fff;
-padding:16px 24px;
-border-radius:18px;
-font-size:18px;
-font-weight:900;
-display:none;
-z-index:9999;
-box-shadow:0 6px 18px rgba(0,0,0,.2);
-}
-
 </style>
 </head>
 
@@ -218,311 +126,51 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 
 <div class="wrap">
 
-<img src="top.jpg" class="banner" alt="見守りDX">
+  <div class="header">
+    <h1 class="title">
+      あんしん生活DX
+    </h1>
+    <div class="sub">
+      話して登録<br>
+      大きな文字で確認
+    </div>
+  </div>
 
-<div class="card">
+  <div class="card">
 
-<div class="title">
-見守りDX
-</div>
+    <a class="mainBtn green" href="voice.html?v=simple1">
+      🎤 予定を入れる
+    </a>
 
-<div class="sub">
-地域の安心をひとつにつなぐ
-</div>
+    <a class="mainBtn blue" href="today.html?v=simple1">
+      📅 今日の予定を見る
+    </a>
 
-<button class="bigBtn green" onclick="setStatus('😊 元気です')">
-😊 元気です
-</button>
+    <button class="mainBtn orange" onclick="comingSoon('元気です')">
+      😊 元気です
+    </button>
 
-<button class="bigBtn orange" onclick="setStatus('😐 少し困っています')">
-😐 少し困っています
-</button>
+    <button class="mainBtn red" onclick="comingSoon('困っています')">
+      🚨 困っています
+    </button>
 
-<button class="bigBtn red" onclick="setStatus('🚨 助けてください')">
-🚨 助けてください
-</button>
+    <button class="mainBtn gray" onclick="comingSoon('人につなぐ')">
+      ☎️ 人につなぐ
+    </button>
 
-<div class="statusBox">
+    <div class="note">
+      まずは「予定を入れる」と<br>
+      「今日の予定を見る」から使います。
+    </div>
 
-<div class="statusTitle">
-現在の状態
-</div>
-
-<div class="statusText" id="statusText">
-未確認
-</div>
-
-<div class="timeBox" id="timeText">
-最終更新：未記録
-</div>
-
-</div>
-
-<div class="infoBox">
-
-<div class="infoTitle">
-📅 今日のお知らせ
-</div>
-
-<div class="infoText">
-・今日は燃えるゴミの日です<br>
-・午後2時 訪問予定<br>
-・薬の確認を忘れずに
-</div>
+  </div>
 
 </div>
-
-<div class="weatherBox">
-
-<div class="weatherTitle">
-☀️ 今日の天気
-</div>
-
-<div class="weatherText">
-志木市 晴れ<br>
-最高気温 27℃<br>
-水分補給を忘れずに
-</div>
-
-</div>
-
-<div class="grid">
-
-<div class="menu" onclick="location.href='4city.html'">
-📰<br>
-四市情報
-</div>
-
-<div class="menu" onclick="location.href='all-pages.html'">
-📚<br>
-ページ一覧
-</div>
-
-<div class="menu" onclick="location.href='profile.html'">
-👤<br>
-利用者情報
-</div>
-
-<div class="menu" onclick="location.href='health.html'">
-🚶<br>
-健康管理
-</div>
-
-<div class="menu" onclick="location.href='alarm.html'">
-⏰<br>
-お薬アラーム
-</div>
-
-<div class="menu" onclick="location.href='check-history.html'">
-📋<br>
-見守り履歴
-</div>
-
-<div class="menu" onclick="location.href='emergency.html'">
-☎️<br>
-緊急連絡先
-</div>
-
-<div class="menu" onclick="location.href='calendar.html'">
-📅<br>
-カレンダー
-</div>
-
-<div class="menu" onclick="location.href='schedule.html'">
-📝<br>
-今日の予定
-</div>
-
-<div class="menu" onclick="location.href='consult.html'">
-💬<br>
-相談
-</div>
-
-<div class="menu" onclick="location.href='memo.html'">
-🗒️<br>
-自由メモ
-</div>
-
-<div class="menu" onclick="location.href='gomi.html'">
-🗑<br>
-ゴミの日
-</div>
-
-<div class="menu" onclick="location.href='medicine.html'">
-💊<br>
-薬確認
-</div>
-
-<div class="menu" onclick="location.href='medicine-history.html'">
-📘<br>
-服薬履歴
-</div>
-
-<div class="menu" onclick="location.href='history.html'">
-📄<br>
-履歴
-</div>
-
-<div class="menu" onclick="location.href='voice.html'">
-🎤<br>
-音声メモ
-</div>
-
-<div class="menu" onclick="location.href='radio.html'">
-📻<br>
-地域ラジオ
-</div>
-
-<div class="menu" onclick="location.href='album.html'">
-📸<br>
-写真アルバム
-</div>
-
-<div class="menu" onclick="location.href='family.html'">
-👨‍👩‍👧<br>
-家族連絡
-</div>
-
-<div class="menu" onclick="location.href='hospital.html'">
-🏥<br>
-病院・薬局
-</div>
-
-<div class="menu" onclick="location.href='hinan.html'">
-🚨<br>
-避難情報
-</div>
-
-<div class="menu" onclick="location.href='shopping.html'">
-🛒<br>
-買い物メモ
-</div>
-
-<div class="menu" onclick="location.href='nearby.html'">
-📍<br>
-周辺施設
-</div>
-
-<div class="menu" onclick="location.href='map.html'">
-🗺️<br>
-現在地
-</div>
-
-<div class="menu" onclick="location.href='news.html'">
-📰<br>
-地域情報
-</div>
-
-<div class="menu" onclick="location.href='support.html'">
-👨‍👩‍👧<br>
-支援者
-</div>
-
-<div class="menu" onclick="location.href='settings.html'">
-⚙️<br>
-設定
-</div>
-
-<div class="menu emergency" onclick="callEmergency()">
-🚑<br>
-119
-</div>
-
-</div>
-
-<div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='4city.html'">
-四市情報
-</div>
-
-<div onclick="location.href='calendar.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="toast" class="toast"></div>
 
 <script>
-
-window.onload=function(){
-
-const savedStatus=localStorage.getItem("statusText");
-const savedTime=localStorage.getItem("timeText");
-
-if(savedStatus){
-document.getElementById("statusText").innerText=savedStatus;
+function comingSoon(name){
+  alert(name + " は次に作ります。");
 }
-
-if(savedTime){
-document.getElementById("timeText").innerText=savedTime;
-}
-
-};
-
-function showToast(text){
-
-const toast=document.getElementById("toast");
-
-toast.innerText=text;
-
-toast.style.display="block";
-
-setTimeout(function(){
-toast.style.display="none";
-},2000);
-
-}
-
-function setStatus(text){
-
-document.getElementById("statusText").innerText=text;
-
-const now=new Date();
-
-const time=
-now.getFullYear()+"-"+
-String(now.getMonth()+1).padStart(2,"0")+"-"+
-String(now.getDate()).padStart(2,"0")+" "+
-String(now.getHours()).padStart(2,"0")+":"+
-String(now.getMinutes()).padStart(2,"0");
-
-const timeText="最終更新："+time;
-
-document.getElementById("timeText").innerText=timeText;
-
-localStorage.setItem("statusText",text);
-localStorage.setItem("timeText",timeText);
-
-showToast(text+" を記録しました");
-
-}
-
-function callEmergency(){
-
-if(confirm("119へ電話しますか？")){
-window.location.href="tel:119";
-}
-
-}
-
 </script>
 
 </body>
