@@ -5,6 +5,29 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>あんしん生活DX</title>
 
+<meta name="description" content="高齢者が話して登録し、予定・見守り・薬・ゴミ・地域情報・人につなぐを大きなボタンで使える生活支援DXです。">
+
+<link rel="icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
+<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
+
+<meta name="theme-color" content="#1565c0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="あんしん生活DX">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="あんしん生活DX">
+<meta property="og:title" content="あんしん生活DX">
+<meta property="og:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。高齢者にも使いやすい生活支援DX。">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="あんしん生活DX">
+<meta name="twitter:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
+
 <style>
 *{
   box-sizing:border-box;
@@ -27,21 +50,31 @@ body{
   margin:0 auto;
 }
 
+.topImageBox{
+  width:100%;
+  background:white;
+  border-radius:30px;
+  padding:10px;
+  margin-bottom:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.10);
+}
+
+.topImage{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:22px;
+}
+
 .header{
+  background:#1565c0;
   color:white;
   border-radius:30px;
-  padding:26px 18px;
+  padding:24px 18px;
   text-align:center;
   margin-bottom:18px;
   box-shadow:0 8px 22px rgba(0,0,0,.12);
 }
-
-.header.today{background:#1976d2}
-.header.radio{background:#ef6c00}
-.header.board{background:#795548}
-.header.city{background:#00897b}
-.header.video{background:#3949ab}
-.header.garbage{background:#6a1b9a}
 
 .title{
   font-size:38px;
@@ -65,315 +98,49 @@ body{
   box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
-.status{
-  background:#fff8e1;
-  border-radius:24px;
-  padding:18px;
-  font-size:24px;
-  font-weight:900;
-  line-height:1.6;
-  color:#444;
-  text-align:center;
-  margin-bottom:18px;
-  white-space:pre-wrap;
-}
-
-.bigBtn{
-  display:block;
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
-  cursor:pointer;
-  margin-bottom:14px;
-  text-align:center;
-  text-decoration:none;
-}
-
-.reloadBtn{background:#1976d2}
-.homeBtn{background:#555}
-
 .sectionTitle{
-  font-size:32px;
+  font-size:30px;
   font-weight:900;
   color:#1565c0;
-  margin:0 0 16px;
+  margin:0 0 14px;
   text-align:center;
 }
 
-.item{
-  background:#f8fbff;
-  border:4px solid #d7e6ff;
-  border-radius:26px;
-  padding:20px;
-  margin-bottom:18px;
-}
-
-.itemDate{
-  display:inline-block;
-  background:#1565c0;
-  color:white;
-  border-radius:999px;
-  padding:8px 16px;
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:14px;
-}
-
-.itemTitle{
-  font-size:34px;
-  font-weight:900;
-  line-height:1.45;
-  color:#123;
-  margin-bottom:12px;
-}
-
-.itemDetail{
-  font-size:25px;
-  font-weight:800;
-  line-height:1.65;
-  color:#333;
-  white-space:pre-wrap;
-  margin-bottom:16px;
-}
-
-.itemImg{
-  width:100%;
-  border-radius:22px;
-  margin:10px 0 18px;
-  display:block;
-}
-
-.videoBox{
-  position:relative;
-  width:100%;
-  padding-top:56.25%;
-  border-radius:22px;
-  overflow:hidden;
-  background:#000;
-  margin:10px 0 16px;
-}
-
-.videoBox iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-.cityLinks{
-  margin-top:16px;
-}
-
-.cityBox{
-  background:white;
-  border:4px solid #e3edf8;
-  border-radius:24px;
-  padding:18px;
-  margin-bottom:16px;
-}
-
-.cityBadge{
-  display:inline-block;
-  color:white;
-  border-radius:999px;
-  padding:8px 16px;
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:12px;
-}
-
-.shiki{background:#1976d2}
-.niiza{background:#2e7d32}
-.asaka{background:#ef6c00}
-.wako{background:#6a1b9a}
-.otherCity{background:#555}
-
-.cityTitle{
-  font-size:28px;
-  font-weight:900;
-  line-height:1.5;
-  color:#123;
-  margin-bottom:12px;
-}
-
-.linkBtn{
-  display:block;
-  width:100%;
-  text-align:center;
-  text-decoration:none;
-  border-radius:24px;
-  padding:22px 12px;
-  font-size:25px;
-  font-weight:900;
-  color:white;
-  background:#2e7d32;
-  margin-top:12px;
-}
-
-.shareBox{
-  background:white;
-  border-radius:24px;
-  padding:14px;
-  margin-top:18px;
-  border:3px solid #e3edf8;
-}
-
-.shareTitle{
-  font-size:24px;
-  font-weight:900;
-  text-align:center;
-  color:#1565c0;
-  margin-bottom:12px;
-}
-
-.shareGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.shareBtn{
+.mainBtn{
   display:block;
   width:100%;
   text-align:center;
   text-decoration:none;
   border:none;
-  border-radius:22px;
-  padding:20px 8px;
-  font-size:22px;
+  border-radius:30px;
+  padding:30px 12px;
+  font-size:30px;
   font-weight:900;
   color:white;
-  cursor:pointer;
-}
-
-.lineBtn{background:#06c755}
-.xBtn{background:#111}
-.facebookBtn{background:#1877f2}
-.copyBtn{background:#555}
-
-.empty{
-  background:#f5f7fa;
-  border-radius:24px;
-  padding:24px;
-  font-size:28px;
-  font-weight:900;
-  color:#666;
-  line-height:1.5;
-  text-align:center;
-}
-
-.error{
-  background:#fff3f3;
-  border-radius:24px;
-  padding:22px;
-  font-size:24px;
-  font-weight:900;
-  color:#b71c1c;
-  line-height:1.6;
-  white-space:pre-wrap;
-}
-
-.archiveBox{
-  display:none;
-}
-
-.toggleBtn{
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
-  background:#777;
-  cursor:pointer;
-}
-
-.garbageSelect{
-  width:100%;
-  border:4px solid #d7e6ff;
-  background:#f8fbff;
-  color:#123;
-  border-radius:24px;
-  padding:20px;
-  font-size:28px;
-  font-weight:900;
   margin-bottom:16px;
+  cursor:pointer;
 }
 
-.garbageGuide{
+.green{background:#2e7d32}
+.blue{background:#1976d2}
+.orange{background:#ef6c00}
+.red{background:#c62828}
+.purple{background:#6a1b9a}
+.gray{background:#555}
+.brown{background:#795548}
+.teal{background:#00897b}
+.indigo{background:#3949ab}
+
+.note{
   background:#fff8e1;
   border-radius:24px;
-  padding:20px;
-  font-size:24px;
+  padding:18px;
+  font-size:23px;
   font-weight:900;
   line-height:1.6;
   color:#444;
   text-align:center;
-  margin-bottom:18px;
-}
-
-.garbageBlock{
-  background:#f8fbff;
-  border:4px solid #d7e6ff;
-  border-radius:26px;
-  padding:20px;
-  margin-bottom:18px;
-}
-
-.garbageHead{
-  display:inline-block;
-  background:#6a1b9a;
-  color:white;
-  border-radius:999px;
-  padding:8px 16px;
-  font-size:21px;
-  font-weight:900;
-  margin-bottom:14px;
-}
-
-.garbageType{
-  font-size:32px;
-  font-weight:900;
-  line-height:1.5;
-  color:#123;
-  margin-bottom:10px;
-}
-
-.garbageMsg{
-  font-size:25px;
-  font-weight:800;
-  line-height:1.6;
-  color:#333;
   white-space:pre-wrap;
-}
-
-.weekRow{
-  background:white;
-  border:3px solid #e3edf8;
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:12px;
-}
-
-.weekDay{
-  display:inline-block;
-  background:#1976d2;
-  color:white;
-  border-radius:999px;
-  padding:6px 14px;
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-
-.bottomSpace{
-  height:20px;
 }
 
 @media(max-width:600px){
@@ -385,63 +152,17 @@ body{
     font-size:20px;
   }
 
-  .status{
-    font-size:22px;
-  }
-
-  .bigBtn,
-  .toggleBtn{
-    font-size:24px;
-    padding:24px 10px;
-  }
-
   .sectionTitle{
-    font-size:28px;
+    font-size:27px;
   }
 
-  .itemTitle{
-    font-size:29px;
+  .mainBtn{
+    font-size:27px;
+    padding:28px 10px;
   }
 
-  .itemDetail{
-    font-size:23px;
-  }
-
-  .cityTitle{
-    font-size:24px;
-  }
-
-  .linkBtn{
-    font-size:22px;
-  }
-
-  .shareTitle{
-    font-size:22px;
-  }
-
-  .shareBtn{
-    font-size:20px;
-    padding:18px 6px;
-  }
-
-  .garbageSelect{
-    font-size:25px;
-  }
-
-  .garbageGuide{
-    font-size:22px;
-  }
-
-  .garbageType{
-    font-size:28px;
-  }
-
-  .garbageMsg{
-    font-size:23px;
-  }
-
-  .empty{
-    font-size:25px;
+  .note{
+    font-size:21px;
   }
 }
 </style>
@@ -451,172 +172,128 @@ body{
 
 <div class="wrap">
 
-  <div class="header" id="header">
-    <h1 class="title" id="pageTitle">
-      読み込み中
+  <div class="topImageBox">
+    <img
+      class="topImage"
+      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=allmenu1"
+      alt="あんしん生活DX">
+  </div>
+
+  <div class="header">
+    <h1 class="title">
+      あんしん生活DX
     </h1>
-    <div class="sub" id="pageSub">
-      少しお待ちください
+    <div class="sub">
+      話して登録<br>
+      大きな文字で確認
     </div>
   </div>
 
   <div class="card">
-    <a class="bigBtn homeBtn" href="index.html?v=regionaltop1">
-      ⬅️ 最初の画面に戻る
-    </a>
-
-    <button class="bigBtn reloadBtn" id="reloadBtn">
-      🔄 更新する
-    </button>
-
-    <div class="status" id="statusBox">
-      読み込み中...
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle" id="latestTitle">
-      最新
-    </div>
-    <div id="latestList">
-      <div class="empty">読み込み中...</div>
-    </div>
-  </div>
-
-  <div class="card" id="archiveButtonCard">
-    <button class="toggleBtn" id="archiveBtn">
-      📚 アーカイブを見る
-    </button>
-  </div>
-
-  <div class="card archiveBox" id="archiveCard">
     <div class="sectionTitle">
-      アーカイブ
+      登録
     </div>
-    <div id="archiveList">
-      <div class="empty">まだありません</div>
-    </div>
+
+    <button class="mainBtn indigo" onclick="notReady('本人登録')">
+      📝 本人登録
+    </button>
   </div>
 
   <div class="card">
-    <a class="bigBtn homeBtn" href="index.html?v=regionaltop1">
-      ⬅️ 最初の画面に戻る
+    <div class="sectionTitle">
+      予定
+    </div>
+
+    <a class="mainBtn green" href="voice.html?v=backvoice1">
+      🎤 予定を入れる
+    </a>
+
+    <a class="mainBtn blue" href="today.html?v=backtoday1">
+      📅 今日の予定を見る
     </a>
   </div>
 
-  <div class="bottomSpace"></div>
+  <div class="card">
+    <div class="sectionTitle">
+      見守り
+    </div>
+
+    <button class="mainBtn green" onclick="sendQuick('元気です')">
+      😊 元気です
+    </button>
+
+    <button class="mainBtn orange" onclick="sendQuick('少し困っています')">
+      ⚠️ 少し困っています
+    </button>
+
+    <button class="mainBtn red" onclick="sendQuick('助けてください')">
+      🚨 助けてください
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      薬の確認
+    </div>
+
+    <button class="mainBtn purple" onclick="sendQuick('朝の薬を飲みました')">
+      💊 朝の薬を飲んだ
+    </button>
+
+    <button class="mainBtn purple" onclick="sendQuick('昼の薬を飲みました')">
+      💊 昼の薬を飲んだ
+    </button>
+
+    <button class="mainBtn purple" onclick="sendQuick('夜の薬を飲みました')">
+      💊 夜の薬を飲んだ
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      生活情報
+    </div>
+
+    <button class="mainBtn brown" onclick="notReady('ゴミ情報')">
+      🗑 ゴミ情報
+    </button>
+
+    <button class="mainBtn teal" onclick="notReady('4市の情報')">
+      📰 4市の情報
+    </button>
+
+    <button class="mainBtn indigo" onclick="notReady('お楽しみ動画')">
+      🎥 お楽しみ動画
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      つながる
+    </div>
+
+    <a class="mainBtn gray" href="connect.html?v=safephone2">
+      ☎️ 人につなぐ
+    </a>
+
+    <button class="mainBtn blue" onclick="notReady('見守り者画面')">
+      👀 見守り者画面
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="note" id="noteBox">
+      迷ったら「人につなぐ」を押してください
+    </div>
+  </div>
 
 </div>
 
 <script>
-const SHEET_ID =
-"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
 
-const MAIN_SHEET =
-"NSAW暮らし情報局_データ";
-
-const MODE_CONFIG = {
-  today:{
-    title:"今日のお知らせ",
-    sub:"地域のお知らせを見ます",
-    sheet:MAIN_SHEET,
-    headerClass:"today",
-    type:"normal",
-    latestTitle:"最新のお知らせ"
-  },
-  radio:{
-    title:"地域ラジオ",
-    sub:"今日の地域ラジオを聞きます",
-    sheet:MAIN_SHEET,
-    headerClass:"radio",
-    type:"radio",
-    latestTitle:"最新の地域ラジオ"
-  },
-  board:{
-    title:"回覧板",
-    sub:"地域の回覧板を見ます",
-    sheet:MAIN_SHEET,
-    headerClass:"board",
-    type:"normal",
-    latestTitle:"最新の回覧板"
-  },
-  city:{
-    title:"4市の瓦版",
-    sub:"志木・新座・朝霞・和光の記事を1枚で見ます",
-    sheet:MAIN_SHEET,
-    headerClass:"city",
-    type:"city",
-    latestTitle:"最新の4市瓦版"
-  },
-  video:{
-    title:"お楽しみ動画",
-    sub:"YouTubeのお楽しみ動画を見ます",
-    sheet:"お楽しみ動画",
-    headerClass:"video",
-    type:"video",
-    latestTitle:"最新のお楽しみ動画"
-  },
-  garbage:{
-    title:"ゴミ情報",
-    sub:"地区を選んで今日・明日・今週を確認します",
-    sheet:"ゴミ",
-    headerClass:"garbage",
-    type:"garbage",
-    latestTitle:"地区別ゴミ情報"
-  }
-};
-
-const params =
-new URLSearchParams(window.location.search);
-
-const mode =
-params.get("mode") || "today";
-
-const singleId =
-params.get("id") || "";
-
-const config =
-MODE_CONFIG[mode] || MODE_CONFIG.today;
-
-const pageTitle =
-document.getElementById("pageTitle");
-
-const pageSub =
-document.getElementById("pageSub");
-
-const header =
-document.getElementById("header");
-
-const statusBox =
-document.getElementById("statusBox");
-
-const latestList =
-document.getElementById("latestList");
-
-const archiveList =
-document.getElementById("archiveList");
-
-const reloadBtn =
-document.getElementById("reloadBtn");
-
-const archiveBtn =
-document.getElementById("archiveBtn");
-
-const archiveCard =
-document.getElementById("archiveCard");
-
-const archiveButtonCard =
-document.getElementById("archiveButtonCard");
-
-const latestTitle =
-document.getElementById("latestTitle");
-
-let allItems = [];
-let archiveOpen = false;
-let garbageRows = [];
-
-const JP_DAYS =
-["日","月","火","水","木","金","土"];
+let sending = false;
 
 function stopAllSpeech(){
   try{
@@ -629,8 +306,6 @@ function stopAllSpeech(){
 window.addEventListener("load",function(){
   stopAllSpeech();
   window.scrollTo(0,0);
-  setupPage();
-  loadSheet();
 });
 
 window.addEventListener("pageshow",function(){
@@ -638,1303 +313,58 @@ window.addEventListener("pageshow",function(){
   window.scrollTo(0,0);
 });
 
-function setupPage(){
-  pageTitle.innerText = config.title;
-  pageSub.innerText = config.sub;
-  latestTitle.innerText = config.latestTitle || "最新";
-  header.classList.add(config.headerClass);
-  document.title = config.title + "｜あんしん生活DX";
-
-  if(config.type === "garbage"){
-    archiveButtonCard.style.display = "none";
-    archiveCard.style.display = "none";
-  }
+function notReady(name){
+  const noteBox = document.getElementById("noteBox");
+  noteBox.innerText = name + " は次に作ります";
 }
 
-function escapeHtml(str){
-  return String(str || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
-}
+async function sendQuick(text){
 
-function getCell(row,index){
-  if(!row || !row.c || !row.c[index]){
-    return "";
-  }
+  stopAllSpeech();
 
-  const cell = row.c[index];
-
-  if(cell.f !== undefined && cell.f !== null){
-    return String(cell.f);
-  }
-
-  if(cell.v !== undefined && cell.v !== null){
-    return String(cell.v);
-  }
-
-  return "";
-}
-
-function normalizeHeader(str){
-  return String(str || "")
-    .replace(/\s/g,"")
-    .trim();
-}
-
-function findValue(obj,names){
-  for(let i=0;i<names.length;i++){
-    const key = names[i];
-    if(obj[key]){
-      return obj[key];
-    }
-  }
-  return "";
-}
-
-function parseRows(table){
-
-  const labels =
-  (table.cols || []).map(function(col,index){
-    return normalizeHeader(col.label || col.id || ("列" + (index + 1)));
-  });
-
-  const rows =
-  table.rows || [];
-
-  const parsed = [];
-
-  rows.forEach(function(row,rowIndex){
-
-    const obj = {};
-
-    labels.forEach(function(label,index){
-      obj[label] = getCell(row,index);
-      obj["列" + (index + 1)] = getCell(row,index);
-    });
-
-    parsed.push({
-      rowIndex:rowIndex,
-      obj:obj
-    });
-
-  });
-
-  return parsed;
-
-}
-
-function getDisplayFlag(obj){
-
-  const display =
-  findValue(obj,[
-    "表示","表示する","公開","表示可否","S列","列19"
-  ]);
-
-  return String(display || "").trim();
-
-}
-
-function isVisible(obj){
-
-  const display =
-  getDisplayFlag(obj);
-
-  if(!display){
-    return true;
-  }
-
-  return (
-    display === "はい" ||
-    display === "表示" ||
-    display === "公開" ||
-    display === "TRUE" ||
-    display === "true"
-  );
-
-}
-
-function baseRowToItem(entry){
-
-  const obj =
-  entry.obj;
-
-  const date =
-    findValue(obj,[
-      "日付","日時","登録日時","投稿日","表示日","開催日","配信日","並び替え日付","T列","列20","列1"
-    ]);
-
-  const title =
-    findValue(obj,[
-      "タイトル","件名","見出し","名称","情報タイトル","動画タイトル","B列","P列","列2","列16"
-    ]);
-
-  const detail =
-    findValue(obj,[
-      "説明文","詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","動画詳細","E列","Q列","C列","列5","列17","列3"
-    ]);
-
-  const image =
-    findValue(obj,[
-      "画像URL","画像","サムネイル","画像リンク","メディアURL","D列","R列","列4","列18"
-    ]);
-
-  const url =
-    findValue(obj,[
-      "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","情報1URL","G列","列7","列5","列6"
-    ]);
-
-  const youtube =
-    findValue(obj,[
-      "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","メディアURL","動画","D列","R列","列4","列18","G列","列7"
-    ]);
-
-  const sortValue =
-    findValue(obj,[
-      "並び替え","並び替え数値","並び替え日付","表示順","ソート","T列","U列","G列","H列","列20","列21","列7","列8"
-    ]);
-
-  const rawText =
-    Object.keys(obj).map(function(k){
-      return obj[k];
-    }).join(" ");
-
-  return {
-    id:entry.rowIndex + 1,
-    date:date,
-    title:title || detail || "お知らせ",
-    detail:detail,
-    image:image,
-    url:url,
-    youtube:youtube || extractYoutubeUrl(rawText),
-    sortValue:sortValue,
-    rawText:rawText
-  };
-
-}
-
-function parseNormalItems(parsed){
-
-  const items = [];
-
-  parsed.forEach(function(entry){
-
-    const obj =
-    entry.obj;
-
-    if(!isVisible(obj)){
-      return;
-    }
-
-    const item =
-    baseRowToItem(entry);
-
-    if(!item.title && !item.detail && !item.url && !item.image){
-      return;
-    }
-
-    item.youtube = "";
-
-    items.push(item);
-
-  });
-
-  return items;
-
-}
-
-function parseVideoItems(parsed){
-
-  const items = [];
-
-  parsed.forEach(function(entry){
-
-    const obj =
-    entry.obj;
-
-    if(!isVisible(obj)){
-      return;
-    }
-
-    const date =
-      findValue(obj,[
-        "日付","配信日","投稿日","A列","列1"
-      ]);
-
-    const title =
-      findValue(obj,[
-        "動画タイトル","タイトル","B列","列2"
-      ]);
-
-    const detail =
-      findValue(obj,[
-        "動画説明","動画詳細","説明","C列","列3"
-      ]);
-
-    const youtube =
-      findValue(obj,[
-        "YouTubeURL","YouTube","動画URL","メディアURL","D列","列4"
-      ]);
-
-    const image =
-      findValue(obj,[
-        "画像URL","サムネイル","E列","列5"
-      ]);
-
-    const sortValue =
-      findValue(obj,[
-        "並び替え日付","表示順","G列","H列","列7","列8"
-      ]);
-
-    const rawText =
-      Object.keys(obj).map(function(k){
-        return obj[k];
-      }).join(" ");
-
-    if(!title && !detail && !youtube){
-      return;
-    }
-
-    items.push({
-      id:entry.rowIndex + 1,
-      date:date,
-      title:title || "お楽しみ動画",
-      detail:detail,
-      image:image,
-      url:"",
-      youtube:youtube || extractYoutubeUrl(rawText),
-      sortValue:sortValue,
-      rawText:rawText
-    });
-
-  });
-
-  return items;
-
-}
-
-function parseRadioItems(parsed){
-
-  const items = [];
-
-  parsed.forEach(function(entry){
-
-    const obj =
-    entry.obj;
-
-    if(!isVisible(obj)){
-      return;
-    }
-
-    const item =
-    baseRowToItem(entry);
-
-    if(!item.rawText.match(/地域ラジオ|ラジオ|朝ラジオ/)){
-      return;
-    }
-
-    items.push(item);
-
-  });
-
-  return items;
-
-}
-
-function parseCityItems(parsed){
-
-  const items = [];
-
-  parsed.forEach(function(entry){
-
-    const obj =
-    entry.obj;
-
-    if(!isVisible(obj)){
-      return;
-    }
-
-    const date =
-      findValue(obj,[
-        "日付","日時","表示日","投稿日","並び替え日付","T列","列20","列1"
-      ]);
-
-    const title =
-      findValue(obj,[
-        "タイトル","件名","見出し","地域情報タイトル","情報タイトル","B列","列2"
-      ]) || "今日の4市情報";
-
-    const image =
-      findValue(obj,[
-        "画像URL","画像","サムネイル","メディアURL","D列","R列","列4","列18"
-      ]);
-
-    const detail =
-      findValue(obj,[
-        "説明文","詳細","本文","E列","列5"
-      ]);
-
-    const sortValue =
-      findValue(obj,[
-        "並び替え日付","表示順","T列","U列","列20","列21"
-      ]);
-
-    const cityLinks = [];
-
-    for(let i=1;i<=4;i++){
-
-      const cityTitle =
-        findValue(obj,[
-          "情報" + i + "タイトル",
-          "列" + (5 + (i * 2 - 1))
-        ]);
-
-      const cityUrl =
-        findValue(obj,[
-          "情報" + i + "URL",
-          "情報" + i + "ＵＲＬ",
-          "列" + (5 + (i * 2))
-        ]);
-
-      if(cityTitle || cityUrl){
-        cityLinks.push({
-          number:i,
-          title:cityTitle || ("情報" + i),
-          url:cityUrl
-        });
-      }
-
-    }
-
-    if(!title && !detail && !image && cityLinks.length === 0){
-      return;
-    }
-
-    items.push({
-      id:entry.rowIndex + 1,
-      date:date,
-      title:title,
-      detail:detail,
-      image:image,
-      cityLinks:cityLinks,
-      sortValue:sortValue,
-      rawText:Object.keys(obj).map(function(k){return obj[k];}).join(" ")
-    });
-
-  });
-
-  return items;
-
-}
-
-function parseGarbageRows(parsed){
-
-  const rows = [];
-
-  parsed.forEach(function(entry){
-
-    const obj =
-    entry.obj;
-
-    const city =
-      findValue(obj,["市区分","市","A列","列1"]);
-
-    const area =
-      findValue(obj,["地区","B列","列2"]);
-
-    const weekday =
-      findValue(obj,["曜日","C列","列3"]);
-
-    const type =
-      findValue(obj,["ゴミ種別","ごみ種別","種別","D列","列4"]);
-
-    const message =
-      findValue(obj,["メッセージ","説明","E列","列5"]);
-
-    const keyword =
-      findValue(obj,["検索用キーワード","検索キーワード","F列","列6"]);
-
-    const aiText =
-      findValue(obj,["AI用短文","短文","G列","列7"]);
-
-    if(!area && !weekday && !type && !message && !aiText){
-      return;
-    }
-
-    rows.push({
-      id:entry.rowIndex + 1,
-      city:city,
-      area:area,
-      weekday:weekday,
-      type:type,
-      message:message,
-      keyword:keyword,
-      aiText:aiText
-    });
-
-  });
-
-  return rows;
-
-}
-
-function extractYoutubeUrl(text){
-  const m = String(text || "").match(/https?:\/\/[^\s　"]*(youtube\.com|youtu\.be)[^\s　"]*/i);
-  return m ? m[0] : "";
-}
-
-function extractYoutubeId(url){
-
-  url = String(url || "");
-
-  let m = url.match(/[?&]v=([^&]+)/);
-  if(m) return m[1];
-
-  m = url.match(/youtu\.be\/([^?&]+)/);
-  if(m) return m[1];
-
-  m = url.match(/\/shorts\/([^?&/]+)/);
-  if(m) return m[1];
-
-  m = url.match(/\/embed\/([^?&/]+)/);
-  if(m) return m[1];
-
-  return "";
-}
-
-function looksLikeImage(url){
-  return String(url || "").match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i);
-}
-
-function sortItems(items){
-
-  return items.sort(function(a,b){
-
-    const aa =
-    String(a.sortValue || a.date || "").trim();
-
-    const bb =
-    String(b.sortValue || b.date || "").trim();
-
-    return bb.localeCompare(aa,"ja");
-
-  });
-
-}
-
-function getItemUrl(item){
-
-  return location.origin +
-    location.pathname +
-    "?mode=" +
-    encodeURIComponent(mode) +
-    "&id=" +
-    encodeURIComponent(item.id);
-
-}
-
-function getShareUrl(item){
-
-  if(mode === "today" && String(item.id) === "1"){
-    return location.origin +
-      location.pathname.replace(/app\.html$/,"share-001.html");
-  }
-
-  return getItemUrl(item);
-
-}
-
-function getShareText(item){
-
-  return config.title + "｜" + (item.title || "お知らせ");
-
-}
-
-function buildShareBox(item){
-
-  const shareUrl =
-  item.shareUrl || getShareUrl(item);
-
-  const text =
-  item.shareText || getShareText(item);
-
-  const encodedUrl =
-  encodeURIComponent(shareUrl);
-
-  const encodedText =
-  encodeURIComponent(text);
-
-  const lineUrl =
-  "https://social-plugins.line.me/lineit/share?url=" + encodedUrl;
-
-  const xUrl =
-  "https://twitter.com/intent/tweet?text=" + encodedText + "&url=" + encodedUrl;
-
-  const facebookUrl =
-  "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
-
-  return `
-    <div class="shareBox">
-      <div class="shareTitle">
-        共有する
-      </div>
-
-      <div class="shareGrid">
-        <a class="shareBtn lineBtn" href="${escapeHtml(lineUrl)}" target="_blank" rel="noopener">
-          LINE
-        </a>
-
-        <a class="shareBtn xBtn" href="${escapeHtml(xUrl)}" target="_blank" rel="noopener">
-          X
-        </a>
-
-        <a class="shareBtn facebookBtn" href="${escapeHtml(facebookUrl)}" target="_blank" rel="noopener">
-          Facebook
-        </a>
-
-        <button class="shareBtn copyBtn" data-url="${escapeHtml(shareUrl)}" onclick="copyFromButton(this)">
-          URLコピー
-        </button>
-      </div>
-    </div>
-  `;
-
-}
-
-function cityClass(number){
-  if(number === 1) return "shiki";
-  if(number === 2) return "niiza";
-  if(number === 3) return "asaka";
-  if(number === 4) return "wako";
-  return "otherCity";
-}
-
-function cityName(number){
-  if(number === 1) return "志木市";
-  if(number === 2) return "新座市";
-  if(number === 3) return "朝霞市";
-  if(number === 4) return "和光市";
-  return "情報";
-}
-
-function buildNormalItem(item){
-
-  let html = `
-    <div class="item">
-      ${
-        item.date
-        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
-        : ""
-      }
-
-      <div class="itemTitle">
-        ${escapeHtml(item.title)}
-      </div>
-  `;
-
-  if(item.image && looksLikeImage(item.image)){
-    html += `
-      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
-    `;
-  }
-
-  if(item.detail && item.detail !== item.title){
-    html += `
-      <div class="itemDetail">
-        ${escapeHtml(item.detail)}
-      </div>
-    `;
-  }
-
-  if(item.url){
-    html += `
-      <a class="linkBtn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
-        詳しく見る
-      </a>
-    `;
-  }
-
-  html += buildShareBox(item);
-
-  html += `
-    </div>
-  `;
-
-  return html;
-
-}
-
-function buildVideoItem(item){
-
-  const youtubeId =
-  extractYoutubeId(item.youtube);
-
-  let html = `
-    <div class="item">
-      ${
-        item.date
-        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
-        : ""
-      }
-
-      <div class="itemTitle">
-        ${escapeHtml(item.title)}
-      </div>
-  `;
-
-  if(item.image && looksLikeImage(item.image)){
-    html += `
-      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
-    `;
-  }
-
-  if(youtubeId){
-    html += `
-      <div class="videoBox">
-        <iframe
-          src="https://www.youtube.com/embed/${escapeHtml(youtubeId)}"
-          title="YouTube video"
-          allowfullscreen>
-        </iframe>
-      </div>
-    `;
-  }
-
-  if(item.detail && item.detail !== item.title){
-    html += `
-      <div class="itemDetail">
-        ${escapeHtml(item.detail)}
-      </div>
-    `;
-  }
-
-  if(item.youtube && !youtubeId){
-    html += `
-      <a class="linkBtn" href="${escapeHtml(item.youtube)}" target="_blank" rel="noopener">
-        YouTubeで見る
-      </a>
-    `;
-  }
-
-  html += buildShareBox(item);
-
-  html += `
-    </div>
-  `;
-
-  return html;
-
-}
-
-function buildCityItem(item){
-
-  let html = `
-    <div class="item">
-      ${
-        item.date
-        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
-        : ""
-      }
-
-      <div class="itemTitle">
-        ${escapeHtml(item.title || "今日の4市情報")}
-      </div>
-  `;
-
-  if(item.image && looksLikeImage(item.image)){
-    html += `
-      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
-    `;
-  }
-
-  if(item.detail){
-    html += `
-      <div class="itemDetail">
-        ${escapeHtml(item.detail)}
-      </div>
-    `;
-  }
-
-  html += `<div class="cityLinks">`;
-
-  if(item.cityLinks && item.cityLinks.length > 0){
-
-    item.cityLinks.forEach(function(info){
-
-      html += `
-        <div class="cityBox">
-          <div class="cityBadge ${cityClass(info.number)}">
-            ${escapeHtml(cityName(info.number))}
-          </div>
-
-          <div class="cityTitle">
-            ${escapeHtml(info.title)}
-          </div>
-
-          ${
-            info.url
-            ? `<a class="linkBtn" href="${escapeHtml(info.url)}" target="_blank" rel="noopener">記事を見る</a>`
-            : ""
-          }
-        </div>
-      `;
-
-    });
-
-  }else{
-
-    html += `
-      <div class="empty">
-        4市の記事リンクがありません
-      </div>
-    `;
-
-  }
-
-  html += `</div>`;
-
-  html += buildShareBox(item);
-
-  html += `
-    </div>
-  `;
-
-  return html;
-
-}
-
-function buildItem(item){
-
-  if(config.type === "city"){
-    return buildCityItem(item);
-  }
-
-  if(config.type === "video" || config.type === "radio"){
-    return buildVideoItem(item);
-  }
-
-  return buildNormalItem(item);
-
-}
-
-function render(items){
-
-  if(singleId){
-    const one =
-    items.find(function(item){
-      return String(item.id) === String(singleId);
-    });
-
-    if(one){
-      latestList.innerHTML = buildItem(one);
-      archiveList.innerHTML = "";
-      archiveCard.style.display = "none";
-      archiveBtn.style.display = "none";
-      archiveButtonCard.style.display = "none";
-      statusBox.innerText = "表示しました";
-      return;
-    }
-  }
-
-  if(!items || items.length === 0){
-    latestList.innerHTML =
-    '<div class="empty">まだ登録がありません</div>';
-    archiveList.innerHTML =
-    '<div class="empty">アーカイブはありません</div>';
-    statusBox.innerText = "登録がありません";
+  if(sending){
     return;
   }
 
-  const latest =
-  items.slice(0,5);
+  sending = true;
 
-  const archive =
-  items.slice(5);
-
-  latestList.innerHTML =
-  latest.map(buildItem).join("");
-
-  if(archive.length > 0){
-    archiveList.innerHTML =
-    archive.map(buildItem).join("");
-    archiveBtn.style.display = "block";
-    archiveButtonCard.style.display = "block";
-  }else{
-    archiveList.innerHTML =
-    '<div class="empty">アーカイブはありません</div>';
-    archiveBtn.style.display = "none";
-    archiveButtonCard.style.display = "none";
-  }
-
-  statusBox.innerText =
-  "読み込みました";
-
-}
-
-function getTodayDate(){
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-}
-
-function addDays(date,days){
-  const d = new Date(date.getTime());
-  d.setDate(d.getDate() + days);
-  return d;
-}
-
-function getDayName(date){
-  return JP_DAYS[date.getDay()];
-}
-
-function getNthWeekday(date){
-  const day = date.getDate();
-  const nth = Math.floor((day - 1) / 7) + 1;
-  return "第" + nth + getDayName(date);
-}
-
-function dateLabel(date){
-  const m = date.getMonth() + 1;
-  const d = date.getDate();
-  const w = getDayName(date);
-  return m + "月" + d + "日（" + w + "）";
-}
-
-function normalizeText(str){
-  return String(str || "")
-    .replace(/\s/g,"")
-    .trim();
-}
-
-function matchGarbageDay(row,date){
-
-  const wd =
-  getDayName(date);
-
-  const nth =
-  getNthWeekday(date);
-
-  const target =
-  normalizeText(row.weekday);
-
-  if(!target){
-    return false;
-  }
-
-  if(target === wd){
-    return true;
-  }
-
-  if(target === nth){
-    return true;
-  }
-
-  if(target === "毎日"){
-    return true;
-  }
-
-  if(target === "毎朝"){
-    return true;
-  }
-
-  return false;
-
-}
-
-function uniqueAreas(rows){
-
-  const map = {};
-
-  rows.forEach(function(row){
-    if(row.area){
-      map[row.area] = true;
-    }
-  });
-
-  return Object.keys(map).sort(function(a,b){
-    return a.localeCompare(b,"ja");
-  });
-
-}
-
-function getSelectedArea(){
-  const saved =
-  localStorage.getItem("anshin_garbage_area") || "";
-
-  return saved;
-}
-
-function setSelectedArea(area){
-  localStorage.setItem("anshin_garbage_area",area);
-}
-
-function buildGarbageRows(title,date,rows){
-
-  const matched =
-  rows.filter(function(row){
-    return matchGarbageDay(row,date);
-  });
-
-  let html = `
-    <div class="garbageBlock">
-      <div class="garbageHead">
-        ${escapeHtml(title)}　${escapeHtml(dateLabel(date))}
-      </div>
-  `;
-
-  if(matched.length === 0){
-
-    html += `
-      <div class="empty">
-        該当するゴミ情報はありません
-      </div>
-    `;
-
-  }else{
-
-    matched.forEach(function(row){
-
-      const msg =
-      row.aiText || row.message || "";
-
-      html += `
-        <div class="weekRow">
-          <div class="garbageType">
-            ${escapeHtml(row.type || "ゴミ情報")}
-          </div>
-
-          ${
-            msg
-            ? `<div class="garbageMsg">${escapeHtml(msg)}</div>`
-            : ""
-          }
-        </div>
-      `;
-
-    });
-
-  }
-
-  html += `</div>`;
-
-  return html;
-
-}
-
-function buildWeekRows(rows){
-
-  const today =
-  getTodayDate();
-
-  let html = `
-    <div class="garbageBlock">
-      <div class="garbageHead">
-        今週のゴミ
-      </div>
-  `;
-
-  for(let i=0;i<7;i++){
-
-    const d =
-    addDays(today,i);
-
-    const matched =
-    rows.filter(function(row){
-      return matchGarbageDay(row,d);
-    });
-
-    html += `
-      <div class="weekRow">
-        <div class="weekDay">
-          ${escapeHtml(dateLabel(d))}
-        </div>
-    `;
-
-    if(matched.length === 0){
-
-      html += `
-        <div class="garbageMsg">
-          収集情報はありません
-        </div>
-      `;
-
-    }else{
-
-      matched.forEach(function(row){
-
-        const msg =
-        row.aiText || row.message || "";
-
-        html += `
-          <div class="garbageType">
-            ${escapeHtml(row.type || "ゴミ情報")}
-          </div>
-
-          ${
-            msg
-            ? `<div class="garbageMsg">${escapeHtml(msg)}</div>`
-            : ""
-          }
-        `;
-
-      });
-
-    }
-
-    html += `
-      </div>
-    `;
-
-  }
-
-  html += `
-    </div>
-  `;
-
-  return html;
-
-}
-
-function renderGarbage(){
-
-  const areas =
-  uniqueAreas(garbageRows);
-
-  if(areas.length === 0){
-    latestList.innerHTML =
-    '<div class="empty">ゴミ情報が登録されていません</div>';
-    statusBox.innerText =
-    "登録がありません";
-    return;
-  }
-
-  let selected =
-  getSelectedArea();
-
-  if(!selected || areas.indexOf(selected) < 0){
-    selected = areas[0];
-    setSelectedArea(selected);
-  }
-
-  const areaRows =
-  garbageRows.filter(function(row){
-    return row.area === selected;
-  });
-
-  const today =
-  getTodayDate();
-
-  const tomorrow =
-  addDays(today,1);
-
-  let html = `
-    <div class="garbageGuide">
-      住んでいる地区を選んでください。<br>
-      今日・明日・今週のゴミだけ表示します。
-    </div>
-
-    <select class="garbageSelect" id="garbageAreaSelect">
-  `;
-
-  areas.forEach(function(area){
-
-    html += `
-      <option value="${escapeHtml(area)}" ${area === selected ? "selected" : ""}>
-        ${escapeHtml(area)}
-      </option>
-    `;
-
-  });
-
-  html += `
-    </select>
-  `;
-
-  html += buildGarbageRows("今日",today,areaRows);
-  html += buildGarbageRows("明日",tomorrow,areaRows);
-  html += buildWeekRows(areaRows);
-
-  latestList.innerHTML =
-  html;
-
-  statusBox.innerText =
-  selected + " のゴミ情報を表示しました";
-
-  const select =
-  document.getElementById("garbageAreaSelect");
-
-  if(select){
-    select.onchange =
-    function(){
-      setSelectedArea(select.value);
-      renderGarbage();
-    };
-  }
-
-  archiveList.innerHTML =
-  "";
-
-  archiveCard.style.display =
-  "none";
-
-  archiveButtonCard.style.display =
-  "none";
-
-}
-
-function loadSheet(){
-
-  statusBox.innerText =
-  "読み込み中...";
-
-  latestList.innerHTML =
-  '<div class="empty">読み込み中...</div>';
-
-  archiveList.innerHTML =
-  '<div class="empty">読み込み中...</div>';
-
-  const old =
-  document.getElementById("jsonpLoader");
-
-  if(old){
-    old.remove();
-  }
-
-  const script =
-  document.createElement("script");
-
-  script.id =
-  "jsonpLoader";
-
-  const sheetName =
-  encodeURIComponent(config.sheet);
-
-  script.src =
-  "https://docs.google.com/spreadsheets/d/" +
-  SHEET_ID +
-  "/gviz/tq?sheet=" +
-  sheetName +
-  "&tqx=out:json;responseHandler:handleSheet" +
-  "&t=" +
-  Date.now();
-
-  script.onerror =
-  function(){
-    statusBox.innerText =
-    "読み込み失敗";
-    latestList.innerHTML =
-    '<div class="error">Googleシートを読み込めませんでした</div>';
-  };
-
-  document.body.appendChild(script);
-
-}
-
-window.handleSheet = function(json){
+  const noteBox = document.getElementById("noteBox");
+  noteBox.innerText = "記録中...\n" + text;
 
   try{
 
-    const table =
-    json.table || {};
+    const url =
+      GAS_URL +
+      '?mode=voice&text=' +
+      encodeURIComponent(text) +
+      '&t=' +
+      Date.now();
 
-    const parsed =
-    parseRows(table);
+    const response = await fetch(url);
+    const data = await response.json();
 
-    let items;
+    console.log(data);
 
-    if(config.type === "garbage"){
-
-      garbageRows =
-      parseGarbageRows(parsed);
-
-      renderGarbage();
-
-      return;
-
-    }else if(config.type === "city"){
-
-      items =
-      parseCityItems(parsed);
-
-    }else if(config.type === "video"){
-
-      items =
-      parseVideoItems(parsed);
-
-    }else if(config.type === "radio"){
-
-      items =
-      parseRadioItems(parsed);
-
+    if(data.ok === true || data.status === "success"){
+      noteBox.innerText = "記録しました\n" + text;
     }else{
-
-      items =
-      parseNormalItems(parsed);
-
+      noteBox.innerText = "記録できませんでした\n" + text;
+      alert(data.error || data.message || "記録に失敗しました");
     }
-
-    items =
-    sortItems(items);
-
-    allItems =
-    items;
-
-    render(items);
 
   }catch(error){
 
     console.error(error);
+    noteBox.innerText = "通信エラー\n" + text;
+    alert("通信エラーです");
 
-    statusBox.innerText =
-    "表示エラー";
+  }finally{
 
-    latestList.innerHTML =
-    `<div class="error">${escapeHtml(error.message || String(error))}</div>`;
+    sending = false;
 
   }
 
-};
-
-function copyFromButton(btn){
-  const url = btn.getAttribute("data-url") || "";
-  copyShareUrl(url);
 }
-
-function copyShareUrl(url){
-
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url)
-      .then(function(){
-        alert("URLをコピーしました");
-      })
-      .catch(function(){
-        prompt("このURLをコピーしてください",url);
-      });
-  }else{
-    prompt("このURLをコピーしてください",url);
-  }
-
-}
-
-archiveBtn.onclick =
-function(){
-
-  archiveOpen =
-  !archiveOpen;
-
-  archiveCard.style.display =
-  archiveOpen ? "block" : "none";
-
-  archiveBtn.innerText =
-  archiveOpen ? "📕 アーカイブを閉じる" : "📚 アーカイブを見る";
-
-};
-
-reloadBtn.onclick =
-function(){
-  loadSheet();
-};
 </script>
 
 </body>
