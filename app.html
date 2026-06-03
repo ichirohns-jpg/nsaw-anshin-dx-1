@@ -5,29 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>あんしん生活DX</title>
 
-<meta name="description" content="高齢者が話して登録し、予定・見守り・薬・ゴミ・地域情報・人につなぐを大きなボタンで使える生活支援DXです。">
-
-<link rel="icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
-<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
-
-<meta name="theme-color" content="#1565c0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="あんしん生活DX">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ja_JP">
-<meta property="og:site_name" content="あんしん生活DX">
-<meta property="og:title" content="あんしん生活DX">
-<meta property="og:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。高齢者にも使いやすい生活支援DX。">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="あんしん生活DX">
-<meta name="twitter:description" content="話して登録。予定・見守り・薬・ゴミ・地域情報・人につなぐ。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
-
 <style>
 *{
   box-sizing:border-box;
@@ -50,31 +27,21 @@ body{
   margin:0 auto;
 }
 
-.topImageBox{
-  width:100%;
-  background:white;
-  border-radius:30px;
-  padding:10px;
-  margin-bottom:18px;
-  box-shadow:0 8px 22px rgba(0,0,0,.10);
-}
-
-.topImage{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:22px;
-}
-
 .header{
-  background:#1565c0;
   color:white;
   border-radius:30px;
-  padding:24px 18px;
+  padding:26px 18px;
   text-align:center;
   margin-bottom:18px;
   box-shadow:0 8px 22px rgba(0,0,0,.12);
 }
+
+.header.today{background:#1976d2}
+.header.radio{background:#ef6c00}
+.header.board{background:#795548}
+.header.city{background:#00897b}
+.header.video{background:#3949ab}
+.header.garbage{background:#6a1b9a}
 
 .title{
   font-size:38px;
@@ -98,49 +65,201 @@ body{
   box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
+.status{
+  background:#fff8e1;
+  border-radius:24px;
+  padding:18px;
+  font-size:24px;
+  font-weight:900;
+  line-height:1.6;
+  color:#444;
+  text-align:center;
+  margin-bottom:18px;
+  white-space:pre-wrap;
+}
+
+.bigBtn{
+  display:block;
+  width:100%;
+  border:none;
+  border-radius:28px;
+  padding:26px 12px;
+  font-size:28px;
+  font-weight:900;
+  color:white;
+  cursor:pointer;
+  margin-bottom:14px;
+  text-align:center;
+  text-decoration:none;
+}
+
+.reloadBtn{background:#1976d2}
+.homeBtn{background:#555}
+
 .sectionTitle{
-  font-size:30px;
+  font-size:32px;
   font-weight:900;
   color:#1565c0;
-  margin:0 0 14px;
+  margin:0 0 16px;
   text-align:center;
 }
 
-.mainBtn{
+.item{
+  background:#f8fbff;
+  border:4px solid #d7e6ff;
+  border-radius:26px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.itemDate{
+  display:inline-block;
+  background:#1565c0;
+  color:white;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
+.itemTitle{
+  font-size:32px;
+  font-weight:900;
+  line-height:1.5;
+  color:#123;
+  margin-bottom:12px;
+}
+
+.itemDetail{
+  font-size:25px;
+  font-weight:800;
+  line-height:1.65;
+  color:#333;
+  white-space:pre-wrap;
+  margin-bottom:16px;
+}
+
+.itemImg{
+  width:100%;
+  border-radius:22px;
+  margin:10px 0 16px;
+  display:block;
+}
+
+.videoBox{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  border-radius:22px;
+  overflow:hidden;
+  background:#000;
+  margin:10px 0 16px;
+}
+
+.videoBox iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.linkBtn{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  border-radius:24px;
+  padding:22px 12px;
+  font-size:25px;
+  font-weight:900;
+  color:white;
+  background:#2e7d32;
+  margin-top:12px;
+}
+
+.shareBox{
+  background:white;
+  border-radius:24px;
+  padding:14px;
+  margin-top:16px;
+  border:3px solid #e3edf8;
+}
+
+.shareTitle{
+  font-size:24px;
+  font-weight:900;
+  text-align:center;
+  color:#1565c0;
+  margin-bottom:12px;
+}
+
+.shareGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.shareBtn{
   display:block;
   width:100%;
   text-align:center;
   text-decoration:none;
   border:none;
-  border-radius:30px;
-  padding:30px 12px;
-  font-size:30px;
+  border-radius:22px;
+  padding:20px 8px;
+  font-size:22px;
   font-weight:900;
   color:white;
-  margin-bottom:16px;
   cursor:pointer;
 }
 
-.green{background:#2e7d32}
-.blue{background:#1976d2}
-.orange{background:#ef6c00}
-.red{background:#c62828}
-.purple{background:#6a1b9a}
-.gray{background:#555}
-.brown{background:#795548}
-.teal{background:#00897b}
-.indigo{background:#3949ab}
+.lineBtn{background:#06c755}
+.xBtn{background:#111}
+.facebookBtn{background:#1877f2}
+.copyBtn{background:#555}
 
-.note{
-  background:#fff8e1;
+.empty{
+  background:#f5f7fa;
   border-radius:24px;
-  padding:18px;
-  font-size:23px;
+  padding:24px;
+  font-size:28px;
   font-weight:900;
-  line-height:1.6;
-  color:#444;
+  color:#666;
+  line-height:1.5;
   text-align:center;
+}
+
+.error{
+  background:#fff3f3;
+  border-radius:24px;
+  padding:22px;
+  font-size:24px;
+  font-weight:900;
+  color:#b71c1c;
+  line-height:1.6;
   white-space:pre-wrap;
+}
+
+.archiveBox{
+  display:none;
+}
+
+.toggleBtn{
+  width:100%;
+  border:none;
+  border-radius:28px;
+  padding:26px 12px;
+  font-size:28px;
+  font-weight:900;
+  color:white;
+  background:#777;
+  cursor:pointer;
+}
+
+.bottomSpace{
+  height:20px;
 }
 
 @media(max-width:600px){
@@ -152,17 +271,43 @@ body{
     font-size:20px;
   }
 
+  .status{
+    font-size:22px;
+  }
+
+  .bigBtn,
+  .toggleBtn{
+    font-size:24px;
+    padding:24px 10px;
+  }
+
   .sectionTitle{
-    font-size:27px;
+    font-size:28px;
   }
 
-  .mainBtn{
-    font-size:27px;
-    padding:28px 10px;
+  .itemTitle{
+    font-size:28px;
   }
 
-  .note{
-    font-size:21px;
+  .itemDetail{
+    font-size:23px;
+  }
+
+  .linkBtn{
+    font-size:22px;
+  }
+
+  .shareTitle{
+    font-size:22px;
+  }
+
+  .shareBtn{
+    font-size:20px;
+    padding:18px 6px;
+  }
+
+  .empty{
+    font-size:25px;
   }
 }
 </style>
@@ -172,128 +317,179 @@ body{
 
 <div class="wrap">
 
-  <div class="topImageBox">
-    <img
-      class="topImage"
-      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=allmenu1"
-      alt="あんしん生活DX">
-  </div>
-
-  <div class="header">
-    <h1 class="title">
-      あんしん生活DX
+  <div class="header" id="header">
+    <h1 class="title" id="pageTitle">
+      読み込み中
     </h1>
-    <div class="sub">
-      話して登録<br>
-      大きな文字で確認
+    <div class="sub" id="pageSub">
+      少しお待ちください
     </div>
   </div>
 
   <div class="card">
-    <div class="sectionTitle">
-      登録
-    </div>
-
-    <button class="mainBtn indigo" onclick="notReady('本人登録')">
-      📝 本人登録
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      予定
-    </div>
-
-    <a class="mainBtn green" href="voice.html?v=backvoice1">
-      🎤 予定を入れる
+    <a class="bigBtn homeBtn" href="index.html?v=regionaltop1">
+      ⬅️ 最初の画面に戻る
     </a>
 
-    <a class="mainBtn blue" href="today.html?v=backtoday1">
-      📅 今日の予定を見る
+    <button class="bigBtn reloadBtn" id="reloadBtn">
+      🔄 更新する
+    </button>
+
+    <div class="status" id="statusBox">
+      読み込み中...
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sectionTitle">
+      最新
+    </div>
+    <div id="latestList">
+      <div class="empty">読み込み中...</div>
+    </div>
+  </div>
+
+  <div class="card" id="archiveButtonCard">
+    <button class="toggleBtn" id="archiveBtn">
+      📚 アーカイブを見る
+    </button>
+  </div>
+
+  <div class="card archiveBox" id="archiveCard">
+    <div class="sectionTitle">
+      アーカイブ
+    </div>
+    <div id="archiveList">
+      <div class="empty">まだありません</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <a class="bigBtn homeBtn" href="index.html?v=regionaltop1">
+      ⬅️ 最初の画面に戻る
     </a>
   </div>
 
-  <div class="card">
-    <div class="sectionTitle">
-      見守り
-    </div>
-
-    <button class="mainBtn green" onclick="sendQuick('元気です')">
-      😊 元気です
-    </button>
-
-    <button class="mainBtn orange" onclick="sendQuick('少し困っています')">
-      ⚠️ 少し困っています
-    </button>
-
-    <button class="mainBtn red" onclick="sendQuick('助けてください')">
-      🚨 助けてください
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      薬の確認
-    </div>
-
-    <button class="mainBtn purple" onclick="sendQuick('朝の薬を飲みました')">
-      💊 朝の薬を飲んだ
-    </button>
-
-    <button class="mainBtn purple" onclick="sendQuick('昼の薬を飲みました')">
-      💊 昼の薬を飲んだ
-    </button>
-
-    <button class="mainBtn purple" onclick="sendQuick('夜の薬を飲みました')">
-      💊 夜の薬を飲んだ
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      生活情報
-    </div>
-
-    <button class="mainBtn brown" onclick="notReady('ゴミ情報')">
-      🗑 ゴミ情報
-    </button>
-
-    <button class="mainBtn teal" onclick="notReady('4市の情報')">
-      📰 4市の情報
-    </button>
-
-    <button class="mainBtn indigo" onclick="notReady('お楽しみ動画')">
-      🎥 お楽しみ動画
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      つながる
-    </div>
-
-    <a class="mainBtn gray" href="connect.html?v=safephone2">
-      ☎️ 人につなぐ
-    </a>
-
-    <button class="mainBtn blue" onclick="notReady('見守り者画面')">
-      👀 見守り者画面
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="note" id="noteBox">
-      迷ったら「人につなぐ」を押してください
-    </div>
-  </div>
+  <div class="bottomSpace"></div>
 
 </div>
 
 <script>
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-let sending = false;
+const MODE_CONFIG = {
+  today:{
+    title:"今日のお知らせ",
+    sub:"地域のお知らせを見ます",
+    sheet:"瓦版",
+    headerClass:"today",
+    keywords:[]
+  },
+  radio:{
+    title:"地域ラジオ",
+    sub:"今日の地域ラジオを聞きます",
+    sheet:"瓦版",
+    headerClass:"radio",
+    keywords:["地域ラジオ","ラジオ","朝ラジオ"]
+  },
+  board:{
+    title:"回覧板",
+    sub:"地域の回覧板を見ます",
+    sheet:"瓦版",
+    headerClass:"board",
+    keywords:["回覧板","お知らせ","案内"]
+  },
+  city:{
+    title:"4市の情報",
+    sub:"志木・新座・朝霞・和光の公式情報",
+    sheet:"",
+    headerClass:"city",
+    keywords:[]
+  },
+  video:{
+    title:"お楽しみ動画",
+    sub:"動画を見て楽しみます",
+    sheet:"瓦版",
+    headerClass:"video",
+    keywords:["動画","お楽しみ","YouTube","ユーチューブ"]
+  },
+  garbage:{
+    title:"ゴミ情報",
+    sub:"ゴミ出しや暮らしの情報",
+    sheet:"ゴミ",
+    headerClass:"garbage",
+    keywords:[]
+  }
+};
+
+const CITY_LINKS = [
+  {
+    name:"志木市",
+    detail:"志木市の公式ホームページを開きます。",
+    url:"https://www.city.shiki.lg.jp/"
+  },
+  {
+    name:"新座市",
+    detail:"新座市の公式ホームページを開きます。",
+    url:"https://www.city.niiza.lg.jp/"
+  },
+  {
+    name:"朝霞市",
+    detail:"朝霞市の公式ホームページを開きます。",
+    url:"https://www.city.asaka.lg.jp/"
+  },
+  {
+    name:"和光市",
+    detail:"和光市の公式ホームページを開きます。",
+    url:"https://www.city.wako.lg.jp/"
+  }
+];
+
+const params =
+new URLSearchParams(window.location.search);
+
+const mode =
+params.get("mode") || "today";
+
+const singleId =
+params.get("id") || "";
+
+const config =
+MODE_CONFIG[mode] || MODE_CONFIG.today;
+
+const pageTitle =
+document.getElementById("pageTitle");
+
+const pageSub =
+document.getElementById("pageSub");
+
+const header =
+document.getElementById("header");
+
+const statusBox =
+document.getElementById("statusBox");
+
+const latestList =
+document.getElementById("latestList");
+
+const archiveList =
+document.getElementById("archiveList");
+
+const reloadBtn =
+document.getElementById("reloadBtn");
+
+const archiveBtn =
+document.getElementById("archiveBtn");
+
+const archiveCard =
+document.getElementById("archiveCard");
+
+const archiveButtonCard =
+document.getElementById("archiveButtonCard");
+
+let allItems = [];
+let archiveOpen = false;
 
 function stopAllSpeech(){
   try{
@@ -306,6 +502,13 @@ function stopAllSpeech(){
 window.addEventListener("load",function(){
   stopAllSpeech();
   window.scrollTo(0,0);
+  setupPage();
+
+  if(mode === "city"){
+    renderCityLinks();
+  }else{
+    loadSheet();
+  }
 });
 
 window.addEventListener("pageshow",function(){
@@ -313,58 +516,586 @@ window.addEventListener("pageshow",function(){
   window.scrollTo(0,0);
 });
 
-function notReady(name){
-  const noteBox = document.getElementById("noteBox");
-  noteBox.innerText = name + " は次に作ります";
+function setupPage(){
+  pageTitle.innerText = config.title;
+  pageSub.innerText = config.sub;
+  header.classList.add(config.headerClass);
+  document.title = config.title + "｜あんしん生活DX";
 }
 
-async function sendQuick(text){
+function escapeHtml(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
 
-  stopAllSpeech();
+function getCell(row,index){
+  if(!row || !row.c || !row.c[index]){
+    return "";
+  }
 
-  if(sending){
+  const cell = row.c[index];
+
+  if(cell.f !== undefined && cell.f !== null){
+    return String(cell.f);
+  }
+
+  if(cell.v !== undefined && cell.v !== null){
+    return String(cell.v);
+  }
+
+  return "";
+}
+
+function findValue(obj,names){
+  for(let i=0;i<names.length;i++){
+    const key = names[i];
+    if(obj[key]){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function normalizeHeader(str){
+  return String(str || "")
+    .replace(/\s/g,"")
+    .trim();
+}
+
+function parseTable(table){
+
+  const labels =
+  (table.cols || []).map(function(col,index){
+    return normalizeHeader(col.label || col.id || ("列" + (index + 1)));
+  });
+
+  const rows =
+  table.rows || [];
+
+  const items = [];
+
+  rows.forEach(function(row,rowIndex){
+
+    const obj = {};
+
+    labels.forEach(function(label,index){
+      obj[label] = getCell(row,index);
+      obj["列" + (index + 1)] = getCell(row,index);
+    });
+
+    const date =
+      findValue(obj,[
+        "日付","日時","登録日時","投稿日","表示日","開催日","配信日","A列","列1"
+      ]);
+
+    const title =
+      findValue(obj,[
+        "タイトル","件名","見出し","名称","内容","B列","列2"
+      ]);
+
+    const detail =
+      findValue(obj,[
+        "詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","C列","列3"
+      ]);
+
+    const image =
+      findValue(obj,[
+        "画像URL","画像","サムネイル","画像リンク","D列","列4"
+      ]);
+
+    const url =
+      findValue(obj,[
+        "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","E列","列5","F列","列6"
+      ]);
+
+    const youtube =
+      findValue(obj,[
+        "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","動画","G列","列7"
+      ]);
+
+    const sortValue =
+      findValue(obj,[
+        "並び替え","並び替え数値","ソート","K列","列11"
+      ]);
+
+    const rawText =
+      [
+        date,title,detail,image,url,youtube
+      ].join(" ");
+
+    if(!title && !detail && !url && !youtube){
+      return;
+    }
+
+    items.push({
+      id: rowIndex + 1,
+      date: date,
+      title: title || detail || "お知らせ",
+      detail: detail,
+      image: image,
+      url: url,
+      youtube: youtube || extractYoutubeUrl(rawText),
+      sortValue: sortValue,
+      rawText: rawText
+    });
+
+  });
+
+  return items;
+
+}
+
+function extractYoutubeUrl(text){
+  const m = String(text || "").match(/https?:\/\/[^\s　"]*(youtube\.com|youtu\.be)[^\s　"]*/i);
+  return m ? m[0] : "";
+}
+
+function extractYoutubeId(url){
+
+  url = String(url || "");
+
+  let m = url.match(/[?&]v=([^&]+)/);
+  if(m) return m[1];
+
+  m = url.match(/youtu\.be\/([^?&]+)/);
+  if(m) return m[1];
+
+  m = url.match(/\/shorts\/([^?&/]+)/);
+  if(m) return m[1];
+
+  m = url.match(/\/embed\/([^?&/]+)/);
+  if(m) return m[1];
+
+  return "";
+}
+
+function looksLikeImage(url){
+  return String(url || "").match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i);
+}
+
+function filterByMode(items){
+
+  if(!config.keywords || config.keywords.length === 0){
+    return items;
+  }
+
+  const filtered =
+  items.filter(function(item){
+
+    const text =
+    String(item.rawText || "").toLowerCase();
+
+    return config.keywords.some(function(keyword){
+      return text.indexOf(String(keyword).toLowerCase()) >= 0;
+    });
+
+  });
+
+  if(filtered.length === 0){
+    return items;
+  }
+
+  return filtered;
+
+}
+
+function sortItems(items){
+
+  return items.sort(function(a,b){
+
+    const aa =
+    String(a.sortValue || a.date || "").trim();
+
+    const bb =
+    String(b.sortValue || b.date || "").trim();
+
+    return bb.localeCompare(aa,"ja");
+
+  });
+
+}
+
+function getItemUrl(item){
+
+  return location.origin +
+    location.pathname +
+    "?mode=" +
+    encodeURIComponent(mode) +
+    "&id=" +
+    encodeURIComponent(item.id);
+
+}
+
+function getShareUrl(item){
+
+  if(mode === "today" && String(item.id) === "1"){
+    return location.origin +
+      location.pathname.replace(/app\.html$/,"share-001.html");
+  }
+
+  return getItemUrl(item);
+
+}
+
+function getShareText(item){
+
+  return config.title + "｜" + (item.title || "お知らせ");
+
+}
+
+function buildShareBox(item){
+
+  const shareUrl =
+  item.shareUrl || getShareUrl(item);
+
+  const text =
+  item.shareText || getShareText(item);
+
+  const encodedUrl =
+  encodeURIComponent(shareUrl);
+
+  const encodedText =
+  encodeURIComponent(text);
+
+  const lineUrl =
+  "https://social-plugins.line.me/lineit/share?url=" + encodedUrl;
+
+  const xUrl =
+  "https://twitter.com/intent/tweet?text=" + encodedText + "&url=" + encodedUrl;
+
+  const facebookUrl =
+  "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
+
+  return `
+    <div class="shareBox">
+      <div class="shareTitle">
+        共有する
+      </div>
+
+      <div class="shareGrid">
+        <a class="shareBtn lineBtn" href="${escapeHtml(lineUrl)}" target="_blank" rel="noopener">
+          LINE
+        </a>
+
+        <a class="shareBtn xBtn" href="${escapeHtml(xUrl)}" target="_blank" rel="noopener">
+          X
+        </a>
+
+        <a class="shareBtn facebookBtn" href="${escapeHtml(facebookUrl)}" target="_blank" rel="noopener">
+          Facebook
+        </a>
+
+        <button class="shareBtn copyBtn" onclick="copyShareUrl('${escapeHtml(shareUrl)}')">
+          URLコピー
+        </button>
+      </div>
+    </div>
+  `;
+
+}
+
+function buildItem(item){
+
+  const youtubeId =
+  extractYoutubeId(item.youtube);
+
+  let html = `
+    <div class="item">
+      ${
+        item.date
+        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
+        : ""
+      }
+
+      <div class="itemTitle">
+        ${escapeHtml(item.title)}
+      </div>
+  `;
+
+  if(item.image && looksLikeImage(item.image)){
+    html += `
+      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
+    `;
+  }
+
+  if(youtubeId){
+    html += `
+      <div class="videoBox">
+        <iframe
+          src="https://www.youtube.com/embed/${escapeHtml(youtubeId)}"
+          title="YouTube video"
+          allowfullscreen>
+        </iframe>
+      </div>
+    `;
+  }
+
+  if(item.detail && item.detail !== item.title){
+    html += `
+      <div class="itemDetail">
+        ${escapeHtml(item.detail)}
+      </div>
+    `;
+  }
+
+  if(item.url){
+    html += `
+      <a class="linkBtn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
+        詳しく見る
+      </a>
+    `;
+  }
+
+  if(item.youtube && !youtubeId){
+    html += `
+      <a class="linkBtn" href="${escapeHtml(item.youtube)}" target="_blank" rel="noopener">
+        動画を見る
+      </a>
+    `;
+  }
+
+  html += buildShareBox(item);
+
+  html += `
+    </div>
+  `;
+
+  return html;
+
+}
+
+function buildCityCard(city,index){
+
+  const item = {
+    id:index + 1,
+    title:city.name,
+    detail:city.detail,
+    url:city.url,
+    shareUrl:city.url,
+    shareText:"4市の情報｜" + city.name + "公式ホームページ"
+  };
+
+  return `
+    <div class="item">
+      <div class="itemDate">
+        公式ホームページ
+      </div>
+
+      <div class="itemTitle">
+        ${escapeHtml(city.name)}
+      </div>
+
+      <div class="itemDetail">
+        ${escapeHtml(city.detail)}
+      </div>
+
+      <a class="linkBtn" href="${escapeHtml(city.url)}" target="_blank" rel="noopener">
+        ${escapeHtml(city.name)}ホームページを見る
+      </a>
+
+      ${buildShareBox(item)}
+    </div>
+  `;
+
+}
+
+function renderCityLinks(){
+
+  statusBox.innerText =
+  "4市の公式リンクを表示しました";
+
+  latestList.innerHTML =
+  CITY_LINKS.map(buildCityCard).join("");
+
+  archiveList.innerHTML =
+  '<div class="empty">アーカイブはありません</div>';
+
+  archiveCard.style.display =
+  "none";
+
+  archiveButtonCard.style.display =
+  "none";
+
+}
+
+function render(items){
+
+  if(singleId){
+    const one =
+    items.find(function(item){
+      return String(item.id) === String(singleId);
+    });
+
+    if(one){
+      latestList.innerHTML = buildItem(one);
+      archiveList.innerHTML = "";
+      archiveCard.style.display = "none";
+      archiveBtn.style.display = "none";
+      statusBox.innerText = "表示しました";
+      return;
+    }
+  }
+
+  if(!items || items.length === 0){
+    latestList.innerHTML =
+    '<div class="empty">まだ登録がありません</div>';
+    archiveList.innerHTML =
+    '<div class="empty">アーカイブはありません</div>';
+    statusBox.innerText = "登録がありません";
     return;
   }
 
-  sending = true;
+  const latest =
+  items.slice(0,5);
 
-  const noteBox = document.getElementById("noteBox");
-  noteBox.innerText = "記録中...\n" + text;
+  const archive =
+  items.slice(5);
+
+  latestList.innerHTML =
+  latest.map(buildItem).join("");
+
+  if(archive.length > 0){
+    archiveList.innerHTML =
+    archive.map(buildItem).join("");
+    archiveBtn.style.display = "block";
+  }else{
+    archiveList.innerHTML =
+    '<div class="empty">アーカイブはありません</div>';
+    archiveBtn.style.display = "none";
+  }
+
+  statusBox.innerText =
+  "読み込みました";
+
+}
+
+function loadSheet(){
+
+  statusBox.innerText =
+  "読み込み中...";
+
+  latestList.innerHTML =
+  '<div class="empty">読み込み中...</div>';
+
+  archiveList.innerHTML =
+  '<div class="empty">読み込み中...</div>';
+
+  const old =
+  document.getElementById("jsonpLoader");
+
+  if(old){
+    old.remove();
+  }
+
+  const script =
+  document.createElement("script");
+
+  script.id =
+  "jsonpLoader";
+
+  const sheetName =
+  encodeURIComponent(config.sheet);
+
+  script.src =
+  "https://docs.google.com/spreadsheets/d/" +
+  SHEET_ID +
+  "/gviz/tq?sheet=" +
+  sheetName +
+  "&tqx=out:json;responseHandler:handleSheet" +
+  "&t=" +
+  Date.now();
+
+  script.onerror =
+  function(){
+    statusBox.innerText =
+    "読み込み失敗";
+    latestList.innerHTML =
+    '<div class="error">Googleシートを読み込めませんでした</div>';
+  };
+
+  document.body.appendChild(script);
+
+}
+
+window.handleSheet = function(json){
 
   try{
 
-    const url =
-      GAS_URL +
-      '?mode=voice&text=' +
-      encodeURIComponent(text) +
-      '&t=' +
-      Date.now();
+    const table =
+    json.table || {};
 
-    const response = await fetch(url);
-    const data = await response.json();
+    let items =
+    parseTable(table);
 
-    console.log(data);
+    items =
+    filterByMode(items);
 
-    if(data.ok === true || data.status === "success"){
-      noteBox.innerText = "記録しました\n" + text;
-    }else{
-      noteBox.innerText = "記録できませんでした\n" + text;
-      alert(data.error || data.message || "記録に失敗しました");
-    }
+    items =
+    sortItems(items);
+
+    allItems =
+    items;
+
+    render(items);
 
   }catch(error){
 
     console.error(error);
-    noteBox.innerText = "通信エラー\n" + text;
-    alert("通信エラーです");
 
-  }finally{
+    statusBox.innerText =
+    "表示エラー";
 
-    sending = false;
+    latestList.innerHTML =
+    `<div class="error">${escapeHtml(error.message || String(error))}</div>`;
 
   }
 
+};
+
+function copyShareUrl(url){
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url)
+      .then(function(){
+        alert("URLをコピーしました");
+      })
+      .catch(function(){
+        prompt("このURLをコピーしてください",url);
+      });
+  }else{
+    prompt("このURLをコピーしてください",url);
+  }
+
 }
+
+archiveBtn.onclick =
+function(){
+
+  archiveOpen =
+  !archiveOpen;
+
+  archiveCard.style.display =
+  archiveOpen ? "block" : "none";
+
+  archiveBtn.innerText =
+  archiveOpen ? "📕 アーカイブを閉じる" : "📚 アーカイブを見る";
+
+};
+
+reloadBtn.onclick =
+function(){
+
+  if(mode === "city"){
+    renderCityLinks();
+  }else{
+    loadSheet();
+  }
+
+};
 </script>
 
 </body>
