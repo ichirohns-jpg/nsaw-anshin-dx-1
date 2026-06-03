@@ -7,308 +7,319 @@
 
 <style>
 *{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:auto;
+box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  padding:12px;
-  background:#eef4f8;
-  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-  color:#123;
+margin:0;
+background:#eef4f8;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#123;
+padding:12px;
 }
 
 .wrap{
-  max-width:720px;
-  margin:0 auto;
+max-width:760px;
+margin:auto;
 }
 
 .header{
-  color:white;
-  border-radius:30px;
-  padding:26px 18px;
-  text-align:center;
-  margin-bottom:18px;
-  box-shadow:0 8px 22px rgba(0,0,0,.12);
+background:#00897b;
+color:white;
+border-radius:30px;
+padding:28px 20px;
+text-align:center;
+margin-bottom:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
-.header.today{background:#1976d2}
-.header.radio{background:#ef6c00}
-.header.board{background:#795548}
-.header.city{background:#00897b}
-.header.video{background:#3949ab}
-.header.garbage{background:#6a1b9a}
-
 .title{
-  font-size:38px;
-  font-weight:900;
-  line-height:1.35;
-  margin:0;
+font-size:40px;
+font-weight:900;
+line-height:1.4;
+margin:0;
 }
 
 .sub{
-  font-size:22px;
-  font-weight:900;
-  line-height:1.6;
-  margin-top:10px;
+font-size:22px;
+font-weight:900;
+line-height:1.6;
+margin-top:10px;
 }
 
-.card{
-  background:white;
-  border-radius:28px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 8px 22px rgba(0,0,0,.08);
+.topBtn{
+display:block;
+width:100%;
+background:#555;
+color:white;
+text-decoration:none;
+text-align:center;
+border-radius:26px;
+padding:24px 10px;
+font-size:28px;
+font-weight:900;
+margin-bottom:18px;
+}
+
+.reloadBtn{
+width:100%;
+border:none;
+background:#1976d2;
+color:white;
+border-radius:26px;
+padding:24px 10px;
+font-size:28px;
+font-weight:900;
+margin-bottom:18px;
+cursor:pointer;
 }
 
 .status{
-  background:#fff8e1;
-  border-radius:24px;
-  padding:18px;
-  font-size:24px;
-  font-weight:900;
-  line-height:1.6;
-  color:#444;
-  text-align:center;
-  margin-bottom:18px;
-  white-space:pre-wrap;
+background:#fff8e1;
+border-radius:24px;
+padding:18px;
+font-size:24px;
+font-weight:900;
+line-height:1.6;
+text-align:center;
+margin-bottom:20px;
+color:#444;
 }
 
-.bigBtn{
-  display:block;
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
-  cursor:pointer;
-  margin-bottom:14px;
-  text-align:center;
-  text-decoration:none;
+.card{
+background:white;
+border-radius:30px;
+padding:20px;
+margin-bottom:22px;
+box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
-.reloadBtn{background:#1976d2}
-.homeBtn{background:#555}
-
-.sectionTitle{
-  font-size:32px;
-  font-weight:900;
-  color:#1565c0;
-  margin:0 0 16px;
-  text-align:center;
+.date{
+display:inline-block;
+background:#00897b;
+color:white;
+border-radius:999px;
+padding:8px 16px;
+font-size:20px;
+font-weight:900;
+margin-bottom:14px;
 }
 
-.item{
-  background:#f8fbff;
-  border:4px solid #d7e6ff;
-  border-radius:26px;
-  padding:20px;
-  margin-bottom:18px;
+.cardTitle{
+font-size:36px;
+font-weight:900;
+line-height:1.45;
+margin-bottom:14px;
+color:#123;
 }
 
-.itemDate{
-  display:inline-block;
-  background:#1565c0;
-  color:white;
-  border-radius:999px;
-  padding:8px 16px;
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:14px;
+.cardImg{
+width:100%;
+border-radius:24px;
+display:block;
+margin-bottom:18px;
 }
 
-.itemTitle{
-  font-size:32px;
-  font-weight:900;
-  line-height:1.5;
-  color:#123;
-  margin-bottom:12px;
+.detail{
+font-size:25px;
+font-weight:800;
+line-height:1.7;
+white-space:pre-wrap;
+color:#333;
+margin-bottom:18px;
 }
 
-.itemDetail{
-  font-size:25px;
-  font-weight:800;
-  line-height:1.65;
-  color:#333;
-  white-space:pre-wrap;
-  margin-bottom:16px;
+.cityBox{
+background:#f8fbff;
+border:4px solid #d7e6ff;
+border-radius:24px;
+padding:18px;
+margin-bottom:16px;
 }
 
-.itemImg{
-  width:100%;
-  border-radius:22px;
-  margin:10px 0 16px;
-  display:block;
+.cityBadge{
+display:inline-block;
+color:white;
+border-radius:999px;
+padding:8px 16px;
+font-size:20px;
+font-weight:900;
+margin-bottom:12px;
 }
 
-.videoBox{
-  position:relative;
-  width:100%;
-  padding-top:56.25%;
-  border-radius:22px;
-  overflow:hidden;
-  background:#000;
-  margin:10px 0 16px;
+.shiki{
+background:#1976d2;
 }
 
-.videoBox iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
+.niiza{
+background:#2e7d32;
+}
+
+.asaka{
+background:#ef6c00;
+}
+
+.wako{
+background:#6a1b9a;
+}
+
+.cityTitle{
+font-size:28px;
+font-weight:900;
+line-height:1.5;
+margin-bottom:14px;
+color:#123;
 }
 
 .linkBtn{
-  display:block;
-  width:100%;
-  text-align:center;
-  text-decoration:none;
-  border-radius:24px;
-  padding:22px 12px;
-  font-size:25px;
-  font-weight:900;
-  color:white;
-  background:#2e7d32;
-  margin-top:12px;
+display:block;
+width:100%;
+background:#1976d2;
+color:white;
+text-decoration:none;
+text-align:center;
+border-radius:22px;
+padding:22px 10px;
+font-size:24px;
+font-weight:900;
 }
 
 .shareBox{
-  background:white;
-  border-radius:24px;
-  padding:14px;
-  margin-top:16px;
-  border:3px solid #e3edf8;
+background:#f8fbff;
+border:3px solid #d7e6ff;
+border-radius:24px;
+padding:14px;
+margin-top:18px;
 }
 
 .shareTitle{
-  font-size:24px;
-  font-weight:900;
-  text-align:center;
-  color:#1565c0;
-  margin-bottom:12px;
+font-size:22px;
+font-weight:900;
+text-align:center;
+margin-bottom:12px;
+color:#1565c0;
 }
 
 .shareGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
 .shareBtn{
-  display:block;
-  width:100%;
-  text-align:center;
-  text-decoration:none;
-  border:none;
-  border-radius:22px;
-  padding:20px 8px;
-  font-size:22px;
-  font-weight:900;
-  color:white;
-  cursor:pointer;
+display:block;
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px 8px;
+font-size:21px;
+font-weight:900;
+color:white;
+cursor:pointer;
+text-align:center;
+text-decoration:none;
 }
 
-.lineBtn{background:#06c755}
-.xBtn{background:#111}
-.facebookBtn{background:#1877f2}
-.copyBtn{background:#555}
+.lineBtn{
+background:#06c755;
+}
+
+.xBtn{
+background:#111;
+}
+
+.facebookBtn{
+background:#1877f2;
+}
+
+.copyBtn{
+background:#555;
+}
+
+.archiveTitle{
+font-size:32px;
+font-weight:900;
+text-align:center;
+margin:0 0 18px;
+color:#1565c0;
+}
+
+.archiveBtn{
+width:100%;
+border:none;
+background:#777;
+color:white;
+border-radius:26px;
+padding:24px 10px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+}
+
+.archiveArea{
+display:none;
+}
 
 .empty{
-  background:#f5f7fa;
-  border-radius:24px;
-  padding:24px;
-  font-size:28px;
-  font-weight:900;
-  color:#666;
-  line-height:1.5;
-  text-align:center;
-}
-
-.error{
-  background:#fff3f3;
-  border-radius:24px;
-  padding:22px;
-  font-size:24px;
-  font-weight:900;
-  color:#b71c1c;
-  line-height:1.6;
-  white-space:pre-wrap;
-}
-
-.archiveBox{
-  display:none;
-}
-
-.toggleBtn{
-  width:100%;
-  border:none;
-  border-radius:28px;
-  padding:26px 12px;
-  font-size:28px;
-  font-weight:900;
-  color:white;
-  background:#777;
-  cursor:pointer;
+background:#f5f7fa;
+border-radius:24px;
+padding:24px;
+font-size:28px;
+font-weight:900;
+line-height:1.6;
+text-align:center;
+color:#666;
 }
 
 .bottomSpace{
-  height:20px;
+height:20px;
 }
 
 @media(max-width:600px){
-  .title{
-    font-size:32px;
-  }
 
-  .sub{
-    font-size:20px;
-  }
+.title{
+font-size:34px;
+}
 
-  .status{
-    font-size:22px;
-  }
+.sub{
+font-size:20px;
+}
 
-  .bigBtn,
-  .toggleBtn{
-    font-size:24px;
-    padding:24px 10px;
-  }
+.topBtn,
+.reloadBtn,
+.archiveBtn{
+font-size:24px;
+padding:22px 10px;
+}
 
-  .sectionTitle{
-    font-size:28px;
-  }
+.status{
+font-size:22px;
+}
 
-  .itemTitle{
-    font-size:28px;
-  }
+.cardTitle{
+font-size:30px;
+}
 
-  .itemDetail{
-    font-size:23px;
-  }
+.detail{
+font-size:23px;
+}
 
-  .linkBtn{
-    font-size:22px;
-  }
+.cityTitle{
+font-size:24px;
+}
 
-  .shareTitle{
-    font-size:22px;
-  }
+.linkBtn{
+font-size:22px;
+}
 
-  .shareBtn{
-    font-size:20px;
-    padding:18px 6px;
-  }
+.shareBtn{
+font-size:19px;
+}
 
-  .empty{
-    font-size:25px;
-  }
+.empty{
+font-size:24px;
+}
+
 }
 </style>
 </head>
@@ -317,60 +328,50 @@ body{
 
 <div class="wrap">
 
-  <div class="header" id="header">
-    <h1 class="title" id="pageTitle">
-      読み込み中
-    </h1>
-    <div class="sub" id="pageSub">
-      少しお待ちください
-    </div>
-  </div>
+<div class="header">
+<h1 class="title">
+4市の瓦版
+</h1>
 
-  <div class="card">
-    <a class="bigBtn homeBtn" href="index.html?v=regionaltop1">
-      ⬅️ 最初の画面に戻る
-    </a>
+<div class="sub">
+志木・新座・朝霞・和光の情報を1枚で見ます
+</div>
+</div>
 
-    <button class="bigBtn reloadBtn" id="reloadBtn">
-      🔄 更新する
-    </button>
+<a class="topBtn" href="index.html?v=regionaltop1">
+⬅️ 最初の画面に戻る
+</a>
 
-    <div class="status" id="statusBox">
-      読み込み中...
-    </div>
-  </div>
+<button class="reloadBtn" onclick="loadData()">
+🔄 更新する
+</button>
 
-  <div class="card">
-    <div class="sectionTitle">
-      最新
-    </div>
-    <div id="latestList">
-      <div class="empty">読み込み中...</div>
-    </div>
-  </div>
+<div class="status" id="statusBox">
+読み込み中...
+</div>
 
-  <div class="card" id="archiveButtonCard">
-    <button class="toggleBtn" id="archiveBtn">
-      📚 アーカイブを見る
-    </button>
-  </div>
+<div id="latestArea">
+<div class="empty">
+読み込み中...
+</div>
+</div>
 
-  <div class="card archiveBox" id="archiveCard">
-    <div class="sectionTitle">
-      アーカイブ
-    </div>
-    <div id="archiveList">
-      <div class="empty">まだありません</div>
-    </div>
-  </div>
+<button class="archiveBtn" id="archiveBtn">
+📚 アーカイブを見る
+</button>
 
-  <div class="card">
-    <a class="bigBtn homeBtn" href="index.html?v=regionaltop1">
-      ⬅️ 最初の画面に戻る
-    </a>
-  </div>
+<div class="archiveArea" id="archiveArea">
 
-  <div class="bottomSpace"></div>
+<div class="archiveTitle">
+アーカイブ
+</div>
+
+<div id="archiveList">
+</div>
+
+</div>
+
+<div class="bottomSpace"></div>
 
 </div>
 
@@ -378,724 +379,367 @@ body{
 const SHEET_ID =
 "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-const MODE_CONFIG = {
-  today:{
-    title:"今日のお知らせ",
-    sub:"地域のお知らせを見ます",
-    sheet:"瓦版",
-    headerClass:"today",
-    keywords:[]
-  },
-  radio:{
-    title:"地域ラジオ",
-    sub:"今日の地域ラジオを聞きます",
-    sheet:"瓦版",
-    headerClass:"radio",
-    keywords:["地域ラジオ","ラジオ","朝ラジオ"]
-  },
-  board:{
-    title:"回覧板",
-    sub:"地域の回覧板を見ます",
-    sheet:"瓦版",
-    headerClass:"board",
-    keywords:["回覧板","お知らせ","案内"]
-  },
-  city:{
-    title:"4市の情報",
-    sub:"志木・新座・朝霞・和光の公式情報",
-    sheet:"",
-    headerClass:"city",
-    keywords:[]
-  },
-  video:{
-    title:"お楽しみ動画",
-    sub:"動画を見て楽しみます",
-    sheet:"瓦版",
-    headerClass:"video",
-    keywords:["動画","お楽しみ","YouTube","ユーチューブ"]
-  },
-  garbage:{
-    title:"ゴミ情報",
-    sub:"ゴミ出しや暮らしの情報",
-    sheet:"ゴミ",
-    headerClass:"garbage",
-    keywords:[]
-  }
-};
+const SHEET_NAME =
+"NSAW暮らし情報局_データ";
 
-const CITY_LINKS = [
-  {
-    name:"志木市",
-    detail:"志木市の公式ホームページを開きます。",
-    url:"https://www.city.shiki.lg.jp/"
-  },
-  {
-    name:"新座市",
-    detail:"新座市の公式ホームページを開きます。",
-    url:"https://www.city.niiza.lg.jp/"
-  },
-  {
-    name:"朝霞市",
-    detail:"朝霞市の公式ホームページを開きます。",
-    url:"https://www.city.asaka.lg.jp/"
-  },
-  {
-    name:"和光市",
-    detail:"和光市の公式ホームページを開きます。",
-    url:"https://www.city.wako.lg.jp/"
-  }
-];
+const latestArea =
+document.getElementById("latestArea");
 
-const params =
-new URLSearchParams(window.location.search);
-
-const mode =
-params.get("mode") || "today";
-
-const singleId =
-params.get("id") || "";
-
-const config =
-MODE_CONFIG[mode] || MODE_CONFIG.today;
-
-const pageTitle =
-document.getElementById("pageTitle");
-
-const pageSub =
-document.getElementById("pageSub");
-
-const header =
-document.getElementById("header");
-
-const statusBox =
-document.getElementById("statusBox");
-
-const latestList =
-document.getElementById("latestList");
+const archiveArea =
+document.getElementById("archiveArea");
 
 const archiveList =
 document.getElementById("archiveList");
 
-const reloadBtn =
-document.getElementById("reloadBtn");
-
 const archiveBtn =
 document.getElementById("archiveBtn");
 
-const archiveCard =
-document.getElementById("archiveCard");
+const statusBox =
+document.getElementById("statusBox");
 
-const archiveButtonCard =
-document.getElementById("archiveButtonCard");
-
-let allItems = [];
 let archiveOpen = false;
 
-function stopAllSpeech(){
-  try{
-    if(window.speechSynthesis){
-      window.speechSynthesis.cancel();
-    }
-  }catch(e){}
-}
-
-window.addEventListener("load",function(){
-  stopAllSpeech();
-  window.scrollTo(0,0);
-  setupPage();
-
-  if(mode === "city"){
-    renderCityLinks();
-  }else{
-    loadSheet();
-  }
-});
-
-window.addEventListener("pageshow",function(){
-  stopAllSpeech();
-  window.scrollTo(0,0);
-});
-
-function setupPage(){
-  pageTitle.innerText = config.title;
-  pageSub.innerText = config.sub;
-  header.classList.add(config.headerClass);
-  document.title = config.title + "｜あんしん生活DX";
-}
-
 function escapeHtml(str){
-  return String(str || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
+
+return String(str || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+
 }
 
 function getCell(row,index){
-  if(!row || !row.c || !row.c[index]){
-    return "";
-  }
 
-  const cell = row.c[index];
-
-  if(cell.f !== undefined && cell.f !== null){
-    return String(cell.f);
-  }
-
-  if(cell.v !== undefined && cell.v !== null){
-    return String(cell.v);
-  }
-
-  return "";
+if(!row || !row.c || !row.c[index]){
+return "";
 }
 
-function findValue(obj,names){
-  for(let i=0;i<names.length;i++){
-    const key = names[i];
-    if(obj[key]){
-      return obj[key];
-    }
-  }
-  return "";
+const cell = row.c[index];
+
+if(cell.f !== undefined && cell.f !== null){
+return String(cell.f);
 }
 
-function normalizeHeader(str){
-  return String(str || "")
-    .replace(/\s/g,"")
-    .trim();
+if(cell.v !== undefined && cell.v !== null){
+return String(cell.v);
 }
 
-function parseTable(table){
+return "";
 
-  const labels =
-  (table.cols || []).map(function(col,index){
-    return normalizeHeader(col.label || col.id || ("列" + (index + 1)));
-  });
-
-  const rows =
-  table.rows || [];
-
-  const items = [];
-
-  rows.forEach(function(row,rowIndex){
-
-    const obj = {};
-
-    labels.forEach(function(label,index){
-      obj[label] = getCell(row,index);
-      obj["列" + (index + 1)] = getCell(row,index);
-    });
-
-    const date =
-      findValue(obj,[
-        "日付","日時","登録日時","投稿日","表示日","開催日","配信日","A列","列1"
-      ]);
-
-    const title =
-      findValue(obj,[
-        "タイトル","件名","見出し","名称","内容","B列","列2"
-      ]);
-
-    const detail =
-      findValue(obj,[
-        "詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","C列","列3"
-      ]);
-
-    const image =
-      findValue(obj,[
-        "画像URL","画像","サムネイル","画像リンク","D列","列4"
-      ]);
-
-    const url =
-      findValue(obj,[
-        "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","E列","列5","F列","列6"
-      ]);
-
-    const youtube =
-      findValue(obj,[
-        "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","動画","G列","列7"
-      ]);
-
-    const sortValue =
-      findValue(obj,[
-        "並び替え","並び替え数値","ソート","K列","列11"
-      ]);
-
-    const rawText =
-      [
-        date,title,detail,image,url,youtube
-      ].join(" ");
-
-    if(!title && !detail && !url && !youtube){
-      return;
-    }
-
-    items.push({
-      id: rowIndex + 1,
-      date: date,
-      title: title || detail || "お知らせ",
-      detail: detail,
-      image: image,
-      url: url,
-      youtube: youtube || extractYoutubeUrl(rawText),
-      sortValue: sortValue,
-      rawText: rawText
-    });
-
-  });
-
-  return items;
-
-}
-
-function extractYoutubeUrl(text){
-  const m = String(text || "").match(/https?:\/\/[^\s　"]*(youtube\.com|youtu\.be)[^\s　"]*/i);
-  return m ? m[0] : "";
-}
-
-function extractYoutubeId(url){
-
-  url = String(url || "");
-
-  let m = url.match(/[?&]v=([^&]+)/);
-  if(m) return m[1];
-
-  m = url.match(/youtu\.be\/([^?&]+)/);
-  if(m) return m[1];
-
-  m = url.match(/\/shorts\/([^?&/]+)/);
-  if(m) return m[1];
-
-  m = url.match(/\/embed\/([^?&/]+)/);
-  if(m) return m[1];
-
-  return "";
 }
 
 function looksLikeImage(url){
-  return String(url || "").match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i);
-}
 
-function filterByMode(items){
-
-  if(!config.keywords || config.keywords.length === 0){
-    return items;
-  }
-
-  const filtered =
-  items.filter(function(item){
-
-    const text =
-    String(item.rawText || "").toLowerCase();
-
-    return config.keywords.some(function(keyword){
-      return text.indexOf(String(keyword).toLowerCase()) >= 0;
-    });
-
-  });
-
-  if(filtered.length === 0){
-    return items;
-  }
-
-  return filtered;
+return String(url || "")
+.match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i);
 
 }
 
-function sortItems(items){
+function buildCard(item){
 
-  return items.sort(function(a,b){
+return `
+<div class="card">
 
-    const aa =
-    String(a.sortValue || a.date || "").trim();
+${item.date ? `
+<div class="date">
+${escapeHtml(item.date)}
+</div>
+` : ""}
 
-    const bb =
-    String(b.sortValue || b.date || "").trim();
+<div class="cardTitle">
+${escapeHtml(item.title)}
+</div>
 
-    return bb.localeCompare(aa,"ja");
+${item.image && looksLikeImage(item.image) ? `
+<img class="cardImg" src="${escapeHtml(item.image)}">
+` : ""}
 
-  });
+${item.detail ? `
+<div class="detail">
+${escapeHtml(item.detail)}
+</div>
+` : ""}
 
-}
+<div class="cityBox">
+<div class="cityBadge shiki">
+志木市
+</div>
 
-function getItemUrl(item){
+<div class="cityTitle">
+${escapeHtml(item.info1title)}
+</div>
 
-  return location.origin +
-    location.pathname +
-    "?mode=" +
-    encodeURIComponent(mode) +
-    "&id=" +
-    encodeURIComponent(item.id);
+<a class="linkBtn"
+href="${escapeHtml(item.info1url)}"
+target="_blank">
+記事を見る
+</a>
+</div>
 
-}
+<div class="cityBox">
+<div class="cityBadge niiza">
+新座市
+</div>
 
-function getShareUrl(item){
+<div class="cityTitle">
+${escapeHtml(item.info2title)}
+</div>
 
-  if(mode === "today" && String(item.id) === "1"){
-    return location.origin +
-      location.pathname.replace(/app\.html$/,"share-001.html");
-  }
+<a class="linkBtn"
+href="${escapeHtml(item.info2url)}"
+target="_blank">
+記事を見る
+</a>
+</div>
 
-  return getItemUrl(item);
+<div class="cityBox">
+<div class="cityBadge asaka">
+朝霞市
+</div>
 
-}
+<div class="cityTitle">
+${escapeHtml(item.info3title)}
+</div>
 
-function getShareText(item){
+<a class="linkBtn"
+href="${escapeHtml(item.info3url)}"
+target="_blank">
+記事を見る
+</a>
+</div>
 
-  return config.title + "｜" + (item.title || "お知らせ");
+<div class="cityBox">
+<div class="cityBadge wako">
+和光市
+</div>
 
-}
+<div class="cityTitle">
+${escapeHtml(item.info4title)}
+</div>
 
-function buildShareBox(item){
+<a class="linkBtn"
+href="${escapeHtml(item.info4url)}"
+target="_blank">
+記事を見る
+</a>
+</div>
 
-  const shareUrl =
-  item.shareUrl || getShareUrl(item);
+<div class="shareBox">
 
-  const text =
-  item.shareText || getShareText(item);
+<div class="shareTitle">
+共有する
+</div>
 
-  const encodedUrl =
-  encodeURIComponent(shareUrl);
+<div class="shareGrid">
 
-  const encodedText =
-  encodeURIComponent(text);
+<a class="shareBtn lineBtn"
+href="https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(location.href)}"
+target="_blank">
+LINE
+</a>
 
-  const lineUrl =
-  "https://social-plugins.line.me/lineit/share?url=" + encodedUrl;
+<a class="shareBtn xBtn"
+href="https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}"
+target="_blank">
+X
+</a>
 
-  const xUrl =
-  "https://twitter.com/intent/tweet?text=" + encodedText + "&url=" + encodedUrl;
+<a class="shareBtn facebookBtn"
+href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}"
+target="_blank">
+Facebook
+</a>
 
-  const facebookUrl =
-  "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
+<button class="shareBtn copyBtn"
+onclick="copyUrl()">
+URLコピー
+</button>
 
-  return `
-    <div class="shareBox">
-      <div class="shareTitle">
-        共有する
-      </div>
+</div>
 
-      <div class="shareGrid">
-        <a class="shareBtn lineBtn" href="${escapeHtml(lineUrl)}" target="_blank" rel="noopener">
-          LINE
-        </a>
+</div>
 
-        <a class="shareBtn xBtn" href="${escapeHtml(xUrl)}" target="_blank" rel="noopener">
-          X
-        </a>
-
-        <a class="shareBtn facebookBtn" href="${escapeHtml(facebookUrl)}" target="_blank" rel="noopener">
-          Facebook
-        </a>
-
-        <button class="shareBtn copyBtn" onclick="copyShareUrl('${escapeHtml(shareUrl)}')">
-          URLコピー
-        </button>
-      </div>
-    </div>
-  `;
-
-}
-
-function buildItem(item){
-
-  const youtubeId =
-  extractYoutubeId(item.youtube);
-
-  let html = `
-    <div class="item">
-      ${
-        item.date
-        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
-        : ""
-      }
-
-      <div class="itemTitle">
-        ${escapeHtml(item.title)}
-      </div>
-  `;
-
-  if(item.image && looksLikeImage(item.image)){
-    html += `
-      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
-    `;
-  }
-
-  if(youtubeId){
-    html += `
-      <div class="videoBox">
-        <iframe
-          src="https://www.youtube.com/embed/${escapeHtml(youtubeId)}"
-          title="YouTube video"
-          allowfullscreen>
-        </iframe>
-      </div>
-    `;
-  }
-
-  if(item.detail && item.detail !== item.title){
-    html += `
-      <div class="itemDetail">
-        ${escapeHtml(item.detail)}
-      </div>
-    `;
-  }
-
-  if(item.url){
-    html += `
-      <a class="linkBtn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
-        詳しく見る
-      </a>
-    `;
-  }
-
-  if(item.youtube && !youtubeId){
-    html += `
-      <a class="linkBtn" href="${escapeHtml(item.youtube)}" target="_blank" rel="noopener">
-        動画を見る
-      </a>
-    `;
-  }
-
-  html += buildShareBox(item);
-
-  html += `
-    </div>
-  `;
-
-  return html;
+</div>
+`;
 
 }
 
-function buildCityCard(city,index){
+function copyUrl(){
 
-  const item = {
-    id:index + 1,
-    title:city.name,
-    detail:city.detail,
-    url:city.url,
-    shareUrl:city.url,
-    shareText:"4市の情報｜" + city.name + "公式ホームページ"
-  };
-
-  return `
-    <div class="item">
-      <div class="itemDate">
-        公式ホームページ
-      </div>
-
-      <div class="itemTitle">
-        ${escapeHtml(city.name)}
-      </div>
-
-      <div class="itemDetail">
-        ${escapeHtml(city.detail)}
-      </div>
-
-      <a class="linkBtn" href="${escapeHtml(city.url)}" target="_blank" rel="noopener">
-        ${escapeHtml(city.name)}ホームページを見る
-      </a>
-
-      ${buildShareBox(item)}
-    </div>
-  `;
+navigator.clipboard.writeText(location.href)
+.then(function(){
+alert("URLをコピーしました");
+});
 
 }
 
-function renderCityLinks(){
+function loadData(){
 
-  statusBox.innerText =
-  "4市の公式リンクを表示しました";
+statusBox.innerText =
+"読み込み中...";
 
-  latestList.innerHTML =
-  CITY_LINKS.map(buildCityCard).join("");
+latestArea.innerHTML =
+'<div class="empty">読み込み中...</div>';
 
-  archiveList.innerHTML =
-  '<div class="empty">アーカイブはありません</div>';
+archiveList.innerHTML = "";
 
-  archiveCard.style.display =
-  "none";
+const old =
+document.getElementById("jsonp");
 
-  archiveButtonCard.style.display =
-  "none";
-
+if(old){
+old.remove();
 }
 
-function render(items){
+const script =
+document.createElement("script");
 
-  if(singleId){
-    const one =
-    items.find(function(item){
-      return String(item.id) === String(singleId);
-    });
+script.id = "jsonp";
 
-    if(one){
-      latestList.innerHTML = buildItem(one);
-      archiveList.innerHTML = "";
-      archiveCard.style.display = "none";
-      archiveBtn.style.display = "none";
-      statusBox.innerText = "表示しました";
-      return;
-    }
-  }
+script.src =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json;responseHandler=handleSheet&t=" +
+Date.now();
 
-  if(!items || items.length === 0){
-    latestList.innerHTML =
-    '<div class="empty">まだ登録がありません</div>';
-    archiveList.innerHTML =
-    '<div class="empty">アーカイブはありません</div>';
-    statusBox.innerText = "登録がありません";
-    return;
-  }
-
-  const latest =
-  items.slice(0,5);
-
-  const archive =
-  items.slice(5);
-
-  latestList.innerHTML =
-  latest.map(buildItem).join("");
-
-  if(archive.length > 0){
-    archiveList.innerHTML =
-    archive.map(buildItem).join("");
-    archiveBtn.style.display = "block";
-  }else{
-    archiveList.innerHTML =
-    '<div class="empty">アーカイブはありません</div>';
-    archiveBtn.style.display = "none";
-  }
-
-  statusBox.innerText =
-  "読み込みました";
-
-}
-
-function loadSheet(){
-
-  statusBox.innerText =
-  "読み込み中...";
-
-  latestList.innerHTML =
-  '<div class="empty">読み込み中...</div>';
-
-  archiveList.innerHTML =
-  '<div class="empty">読み込み中...</div>';
-
-  const old =
-  document.getElementById("jsonpLoader");
-
-  if(old){
-    old.remove();
-  }
-
-  const script =
-  document.createElement("script");
-
-  script.id =
-  "jsonpLoader";
-
-  const sheetName =
-  encodeURIComponent(config.sheet);
-
-  script.src =
-  "https://docs.google.com/spreadsheets/d/" +
-  SHEET_ID +
-  "/gviz/tq?sheet=" +
-  sheetName +
-  "&tqx=out:json;responseHandler:handleSheet" +
-  "&t=" +
-  Date.now();
-
-  script.onerror =
-  function(){
-    statusBox.innerText =
-    "読み込み失敗";
-    latestList.innerHTML =
-    '<div class="error">Googleシートを読み込めませんでした</div>';
-  };
-
-  document.body.appendChild(script);
+document.body.appendChild(script);
 
 }
 
 window.handleSheet = function(json){
 
-  try{
+try{
 
-    const table =
-    json.table || {};
+const rows =
+json.table.rows || [];
 
-    let items =
-    parseTable(table);
+const items = [];
 
-    items =
-    filterByMode(items);
+rows.forEach(function(row,index){
 
-    items =
-    sortItems(items);
+const item = {
 
-    allItems =
-    items;
+date:getCell(row,0),
+title:getCell(row,1),
+image:getCell(row,2),
+detail:getCell(row,3),
 
-    render(items);
+info1title:getCell(row,4),
+info1url:getCell(row,5),
 
-  }catch(error){
+info2title:getCell(row,6),
+info2url:getCell(row,7),
 
-    console.error(error);
+info3title:getCell(row,8),
+info3url:getCell(row,9),
 
-    statusBox.innerText =
-    "表示エラー";
+info4title:getCell(row,10),
+info4url:getCell(row,11),
 
-    latestList.innerHTML =
-    `<div class="error">${escapeHtml(error.message || String(error))}</div>`;
-
-  }
+display:getCell(row,12),
+sort:getCell(row,13),
+order:getCell(row,14)
 
 };
 
-function copyShareUrl(url){
+if(
+item.display &&
+item.display !== "はい" &&
+item.display !== "表示" &&
+item.display !== "公開"
+){
+return;
+}
 
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url)
-      .then(function(){
-        alert("URLをコピーしました");
-      })
-      .catch(function(){
-        prompt("このURLをコピーしてください",url);
-      });
-  }else{
-    prompt("このURLをコピーしてください",url);
-  }
+if(
+!item.title &&
+!item.detail
+){
+return;
+}
+
+items.push(item);
+
+});
+
+items.sort(function(a,b){
+
+return String(b.sort || "")
+.localeCompare(String(a.sort || ""));
+
+});
+
+if(items.length === 0){
+
+latestArea.innerHTML =
+'<div class="empty">まだ情報がありません</div>';
+
+statusBox.innerText =
+"情報がありません";
+
+return;
 
 }
 
-archiveBtn.onclick =
-function(){
+const latest =
+items.slice(0,5);
 
-  archiveOpen =
-  !archiveOpen;
+const archive =
+items.slice(5);
 
-  archiveCard.style.display =
-  archiveOpen ? "block" : "none";
+latestArea.innerHTML =
+latest.map(buildCard).join("");
 
-  archiveBtn.innerText =
-  archiveOpen ? "📕 アーカイブを閉じる" : "📚 アーカイブを見る";
+if(archive.length > 0){
+
+archiveList.innerHTML =
+archive.map(buildCard).join("");
+
+archiveBtn.style.display =
+"block";
+
+}else{
+
+archiveBtn.style.display =
+"none";
+
+}
+
+statusBox.innerText =
+"読み込みました";
+
+}catch(error){
+
+statusBox.innerText =
+"表示エラー";
+
+latestArea.innerHTML =
+'<div class="empty">表示エラー</div>';
+
+console.error(error);
+
+}
 
 };
 
-reloadBtn.onclick =
-function(){
+archiveBtn.onclick = function(){
 
-  if(mode === "city"){
-    renderCityLinks();
-  }else{
-    loadSheet();
-  }
+archiveOpen = !archiveOpen;
+
+archiveArea.style.display =
+archiveOpen ? "block" : "none";
+
+archiveBtn.innerText =
+archiveOpen ?
+"📕 アーカイブを閉じる" :
+"📚 アーカイブを見る";
 
 };
+
+loadData();
 </script>
 
 </body>
