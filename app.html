@@ -435,7 +435,7 @@ const MODE_CONFIG = {
     sub:"今日の地域ラジオを聞きます",
     sheet:MAIN_SHEET,
     headerClass:"radio",
-    type:"normal",
+    type:"radio",
     keywords:["地域ラジオ","ラジオ","朝ラジオ"],
     latestTitle:"最新の地域ラジオ"
   },
@@ -469,7 +469,7 @@ const MODE_CONFIG = {
     sub:"ゴミ出しや暮らしの情報",
     sheet:"ゴミ",
     headerClass:"garbage",
-    type:"normal",
+    type:"garbage",
     latestTitle:"最新のゴミ情報"
   }
 };
@@ -655,6 +655,65 @@ function isVisible(obj){
 
 }
 
+function baseRowToItem(entry){
+
+  const obj =
+  entry.obj;
+
+  const date =
+    findValue(obj,[
+      "日付","日時","登録日時","投稿日","表示日","開催日","配信日","並び替え日付","T列","列20","列1"
+    ]);
+
+  const title =
+    findValue(obj,[
+      "タイトル","件名","見出し","名称","情報タイトル","動画タイトル","B列","P列","列2","列16"
+    ]);
+
+  const detail =
+    findValue(obj,[
+      "説明文","詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","動画詳細","E列","Q列","C列","列5","列17","列3"
+    ]);
+
+  const image =
+    findValue(obj,[
+      "画像URL","画像","サムネイル","画像リンク","メディアURL","D列","R列","列4","列18"
+    ]);
+
+  const url =
+    findValue(obj,[
+      "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","情報1URL","G列","列7","列5","列6"
+    ]);
+
+  const youtube =
+    findValue(obj,[
+      "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","メディアURL","動画","D列","R列","列4","列18","G列","列7"
+    ]);
+
+  const sortValue =
+    findValue(obj,[
+      "並び替え","並び替え数値","並び替え日付","表示順","ソート","T列","U列","G列","H列","列20","列21","列7","列8"
+    ]);
+
+  const rawText =
+    Object.keys(obj).map(function(k){
+      return obj[k];
+    }).join(" ");
+
+  return {
+    id:entry.rowIndex + 1,
+    date:date,
+    title:title || detail || "お知らせ",
+    detail:detail,
+    image:image,
+    url:url,
+    youtube:youtube || extractYoutubeUrl(rawText),
+    sortValue:sortValue,
+    rawText:rawText
+  };
+
+}
+
 function parseNormalItems(parsed){
 
   const items = [];
@@ -668,61 +727,46 @@ function parseNormalItems(parsed){
       return;
     }
 
-    const date =
-      findValue(obj,[
-        "日付","日時","登録日時","投稿日","表示日","開催日","配信日","並び替え日付","T列","列20","列1"
-      ]);
+    const item =
+    baseRowToItem(entry);
 
-    const title =
-      findValue(obj,[
-        "タイトル","件名","見出し","名称","情報タイトル","動画タイトル","B列","P列","列2","列16"
-      ]);
-
-    const detail =
-      findValue(obj,[
-        "説明文","詳細","説明","本文","詳細内容","わかりやすい詳細","内容詳細","動画詳細","E列","Q列","列5","列17"
-      ]);
-
-    const image =
-      findValue(obj,[
-        "画像URL","画像","サムネイル","画像リンク","メディアURL","D列","R列","列4","列18"
-      ]);
-
-    const url =
-      findValue(obj,[
-        "詳しく見るURL","URL","リンク","市ホームページURL","申込みURL","情報1URL","G列","列7","列5","列6"
-      ]);
-
-    const youtube =
-      findValue(obj,[
-        "YouTubeURL","YouTube","動画URL","埋め込みメディアURL","メディアURL","動画","D列","R列","列4","列18","G列","列7"
-      ]);
-
-    const sortValue =
-      findValue(obj,[
-        "並び替え","並び替え数値","並び替え日付","表示順","ソート","T列","U列","列20","列21"
-      ]);
-
-    const rawText =
-      Object.keys(obj).map(function(k){
-        return obj[k];
-      }).join(" ");
-
-    if(!title && !detail && !url && !youtube && !image){
+    if(!item.title && !item.detail && !item.url && !item.image){
       return;
     }
 
-    items.push({
-      id:entry.rowIndex + 1,
-      date:date,
-      title:title || detail || "お知らせ",
-      detail:detail,
-      image:image,
-      url:url,
-      youtube:youtube || extractYoutubeUrl(rawText),
-      sortValue:sortValue,
-      rawText:rawText
-    });
+    item.youtube = "";
+
+    items.push(item);
+
+  });
+
+  return items;
+
+}
+
+function parseGarbageItems(parsed){
+
+  const items = [];
+
+  parsed.forEach(function(entry){
+
+    const obj =
+    entry.obj;
+
+    if(!isVisible(obj)){
+      return;
+    }
+
+    const item =
+    baseRowToItem(entry);
+
+    if(!item.title && !item.detail && !item.url && !item.image){
+      return;
+    }
+
+    item.youtube = "";
+
+    items.push(item);
 
   });
 
@@ -760,7 +804,7 @@ function parseVideoItems(parsed){
 
     const youtube =
       findValue(obj,[
-        "YouTubeURL","YouTubeURL","YouTube","動画URL","メディアURL","D列","列4"
+        "YouTubeURL","YouTube","動画URL","メディアURL","D列","列4"
       ]);
 
     const image =
@@ -793,6 +837,34 @@ function parseVideoItems(parsed){
       sortValue:sortValue,
       rawText:rawText
     });
+
+  });
+
+  return items;
+
+}
+
+function parseRadioItems(parsed){
+
+  const items = [];
+
+  parsed.forEach(function(entry){
+
+    const obj =
+    entry.obj;
+
+    if(!isVisible(obj)){
+      return;
+    }
+
+    const item =
+    baseRowToItem(entry);
+
+    if(!item.rawText.match(/地域ラジオ|ラジオ|朝ラジオ/)){
+      return;
+    }
+
+    items.push(item);
 
   });
 
@@ -844,7 +916,6 @@ function parseCityItems(parsed){
 
       const cityTitle =
         findValue(obj,[
-          "情報" + i + "タイトル",
           "情報" + i + "タイトル",
           "列" + (5 + (i * 2 - 1))
         ]);
@@ -913,32 +984,6 @@ function extractYoutubeId(url){
 
 function looksLikeImage(url){
   return String(url || "").match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i);
-}
-
-function filterByMode(items){
-
-  if(!config.keywords || config.keywords.length === 0){
-    return items;
-  }
-
-  const filtered =
-  items.filter(function(item){
-
-    const text =
-    String(item.rawText || "").toLowerCase();
-
-    return config.keywords.some(function(keyword){
-      return text.indexOf(String(keyword).toLowerCase()) >= 0;
-    });
-
-  });
-
-  if(filtered.length === 0){
-    return items;
-  }
-
-  return filtered;
-
 }
 
 function sortItems(items){
@@ -1054,6 +1099,53 @@ function cityName(number){
 
 function buildNormalItem(item){
 
+  let html = `
+    <div class="item">
+      ${
+        item.date
+        ? `<div class="itemDate">${escapeHtml(item.date)}</div>`
+        : ""
+      }
+
+      <div class="itemTitle">
+        ${escapeHtml(item.title)}
+      </div>
+  `;
+
+  if(item.image && looksLikeImage(item.image)){
+    html += `
+      <img class="itemImg" src="${escapeHtml(item.image)}" alt="">
+    `;
+  }
+
+  if(item.detail && item.detail !== item.title){
+    html += `
+      <div class="itemDetail">
+        ${escapeHtml(item.detail)}
+      </div>
+    `;
+  }
+
+  if(item.url){
+    html += `
+      <a class="linkBtn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
+        詳しく見る
+      </a>
+    `;
+  }
+
+  html += buildShareBox(item);
+
+  html += `
+    </div>
+  `;
+
+  return html;
+
+}
+
+function buildVideoItem(item){
+
   const youtubeId =
   extractYoutubeId(item.youtube);
 
@@ -1096,18 +1188,10 @@ function buildNormalItem(item){
     `;
   }
 
-  if(item.url){
-    html += `
-      <a class="linkBtn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
-        詳しく見る
-      </a>
-    `;
-  }
-
   if(item.youtube && !youtubeId){
     html += `
       <a class="linkBtn" href="${escapeHtml(item.youtube)}" target="_blank" rel="noopener">
-        動画を見る
+        YouTubeで見る
       </a>
     `;
   }
@@ -1203,6 +1287,10 @@ function buildItem(item){
 
   if(config.type === "city"){
     return buildCityItem(item);
+  }
+
+  if(config.type === "video" || config.type === "radio"){
+    return buildVideoItem(item);
   }
 
   return buildNormalItem(item);
@@ -1327,12 +1415,13 @@ window.handleSheet = function(json){
       items = parseCityItems(parsed);
     }else if(config.type === "video"){
       items = parseVideoItems(parsed);
+    }else if(config.type === "radio"){
+      items = parseRadioItems(parsed);
+    }else if(config.type === "garbage"){
+      items = parseGarbageItems(parsed);
     }else{
       items = parseNormalItems(parsed);
     }
-
-    items =
-    filterByMode(items);
 
     items =
     sortItems(items);
