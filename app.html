@@ -294,6 +294,84 @@ body{
   cursor:pointer;
 }
 
+.garbageSelect{
+  width:100%;
+  border:4px solid #d7e6ff;
+  background:#f8fbff;
+  color:#123;
+  border-radius:24px;
+  padding:20px;
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:16px;
+}
+
+.garbageGuide{
+  background:#fff8e1;
+  border-radius:24px;
+  padding:20px;
+  font-size:24px;
+  font-weight:900;
+  line-height:1.6;
+  color:#444;
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.garbageBlock{
+  background:#f8fbff;
+  border:4px solid #d7e6ff;
+  border-radius:26px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.garbageHead{
+  display:inline-block;
+  background:#6a1b9a;
+  color:white;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:21px;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
+.garbageType{
+  font-size:32px;
+  font-weight:900;
+  line-height:1.5;
+  color:#123;
+  margin-bottom:10px;
+}
+
+.garbageMsg{
+  font-size:25px;
+  font-weight:800;
+  line-height:1.6;
+  color:#333;
+  white-space:pre-wrap;
+}
+
+.weekRow{
+  background:white;
+  border:3px solid #e3edf8;
+  border-radius:22px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.weekDay{
+  display:inline-block;
+  background:#1976d2;
+  color:white;
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
 .bottomSpace{
   height:20px;
 }
@@ -344,6 +422,22 @@ body{
   .shareBtn{
     font-size:20px;
     padding:18px 6px;
+  }
+
+  .garbageSelect{
+    font-size:25px;
+  }
+
+  .garbageGuide{
+    font-size:22px;
+  }
+
+  .garbageType{
+    font-size:28px;
+  }
+
+  .garbageMsg{
+    font-size:23px;
   }
 
   .empty{
@@ -436,7 +530,6 @@ const MODE_CONFIG = {
     sheet:MAIN_SHEET,
     headerClass:"radio",
     type:"radio",
-    keywords:["地域ラジオ","ラジオ","朝ラジオ"],
     latestTitle:"最新の地域ラジオ"
   },
   board:{
@@ -445,7 +538,6 @@ const MODE_CONFIG = {
     sheet:MAIN_SHEET,
     headerClass:"board",
     type:"normal",
-    keywords:["回覧板","お知らせ","案内"],
     latestTitle:"最新の回覧板"
   },
   city:{
@@ -466,11 +558,11 @@ const MODE_CONFIG = {
   },
   garbage:{
     title:"ゴミ情報",
-    sub:"ゴミ出しや暮らしの情報",
+    sub:"地区を選んで今日・明日・今週を確認します",
     sheet:"ゴミ",
     headerClass:"garbage",
     type:"garbage",
-    latestTitle:"最新のゴミ情報"
+    latestTitle:"地区別ゴミ情報"
   }
 };
 
@@ -521,6 +613,10 @@ document.getElementById("latestTitle");
 
 let allItems = [];
 let archiveOpen = false;
+let garbageRows = [];
+
+const JP_DAYS =
+["日","月","火","水","木","金","土"];
 
 function stopAllSpeech(){
   try{
@@ -548,6 +644,11 @@ function setupPage(){
   latestTitle.innerText = config.latestTitle || "最新";
   header.classList.add(config.headerClass);
   document.title = config.title + "｜あんしん生活DX";
+
+  if(config.type === "garbage"){
+    archiveButtonCard.style.display = "none";
+    archiveCard.style.display = "none";
+  }
 }
 
 function escapeHtml(str){
@@ -715,36 +816,6 @@ function baseRowToItem(entry){
 }
 
 function parseNormalItems(parsed){
-
-  const items = [];
-
-  parsed.forEach(function(entry){
-
-    const obj =
-    entry.obj;
-
-    if(!isVisible(obj)){
-      return;
-    }
-
-    const item =
-    baseRowToItem(entry);
-
-    if(!item.title && !item.detail && !item.url && !item.image){
-      return;
-    }
-
-    item.youtube = "";
-
-    items.push(item);
-
-  });
-
-  return items;
-
-}
-
-function parseGarbageItems(parsed){
 
   const items = [];
 
@@ -955,6 +1026,57 @@ function parseCityItems(parsed){
   });
 
   return items;
+
+}
+
+function parseGarbageRows(parsed){
+
+  const rows = [];
+
+  parsed.forEach(function(entry){
+
+    const obj =
+    entry.obj;
+
+    const city =
+      findValue(obj,["市区分","市","A列","列1"]);
+
+    const area =
+      findValue(obj,["地区","B列","列2"]);
+
+    const weekday =
+      findValue(obj,["曜日","C列","列3"]);
+
+    const type =
+      findValue(obj,["ゴミ種別","ごみ種別","種別","D列","列4"]);
+
+    const message =
+      findValue(obj,["メッセージ","説明","E列","列5"]);
+
+    const keyword =
+      findValue(obj,["検索用キーワード","検索キーワード","F列","列6"]);
+
+    const aiText =
+      findValue(obj,["AI用短文","短文","G列","列7"]);
+
+    if(!area && !weekday && !type && !message && !aiText){
+      return;
+    }
+
+    rows.push({
+      id:entry.rowIndex + 1,
+      city:city,
+      area:area,
+      weekday:weekday,
+      type:type,
+      message:message,
+      keyword:keyword,
+      aiText:aiText
+    });
+
+  });
+
+  return rows;
 
 }
 
@@ -1351,6 +1473,316 @@ function render(items){
 
 }
 
+function getTodayDate(){
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
+
+function addDays(date,days){
+  const d = new Date(date.getTime());
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function getDayName(date){
+  return JP_DAYS[date.getDay()];
+}
+
+function getNthWeekday(date){
+  const day = date.getDate();
+  const nth = Math.floor((day - 1) / 7) + 1;
+  return "第" + nth + getDayName(date);
+}
+
+function dateLabel(date){
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const w = getDayName(date);
+  return m + "月" + d + "日（" + w + "）";
+}
+
+function normalizeText(str){
+  return String(str || "")
+    .replace(/\s/g,"")
+    .trim();
+}
+
+function matchGarbageDay(row,date){
+
+  const wd =
+  getDayName(date);
+
+  const nth =
+  getNthWeekday(date);
+
+  const target =
+  normalizeText(row.weekday);
+
+  if(!target){
+    return false;
+  }
+
+  if(target === wd){
+    return true;
+  }
+
+  if(target === nth){
+    return true;
+  }
+
+  if(target === "毎日"){
+    return true;
+  }
+
+  if(target === "毎朝"){
+    return true;
+  }
+
+  return false;
+
+}
+
+function uniqueAreas(rows){
+
+  const map = {};
+
+  rows.forEach(function(row){
+    if(row.area){
+      map[row.area] = true;
+    }
+  });
+
+  return Object.keys(map).sort(function(a,b){
+    return a.localeCompare(b,"ja");
+  });
+
+}
+
+function getSelectedArea(){
+  const saved =
+  localStorage.getItem("anshin_garbage_area") || "";
+
+  return saved;
+}
+
+function setSelectedArea(area){
+  localStorage.setItem("anshin_garbage_area",area);
+}
+
+function buildGarbageRows(title,date,rows){
+
+  const matched =
+  rows.filter(function(row){
+    return matchGarbageDay(row,date);
+  });
+
+  let html = `
+    <div class="garbageBlock">
+      <div class="garbageHead">
+        ${escapeHtml(title)}　${escapeHtml(dateLabel(date))}
+      </div>
+  `;
+
+  if(matched.length === 0){
+
+    html += `
+      <div class="empty">
+        該当するゴミ情報はありません
+      </div>
+    `;
+
+  }else{
+
+    matched.forEach(function(row){
+
+      const msg =
+      row.aiText || row.message || "";
+
+      html += `
+        <div class="weekRow">
+          <div class="garbageType">
+            ${escapeHtml(row.type || "ゴミ情報")}
+          </div>
+
+          ${
+            msg
+            ? `<div class="garbageMsg">${escapeHtml(msg)}</div>`
+            : ""
+          }
+        </div>
+      `;
+
+    });
+
+  }
+
+  html += `</div>`;
+
+  return html;
+
+}
+
+function buildWeekRows(rows){
+
+  const today =
+  getTodayDate();
+
+  let html = `
+    <div class="garbageBlock">
+      <div class="garbageHead">
+        今週のゴミ
+      </div>
+  `;
+
+  for(let i=0;i<7;i++){
+
+    const d =
+    addDays(today,i);
+
+    const matched =
+    rows.filter(function(row){
+      return matchGarbageDay(row,d);
+    });
+
+    html += `
+      <div class="weekRow">
+        <div class="weekDay">
+          ${escapeHtml(dateLabel(d))}
+        </div>
+    `;
+
+    if(matched.length === 0){
+
+      html += `
+        <div class="garbageMsg">
+          収集情報はありません
+        </div>
+      `;
+
+    }else{
+
+      matched.forEach(function(row){
+
+        const msg =
+        row.aiText || row.message || "";
+
+        html += `
+          <div class="garbageType">
+            ${escapeHtml(row.type || "ゴミ情報")}
+          </div>
+
+          ${
+            msg
+            ? `<div class="garbageMsg">${escapeHtml(msg)}</div>`
+            : ""
+          }
+        `;
+
+      });
+
+    }
+
+    html += `
+      </div>
+    `;
+
+  }
+
+  html += `
+    </div>
+  `;
+
+  return html;
+
+}
+
+function renderGarbage(){
+
+  const areas =
+  uniqueAreas(garbageRows);
+
+  if(areas.length === 0){
+    latestList.innerHTML =
+    '<div class="empty">ゴミ情報が登録されていません</div>';
+    statusBox.innerText =
+    "登録がありません";
+    return;
+  }
+
+  let selected =
+  getSelectedArea();
+
+  if(!selected || areas.indexOf(selected) < 0){
+    selected = areas[0];
+    setSelectedArea(selected);
+  }
+
+  const areaRows =
+  garbageRows.filter(function(row){
+    return row.area === selected;
+  });
+
+  const today =
+  getTodayDate();
+
+  const tomorrow =
+  addDays(today,1);
+
+  let html = `
+    <div class="garbageGuide">
+      住んでいる地区を選んでください。<br>
+      今日・明日・今週のゴミだけ表示します。
+    </div>
+
+    <select class="garbageSelect" id="garbageAreaSelect">
+  `;
+
+  areas.forEach(function(area){
+
+    html += `
+      <option value="${escapeHtml(area)}" ${area === selected ? "selected" : ""}>
+        ${escapeHtml(area)}
+      </option>
+    `;
+
+  });
+
+  html += `
+    </select>
+  `;
+
+  html += buildGarbageRows("今日",today,areaRows);
+  html += buildGarbageRows("明日",tomorrow,areaRows);
+  html += buildWeekRows(areaRows);
+
+  latestList.innerHTML =
+  html;
+
+  statusBox.innerText =
+  selected + " のゴミ情報を表示しました";
+
+  const select =
+  document.getElementById("garbageAreaSelect");
+
+  if(select){
+    select.onchange =
+    function(){
+      setSelectedArea(select.value);
+      renderGarbage();
+    };
+  }
+
+  archiveList.innerHTML =
+  "";
+
+  archiveCard.style.display =
+  "none";
+
+  archiveButtonCard.style.display =
+  "none";
+
+}
+
 function loadSheet(){
 
   statusBox.innerText =
@@ -1411,16 +1843,35 @@ window.handleSheet = function(json){
 
     let items;
 
-    if(config.type === "city"){
-      items = parseCityItems(parsed);
+    if(config.type === "garbage"){
+
+      garbageRows =
+      parseGarbageRows(parsed);
+
+      renderGarbage();
+
+      return;
+
+    }else if(config.type === "city"){
+
+      items =
+      parseCityItems(parsed);
+
     }else if(config.type === "video"){
-      items = parseVideoItems(parsed);
+
+      items =
+      parseVideoItems(parsed);
+
     }else if(config.type === "radio"){
-      items = parseRadioItems(parsed);
-    }else if(config.type === "garbage"){
-      items = parseGarbageItems(parsed);
+
+      items =
+      parseRadioItems(parsed);
+
     }else{
-      items = parseNormalItems(parsed);
+
+      items =
+      parseNormalItems(parsed);
+
     }
 
     items =
