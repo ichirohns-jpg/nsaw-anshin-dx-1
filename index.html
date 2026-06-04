@@ -1,372 +1,309 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>あんしん生活DX</title>
 
-<meta name="description" content="元気です、今日のお知らせ、困りごと相談、地域ラジオ、回覧板、4市情報を押すだけで使える地域の操作盤です。">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
-<link rel="icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
-<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
+<title>
+NSAW あんしん生活DX
+</title>
 
-<meta name="theme-color" content="#1565c0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="あんしん生活DX">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description"
+content="地域の見守り・暮らし・支援情報">
 
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ja_JP">
-<meta property="og:site_name" content="あんしん生活DX">
-<meta property="og:title" content="あんしん生活DX">
-<meta property="og:description" content="高齢者が押すだけで、地域のお知らせ・見守り・相談・地域ラジオにつながる操作盤です。">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
+<meta property="og:title"
+content="NSAW あんしん生活DX">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="あんしん生活DX">
-<meta name="twitter:description" content="地域が反応する操作盤。元気です、今日のお知らせ、困りごと相談、地域ラジオ。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg">
+<meta property="og:description"
+content="地域の見守り・暮らし・支援情報">
+
+<meta property="og:type"
+content="website">
+
+<meta property="og:url"
+content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/">
+
+<meta property="og:image"
+content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+
+<meta name="twitter:card"
+content="summary_large_image">
+
+<link rel="apple-touch-icon"
+href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
 
 <style>
-*{
-  box-sizing:border-box;
-}
 
-html{
-  scroll-behavior:auto;
+*{
+box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  padding:12px;
-  background:#eef4f8;
-  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-  color:#123;
+margin:0;
+background:#eef3f8;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#17324d;
 }
 
 .wrap{
-  max-width:720px;
-  margin:0 auto;
-}
-
-.topImageBox{
-  width:100%;
-  background:white;
-  border-radius:30px;
-  padding:10px;
-  margin-bottom:18px;
-  box-shadow:0 8px 22px rgba(0,0,0,.10);
+max-width:900px;
+margin:auto;
+padding:18px 14px 120px;
 }
 
 .topImage{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:22px;
+width:100%;
+display:block;
+border-radius:28px;
+margin-bottom:22px;
+box-shadow:
+0 6px 18px rgba(0,0,0,.14);
 }
 
-.header{
-  background:#1565c0;
-  color:white;
-  border-radius:30px;
-  padding:24px 18px;
-  text-align:center;
-  margin-bottom:18px;
-  box-shadow:0 8px 22px rgba(0,0,0,.12);
+.mainTitle{
+background:#1565c0;
+color:white;
+padding:28px 22px;
+border-radius:28px;
+text-align:center;
+margin-bottom:24px;
+box-shadow:
+0 6px 18px rgba(0,0,0,.14);
 }
 
-.title{
-  font-size:38px;
-  font-weight:900;
-  line-height:1.35;
-  margin:0;
+.mainTitle h1{
+margin:0;
+font-size:52px;
+line-height:1.3;
 }
 
-.sub{
-  font-size:22px;
-  font-weight:900;
-  line-height:1.6;
-  margin-top:10px;
+.mainTitle p{
+margin-top:16px;
+font-size:24px;
+font-weight:900;
+line-height:1.8;
 }
 
-.card{
-  background:white;
-  border-radius:28px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 8px 22px rgba(0,0,0,.08);
+.section{
+background:white;
+border-radius:28px;
+padding:24px;
+margin-bottom:24px;
+box-shadow:
+0 6px 18px rgba(0,0,0,.08);
 }
 
 .sectionTitle{
-  font-size:30px;
-  font-weight:900;
-  color:#1565c0;
-  margin:0 0 14px;
-  text-align:center;
+font-size:32px;
+font-weight:900;
+margin-bottom:22px;
+color:#1565c0;
 }
 
-.mainBtn{
-  display:block;
-  width:100%;
-  text-align:center;
-  text-decoration:none;
-  border:none;
-  border-radius:30px;
-  padding:30px 12px;
-  font-size:30px;
-  font-weight:900;
-  color:white;
-  margin-bottom:16px;
-  cursor:pointer;
+.bigBtn{
+
+display:block;
+width:100%;
+
+background:#1565c0;
+color:white;
+
+text-decoration:none;
+
+padding:22px;
+
+border-radius:24px;
+
+font-size:24px;
+font-weight:900;
+
+margin-bottom:18px;
+
+text-align:center;
+
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+
+line-height:1.6;
+
 }
 
-.green{background:#2e7d32}
-.blue{background:#1976d2}
-.orange{background:#ef6c00}
-.red{background:#c62828}
-.purple{background:#6a1b9a}
-.gray{background:#555}
-.brown{background:#795548}
-.teal{background:#00897b}
-.indigo{background:#3949ab}
-
-.note{
-  background:#fff8e1;
-  border-radius:24px;
-  padding:18px;
-  font-size:23px;
-  font-weight:900;
-  line-height:1.6;
-  color:#444;
-  text-align:center;
-  white-space:pre-wrap;
+.green{
+background:#00897b;
 }
 
-@media(max-width:600px){
-  .title{
-    font-size:32px;
-  }
-
-  .sub{
-    font-size:20px;
-  }
-
-  .sectionTitle{
-    font-size:27px;
-  }
-
-  .mainBtn{
-    font-size:27px;
-    padding:28px 10px;
-  }
-
-  .note{
-    font-size:21px;
-  }
+.orange{
+background:#ef6c00;
 }
+
+.red{
+background:#d32f2f;
+}
+
+.purple{
+background:#8e24aa;
+}
+
+.footerMenu{
+position:fixed;
+bottom:12px;
+left:0;
+right:0;
+display:flex;
+justify-content:center;
+gap:10px;
+z-index:9999;
+}
+
+.footerBtn{
+text-decoration:none;
+color:white;
+padding:12px 16px;
+border-radius:18px;
+font-size:16px;
+font-weight:900;
+box-shadow:
+0 4px 12px rgba(0,0,0,.2);
+}
+
+@media(max-width:768px){
+
+.mainTitle h1{
+font-size:42px;
+}
+
+.mainTitle p{
+font-size:20px;
+}
+
+.sectionTitle{
+font-size:28px;
+}
+
+.bigBtn{
+font-size:22px;
+padding:20px;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div class="wrap">
 
-  <div class="topImageBox">
-    <img
-      class="topImage"
-      src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top-banner.jpg?v=regionaltop1"
-      alt="あんしん生活DX">
-  </div>
+<img
+src="top.jpg"
+class="topImage">
 
-  <div class="header">
-    <h1 class="title">
-      あんしん生活DX
-    </h1>
-    <div class="sub">
-      地域が反応する操作盤<br>
-      押すだけ・話すだけ
-    </div>
-  </div>
+<div class="mainTitle">
 
-  <div class="card">
-    <div class="sectionTitle">
-      まず使う
-    </div>
+<h1>
+NSAW<br>
+あんしん生活DX
+</h1>
 
-    <button class="mainBtn green" onclick="sendQuick('元気です')">
-      😊 元気です
-    </button>
-
-    <a class="mainBtn blue" href="app.html?mode=today">
-      📢 今日のお知らせ
-    </a>
-
-    <a class="mainBtn gray" href="connect.html?v=safephone2">
-      ☎️ 困りごと相談
-    </a>
-
-    <a class="mainBtn orange" href="app.html?mode=radio">
-      📻 地域ラジオ
-    </a>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      暮らし情報
-    </div>
-
-    <a class="mainBtn brown" href="app.html?mode=board">
-      📋 回覧板
-    </a>
-
-    <a class="mainBtn teal" href="app.html?mode=city">
-      📰 4市の情報
-    </a>
-
-    <a class="mainBtn indigo" href="app.html?mode=video">
-      🎥 お楽しみ動画
-    </a>
-
-    <a class="mainBtn purple" href="app.html?mode=garbage">
-      🗑 ゴミ情報
-    </a>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      予定
-    </div>
-
-    <a class="mainBtn green" href="voice.html?v=backvoice1">
-      🎤 予定を入れる
-    </a>
-
-    <a class="mainBtn blue" href="today.html?v=backtoday1">
-      📅 今日の予定を見る
-    </a>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      見守り・薬
-    </div>
-
-    <button class="mainBtn orange" onclick="sendQuick('少し困っています')">
-      ⚠️ 少し困っています
-    </button>
-
-    <button class="mainBtn red" onclick="sendQuick('助けてください')">
-      🚨 助けてください
-    </button>
-
-    <button class="mainBtn purple" onclick="sendQuick('朝の薬を飲みました')">
-      💊 朝の薬を飲んだ
-    </button>
-
-    <button class="mainBtn purple" onclick="sendQuick('昼の薬を飲みました')">
-      💊 昼の薬を飲んだ
-    </button>
-
-    <button class="mainBtn purple" onclick="sendQuick('夜の薬を飲みました')">
-      💊 夜の薬を飲んだ
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="sectionTitle">
-      登録・確認
-    </div>
-
-    <a class="mainBtn indigo" href="register.html?v=register1">
-      📝 本人登録
-    </a>
-
-    <a class="mainBtn gray" href="watcher.html?v=watcher1">
-      👀 見守り者画面
-    </a>
-  </div>
-
-  <div class="card">
-    <div class="note" id="noteBox">
-      迷ったら「困りごと相談」を押してください
-    </div>
-  </div>
+<p>
+地域の見守り・暮らし・支援情報
+</p>
 
 </div>
 
-<script>
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
+<div class="section">
 
-let sending = false;
+<div class="sectionTitle">
+📰 地域情報
+</div>
 
-function stopAllSpeech(){
-  try{
-    if(window.speechSynthesis){
-      window.speechSynthesis.cancel();
-    }
-  }catch(e){}
-}
+<a
+class="bigBtn"
+href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/kawaraban.html">
 
-window.addEventListener("load",function(){
-  stopAllSpeech();
-  window.scrollTo(0,0);
-});
+4市瓦版を見る
 
-window.addEventListener("pageshow",function(){
-  stopAllSpeech();
-  window.scrollTo(0,0);
-});
+</a>
 
-async function sendQuick(text){
+<a
+class="bigBtn green"
+href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/radio.html">
 
-  stopAllSpeech();
+地域ラジオを聞く
 
-  if(sending){
-    return;
-  }
+</a>
 
-  sending = true;
+<a
+class="bigBtn orange"
+href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/fun.html">
 
-  const noteBox = document.getElementById("noteBox");
-  noteBox.innerText = "記録中...\n" + text;
+お楽しみ動画を見る
 
-  try{
+</a>
 
-    const url =
-      GAS_URL +
-      '?mode=voice&text=' +
-      encodeURIComponent(text) +
-      '&t=' +
-      Date.now();
+</div>
 
-    const response = await fetch(url);
-    const data = await response.json();
+<div class="section">
 
-    console.log(data);
+<div class="sectionTitle">
+🗺 地域支援
+</div>
 
-    if(data.ok === true || data.status === "success"){
-      noteBox.innerText = "記録しました\n" + text;
-    }else{
-      noteBox.innerText = "記録できませんでした\n" + text;
-      alert(data.error || data.message || "記録に失敗しました");
-    }
+<a
+class="bigBtn red"
+href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">
 
-  }catch(error){
+支援マップを見る
 
-    console.error(error);
-    noteBox.innerText = "通信エラー\n" + text;
-    alert("通信エラーです");
+</a>
 
-  }finally{
+<a
+class="bigBtn purple"
+href="#">
 
-    sending = false;
+ゴミ情報を見る
 
-  }
+</a>
 
-}
-</script>
+</div>
+
+</div>
+
+<div class="footerMenu">
+
+<a href="#"
+class="footerBtn"
+style="background:#1565c0;">
+
+🏠 ホーム
+
+</a>
+
+<a href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/kawaraban.html"
+class="footerBtn"
+style="background:#00897b;">
+
+📰 瓦版
+
+</a>
+
+<a href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/radio.html"
+class="footerBtn"
+style="background:#ef6c00;">
+
+📻 ラジオ
+
+</a>
+
+</div>
 
 </body>
 </html>
