@@ -55,7 +55,7 @@ color:#17324d;
 .wrap{
 max-width:900px;
 margin:auto;
-padding:18px 14px 120px;
+padding:18px 14px 60px;
 }
 
 .topImage{
@@ -151,15 +151,19 @@ background:#d32f2f;
 background:#8e24aa;
 }
 
+/* ▼ ここ直した */
+
 .footerMenu{
-position:fixed;
-bottom:12px;
-left:0;
-right:0;
+
 display:flex;
 justify-content:center;
 gap:10px;
-z-index:9999;
+
+margin-top:30px;
+margin-bottom:30px;
+
+flex-wrap:wrap;
+
 }
 
 .footerBtn{
@@ -275,7 +279,7 @@ href="#">
 
 </div>
 
-</div>
+<!-- ▼ 下固定やめた -->
 
 <div class="footerMenu">
 
@@ -283,7 +287,7 @@ href="#">
 class="footerBtn"
 style="background:#1565c0;">
 
-🏠 ホーム
+🏠 トップ
 
 </a>
 
@@ -302,6 +306,8 @@ style="background:#ef6c00;">
 📻 ラジオ
 
 </a>
+
+</div>
 
 </div>
 
