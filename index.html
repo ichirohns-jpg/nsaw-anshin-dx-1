@@ -55,13 +55,13 @@ color:#17324d;
 .wrap{
 max-width:900px;
 margin:auto;
-padding:18px 14px 60px;
+padding:18px 14px 80px;
 }
 
 .topImage{
 width:100%;
 display:block;
-border-radius:28px;
+border-radius:32px;
 margin-bottom:22px;
 box-shadow:
 0 6px 18px rgba(0,0,0,.14);
@@ -79,38 +79,39 @@ box-shadow:
 .mainTitle{
 background:#1565c0;
 color:white;
-padding:28px 22px;
-border-radius:28px;
+padding:38px 24px;
+border-radius:32px;
 text-align:center;
-margin-bottom:24px;
+margin-bottom:28px;
 box-shadow:
 0 6px 18px rgba(0,0,0,.14);
 }
 
 .mainTitle h1{
 margin:0;
-font-size:52px;
-line-height:1.3;
+font-size:68px;
+line-height:1.15;
+font-weight:900;
 }
 
 .mainTitle p{
-margin-top:16px;
-font-size:24px;
+margin-top:20px;
+font-size:26px;
 font-weight:900;
 line-height:1.8;
 }
 
 .section{
 background:white;
-border-radius:28px;
+border-radius:32px;
 padding:24px;
-margin-bottom:24px;
+margin-bottom:28px;
 box-shadow:
 0 6px 18px rgba(0,0,0,.08);
 }
 
 .sectionTitle{
-font-size:32px;
+font-size:34px;
 font-weight:900;
 margin-bottom:22px;
 color:#1565c0;
@@ -126,11 +127,11 @@ color:white;
 
 text-decoration:none;
 
-padding:22px;
+padding:24px;
 
 border-radius:24px;
 
-font-size:24px;
+font-size:26px;
 font-weight:900;
 
 margin-bottom:18px;
@@ -142,6 +143,12 @@ box-shadow:
 
 line-height:1.6;
 
+transition:.2s;
+
+}
+
+.bigBtn:active{
+transform:scale(.98);
 }
 
 .green{
@@ -164,10 +171,10 @@ background:#8e24aa;
 
 display:flex;
 justify-content:center;
-gap:10px;
+gap:12px;
 
-margin-top:30px;
-margin-bottom:30px;
+margin-top:34px;
+margin-bottom:10px;
 
 flex-wrap:wrap;
 
@@ -176,9 +183,9 @@ flex-wrap:wrap;
 .footerBtn{
 text-decoration:none;
 color:white;
-padding:12px 16px;
-border-radius:18px;
-font-size:16px;
+padding:14px 18px;
+border-radius:20px;
+font-size:17px;
 font-weight:900;
 box-shadow:
 0 4px 12px rgba(0,0,0,.2);
@@ -187,20 +194,20 @@ box-shadow:
 @media(max-width:768px){
 
 .mainTitle h1{
-font-size:42px;
+font-size:54px;
 }
 
 .mainTitle p{
-font-size:20px;
+font-size:22px;
 }
 
 .sectionTitle{
-font-size:28px;
+font-size:30px;
 }
 
 .bigBtn{
-font-size:22px;
-padding:20px;
+font-size:23px;
+padding:22px;
 }
 
 }
@@ -213,11 +220,13 @@ padding:20px;
 
 <div class="wrap">
 
-<!-- ▼ 4市瓦版 -->
+<!-- ▼ 上画像 -->
 
 <img
 src="https://ichirohns-jpg.github.io/nsaw-kurashi-01/img/shiki.jpg"
 class="topImage">
+
+<!-- ▼ タイトル -->
 
 <div class="mainTitle">
 
@@ -314,11 +323,13 @@ href="#">
 
 </div>
 
+<!-- ▼ 下メニュー -->
+
 <div class="footerMenu">
 
 <a href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/"
 class="footerBtn"
-style="background:#1565c0;">
+style="background:#455a64;">
 
 🏠 トップ
 
