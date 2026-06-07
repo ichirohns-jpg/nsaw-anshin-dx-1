@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>地域ラジオ</title>
 
-<script>
-const params = new URLSearchParams(location.search);
-const radio = params.get("radio");
-</script>
+<meta property="og:title" content="地域ラジオ">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1bFDgz9RcbhBChn9BPT6Boz_Hpncg9EXg&sz=w2000">
 
 <style>
 body{margin:0;font-family:sans-serif;background:#eef4fb}
@@ -27,17 +26,39 @@ img{width:100%;border-radius:16px}
 <img src="https://drive.google.com/thumbnail?id=1bFDgz9RcbhBChn9BPT6Boz_Hpncg9EXg&sz=w2000">
 </div>
 
+<div class="card" id="content">
+地域ラジオ通常表示
+</div>
+
 <div class="card">
-<div id="content">地域ラジオ通常表示</div>
+
+<a id="fb">Facebook</a><br>
+<a id="tw">X</a><br>
+<a id="li">LINE</a>
+
 </div>
 
 </div>
 
 <script>
+const p = new URLSearchParams(location.search);
+const radio = p.get("radio");
+
 if(radio){
-  document.getElementById("content").innerText =
-  "ラジオ記事番号：" + radio;
+document.getElementById("content").innerText =
+"ラジオ記事：" + radio;
 }
+
+const url = location.href;
+
+document.getElementById("fb").href =
+"https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
+
+document.getElementById("tw").href =
+"https://twitter.com/intent/tweet?url=" + encodeURIComponent(url);
+
+document.getElementById("li").href =
+"https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(url);
 </script>
 
 </body>
