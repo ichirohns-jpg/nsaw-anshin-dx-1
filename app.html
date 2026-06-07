@@ -71,17 +71,13 @@ try{
 const res = await fetch(url);
 const data = await res.json();
 
-// ★完全一致チェック（ここが重要）
-const item = data.find(d => String(d.id).trim() === id);
-
-// 見つからない場合は1件目
-const show = item || data[0];
+const item = data.find(d => String(d.id).trim() === id) || data[0];
 
 document.getElementById("app").innerHTML = `
 <div class="card">
-<div class="title">${show.title || ""}</div>
-<div class="text">${show.text || ""}</div>
-${show.image ? `<img src="${show.image}">` : ""}
+<div class="title">${item.title || ""}</div>
+<div class="text">${item.text || ""}</div>
+${item.image ? `<img src="${item.image}">` : ""}
 </div>
 `;
 
