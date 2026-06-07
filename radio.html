@@ -39,15 +39,15 @@ box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:20px;
+font-size:18px;
 font-weight:900;
-margin-bottom:8px;
+margin-bottom:6px;
 }
 
 .text{
-font-size:16px;
-line-height:1.6;
+font-size:15px;
 color:#444;
+line-height:1.6;
 }
 </style>
 
@@ -57,9 +57,10 @@ color:#444;
 
 <div class="wrap">
 
-<div class="header">📻 地域ラジオ</div>
+<div class="header">
+📻 地域ラジオ
+</div>
 
-<!-- ここにスプレッドシート表示 -->
 <div id="content"></div>
 
 </div>
@@ -68,29 +69,34 @@ color:#444;
 
 async function loadRadio(){
 
-// ★ GASのURL（あとで差し替え）
-const url = "https://script.google.com/macros/s/AKfycbXXXX/exec";
+const url = "https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
+
+try{
 
 const res = await fetch(url);
 const data = await res.json();
 
 let html = "";
 
-// radioだけ表示
-data.forEach(item => {
-
-if(item.type !== "radio") return;
+data.forEach(d=>{
+if(d.type !== "radio") return;
 
 html += `
 <div class="card">
-<div class="title">${item.title || ""}</div>
-<div class="text">${item.text || ""}</div>
+<div class="title">${d.title || ""}</div>
+<div class="text">${d.text || ""}</div>
 </div>
 `;
-
 });
 
 document.getElementById("content").innerHTML = html;
+
+}catch(e){
+
+document.getElementById("content").innerHTML =
+"<div class='card'>データ取得エラー</div>";
+
+}
 
 }
 
