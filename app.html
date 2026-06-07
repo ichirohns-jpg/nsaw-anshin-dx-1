@@ -62,11 +62,10 @@ margin-top:12px;
 
 async function loadApp(){
 
-// ■ ID取得（ここが最重要）
-const params = new URLSearchParams(location.search);
-const id = params.get("id");
+// ■ ID取得
+const id = new URLSearchParams(location.search).get("id");
 
-// ■ IDなしなら止める（変な飛び防止）
+// ■ IDなし対策
 if(!id){
 document.getElementById("app").innerHTML =
 "<div class='card'>IDがありません</div>";
@@ -81,10 +80,10 @@ try{
 const res = await fetch(url);
 const data = await res.json();
 
-// ■ 1記事だけ抽出（完全一致）
-const item = data.find(d => String(d.id).trim() === String(id).trim());
+// ★ここが完全版（ID強制一致）
+const item = data.find(d => String(d.id) === String(id));
 
-// ■ 見つからない場合
+// ■ 見つからない
 if(!item){
 document.getElementById("app").innerHTML =
 "<div class='card'>記事が見つかりません</div>";
