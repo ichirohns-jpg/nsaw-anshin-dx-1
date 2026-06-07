@@ -4,15 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta property="og:title" content="あんしん生活DX">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-kurashi-01/top-banner.jpg">
+<title>あんしん生活DX</title>
 
-<meta http-equiv="refresh" content="0;url=app.html?id=1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:image" content="">
+<meta property="og:url" content="">
 
-<title>share</title>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="">
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+background:#eef4f8;
+padding:20px;
+}
+
+.card{
+max-width:720px;
+margin:auto;
+background:white;
+padding:24px;
+border-radius:20px;
+box-shadow:0 6px 20px rgba(0,0,0,.1);
+}
+
+h1{
+font-size:30px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+p{
+font-size:18px;
+font-weight:700;
+line-height:1.6;
+white-space:pre-wrap;
+}
+
+img{
+width:100%;
+border-radius:16px;
+margin-top:12px;
+}
+</style>
+
 </head>
 
 <body>
-<p>移動中...</p>
+
+<div class="card" id="view">読み込み中...</div>
+
+<script>
+
+async function loadShare(){
+
+// ■ URLからID取得
+const id = new URLSearchParams(location.search).get("id");
+
+// ■ GAS（データ取得）
+const url = "https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
+
+try{
+
+const res = await fetch(url);
+const data = await res.json();
+
+// ■ 1件取得
+const item = data.find(d => String(d.id) === String(id));
+
+// ■ 見つからない
+if(!item){
+document.getElementById("view").innerHTML = "記事がありません";
+return;
+}
+
+// ■ 表示
+document.getElementById("view").innerHTML = `
+<h1>${item.title || ""}</h1>
+<p>${item.text || ""}</p>
+${item.image ? `<img src="${item.image}">` : ""}
+`;
+
+// ■ OGP反映（これがSNS用）
+document.querySelector('meta[property="og:title"]').setAttribute("content", item.title || "");
+document.querySelector('meta[property="og:description"]').setAttribute("content", item.text || "");
+document.querySelector('meta[property="og:image"]').setAttribute("content", item.image || "");
+document.querySelector('meta[property="og:url"]').setAttribute("content", location.href);
+
+document.querySelector('meta[name="twitter:title"]').setAttribute("content", item.title || "");
+document.querySelector('meta[name="twitter:description"]').setAttribute("content", item.text || "");
+document.querySelector('meta[name="twitter:image"]').setAttribute("content", item.image || "");
+
+}catch(e){
+
+document.getElementById("view").innerHTML = "読み込みエラー";
+
+}
+
+}
+
+loadShare();
+
+</script>
+
 </body>
 </html>
