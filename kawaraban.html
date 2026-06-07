@@ -6,118 +6,75 @@
 
 <title>4市瓦版｜NSAW</title>
 
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="4市瓦版｜NSAW">
+<meta property="og:description" content="志木・新座・朝霞・和光の最新情報">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=17myT3nZaqJhnGKDAoVwu-oiujuv8NVSH&sz=w2000">
 
 <style>
-
-body{
-margin:0;
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:560px;
-margin:auto;
-padding:16px;
-}
-
-.header{
-background:#6d4c41;
-color:#fff;
-border-radius:26px;
-padding:22px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:32px;
-font-weight:900;
-}
-
-.sub{
-font-size:15px;
-margin-top:6px;
-opacity:.9;
-}
-
-.card{
-background:#fff;
-border-radius:26px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.banner{
-width:100%;
-display:block;
-border-radius:20px;
-margin-bottom:12px;
-}
-
-.footer{
-display:flex;
-justify-content:space-around;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-margin-top:20px;
-font-size:14px;
-font-weight:900;
-color:#666;
-}
-
-.btn{
-padding:12px;
-border-radius:14px;
-background:#eee;
-margin-top:10px;
-font-weight:900;
-text-align:center;
-}
-
+body{margin:0;background:#eef4fb;font-family:sans-serif}
+.wrap{max-width:560px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:20px;padding:16px;margin:10px 0;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+img{width:100%;border-radius:16px}
+.title{font-weight:900;font-size:20px;margin-bottom:8px}
+.sub{color:#555}
+.header{padding:16px;font-size:24px;font-weight:900}
 </style>
+
 </head>
 
 <body>
 
 <div class="wrap">
 
-<!-- ヘッダー -->
-<div class="header">
-<div class="title">📰 4市瓦版</div>
-<div class="sub">志木・新座・朝霞・和光</div>
-</div>
+<div class="header">📰 4市瓦版（自動更新）</div>
 
-<!-- バナー -->
 <div class="card">
-<img class="banner"
-src="https://drive.google.com/thumbnail?id=17myT3nZaqJhnGKDAoVwu-oiujuv8NVSH&sz=w2000"
-alt="4市瓦版">
+<img src="https://drive.google.com/thumbnail?id=17myT3nZaqJhnGKDAoVwu-oiujuv8NVSH&sz=w2000">
 </div>
 
-<!-- ダミー記事 -->
+<!-- ここがデータ表示場所 -->
+<div id="content"></div>
+
+</div>
+
+<script>
+
+async function loadSheet(){
+
+const url =
+"https://docs.google.com/spreadsheets/d/13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY/gviz/tq?tqx=out:json";
+
+const res = await fetch(url);
+const text = await res.text();
+
+const json = JSON.parse(text.substr(47).slice(0,-2));
+
+const rows = json.table.rows;
+
+let html = "";
+
+rows.forEach(r=>{
+
+const title = r.c[1]?.v || "タイトルなし";
+const desc = r.c[2]?.v || "内容なし";
+
+html += `
 <div class="card">
-<div class="btn">志木市ニュースを見る</div>
-<div class="btn">新座市ニュースを見る</div>
-<div class="btn">朝霞市ニュースを見る</div>
-<div class="btn">和光市ニュースを見る</div>
+<div class="title">${title}</div>
+<div class="sub">${desc}</div>
 </div>
+`;
 
-<!-- フッター -->
-<div class="footer">
-<div onclick="location.href='index.html'">見守り</div>
-<div onclick="location.href='schedule.html'">予定</div>
-<div onclick="location.href='gomi.html'">ゴミ</div>
-<div onclick="location.href='news.html'">地域情報</div>
-</div>
+});
 
-</div>
+document.getElementById("content").innerHTML = html;
+
+}
+
+loadSheet();
+
+</script>
 
 </body>
 </html>
