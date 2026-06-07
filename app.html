@@ -40,6 +40,12 @@ font-weight:700;
 line-height:1.6;
 white-space:pre-wrap;
 }
+
+img{
+width:100%;
+border-radius:18px;
+margin-top:12px;
+}
 </style>
 
 </head>
@@ -48,9 +54,7 @@ white-space:pre-wrap;
 
 <div class="wrap">
 
-<div id="app">
-読み込み中...
-</div>
+<div id="app">読み込み中...</div>
 
 </div>
 
@@ -67,13 +71,17 @@ try{
 const res = await fetch(url);
 const data = await res.json();
 
-// ★ ここが重要（1記事だけ抽出）
+// ★ ここが修正ポイント（1件だけ）
 const item = data.find(d => d.id == id) || data[0];
 
 document.getElementById("app").innerHTML = `
 <div class="card">
 <div class="title">${item.title || ""}</div>
+
 <div class="text">${item.text || ""}</div>
+
+${item.image ? `<img src="${item.image}">` : ""}
+
 </div>
 `;
 
