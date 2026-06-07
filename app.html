@@ -62,7 +62,7 @@ margin-top:12px;
 
 async function loadApp(){
 
-const id = new URLSearchParams(location.search).get("id");
+const id = String(new URLSearchParams(location.search).get("id") || "").trim();
 
 const url = "https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
 
@@ -71,17 +71,17 @@ try{
 const res = await fetch(url);
 const data = await res.json();
 
-// ★ ここが修正ポイント（1件だけ）
-const item = data.find(d => d.id == id) || data[0];
+// ★完全一致チェック（ここが重要）
+const item = data.find(d => String(d.id).trim() === id);
+
+// 見つからない場合は1件目
+const show = item || data[0];
 
 document.getElementById("app").innerHTML = `
 <div class="card">
-<div class="title">${item.title || ""}</div>
-
-<div class="text">${item.text || ""}</div>
-
-${item.image ? `<img src="${item.image}">` : ""}
-
+<div class="title">${show.title || ""}</div>
+<div class="text">${show.text || ""}</div>
+${show.image ? `<img src="${show.image}">` : ""}
 </div>
 `;
 
