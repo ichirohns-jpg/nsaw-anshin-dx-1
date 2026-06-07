@@ -4,16 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>地域ラジオ</title>
+<title>地域ラジオ｜NSAW</title>
 
-<meta property="og:title" content="地域ラジオ">
+<meta property="og:type" content="website">
+<meta property="og:title" content="地域ラジオ｜NSAW暮らし情報局">
+<meta property="og:description" content="志木・新座・朝霞・和光の地域情報を3分で">
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1bFDgz9RcbhBChn9BPT6Boz_Hpncg9EXg&sz=w2000">
 
 <style>
-body{margin:0;font-family:sans-serif;background:#eef4fb}
+body{margin:0;background:#eef4fb;font-family:sans-serif}
 .wrap{max-width:560px;margin:auto;padding:16px}
 .card{background:#fff;border-radius:20px;padding:16px;margin:10px 0}
 img{width:100%;border-radius:16px}
+a{display:block;margin:6px 0;font-weight:bold}
 </style>
 
 </head>
@@ -26,16 +29,12 @@ img{width:100%;border-radius:16px}
 <img src="https://drive.google.com/thumbnail?id=1bFDgz9RcbhBChn9BPT6Boz_Hpncg9EXg&sz=w2000">
 </div>
 
-<div class="card" id="content">
-地域ラジオ通常表示
-</div>
+<div class="card" id="content">地域ラジオ通常表示</div>
 
 <div class="card">
-
-<a id="fb">Facebook</a><br>
-<a id="tw">X</a><br>
+<a id="fb">Facebook</a>
+<a id="tw">X</a>
 <a id="li">LINE</a>
-
 </div>
 
 </div>
@@ -46,7 +45,7 @@ const radio = p.get("radio");
 
 if(radio){
 document.getElementById("content").innerText =
-"ラジオ記事：" + radio;
+"ラジオ記事ID：" + radio;
 }
 
 const url = location.href;
