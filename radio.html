@@ -7,8 +7,8 @@
 <title>地域ラジオ｜NSAW</title>
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="地域ラジオ｜NSAW暮らし情報局">
-<meta property="og:description" content="志木・新座・朝霞・和光の地域情報を3分で">
+<meta property="og:title" content="地域ラジオ">
+<meta property="og:description" content="志木・新座・朝霞・和光の地域情報">
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1bFDgz9RcbhBChn9BPT6Boz_Hpncg9EXg&sz=w2000">
 
 <style>
@@ -29,7 +29,7 @@ a{display:block;margin:6px 0;font-weight:bold}
 <img src="https://drive.google.com/thumbnail?id=1bFDgz9RcbhBChn9BPT6Boz_Hpncg9EXg&sz=w2000">
 </div>
 
-<div class="card" id="content">地域ラジオ通常表示</div>
+<div class="card" id="content">地域ラジオ</div>
 
 <div class="card">
 <a id="fb">Facebook</a>
@@ -44,8 +44,7 @@ const p = new URLSearchParams(location.search);
 const radio = p.get("radio");
 
 if(radio){
-document.getElementById("content").innerText =
-"ラジオ記事ID：" + radio;
+document.getElementById("content").innerText = "ラジオ記事：" + radio;
 }
 
 const url = location.href;
