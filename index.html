@@ -10,80 +10,102 @@
 
 body{
 margin:0;
-background:#eef4fb;
+background:linear-gradient(180deg,#eaf2ff,#f7f9fc);
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
 }
 
+/* HEADER */
 header{
-background:#1565c0;
+background:linear-gradient(135deg,#1565c0,#1e88e5);
 color:#fff;
-padding:30px 18px;
+padding:34px 18px;
 text-align:center;
-font-size:38px;
+font-size:36px;
 font-weight:900;
+letter-spacing:1px;
+box-shadow:0 6px 18px rgba(0,0,0,.15);
 }
 
 .sub{
-margin-top:10px;
-font-size:22px;
-font-weight:700;
+font-size:16px;
+opacity:.9;
+margin-top:6px;
 }
 
+/* LAYOUT */
 .wrap{
-max-width:800px;
+max-width:900px;
 margin:auto;
 padding:20px;
 }
 
+/* CARD */
 .card{
 background:#fff;
-border-radius:28px;
-padding:24px;
-margin-bottom:20px;
-box-shadow:0 8px 20px rgba(0,0,0,.12);
+border-radius:22px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:34px;
+font-size:26px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .text{
-font-size:24px;
-line-height:1.8;
+font-size:17px;
+line-height:1.7;
+color:#546e7a;
 }
 
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+margin-top:16px;
+}
+
+/* BUTTON */
 .btn{
-display:block;
-width:100%;
-padding:30px;
-margin:18px 0;
-border-radius:24px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:22px;
+border-radius:18px;
 text-decoration:none;
-text-align:center;
-font-size:30px;
+font-size:20px;
 font-weight:900;
 color:#fff;
-box-shadow:0 8px 20px rgba(0,0,0,.15);
+box-shadow:0 6px 16px rgba(0,0,0,.12);
+transition:0.2s;
 }
 
-.person{background:#e91e63;}
-.family{background:#5e35b1;}
-.watch{background:#009688;}
-.map{background:#fb8c00;}
-.info{background:#43a047;}
-.radio{background:#1976d2;}
-.fun{background:#d32f2f;}
+.btn:hover{
+transform:translateY(-2px);
+}
 
+/* COLORS */
+.person{background:linear-gradient(135deg,#ec407a,#d81b60);}
+.family{background:linear-gradient(135deg,#7e57c2,#5e35b1);}
+.watch{background:linear-gradient(135deg,#26a69a,#00897b);}
+.map{background:linear-gradient(135deg,#ffa726,#fb8c00);}
+.info{background:linear-gradient(135deg,#66bb6a,#43a047);}
+.radio{background:linear-gradient(135deg,#42a5f5,#1976d2);}
+.fun{background:linear-gradient(135deg,#ef5350,#d32f2f);}
+
+/* RESPONSIVE */
 @media(max-width:700px){
-header{font-size:34px}
-.sub{font-size:20px}
-.btn{font-size:26px;padding:26px}
-.title{font-size:30px}
-.text{font-size:22px}
+.grid{grid-template-columns:1fr;}
+header{font-size:30px}
+.btn{font-size:18px;padding:18px}
+.title{font-size:22px}
+.text{font-size:15px}
 }
+
 </style>
 </head>
 
@@ -91,53 +113,31 @@ header{font-size:34px}
 
 <header>
 見守りDX
-
-<div class="sub">
-本人・家族・支援者のための生活操作盤
-</div>
+<div class="sub">本人・家族・地域をつなぐ生活ダッシュボード</div>
 </header>
 
 <div class="wrap">
 
 <div class="card">
-<div class="title">
-まず使う人を選んでください
-</div>
-
+<div class="title">メインメニュー</div>
 <div class="text">
-本人は本人ページ。
-家族や支援者は家族・支援者ページ。
-地域情報や地図もここから利用できます。
+必要な機能を選ぶだけで操作できます。
+緊急・見守り・情報をひとつにまとめています。
 </div>
 </div>
 
-<a class="btn person" href="person.html?id=A001">
-🙋 本人ページ
-</a>
+<div class="grid">
 
-<a class="btn family" href="family.html?id=A001">
-👪 家族・支援者ページ
-</a>
+<a class="btn person" href="person.html?id=A001">🙋 本人ページ</a>
+<a class="btn family" href="family.html?id=A001">👪 家族・支援者</a>
+<a class="btn watch" href="app.html">❤️ 見守り確認</a>
 
-<a class="btn watch" href="app.html">
-❤️ 見守り確認
-</a>
+<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">🗺 支援マップ</a>
+<a class="btn info" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/kawaraban.html">📰 4市瓦版</a>
+<a class="btn radio" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/radio.html">📻 地域ラジオ</a>
+<a class="btn fun" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/fun.html">🎬 お楽しみ動画</a>
 
-<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">
-🗺 支援マップ
-</a>
-
-<a class="btn info" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/kawaraban.html">
-📰 4市瓦版
-</a>
-
-<a class="btn radio" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/radio.html">
-📻 地域ラジオ
-</a>
-
-<a class="btn fun" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/fun.html">
-🎬 お楽しみ動画
-</a>
+</div>
 
 </div>
 
