@@ -2,123 +2,124 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>本人ページ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見守りDX｜本人ページ</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
 margin:0;
-background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+background:#f4f6f8;
 color:#1f2d3d;
 }
 
-h1{
-margin:0;
-background:#1565c0;
-color:#fff;
-padding:28px 18px;
-text-align:center;
-font-size:34px;
-font-weight:900;
-}
-
 .wrap{
-max-width:760px;
+max-width:600px;
 margin:auto;
-padding:18px;
+padding:16px;
 }
 
 .card{
 background:#fff;
-border-radius:22px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+border-radius:18px;
+padding:16px;
+margin-bottom:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.lead{
+h2{
+margin:0 0 10px 0;
 font-size:18px;
-line-height:1.7;
-font-weight:700;
 }
 
-.btn{
-display:block;
+input,select,textarea{
 width:100%;
-padding:24px;
-margin:14px 0;
-border-radius:16px;
-font-size:22px;
-font-weight:900;
-color:#fff;
-text-align:center;
-text-decoration:none;
+padding:12px;
+margin-top:6px;
+margin-bottom:10px;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:16px;
 }
 
-.genki{background:#43a047;}
-.komari{background:#fb8c00;}
-.help{background:#e53935;}
-.kusuri{background:#1e88e5;}
-.home{background:#607d8b;}
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
 
+.ok{
+background:#1565c0;
+color:#fff;
+}
+
+.result{
+margin-top:10px;
+font-size:14px;
+}
 </style>
 </head>
 
 <body>
 
-<h1>本人ページ</h1>
-
 <div class="wrap">
 
 <div class="card">
-<div class="lead">
-ボタンを押すだけで記録されます
-</div>
-</div>
+<h2>本人送信</h2>
 
-<a class="btn genki" href="#" onclick="send('genki')">😊 元気です</a>
-<a class="btn komari" href="#" onclick="send('komari')">⚠️ 少し困っています</a>
-<a class="btn help" href="#" onclick="send('help')">🚨 助けてください</a>
-<a class="btn kusuri" href="#" onclick="send('kusuri')">💊 薬を飲みました</a>
+<input id="id" placeholder="ID">
+<input id="name" placeholder="名前">
 
-<a class="btn home" href="index.html">🏠 戻る</a>
+<select id="status">
+<option value="元気">元気</option>
+<option value="注意">注意</option>
+<option value="緊急">緊急</option>
+</select>
+
+<textarea id="memo" placeholder="メモ"></textarea>
+
+<button class="ok" onclick="send()">送信</button>
+
+<div id="result" class="result"></div>
+</div>
 
 </div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxKT-6glAdXnR6ylyUB1YZbSRYKZ3dGtVl4w7lO8YW9jCWGa1vCHwpG7167pX2KIYZ2/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
 
-function send(status){
+function send(){
 
-  const userId = "A001";
+const payload = {
+type:"record",
+id:document.getElementById("id").value,
+name:document.getElementById("name").value,
+status:document.getElementById("status").value,
+memo:document.getElementById("memo").value,
+source:"person",
+method:"post"
+};
 
-  const payload = {
-    id: userId,
-    status: status,
-    datetime: new Date().toISOString()
-  };
-
-  fetch(GAS_URL, {
-    method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  })
-  .then(r => r.text())
-  .then(() => {
-    alert("記録しました");
-  })
-  .catch(() => {
-    alert("送信エラー");
-  });
+fetch(GAS_URL,{
+method:"POST",
+headers:{
+"Content-Type":"text/plain"
+},
+body:JSON.stringify(payload)
+})
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("result").innerText =
+d.status === "ok" ? "送信OK" : "失敗";
+})
+.catch(()=>{
+document.getElementById("result").innerText = "エラー";
+});
 
 }
 
