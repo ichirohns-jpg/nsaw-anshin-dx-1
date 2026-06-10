@@ -2,162 +2,126 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>見守り確認</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見守りDX｜本人アプリ</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
 margin:0;
-background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+background:#eef4fb;
 color:#1f2d3d;
 }
 
-header{
-background:#009688;
-color:#fff;
-padding:30px 18px;
-text-align:center;
-font-size:34px;
-font-weight:900;
-}
-
 .wrap{
-max-width:760px;
+max-width:600px;
 margin:auto;
-padding:18px;
+padding:16px;
 }
 
 .card{
 background:#fff;
-border-radius:22px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+border-radius:18px;
+padding:16px;
+margin-bottom:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.text{
+h2{
+margin:0 0 10px 0;
 font-size:18px;
-font-weight:800;
-line-height:1.6;
-color:#455a64;
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin-top:6px;
+margin-bottom:10px;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+
+.ok{
+background:#2e7d32;
+color:#fff;
 }
 
 .result{
-display:none;
-margin-top:16px;
-padding:18px;
-border-radius:16px;
-font-size:20px;
-font-weight:900;
-text-align:center;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:22px;
-margin-top:16px;
-border-radius:16px;
-font-size:22px;
-font-weight:900;
-color:#fff;
-text-align:center;
-text-decoration:none;
-}
-
-.home{
-background:#607d8b;
+margin-top:10px;
+font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-見守り確認
-</header>
-
 <div class="wrap">
 
 <div class="card">
+<h2>見守り送信</h2>
 
-<div class="text">
-本人の状態を送信します
-</div>
+<input id="id" placeholder="ID">
+<input id="name" placeholder="名前">
+
+<select id="status">
+<option value="元気">元気</option>
+<option value="注意">注意</option>
+<option value="緊急">緊急</option>
+</select>
+
+<textarea id="memo" placeholder="メモ"></textarea>
+
+<button class="ok" onclick="send()">送信</button>
 
 <div id="result" class="result"></div>
-
-<a class="btn home" href="person.html?id=A001">
-🏠 本人へ戻る
-</a>
-
 </div>
 
 </div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxKT-6glAdXnR6ylyUB1YZbSRYKZ3dGtVl4w7lO8YW9jCWGa1vCHwpG7167pX2KIYZ2/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
 
-const params =
-new URLSearchParams(location.search);
+function send(){
 
-const status =
-params.get("status");
+const payload = {
+type:"record",
+id:document.getElementById("id").value,
+name:document.getElementById("name").value,
+status:document.getElementById("status").value,
+memo:document.getElementById("memo").value,
+source:"app",
+method:"post"
+};
 
-const userId =
-params.get("id") || "A001";
-
-const box =
-document.getElementById("result");
-
-function show(msg,color){
-box.style.display="block";
-box.style.background=color;
-box.innerHTML=msg;
-}
-
-async function sendData(){
-
-if(!status){
-show("送信内容なし","#ffebee");
-return;
-}
-
-show("送信中...","#e3f2fd");
-
-try{
-
-const res =
-await fetch(GAS_URL,{
+fetch(GAS_URL,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain"
 },
-body:JSON.stringify({
-id:userId,
-name:userId,
-status:status,
-datetime:new Date().toISOString(),
-source:"app"
+body:JSON.stringify(payload)
 })
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("result").innerText =
+d.status === "ok" ? "送信OK" : "失敗";
+})
+.catch(()=>{
+document.getElementById("result").innerText = "エラー";
 });
 
-show("送信しました","#e8f5e9");
-
-}catch(err){
-
-show("送信エラー","#ffebee");
-
 }
-
-}
-
-sendData();
 
 </script>
 
