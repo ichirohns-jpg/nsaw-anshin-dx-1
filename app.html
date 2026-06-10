@@ -69,10 +69,6 @@ box-shadow:0 6px 16px rgba(0,0,0,.18);
 text-decoration:none;
 }
 
-.genki{background:#43a047}
-.komari{background:#fb8c00}
-.help{background:#d32f2f}
-.kusuri{background:#1976d2}
 .home{background:#607d8b}
 
 .result{
@@ -128,7 +124,7 @@ header{font-size:34px;padding:26px 14px}
 <script>
 
 const GAS_URL =
-"ここにGASのURLを入れる";
+"https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
 
 const params =
 new URLSearchParams(location.search);
@@ -178,7 +174,6 @@ fetch(
 GAS_URL,
 {
 method:"POST",
-mode:"cors",
 headers:{
 "Content-Type":"application/json"
 },
@@ -189,7 +184,7 @@ datetime:now.toISOString()
 })
 }
 )
-.then(r=>r.text())
+.then(response=>response.text())
 .then(data=>{
 
 result.innerHTML =
@@ -199,7 +194,7 @@ now.toLocaleString("ja-JP") +
 "<br><br>記録しました。";
 
 })
-.catch(err=>{
+.catch(error=>{
 
 result.innerHTML =
 text +
@@ -207,7 +202,7 @@ text +
 now.toLocaleString("ja-JP") +
 "<br><br>送信エラー";
 
-console.error(err);
+console.error(error);
 
 });
 
