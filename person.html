@@ -10,142 +10,109 @@
 
 body{
 margin:0;
-background:#eef4fb;
+background:linear-gradient(180deg,#f7f9fc,#eef4fb);
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
 }
 
-.wrap{
-max-width:760px;
-margin:0 auto;
-padding:18px 14px 40px;
-}
-
-h1{
-margin:0 0 18px;
-background:#1565c0;
+header{
+background:linear-gradient(135deg,#1565c0,#1e88e5);
 color:#fff;
 padding:28px 18px;
-border-radius:0 0 28px 28px;
 text-align:center;
-font-size:38px;
+font-size:34px;
 font-weight:900;
-line-height:1.35;
+}
+
+.wrap{
+max-width:800px;
+margin:auto;
+padding:18px;
 }
 
 .card{
 background:#fff;
-border-radius:26px;
-padding:22px 18px;
-margin-bottom:20px;
-box-shadow:0 8px 22px rgba(0,0,0,.14);
+border-radius:22px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
 .lead{
-font-size:26px;
-line-height:1.8;
-font-weight:800;
-white-space:pre-wrap;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:28px 18px;
-margin:18px 0;
-border-radius:22px;
-text-decoration:none;
-font-size:30px;
-font-weight:900;
-text-align:center;
-color:#fff;
-box-shadow:0 6px 16px rgba(0,0,0,.18);
-}
-
-.genki{background:#43a047;}
-.komari{background:#fb8c00;}
-.help{background:#d32f2f;}
-.kusuri{background:#1976d2;}
-.yotei{background:#6a1b9a;}
-.map{background:#00897b;}
-.info{background:#455a64;}
-.home{background:#607d8b;}
-
-.note{
-font-size:22px;
+font-size:18px;
 line-height:1.7;
-font-weight:800;
+font-weight:700;
 color:#455a64;
+}
+
+/* BIG BUTTONS */
+.btn{
+display:flex;
+align-items:center;
+justify-content:center;
+width:100%;
+padding:26px;
+margin:14px 0;
+border-radius:18px;
+text-decoration:none;
+font-size:22px;
+font-weight:900;
+color:#fff;
+box-shadow:0 6px 16px rgba(0,0,0,.12);
+}
+
+.genki{background:linear-gradient(135deg,#43a047,#2e7d32);}
+.komari{background:linear-gradient(135deg,#fb8c00,#ef6c00);}
+.help{background:linear-gradient(135deg,#e53935,#c62828);}
+.kusuri{background:linear-gradient(135deg,#1e88e5,#1565c0);}
+
+/* bottom nav */
+.bottom{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 margin-top:18px;
 }
 
+.small{
+padding:14px;
+font-size:16px;
+border-radius:14px;
+background:#607d8b;
+color:#fff;
+text-align:center;
+font-weight:800;
+text-decoration:none;
+}
+
 @media(max-width:700px){
-h1{font-size:34px}
-.lead{font-size:24px}
-.btn{font-size:28px}
-.note{font-size:20px}
+.btn{font-size:20px;padding:22px}
 }
 </style>
 </head>
 
 <body>
 
-<h1>🙋 本人ページ</h1>
+<header>
+🙋 本人ページ
+</header>
 
 <div class="wrap">
 
 <div class="card">
 <div class="lead">
-毎日使う本人用の入口です。
-大きなボタンを押すだけで、元気確認・薬・予定・困った時の確認につながります。
+大きなボタンを1回押すだけで記録されます。
 </div>
 </div>
 
-<script>
-const params =
-new URLSearchParams(location.search);
+<a class="btn genki" href="app.html?status=genki&id=A001">😊 元気です</a>
+<a class="btn komari" href="app.html?status=komari&id=A001">⚠️ 少し困っています</a>
+<a class="btn help" href="app.html?status=help&id=A001">🚨 助けてください</a>
+<a class="btn kusuri" href="app.html?status=kusuri&id=A001">💊 薬を飲みました</a>
 
-const userId =
-params.get("id") || "A001";
-</script>
-
-<a class="btn genki" href="#" onclick="location.href='app.html?status=genki&id='+userId">
-😊 元気です
-</a>
-
-<a class="btn komari" href="#" onclick="location.href='app.html?status=komari&id='+userId">
-⚠️ 少し困っています
-</a>
-
-<a class="btn help" href="#" onclick="location.href='app.html?status=help&id='+userId">
-🚨 助けてください
-</a>
-
-<a class="btn kusuri" href="#" onclick="location.href='app.html?status=kusuri&id='+userId">
-💊 薬を飲みました
-</a>
-
-<a class="btn yotei" href="#">
-📅 今日の予定
-</a>
-
-<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">
-🗺 困った時の地図
-</a>
-
-<a class="btn info" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/">
-📰 地域情報を見る
-</a>
-
-<a class="btn home" href="index.html">
-🏠 トップへ戻る
-</a>
-
-<div class="card">
-<div class="note">
-本人が押した内容は家族・支援者ページで確認できます。
-今後は薬履歴、予定確認、家族通知を追加します。
-</div>
+<div class="bottom">
+<a class="small" href="index.html">🏠 戻る</a>
+<a class="small" href="family.html?id=A001">👪 家族確認</a>
 </div>
 
 </div>
