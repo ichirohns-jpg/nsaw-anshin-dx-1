@@ -75,7 +75,9 @@ background:#607d8b;
 }
 
 @media(max-width:700px){
-.status{font-size:20px}
+.status{
+font-size:20px;
+}
 }
 </style>
 </head>
@@ -90,18 +92,25 @@ background:#607d8b;
 
 <div class="card">
 <div class="title">最新状況</div>
-<div id="status" class="status">読み込み中...</div>
-<div id="time" class="small"></div>
+
+<div id="status" class="status">
+読み込み中...
 </div>
 
-<a class="btn" href="index.html">🏠 トップへ戻る</a>
+<div id="time" class="small"></div>
+
+</div>
+
+<a class="btn" href="index.html">
+🏠 トップへ戻る
+</a>
 
 </div>
 
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
+"https://script.google.com/macros/s/AKfycbxKT-6glAdXnR6ylyUB1YZbSRYKZ3dGtVl4w7lO8YW9jCWGa1vCHwpG7167pX2KIYZ2/exec";
 
 const params =
 new URLSearchParams(location.search);
@@ -109,31 +118,76 @@ new URLSearchParams(location.search);
 const userId =
 params.get("id") || "A001";
 
-fetch(GAS_URL + "?id=" + encodeURIComponent(userId))
-.then(r => r.json())
-.then(data => {
+const statusBox =
+document.getElementById("status");
 
-  const statusBox =
-    document.getElementById("status");
+const timeBox =
+document.getElementById("time");
 
-  const timeBox =
-    document.getElementById("time");
+async function loadData(){
 
-  if(!data || data.result === "NOT_FOUND"){
-    statusBox.innerHTML = "データなし";
-    return;
-  }
+try{
 
-  statusBox.innerHTML = data.status;
+const res =
+await fetch(
+GAS_URL +
+"?mode=records&id=" +
+encodeURIComponent(userId)
+);
 
-  timeBox.innerHTML =
-    "更新：" +
-    new Date(data.datetime).toLocaleString("ja-JP");
+const data =
+await res.json();
 
-})
-.catch(() => {
-  document.getElementById("status").innerHTML = "取得エラー";
-});
+if(
+!data ||
+!data.records ||
+data.records.length === 0
+){
+
+statusBox.innerHTML = "記録なし";
+timeBox.innerHTML = "";
+return;
+
+}
+
+const latest =
+data.records[0];
+
+let text = latest.status;
+
+if(text === "genki"){
+text = "😊 元気です";
+}
+
+if(text === "komari"){
+text = "⚠️ 少し困っています";
+}
+
+if(text === "help"){
+text = "🚨 助けてください";
+}
+
+if(text === "kusuri"){
+text = "💊 薬を飲みました";
+}
+
+statusBox.innerHTML = text;
+
+timeBox.innerHTML =
+"更新：" +
+new Date(latest.date)
+.toLocaleString("ja-JP");
+
+}catch(err){
+
+statusBox.innerHTML =
+"取得エラー";
+
+}
+
+}
+
+loadData();
 
 </script>
 
