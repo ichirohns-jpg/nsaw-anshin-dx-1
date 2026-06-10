@@ -3,119 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守りDX｜本人ページ</title>
-
-<style>
-body{
-margin:0;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-background:#f4f6f8;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:600px;
-margin:auto;
-padding:16px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:16px;
-margin-bottom:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-h2{
-margin:0 0 10px 0;
-font-size:18px;
-}
-
-input,select,textarea{
-width:100%;
-padding:12px;
-margin-top:6px;
-margin-bottom:10px;
-border-radius:10px;
-border:1px solid #ccc;
-font-size:16px;
-}
-
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:700;
-cursor:pointer;
-background:#1565c0;
-color:#fff;
-}
-
-.result{
-margin-top:10px;
-font-size:14px;
-}
-</style>
+<title>本人</title>
 </head>
-
 <body>
 
-<div class="wrap">
-
-<div class="card">
 <h2>本人送信</h2>
 
-<input id="id" placeholder="ID">
-<input id="name" placeholder="名前">
+<input id="id" placeholder="ID"><br>
+<input id="name" placeholder="名前"><br>
 
 <select id="status">
-<option value="元気">元気</option>
-<option value="注意">注意</option>
-<option value="緊急">緊急</option>
-</select>
+<option>元気</option>
+<option>注意</option>
+<option>緊急</option>
+</select><br>
 
-<textarea id="memo" placeholder="メモ"></textarea>
+<textarea id="memo"></textarea><br>
 
 <button onclick="send()">送信</button>
 
-<div id="result" class="result"></div>
-</div>
-
-</div>
+<div id="result"></div>
 
 <script>
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
+const GAS_URL="https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
 
 function send(){
 
-const payload = {
+const payload={
 type:"record",
-id:document.getElementById("id").value || "",
-name:document.getElementById("name").value || "",
-status:document.getElementById("status").value,
-memo:document.getElementById("memo").value || "",
+id:id.value,
+name:name.value,
+status:status.value,
+memo:memo.value,
 source:"person",
 method:"post"
 };
 
 fetch(GAS_URL,{
 method:"POST",
-headers:{
-"Content-Type":"text/plain"
-},
+headers:{"Content-Type":"text/plain"},
 body:JSON.stringify(payload)
 })
-.then(r=>r.json())
-.then(d=>{
-document.getElementById("result").innerText =
-(d.status === "ok") ? "送信OK" : "失敗";
-})
-.catch(()=>{
-document.getElementById("result").innerText = "エラー";
+
+.then(r=>r.text())
+.then(t=>{
+const d=JSON.parse(t);
+result.innerText=d.status;
 });
 
 }
