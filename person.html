@@ -101,19 +101,27 @@ h1{font-size:34px}
 </div>
 </div>
 
-<a class="btn genki" href="app.html?status=genki">
+<script>
+const params =
+new URLSearchParams(location.search);
+
+const userId =
+params.get("id") || "A001";
+</script>
+
+<a class="btn genki" href="#" onclick="location.href='app.html?status=genki&id='+userId">
 😊 元気です
 </a>
 
-<a class="btn komari" href="app.html?status=komari">
+<a class="btn komari" href="#" onclick="location.href='app.html?status=komari&id='+userId">
 ⚠️ 少し困っています
 </a>
 
-<a class="btn help" href="app.html?status=help">
+<a class="btn help" href="#" onclick="location.href='app.html?status=help&id='+userId">
 🚨 助けてください
 </a>
 
-<a class="btn kusuri" href="app.html?status=kusuri">
+<a class="btn kusuri" href="#" onclick="location.href='app.html?status=kusuri&id='+userId">
 💊 薬を飲みました
 </a>
 
