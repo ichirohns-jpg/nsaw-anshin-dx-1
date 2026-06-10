@@ -123,14 +123,25 @@ header{font-size:34px}
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
 
-fetch(GAS_URL)
+const params =
+new URLSearchParams(location.search);
+
+const userId =
+params.get("id") || "A001";
+
+fetch(
+GAS_URL + "?id=" + encodeURIComponent(userId)
+)
 .then(response => response.json())
 .then(data => {
 
   const box =
   document.getElementById("status");
 
-  if(!data || data.length===0){
+  if(
+    !data ||
+    data.result === "NOT_FOUND"
+  ){
 
     box.innerHTML =
     "確認データなし";
@@ -138,15 +149,16 @@ fetch(GAS_URL)
     return;
   }
 
-  const last =
-  data[data.length - 1];
-
   box.innerHTML =
-  "最新確認<br><br>" +
-  last.status +
-  "<br><br>" +
-  new Date(last.datetime)
-  .toLocaleString("ja-JP");
+    "利用者ID<br><br>" +
+    data.id +
+    "<br><br>" +
+    "最新状態<br><br>" +
+    data.status +
+    "<br><br>" +
+    "日時<br><br>" +
+    new Date(data.datetime)
+      .toLocaleString("ja-JP");
 
 })
 .catch(error => {
