@@ -109,11 +109,23 @@ headers:{
 },
 body:JSON.stringify(payload)
 })
-.then(r=>r.json())
-.then(d=>{
+
+.then(r => r.text())   // ★ここ重要（iPhone対策）
+.then(t => {
+
+let d;
+try {
+d = JSON.parse(t);
+} catch(e){
+document.getElementById("result").innerText = "通信エラー";
+return;
+}
+
 document.getElementById("result").innerText =
 (d.status === "ok") ? "送信OK" : "失敗";
+
 })
+
 .catch(()=>{
 document.getElementById("result").innerText = "エラー";
 });
