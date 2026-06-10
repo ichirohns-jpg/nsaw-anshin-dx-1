@@ -3,88 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守りDX｜送信アプリ</title>
-
-<style>
-body{
-margin:0;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-background:#eef4fb;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:600px;
-margin:auto;
-padding:16px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:16px;
-margin-top:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-h2{
-margin:0 0 10px 0;
-font-size:18px;
-}
-
-input,select,textarea{
-width:100%;
-padding:12px;
-margin-top:6px;
-margin-bottom:10px;
-border-radius:10px;
-border:1px solid #ccc;
-font-size:16px;
-}
-
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:700;
-cursor:pointer;
-background:#2e7d32;
-color:#fff;
-}
-
-.result{
-margin-top:10px;
-font-size:14px;
-}
-</style>
+<title>見守りDX｜送信</title>
 </head>
 
 <body>
 
-<div class="wrap">
-
-<div class="card">
 <h2>見守り送信</h2>
 
-<input id="id" placeholder="ID">
-<input id="name" placeholder="名前">
+<input id="id" placeholder="ID"><br>
+<input id="name" placeholder="名前"><br>
 
 <select id="status">
-<option value="元気">元気</option>
-<option value="注意">注意</option>
-<option value="緊急">緊急</option>
-</select>
+<option>元気</option>
+<option>注意</option>
+<option>緊急</option>
+</select><br>
 
-<textarea id="memo" placeholder="メモ"></textarea>
+<textarea id="memo" placeholder="メモ"></textarea><br>
 
 <button onclick="send()">送信</button>
 
-<div id="result" class="result"></div>
-</div>
-
-</div>
+<div id="result"></div>
 
 <script>
 
@@ -93,41 +32,35 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprB
 function send(){
 
 const payload = {
-type:"record",
-id:document.getElementById("id").value || "",
-name:document.getElementById("name").value || "",
-status:document.getElementById("status").value,
-memo:document.getElementById("memo").value || "",
-source:"app",
-method:"post"
+type: "record",
+id: id.value,
+name: name.value,
+status: status.value,
+memo: memo.value,
+source: "app",
+method: "post"
 };
 
-fetch(GAS_URL,{
-method:"POST",
-headers:{
-"Content-Type":"text/plain"
+fetch(GAS_URL, {
+method: "POST",
+headers: {
+"Content-Type": "application/x-www-form-urlencoded"
 },
-body:JSON.stringify(payload)
+body: new URLSearchParams(payload)
 })
 
-.then(r => r.text())   // ★ここ重要（iPhone対策）
+.then(r => r.text())
 .then(t => {
-
-let d;
 try {
-d = JSON.parse(t);
-} catch(e){
-document.getElementById("result").innerText = "通信エラー";
-return;
+const d = JSON.parse(t);
+result.innerText = d.status || "OK";
+} catch (e) {
+result.innerText = "ERROR";
 }
-
-document.getElementById("result").innerText =
-(d.status === "ok") ? "送信OK" : "失敗";
-
 })
 
-.catch(()=>{
-document.getElementById("result").innerText = "エラー";
+.catch(() => {
+result.innerText = "NETWORK ERROR";
 });
 
 }
