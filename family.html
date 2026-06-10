@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守りDX｜家族・支援者</title>
+<title>見守りDX｜家族</title>
 
 <style>
 body{
@@ -102,11 +102,14 @@ opacity:0.7;
 const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
 
 function loadRecords(){
+
 fetch(GAS_URL + "?action=records")
-.then(r=>r.json())
-.then(d=>{
-let html="";
-(d.data||[]).forEach(v=>{
+.then(r => r.json())
+.then(d => {
+
+let html = "";
+
+(d.data || []).forEach(v => {
 html += `
 <div style="padding:8px;border-bottom:1px solid #eee">
 <b>${v.name || ""}</b> / ${v.status || ""}<br>
@@ -114,33 +117,44 @@ html += `
 ${v.memo || ""}
 </div>`;
 });
+
 document.getElementById("records").innerHTML = html || "なし";
+
 });
+
 }
 
 function loadUsers(){
+
 fetch(GAS_URL + "?action=users")
-.then(r=>r.json())
-.then(d=>{
-let html="";
-(d.data||[]).forEach(v=>{
+.then(r => r.json())
+.then(d => {
+
+let html = "";
+
+(d.data || []).forEach(v => {
 html += `
 <div style="padding:8px;border-bottom:1px solid #eee">
 <b>${v.name || ""}</b><br>
 ID:${v.id || ""} / ${v.address || ""}
 </div>`;
 });
+
 document.getElementById("users").innerHTML = html || "なし";
+
 });
+
 }
 
 function ping(){
+
 fetch(GAS_URL + "?action=ping")
-.then(r=>r.json())
-.then(d=>{
+.then(r => r.json())
+.then(d => {
 document.getElementById("ping").innerText =
 (d.status || "") + " / " + (d.time || "");
 });
+
 }
 
 loadRecords();
