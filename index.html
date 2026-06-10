@@ -2,110 +2,59 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>見守りDX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見守りDX｜入口</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
 margin:0;
-background:linear-gradient(180deg,#eaf2ff,#f7f9fc);
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+background:#eef4fb;
 color:#1f2d3d;
 }
 
-/* HEADER */
-header{
-background:linear-gradient(135deg,#1565c0,#1e88e5);
-color:#fff;
-padding:34px 18px;
-text-align:center;
-font-size:36px;
-font-weight:900;
-letter-spacing:1px;
-box-shadow:0 6px 18px rgba(0,0,0,.15);
-}
-
-.sub{
-font-size:16px;
-opacity:.9;
-margin-top:6px;
-}
-
-/* LAYOUT */
 .wrap{
-max-width:900px;
+max-width:600px;
 margin:auto;
-padding:20px;
+padding:16px;
 }
 
-/* CARD */
-.card{
-background:#fff;
-border-radius:22px;
-padding:22px;
-margin-bottom:18px;
-box-shadow:0 8px 22px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:26px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.text{
-font-size:17px;
-line-height:1.7;
-color:#546e7a;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-margin-top:16px;
-}
-
-/* BUTTON */
-.btn{
-display:flex;
-align-items:center;
-justify-content:center;
-padding:22px;
-border-radius:18px;
-text-decoration:none;
+header{
+text-align:center;
 font-size:20px;
 font-weight:900;
+padding:18px;
+background:#1565c0;
 color:#fff;
-box-shadow:0 6px 16px rgba(0,0,0,.12);
-transition:0.2s;
 }
 
-.btn:hover{
-transform:translateY(-2px);
+.card{
+background:#fff;
+border-radius:18px;
+padding:16px;
+margin-top:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+text-align:center;
 }
 
-/* COLORS */
-.person{background:linear-gradient(135deg,#ec407a,#d81b60);}
-.family{background:linear-gradient(135deg,#7e57c2,#5e35b1);}
-.watch{background:linear-gradient(135deg,#26a69a,#00897b);}
-.map{background:linear-gradient(135deg,#ffa726,#fb8c00);}
-.info{background:linear-gradient(135deg,#66bb6a,#43a047);}
-.radio{background:linear-gradient(135deg,#42a5f5,#1976d2);}
-.fun{background:linear-gradient(135deg,#ef5350,#d32f2f);}
-
-/* RESPONSIVE */
-@media(max-width:700px){
-.grid{grid-template-columns:1fr;}
-header{font-size:30px}
-.btn{font-size:18px;padding:18px}
-.title{font-size:22px}
-.text{font-size:15px}
+button{
+width:100%;
+padding:16px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
 }
 
+a{
+text-decoration:none;
+}
+
+.ok{background:#2e7d32;color:#fff;}
+.warn{background:#fb8c00;color:#fff;}
+.info{background:#1565c0;color:#fff;}
 </style>
 </head>
 
@@ -113,30 +62,29 @@ header{font-size:30px}
 
 <header>
 見守りDX
-<div class="sub">本人・家族・地域をつなぐ生活ダッシュボード</div>
 </header>
 
 <div class="wrap">
 
 <div class="card">
-<div class="title">メインメニュー</div>
-<div class="text">
-必要な機能を選ぶだけで操作できます。
-緊急・見守り・情報をひとつにまとめています。
+<div>本人ページ</div>
+<a href="person.html">
+<button class="ok">本人送信</button>
+</a>
 </div>
+
+<div class="card">
+<div>家族・支援者ページ</div>
+<a href="family.html">
+<button class="warn">見守り確認</button>
+</a>
 </div>
 
-<div class="grid">
-
-<a class="btn person" href="person.html?id=A001">🙋 本人ページ</a>
-<a class="btn family" href="family.html?id=A001">👪 家族・支援者</a>
-<a class="btn watch" href="app.html">❤️ 見守り確認</a>
-
-<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">🗺 支援マップ</a>
-<a class="btn info" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/kawaraban.html">📰 4市瓦版</a>
-<a class="btn radio" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/radio.html">📻 地域ラジオ</a>
-<a class="btn fun" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/fun.html">🎬 お楽しみ動画</a>
-
+<div class="card">
+<div>直接アプリ</div>
+<a href="app.html">
+<button class="info">送信アプリ</button>
+</a>
 </div>
 
 </div>
