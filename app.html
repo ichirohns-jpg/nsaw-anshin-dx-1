@@ -127,11 +127,17 @@ header{font-size:34px;padding:26px 14px}
 
 <script>
 
+const GAS_URL =
+"ここにGASのURLを入れる";
+
 const params =
 new URLSearchParams(location.search);
 
 const status =
 params.get("status");
+
+const userId =
+params.get("id") || "A001";
 
 let text = "";
 
@@ -156,15 +162,6 @@ if(text){
 const now =
 new Date();
 
-const record =
-text + " / " +
-now.toLocaleString("ja-JP");
-
-localStorage.setItem(
-"lastStatus",
-record
-);
-
 const result =
 document.getElementById("result");
 
@@ -175,7 +172,44 @@ result.innerHTML =
 text +
 "<br><br>" +
 now.toLocaleString("ja-JP") +
+"<br><br>送信中...";
+
+fetch(
+GAS_URL,
+{
+method:"POST",
+mode:"cors",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+id:userId,
+status:text,
+datetime:now.toISOString()
+})
+}
+)
+.then(r=>r.text())
+.then(data=>{
+
+result.innerHTML =
+text +
+"<br><br>" +
+now.toLocaleString("ja-JP") +
 "<br><br>記録しました。";
+
+})
+.catch(err=>{
+
+result.innerHTML =
+text +
+"<br><br>" +
+now.toLocaleString("ja-JP") +
+"<br><br>送信エラー";
+
+console.error(err);
+
+});
 
 }
 
