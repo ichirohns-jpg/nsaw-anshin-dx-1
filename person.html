@@ -10,13 +10,14 @@
 
 body{
 margin:0;
-background:linear-gradient(180deg,#f7f9fc,#eef4fb);
+background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
 }
 
-header{
-background:linear-gradient(135deg,#1565c0,#1e88e5);
+h1{
+margin:0;
+background:#1565c0;
 color:#fff;
 padding:28px 18px;
 text-align:center;
@@ -25,7 +26,7 @@ font-weight:900;
 }
 
 .wrap{
-max-width:800px;
+max-width:760px;
 margin:auto;
 padding:18px;
 }
@@ -42,80 +43,86 @@ box-shadow:0 6px 18px rgba(0,0,0,.08);
 font-size:18px;
 line-height:1.7;
 font-weight:700;
-color:#455a64;
 }
 
-/* BIG BUTTONS */
 .btn{
-display:flex;
-align-items:center;
-justify-content:center;
+display:block;
 width:100%;
-padding:26px;
+padding:24px;
 margin:14px 0;
-border-radius:18px;
-text-decoration:none;
+border-radius:16px;
 font-size:22px;
 font-weight:900;
 color:#fff;
-box-shadow:0 6px 16px rgba(0,0,0,.12);
-}
-
-.genki{background:linear-gradient(135deg,#43a047,#2e7d32);}
-.komari{background:linear-gradient(135deg,#fb8c00,#ef6c00);}
-.help{background:linear-gradient(135deg,#e53935,#c62828);}
-.kusuri{background:linear-gradient(135deg,#1e88e5,#1565c0);}
-
-/* bottom nav */
-.bottom{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-top:18px;
-}
-
-.small{
-padding:14px;
-font-size:16px;
-border-radius:14px;
-background:#607d8b;
-color:#fff;
 text-align:center;
-font-weight:800;
 text-decoration:none;
 }
 
-@media(max-width:700px){
-.btn{font-size:20px;padding:22px}
-}
+.genki{background:#43a047;}
+.komari{background:#fb8c00;}
+.help{background:#e53935;}
+.kusuri{background:#1e88e5;}
+.home{background:#607d8b;}
+
 </style>
 </head>
 
 <body>
 
-<header>
-🙋 本人ページ
-</header>
+<h1>本人ページ</h1>
 
 <div class="wrap">
 
 <div class="card">
 <div class="lead">
-大きなボタンを1回押すだけで記録されます。
+ボタンを押すだけで記録されます
 </div>
 </div>
 
-<a class="btn genki" href="app.html?status=genki&id=A001">😊 元気です</a>
-<a class="btn komari" href="app.html?status=komari&id=A001">⚠️ 少し困っています</a>
-<a class="btn help" href="app.html?status=help&id=A001">🚨 助けてください</a>
-<a class="btn kusuri" href="app.html?status=kusuri&id=A001">💊 薬を飲みました</a>
+<a class="btn genki" href="#" onclick="send('genki')">😊 元気です</a>
+<a class="btn komari" href="#" onclick="send('komari')">⚠️ 少し困っています</a>
+<a class="btn help" href="#" onclick="send('help')">🚨 助けてください</a>
+<a class="btn kusuri" href="#" onclick="send('kusuri')">💊 薬を飲みました</a>
 
-<div class="bottom">
-<a class="small" href="index.html">🏠 戻る</a>
-<a class="small" href="family.html?id=A001">👪 家族確認</a>
-</div>
+<a class="btn home" href="index.html">🏠 戻る</a>
 
 </div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
+
+function send(status){
+
+  const userId = "A001";
+
+  const payload = {
+    id: userId,
+    status: status,
+    datetime: new Date().toISOString()
+  };
+
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.text())
+  .then(() => {
+    alert("記録しました");
+  })
+  .catch(() => {
+    alert("送信エラー");
+  });
+
+}
+
+</script>
 
 </body>
 </html>
