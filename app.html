@@ -1,88 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>見守り確認</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
+}
+
+header{
+background:#009688;
+color:#fff;
+padding:30px 18px;
+text-align:center;
+font-size:38px;
+font-weight:900;
+line-height:1.35;
+}
+
+.wrap{
+max-width:760px;
+margin:0 auto;
+padding:18px 14px 44px;
+}
+
+.card{
+background:#fff;
+border-radius:28px;
+padding:24px 20px;
+margin-bottom:22px;
+box-shadow:0 8px 22px rgba(0,0,0,.14);
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+line-height:1.45;
+margin-bottom:10px;
+}
+
+.text{
+font-size:24px;
+line-height:1.8;
+font-weight:800;
+color:#334e68;
+white-space:pre-wrap;
+}
+
+.btn{
+display:block;
+width:100%;
+border:0;
+padding:30px 18px;
+margin:18px 0;
+border-radius:24px;
+font-size:31px;
+font-weight:900;
+text-align:center;
+color:#fff;
+box-shadow:0 6px 16px rgba(0,0,0,.18);
+}
+
+.genki{background:#43a047}
+.komari{background:#fb8c00}
+.help{background:#d32f2f}
+.kusuri{background:#1976d2}
+.home{background:#607d8b}
+
+.result{
+display:none;
+background:#fff;
+border-radius:28px;
+padding:24px 20px;
+margin-top:22px;
+box-shadow:0 8px 22px rgba(0,0,0,.14);
+font-size:26px;
+font-weight:900;
+line-height:1.7;
+}
+
+@media(max-width:700px){
+header{font-size:34px;padding:26px 14px}
+.title{font-size:31px}
+.text{font-size:22px}
+.btn{font-size:28px}
+.result{font-size:23px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+見守り確認
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<div class="title">
+本人確認ボタン
+</div>
+<div class="text">
+今の状態に近いボタンを押してください。
+押した内容と時刻を画面に表示します。
+</div>
+</div>
+
+<button class="btn genki" onclick="sendStatus('😊 元気です')">
+😊 元気です
+</button>
+
+<button class="btn komari" onclick="sendStatus('⚠️ 少し困っています')">
+⚠️ 少し困っています
+</button>
+
+<button class="btn help" onclick="sendStatus('🚨 助けてください')">
+🚨 助けてください
+</button>
+
+<button class="btn kusuri" onclick="sendStatus('💊 薬を飲みました')">
+💊 薬を飲みました
+</button>
+
+<a class="btn home" href="index.html">
+🏠 トップへ戻る
+</a>
+
+<div id="result" class="result"></div>
+
+</div>
+
 <script>
 
-const SHEET_ID = "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME = "NSAW暮らし情報局_データ";
+function sendStatus(status){
 
-function getCell(row,i){
-return row?.c?.[i]?.v || "";
-}
+const now =
+new Date();
 
-async function load(){
+const text =
+status + "<br>" +
+"確認時刻：" +
+now.getFullYear() + "年" +
+(now.getMonth()+1) + "月" +
+now.getDate() + "日 " +
+String(now.getHours()).padStart(2,"0") + ":" +
+String(now.getMinutes()).padStart(2,"0");
 
-const id = new URLSearchParams(location.search).get("id");
+const result =
+document.getElementById("result");
 
-if(!id){
+result.innerHTML =
+text + "<br><br>記録しました。";
 
-document.getElementById("status").innerText =
-"記事未指定";
+result.style.display =
+"block";
 
-document.getElementById("app").innerHTML =
-'<div class="card"><div class="title">記事IDが指定されていません</div></div>';
-
-return;
-
-}
-
-const url =
-"https://docs.google.com/spreadsheets/d/"+SHEET_ID+
-"/gviz/tq?sheet="+encodeURIComponent(SHEET_NAME)+
-"&tqx=out:json";
-
-try{
-
-const res = await fetch(url);
-const text = await res.text();
-const json = JSON.parse(text.substring(47).slice(0,-2));
-
-const rows = json.table.rows;
-
-// ■ 1件だけ取得
-let item = null;
-
-for(let i=0;i<rows.length;i++){
-
-const rowId = getCell(rows[i],0);
-
-if(String(rowId) === String(id)){
-item = {
-title:getCell(rows[i],1),
-image:getCell(rows[i],2),
-text:getCell(rows[i],3)
-};
-break;
-}
+localStorage.setItem(
+"lastStatus",
+status + " / " + now.toLocaleString("ja-JP")
+);
 
 }
-
-// ■ 表示
-if(!item){
-document.getElementById("app").innerHTML =
-'<div class="card"><div class="title">記事が見つかりません</div></div>';
-return;
-}
-
-document.getElementById("app").innerHTML = `
-<div class="card">
-<div class="title">${item.title}</div>
-<div class="text">${item.text}</div>
-${item.image ? `<img src="${item.image}">` : ""}
-</div>
-`;
-
-document.getElementById("status").innerText = "完了";
-
-}catch(e){
-
-document.getElementById("status").innerText =
-"読み込み失敗";
-
-document.getElementById("app").innerHTML =
-'<div class="card"><div class="title">データの読み込みに失敗しました</div></div>';
-
-}
-
-}
-
-load();
 
 </script>
+
+</body>
+</html>
