@@ -14,12 +14,12 @@ color:#1f2d3d;
 }
 
 header{
-background:linear-gradient(135deg,#1565c0,#1e88e5);
+background:#1565c0;
 color:#fff;
-padding:18px;
+padding:16px;
 text-align:center;
-font-size:20px;
 font-weight:900;
+font-size:18px;
 }
 
 .wrap{
@@ -58,7 +58,7 @@ margin-top:8px;
 
 .list{
 font-size:14px;
-max-height:300px;
+max-height:320px;
 overflow:auto;
 }
 
@@ -78,7 +78,7 @@ opacity:0.7;
 <div class="wrap">
 
 <div class="card">
-<div class="title">最新見守り状況</div>
+<div class="title">見守り状況</div>
 <button class="ok" onclick="loadRecords()">更新</button>
 <div id="records" class="list">読み込み中...</div>
 </div>
@@ -105,12 +105,12 @@ function loadRecords(){
 fetch(GAS_URL + "?action=records")
 .then(r=>r.json())
 .then(d=>{
-let html = "";
-(d.data || []).forEach(v=>{
+let html="";
+(d.data||[]).forEach(v=>{
 html += `
 <div style="padding:8px;border-bottom:1px solid #eee">
-<b>${v.name}</b> / ${v.status}<br>
-<small>${v.time}</small><br>
+<b>${v.name || ""}</b> / ${v.status || ""}<br>
+<small>${v.time || ""}</small><br>
 ${v.memo || ""}
 </div>`;
 });
@@ -122,12 +122,12 @@ function loadUsers(){
 fetch(GAS_URL + "?action=users")
 .then(r=>r.json())
 .then(d=>{
-let html = "";
-(d.data || []).forEach(v=>{
+let html="";
+(d.data||[]).forEach(v=>{
 html += `
 <div style="padding:8px;border-bottom:1px solid #eee">
-<b>${v.name}</b><br>
-ID:${v.id} / ${v.address || ""}
+<b>${v.name || ""}</b><br>
+ID:${v.id || ""} / ${v.address || ""}
 </div>`;
 });
 document.getElementById("users").innerHTML = html || "なし";
@@ -139,7 +139,7 @@ fetch(GAS_URL + "?action=ping")
 .then(r=>r.json())
 .then(d=>{
 document.getElementById("ping").innerText =
-d.status + " / " + d.time;
+(d.status || "") + " / " + (d.time || "");
 });
 }
 
