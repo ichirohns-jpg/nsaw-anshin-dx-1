@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>家族・支援者ページ</title>
+<title>家族・支援者確認</title>
 
 <style>
 *{box-sizing:border-box}
@@ -15,98 +15,110 @@ font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
 }
 
-.wrap{
-max-width:760px;
-margin:0 auto;
-padding:18px 14px 40px;
-}
-
-h1{
-margin:0 0 18px;
+header{
 background:#6a1b9a;
 color:#fff;
-padding:28px 18px;
-border-radius:0 0 28px 28px;
+padding:30px 18px;
 text-align:center;
 font-size:38px;
 font-weight:900;
 }
 
+.wrap{
+max-width:760px;
+margin:0 auto;
+padding:18px 14px 44px;
+}
+
 .card{
 background:#fff;
-border-radius:26px;
-padding:22px 18px;
-margin-bottom:20px;
+border-radius:28px;
+padding:24px 20px;
+margin-bottom:22px;
 box-shadow:0 8px 22px rgba(0,0,0,.14);
 }
 
-.lead{
-font-size:26px;
+.title{
+font-size:34px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.text{
+font-size:24px;
 line-height:1.8;
 font-weight:800;
+}
+
+.status{
+background:#fff;
+border-radius:28px;
+padding:24px;
+box-shadow:0 8px 22px rgba(0,0,0,.14);
+font-size:26px;
+line-height:1.8;
+font-weight:900;
+margin-bottom:22px;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:28px 18px;
-margin:18px 0;
+padding:28px;
 border-radius:22px;
 text-decoration:none;
+text-align:center;
 font-size:30px;
 font-weight:900;
-text-align:center;
 color:#fff;
+margin-bottom:18px;
 }
 
-.status{background:#43a047;}
-.history{background:#1976d2;}
-.map{background:#00897b;}
-.contact{background:#d32f2f;}
-.home{background:#607d8b;}
-
-@media(max-width:700px){
-h1{font-size:34px}
-.lead{font-size:24px}
-.btn{font-size:28px}
-}
+.home{background:#607d8b}
 </style>
 </head>
 
 <body>
 
-<h1>👪 家族・支援者ページ</h1>
+<header>
+👪 家族・支援者ページ
+</header>
 
 <div class="wrap">
 
 <div class="card">
-<div class="lead">
-家族や支援者が確認する入口です。
-安否確認、連絡、支援情報の確認に使います。
+<div class="title">
+確認状況
+</div>
+
+<div class="text">
+本人が最後に押した内容を表示します。
 </div>
 </div>
 
-<a class="btn status" href="#">
-😊 元気確認状況
-</a>
-
-<a class="btn history" href="#">
-📋 確認履歴
-</a>
-
-<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">
-🗺 支援マップ
-</a>
-
-<a class="btn contact" href="#">
-☎ 連絡・相談
-</a>
+<div id="status" class="status">
+確認データなし
+</div>
 
 <a class="btn home" href="index.html">
 🏠 トップへ戻る
 </a>
 
 </div>
+
+<script>
+
+const status =
+localStorage.getItem("lastStatus");
+
+if(status){
+
+document.getElementById("status").innerHTML =
+"最新確認<br><br>" + status;
+
+}
+
+</script>
 
 </body>
 </html>
