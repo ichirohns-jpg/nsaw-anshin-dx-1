@@ -50,9 +50,6 @@ border-radius:12px;
 font-size:16px;
 font-weight:700;
 cursor:pointer;
-}
-
-.ok{
 background:#2e7d32;
 color:#fff;
 }
@@ -82,7 +79,7 @@ font-size:14px;
 
 <textarea id="memo" placeholder="メモ"></textarea>
 
-<button class="ok" onclick="send()">送信</button>
+<button onclick="send()">送信</button>
 
 <div id="result" class="result"></div>
 </div>
@@ -97,10 +94,10 @@ function send(){
 
 const payload = {
 type:"record",
-id:document.getElementById("id").value,
-name:document.getElementById("name").value,
+id:document.getElementById("id").value || "",
+name:document.getElementById("name").value || "",
 status:document.getElementById("status").value,
-memo:document.getElementById("memo").value,
+memo:document.getElementById("memo").value || "",
 source:"app",
 method:"post"
 };
