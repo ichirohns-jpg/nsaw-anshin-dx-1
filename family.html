@@ -74,7 +74,17 @@ color:#fff;
 margin-bottom:18px;
 }
 
-.home{background:#607d8b}
+.home{
+background:#607d8b;
+}
+
+@media(max-width:700px){
+header{font-size:34px}
+.title{font-size:31px}
+.text{font-size:22px}
+.status{font-size:23px}
+.btn{font-size:27px}
+}
 </style>
 </head>
 
@@ -87,6 +97,7 @@ margin-bottom:18px;
 <div class="wrap">
 
 <div class="card">
+
 <div class="title">
 確認状況
 </div>
@@ -94,10 +105,11 @@ margin-bottom:18px;
 <div class="text">
 本人が最後に押した内容を表示します。
 </div>
+
 </div>
 
 <div id="status" class="status">
-確認データなし
+読込中...
 </div>
 
 <a class="btn home" href="index.html">
@@ -108,15 +120,44 @@ margin-bottom:18px;
 
 <script>
 
-const status =
-localStorage.getItem("lastStatus");
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
 
-if(status){
+fetch(GAS_URL)
+.then(response => response.json())
+.then(data => {
 
-document.getElementById("status").innerHTML =
-"最新確認<br><br>" + status;
+  const box =
+  document.getElementById("status");
 
-}
+  if(!data || data.length===0){
+
+    box.innerHTML =
+    "確認データなし";
+
+    return;
+  }
+
+  const last =
+  data[data.length - 1];
+
+  box.innerHTML =
+  "最新確認<br><br>" +
+  last.status +
+  "<br><br>" +
+  new Date(last.datetime)
+  .toLocaleString("ja-JP");
+
+})
+.catch(error => {
+
+  document.getElementById("status")
+  .innerHTML =
+  "データ取得エラー";
+
+  console.error(error);
+
+});
 
 </script>
 
