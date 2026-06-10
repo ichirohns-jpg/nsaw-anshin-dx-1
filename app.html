@@ -112,7 +112,7 @@ body:JSON.stringify(payload)
 .then(r=>r.json())
 .then(d=>{
 document.getElementById("result").innerText =
-d.status === "ok" ? "送信OK" : "失敗";
+(d.status === "ok") ? "送信OK" : "失敗";
 })
 .catch(()=>{
 document.getElementById("result").innerText = "エラー";
