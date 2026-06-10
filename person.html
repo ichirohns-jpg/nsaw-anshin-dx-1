@@ -3,31 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>利用者ページ</title>
+<title>本人ページ</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#eef3f8;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
-.wrap{max-width:760px;margin:auto;padding:16px}
-.card{background:#fff;border-radius:24px;padding:20px;margin-bottom:18px;box-shadow:0 6px 16px rgba(0,0,0,.08)}
-.name{font-size:34px;font-weight:900;color:#1976d2}
-.area{font-size:20px;font-weight:900;color:#666;margin-top:8px}
-.statusBox{background:#e8f5e9;border-radius:20px;padding:18px;margin-top:18px}
-.statusLabel{font-size:18px;font-weight:900;color:#666}
-.status{font-size:34px;font-weight:900;color:#2e7d32;margin-top:10px}
-.statusTime{font-size:20px;font-weight:900;color:#666;margin-top:10px}
-.orangeBtn,.grayBtn{
-width:100%;
-border:none;
-border-radius:20px;
-padding:24px;
-font-size:28px;
-font-weight:900;
-color:#fff;
-margin-bottom:16px;
+body{
+margin:0;
+background:#eef4fb;
+font-family:sans-serif;
 }
-.orangeBtn{background:#fb8c00}
-.grayBtn{background:#546e7a}
+
+.wrap{
+max-width:700px;
+margin:auto;
+padding:20px;
+}
+
+h1{
+text-align:center;
+font-size:36px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:28px;
+margin:18px 0;
+border-radius:20px;
+text-decoration:none;
+font-size:30px;
+font-weight:900;
+text-align:center;
+color:#fff;
+}
+
+.genki{background:#4caf50;}
+.yotei{background:#2196f3;}
+.kusuri{background:#ff9800;}
+.soudan{background:#e91e63;}
+.home{background:#607d8b;}
 </style>
 </head>
 
@@ -35,125 +48,29 @@ margin-bottom:16px;
 
 <div class="wrap">
 
-<div class="card">
+<h1>🙋 本人ページ</h1>
 
-<div class="name" id="personName">
-利用者
-</div>
+<a class="btn genki" href="#">
+元気です
+</a>
 
-<div class="area" id="personArea">
-志木市
-</div>
+<a class="btn yotei" href="#">
+今日の予定
+</a>
 
-<div class="statusBox">
+<a class="btn kusuri" href="#">
+お薬確認
+</a>
 
-<div class="statusLabel">
-最新状態
-</div>
+<a class="btn soudan" href="#">
+困った時の相談
+</a>
 
-<div class="status" id="personStatus">
-確認中...
-</div>
-
-<div class="statusTime" id="personTime">
-</div>
-
-</div>
+<a class="btn home" href="index.html">
+トップへ戻る
+</a>
 
 </div>
-
-<button
-class="orangeBtn"
-onclick="openMed()">
-💊 薬の確認
-</button>
-
-<button
-class="grayBtn"
-onclick="location.href='support2.html'">
-一覧へ戻る
-</button>
-
-</div>
-
-<script>
-const SHEET_ID='13qavSy8Thod2S_UWtHf0C7s-IDVcpYYEMvRNPHpabjY';
-
-function cell(c){
-return c?String(c.v??c.f??'').trim():'';
-}
-
-function formatDate(v){
-if(!v)return'';
-return String(v);
-}
-
-const params=new URLSearchParams(location.search);
-const targetName=params.get('name')||'利用者';
-
-document.getElementById('personName').textContent=targetName;
-
-function receiveLogs(json){
-
-const rows=json.table.rows||[];
-
-const logs=rows.map(r=>{
-const c=r.c||[];
-return{
-date:cell(c[0]),
-name:cell(c[1]),
-text:cell(c[2])
-};
-});
-
-const personLogs=
-logs.filter(l=>l.name.includes(targetName));
-
-const latest=
-personLogs[personLogs.length-1];
-
-if(latest){
-
-document.getElementById('personStatus').textContent=
-latest.text;
-
-document.getElementById('personTime').textContent=
-formatDate(latest.date);
-
-}else{
-
-document.getElementById('personStatus').textContent=
-'今日はまだ確認がありません';
-
-}
-
-}
-
-function openMed(){
-location.href=
-'med.html?name='+
-encodeURIComponent(targetName);
-}
-
-window.google={
-visualization:{
-Query:{
-setResponse:receiveLogs
-}
-}
-};
-
-const s=document.createElement('script');
-
-s.src=
-'https://docs.google.com/spreadsheets/d/'
-+SHEET_ID+
-'/gviz/tq?sheet='+
-encodeURIComponent('見守り記録')+
-'&tqx=out:json';
-
-document.body.appendChild(s);
-</script>
 
 </body>
 </html>
