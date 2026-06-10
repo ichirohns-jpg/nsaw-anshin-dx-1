@@ -102,7 +102,6 @@ header{font-size:34px;padding:26px 14px}
 <div class="wrap">
 
 <div class="card">
-
 <div class="title">
 確認内容
 </div>
@@ -110,13 +109,16 @@ header{font-size:34px;padding:26px 14px}
 <div class="text">
 本人が押した内容を記録します。
 </div>
-
 </div>
 
 <div id="result" class="result"></div>
 
-<a class="btn home" href="person.html">
+<a class="btn home" href="person.html?id=A001">
 🏠 本人ページへ戻る
+</a>
+
+<a class="btn home" href="index.html">
+🏠 トップへ戻る
 </a>
 
 </div>
@@ -153,13 +155,21 @@ if(status==="kusuri"){
 text="💊 薬を飲みました";
 }
 
-if(text){
+const result =
+document.getElementById("result");
+
+if(!text){
+
+result.style.display =
+"block";
+
+result.innerHTML =
+"記録する内容がありません。<br><br>本人ページからボタンを押してください。";
+
+} else {
 
 const now =
 new Date();
-
-const result =
-document.getElementById("result");
 
 result.style.display =
 "block";
