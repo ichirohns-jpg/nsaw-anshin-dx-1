@@ -3,105 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>家族・支援者ページ</title>
+<title>見守り確認</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
 margin:0;
-background:#f4f6f8;
+background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
 }
 
 header{
-background:linear-gradient(135deg,#6a1b9a,#8e24aa);
+background:#009688;
 color:#fff;
-padding:26px 18px;
+padding:30px 18px;
 text-align:center;
-font-size:30px;
+font-size:34px;
 font-weight:900;
 }
 
 .wrap{
-max-width:800px;
+max-width:760px;
 margin:auto;
 padding:18px;
 }
 
 .card{
 background:#fff;
-border-radius:20px;
+border-radius:22px;
 padding:18px;
 margin-bottom:16px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-.title{
-font-size:20px;
-font-weight:900;
-margin-bottom:6px;
-}
-
-.status{
-background:#ffffff;
-border-radius:20px;
-padding:22px;
-font-size:22px;
-font-weight:900;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-line-height:1.8;
-}
-
-.item{
-padding:14px;
-border-bottom:1px solid #eee;
+.text{
 font-size:18px;
 font-weight:800;
+line-height:1.6;
+color:#455a64;
 }
 
-.time{
-font-size:14px;
-color:#607d8b;
-margin-top:4px;
+.result{
+display:none;
+margin-top:16px;
+padding:18px;
+border-radius:16px;
+font-size:20px;
+font-weight:900;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:16px;
-margin-top:14px;
-border-radius:14px;
-text-align:center;
-font-size:18px;
+padding:22px;
+margin-top:16px;
+border-radius:16px;
+font-size:22px;
 font-weight:900;
-text-decoration:none;
 color:#fff;
-background:#607d8b;
+text-align:center;
+text-decoration:none;
 }
 
-@media(max-width:700px){
-.status{font-size:20px}
-.item{font-size:16px}
-}
+.home{background:#607d8b;}
 </style>
 </head>
 
 <body>
 
 <header>
-👪 家族・支援者ページ
+見守り確認
 </header>
 
 <div class="wrap">
 
 <div class="card">
-<div class="title">利用者状況（履歴）</div>
-<div id="list" class="status">読み込み中...</div>
+<div class="text">
+本人の状態を送信します
 </div>
 
-<a class="btn" href="index.html">🏠 トップへ戻る</a>
+<div id="result" class="result"></div>
+
+<a class="btn home" href="person.html?id=A001">🏠 本人へ戻る</a>
+</div>
 
 </div>
 
@@ -113,45 +99,42 @@ const GAS_URL =
 const params =
 new URLSearchParams(location.search);
 
+const status =
+params.get("status");
+
 const userId =
 params.get("id") || "A001";
 
-fetch(GAS_URL + "?id=" + encodeURIComponent(userId))
-.then(r => r.json())
-.then(data => {
+const box =
+document.getElementById("result");
 
-  const box =
-    document.getElementById("list");
+function show(msg,color){
+  box.style.display="block";
+  box.style.background=color;
+  box.innerHTML=msg;
+}
 
-  if(!data){
-    box.innerHTML = "データなし";
-    return;
-  }
+if(!status){
 
-  // 単体 or 配列両対応
-  const list = Array.isArray(data) ? data : [data];
+show("送信内容なし","#ffebee");
 
-  let html = "";
+}else{
 
-  list.reverse().forEach(item => {
+show("送信中...","#e3f2fd");
 
-    html += `
-      <div class="item">
-        ${item.status}
-        <div class="time">
-          ${new Date(item.datetime).toLocaleString("ja-JP")}
-        </div>
-      </div>
-    `;
-
-  });
-
-  box.innerHTML = html;
-
-})
-.catch(() => {
-  document.getElementById("list").innerHTML = "取得エラー";
+fetch(GAS_URL,{
+  method:"POST",
+  mode:"no-cors",
+  body:JSON.stringify({
+    id:userId,
+    status:status,
+    datetime:new Date().toISOString()
+  })
 });
+
+show("送信しました","#e8f5e9");
+
+}
 
 </script>
 
