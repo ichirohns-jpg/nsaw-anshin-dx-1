@@ -160,59 +160,45 @@ document.getElementById("result");
 
 if(!text){
 
-result.style.display =
-"block";
+result.style.display="block";
 
-result.innerHTML =
+result.innerHTML=
 "記録する内容がありません。<br><br>本人ページからボタンを押してください。";
 
 } else {
 
-const now =
-new Date();
+const now = new Date();
 
-result.style.display =
-"block";
+result.style.display="block";
 
-result.innerHTML =
-text +
-"<br><br>" +
+result.innerHTML=
+text + "<br><br>" +
 now.toLocaleString("ja-JP") +
 "<br><br>送信中...";
 
-fetch(
-GAS_URL,
-{
+fetch(GAS_URL,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
 body:JSON.stringify({
 id:userId,
 status:text,
 datetime:now.toISOString()
 })
-}
-)
-.then(response=>response.text())
-.then(data=>{
+})
+.then(r=>r.text())
+.then(()=>{
 
-result.innerHTML =
-text +
-"<br><br>" +
+result.innerHTML=
+text + "<br><br>" +
 now.toLocaleString("ja-JP") +
 "<br><br>記録しました。";
 
 })
-.catch(error=>{
+.catch(()=>{
 
-result.innerHTML =
-text +
-"<br><br>" +
+result.innerHTML=
+text + "<br><br>" +
 now.toLocaleString("ja-JP") +
 "<br><br>送信エラー";
-
-console.error(error);
 
 });
 
