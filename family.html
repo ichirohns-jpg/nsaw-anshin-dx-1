@@ -2,82 +2,69 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>家族・支援者ページ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見守りDX｜家族・支援者</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
 margin:0;
-background:#f4f6f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+background:#f4f6f8;
 color:#1f2d3d;
 }
 
 header{
-background:linear-gradient(135deg,#6a1b9a,#8e24aa);
+background:linear-gradient(135deg,#1565c0,#1e88e5);
 color:#fff;
-padding:26px 18px;
+padding:18px;
 text-align:center;
-font-size:30px;
+font-size:20px;
 font-weight:900;
 }
 
 .wrap{
-max-width:800px;
+max-width:900px;
 margin:auto;
-padding:18px;
+padding:14px;
 }
 
 .card{
 background:#fff;
-border-radius:20px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+border-radius:18px;
+padding:14px;
+margin-bottom:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 .title{
-font-size:20px;
 font-weight:900;
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
-.status{
-background:#ffffff;
-border-radius:20px;
-padding:22px;
-font-size:22px;
-font-weight:900;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-line-height:1.8;
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+margin-top:8px;
+}
+
+.ok{background:#2e7d32;color:#fff;}
+.warn{background:#fb8c00;color:#fff;}
+.danger{background:#c62828;color:#fff;}
+
+.list{
+font-size:14px;
+max-height:300px;
+overflow:auto;
 }
 
 .small{
-margin-top:10px;
-font-size:14px;
-color:#607d8b;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:16px;
-margin-top:14px;
-border-radius:14px;
-text-align:center;
-font-size:18px;
-font-weight:900;
-text-decoration:none;
-color:#fff;
-background:#607d8b;
-}
-
-@media(max-width:700px){
-.status{
-font-size:20px;
-}
+font-size:12px;
+opacity:0.7;
 }
 </style>
 </head>
@@ -85,109 +72,78 @@ font-size:20px;
 <body>
 
 <header>
-👪 家族・支援者ページ
+見守りDX｜家族・支援者
 </header>
 
 <div class="wrap">
 
 <div class="card">
-<div class="title">最新状況</div>
-
-<div id="status" class="status">
-読み込み中...
+<div class="title">最新見守り状況</div>
+<button class="ok" onclick="loadRecords()">更新</button>
+<div id="records" class="list">読み込み中...</div>
 </div>
 
-<div id="time" class="small"></div>
-
+<div class="card">
+<div class="title">利用者一覧</div>
+<button class="warn" onclick="loadUsers()">取得</button>
+<div id="users" class="list">未取得</div>
 </div>
 
-<a class="btn" href="index.html">
-🏠 トップへ戻る
-</a>
+<div class="card">
+<div class="title">サーバー確認</div>
+<button class="danger" onclick="ping()">PING</button>
+<div id="ping" class="small"></div>
+</div>
 
 </div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxKT-6glAdXnR6ylyUB1YZbSRYKZ3dGtVl4w7lO8YW9jCWGa1vCHwpG7167pX2KIYZ2/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
 
-const params =
-new URLSearchParams(location.search);
-
-const userId =
-params.get("id") || "A001";
-
-const statusBox =
-document.getElementById("status");
-
-const timeBox =
-document.getElementById("time");
-
-async function loadData(){
-
-try{
-
-const res =
-await fetch(
-GAS_URL +
-"?mode=records&id=" +
-encodeURIComponent(userId)
-);
-
-const data =
-await res.json();
-
-if(
-!data ||
-!data.records ||
-data.records.length === 0
-){
-
-statusBox.innerHTML = "記録なし";
-timeBox.innerHTML = "";
-return;
-
+function loadRecords(){
+fetch(GAS_URL + "?action=records")
+.then(r=>r.json())
+.then(d=>{
+let html = "";
+(d.data || []).forEach(v=>{
+html += `
+<div style="padding:8px;border-bottom:1px solid #eee">
+<b>${v.name}</b> / ${v.status}<br>
+<small>${v.time}</small><br>
+${v.memo || ""}
+</div>`;
+});
+document.getElementById("records").innerHTML = html || "なし";
+});
 }
 
-const latest =
-data.records[0];
-
-let text = latest.status;
-
-if(text === "genki"){
-text = "😊 元気です";
+function loadUsers(){
+fetch(GAS_URL + "?action=users")
+.then(r=>r.json())
+.then(d=>{
+let html = "";
+(d.data || []).forEach(v=>{
+html += `
+<div style="padding:8px;border-bottom:1px solid #eee">
+<b>${v.name}</b><br>
+ID:${v.id} / ${v.address || ""}
+</div>`;
+});
+document.getElementById("users").innerHTML = html || "なし";
+});
 }
 
-if(text === "komari"){
-text = "⚠️ 少し困っています";
+function ping(){
+fetch(GAS_URL + "?action=ping")
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("ping").innerText =
+d.status + " / " + d.time;
+});
 }
 
-if(text === "help"){
-text = "🚨 助けてください";
-}
-
-if(text === "kusuri"){
-text = "💊 薬を飲みました";
-}
-
-statusBox.innerHTML = text;
-
-timeBox.innerHTML =
-"更新：" +
-new Date(latest.date)
-.toLocaleString("ja-JP");
-
-}catch(err){
-
-statusBox.innerHTML =
-"取得エラー";
-
-}
-
-}
-
-loadData();
+loadRecords();
 
 </script>
 
