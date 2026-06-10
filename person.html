@@ -6,69 +6,139 @@
 <title>本人ページ</title>
 
 <style>
+*{box-sizing:border-box}
+
 body{
 margin:0;
 background:#eef4fb;
-font-family:sans-serif;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
 }
 
 .wrap{
-max-width:700px;
-margin:auto;
-padding:20px;
+max-width:760px;
+margin:0 auto;
+padding:18px 14px 40px;
 }
 
 h1{
+margin:0 0 18px;
+background:#1565c0;
+color:#fff;
+padding:28px 18px;
+border-radius:0 0 28px 28px;
 text-align:center;
-font-size:36px;
+font-size:38px;
+font-weight:900;
+line-height:1.35;
+}
+
+.card{
+background:#fff;
+border-radius:26px;
+padding:22px 18px;
+margin-bottom:20px;
+box-shadow:0 8px 22px rgba(0,0,0,.14);
+}
+
+.lead{
+font-size:26px;
+line-height:1.8;
+font-weight:800;
+white-space:pre-wrap;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:28px;
+padding:28px 18px;
 margin:18px 0;
-border-radius:20px;
+border-radius:22px;
 text-decoration:none;
 font-size:30px;
 font-weight:900;
 text-align:center;
 color:#fff;
+box-shadow:0 6px 16px rgba(0,0,0,.18);
 }
 
-.genki{background:#4caf50;}
-.yotei{background:#2196f3;}
-.kusuri{background:#ff9800;}
-.soudan{background:#e91e63;}
+.genki{background:#43a047;}
+.komari{background:#fb8c00;}
+.help{background:#d32f2f;}
+.kusuri{background:#1976d2;}
+.yotei{background:#6a1b9a;}
+.map{background:#00897b;}
+.info{background:#455a64;}
 .home{background:#607d8b;}
+
+.note{
+font-size:22px;
+line-height:1.7;
+font-weight:800;
+color:#455a64;
+margin-top:18px;
+}
+
+@media(max-width:700px){
+h1{font-size:34px}
+.lead{font-size:24px}
+.btn{font-size:28px}
+.note{font-size:20px}
+}
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
-
 <h1>🙋 本人ページ</h1>
 
+<div class="wrap">
+
+<div class="card">
+<div class="lead">
+毎日使う本人用の入口です。
+大きなボタンを押すだけで、元気確認・薬・予定・困った時の確認につながります。
+</div>
+</div>
+
 <a class="btn genki" href="#">
-元気です
+😊 元気です
 </a>
 
-<a class="btn yotei" href="#">
-今日の予定
+<a class="btn komari" href="#">
+⚠️ 少し困っています
+</a>
+
+<a class="btn help" href="#">
+🚨 助けてください
 </a>
 
 <a class="btn kusuri" href="#">
-お薬確認
+💊 薬を飲みました
 </a>
 
-<a class="btn soudan" href="#">
-困った時の相談
+<a class="btn yotei" href="#">
+📅 今日の予定
+</a>
+
+<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">
+🗺 困った時の地図
+</a>
+
+<a class="btn info" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/">
+📰 地域情報を見る
 </a>
 
 <a class="btn home" href="index.html">
-トップへ戻る
+🏠 トップへ戻る
 </a>
+
+<div class="card">
+<div class="note">
+今は入口整理の段階です。
+今後、元気ですボタン・薬履歴・予定・家族通知へつなげます。
+</div>
+</div>
 
 </div>
 
