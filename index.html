@@ -20,76 +20,86 @@ background:#1565c0;
 color:#fff;
 padding:30px 18px;
 text-align:center;
-font-size:40px;
+font-size:38px;
 font-weight:900;
-line-height:1.35;
 }
 
 .sub{
-font-size:22px;
-font-weight:800;
-line-height:1.6;
 margin-top:10px;
+font-size:22px;
+font-weight:700;
 }
 
 .wrap{
-max-width:900px;
-margin:0 auto;
-padding:18px 14px 44px;
+max-width:800px;
+margin:auto;
+padding:20px;
 }
+
+.btn{
+display:block;
+width:100%;
+padding:30px;
+margin:18px 0;
+border-radius:24px;
+text-decoration:none;
+text-align:center;
+font-size:30px;
+font-weight:900;
+color:#fff;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.person{background:#e91e63;}
+.family{background:#5e35b1;}
+.watch{background:#009688;}
+.map{background:#fb8c00;}
+.info{background:#43a047;}
+.radio{background:#1976d2;}
+.fun{background:#d32f2f;}
 
 .card{
 background:#fff;
 border-radius:28px;
-padding:24px 20px;
-margin-bottom:22px;
-box-shadow:0 8px 22px rgba(0,0,0,.14);
+padding:24px;
+margin-bottom:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
 .title{
 font-size:34px;
 font-weight:900;
-line-height:1.45;
 margin-bottom:10px;
 }
 
 .text{
 font-size:24px;
 line-height:1.8;
-font-weight:800;
-color:#334e68;
-white-space:pre-wrap;
+}
+
+@media(max-width:700px){
+
+header{
+font-size:34px;
+}
+
+.sub{
+font-size:20px;
 }
 
 .btn{
-display:block;
-width:100%;
-padding:28px 18px;
-margin:18px 0;
-border-radius:22px;
-text-decoration:none;
-font-size:30px;
-font-weight:900;
-text-align:center;
-color:#fff;
-box-shadow:0 6px 16px rgba(0,0,0,.18);
+font-size:26px;
+padding:26px;
 }
 
-.person{background:#e91e63}
-.family{background:#5e35b1}
-.watch{background:#009688}
-.map{background:#fb8c00}
-.info{background:#43a047}
-.radio{background:#1976d2}
-.fun{background:#d32f2f}
-.home{background:#607d8b}
+.title{
+font-size:30px;
+}
 
-@media(max-width:700px){
-header{font-size:34px;padding:26px 14px}
-.sub{font-size:20px}
-.title{font-size:31px}
-.text{font-size:22px}
-.btn{font-size:27px}
+.text{
+font-size:22px;
+}
+
 }
 </style>
 </head>
@@ -97,23 +107,29 @@ header{font-size:34px;padding:26px 14px}
 <body>
 
 <header>
+
 見守りDX
+
 <div class="sub">
 本人・家族・支援者のための生活操作盤
 </div>
+
 </header>
 
 <div class="wrap">
 
 <div class="card">
+
 <div class="title">
-まず、使う人を選んでください
+まず使う人を選んでください
 </div>
+
 <div class="text">
-高齢者本人は「本人ページ」。
-家族や支援者は「家族・支援者ページ」。
-地域情報や地図もここから開けます。
+本人は本人ページ。
+家族や支援者は家族・支援者ページ。
+地域情報や地図もここから利用できます。
 </div>
+
 </div>
 
 <a class="btn person" href="person.html">
@@ -142,10 +158,6 @@ header{font-size:34px;padding:26px 14px}
 
 <a class="btn fun" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/fun.html">
 🎬 お楽しみ動画
-</a>
-
-<a class="btn home" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/">
-🏠 暮らし情報局へ
 </a>
 
 </div>
