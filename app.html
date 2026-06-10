@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>家族・支援者ページ</title>
+<title>見守り確認</title>
 
 <style>
 *{box-sizing:border-box}
@@ -16,12 +16,13 @@ color:#1f2d3d;
 }
 
 header{
-background:#6a1b9a;
+background:#009688;
 color:#fff;
 padding:30px 18px;
 text-align:center;
 font-size:38px;
 font-weight:900;
+line-height:1.35;
 }
 
 .wrap{
@@ -41,6 +42,7 @@ box-shadow:0 8px 22px rgba(0,0,0,.14);
 .title{
 font-size:34px;
 font-weight:900;
+line-height:1.45;
 margin-bottom:10px;
 }
 
@@ -48,44 +50,49 @@ margin-bottom:10px;
 font-size:24px;
 line-height:1.8;
 font-weight:800;
-}
-
-.status{
-background:#fff;
-border-radius:28px;
-padding:24px;
-box-shadow:0 8px 22px rgba(0,0,0,.14);
-font-size:26px;
-line-height:1.8;
-font-weight:900;
-margin-bottom:22px;
+color:#334e68;
+white-space:pre-wrap;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:28px;
-border-radius:22px;
-text-decoration:none;
-text-align:center;
-font-size:30px;
+border:0;
+padding:30px 18px;
+margin:18px 0;
+border-radius:24px;
+font-size:31px;
 font-weight:900;
+text-align:center;
 color:#fff;
-margin-bottom:18px;
+box-shadow:0 6px 16px rgba(0,0,0,.18);
+text-decoration:none;
 }
 
-.statusBtn{background:#43a047;}
-.history{background:#1976d2;}
-.map{background:#00897b;}
-.contact{background:#d32f2f;}
-.home{background:#607d8b;}
+.genki{background:#43a047}
+.komari{background:#fb8c00}
+.help{background:#d32f2f}
+.kusuri{background:#1976d2}
+.home{background:#607d8b}
+
+.result{
+display:none;
+background:#fff;
+border-radius:28px;
+padding:24px 20px;
+margin-top:22px;
+box-shadow:0 8px 22px rgba(0,0,0,.14);
+font-size:26px;
+font-weight:900;
+line-height:1.7;
+}
 
 @media(max-width:700px){
-header{font-size:34px}
-.title{font-size:30px}
+header{font-size:34px;padding:26px 14px}
+.title{font-size:31px}
 .text{font-size:22px}
-.status{font-size:22px}
-.btn{font-size:26px}
+.btn{font-size:28px}
+.result{font-size:23px}
 }
 </style>
 </head>
@@ -93,7 +100,7 @@ header{font-size:34px}
 <body>
 
 <header>
-👪 家族・支援者ページ
+見守り確認
 </header>
 
 <div class="wrap">
@@ -101,52 +108,74 @@ header{font-size:34px}
 <div class="card">
 
 <div class="title">
-本人の最新状況
+確認内容
 </div>
 
 <div class="text">
-本人ページで最後に押された内容を表示します。
+本人が押した内容を記録します。
 </div>
 
 </div>
 
-<div id="status" class="status">
+<div id="result" class="result"></div>
 
-確認データなし
-
-</div>
-
-<a class="btn statusBtn" href="app.html">
-❤️ 見守り確認ページ
-</a>
-
-<a class="btn history" href="#">
-📋 確認履歴
-</a>
-
-<a class="btn map" href="https://ichirohns-jpg.github.io/nsaw-kurashi-01/support-map.html">
-🗺 支援マップ
-</a>
-
-<a class="btn contact" href="#">
-☎ 連絡・相談
-</a>
-
-<a class="btn home" href="index.html">
-🏠 トップへ戻る
+<a class="btn home" href="person.html">
+🏠 本人ページへ戻る
 </a>
 
 </div>
 
 <script>
 
+const params =
+new URLSearchParams(location.search);
+
 const status =
-localStorage.getItem("lastStatus");
+params.get("status");
 
-if(status){
+let text = "";
 
-document.getElementById("status").innerHTML =
-"最新確認<br><br>" + status;
+if(status==="genki"){
+text="😊 元気です";
+}
+
+if(status==="komari"){
+text="⚠️ 少し困っています";
+}
+
+if(status==="help"){
+text="🚨 助けてください";
+}
+
+if(status==="kusuri"){
+text="💊 薬を飲みました";
+}
+
+if(text){
+
+const now =
+new Date();
+
+const record =
+text + " / " +
+now.toLocaleString("ja-JP");
+
+localStorage.setItem(
+"lastStatus",
+record
+);
+
+const result =
+document.getElementById("result");
+
+result.style.display =
+"block";
+
+result.innerHTML =
+text +
+"<br><br>" +
+now.toLocaleString("ja-JP") +
+"<br><br>記録しました。";
 
 }
 
