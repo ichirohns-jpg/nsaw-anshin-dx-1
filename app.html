@@ -52,6 +52,7 @@ padding:18px;
 border-radius:16px;
 font-size:20px;
 font-weight:900;
+text-align:center;
 }
 
 .btn{
@@ -67,7 +68,9 @@ text-align:center;
 text-decoration:none;
 }
 
-.home{background:#607d8b;}
+.home{
+background:#607d8b;
+}
 </style>
 </head>
 
@@ -80,13 +83,17 @@ text-decoration:none;
 <div class="wrap">
 
 <div class="card">
+
 <div class="text">
 本人の状態を送信します
 </div>
 
 <div id="result" class="result"></div>
 
-<a class="btn home" href="person.html?id=A001">🏠 本人へ戻る</a>
+<a class="btn home" href="person.html?id=A001">
+🏠 本人へ戻る
+</a>
+
 </div>
 
 </div>
@@ -94,7 +101,7 @@ text-decoration:none;
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
+"https://script.google.com/macros/s/AKfycbxKT-6glAdXnR6ylyUB1YZbSRYKZ3dGtVl4w7lO8YW9jCWGa1vCHwpG7167pX2KIYZ2/exec";
 
 const params =
 new URLSearchParams(location.search);
@@ -109,32 +116,48 @@ const box =
 document.getElementById("result");
 
 function show(msg,color){
-  box.style.display="block";
-  box.style.background=color;
-  box.innerHTML=msg;
+box.style.display="block";
+box.style.background=color;
+box.innerHTML=msg;
 }
 
+async function sendData(){
+
 if(!status){
-
 show("送信内容なし","#ffebee");
-
-}else{
+return;
+}
 
 show("送信中...","#e3f2fd");
 
-fetch(GAS_URL,{
-  method:"POST",
-  mode:"no-cors",
-  body:JSON.stringify({
-    id:userId,
-    status:status,
-    datetime:new Date().toISOString()
-  })
+try{
+
+const res =
+await fetch(GAS_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+id:userId,
+name:userId,
+status:status,
+datetime:new Date().toISOString(),
+source:"app"
+})
 });
 
 show("送信しました","#e8f5e9");
 
+}catch(err){
+
+show("送信エラー","#ffebee");
+
 }
+
+}
+
+sendData();
 
 </script>
 
