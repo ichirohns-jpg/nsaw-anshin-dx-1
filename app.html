@@ -3,65 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守りDX｜送信</title>
+<title>見守り送信</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+background:#eef4fb;
+}
+
+header{
+background:#1565c0;
+color:#fff;
+padding:16px;
+text-align:center;
+font-weight:bold;
+}
+
+.wrap{
+max-width:600px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-top:12px;
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+background:#2e7d32;
+color:#fff;
+}
+
+.back{
+display:block;
+text-align:center;
+margin-top:12px;
+color:#1565c0;
+text-decoration:none;
+}
+</style>
 </head>
 
 <body>
 
-<h2>見守り送信</h2>
+<header>見守り送信</header>
 
-<input id="id" placeholder="ID"><br>
-<input id="name" placeholder="名前"><br>
+<div class="wrap">
+
+<div class="card">
+
+<input id="name" placeholder="名前">
 
 <select id="status">
 <option>元気</option>
 <option>注意</option>
 <option>緊急</option>
-</select><br>
+</select>
 
-<textarea id="memo" placeholder="メモ"></textarea><br>
+<textarea id="memo" placeholder="メモ"></textarea>
 
-<button onclick="send()">送信</button>
+<button onclick="send()">送信する</button>
 
-<div id="result"></div>
+<a class="back" href="index.html">HOMEへ戻る</a>
+
+<p id="msg"></p>
+
+</div>
+
+</div>
 
 <script>
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
+const GAS_URL = "ここにGAS_URL";
 
 function send(){
 
-const payload = {
-type: "record",
-id: id.value,
-name: name.value,
-status: status.value,
-memo: memo.value,
-source: "app",
-method: "post"
-};
-
-fetch(GAS_URL, {
-method: "POST",
-headers: {
-"Content-Type": "application/x-www-form-urlencoded"
-},
-body: new URLSearchParams(payload)
+fetch(GAS_URL,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:new URLSearchParams({
+name:name.value,
+status:status.value,
+memo:memo.value
 })
-
-.then(r => r.text())
-.then(t => {
-try {
-const d = JSON.parse(t);
-result.innerText = d.status || "OK";
-} catch (e) {
-result.innerText = "ERROR";
-}
 })
-
-.catch(() => {
-result.innerText = "NETWORK ERROR";
-});
+.then(()=>msg.innerText="送信完了")
+.catch(()=>msg.innerText="エラー");
 
 }
 
