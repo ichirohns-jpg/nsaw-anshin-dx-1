@@ -10,15 +10,17 @@
 
 <h2>見守り送信</h2>
 
-<input id="name" placeholder="名前"><br><br>
-
 <select id="status">
-<option>元気</option>
-<option>注意</option>
-<option>緊急</option>
-</select><br><br>
+<option value="元気">元気</option>
+<option value="注意">注意</option>
+<option value="緊急">緊急</option>
+</select>
 
-<textarea id="memo" placeholder="メモ"></textarea><br><br>
+<br><br>
+
+<textarea id="memo" placeholder="メモ"></textarea>
+
+<br><br>
 
 <button onclick="send()">送信</button>
 
@@ -26,7 +28,6 @@
 
 <script>
 
-// ■ ここにあなたのGAS URL（さっきのやつ）
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyPUHKGmhwJ2EWssZyKoM-6eqgFu4n6GbqFtN5WPRjvgaTNO-XhJ4Ua5JbW6LrkFWI1/exec";
 
 function send(){
@@ -37,17 +38,16 @@ headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
 body:new URLSearchParams({
-name:name.value,
-status:status.value,
-memo:memo.value
+status:document.getElementById("status").value,
+memo:document.getElementById("memo").value
 })
 })
 .then(res=>res.text())
-.then(data=>{
-msg.innerText="送信完了";
+.then(()=>{
+document.getElementById("msg").innerText = "送信OK";
 })
 .catch(()=>{
-msg.innerText="エラー";
+document.getElementById("msg").innerText = "エラー";
 });
 
 }
