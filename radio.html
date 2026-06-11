@@ -2,105 +2,90 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>地域ラジオ｜NSAW</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地域ラジオ</title>
 
 <style>
 body{
 margin:0;
 font-family:sans-serif;
 background:#eef4fb;
-color:#1f2d3d;
+}
+
+header{
+background:#1565c0;
+color:#fff;
+padding:16px;
+text-align:center;
+font-weight:bold;
 }
 
 .wrap{
-max-width:560px;
+max-width:600px;
 margin:auto;
 padding:16px;
-}
-
-.header{
-background:#5d4037;
-color:#fff;
-padding:20px;
-border-radius:20px;
-font-weight:900;
-font-size:22px;
-margin-bottom:16px;
 }
 
 .card{
 background:#fff;
 padding:16px;
-border-radius:20px;
-margin:10px 0;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+border-radius:12px;
+margin-top:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.title{
-font-size:18px;
-font-weight:900;
-margin-bottom:6px;
+.item{
+padding:10px;
+border-bottom:1px solid #ddd;
 }
 
-.text{
-font-size:15px;
-color:#444;
-line-height:1.6;
+a{
+display:block;
+text-align:center;
+margin-top:12px;
+text-decoration:none;
+color:#1565c0;
+font-weight:bold;
 }
 </style>
-
 </head>
 
 <body>
 
+<header>地域ラジオ</header>
+
 <div class="wrap">
 
-<div class="header">
-📻 地域ラジオ
+<div class="card" id="list">
+読み込み中...
 </div>
 
-<div id="content"></div>
+<a href="index.html">HOMEへ戻る</a>
 
 </div>
 
 <script>
 
-async function loadRadio(){
+const GAS_URL = "ここにGAS_URL";
 
-const url = "https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
-
-try{
-
-const res = await fetch(url);
-const data = await res.json();
+fetch(GAS_URL)
+.then(res => res.json())
+.then(data => {
 
 let html = "";
 
-data.forEach(d=>{
-if(d.type !== "radio") return;
-
-html += `
-<div class="card">
-<div class="title">${d.title || ""}</div>
-<div class="text">${d.text || ""}</div>
-</div>
-`;
+data.slice(0,5).forEach(d => {
+html += `<div class="item">
+${d.date}｜${d.title}
+</div>`;
 });
 
-document.getElementById("content").innerHTML = html;
+document.getElementById("list").innerHTML = html;
 
-}catch(e){
-
-document.getElementById("content").innerHTML =
-"<div class='card'>データ取得エラー</div>";
-
-}
-
-}
-
-loadRadio();
+})
+.catch(() => {
+document.getElementById("list").innerHTML = "読み込みエラー";
+});
 
 </script>
 
