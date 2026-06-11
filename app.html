@@ -4,54 +4,92 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>見守り送信</title>
+
+<style>
+body{
+  font-family: sans-serif;
+  padding:20px;
+  background:#f4f6f8;
+}
+
+h2{
+  font-size:28px;
+}
+
+input,select,textarea,button{
+  width:100%;
+  font-size:22px;
+  padding:14px;
+  margin:10px 0;
+  box-sizing:border-box;
+}
+
+button{
+  background:#1976d2;
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+#msg{
+  font-size:22px;
+  font-weight:bold;
+  color:#1976d2;
+}
+</style>
 </head>
 
 <body>
 
 <h2>見守り送信</h2>
 
-<input id="name" placeholder="名前"><br><br>
+<input id="name" placeholder="名前">
 
 <select id="status">
-<option value="元気">元気</option>
-<option value="注意">注意</option>
-<option value="緊急">緊急</option>
+  <option value="元気">元気</option>
+  <option value="注意">注意</option>
+  <option value="緊急">緊急</option>
 </select>
-
-<br><br>
 
 <textarea id="memo" placeholder="メモ"></textarea>
 
-<br><br>
-
-<button onclick="send()">送信</button>
+<button id="sendBtn" onclick="send()">送信</button>
 
 <p id="msg"></p>
 
 <script>
-
-const GAS_URL = "https://script.google.com/macros/s/AKfycbw_sD-jZkCHBI21dbhX3koHAw1Vye6goMcZg2xYBdKKMU_k6FqCQFYGC8b8B8s7oFmn/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbx5YU4NgYo2NvO0BhBjl24D8MnvShoH-HYQF4e4fe_tajyR1vPLNjstTxFfaxYVy7UY/exec";
 
 function send(){
 
-fetch(GAS_URL,{
-method:"POST",
-body:new URLSearchParams({
-name:document.getElementById("name").value,
-status:document.getElementById("status").value,
-memo:document.getElementById("memo").value
-})
-})
-.then(r=>r.text())
-.then(()=>{
-document.getElementById("msg").innerText="送信OK";
-})
-.catch(()=>{
-document.getElementById("msg").innerText="エラー";
-});
+  const btn = document.getElementById("sendBtn");
+  const msg = document.getElementById("msg");
+
+  btn.disabled = true;
+  msg.innerText = "送信中...";
+
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: new URLSearchParams({
+      name: document.getElementById("name").value,
+      status: document.getElementById("status").value,
+      memo: document.getElementById("memo").value
+    })
+  })
+  .then(() => {
+    msg.innerText = "送信OK";
+    document.getElementById("memo").value = "";
+  })
+  .catch(() => {
+    msg.innerText = "通信エラー";
+  })
+  .finally(() => {
+    btn.disabled = false;
+  });
 
 }
-
 </script>
 
 </body>
