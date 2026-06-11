@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ビデオ（お楽しみ動画）</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+background:#eef4fb;
+}
+
+header{
+background:#6a1b9a;
+color:#fff;
+padding:16px;
+text-align:center;
+font-weight:bold;
+}
+
+.wrap{
+max-width:600px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-top:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.item{
+padding:10px;
+border-bottom:1px solid #ddd;
+}
+
+a{
+display:block;
+text-align:center;
+margin-top:12px;
+text-decoration:none;
+color:#6a1b9a;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>ビデオ（お楽しみ動画）</header>
+
+<div class="wrap">
+
+<div class="card" id="list">
+読み込み中...
+</div>
+
+<a href="index.html">HOMEへ戻る</a>
+
+</div>
+
+<script>
+
+const GAS_URL = "ここにGAS_URL";
+
+fetch(GAS_URL)
+.then(res => res.json())
+.then(data => {
+
+let html = "";
+
+data.slice(0,5).forEach(d => {
+html += `<div class="item">
+${d.date}｜${d.title}
+</div>`;
+});
+
+document.getElementById("list").innerHTML = html;
+
+})
+.catch(() => {
+document.getElementById("list").innerHTML = "読み込みエラー";
+});
+
+</script>
+
+</body>
+</html>
