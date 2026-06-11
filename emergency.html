@@ -27,6 +27,20 @@ color:#fff;
 min-height:100vh;
 }
 
+.banner{
+height:260px;
+overflow:hidden;
+position:relative;
+margin-bottom:18px;
+}
+
+.banner img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
 .wrap{
 max-width:760px;
 margin:auto;
@@ -95,30 +109,11 @@ margin-top:12px;
 }
 
 .red{
-background:
-linear-gradient(
-135deg,
-#c62828,
-#ef5350
-);
+background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
 .blue{
-background:
-linear-gradient(
-135deg,
-#1565c0,
-#42a5f5
-);
-}
-
-.green{
-background:
-linear-gradient(
-135deg,
-#00c853,
-#00e676
-);
+background:linear-gradient(135deg,#1565c0,#42a5f5);
 }
 
 .footer{
@@ -128,18 +123,15 @@ font-size:12px;
 opacity:.6;
 }
 
-#msg{
-text-align:center;
-font-size:22px;
-font-weight:900;
-margin-top:20px;
-color:#ff5252;
-}
-
 </style>
+
 </head>
 
 <body>
+
+<div class="banner">
+<img src="emergency-top.jpg">
+</div>
 
 <div class="wrap">
 
@@ -215,8 +207,6 @@ onclick="location.href='family.html'">
 
 </div>
 
-<div id="msg"></div>
-
 <div class="footer">
 NSAW 緊急連絡
 </div>
@@ -225,3 +215,4 @@ NSAW 緊急連絡
 
 </body>
 </html>
+
