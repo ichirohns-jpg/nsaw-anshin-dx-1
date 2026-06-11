@@ -6,8 +6,6 @@
 
 <title>現在地｜見守りDX</title>
 
-<link rel="icon" href="icon.png">
-
 <link
 rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -108,6 +106,7 @@ opacity:.6;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -149,76 +148,3 @@ NSAW 地域マップ
 </div>
 
 </div>
-
-<script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
-<script>
-
-const map = L.map('map').setView(
-[35.7937,139.5756],
-15
-);
-
-L.tileLayer(
-'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
-{
-attribution:'国土地理院'
-}
-).addTo(map);
-
-let marker = null;
-
-function getLocation(){
-
-if(!navigator.geolocation){
-
-alert("位置情報が使えません");
-return;
-
-}
-
-navigator.geolocation.getCurrentPosition(
-
-function(pos){
-
-const lat =
-pos.coords.latitude;
-
-const lng =
-pos.coords.longitude;
-
-map.setView(
-[lat,lng],
-17
-);
-
-if(marker){
-
-map.removeLayer(marker);
-
-}
-
-marker =
-L.marker([lat,lng])
-.addTo(map)
-.bindPopup("現在地")
-.openPopup();
-
-},
-
-function(){
-
-alert("位置情報取得失敗");
-
-}
-
-);
-
-}
-
-</script>
-
-</body>
-</html>
