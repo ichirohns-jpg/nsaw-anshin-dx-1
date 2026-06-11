@@ -2,123 +2,340 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守りDX｜家族</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>見守りDX｜家族・支援者</title>
 
 <style>
-body{
+
+*{
+box-sizing:border-box;
 margin:0;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-background:#f4f6f8;
-color:#1f2d3d;
+padding:0;
 }
 
-header{
-background:#1565c0;
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#101827 50%,
+#000000 100%
+);
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
 color:#fff;
-padding:16px;
-text-align:center;
-font-weight:900;
-font-size:18px;
+min-height:100vh;
 }
 
 .wrap{
 max-width:900px;
 margin:auto;
-padding:14px;
+padding:18px;
+}
+
+header{
+text-align:center;
+padding:25px 10px;
+}
+
+.logo{
+font-size:34px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.sub{
+font-size:14px;
+opacity:.8;
+margin-top:8px;
 }
 
 .card{
-background:#fff;
-border-radius:18px;
-padding:14px;
-margin-bottom:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:
+0 10px 30px rgba(0,0,0,.4);
 }
 
 .title{
+font-size:22px;
 font-weight:900;
-margin-bottom:8px;
+margin-bottom:15px;
 }
 
 button{
 width:100%;
-padding:12px;
 border:none;
-border-radius:10px;
-font-size:16px;
-font-weight:700;
+border-radius:20px;
+padding:18px;
+font-size:20px;
+font-weight:900;
+color:#fff;
 cursor:pointer;
-margin-top:8px;
+margin-bottom:12px;
 }
 
-.ok{background:#2e7d32;color:#fff;}
-.warn{background:#fb8c00;color:#fff;}
-.danger{background:#c62828;color:#fff;}
+.btn-blue{
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
+);
+}
+
+.btn-green{
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
+}
+
+.btn-orange{
+background:
+linear-gradient(
+135deg,
+#ff9800,
+#ffc107
+);
+}
+
+.btn-red{
+background:
+linear-gradient(
+135deg,
+#d50000,
+#ff1744
+);
+}
+
+.btn-home{
+background:
+linear-gradient(
+135deg,
+#455a64,
+#78909c
+);
+}
+
+.btn-top{
+background:
+linear-gradient(
+135deg,
+#673ab7,
+#9575cd
+);
+}
 
 .list{
-font-size:14px;
-max-height:320px;
+max-height:400px;
 overflow:auto;
 }
 
-.small{
-font-size:12px;
-opacity:0.7;
+.item{
+background:rgba(255,255,255,.08);
+padding:12px;
+border-radius:14px;
+margin-bottom:10px;
 }
+
+.name{
+font-size:20px;
+font-weight:900;
+}
+
+.status{
+font-size:18px;
+margin-top:4px;
+}
+
+.time{
+font-size:13px;
+opacity:.8;
+margin-top:4px;
+}
+
+.memo{
+margin-top:8px;
+line-height:1.5;
+}
+
+.small{
+font-size:14px;
+line-height:1.6;
+}
+
+.footer{
+text-align:center;
+padding:25px;
+font-size:12px;
+opacity:.6;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>
-見守りDX｜家族・支援者
-</header>
-
 <div class="wrap">
 
+<header>
+
+<div class="logo">
+見守りDX
+</div>
+
+<div class="sub">
+LEXUS STYLE FAMILY MONITOR
+</div>
+
+</header>
+
 <div class="card">
-<div class="title">見守り状況</div>
-<button class="ok" onclick="loadRecords()">更新</button>
-<div id="records" class="list">読み込み中...</div>
+
+<div class="title">
+見守り状況
+</div>
+
+<button
+class="btn-green"
+onclick="loadRecords()">
+最新状況を更新
+</button>
+
+<div id="records" class="list">
+読み込み中...
+</div>
+
 </div>
 
 <div class="card">
-<div class="title">利用者一覧</div>
-<button class="warn" onclick="loadUsers()">取得</button>
-<div id="users" class="list">未取得</div>
+
+<div class="title">
+利用者一覧
+</div>
+
+<button
+class="btn-orange"
+onclick="loadUsers()">
+利用者を取得
+</button>
+
+<div id="users" class="list">
+未取得
+</div>
+
 </div>
 
 <div class="card">
-<div class="title">サーバー確認</div>
-<button class="danger" onclick="ping()">PING</button>
-<div id="ping" class="small"></div>
+
+<div class="title">
+サーバー確認
+</div>
+
+<button
+class="btn-red"
+onclick="ping()">
+PING
+</button>
+
+<div
+id="ping"
+class="small">
+未確認
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="btn-home"
+onclick="location.href='index.html'">
+ホームへ戻る
+</button>
+
+<button
+class="btn-top"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW 見守りDX
 </div>
 
 </div>
 
 <script>
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwYDtQ7KDatOw6D-8GvxprBrcZsmOL19mvNBIt6dE2_RB4aks8eCsD1D4-9_rv1nUN6/exec";
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
 
 function loadRecords(){
 
-fetch(GAS_URL + "?action=records")
+document.getElementById("records").innerHTML =
+"読み込み中...";
+
+fetch(
+GAS_URL + "?action=records"
+)
 .then(r => r.json())
 .then(d => {
 
 let html = "";
 
 (d.data || []).forEach(v => {
+
 html += `
-<div style="padding:8px;border-bottom:1px solid #eee">
-<b>${v.name || ""}</b> / ${v.status || ""}<br>
-<small>${v.time || ""}</small><br>
+<div class="item">
+
+<div class="name">
+${v.name || ""}
+</div>
+
+<div class="status">
+状態：${v.status || ""}
+</div>
+
+<div class="time">
+${v.time || ""}
+</div>
+
+<div class="memo">
 ${v.memo || ""}
-</div>`;
+</div>
+
+</div>
+`;
+
 });
 
-document.getElementById("records").innerHTML = html || "なし";
+document.getElementById("records").innerHTML =
+html || "データなし";
+
+})
+.catch(err => {
+
+document.getElementById("records").innerHTML =
+"取得失敗";
+
+console.error(err);
 
 });
 
@@ -126,21 +343,47 @@ document.getElementById("records").innerHTML = html || "なし";
 
 function loadUsers(){
 
-fetch(GAS_URL + "?action=users")
+document.getElementById("users").innerHTML =
+"読み込み中...";
+
+fetch(
+GAS_URL + "?action=users"
+)
 .then(r => r.json())
 .then(d => {
 
 let html = "";
 
 (d.data || []).forEach(v => {
+
 html += `
-<div style="padding:8px;border-bottom:1px solid #eee">
-<b>${v.name || ""}</b><br>
-ID:${v.id || ""} / ${v.address || ""}
-</div>`;
+<div class="item">
+
+<div class="name">
+${v.name || ""}
+</div>
+
+<div class="memo">
+ID : ${v.id || ""}
+<br>
+住所 : ${v.address || ""}
+</div>
+
+</div>
+`;
+
 });
 
-document.getElementById("users").innerHTML = html || "なし";
+document.getElementById("users").innerHTML =
+html || "利用者なし";
+
+})
+.catch(err => {
+
+document.getElementById("users").innerHTML =
+"取得失敗";
+
+console.error(err);
 
 });
 
@@ -148,16 +391,36 @@ document.getElementById("users").innerHTML = html || "なし";
 
 function ping(){
 
-fetch(GAS_URL + "?action=ping")
+document.getElementById("ping").innerHTML =
+"確認中...";
+
+fetch(
+GAS_URL + "?action=ping"
+)
 .then(r => r.json())
 .then(d => {
-document.getElementById("ping").innerText =
-(d.status || "") + " / " + (d.time || "");
+
+document.getElementById("ping").innerHTML =
+`
+稼働状態 : ${d.status || ""}
+<br>
+時刻 : ${d.time || ""}
+`;
+
+})
+.catch(err => {
+
+document.getElementById("ping").innerHTML =
+"接続失敗";
+
+console.error(err);
+
 });
 
 }
 
 loadRecords();
+ping();
 
 </script>
 
