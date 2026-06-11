@@ -4,111 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>見守り送信</title>
-
-<style>
-body{
-margin:0;
-font-family:sans-serif;
-background:#eef4fb;
-}
-
-header{
-background:#1565c0;
-color:#fff;
-padding:16px;
-text-align:center;
-font-weight:bold;
-}
-
-.wrap{
-max-width:600px;
-margin:auto;
-padding:16px;
-}
-
-.card{
-background:#fff;
-padding:16px;
-border-radius:12px;
-margin-top:12px;
-}
-
-input,select,textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:8px;
-border:1px solid #ccc;
-font-size:16px;
-}
-
-button{
-width:100%;
-padding:14px;
-margin-top:12px;
-border:none;
-border-radius:10px;
-font-size:16px;
-font-weight:bold;
-background:#2e7d32;
-color:#fff;
-}
-
-.back{
-display:block;
-text-align:center;
-margin-top:12px;
-color:#1565c0;
-text-decoration:none;
-}
-</style>
 </head>
 
 <body>
 
-<header>見守り送信</header>
+<h2>見守り送信</h2>
 
-<div class="wrap">
-
-<div class="card">
-
-<input id="name" placeholder="名前">
+<input id="name" placeholder="名前"><br><br>
 
 <select id="status">
 <option>元気</option>
 <option>注意</option>
 <option>緊急</option>
-</select>
+</select><br><br>
 
-<textarea id="memo" placeholder="メモ"></textarea>
+<textarea id="memo" placeholder="メモ"></textarea><br><br>
 
-<button onclick="send()">送信する</button>
-
-<a class="back" href="index.html">HOMEへ戻る</a>
+<button onclick="send()">送信</button>
 
 <p id="msg"></p>
 
-</div>
-
-</div>
-
 <script>
 
-const GAS_URL = "ここにGAS_URL";
+// ■ ここにあなたのGAS URL（さっきのやつ）
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyPUHKGmhwJ2EWssZyKoM-6eqgFu4n6GbqFtN5WPRjvgaTNO-XhJ4Ua5JbW6LrkFWI1/exec";
 
 function send(){
 
 fetch(GAS_URL,{
 method:"POST",
-headers:{"Content-Type":"application/x-www-form-urlencoded"},
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
 body:new URLSearchParams({
 name:name.value,
 status:status.value,
 memo:memo.value
 })
 })
-.then(()=>msg.innerText="送信完了")
-.catch(()=>msg.innerText="エラー");
+.then(res=>res.text())
+.then(data=>{
+msg.innerText="送信完了";
+})
+.catch(()=>{
+msg.innerText="エラー";
+});
 
 }
 
