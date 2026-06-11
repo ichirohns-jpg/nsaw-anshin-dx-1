@@ -14,6 +14,10 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:
@@ -24,18 +28,19 @@ linear-gradient(
 #000000 100%
 );
 color:#fff;
+min-height:100vh;
 }
 
 .banner{
 width:100%;
-height:240px;
+height:280px;
 overflow:hidden;
 position:relative;
 }
 
 .banner img{
 width:100%;
-height:240px;
+height:100%;
 object-fit:cover;
 display:block;
 }
@@ -46,29 +51,36 @@ top:0;
 left:0;
 right:0;
 bottom:0;
-background:rgba(0,0,0,.35);
+background:rgba(0,0,0,.45);
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
 }
 
 .overlay h1{
-font-size:36px;
+font-size:42px;
 font-weight:900;
-letter-spacing:3px;
+letter-spacing:4px;
 text-shadow:0 3px 10px rgba(0,0,0,.7);
 }
 
+.overlay p{
+margin-top:10px;
+font-size:16px;
+opacity:.9;
+}
+
 .wrap{
-max-width:700px;
+max-width:760px;
 margin:auto;
 padding:18px;
 }
 
 .section-title{
-font-size:24px;
+font-size:26px;
 font-weight:900;
-margin:20px 0 12px;
+margin:20px 0 15px;
 }
 
 .card{
@@ -84,10 +96,10 @@ box-shadow:
 
 .menu-btn{
 width:100%;
-padding:22px;
+padding:24px;
 border:none;
-border-radius:18px;
-font-size:22px;
+border-radius:20px;
+font-size:24px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
@@ -129,10 +141,6 @@ linear-gradient(135deg,#b8860b,#ffd54f);
 color:#000;
 }
 
-a{
-text-decoration:none;
-}
-
 .news{
 display:flex;
 gap:12px;
@@ -140,15 +148,42 @@ align-items:center;
 }
 
 .news img{
-width:120px;
-height:70px;
+width:130px;
+height:80px;
 object-fit:cover;
 border-radius:12px;
 }
 
 .news-title{
 font-weight:900;
-font-size:16px;
+font-size:18px;
+margin-bottom:4px;
+}
+
+.news-text{
+font-size:14px;
+opacity:.9;
+}
+
+a{
+text-decoration:none;
+}
+
+.top-btn{
+width:100%;
+padding:20px;
+border:none;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+background:
+linear-gradient(
+135deg,
+#673ab7,
+#9575cd
+);
 }
 
 .footer{
@@ -168,7 +203,15 @@ font-size:13px;
 <img src="top.jpg">
 
 <div class="overlay">
-<h1>見守りDX</h1>
+
+<h1>
+見守りDX
+</h1>
+
+<p>
+地域と家族をつなぐ安心システム
+</p>
+
 </div>
 
 </div>
@@ -176,7 +219,7 @@ font-size:13px;
 <div class="wrap">
 
 <div class="section-title">
-メニュー
+メインメニュー
 </div>
 
 <div class="card">
@@ -242,15 +285,21 @@ font-size:13px;
 <div class="card">
 
 <div class="news">
+
 <img src="top.jpg">
+
 <div>
+
 <div class="news-title">
-最新瓦版
+４市瓦版
 </div>
-<div>
-ここに瓦版最新情報
+
+<div class="news-text">
+ここに最新の行政・地域情報を表示
 </div>
+
 </div>
+
 </div>
 
 </div>
@@ -258,15 +307,21 @@ font-size:13px;
 <div class="card">
 
 <div class="news">
+
 <img src="top.jpg">
+
 <div>
+
 <div class="news-title">
 地域ラジオ
 </div>
-<div>
-ここにラジオ最新情報
+
+<div class="news-text">
+ここに最新ラジオ情報を表示
 </div>
+
 </div>
+
 </div>
 
 </div>
@@ -274,16 +329,32 @@ font-size:13px;
 <div class="card">
 
 <div class="news">
+
 <img src="top.jpg">
+
 <div>
+
 <div class="news-title">
 お楽しみ動画
 </div>
-<div>
-ここに動画最新情報
+
+<div class="news-text">
+ここに最新動画情報を表示
 </div>
+
 </div>
+
 </div>
+
+</div>
+
+<div class="card">
+
+<button
+class="top-btn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
 
 </div>
 
