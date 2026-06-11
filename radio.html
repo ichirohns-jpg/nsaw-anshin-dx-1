@@ -2,71 +2,191 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>地域ラジオ</title>
 
 <style>
-body{
+
+*{
 margin:0;
-font-family:sans-serif;
-background:#eef4fb;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#101827 50%,
+#000000 100%
+);
+color:#fff;
+min-height:100vh;
 }
 
 header{
-background:#1565c0;
-color:#fff;
-padding:16px;
 text-align:center;
-font-weight:bold;
+padding:25px 10px;
+}
+
+.logo{
+font-size:34px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.sub{
+margin-top:8px;
+font-size:14px;
+opacity:.8;
 }
 
 .wrap{
-max-width:600px;
+max-width:760px;
 margin:auto;
-padding:16px;
+padding:18px;
 }
 
 .card{
-background:#fff;
-padding:16px;
-border-radius:12px;
-margin-top:12px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:
+0 8px 24px rgba(0,0,0,.35);
 }
 
 .item{
-padding:10px;
-border-bottom:1px solid #ddd;
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px;
+margin-bottom:12px;
 }
 
-a{
-display:block;
-text-align:center;
-margin-top:12px;
-text-decoration:none;
-color:#1565c0;
-font-weight:bold;
+.thumb{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:10px;
 }
+
+.date{
+font-size:13px;
+opacity:.7;
+margin-bottom:5px;
+}
+
+.title{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.desc{
+font-size:15px;
+line-height:1.6;
+}
+
+button{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:12px;
+}
+
+.home-btn{
+background:
+linear-gradient(
+135deg,
+#455a64,
+#78909c
+);
+}
+
+.top-btn{
+background:
+linear-gradient(
+135deg,
+#673ab7,
+#9575cd
+);
+}
+
+.footer{
+text-align:center;
+padding:25px;
+font-size:12px;
+opacity:.6;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>地域ラジオ</header>
+<header>
+
+<div class="logo">
+地域ラジオ
+</div>
+
+<div class="sub">
+NSAW RADIO SYSTEM
+</div>
+
+</header>
 
 <div class="wrap">
 
-<div class="card" id="list">
+<div class="card">
+
+<div id="list">
 読み込み中...
 </div>
 
-<a href="index.html">HOMEへ戻る</a>
+</div>
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+ホームへ戻る
+</button>
+
+<button
+class="top-btn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW 地域ラジオ
+</div>
 
 </div>
 
 <script>
 
-const GAS_URL = "ここにGAS_URL";
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec?action=radio";
 
 fetch(GAS_URL)
 .then(res => res.json())
@@ -74,17 +194,45 @@ fetch(GAS_URL)
 
 let html = "";
 
-data.slice(0,5).forEach(d => {
-html += `<div class="item">
-${d.date}｜${d.title}
-</div>`;
+(data || []).slice(0,5).forEach(d => {
+
+html += `
+
+<div class="item">
+
+<img
+class="thumb"
+src="${d.image || 'top.jpg'}">
+
+<div class="date">
+${d.date || ''}
+</div>
+
+<div class="title">
+${d.title || ''}
+</div>
+
+<div class="desc">
+${d.description || ''}
+</div>
+
+</div>
+
+`;
+
 });
 
-document.getElementById("list").innerHTML = html;
+document.getElementById("list").innerHTML =
+html || "データなし";
 
 })
-.catch(() => {
-document.getElementById("list").innerHTML = "読み込みエラー";
+.catch(error => {
+
+document.getElementById("list").innerHTML =
+"読み込みエラー";
+
+console.error(error);
+
 });
 
 </script>
