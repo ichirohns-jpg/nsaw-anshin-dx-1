@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>緊急連絡先｜見守りDX</title>
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>緊急連絡｜見守りDX</title>
 
 <style>
 
@@ -18,100 +15,125 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+background:
+linear-gradient(
+180deg,
+#000000 0%,
+#0a1220 50%,
+#000000 100%
+);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#fff;
+min-height:100vh;
 }
 
 .wrap{
-max-width:560px;
+max-width:760px;
 margin:auto;
-padding:16px;
+padding:18px;
 }
 
 .header{
-background:#d32f2f;
-color:#fff;
-border-radius:26px;
-padding:22px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
 }
 
 .back{
-font-size:16px;
+font-size:18px;
 font-weight:900;
-margin-bottom:12px;
 cursor:pointer;
+margin-bottom:14px;
 }
 
 .title{
-font-size:34px;
+font-size:38px;
 font-weight:900;
 }
 
 .sub{
-font-size:16px;
-margin-top:6px;
-opacity:.95;
+margin-top:8px;
+font-size:15px;
+opacity:.8;
 }
 
 .card{
-background:#fff;
-border-radius:26px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.item{
-background:#fff5f5;
-border-left:8px solid #d32f2f;
-border-radius:18px;
-padding:18px;
-margin-bottom:16px;
-}
-
-.name{
+.big{
 font-size:28px;
 font-weight:900;
-margin-bottom:8px;
-color:#c62828;
+margin-bottom:10px;
 }
 
-.tel{
-font-size:22px;
-font-weight:800;
+.memo{
+font-size:16px;
+opacity:.85;
+line-height:1.7;
 margin-bottom:14px;
 }
 
 .btn{
 width:100%;
 border:none;
-border-radius:22px;
-padding:22px;
-font-size:26px;
+border-radius:20px;
+padding:20px;
+font-size:24px;
 font-weight:900;
-color:#fff;
-background:#d32f2f;
 cursor:pointer;
+color:#fff;
+margin-top:12px;
 }
 
-.btn:active{
-transform:scale(.97);
+.red{
+background:
+linear-gradient(
+135deg,
+#c62828,
+#ef5350
+);
+}
+
+.blue{
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
+);
+}
+
+.green{
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
 }
 
 .footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
+text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
+}
+
+#msg{
+text-align:center;
+font-size:22px;
 font-weight:900;
-color:#666;
+margin-top:20px;
+color:#ff5252;
 }
 
 </style>
@@ -123,106 +145,80 @@ color:#666;
 
 <div class="header">
 
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
+<div
+class="back"
+onclick="location.href='family.html'">
+← 家族確認へ戻る
 </div>
 
 <div class="title">
-☎️ 緊急連絡先
+☎ 緊急連絡
 </div>
 
 <div class="sub">
-ワンタップで電話できます
+困った時の連絡先
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="item">
-
-<div class="name">
-👨‍👩‍👧 家族
+<div class="big">
+家族へ連絡
 </div>
 
-<div class="tel">
-090-1234-5678
+<div class="memo">
+緊急時は家族・支援者へ連絡します。
 </div>
 
-<button class="btn" onclick="location.href='tel:09012345678'">
-📞 電話する
+<a href="tel:">
+<button class="btn red">
+家族へ電話
 </button>
+</a>
 
 </div>
 
-<div class="item">
+<div class="card">
 
-<div class="name">
-🏥 病院
+<div class="big">
+119番
 </div>
 
-<div class="tel">
-048-000-0000
+<div class="memo">
+命に関わる緊急時は119番へ。
 </div>
 
-<button class="btn" onclick="location.href='tel:0480000000'">
-📞 電話する
+<a href="tel:119">
+<button class="btn red">
+119へ電話
 </button>
+</a>
 
 </div>
 
-<div class="item">
+<div class="card">
 
-<div class="name">
-🏢 市役所
+<div class="big">
+警察
 </div>
 
-<div class="tel">
-048-473-1111
+<div class="memo">
+事件・事故・危険を感じた時。
 </div>
 
-<button class="btn" onclick="location.href='tel:0484731111'">
-📞 電話する
+<a href="tel:110">
+<button class="btn blue">
+110へ電話
 </button>
+</a>
 
 </div>
 
-<div class="item">
-
-<div class="name">
-🚑 救急
-</div>
-
-<div class="tel">
-119
-</div>
-
-<button class="btn" onclick="location.href='tel:119'">
-📞 電話する
-</button>
-
-</div>
-
-</div>
+<div id="msg"></div>
 
 <div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='calendar.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
-</div>
-
+NSAW 緊急連絡
 </div>
 
 </div>
