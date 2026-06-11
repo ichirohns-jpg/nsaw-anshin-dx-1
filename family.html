@@ -4,74 +4,69 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>見守りDX｜家族・支援者</title>
+<title>家族確認｜見守りDX</title>
 
 <style>
 
 *{
-box-sizing:border-box;
 margin:0;
 padding:0;
-}
-
-html{
-scroll-behavior:smooth;
+box-sizing:border-box;
 }
 
 body{
 background:
 linear-gradient(
 180deg,
-#050505 0%,
-#101827 50%,
+#000000 0%,
+#0a1220 50%,
 #000000 100%
 );
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 color:#fff;
 min-height:100vh;
 }
 
 .wrap{
-max-width:900px;
+max-width:760px;
 margin:auto;
 padding:18px;
 }
 
-header{
-text-align:center;
-padding:25px 10px;
+.header{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
 }
 
-.logo{
-font-size:34px;
+.back{
+font-size:18px;
 font-weight:900;
-letter-spacing:3px;
+cursor:pointer;
+margin-bottom:14px;
+}
+
+.title{
+font-size:38px;
+font-weight:900;
 }
 
 .sub{
-font-size:14px;
-opacity:.8;
 margin-top:8px;
+font-size:15px;
+opacity:.8;
 }
 
 .card{
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(12px);
 border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:
-0 10px 30px rgba(0,0,0,.4);
-}
-
-.title{
-font-size:22px;
-font-weight:900;
-margin-bottom:15px;
+border-radius:24px;
+padding:18px;
+margin-bottom:16px;
 }
 
 button{
@@ -79,14 +74,14 @@ width:100%;
 border:none;
 border-radius:20px;
 padding:18px;
-font-size:20px;
+font-size:22px;
 font-weight:900;
-color:#fff;
 cursor:pointer;
+color:#fff;
 margin-bottom:12px;
 }
 
-.btn-blue{
+.blue{
 background:
 linear-gradient(
 135deg,
@@ -95,7 +90,7 @@ linear-gradient(
 );
 }
 
-.btn-green{
+.green{
 background:
 linear-gradient(
 135deg,
@@ -104,83 +99,41 @@ linear-gradient(
 );
 }
 
-.btn-orange{
+.red{
 background:
 linear-gradient(
 135deg,
-#ff9800,
-#ffc107
+#c62828,
+#ef5350
 );
-}
-
-.btn-red{
-background:
-linear-gradient(
-135deg,
-#d50000,
-#ff1744
-);
-}
-
-.btn-home{
-background:
-linear-gradient(
-135deg,
-#455a64,
-#78909c
-);
-}
-
-.btn-top{
-background:
-linear-gradient(
-135deg,
-#673ab7,
-#9575cd
-);
-}
-
-.list{
-max-height:400px;
-overflow:auto;
 }
 
 .item{
-background:rgba(255,255,255,.08);
-padding:12px;
-border-radius:14px;
+background:rgba(255,255,255,.06);
+border-radius:18px;
+padding:14px;
 margin-bottom:10px;
 }
 
 .name{
-font-size:20px;
+font-size:22px;
 font-weight:900;
 }
 
 .status{
 font-size:18px;
-margin-top:4px;
+margin-top:6px;
 }
 
 .time{
 font-size:13px;
-opacity:.8;
-margin-top:4px;
-}
-
-.memo{
-margin-top:8px;
-line-height:1.5;
-}
-
-.small{
-font-size:14px;
-line-height:1.6;
+opacity:.7;
+margin-top:6px;
 }
 
 .footer{
 text-align:center;
-padding:25px;
+padding:20px;
 font-size:12px;
 opacity:.6;
 }
@@ -192,92 +145,68 @@ opacity:.6;
 
 <div class="wrap">
 
-<header>
+<div class="header">
 
-<div class="logo">
-見守りDX
+<div
+class="back"
+onclick="location.href='index.html'">
+← ホームへ戻る
+</div>
+
+<div class="title">
+家族確認
 </div>
 
 <div class="sub">
-LEXUS STYLE FAMILY MONITOR
+見守り状況を確認します
 </div>
 
-</header>
+</div>
 
 <div class="card">
 
-<div class="title">
-見守り状況
-</div>
-
 <button
-class="btn-green"
+class="blue"
 onclick="loadRecords()">
 最新状況を更新
 </button>
 
-<div id="records" class="list">
-読み込み中...
+<div id="records">
+読み込み待機中
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="title">
-利用者一覧
-</div>
-
 <button
-class="btn-orange"
+class="green"
 onclick="loadUsers()">
-利用者を取得
+利用者一覧
 </button>
 
-<div id="users" class="list">
-未取得
+<div id="users">
+読み込み待機中
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="title">
-サーバー確認
-</div>
-
 <button
-class="btn-red"
+class="red"
 onclick="ping()">
-PING
+サーバー確認
 </button>
 
-<div
-id="ping"
-class="small">
+<div id="ping">
 未確認
 </div>
 
 </div>
 
-<div class="card">
-
-<button
-class="btn-home"
-onclick="location.href='index.html'">
-ホームへ戻る
-</button>
-
-<button
-class="btn-top"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
-</button>
-
-</div>
-
 <div class="footer">
-NSAW 見守りDX
+NSAW 家族確認システム
 </div>
 
 </div>
@@ -289,18 +218,13 @@ const GAS_URL =
 
 function loadRecords(){
 
-document.getElementById("records").innerHTML =
-"読み込み中...";
+fetch(GAS_URL + "?action=records")
+.then(r=>r.json())
+.then(data=>{
 
-fetch(
-GAS_URL + "?action=records"
-)
-.then(r => r.json())
-.then(d => {
+let html="";
 
-let html = "";
-
-(d.data || []).forEach(v => {
+(data.data || []).forEach(v=>{
 
 html += `
 <div class="item">
@@ -310,15 +234,11 @@ ${v.name || ""}
 </div>
 
 <div class="status">
-状態：${v.status || ""}
+${v.status || ""}
 </div>
 
 <div class="time">
 ${v.time || ""}
-</div>
-
-<div class="memo">
-${v.memo || ""}
 </div>
 
 </div>
@@ -330,12 +250,10 @@ document.getElementById("records").innerHTML =
 html || "データなし";
 
 })
-.catch(err => {
+.catch(()=>{
 
 document.getElementById("records").innerHTML =
-"取得失敗";
-
-console.error(err);
+"取得エラー";
 
 });
 
@@ -343,32 +261,17 @@ console.error(err);
 
 function loadUsers(){
 
-document.getElementById("users").innerHTML =
-"読み込み中...";
+fetch(GAS_URL + "?action=users")
+.then(r=>r.json())
+.then(data=>{
 
-fetch(
-GAS_URL + "?action=users"
-)
-.then(r => r.json())
-.then(d => {
+let html="";
 
-let html = "";
-
-(d.data || []).forEach(v => {
+(data.data || []).forEach(v=>{
 
 html += `
 <div class="item">
-
-<div class="name">
 ${v.name || ""}
-</div>
-
-<div class="memo">
-ID : ${v.id || ""}
-<br>
-住所 : ${v.address || ""}
-</div>
-
 </div>
 `;
 
@@ -378,12 +281,10 @@ document.getElementById("users").innerHTML =
 html || "利用者なし";
 
 })
-.catch(err => {
+.catch(()=>{
 
 document.getElementById("users").innerHTML =
-"取得失敗";
-
-console.error(err);
+"取得エラー";
 
 });
 
@@ -391,36 +292,24 @@ console.error(err);
 
 function ping(){
 
-document.getElementById("ping").innerHTML =
-"確認中...";
-
-fetch(
-GAS_URL + "?action=ping"
-)
-.then(r => r.json())
-.then(d => {
+fetch(GAS_URL + "?action=ping")
+.then(r=>r.json())
+.then(data=>{
 
 document.getElementById("ping").innerHTML =
-`
-稼働状態 : ${d.status || ""}
-<br>
-時刻 : ${d.time || ""}
-`;
+JSON.stringify(data);
 
 })
-.catch(err => {
+.catch(()=>{
 
 document.getElementById("ping").innerHTML =
-"接続失敗";
-
-console.error(err);
+"PING ERROR";
 
 });
 
 }
 
 loadRecords();
-ping();
 
 </script>
 
