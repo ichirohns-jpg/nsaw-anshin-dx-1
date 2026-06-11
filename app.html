@@ -4,11 +4,78 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>見守り送信</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+background:#eef4fb;
+}
+
+header{
+background:#1565c0;
+color:#fff;
+padding:16px;
+text-align:center;
+font-weight:bold;
+}
+
+.wrap{
+max-width:600px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-top:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+background:#2e7d32;
+color:#fff;
+}
+
+a{
+display:block;
+text-align:center;
+margin-top:12px;
+text-decoration:none;
+color:#1565c0;
+font-weight:bold;
+}
+
+</style>
 </head>
 
 <body>
 
-<h2>見守り送信</h2>
+<header>見守り送信</header>
+
+<div class="wrap">
+
+<div class="card">
+
+<input id="name" placeholder="名前">
 
 <select id="status">
 <option value="元気">元気</option>
@@ -16,38 +83,38 @@
 <option value="緊急">緊急</option>
 </select>
 
-<br><br>
-
 <textarea id="memo" placeholder="メモ"></textarea>
-
-<br><br>
 
 <button onclick="send()">送信</button>
 
+<a href="index.html">HOMEへ戻る</a>
+
 <p id="msg"></p>
+
+</div>
+
+</div>
 
 <script>
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyPUHKGmhwJ2EWssZyKoM-6eqgFu4n6GbqFtN5WPRjvgaTNO-XhJ4Ua5JbW6LrkFWI1/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw_sD-jZkCHBI21dbhX3koHAw1Vye6goMcZg2xYBdKKMU_k6FqCQFYGC8b8B8s7oFmn/exec";
 
 function send(){
 
 fetch(GAS_URL,{
 method:"POST",
-headers:{
-"Content-Type":"application/x-www-form-urlencoded"
-},
 body:new URLSearchParams({
+name:document.getElementById("name").value || "",
 status:document.getElementById("status").value,
-memo:document.getElementById("memo").value
+memo:document.getElementById("memo").value || ""
 })
 })
-.then(res=>res.text())
+.then(r=>r.text())
 .then(()=>{
-document.getElementById("msg").innerText = "送信OK";
+document.getElementById("msg").innerText="送信OK";
 })
 .catch(()=>{
-document.getElementById("msg").innerText = "エラー";
+document.getElementById("msg").innerText="エラー";
 });
 
 }
