@@ -14,6 +14,10 @@ margin:0;
 padding:0;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 background:
 linear-gradient(
@@ -99,6 +103,11 @@ color:#fff;
 font-size:18px;
 }
 
+option{
+background:#111;
+color:#fff;
+}
+
 textarea{
 height:120px;
 resize:none;
@@ -160,11 +169,30 @@ box-shadow:
 0 0 25px rgba(0,212,255,.45);
 }
 
+.home-btn{
+background:
+linear-gradient(
+135deg,
+#455a64,
+#607d8b
+);
+}
+
+.top-btn{
+background:
+linear-gradient(
+135deg,
+#673ab7,
+#9575cd
+);
+}
+
 .message{
 text-align:center;
 font-size:20px;
 font-weight:900;
 margin-top:10px;
+min-height:32px;
 }
 
 .footer{
@@ -182,8 +210,15 @@ padding:20px;
 <div class="wrap">
 
 <div class="header">
-<div class="logo">見守りDX</div>
-<div class="sub">LEXUS STYLE MONITORING SYSTEM</div>
+
+<div class="logo">
+見守りDX
+</div>
+
+<div class="sub">
+LEXUS STYLE MONITORING SYSTEM
+</div>
+
 </div>
 
 <div class="card status-box">
@@ -192,11 +227,15 @@ padding:20px;
 現在の状態
 </div>
 
-<div class="status-value" id="currentStatus">
+<div
+class="status-value"
+id="currentStatus">
 元気
 </div>
 
-<div class="time" id="currentTime">
+<div
+class="time"
+id="currentTime">
 最終送信：未送信
 </div>
 
@@ -259,6 +298,22 @@ class="message">
 
 </div>
 
+<div class="card">
+
+<button
+class="home-btn"
+onclick="goHome()">
+ホームへ戻る
+</button>
+
+<button
+class="top-btn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
 <div class="footer">
 NSAW 見守りDX
 </div>
@@ -268,7 +323,7 @@ NSAW 見守りDX
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbw_sD-jZkCHBI21dbhX3koHAw1Vye6goMcZg2xYBdKKMU_k6FqCQFYGC8b8B8s7oFmn/exec";
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
 
 function setStatus(status){
 
@@ -280,25 +335,42 @@ status;
 
 }
 
+function goHome(){
+
+location.href =
+"index.html";
+
+}
+
 async function sendData(){
+
+const name =
+document.getElementById("name").value.trim();
+
+const status =
+document.getElementById("status").value;
+
+const memo =
+document.getElementById("memo").value.trim();
+
+if(name === ""){
+
+document.getElementById("msg").innerText =
+"名前を入力してください";
+
+return;
+
+}
+
+document.getElementById("msg").innerText =
+"送信中...";
 
 const params =
 new URLSearchParams();
 
-params.append(
-"name",
-document.getElementById("name").value
-);
-
-params.append(
-"status",
-document.getElementById("status").value
-);
-
-params.append(
-"memo",
-document.getElementById("memo").value
-);
+params.append("name",name);
+params.append("status",status);
+params.append("memo",memo);
 
 try{
 
@@ -314,7 +386,11 @@ body:params
 const text =
 await response.text();
 
-if(text.indexOf("OK") !== -1){
+if(
+text.includes("OK") ||
+text.includes("成功") ||
+response.ok
+){
 
 document.getElementById("msg").innerText =
 "送信成功";
@@ -330,10 +406,12 @@ text;
 
 }
 
-}catch(err){
+}catch(error){
 
 document.getElementById("msg").innerText =
 "通信エラー";
+
+console.error(error);
 
 }
 
