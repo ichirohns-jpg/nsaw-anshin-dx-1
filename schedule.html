@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>スケジュール｜見守りDX</title>
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>予定確認｜見守りDX</title>
 
 <style>
 
@@ -17,19 +14,15 @@ padding:0;
 box-sizing:border-box;
 }
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
 background:
 linear-gradient(
 180deg,
-#050505 0%,
-#101827 50%,
+#000000 0%,
+#0a1220 50%,
 #000000 100%
 );
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 color:#fff;
 min-height:100vh;
 }
@@ -76,100 +69,22 @@ padding:18px;
 margin-bottom:16px;
 }
 
-.day{
-font-size:24px;
-font-weight:900;
-margin-bottom:16px;
-}
-
-.item{
-background:rgba(255,255,255,.08);
-border-left:8px solid #42a5f5;
-border-radius:18px;
-padding:16px;
-margin-bottom:14px;
-}
-
 .time{
 font-size:26px;
 font-weight:900;
 color:#42a5f5;
+margin-bottom:6px;
 }
 
-.text{
-font-size:24px;
+.plan{
+font-size:22px;
 font-weight:900;
-margin-top:6px;
 }
 
 .memo{
-font-size:15px;
-line-height:1.7;
 margin-top:8px;
-opacity:.9;
-}
-
-.doneBtn{
-width:100%;
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:22px;
-font-weight:900;
-color:#fff;
-background:
-linear-gradient(
-135deg,
-#00c853,
-#00e676
-);
-margin-top:14px;
-cursor:pointer;
-}
-
-.navBtn{
-width:100%;
-border:none;
-border-radius:20px;
-padding:18px;
-font-size:22px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-bottom:12px;
-}
-
-.homeBtn{
-background:
-linear-gradient(
-135deg,
-#455a64,
-#78909c
-);
-}
-
-.topBtn{
-background:
-linear-gradient(
-135deg,
-#673ab7,
-#9575cd
-);
-}
-
-.toast{
-position:fixed;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-background:#1976d2;
-color:#fff;
-padding:16px 24px;
-border-radius:18px;
-font-size:18px;
-font-weight:900;
-display:none;
-z-index:9999;
+font-size:14px;
+opacity:.8;
 }
 
 .footer{
@@ -180,6 +95,7 @@ opacity:.6;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -190,144 +106,105 @@ opacity:.6;
 
 <div
 class="back"
-onclick="location.href='index.html'">
-← ホームへ戻る
+onclick="location.href='family.html'">
+← 家族確認へ戻る
 </div>
 
 <div class="title">
-スケジュール
+📅 予定確認
 </div>
 
 <div class="sub">
-病院・薬・訪問予定を確認します
+本日の予定
 </div>
 
 </div>
 
 <div class="card">
-
-<div class="day">
-今日の予定
-</div>
-
-<div class="item">
 
 <div class="time">
 09:00
 </div>
 
-<div class="text">
-朝の薬
+<div class="plan">
+病院
 </div>
 
 <div class="memo">
-飲み終わったら確認してください
-</div>
-
-<button
-class="doneBtn"
-onclick="done('朝の薬を確認しました')">
-✅ 確認しました
-</button>
-
-</div>
-
-<div class="item">
-
-<div class="time">
-14:00
-</div>
-
-<div class="text">
-訪問予定
-</div>
-
-<div class="memo">
-支援者が訪問予定です
-</div>
-
-<button
-class="doneBtn"
-onclick="done('訪問予定を確認しました')">
-✅ 確認しました
-</button>
-
-</div>
-
-<div class="item">
-
-<div class="time">
-18:00
-</div>
-
-<div class="text">
-夜の薬
-</div>
-
-<div class="memo">
-夜の薬を忘れずに飲みましょう
-</div>
-
-<button
-class="doneBtn"
-onclick="done('夜の薬を確認しました')">
-✅ 確認しました
-</button>
-
+定期受診
 </div>
 
 </div>
 
 <div class="card">
 
-<button
-class="navBtn homeBtn"
-onclick="location.href='index.html'">
-ホームへ戻る
-</button>
+<div class="time">
+12:00
+</div>
 
-<button
-class="navBtn topBtn"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
-</button>
+<div class="plan">
+昼食
+</div>
+
+<div class="memo">
+昼ごはん
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="time">
+15:00
+</div>
+
+<div class="plan">
+買い物
+</div>
+
+<div class="memo">
+日用品購入
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="time">
+18:00
+</div>
+
+<div class="plan">
+夕食
+</div>
+
+<div class="memo">
+夕ごはん
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="time">
+21:00
+</div>
+
+<div class="plan">
+就寝前の薬
+</div>
+
+<div class="memo">
+服薬確認
+</div>
 
 </div>
 
 <div class="footer">
-NSAW スケジュール
+NSAW 予定確認システム
 </div>
 
 </div>
-
-<div
-id="toast"
-class="toast">
-</div>
-
-<script>
-
-function done(text){
-
-const toast =
-document.getElementById("toast");
-
-toast.innerText =
-text;
-
-toast.style.display =
-"block";
-
-setTimeout(function(){
-
-toast.style.display =
-"none";
-
-},2000);
-
-}
-
-</script>
 
 </body>
 </html>
