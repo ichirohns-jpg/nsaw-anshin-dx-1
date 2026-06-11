@@ -2,43 +2,293 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>見守りDX｜HOME</title>
 
 <style>
-body{margin:0;font-family:sans-serif;background:#eef4fb;}
-header{background:#1565c0;color:#fff;padding:18px;text-align:center;font-weight:bold;}
-.wrap{max-width:600px;margin:auto;padding:16px;}
-.card{background:#fff;margin:12px 0;padding:16px;border-radius:12px;}
-button{width:100%;padding:14px;border:none;border-radius:10px;font-weight:bold;font-size:16px;}
-a{text-decoration:none;}
-.g{background:#2e7d32;color:#fff;}
-.b{background:#1565c0;color:#fff;}
-.o{background:#ef6c00;color:#fff;}
-.p{background:#6a1b9a;color:#fff;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#101827 50%,
+#000000 100%
+);
+color:#fff;
+}
+
+.banner{
+width:100%;
+height:240px;
+overflow:hidden;
+position:relative;
+}
+
+.banner img{
+width:100%;
+height:240px;
+object-fit:cover;
+display:block;
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.35);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.overlay h1{
+font-size:36px;
+font-weight:900;
+letter-spacing:3px;
+text-shadow:0 3px 10px rgba(0,0,0,.7);
+}
+
+.wrap{
+max-width:700px;
+margin:auto;
+padding:18px;
+}
+
+.section-title{
+font-size:24px;
+font-weight:900;
+margin:20px 0 12px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:16px;
+margin-bottom:16px;
+box-shadow:
+0 8px 24px rgba(0,0,0,.35);
+}
+
+.menu-btn{
+width:100%;
+padding:22px;
+border:none;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+}
+
+.green{
+background:
+linear-gradient(135deg,#00c853,#00e676);
+}
+
+.blue{
+background:
+linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.orange{
+background:
+linear-gradient(135deg,#ef6c00,#ff9800);
+}
+
+.purple{
+background:
+linear-gradient(135deg,#6a1b9a,#ab47bc);
+}
+
+.red{
+background:
+linear-gradient(135deg,#c62828,#ef5350);
+}
+
+.gray{
+background:
+linear-gradient(135deg,#37474f,#607d8b);
+}
+
+.gold{
+background:
+linear-gradient(135deg,#b8860b,#ffd54f);
+color:#000;
+}
+
+a{
+text-decoration:none;
+}
+
+.news{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.news img{
+width:120px;
+height:70px;
+object-fit:cover;
+border-radius:12px;
+}
+
+.news-title{
+font-weight:900;
+font-size:16px;
+}
+
+.footer{
+text-align:center;
+padding:30px 10px;
+opacity:.7;
+font-size:13px;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>見守りDX</header>
+<div class="banner">
+
+<img src="top.jpg">
+
+<div class="overlay">
+<h1>見守りDX</h1>
+</div>
+
+</div>
 
 <div class="wrap">
 
-<div class="card">
-<a href="app.html"><button class="g">見守り送信</button></a>
+<div class="section-title">
+メニュー
 </div>
 
 <div class="card">
-<a href="radio.html"><button class="b">地域ラジオ</button></a>
+<a href="app.html">
+<button class="menu-btn green">
+元気です・見守り送信
+</button>
+</a>
 </div>
 
 <div class="card">
-<a href="kawaraban.html"><button class="o">瓦版</button></a>
+<a href="family.html">
+<button class="menu-btn gold">
+家族確認
+</button>
+</a>
 </div>
 
 <div class="card">
-<a href="video.html"><button class="p">動画</button></a>
+<a href="radio.html">
+<button class="menu-btn blue">
+地域ラジオ
+</button>
+</a>
+</div>
+
+<div class="card">
+<a href="kawaraban.html">
+<button class="menu-btn orange">
+４市瓦版
+</button>
+</a>
+</div>
+
+<div class="card">
+<a href="video.html">
+<button class="menu-btn purple">
+お楽しみ動画
+</button>
+</a>
+</div>
+
+<div class="card">
+<a href="map.html">
+<button class="menu-btn red">
+地域マップ
+</button>
+</a>
+</div>
+
+<div class="card">
+<a href="schedule.html">
+<button class="menu-btn gray">
+スケジュール
+</button>
+</a>
+</div>
+
+<div class="section-title">
+最新情報
+</div>
+
+<div class="card">
+
+<div class="news">
+<img src="top.jpg">
+<div>
+<div class="news-title">
+最新瓦版
+</div>
+<div>
+ここに瓦版最新情報
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="news">
+<img src="top.jpg">
+<div>
+<div class="news-title">
+地域ラジオ
+</div>
+<div>
+ここにラジオ最新情報
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="news">
+<img src="top.jpg">
+<div>
+<div class="news-title">
+お楽しみ動画
+</div>
+<div>
+ここに動画最新情報
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+NSAW 地域DXシステム
 </div>
 
 </div>
