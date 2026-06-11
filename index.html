@@ -35,56 +35,22 @@ min-height:100vh;
 }
 
 .banner{
-height:320px;
-position:relative;
+height:260px;
 overflow:hidden;
+position:relative;
 }
 
 .banner img{
 width:100%;
 height:100%;
 object-fit:cover;
-}
-
-.overlay{
-position:absolute;
-inset:0;
-background:rgba(0,0,0,.55);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-
-.overlay h1{
-font-size:48px;
-font-weight:900;
-letter-spacing:6px;
-}
-
-.overlay p{
-margin-top:12px;
-font-size:18px;
-opacity:.9;
+display:block;
 }
 
 .wrap{
 max-width:760px;
 margin:auto;
-padding:20px;
-}
-
-.section{
-margin-bottom:28px;
-}
-
-.section-title{
-font-size:14px;
-letter-spacing:4px;
-opacity:.6;
-margin-bottom:12px;
-padding-left:4px;
+padding:12px 20px 20px;
 }
 
 .card{
@@ -103,7 +69,7 @@ width:100%;
 padding:34px;
 border:none;
 border-radius:24px;
-font-size:34px;
+font-size:38px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
@@ -111,10 +77,10 @@ color:#fff;
 
 .sub-btn{
 width:100%;
-padding:24px;
+padding:26px;
 border:none;
-border-radius:20px;
-font-size:26px;
+border-radius:22px;
+font-size:28px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
@@ -122,7 +88,7 @@ color:#fff;
 
 .info-btn{
 width:100%;
-padding:20px;
+padding:22px;
 border:none;
 border-radius:18px;
 font-size:22px;
@@ -132,21 +98,21 @@ color:#fff;
 margin-bottom:12px;
 }
 
-.blue{
-background:
-linear-gradient(
-135deg,
-#1565c0,
-#42a5f5
-);
-}
-
 .green{
 background:
 linear-gradient(
 135deg,
 #00c853,
 #00e676
+);
+}
+
+.blue{
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
 );
 }
 
@@ -168,15 +134,22 @@ linear-gradient(
 );
 }
 
-a{
-text-decoration:none;
+.gold{
+background:
+linear-gradient(
+135deg,
+#b8860b,
+#ffd54f
+);
+color:#000;
 }
 
-.status{
-text-align:center;
-padding:10px;
-font-size:15px;
-opacity:.8;
+.section-title{
+font-size:13px;
+letter-spacing:4px;
+opacity:.55;
+margin:24px 0 12px;
+padding-left:4px;
 }
 
 .news-card{
@@ -215,6 +188,10 @@ linear-gradient(
 );
 }
 
+a{
+text-decoration:none;
+}
+
 .footer{
 text-align:center;
 padding:30px 10px;
@@ -231,27 +208,9 @@ font-size:12px;
 
 <img src="top.jpg">
 
-<div class="overlay">
-
-<h1>
-見守りDX
-</h1>
-
-<p>
-REGIONAL LIFE OS
-</p>
-
-</div>
-
 </div>
 
 <div class="wrap">
-
-<div class="section">
-
-<div class="status">
-最優先機能
-</div>
 
 <div class="card">
 
@@ -265,29 +224,17 @@ REGIONAL LIFE OS
 
 </div>
 
-</div>
-
-<div class="section">
-
-<div class="status">
-家族・支援者
-</div>
-
 <div class="card">
 
 <a href="family.html">
 
-<button class="sub-btn blue">
+<button class="sub-btn gold">
 家族確認
 </button>
 
 </a>
 
 </div>
-
-</div>
-
-<div class="section">
 
 <div class="section-title">
 地域情報
@@ -315,10 +262,6 @@ REGIONAL LIFE OS
 
 </div>
 
-</div>
-
-<div class="section">
-
 <div class="section-title">
 生活支援
 </div>
@@ -338,10 +281,6 @@ REGIONAL LIFE OS
 </a>
 
 </div>
-
-</div>
-
-<div class="section">
 
 <div class="section-title">
 最新情報
@@ -378,9 +317,7 @@ REGIONAL LIFE OS
 </div>
 
 <div class="news-text">
-家族と地域をつなぐ見守りシステム
-</div>
-
+地域と家族をつなぐ安心ナビ
 </div>
 
 </div>
