@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>今日の予定｜見守りDX</title>
+<title>スケジュール｜見守りDX</title>
 
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
@@ -17,116 +17,144 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-background:#eef4fb;
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#101827 50%,
+#000000 100%
+);
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+color:#fff;
+min-height:100vh;
 }
 
 .wrap{
-max-width:560px;
+max-width:760px;
 margin:auto;
-padding:16px;
+padding:18px;
 }
 
 .header{
-background:#1976d2;
-color:#fff;
-border-radius:26px;
-padding:22px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
 }
 
 .back{
-font-size:16px;
+font-size:18px;
 font-weight:900;
-margin-bottom:12px;
 cursor:pointer;
+margin-bottom:14px;
 }
 
 .title{
-font-size:34px;
+font-size:38px;
 font-weight:900;
 }
 
 .sub{
-font-size:16px;
-margin-top:6px;
-opacity:.95;
+margin-top:8px;
+font-size:15px;
+opacity:.8;
 }
 
 .card{
-background:#fff;
-border-radius:26px;
-padding:20px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:18px;
 margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .day{
-font-size:20px;
+font-size:24px;
 font-weight:900;
-color:#1976d2;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 .item{
-border-left:8px solid #1976d2;
-background:#f7fbff;
+background:rgba(255,255,255,.08);
+border-left:8px solid #42a5f5;
 border-radius:18px;
 padding:16px;
 margin-bottom:14px;
 }
 
 .time{
-font-size:22px;
+font-size:26px;
 font-weight:900;
-color:#1976d2;
+color:#42a5f5;
 }
 
 .text{
-font-size:22px;
+font-size:24px;
 font-weight:900;
 margin-top:6px;
 }
 
 .memo{
-font-size:16px;
-font-weight:700;
-color:#666;
-margin-top:6px;
-line-height:1.6;
+font-size:15px;
+line-height:1.7;
+margin-top:8px;
+opacity:.9;
 }
 
 .doneBtn{
 width:100%;
 border:none;
 border-radius:18px;
-padding:16px;
+padding:18px;
 font-size:22px;
 font-weight:900;
 color:#fff;
-background:#43a047;
-margin-top:12px;
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
+margin-top:14px;
 cursor:pointer;
 }
 
-.doneBtn:active{
-transform:scale(.97);
+.navBtn{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:12px;
 }
 
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:900;
-color:#666;
+.homeBtn{
+background:
+linear-gradient(
+135deg,
+#455a64,
+#78909c
+);
+}
+
+.topBtn{
+background:
+linear-gradient(
+135deg,
+#673ab7,
+#9575cd
+);
 }
 
 .toast{
@@ -142,7 +170,13 @@ font-size:18px;
 font-weight:900;
 display:none;
 z-index:9999;
-box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
+
+.footer{
+text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
 }
 
 </style>
@@ -154,12 +188,14 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 
 <div class="header">
 
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
+<div
+class="back"
+onclick="location.href='index.html'">
+← ホームへ戻る
 </div>
 
 <div class="title">
-📅 今日の予定
+スケジュール
 </div>
 
 <div class="sub">
@@ -185,10 +221,12 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 </div>
 
 <div class="memo">
-飲み終わったら確認ボタンを押してください
+飲み終わったら確認してください
 </div>
 
-<button class="doneBtn" onclick="done('朝の薬を確認しました')">
+<button
+class="doneBtn"
+onclick="done('朝の薬を確認しました')">
 ✅ 確認しました
 </button>
 
@@ -205,10 +243,12 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 </div>
 
 <div class="memo">
-支援者が訪問確認を行います
+支援者が訪問予定です
 </div>
 
-<button class="doneBtn" onclick="done('訪問予定を確認しました')">
+<button
+class="doneBtn"
+onclick="done('訪問予定を確認しました')">
 ✅ 確認しました
 </button>
 
@@ -225,10 +265,12 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 </div>
 
 <div class="memo">
-夜の薬を忘れずに確認してください
+夜の薬を忘れずに飲みましょう
 </div>
 
-<button class="doneBtn" onclick="done('夜の薬を確認しました')">
+<button
+class="doneBtn"
+onclick="done('夜の薬を確認しました')">
 ✅ 確認しました
 </button>
 
@@ -236,42 +278,51 @@ box-shadow:0 6px 18px rgba(0,0,0,.2);
 
 </div>
 
+<div class="card">
+
+<button
+class="navBtn homeBtn"
+onclick="location.href='index.html'">
+ホームへ戻る
+</button>
+
+<button
+class="navBtn topBtn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
 <div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div>
-予定
-</div>
-
-<div>
-地域情報
-</div>
-
-<div>
-設定
+NSAW スケジュール
 </div>
 
 </div>
 
+<div
+id="toast"
+class="toast">
 </div>
-
-<div id="toast" class="toast"></div>
 
 <script>
 
 function done(text){
 
-const toast=document.getElementById("toast");
+const toast =
+document.getElementById("toast");
 
-toast.innerText=text;
+toast.innerText =
+text;
 
-toast.style.display="block";
+toast.style.display =
+"block";
 
 setTimeout(function(){
-toast.style.display="none";
+
+toast.style.display =
+"none";
+
 },2000);
 
 }
