@@ -2,94 +2,343 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守り送信</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>見守りDX</title>
 
 <style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
 body{
-  font-family: sans-serif;
-  padding:20px;
-  background:#f4f6f8;
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#101827 50%,
+#000000 100%
+);
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#fff;
+min-height:100vh;
 }
 
-h2{
-  font-size:28px;
+.wrap{
+max-width:700px;
+margin:auto;
+padding:20px;
 }
 
-input,select,textarea,button{
-  width:100%;
-  font-size:22px;
-  padding:14px;
-  margin:10px 0;
-  box-sizing:border-box;
+.header{
+text-align:center;
+padding:25px 10px;
+}
+
+.logo{
+font-size:34px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.sub{
+margin-top:8px;
+opacity:.8;
+font-size:14px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:20px;
+box-shadow:
+0 10px 30px rgba(0,0,0,.4);
+}
+
+.status-box{
+text-align:center;
+}
+
+.status-title{
+font-size:18px;
+opacity:.8;
+margin-bottom:12px;
+}
+
+.status-value{
+font-size:42px;
+font-weight:900;
+color:#00e0ff;
+}
+
+.time{
+margin-top:10px;
+font-size:15px;
+opacity:.8;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:18px;
+margin-bottom:14px;
+border:none;
+border-radius:18px;
+background:rgba(255,255,255,.12);
+color:#fff;
+font-size:18px;
+}
+
+textarea{
+height:120px;
+resize:none;
 }
 
 button{
-  background:#1976d2;
-  color:white;
-  border:none;
-  border-radius:10px;
-  font-weight:bold;
+width:100%;
+border:none;
+border-radius:22px;
+padding:20px;
+font-size:24px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
+margin-bottom:14px;
 }
 
-#msg{
-  font-size:22px;
-  font-weight:bold;
-  color:#1976d2;
+.btn-genki{
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
+box-shadow:
+0 0 25px rgba(0,230,118,.45);
 }
+
+.btn-attention{
+background:
+linear-gradient(
+135deg,
+#ff9800,
+#ffc107
+);
+box-shadow:
+0 0 25px rgba(255,193,7,.45);
+}
+
+.btn-emergency{
+background:
+linear-gradient(
+135deg,
+#d50000,
+#ff1744
+);
+box-shadow:
+0 0 25px rgba(255,23,68,.45);
+}
+
+.send-btn{
+background:
+linear-gradient(
+135deg,
+#0091ff,
+#00d4ff
+);
+box-shadow:
+0 0 25px rgba(0,212,255,.45);
+}
+
+.message{
+text-align:center;
+font-size:20px;
+font-weight:900;
+margin-top:10px;
+}
+
+.footer{
+text-align:center;
+opacity:.6;
+font-size:13px;
+padding:20px;
+}
+
 </style>
 </head>
 
 <body>
 
-<h2>見守り送信</h2>
+<div class="wrap">
 
-<input id="name" placeholder="名前">
+<div class="header">
+<div class="logo">見守りDX</div>
+<div class="sub">LEXUS STYLE MONITORING SYSTEM</div>
+</div>
+
+<div class="card status-box">
+
+<div class="status-title">
+現在の状態
+</div>
+
+<div class="status-value" id="currentStatus">
+元気
+</div>
+
+<div class="time" id="currentTime">
+最終送信：未送信
+</div>
+
+</div>
+
+<div class="card">
+
+<input
+id="name"
+placeholder="お名前">
 
 <select id="status">
-  <option value="元気">元気</option>
-  <option value="注意">注意</option>
-  <option value="緊急">緊急</option>
+
+<option value="元気">
+元気
+</option>
+
+<option value="注意">
+注意
+</option>
+
+<option value="緊急">
+緊急
+</option>
+
 </select>
 
-<textarea id="memo" placeholder="メモ"></textarea>
+<textarea
+id="memo"
+placeholder="メモを入力してください"></textarea>
 
-<button id="sendBtn" onclick="send()">送信</button>
+<button
+class="btn-genki"
+onclick="setStatus('元気')">
+元気です
+</button>
 
-<p id="msg"></p>
+<button
+class="btn-attention"
+onclick="setStatus('注意')">
+注意
+</button>
+
+<button
+class="btn-emergency"
+onclick="setStatus('緊急')">
+緊急
+</button>
+
+<button
+class="send-btn"
+onclick="sendData()">
+送信する
+</button>
+
+<div
+id="msg"
+class="message">
+</div>
+
+</div>
+
+<div class="footer">
+NSAW 見守りDX
+</div>
+
+</div>
 
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbx5YU4NgYo2NvO0BhBjl24D8MnvShoH-HYQF4e4fe_tajyR1vPLNjstTxFfaxYVy7UY/exec";
 
-function send(){
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbw_sD-jZkCHBI21dbhX3koHAw1Vye6goMcZg2xYBdKKMU_k6FqCQFYGC8b8B8s7oFmn/exec";
 
-  const btn = document.getElementById("sendBtn");
-  const msg = document.getElementById("msg");
+function setStatus(status){
 
-  btn.disabled = true;
-  msg.innerText = "送信中...";
+document.getElementById("status").value =
+status;
 
-  fetch(GAS_URL, {
-    method: "POST",
-    mode: "no-cors",
-    body: new URLSearchParams({
-      name: document.getElementById("name").value,
-      status: document.getElementById("status").value,
-      memo: document.getElementById("memo").value
-    })
-  })
-  .then(() => {
-    msg.innerText = "送信OK";
-    document.getElementById("memo").value = "";
-  })
-  .catch(() => {
-    msg.innerText = "通信エラー";
-  })
-  .finally(() => {
-    btn.disabled = false;
-  });
+document.getElementById("currentStatus").innerText =
+status;
 
 }
+
+async function sendData(){
+
+const params =
+new URLSearchParams();
+
+params.append(
+"name",
+document.getElementById("name").value
+);
+
+params.append(
+"status",
+document.getElementById("status").value
+);
+
+params.append(
+"memo",
+document.getElementById("memo").value
+);
+
+try{
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+body:params
+}
+);
+
+const text =
+await response.text();
+
+if(text.indexOf("OK") !== -1){
+
+document.getElementById("msg").innerText =
+"送信成功";
+
+document.getElementById("currentTime").innerText =
+"最終送信：" +
+new Date().toLocaleString("ja-JP");
+
+}else{
+
+document.getElementById("msg").innerText =
+text;
+
+}
+
+}catch(err){
+
+document.getElementById("msg").innerText =
+"通信エラー";
+
+}
+
+}
+
 </script>
 
 </body>
