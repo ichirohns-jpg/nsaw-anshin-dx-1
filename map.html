@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>現在地｜見守りDX</title>
+<title>地域マップ｜見守りDX</title>
 
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
@@ -17,102 +17,109 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-background:#eef4fb;
+background:
+linear-gradient(
+180deg,
+#050505 0%,
+#101827 50%,
+#000000 100%
+);
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+color:#fff;
+min-height:100vh;
 }
 
 .wrap{
-max-width:560px;
+max-width:760px;
 margin:auto;
-padding:16px;
+padding:18px;
 }
 
 .header{
-background:#00897b;
-color:#fff;
-border-radius:26px;
-padding:22px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
 }
 
 .back{
-font-size:16px;
+font-size:18px;
 font-weight:900;
-margin-bottom:12px;
 cursor:pointer;
+margin-bottom:14px;
 }
 
 .title{
-font-size:34px;
+font-size:38px;
 font-weight:900;
 }
 
 .sub{
-font-size:16px;
-margin-top:6px;
-opacity:.95;
+margin-top:8px;
+font-size:15px;
+opacity:.8;
 }
 
 .card{
-background:#fff;
-border-radius:26px;
-padding:20px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:18px;
 margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.mapBox{
-background:#e0f2f1;
-border-radius:22px;
-padding:20px;
+.info{
+font-size:18px;
+line-height:1.8;
 text-align:center;
 }
 
-.mapTitle{
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
-color:#00695c;
-}
-
-.mapText{
-font-size:18px;
-font-weight:700;
-line-height:1.7;
-color:#555;
-}
-
-.btn{
+button{
 width:100%;
 border:none;
-border-radius:22px;
-padding:22px;
-font-size:24px;
+border-radius:20px;
+padding:20px;
+font-size:22px;
 font-weight:900;
 color:#fff;
-background:#00897b;
-margin-top:18px;
 cursor:pointer;
+margin-bottom:12px;
 }
 
-.btn:active{
-transform:scale(.97);
+.green{
+background:linear-gradient(135deg,#00c853,#00e676);
 }
 
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:900;
-color:#666;
+.blue{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.orange{
+background:linear-gradient(135deg,#ef6c00,#ff9800);
+}
+
+.red{
+background:linear-gradient(135deg,#c62828,#ef5350);
+}
+
+.purple{
+background:linear-gradient(135deg,#6a1b9a,#ab47bc);
+}
+
+.gray{
+background:linear-gradient(135deg,#455a64,#78909c);
+}
+
+.topbtn{
+background:linear-gradient(135deg,#673ab7,#9575cd);
 }
 
 .toast{
@@ -120,7 +127,7 @@ position:fixed;
 left:50%;
 bottom:30px;
 transform:translateX(-50%);
-background:#00897b;
+background:#00c853;
 color:#fff;
 padding:16px 24px;
 border-radius:18px;
@@ -128,6 +135,13 @@ font-size:18px;
 font-weight:900;
 display:none;
 z-index:9999;
+}
+
+.footer{
+text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
 }
 
 </style>
@@ -139,106 +153,167 @@ z-index:9999;
 
 <div class="header">
 
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
+<div
+class="back"
+onclick="location.href='index.html'">
+← ホームへ戻る
 </div>
 
 <div class="title">
-📍 現在地
+地域マップ
 </div>
 
 <div class="sub">
-位置情報を確認します
+現在地と地域施設をワンタッチ検索
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="mapBox">
-
-<div class="mapTitle">
-現在地確認
+<div class="info">
+現在地確認や周辺施設検索を行います
 </div>
 
-<div class="mapText">
-ボタンを押すと現在地をGoogleマップで表示します。
 </div>
 
-<button class="btn" onclick="openMap()">
+<button
+class="green"
+onclick="openCurrentLocation()">
 📍 現在地を開く
+</button>
+
+<button
+class="blue"
+onclick="searchMap('病院')">
+🏥 病院
+</button>
+
+<button
+class="orange"
+onclick="searchMap('薬局')">
+💊 薬局
+</button>
+
+<button
+class="green"
+onclick="searchMap('コンビニ')">
+🏪 コンビニ
+</button>
+
+<button
+class="gray"
+onclick="searchMap('トイレ')">
+🚻 トイレ
+</button>
+
+<button
+class="red"
+onclick="searchMap('避難所')">
+⛑️ 避難所
+</button>
+
+<button
+class="purple"
+onclick="searchMap('市役所')">
+🏢 市役所
+</button>
+
+<button
+class="blue"
+onclick="searchMap('地域包括支援センター')">
+🤝 地域包括支援センター
+</button>
+
+<div class="card">
+
+<button
+class="topbtn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
 </button>
 
 </div>
 
-</div>
-
 <div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='schedule.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
+NSAW 地域マップ
 </div>
 
 </div>
 
+<div
+id="toast"
+class="toast">
 </div>
-
-<div id="toast" class="toast"></div>
 
 <script>
 
 function showToast(text){
 
-const toast=document.getElementById("toast");
+const toast =
+document.getElementById("toast");
 
-toast.innerText=text;
+toast.innerText = text;
 
-toast.style.display="block";
+toast.style.display = "block";
 
 setTimeout(function(){
-toast.style.display="none";
+
+toast.style.display = "none";
+
 },2000);
 
 }
 
-function openMap(){
+function openCurrentLocation(){
 
 if(!navigator.geolocation){
 
-showToast("位置情報が使えません");
+showToast("位置情報非対応");
+
 return;
 
 }
 
-showToast("現在地を取得しています");
+showToast("現在地取得中");
 
-navigator.geolocation.getCurrentPosition(function(pos){
+navigator.geolocation.getCurrentPosition(
 
-const lat=pos.coords.latitude;
-const lng=pos.coords.longitude;
+function(pos){
+
+const lat =
+pos.coords.latitude;
+
+const lng =
+pos.coords.longitude;
 
 window.open(
-"https://www.google.com/maps?q="+lat+","+lng,
+"https://www.google.com/maps?q=" +
+lat +
+"," +
+lng,
 "_blank"
 );
 
-},function(){
+},
 
-showToast("位置情報を取得できませんでした");
+function(){
 
-});
+showToast("取得失敗");
+
+}
+
+);
+
+}
+
+function searchMap(keyword){
+
+window.open(
+"https://www.google.com/maps/search/" +
+encodeURIComponent(keyword),
+"_blank"
+);
 
 }
 
