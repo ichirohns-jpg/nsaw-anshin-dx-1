@@ -2,112 +2,90 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>4市瓦版｜あんしん生活DX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>瓦版</title>
 
 <style>
 body{
 margin:0;
 font-family:sans-serif;
-background:#eef4f8;
-color:#123;
+background:#eef4fb;
+}
+
+header{
+background:#ef6c00;
+color:#fff;
 padding:16px;
+text-align:center;
+font-weight:bold;
 }
 
 .wrap{
-max-width:760px;
+max-width:600px;
 margin:auto;
-}
-
-.header{
-background:#4a148c;
-color:white;
-padding:20px;
-border-radius:24px;
-text-align:center;
-font-size:28px;
-font-weight:900;
-margin-bottom:16px;
+padding:16px;
 }
 
 .card{
-background:white;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 22px rgba(0,0,0,.08);
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-top:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.title{
-font-size:26px;
-font-weight:900;
-margin-bottom:10px;
+.item{
+padding:10px;
+border-bottom:1px solid #ddd;
 }
 
-.text{
-font-size:18px;
-line-height:1.6;
-font-weight:700;
-white-space:pre-wrap;
+a{
+display:block;
+text-align:center;
+margin-top:12px;
+text-decoration:none;
+color:#ef6c00;
+font-weight:bold;
 }
 </style>
-
 </head>
 
 <body>
 
+<header>瓦版（地域情報）</header>
+
 <div class="wrap">
 
-<div class="header">
-📰 4市瓦版
-</div>
-
-<div id="content">
+<div class="card" id="list">
 読み込み中...
 </div>
+
+<a href="index.html">HOMEへ戻る</a>
 
 </div>
 
 <script>
 
-async function loadKawa(){
+const GAS_URL = "ここにGAS_URL";
 
-const url = "https://script.google.com/macros/s/AKfycbxsgeub9qA9q5EnfZgOEVah2H5YC9dEy_n2UqMkviD8Wy5IcVsL-CsMmNE0ZvDMbGFd/exec";
-
-try{
-
-const res = await fetch(url);
-const data = await res.json();
-
-// ★ 4市だけ表示（kawa）
-const items = data.filter(d => d.type === "kawa");
+fetch(GAS_URL)
+.then(res => res.json())
+.then(data => {
 
 let html = "";
 
-items.forEach(d => {
-
-html += `
-<div class="card">
-<div class="title">${d.title || ""}</div>
-<div class="text">${d.text || ""}</div>
-</div>
-`;
-
+data.slice(0,5).forEach(d => {
+html += `<div class="item">
+${d.date}｜${d.title}
+</div>`;
 });
 
-document.getElementById("content").innerHTML = html;
+document.getElementById("list").innerHTML = html;
 
-}catch(e){
-
-document.getElementById("content").innerHTML =
-"<div class='card'>読み込みエラー</div>";
-
-}
-
-}
-
-loadKawa();
+})
+.catch(() => {
+document.getElementById("list").innerHTML = "読み込みエラー";
+});
 
 </script>
 
