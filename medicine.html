@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>薬確認｜見守りDX</title>
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>服薬確認｜見守りDX</title>
 
 <style>
 
@@ -18,123 +15,133 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+background:
+linear-gradient(
+180deg,
+#000000 0%,
+#0a1220 50%,
+#000000 100%
+);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#fff;
+min-height:100vh;
 }
 
 .wrap{
-max-width:560px;
+max-width:760px;
 margin:auto;
-padding:16px;
+padding:18px;
 }
 
 .header{
-background:#1565c0;
-color:#fff;
-border-radius:26px;
-padding:22px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
 }
 
 .back{
-font-size:16px;
+font-size:18px;
 font-weight:900;
-margin-bottom:12px;
 cursor:pointer;
+margin-bottom:14px;
 }
 
 .title{
-font-size:34px;
+font-size:38px;
 font-weight:900;
 }
 
 .sub{
-font-size:16px;
-margin-top:6px;
-opacity:.95;
+margin-top:8px;
+font-size:15px;
+opacity:.8;
 }
 
 .card{
-background:#fff;
-border-radius:26px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
 padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.item{
-background:#f5f9ff;
-border-left:8px solid #1565c0;
-border-radius:18px;
-padding:18px;
 margin-bottom:16px;
 }
 
 .time{
-font-size:22px;
-font-weight:900;
-color:#1565c0;
-margin-bottom:8px;
-}
-
-.name{
 font-size:26px;
 font-weight:900;
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
 .memo{
-font-size:17px;
-font-weight:700;
+font-size:15px;
+opacity:.8;
 line-height:1.7;
-color:#666;
 }
 
 .btn{
 width:100%;
 border:none;
-border-radius:22px;
-padding:20px;
-font-size:24px;
+border-radius:20px;
+padding:18px;
+font-size:22px;
 font-weight:900;
-color:#fff;
-background:#1565c0;
-margin-top:14px;
 cursor:pointer;
+color:#fff;
+margin-top:14px;
 }
 
-.btn:active{
-transform:scale(.97);
+.green{
+background:
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
+}
+
+.blue{
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
+);
+}
+
+.orange{
+background:
+linear-gradient(
+135deg,
+#fb8c00,
+#ffb300
+);
+}
+
+.purple{
+background:
+linear-gradient(
+135deg,
+#7b1fa2,
+#ba68c8
+);
 }
 
 .footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:900;
-color:#666;
+text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
 }
 
-.toast{
-position:fixed;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-background:#1565c0;
-color:#fff;
-padding:16px 24px;
-border-radius:18px;
-font-size:18px;
+#msg{
+text-align:center;
+font-size:22px;
 font-weight:900;
-display:none;
-z-index:9999;
+margin-top:20px;
+color:#00e676;
 }
 
 </style>
@@ -146,121 +153,108 @@ z-index:9999;
 
 <div class="header">
 
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
+<div
+class="back"
+onclick="location.href='index.html'">
+← ホームへ戻る
 </div>
 
 <div class="title">
-💊 薬確認
+💊 服薬確認
 </div>
 
 <div class="sub">
-薬の確認を行います
+薬を飲んだら押してください
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="item">
-
 <div class="time">
-朝 09:00
-</div>
-
-<div class="name">
 朝の薬
 </div>
 
 <div class="memo">
-朝食後に服用してください。
+朝食後に服用
 </div>
 
-<button class="btn" onclick="done('朝の薬を確認しました')">
-✅ 確認しました
+<button
+class="btn green"
+onclick="done('朝の薬を飲みました')">
+薬を飲みました
 </button>
 
 </div>
 
-<div class="item">
+<div class="card">
 
 <div class="time">
-昼 13:00
-</div>
-
-<div class="name">
 昼の薬
 </div>
 
 <div class="memo">
-飲み忘れに注意してください。
+昼食後に服用
 </div>
 
-<button class="btn" onclick="done('昼の薬を確認しました')">
-✅ 確認しました
+<button
+class="btn blue"
+onclick="done('昼の薬を飲みました')">
+薬を飲みました
 </button>
 
 </div>
 
-<div class="item">
+<div class="card">
 
 <div class="time">
-夜 19:00
-</div>
-
-<div class="name">
 夜の薬
 </div>
 
 <div class="memo">
-寝る前に確認してください。
+夕食後に服用
 </div>
 
-<button class="btn" onclick="done('夜の薬を確認しました')">
-✅ 確認しました
+<button
+class="btn orange"
+onclick="done('夜の薬を飲みました')">
+薬を飲みました
 </button>
 
 </div>
 
+<div class="card">
+
+<div class="time">
+就寝前の薬
 </div>
+
+<div class="memo">
+寝る前に服用
+</div>
+
+<button
+class="btn purple"
+onclick="done('就寝前の薬を飲みました')">
+薬を飲みました
+</button>
+
+</div>
+
+<div id="msg"></div>
 
 <div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='schedule.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
+NSAW 服薬確認システム
 </div>
 
 </div>
-
-</div>
-
-<div id="toast" class="toast"></div>
 
 <script>
 
 function done(text){
 
-const toast=document.getElementById("toast");
-
-toast.innerText=text;
-
-toast.style.display="block";
-
-setTimeout(function(){
-toast.style.display="none";
-},2000);
+document.getElementById("msg").innerHTML =
+"✓ " + text;
 
 }
 
