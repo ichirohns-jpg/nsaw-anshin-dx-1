@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>家族確認｜見守りDX</title>
+
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 }
+
 body{
 background:
 linear-gradient(
@@ -22,11 +25,13 @@ font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 color:#fff;
 min-height:100vh;
 }
+
 .wrap{
 max-width:760px;
 margin:auto;
 padding:18px;
 }
+
 .header{
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(12px);
@@ -35,21 +40,25 @@ border-radius:28px;
 padding:24px;
 margin-bottom:18px;
 }
+
 .back{
 font-size:18px;
 font-weight:900;
 cursor:pointer;
 margin-bottom:14px;
 }
+
 .title{
 font-size:38px;
 font-weight:900;
 }
+
 .sub{
 margin-top:8px;
 font-size:15px;
 opacity:.8;
 }
+
 .card{
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(12px);
@@ -58,6 +67,7 @@ border-radius:24px;
 padding:18px;
 margin-bottom:16px;
 }
+
 button{
 width:100%;
 border:none;
@@ -69,6 +79,7 @@ cursor:pointer;
 color:#fff;
 margin-bottom:12px;
 }
+
 .blue{
 background:
 linear-gradient(
@@ -77,6 +88,7 @@ linear-gradient(
 #42a5f5
 );
 }
+
 .green{
 background:
 linear-gradient(
@@ -85,6 +97,7 @@ linear-gradient(
 #00e676
 );
 }
+
 .red{
 background:
 linear-gradient(
@@ -93,146 +106,262 @@ linear-gradient(
 #ef5350
 );
 }
+
 .item{
 background:rgba(255,255,255,.06);
 border-radius:18px;
 padding:14px;
 margin-bottom:10px;
 }
+
 .name{
 font-size:22px;
 font-weight:900;
 }
+
 .status{
 font-size:18px;
 margin-top:6px;
 }
+
 .time{
 font-size:13px;
 opacity:.7;
 margin-top:6px;
 }
+
 .memo{
 font-size:14px;
 margin-top:6px;
 opacity:.9;
 }
+
+.actionBtn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:14px;
+font-size:18px;
+font-weight:900;
+color:#fff;
+margin-top:10px;
+cursor:pointer;
+}
+
+.mapBtn{
+background:#1976d2;
+}
+
+.medBtn{
+background:#43a047;
+}
+
+.schBtn{
+background:#fb8c00;
+}
+
+.emgBtn{
+background:#e53935;
+}
+
 .footer{
 text-align:center;
 padding:20px;
 font-size:12px;
 opacity:.6;
 }
+
 </style>
+
 </head>
+
 <body>
+
 <div class="wrap">
+
 <div class="header">
+
 <div
 class="back"
 onclick="location.href='index.html'">
 ← ホームへ戻る
 </div>
+
 <div class="title">
 家族確認
 </div>
+
 <div class="sub">
 見守り状況を確認します
 </div>
+
 </div>
+
 <div class="card">
+
 <button
 class="blue"
 onclick="loadRecords()">
 最新状況を更新
 </button>
+
 <div id="records">
 読み込み待機中
 </div>
+
 </div>
+
 <div class="card">
+
 <button
 class="green"
 onclick="loadUsers()">
 利用者一覧
 </button>
+
 <div id="users">
 読み込み待機中
 </div>
+
 </div>
+
 <div class="card">
+
 <button
 class="red"
 onclick="ping()">
 サーバー確認
 </button>
+
 <div id="ping">
 未確認
 </div>
+
 </div>
+
 <div class="footer">
 NSAW 家族確認システム
 </div>
+
 </div>
+
 <script>
+
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbz-3TNkoNef__Kb3VRKmYkeapVu4Sn_4I4EdAx4x0UzDMashKCV10MJtBkx9tqX0BY4/exec";
+
 function loadRecords(){
+
 fetch(GAS_URL + "?action=records")
 .then(r=>r.json())
 .then(data=>{
+
 let html="";
+
 (data.data || []).forEach(v=>{
+
 html += `
 <div class="item">
+
 <div class="name">
 ${v.name || ""}
 </div>
+
 <div class="status">
 ${v.status || ""}
 </div>
+
 <div class="time">
 ${v.time || ""}
 </div>
+
 <div class="memo">
 ${v.memo || ""}
 </div>
+
 </div>
 `;
+
 });
+
 document.getElementById("records").innerHTML =
 html || "データなし";
+
 })
 .catch(()=>{
+
 document.getElementById("records").innerHTML =
 "取得エラー";
+
 });
+
 }
+
 function loadUsers(){
+
 fetch(GAS_URL + "?action=users")
 .then(r=>r.json())
 .then(data=>{
+
 let html="";
+
 (data.data || []).forEach(v=>{
+
 html += `
 <div class="item">
+
+<div class="name">
 ${v.name || ""}
 </div>
+
+<button
+class="actionBtn mapBtn"
+onclick="location.href='map.html'">
+📍 現在地
+</button>
+
+<button
+class="actionBtn medBtn">
+💊 服薬確認
+</button>
+
+<button
+class="actionBtn schBtn"
+onclick="location.href='schedule.html'">
+📅 予定確認
+</button>
+
+<button
+class="actionBtn emgBtn">
+☎ 緊急連絡
+</button>
+
+</div>
 `;
+
 });
+
 document.getElementById("users").innerHTML =
 html || "利用者なし";
+
 })
 .catch(()=>{
+
 document.getElementById("users").innerHTML =
 "取得エラー";
+
 });
+
 }
+
 function ping(){
+
 fetch(GAS_URL + "?action=ping")
 .then(r=>r.json())
 .then(data=>{
+
 document.getElementById("ping").innerHTML =
+
 `
 <div class="item">
 状態 : ${data.status || ""}
@@ -240,13 +369,20 @@ document.getElementById("ping").innerHTML =
 時刻 : ${data.time || ""}
 </div>
 `;
+
 })
 .catch(()=>{
+
 document.getElementById("ping").innerHTML =
 "PING ERROR";
+
 });
+
 }
+
 loadRecords();
+
 </script>
+
 </body>
 </html>
