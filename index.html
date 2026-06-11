@@ -26,8 +26,8 @@ font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:
 linear-gradient(
 180deg,
-#050505 0%,
-#101827 50%,
+#000000 0%,
+#0a1220 45%,
 #000000 100%
 );
 color:#fff;
@@ -35,141 +35,167 @@ min-height:100vh;
 }
 
 .banner{
-width:100%;
-height:280px;
-overflow:hidden;
+height:320px;
 position:relative;
+overflow:hidden;
 }
 
 .banner img{
 width:100%;
 height:100%;
 object-fit:cover;
-display:block;
 }
 
 .overlay{
 position:absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:rgba(0,0,0,.45);
+inset:0;
+background:rgba(0,0,0,.55);
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
+align-items:center;
+text-align:center;
 }
 
 .overlay h1{
-font-size:42px;
+font-size:48px;
 font-weight:900;
-letter-spacing:4px;
-text-shadow:0 3px 10px rgba(0,0,0,.7);
+letter-spacing:6px;
 }
 
 .overlay p{
-margin-top:10px;
-font-size:16px;
+margin-top:12px;
+font-size:18px;
 opacity:.9;
 }
 
 .wrap{
 max-width:760px;
 margin:auto;
-padding:18px;
+padding:20px;
+}
+
+.section{
+margin-bottom:28px;
 }
 
 .section-title{
-font-size:26px;
-font-weight:900;
-margin:20px 0 15px;
+font-size:14px;
+letter-spacing:4px;
+opacity:.6;
+margin-bottom:12px;
+padding-left:4px;
 }
 
 .card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
-padding:16px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
+padding:18px;
 margin-bottom:16px;
 box-shadow:
-0 8px 24px rgba(0,0,0,.35);
+0 10px 30px rgba(0,0,0,.35);
 }
 
-.menu-btn{
+.main-btn{
 width:100%;
-padding:24px;
+padding:34px;
 border:none;
-border-radius:20px;
-font-size:24px;
+border-radius:24px;
+font-size:34px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
 }
 
-.green{
-background:
-linear-gradient(135deg,#00c853,#00e676);
+.sub-btn{
+width:100%;
+padding:24px;
+border:none;
+border-radius:20px;
+font-size:26px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+}
+
+.info-btn{
+width:100%;
+padding:20px;
+border:none;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:12px;
 }
 
 .blue{
 background:
-linear-gradient(135deg,#1565c0,#42a5f5);
+linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
+);
 }
 
-.orange{
+.green{
 background:
-linear-gradient(135deg,#ef6c00,#ff9800);
-}
-
-.purple{
-background:
-linear-gradient(135deg,#6a1b9a,#ab47bc);
-}
-
-.red{
-background:
-linear-gradient(135deg,#c62828,#ef5350);
+linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
 }
 
 .gray{
 background:
-linear-gradient(135deg,#37474f,#607d8b);
+linear-gradient(
+135deg,
+#37474f,
+#607d8b
+);
 }
 
-.gold{
+.dark{
 background:
-linear-gradient(135deg,#b8860b,#ffd54f);
-color:#000;
-}
-
-.news{
-display:flex;
-gap:12px;
-align-items:center;
-}
-
-.news img{
-width:130px;
-height:80px;
-object-fit:cover;
-border-radius:12px;
-}
-
-.news-title{
-font-weight:900;
-font-size:18px;
-margin-bottom:4px;
-}
-
-.news-text{
-font-size:14px;
-opacity:.9;
+linear-gradient(
+135deg,
+#1c2331,
+#334155
+);
 }
 
 a{
 text-decoration:none;
+}
+
+.status{
+text-align:center;
+padding:10px;
+font-size:15px;
+opacity:.8;
+}
+
+.news-card{
+background:rgba(255,255,255,.06);
+border-radius:20px;
+padding:16px;
+margin-bottom:12px;
+}
+
+.news-title{
+font-size:18px;
+font-weight:900;
+margin-bottom:6px;
+}
+
+.news-text{
+font-size:14px;
+opacity:.85;
+line-height:1.6;
 }
 
 .top-btn{
@@ -192,8 +218,8 @@ linear-gradient(
 .footer{
 text-align:center;
 padding:30px 10px;
-opacity:.7;
-font-size:13px;
+opacity:.6;
+font-size:12px;
 }
 
 </style>
@@ -212,7 +238,7 @@ font-size:13px;
 </h1>
 
 <p>
-地域と家族をつなぐ安心システム
+REGIONAL LIFE OS
 </p>
 
 </div>
@@ -221,130 +247,138 @@ font-size:13px;
 
 <div class="wrap">
 
-<div class="section-title">
-メインメニュー
+<div class="section">
+
+<div class="status">
+最優先機能
 </div>
 
 <div class="card">
+
 <a href="app.html">
-<button class="menu-btn green">
-元気です・見守り送信
+
+<button class="main-btn green">
+元気です
 </button>
+
 </a>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="status">
+家族・支援者
 </div>
 
 <div class="card">
+
 <a href="family.html">
-<button class="menu-btn gold">
+
+<button class="sub-btn blue">
 家族確認
 </button>
+
 </a>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="section-title">
+地域情報
 </div>
 
 <div class="card">
+
 <a href="radio.html">
-<button class="menu-btn blue">
+<button class="info-btn dark">
 地域ラジオ
 </button>
 </a>
-</div>
 
-<div class="card">
 <a href="kawaraban.html">
-<button class="menu-btn orange">
+<button class="info-btn dark">
 ４市瓦版
 </button>
 </a>
-</div>
 
-<div class="card">
 <a href="video.html">
-<button class="menu-btn purple">
+<button class="info-btn dark">
 お楽しみ動画
 </button>
 </a>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="section-title">
+生活支援
 </div>
 
 <div class="card">
+
 <a href="map.html">
-<button class="menu-btn red">
+<button class="info-btn gray">
 地域マップ
 </button>
 </a>
-</div>
 
-<div class="card">
 <a href="schedule.html">
-<button class="menu-btn gray">
+<button class="info-btn gray">
 スケジュール
 </button>
 </a>
+
 </div>
+
+</div>
+
+<div class="section">
 
 <div class="section-title">
 最新情報
 </div>
 
-<div class="card">
-
-<div class="news">
-
-<img src="top.jpg">
-
-<div>
-
-<div class="news-title">
-４市瓦版
-</div>
-
-<div class="news-text">
-ここに最新の行政・地域情報を表示
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="news">
-
-<img src="top.jpg">
-
-<div>
+<div class="news-card">
 
 <div class="news-title">
 地域ラジオ
 </div>
 
 <div class="news-text">
-ここに最新ラジオ情報を表示
+地域の最新情報を毎日配信
 </div>
 
 </div>
 
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="news">
-
-<img src="top.jpg">
-
-<div>
+<div class="news-card">
 
 <div class="news-title">
-お楽しみ動画
+４市瓦版
 </div>
 
 <div class="news-text">
-ここに最新動画情報を表示
+志木・新座・朝霞・和光の最新情報
 </div>
 
+</div>
+
+<div class="news-card">
+
+<div class="news-title">
+見守りDX
+</div>
+
+<div class="news-text">
+家族と地域をつなぐ見守りシステム
 </div>
 
 </div>
@@ -362,7 +396,7 @@ onclick="window.scrollTo({top:0,behavior:'smooth'})">
 </div>
 
 <div class="footer">
-NSAW 地域DXシステム
+NSAW 地域OS / 見守りDX
 </div>
 
 </div>
