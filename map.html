@@ -148,3 +148,116 @@ NSAW 地域マップ
 </div>
 
 </div>
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbz-3TNkoNef__Kb3VRKmYkeapVu4Sn_4I4EdAx4x0UzDMashKCV10MJtBkx9tqX0BY4/exec";
+
+const map =
+L.map("map").setView(
+[35.7937,139.5756],
+15
+);
+
+L.tileLayer(
+"https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
+{
+attribution:"国土地理院"
+}
+).addTo(map);
+
+let marker = null;
+
+function getLocation(){
+
+if(!navigator.geolocation){
+
+alert("位置情報が使えません");
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+async function(pos){
+
+const lat =
+pos.coords.latitude;
+
+const lng =
+pos.coords.longitude;
+
+map.setView(
+[lat,lng],
+17
+);
+
+if(marker){
+
+map.removeLayer(marker);
+
+}
+
+marker =
+L.marker([lat,lng])
+.addTo(map)
+.bindPopup("現在地")
+.openPopup();
+
+try{
+
+const params =
+new URLSearchParams();
+
+params.append(
+"name",
+"山口貞一郎"
+);
+
+params.append(
+"status",
+"位置情報"
+);
+
+params.append(
+"memo",
+lat + "," + lng
+);
+
+await fetch(
+GAS_URL,
+{
+method:"POST",
+body:params
+}
+);
+
+alert("位置情報を送信しました");
+
+}catch(error){
+
+alert("送信失敗");
+
+}
+
+},
+
+function(){
+
+alert("位置情報取得失敗");
+
+}
+
+);
+
+}
+
+</script>
+
+</body>
+</html>
