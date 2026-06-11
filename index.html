@@ -3,88 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見守りDX｜入口</title>
+<title>見守りDX｜HOME</title>
 
 <style>
-body{
-margin:0;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-background:#eef4fb;
-color:#1f2d3d;
-}
-
-header{
-background:#1565c0;
-color:#fff;
-padding:18px;
-text-align:center;
-font-weight:900;
-font-size:20px;
-}
-
-.wrap{
-max-width:600px;
-margin:auto;
-padding:16px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:16px;
-margin-top:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-text-align:center;
-}
-
-button{
-width:100%;
-padding:16px;
-margin-top:10px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:700;
-cursor:pointer;
-}
-
-a{
-text-decoration:none;
-}
-
-.ok{background:#2e7d32;color:#fff;}
-.warn{background:#fb8c00;color:#fff;}
-.info{background:#1565c0;color:#fff;}
+body{margin:0;font-family:sans-serif;background:#eef4fb;}
+header{background:#1565c0;color:#fff;padding:18px;text-align:center;font-weight:bold;}
+.wrap{max-width:600px;margin:auto;padding:16px;}
+.card{background:#fff;margin:12px 0;padding:16px;border-radius:12px;}
+button{width:100%;padding:14px;border:none;border-radius:10px;font-weight:bold;font-size:16px;}
+a{text-decoration:none;}
+.g{background:#2e7d32;color:#fff;}
+.b{background:#1565c0;color:#fff;}
+.o{background:#ef6c00;color:#fff;}
+.p{background:#6a1b9a;color:#fff;}
 </style>
 </head>
 
 <body>
 
-<header>
-見守りDX
-</header>
+<header>見守りDX</header>
 
 <div class="wrap">
 
 <div class="card">
-<div>本人ページ</div>
-<a href="person.html">
-<button class="ok">本人送信</button>
-</a>
+<a href="app.html"><button class="g">見守り送信</button></a>
 </div>
 
 <div class="card">
-<div>送信アプリ</div>
-<a href="app.html">
-<button class="warn">アプリ送信</button>
-</a>
+<a href="radio.html"><button class="b">地域ラジオ</button></a>
 </div>
 
 <div class="card">
-<div>家族・支援者</div>
-<a href="family.html">
-<button class="info">見守り確認</button>
-</a>
+<a href="kawaraban.html"><button class="o">瓦版</button></a>
+</div>
+
+<div class="card">
+<a href="video.html"><button class="p">動画</button></a>
 </div>
 
 </div>
