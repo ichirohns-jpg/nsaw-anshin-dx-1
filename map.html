@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>地域マップ｜見守りDX</title>
+<title>現在地｜見守りDX</title>
 
 <link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 
 <style>
 
@@ -17,25 +21,21 @@ padding:0;
 box-sizing:border-box;
 }
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
 background:
 linear-gradient(
 180deg,
-#050505 0%,
-#101827 50%,
+#000000 0%,
+#0a1220 50%,
 #000000 100%
 );
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 color:#fff;
 min-height:100vh;
 }
 
 .wrap{
-max-width:760px;
+max-width:900px;
 margin:auto;
 padding:18px;
 }
@@ -76,65 +76,28 @@ padding:18px;
 margin-bottom:16px;
 }
 
-.info{
-font-size:18px;
-line-height:1.8;
-text-align:center;
+#map{
+height:500px;
+border-radius:20px;
+overflow:hidden;
 }
 
-button{
+.btn{
 width:100%;
 border:none;
 border-radius:20px;
-padding:20px;
+padding:18px;
 font-size:22px;
 font-weight:900;
-color:#fff;
 cursor:pointer;
-margin-bottom:12px;
-}
-
-.green{
-background:linear-gradient(135deg,#00c853,#00e676);
-}
-
-.blue{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
-}
-
-.orange{
-background:linear-gradient(135deg,#ef6c00,#ff9800);
-}
-
-.red{
-background:linear-gradient(135deg,#c62828,#ef5350);
-}
-
-.purple{
-background:linear-gradient(135deg,#6a1b9a,#ab47bc);
-}
-
-.gray{
-background:linear-gradient(135deg,#455a64,#78909c);
-}
-
-.topbtn{
-background:linear-gradient(135deg,#673ab7,#9575cd);
-}
-
-.toast{
-position:fixed;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-background:#00c853;
 color:#fff;
-padding:16px 24px;
-border-radius:18px;
-font-size:18px;
-font-weight:900;
-display:none;
-z-index:9999;
+margin-top:14px;
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
+);
 }
 
 .footer{
@@ -155,82 +118,28 @@ opacity:.6;
 
 <div
 class="back"
-onclick="location.href='index.html'">
-← ホームへ戻る
+onclick="location.href='family.html'">
+← 家族確認へ戻る
 </div>
 
 <div class="title">
-地域マップ
+📍 現在地
 </div>
 
 <div class="sub">
-現在地と地域施設をワンタッチ検索
+国土地理院地図
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="info">
-現在地確認や周辺施設検索を行います
-</div>
-
-</div>
+<div id="map"></div>
 
 <button
-class="green"
-onclick="openCurrentLocation()">
-📍 現在地を開く
-</button>
-
-<button
-class="blue"
-onclick="searchMap('病院')">
-🏥 病院
-</button>
-
-<button
-class="orange"
-onclick="searchMap('薬局')">
-💊 薬局
-</button>
-
-<button
-class="green"
-onclick="searchMap('コンビニ')">
-🏪 コンビニ
-</button>
-
-<button
-class="gray"
-onclick="searchMap('トイレ')">
-🚻 トイレ
-</button>
-
-<button
-class="red"
-onclick="searchMap('避難所')">
-⛑️ 避難所
-</button>
-
-<button
-class="purple"
-onclick="searchMap('市役所')">
-🏢 市役所
-</button>
-
-<button
-class="blue"
-onclick="searchMap('地域包括支援センター')">
-🤝 地域包括支援センター
-</button>
-
-<div class="card">
-
-<button
-class="topbtn"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
+class="btn"
+onclick="getLocation()">
+現在地を取得
 </button>
 
 </div>
@@ -241,41 +150,34 @@ NSAW 地域マップ
 
 </div>
 
-<div
-id="toast"
-class="toast">
-</div>
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
 <script>
 
-function showToast(text){
+const map = L.map('map').setView(
+[35.7937,139.5756],
+15
+);
 
-const toast =
-document.getElementById("toast");
-
-toast.innerText = text;
-
-toast.style.display = "block";
-
-setTimeout(function(){
-
-toast.style.display = "none";
-
-},2000);
-
+L.tileLayer(
+'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
+{
+attribution:'国土地理院'
 }
+).addTo(map);
 
-function openCurrentLocation(){
+let marker = null;
+
+function getLocation(){
 
 if(!navigator.geolocation){
 
-showToast("位置情報非対応");
-
+alert("位置情報が使えません");
 return;
 
 }
-
-showToast("現在地取得中");
 
 navigator.geolocation.getCurrentPosition(
 
@@ -287,32 +189,31 @@ pos.coords.latitude;
 const lng =
 pos.coords.longitude;
 
-window.open(
-"https://www.google.com/maps?q=" +
-lat +
-"," +
-lng,
-"_blank"
+map.setView(
+[lat,lng],
+17
 );
+
+if(marker){
+
+map.removeLayer(marker);
+
+}
+
+marker =
+L.marker([lat,lng])
+.addTo(map)
+.bindPopup("現在地")
+.openPopup();
 
 },
 
 function(){
 
-showToast("取得失敗");
+alert("位置情報取得失敗");
 
 }
 
-);
-
-}
-
-function searchMap(keyword){
-
-window.open(
-"https://www.google.com/maps/search/" +
-encodeURIComponent(keyword),
-"_blank"
 );
 
 }
