@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>服薬確認｜見守りDX</title>
+<title>家族確認｜見守りDX</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -15,13 +13,7 @@ box-sizing:border-box;
 }
 
 body{
-background:
-linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
+background:linear-gradient(180deg,#000000 0%,#0a1220 50%,#000000 100%);
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 color:#fff;
 min-height:100vh;
@@ -33,13 +25,18 @@ margin:auto;
 padding:18px;
 }
 
-.header{
+.header,.card{
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(12px);
 border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:18px;
+margin-bottom:16px;
+}
+
+.header{
 border-radius:28px;
 padding:24px;
-margin-bottom:18px;
 }
 
 .back{
@@ -60,34 +57,7 @@ font-size:15px;
 opacity:.8;
 }
 
-.card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-}
-
-.time{
-font-size:26px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.name{
-font-size:22px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.memo{
-font-size:15px;
-opacity:.8;
-line-height:1.7;
-}
-
-.btn{
+button{
 width:100%;
 border:none;
 border-radius:20px;
@@ -96,35 +66,58 @@ font-size:22px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
-margin-top:14px;
+margin-bottom:12px;
 }
 
-.green{
-background:
-linear-gradient(
-135deg,
-#00c853,
-#00e676
-);
+.blue{background:linear-gradient(135deg,#1565c0,#42a5f5);}
+.green{background:linear-gradient(135deg,#00c853,#00e676);}
+.red{background:linear-gradient(135deg,#c62828,#ef5350);}
+
+.item{
+background:rgba(255,255,255,.06);
+border-radius:18px;
+padding:14px;
+margin-bottom:10px;
 }
 
-.blue{
-background:
-linear-gradient(
-135deg,
-#1565c0,
-#42a5f5
-);
+.name{
+font-size:22px;
+font-weight:900;
 }
 
-.orange{
-background:
-linear-gradient(
-135deg,
-#fb8c00,
-#ffb300
-);
+.status{
+font-size:18px;
+margin-top:6px;
 }
+
+.time{
+font-size:13px;
+opacity:.7;
+margin-top:6px;
+}
+
+.memo{
+font-size:14px;
+margin-top:6px;
+opacity:.9;
+}
+
+.actionBtn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:14px;
+font-size:18px;
+font-weight:900;
+color:#fff;
+margin-top:10px;
+cursor:pointer;
+}
+
+.mapBtn{background:#1976d2;}
+.medBtn{background:#43a047;}
+.schBtn{background:#fb8c00;}
+.emgBtn{background:#e53935;}
 
 .footer{
 text-align:center;
@@ -132,15 +125,6 @@ padding:20px;
 font-size:12px;
 opacity:.6;
 }
-
-#msg{
-text-align:center;
-font-size:22px;
-font-weight:900;
-margin-top:20px;
-color:#00e676;
-}
-
 </style>
 </head>
 
@@ -149,94 +133,149 @@ color:#00e676;
 <div class="wrap">
 
 <div class="header">
-
-<div
-class="back"
-onclick="location.href='family.html'">
-← 家族確認へ戻る
-</div>
-
-<div class="title">
-💊 服薬確認
-</div>
-
-<div class="sub">
-本日の服薬状況
-</div>
-
+<div class="back" onclick="location.href='index.html'">← ホームへ戻る</div>
+<div class="title">家族確認</div>
+<div class="sub">見守り状況を確認します</div>
 </div>
 
 <div class="card">
-
-<div class="time">
-朝の薬
-</div>
-
-<div class="memo">
-朝食後に服用
-</div>
-
-<button
-class="btn green"
-onclick="done('朝の薬確認済')">
-確認しました
-</button>
-
+<button class="blue" onclick="loadRecords()">最新状況を更新</button>
+<div id="records">読み込み待機中</div>
 </div>
 
 <div class="card">
-
-<div class="time">
-昼の薬
-</div>
-
-<div class="memo">
-昼食後に服用
-</div>
-
-<button
-class="btn blue"
-onclick="done('昼の薬確認済')">
-確認しました
-</button>
-
+<button class="green" onclick="loadUsers()">利用者一覧</button>
+<div id="users">読み込み待機中</div>
 </div>
 
 <div class="card">
-
-<div class="time">
-夜の薬
+<button class="red" onclick="ping()">サーバー確認</button>
+<div id="ping">未確認</div>
 </div>
-
-<div class="memo">
-夕食後に服用
-</div>
-
-<button
-class="btn orange"
-onclick="done('夜の薬確認済')">
-確認しました
-</button>
-
-</div>
-
-<div id="msg"></div>
 
 <div class="footer">
-NSAW 服薬確認システム
+NSAW 家族確認システム
 </div>
 
 </div>
 
 <script>
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbz-3TNkoNef__Kb3VRKmYkeapVu4Sn_4I4EdAx4x0UzDMashKCV10MJtBkx9tqX0BY4/exec";
 
-function done(text){
+function loadRecords(){
 
-document.getElementById("msg").innerHTML =
-text;
+fetch(GAS_URL + "?action=records")
+.then(r=>r.json())
+.then(data=>{
+
+let html="";
+
+(data.data || []).forEach(v=>{
+
+html += `
+<div class="item">
+<div class="name">${v.name || ""}</div>
+<div class="status">${v.status || ""}</div>
+<div class="time">${v.time || ""}</div>
+<div class="memo">${v.memo || ""}</div>
+</div>
+`;
+
+});
+
+document.getElementById("records").innerHTML =
+html || "データなし";
+
+})
+.catch(()=>{
+document.getElementById("records").innerHTML =
+"取得エラー";
+});
 
 }
 
+function loadUsers(){
+
+fetch(GAS_URL + "?action=users")
+.then(r=>r.json())
+.then(data=>{
+
+let html="";
+
+(data.data || []).forEach(v=>{
+
+html += `
+<div class="item">
+
+<div class="name">
+${v.name || ""}
+</div>
+
+<button
+class="actionBtn mapBtn"
+onclick="location.href='map.html'">
+📍 現在地
+</button>
+
+<button
+class="actionBtn medBtn"
+onclick="location.href='medicine.html'">
+💊 服薬確認
+</button>
+
+<button
+class="actionBtn schBtn"
+onclick="location.href='schedule.html'">
+📅 予定確認
+</button>
+
+<button
+class="actionBtn emgBtn"
+onclick="location.href='emergency.html'">
+☎ 緊急連絡
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("users").innerHTML =
+html || "利用者なし";
+
+})
+.catch(()=>{
+document.getElementById("users").innerHTML =
+"取得エラー";
+});
+
+}
+
+function ping(){
+
+fetch(GAS_URL + "?action=ping")
+.then(r=>r.json())
+.then(data=>{
+
+document.getElementById("ping").innerHTML =
+`
+<div class="item">
+状態 : ${data.status || ""}
+<br>
+時刻 : ${data.time || ""}
+</div>
+`;
+
+})
+.catch(()=>{
+document.getElementById("ping").innerHTML =
+"PING ERROR";
+});
+
+}
+
+loadRecords();
 </script>
 
 </body>
