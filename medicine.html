@@ -3,9 +3,12 @@
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
 
-async function done(text){
+async function done(type){
 
-document.getElementById("msg").innerHTML =
+const msg =
+document.getElementById("msg");
+
+msg.innerHTML =
 "送信中...";
 
 try{
@@ -25,9 +28,10 @@ params.append(
 
 params.append(
 "memo",
-text
+type
 );
 
+const response =
 await fetch(
 GAS_URL,
 {
@@ -39,13 +43,27 @@ body:params.toString()
 }
 );
 
-document.getElementById("msg").innerHTML =
-"✓ " + text;
+const result =
+await response.text();
+
+if(
+response.ok
+){
+
+msg.innerHTML =
+"✓ " + type;
+
+}else{
+
+msg.innerHTML =
+"送信失敗";
+
+}
 
 }catch(error){
 
-document.getElementById("msg").innerHTML =
-"送信失敗";
+msg.innerHTML =
+"通信エラー";
 
 }
 
