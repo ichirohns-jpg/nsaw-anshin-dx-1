@@ -1,108 +1,176 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
 
-<title>見守りDX｜地域OS</title>
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-<meta name="description" content="高齢者と家族をつなぐ見守りDX。元気ですボタン、家族確認、地域ラジオ、4市瓦版、動画、地図、予定管理をまとめた地域の安心システムです。">
+async function loadDashboard(){
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="見守りDX">
-<meta property="og:title" content="見守りDX｜地域OS">
-<meta property="og:description" content="元気ですボタンで家族に安心を届ける、地域の見守りDX。">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/home-top.jpg">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share.html">
+const params =
+new URLSearchParams(
+location.search
+);
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="見守りDX｜地域OS">
-<meta name="twitter:description" content="元気ですボタンで家族に安心を届ける、地域の見守りDX。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/home-top.jpg">
+const id =
+params.get("id") || "";
 
-<meta http-equiv="refresh" content="1;url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/index.html">
+document.getElementById("dashboard").innerHTML =
+"読み込み中...";
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+try{
 
-body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#0a1220 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:20px;
-}
+const response =
+await fetch(
+GAS_URL +
+"?action=dashboard&id=" +
+encodeURIComponent(id)
+);
 
-.card{
-max-width:560px;
-width:100%;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:24px;
-box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
+const json =
+await response.json();
 
-img{
-width:100%;
-border-radius:22px;
-margin-bottom:20px;
-}
+const user =
+json.user || {};
 
-h1{
-font-size:34px;
-font-weight:900;
-margin-bottom:12px;
-}
+const latest =
+json.latest || {};
 
-p{
-font-size:17px;
-line-height:1.8;
-opacity:.85;
-}
+const schedules =
+json.schedules || [];
 
-a{
-display:block;
-margin-top:24px;
-padding:18px;
-border-radius:20px;
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
-color:#fff;
-text-decoration:none;
-font-size:20px;
-font-weight:900;
-}
-</style>
-</head>
+const medicine =
+json.medicine || [];
 
-<body>
+const location =
+json.location || {};
 
+const emergency =
+json.emergency || {};
+
+let html = "";
+
+html += `
 <div class="card">
 
-<img src="home-top.jpg" alt="見守りDX">
-
-<h1>
-見守りDX｜地域OS
-</h1>
-
-<p>
-元気ですボタンで家族に安心を届ける、地域の見守りDX。
-</p>
-
-<a href="index.html">
-見守りDXを開く
-</a>
-
+<div class="title">
+👤 ${user.name || "利用者"}
 </div>
 
-</body>
-</html>
+<div class="row">
+最終確認：
+${latest.time || "-"}
+</div>
+
+<div class="row">
+状態：
+${latest.status || "-"}
+</div>
+
+<div class="row">
+内容：
+${latest.memo || "-"}
+</div>
+
+</div>
+`;
+
+html += `
+<div class="card">
+
+<div class="title">
+💊 最終服薬確認
+</div>
+
+<div class="row">
+${medicine.length ? medicine[0].memo : "記録なし"}
+</div>
+
+</div>
+`;
+
+html += `
+<div class="card">
+
+<div class="title">
+📅 今日の予定
+</div>
+`;
+
+if(schedules.length){
+
+schedules.slice(0,5).forEach(v=>{
+
+html += `
+<div class="row">
+${v.date}
+&nbsp;
+${v.time}
+<br>
+${v.title}
+</div>
+`;
+
+});
+
+}else{
+
+html += `
+<div class="row">
+予定なし
+</div>
+`;
+
+}
+
+html += `
+</div>
+`;
+
+html += `
+<div class="card">
+
+<div class="title">
+📍 現在地
+</div>
+
+<div class="row">
+緯度：
+${location.lat || "-"}
+</div>
+
+<div class="row">
+経度：
+${location.lng || "-"}
+</div>
+
+</div>
+`;
+
+html += `
+<div class="card">
+
+<div class="title">
+☎ 緊急通知
+</div>
+
+<div class="row">
+${emergency ? emergency.memo || "なし" : "なし"}
+</div>
+
+</div>
+`;
+
+document.getElementById("dashboard").innerHTML =
+html;
+
+}catch(error){
+
+document.getElementById("dashboard").innerHTML =
+"取得エラー";
+
+}
+
+}
+
+loadDashboard();
+
+</script>
