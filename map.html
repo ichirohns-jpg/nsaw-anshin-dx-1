@@ -6,10 +6,7 @@
 
 <title>現在地｜見守りDX</title>
 
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
 
@@ -20,8 +17,7 @@ box-sizing:border-box;
 }
 
 body{
-background:
-linear-gradient(
+background:linear-gradient(
 180deg,
 #000000 0%,
 #0a1220 50%,
@@ -35,7 +31,6 @@ min-height:100vh;
 .banner{
 height:260px;
 overflow:hidden;
-position:relative;
 margin-bottom:18px;
 }
 
@@ -104,8 +99,7 @@ font-weight:900;
 cursor:pointer;
 color:#fff;
 margin-top:14px;
-background:
-linear-gradient(
+background:linear-gradient(
 135deg,
 #1565c0,
 #42a5f5
@@ -135,8 +129,8 @@ opacity:.6;
 
 <div
 class="back"
-onclick="location.href='family.html'">
-← 家族確認へ戻る
+onclick="location.href='index.html'">
+← ホームへ戻る
 </div>
 
 <div class="title">
@@ -159,6 +153,18 @@ onclick="getLocation()">
 現在地を取得
 </button>
 
+<button
+class="btn"
+onclick="location.href='family.html'">
+家族確認へ戻る
+</button>
+
+<button
+class="btn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
 </div>
 
 <div class="footer">
@@ -167,14 +173,12 @@ NSAW 地域マップ
 
 </div>
 
-<script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbz-3TNkoNef__Kb3VRKmYkeapVu4Sn_4I4EdAx4x0UzDMashKCV10MJtBkx9tqX0BY4/exec";
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
 
 const map =
 L.map("map").setView(
@@ -251,7 +255,10 @@ await fetch(
 GAS_URL,
 {
 method:"POST",
-body:params
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:params.toString()
 }
 );
 
