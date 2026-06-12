@@ -1,7 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>お楽しみ動画</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#050505 0%,#101827 50%,#000000 100%);
+color:#fff;
+min-height:100vh;
+}
+
+header{
+text-align:center;
+padding:25px 10px;
+}
+
+.logo{
+font-size:34px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.sub{
+margin-top:8px;
+font-size:14px;
+opacity:.8;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:18px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+
+.item{
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px;
+margin-bottom:12px;
+}
+
+.thumb{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:10px;
+}
+
+.date{
+font-size:13px;
+opacity:.7;
+margin-bottom:5px;
+}
+
+.title{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.desc{
+font-size:15px;
+line-height:1.6;
+margin-bottom:10px;
+}
+
+.play{
+display:block;
+width:100%;
+height:240px;
+border:none;
+border-radius:14px;
+margin-top:12px;
+}
+
+.play-btn{
+display:inline-block;
+padding:12px 18px;
+border-radius:12px;
+background:#e53935;
+color:#fff;
+text-decoration:none;
+font-weight:900;
+}
+
+button{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:12px;
+}
+
+.home-btn{
+background:linear-gradient(135deg,#455a64,#78909c);
+}
+
+.top-btn{
+background:linear-gradient(135deg,#263238,#546e7a);
+}
+
+.footer{
+text-align:center;
+padding:25px;
+font-size:12px;
+opacity:.6;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+お楽しみ動画
+</div>
+
+<div class="sub">
+NSAW VIDEO SYSTEM
+</div>
+
+</header>
+
+<div class="wrap">
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="loadVideos()">
+最新動画を更新
+</button>
+
+<div id="list">
+読み込み中...
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+ホームへ戻る
+</button>
+
+<button
+class="top-btn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW お楽しみ動画
+</div>
+
+</div>
+
 <script>
 
-const SHEET_ID = "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME = "お楽しみ動画";
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"お楽しみ動画";
+
+function getVal(cell){
+
+if(!cell){
+return "";
+}
+
+return cell.f || cell.v || "";
+
+}
+
+function youtubeEmbed(url){
+
+if(!url){
+return "";
+}
+
+if(url.includes("watch?v=")){
+
+return url.replace(
+"watch?v=",
+"embed/"
+);
+
+}
+
+if(url.includes("youtu.be/")){
+
+const id =
+url.split("youtu.be/")[1].split("?")[0];
+
+return "https://www.youtube.com/embed/" + id;
+
+}
+
+if(url.includes("/shorts/")){
+
+const id =
+url.split("/shorts/")[1].split("?")[0];
+
+return "https://www.youtube.com/embed/" + id;
+
+}
+
+return "";
+
+}
+
+function loadVideos(){
 
 const url =
 "https://docs.google.com/spreadsheets/d/" +
@@ -10,10 +257,6 @@ SHEET_ID +
 encodeURIComponent(SHEET_NAME) +
 "&tqx=out:json";
 
-function getVal(cell){
-return cell ? (cell.f || cell.v || "") : "";
-}
-
 fetch(url)
 .then(r=>r.text())
 .then(text=>{
@@ -21,8 +264,8 @@ fetch(url)
 const json =
 JSON.parse(
 text.substring(
-47,
-text.length - 2
+text.indexOf("{"),
+text.lastIndexOf("}") + 1
 )
 );
 
@@ -31,9 +274,36 @@ json.table.rows || [];
 
 rows.reverse();
 
-let html="";
+let html = "";
 
 rows.slice(0,20).forEach(row=>{
+
+let image = "";
+let videoUrl = "";
+
+(row.c || []).forEach(cell=>{
+
+const value =
+String(getVal(cell));
+
+if(!value){
+return;
+}
+
+if(
+value.includes("youtube.com") ||
+value.includes("youtu.be")
+){
+videoUrl = value;
+}
+
+if(
+value.match(/\.(jpg|jpeg|png|webp)/i)
+){
+image = value;
+}
+
+});
 
 const date =
 getVal(row.c[0]);
@@ -41,15 +311,19 @@ getVal(row.c[0]);
 const title =
 getVal(row.c[1]);
 
-const description =
+const desc =
 getVal(row.c[2]);
 
-const image =
-getVal(row.c[3]) ||
-"home-top.jpg";
+if(!image){
+image = getVal(row.c[3]) || "home-top.jpg";
+}
 
-const videoUrl =
-getVal(row.c[4]);
+if(!videoUrl){
+videoUrl = getVal(row.c[4]) || "#";
+}
+
+const embed =
+youtubeEmbed(videoUrl);
 
 html += `
 <div class="item">
@@ -68,15 +342,23 @@ ${title}
 </div>
 
 <div class="desc">
-${description}
+${desc}
 </div>
 
+${embed ? `
+<iframe
+class="play"
+src="${embed}"
+allowfullscreen>
+</iframe>
+` : `
 <a
 class="play-btn"
 href="${videoUrl}"
 target="_blank">
 動画を見る
 </a>
+`}
 
 </div>
 `;
@@ -90,8 +372,15 @@ html || "データなし";
 .catch(()=>{
 
 document.getElementById("list").innerHTML =
-"読み込みエラー";
+"取得エラー";
 
 });
 
+}
+
+loadVideos();
+
 </script>
+
+</body>
+</html>
