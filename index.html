@@ -244,31 +244,17 @@ font-size:12px;
 
 <div class="card">
 
-<div class="news">
-<div class="news-title">
-４市瓦版
-</div>
-<div class="news-text">
-スプレッドシート連携予定
-</div>
-</div>
+<div id="newsArea">
 
 <div class="news">
 <div class="news-title">
-地域ラジオ
+読み込み中...
 </div>
 <div class="news-text">
-スプレッドシート連携予定
+最新情報を取得しています
 </div>
 </div>
 
-<div class="news">
-<div class="news-title">
-お楽しみ動画
-</div>
-<div class="news-text">
-スプレッドシート連携予定
-</div>
 </div>
 
 </div>
@@ -278,6 +264,177 @@ NSAW 地域OS / 見守りDX
 </div>
 
 </div>
+
+<script>
+
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+function getVal(cell){
+
+if(!cell){
+return "";
+}
+
+return cell.f || cell.v || "";
+
+}
+
+function makeUrl(sheetName){
+
+return "https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(sheetName) +
+"&tqx=out:json";
+
+}
+
+function parseGviz(text){
+
+return JSON.parse(
+text.substring(
+text.indexOf("{"),
+text.lastIndexOf("}") + 1
+)
+);
+
+}
+
+async function loadSheet(sheetName){
+
+const res =
+await fetch(makeUrl(sheetName));
+
+const text =
+await res.text();
+
+const json =
+parseGviz(text);
+
+const rows =
+json.table.rows || [];
+
+rows.reverse();
+
+return rows;
+
+}
+
+async function loadNews(){
+
+try{
+
+const newsArea =
+document.getElementById("newsArea");
+
+let html = "";
+
+const kawarabanRows =
+await loadSheet("４市瓦版");
+
+kawarabanRows.slice(0,1).forEach(row=>{
+
+const title =
+getVal(row.c[2]) || "４市瓦版";
+
+const desc =
+getVal(row.c[3]) || "最新情報";
+
+html += `
+<div class="news">
+<div class="news-title">
+📰 ${title}
+</div>
+<div class="news-text">
+${desc}
+</div>
+</div>
+`;
+
+});
+
+const radioRows =
+await loadSheet("地域ラジオ");
+
+radioRows.slice(0,1).forEach(row=>{
+
+const title =
+getVal(row.c[1]) || "地域ラジオ";
+
+const desc =
+getVal(row.c[2]) || "最新放送";
+
+html += `
+<div class="news">
+<div class="news-title">
+📻 ${title}
+</div>
+<div class="news-text">
+${desc}
+</div>
+</div>
+`;
+
+});
+
+const videoRows =
+await loadSheet("お楽しみ動画");
+
+videoRows.slice(0,1).forEach(row=>{
+
+const title =
+getVal(row.c[1]) || "お楽しみ動画";
+
+const desc =
+getVal(row.c[2]) || "最新動画";
+
+html += `
+<div class="news">
+<div class="news-title">
+🎬 ${title}
+</div>
+<div class="news-text">
+${desc}
+</div>
+</div>
+`;
+
+});
+
+newsArea.innerHTML =
+html || `
+<div class="news">
+<div class="news-title">
+データなし
+</div>
+<div class="news-text">
+スプレッドシートに情報を追加してください
+</div>
+</div>
+`;
+
+}catch(error){
+
+document.getElementById("newsArea").innerHTML =
+`
+<div class="news">
+<div class="news-title">
+読み込みエラー
+</div>
+<div class="news-text">
+スプレッドシートを確認してください
+</div>
+</div>
+`;
+
+}
+
+}
+
+loadNews();
+
+</script>
 
 </body>
 </html>
