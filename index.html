@@ -434,23 +434,58 @@ margin-bottom:15px;
 
 <div class="card">
 
+<div style="
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+">
+
 <a href="radio.html">
 <button class="info-btn">
-📻 地域ラジオ
+📻<br>
+ラジオ
 </button>
 </a>
 
 <a href="kawaraban.html">
 <button class="info-btn">
-📰 ４市瓦版
+📰<br>
+瓦版
 </button>
 </a>
 
 <a href="video.html">
 <button class="info-btn">
-🎬 お楽しみ動画
+🎬<br>
+動画
 </button>
 </a>
+
+</div>
+
+</div>
+
+<div class="section-title">
+見守り履歴
+</div>
+
+<div class="card">
+
+<div id="historyArea">
+
+<div class="news">
+
+<div class="news-title">
+読み込み中
+</div>
+
+<div class="news-text">
+履歴を取得しています
+</div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -652,9 +687,6 @@ document.getElementById("waitCount").innerHTML =
 "0";
 
 document.getElementById("emgCount").innerHTML =
-"0";
-
-document.getElementById("userCount").innerHTML =
 "0";
 
 document.getElementById("scheduleCount").innerHTML =
