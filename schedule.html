@@ -1,212 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>予定確認｜見守りDX</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-background:linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#fff;
-min-height:100vh;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:18px;
-}
-
-.header{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:24px;
-margin-bottom:18px;
-}
-
-.back{
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-}
-
-.title{
-font-size:38px;
-font-weight:900;
-}
-
-.sub{
-margin-top:8px;
-font-size:15px;
-opacity:.8;
-}
-
-.card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
-padding:18px;
-margin-bottom:16px;
-}
-
-.item{
-background:rgba(255,255,255,.06);
-border-radius:18px;
-padding:16px;
-margin-bottom:12px;
-}
-
-.date{
-font-size:18px;
-font-weight:900;
-color:#00d4ff;
-}
-
-.time{
-font-size:16px;
-opacity:.85;
-margin-top:6px;
-}
-
-.name{
-font-size:16px;
-opacity:.85;
-margin-top:6px;
-}
-
-.schedule-title{
-font-size:24px;
-font-weight:900;
-margin-top:10px;
-}
-
-.place{
-font-size:16px;
-margin-top:8px;
-}
-
-.memo{
-font-size:15px;
-opacity:.8;
-line-height:1.7;
-margin-top:8px;
-}
-
-button{
-width:100%;
-border:none;
-border-radius:20px;
-padding:18px;
-font-size:22px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-bottom:12px;
-}
-
-.blue{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
-}
-
-.green{
-background:linear-gradient(135deg,#00c853,#00e676);
-}
-
-.gray{
-background:linear-gradient(135deg,#455a64,#78909c);
-}
-
-.footer{
-text-align:center;
-padding:20px;
-font-size:12px;
-opacity:.6;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="wrap">
-
-<div class="header">
-
-<div
-class="back"
-onclick="location.href='index.html'">
-← ホームへ戻る
-</div>
-
-<div class="title">
-📅 予定確認
-</div>
-
-<div class="sub">
-登録された予定を確認します
-</div>
-
-</div>
-
-<div class="card">
-
-<button
-class="blue"
-onclick="loadSchedules()">
-予定を更新
-</button>
-
-<button
-class="green"
-onclick="location.href='schedule-edit.html'">
-予定を登録する
-</button>
-
-<div id="list">
-読み込み中...
-</div>
-
-</div>
-
-<div class="card">
-
-<button
-class="gray"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
-</button>
-
-</div>
-
-<div class="footer">
-NSAW 予定確認
-</div>
-
-</div>
-
 <script>
 
 const GAS_URL =
@@ -217,7 +8,9 @@ function loadSchedules(){
 document.getElementById("list").innerHTML =
 "読み込み中...";
 
-fetch(GAS_URL + "?action=scheduleList")
+fetch(
+GAS_URL + "?action=scheduleList"
+)
 .then(r=>r.json())
 .then(data=>{
 
@@ -229,15 +22,15 @@ html += `
 <div class="item">
 
 <div class="date">
-${v.date || ""}
+📅 ${v.date || ""}
 </div>
 
 <div class="time">
-${v.time || ""}
+⏰ ${v.time || ""}
 </div>
 
 <div class="name">
-${v.name || ""}
+👤 ${v.name || ""}
 </div>
 
 <div class="schedule-title">
@@ -245,7 +38,7 @@ ${v.title || ""}
 </div>
 
 <div class="place">
-${v.place || ""}
+📍 ${v.place || ""}
 </div>
 
 <div class="memo">
@@ -273,6 +66,3 @@ document.getElementById("list").innerHTML =
 loadSchedules();
 
 </script>
-
-</body>
-</html>
