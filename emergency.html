@@ -1,3 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>緊急連絡｜見守りDX</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:
+linear-gradient(
+180deg,
+#000000 0%,
+#0a1220 50%,
+#000000 100%
+);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#fff;
+min-height:100vh;
+}
+
+.banner{
+height:260px;
+overflow:hidden;
+position:relative;
+margin-bottom:18px;
+}
+
+.banner img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:18px;
+}
+
+.header{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:18px;
+}
+
+.back{
+font-size:18px;
+font-weight:900;
+cursor:pointer;
+margin-bottom:14px;
+}
+
+.title{
+font-size:38px;
+font-weight:900;
+}
+
+.sub{
+margin-top:8px;
+font-size:15px;
+opacity:.8;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+}
+
+.big{
+font-size:28px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.memo{
+font-size:16px;
+opacity:.85;
+line-height:1.7;
+margin-bottom:14px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:20px;
+padding:20px;
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-top:12px;
+}
+
+.red{
+background:linear-gradient(135deg,#c62828,#ef5350);
+}
+
+.blue{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.gray{
+background:linear-gradient(135deg,#455a64,#78909c);
+}
+
+#msg{
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin:18px 0;
+color:#00e676;
+}
+
+.footer{
+text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
+}
+
+a{
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="banner">
+<img src="emergency-top.jpg">
+</div>
+
+<div class="wrap">
+
+<div class="header">
+
+<div
+class="back"
+onclick="location.href='index.html'">
+← ホームへ戻る
+</div>
+
+<div class="title">
+☎ 緊急連絡
+</div>
+
+<div class="sub">
+困った時の連絡先
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="big">
+家族へ連絡
+</div>
+
+<div class="memo">
+緊急時は家族・支援者へ連絡します。
+</div>
+
+<a href="tel:">
+<button
+class="btn red"
+onclick="sendEmergency('家族へ緊急連絡')">
+家族へ電話
+</button>
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="big">
+119番
+</div>
+
+<div class="memo">
+命に関わる緊急時は119番へ。
+</div>
+
+<a href="tel:119">
+<button
+class="btn red"
+onclick="sendEmergency('119へ連絡')">
+119へ電話
+</button>
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="big">
+警察
+</div>
+
+<div class="memo">
+事件・事故・危険を感じた時。
+</div>
+
+<a href="tel:110">
+<button
+class="btn blue"
+onclick="sendEmergency('110へ連絡')">
+110へ電話
+</button>
+</a>
+
+</div>
+
+<div class="card">
+
+<button
+class="btn gray"
+onclick="location.href='family.html'">
+家族確認へ戻る
+</button>
+
+<button
+class="btn gray"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
+<div id="msg"></div>
+
+<div class="footer">
+NSAW 緊急連絡
+</div>
+
+</div>
+
 <script>
 
 const GAS_URL =
@@ -5,25 +260,17 @@ const GAS_URL =
 
 async function sendEmergency(type){
 
+document.getElementById("msg").innerHTML =
+"送信中...";
+
 try{
 
 const params =
 new URLSearchParams();
 
-params.append(
-"name",
-"山口貞一郎"
-);
-
-params.append(
-"status",
-"緊急"
-);
-
-params.append(
-"memo",
-type
-);
+params.append("name","山口貞一郎");
+params.append("status","緊急");
+params.append("memo",type);
 
 await fetch(
 GAS_URL,
@@ -36,14 +283,19 @@ body:params.toString()
 }
 );
 
-alert("家族へ通知しました");
+document.getElementById("msg").innerHTML =
+"通知しました";
 
 }catch(error){
 
-alert("送信失敗");
+document.getElementById("msg").innerHTML =
+"送信失敗";
 
 }
 
 }
 
 </script>
+
+</body>
+</html>
