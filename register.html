@@ -133,12 +133,36 @@ id="address"
 placeholder="住所">
 
 <input
+id="birthday"
+placeholder="生年月日">
+
+<input
+id="medicine"
+placeholder="服薬情報">
+
+<input
+id="careLevel"
+placeholder="介護認定">
+
+<input
+id="hospital"
+placeholder="かかりつけ病院">
+
+<input
+id="doctor"
+placeholder="担当医">
+
+<input
 id="familyName"
 placeholder="家族氏名">
 
 <input
 id="familyTel"
 placeholder="家族電話番号">
+
+<input
+id="emergencyContact"
+placeholder="緊急連絡先">
 
 <textarea
 id="memo"
@@ -200,46 +224,20 @@ document.getElementById("msg").innerHTML =
 const body =
 new URLSearchParams();
 
-body.append(
-"action",
-"registerUser"
-);
-
-body.append(
-"name",
-document.getElementById("name").value
-);
-
-body.append(
-"kana",
-document.getElementById("kana").value
-);
-
-body.append(
-"tel",
-document.getElementById("tel").value
-);
-
-body.append(
-"address",
-document.getElementById("address").value
-);
-
-body.append(
-"familyName",
-document.getElementById("familyName").value
-);
-
-body.append(
-"familyTel",
-document.getElementById("familyTel").value
-);
-
-body.append(
-"memo",
-document.getElementById("memo").value
-);
-
+body.append("action","registerUser");
+body.append("name",document.getElementById("name").value);
+body.append("kana",document.getElementById("kana").value);
+body.append("tel",document.getElementById("tel").value);
+body.append("address",document.getElementById("address").value);
+body.append("birthday",document.getElementById("birthday").value);
+body.append("medicine",document.getElementById("medicine").value);
+body.append("careLevel",document.getElementById("careLevel").value);
+body.append("hospital",document.getElementById("hospital").value);
+body.append("doctor",document.getElementById("doctor").value);
+body.append("familyName",document.getElementById("familyName").value);
+body.append("familyTel",document.getElementById("familyTel").value);
+body.append("emergencyContact",document.getElementById("emergencyContact").value);
+body.append("memo",document.getElementById("memo").value);
 try{
 
 const response =
@@ -265,7 +263,7 @@ document.getElementById("msg").innerHTML =
 setTimeout(function(){
 
 location.href =
-"users.html";
+"qr.html?id=" + json.id;
 
 },1000);
 
