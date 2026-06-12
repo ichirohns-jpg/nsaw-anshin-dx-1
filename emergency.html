@@ -6,6 +6,8 @@
 
 <title>緊急連絡｜見守りDX</title>
 
+<link rel="icon" href="icon.png">
+
 <style>
 
 *{
@@ -15,128 +17,91 @@ box-sizing:border-box;
 }
 
 body{
-background:
-linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#fff;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
 min-height:100vh;
-}
-
-.banner{
-height:260px;
-overflow:hidden;
-position:relative;
-margin-bottom:18px;
-}
-
-.banner img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
 }
 
 .wrap{
 max-width:760px;
 margin:auto;
-padding:18px;
-}
-
-.header{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:24px;
-margin-bottom:18px;
-}
-
-.back{
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-}
-
-.title{
-font-size:38px;
-font-weight:900;
-}
-
-.sub{
-margin-top:8px;
-font-size:15px;
-opacity:.8;
+padding:16px;
 }
 
 .card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
 padding:20px;
 margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-.big{
-font-size:28px;
+.title{
+font-size:34px;
 font-weight:900;
-margin-bottom:10px;
+text-align:center;
+margin-bottom:20px;
 }
 
-.memo{
-font-size:16px;
-opacity:.85;
-line-height:1.7;
-margin-bottom:14px;
-}
-
-.btn{
-width:100%;
-border:none;
-border-radius:20px;
-padding:20px;
+.name{
 font-size:24px;
 font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-top:12px;
+text-align:center;
+margin-bottom:20px;
 }
 
-.red{
+textarea{
+width:100%;
+height:140px;
+padding:18px;
+border:none;
+border-radius:18px;
+font-size:18px;
+background:rgba(255,255,255,.1);
+color:#fff;
+resize:none;
+margin-bottom:12px;
+}
+
+button{
+width:100%;
+border:none;
+cursor:pointer;
+color:#fff;
+font-weight:900;
+padding:22px;
+border-radius:20px;
+font-size:22px;
+margin-bottom:12px;
+}
+
+.emg-btn{
 background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
-.blue{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
+.call-btn{
+background:linear-gradient(135deg,#ff6f00,#ffa000);
 }
 
-.gray{
-background:linear-gradient(135deg,#455a64,#78909c);
+.home-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
-#msg{
+.msg{
 text-align:center;
-font-size:22px;
+font-size:20px;
 font-weight:900;
-margin:18px 0;
-color:#00e676;
+min-height:30px;
 }
 
 .footer{
 text-align:center;
 padding:20px;
-font-size:12px;
 opacity:.6;
-}
-
-a{
-text-decoration:none;
+font-size:12px;
 }
 
 </style>
@@ -145,110 +110,61 @@ text-decoration:none;
 
 <body>
 
-<div class="banner">
-<img src="emergency-top.jpg">
-</div>
-
 <div class="wrap">
 
-<div class="header">
-
-<div
-class="back"
-onclick="location.href='index.html'">
-← ホームへ戻る
-</div>
+<div class="card">
 
 <div class="title">
-☎ 緊急連絡
+🚨 緊急連絡
 </div>
 
-<div class="sub">
-困った時の連絡先
+<div
+id="userName"
+class="name">
+読み込み中...
+</div>
+
+<textarea
+id="memo"
+placeholder="状況を入力してください"></textarea>
+
+<button
+class="emg-btn"
+onclick="sendEmergency()">
+🚨 緊急通知送信
+</button>
+
+<button
+class="call-btn"
+onclick="location.href='tel:119'">
+☎ 119へ電話
+</button>
+
+<div
+id="msg"
+class="msg">
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="big">
-家族へ連絡
-</div>
-
-<div class="memo">
-緊急時は家族・支援者へ連絡します。
-</div>
-
-<a href="tel:">
 <button
-class="btn red"
-onclick="sendEmergency('家族へ緊急連絡')">
-家族へ電話
-</button>
-</a>
-
-</div>
-
-<div class="card">
-
-<div class="big">
-119番
-</div>
-
-<div class="memo">
-命に関わる緊急時は119番へ。
-</div>
-
-<a href="tel:119">
-<button
-class="btn red"
-onclick="sendEmergency('119へ連絡')">
-119へ電話
-</button>
-</a>
-
-</div>
-
-<div class="card">
-
-<div class="big">
-警察
-</div>
-
-<div class="memo">
-事件・事故・危険を感じた時。
-</div>
-
-<a href="tel:110">
-<button
-class="btn blue"
-onclick="sendEmergency('110へ連絡')">
-110へ電話
-</button>
-</a>
-
-</div>
-
-<div class="card">
-
-<button
-class="btn gray"
-onclick="location.href='family.html'">
-家族確認へ戻る
+class="home-btn"
+onclick="location.href='app.html?id='+USER_ID">
+😊 本人ページ
 </button>
 
 <button
-class="btn gray"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
 </button>
 
 </div>
-
-<div id="msg"></div>
 
 <div class="footer">
-NSAW 緊急連絡
+NSAW 緊急連絡システム
 </div>
 
 </div>
@@ -256,21 +172,60 @@ NSAW 緊急連絡
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-async function sendEmergency(type){
+const params =
+new URLSearchParams(location.search);
+
+const USER_ID =
+params.get("id") || "";
+
+async function loadUser(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const user =
+json.data || {};
+
+document.getElementById("userName").innerHTML =
+user.name || "利用者";
+
+}catch(error){
+
+document.getElementById("userName").innerHTML =
+"利用者";
+
+}
+
+}
+
+async function sendEmergency(){
 
 document.getElementById("msg").innerHTML =
 "送信中...";
 
-try{
-
-const params =
+const body =
 new URLSearchParams();
 
-params.append("name","山口貞一郎");
-params.append("status","緊急");
-params.append("memo",type);
+body.append("action","watch");
+body.append("id",USER_ID);
+body.append("status","緊急連絡");
+body.append(
+"memo",
+document.getElementById("memo").value
+);
+
+try{
 
 await fetch(
 GAS_URL,
@@ -279,21 +234,23 @@ method:"POST",
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
-body:params.toString()
+body:body.toString()
 }
 );
 
 document.getElementById("msg").innerHTML =
-"通知しました";
+"緊急通知を送信しました";
 
 }catch(error){
 
 document.getElementById("msg").innerHTML =
-"送信失敗";
+"送信エラー";
 
 }
 
 }
+
+loadUser();
 
 </script>
 
