@@ -1,12 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>予定登録｜見守りDX</title>
+
+<link rel="icon" href="icon.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
+min-height:100vh;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+text-align:center;
+margin-bottom:20px;
+}
+
+.name{
+font-size:24px;
+font-weight:900;
+text-align:center;
+margin-bottom:20px;
+}
+
+input,
+textarea{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+margin-bottom:12px;
+font-size:18px;
+background:rgba(255,255,255,.1);
+color:#fff;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+button{
+width:100%;
+border:none;
+cursor:pointer;
+color:#fff;
+font-weight:900;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+margin-bottom:12px;
+}
+
+.save-btn{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
+}
+
+.list-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+}
+
+.home-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
+.msg{
+text-align:center;
+font-size:18px;
+font-weight:900;
+min-height:30px;
+}
+
+.footer{
+text-align:center;
+padding:20px;
+opacity:.6;
+font-size:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+📅 予定登録
+</div>
+
+<div
+id="userName"
+class="name">
+読み込み中...
+</div>
+
+<input
+type="date"
+id="date">
+
+<input
+type="time"
+id="time">
+
+<input
+id="title"
+placeholder="予定タイトル">
+
+<textarea
+id="memo"
+placeholder="詳細メモ"></textarea>
+
+<button
+class="save-btn"
+onclick="saveSchedule()">
+予定を登録
+</button>
+
+<div
+id="msg"
+class="msg">
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="list-btn"
+onclick="location.href='schedule.html?id='+USER_ID">
+📅 予定一覧
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='app.html?id='+USER_ID">
+😊 本人ページ
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW 予定登録
+</div>
+
+</div>
+
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+
+const params =
+new URLSearchParams(location.search);
+
+const USER_ID =
+params.get("id") || "";
+
+async function loadUser(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const user =
+json.data || {};
+
+document.getElementById("userName").innerHTML =
+user.name || "利用者";
+
+}catch(error){
+
+document.getElementById("userName").innerHTML =
+"利用者";
+
+}
+
+}
 
 async function saveSchedule(){
-
-const name =
-document.getElementById("name").value.trim();
 
 const date =
 document.getElementById("date").value;
@@ -15,85 +233,35 @@ const time =
 document.getElementById("time").value;
 
 const title =
-document.getElementById("title").value.trim();
-
-const place =
-document.getElementById("place").value.trim();
+document.getElementById("title").value;
 
 const memo =
-document.getElementById("memo").value.trim();
+document.getElementById("memo").value;
 
-if(name === ""){
-
-document.getElementById("msg").innerHTML =
-"利用者名を入力してください";
-
-return;
-
-}
-
-if(date === ""){
+if(!date || !title){
 
 document.getElementById("msg").innerHTML =
-"予定日を入力してください";
-
-return;
-
-}
-
-if(title === ""){
-
-document.getElementById("msg").innerHTML =
-"予定内容を入力してください";
+"日付と予定を入力してください";
 
 return;
 
 }
 
 document.getElementById("msg").innerHTML =
-"保存中...";
+"登録中...";
 
-const params =
+const body =
 new URLSearchParams();
 
-params.append(
-"action",
-"scheduleAdd"
-);
-
-params.append(
-"name",
-name
-);
-
-params.append(
-"date",
-date
-);
-
-params.append(
-"time",
-time
-);
-
-params.append(
-"title",
-title
-);
-
-params.append(
-"place",
-place
-);
-
-params.append(
-"memo",
-memo
-);
+body.append("action","schedule");
+body.append("id",USER_ID);
+body.append("date",date);
+body.append("time",time);
+body.append("title",title);
+body.append("memo",memo);
 
 try{
 
-const response =
 await fetch(
 GAS_URL,
 {
@@ -101,36 +269,12 @@ method:"POST",
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
-body:params.toString()
+body:body.toString()
 }
 );
 
-const result =
-await response.text();
-
-if(
-response.ok &&
-result.indexOf("ERROR") === -1
-){
-
 document.getElementById("msg").innerHTML =
-"保存しました";
-
-document.getElementById("title").value =
-"";
-
-document.getElementById("place").value =
-"";
-
-document.getElementById("memo").value =
-"";
-
-}else{
-
-document.getElementById("msg").innerHTML =
-"保存失敗";
-
-}
+"登録完了";
 
 }catch(error){
 
@@ -141,4 +285,9 @@ document.getElementById("msg").innerHTML =
 
 }
 
+loadUser();
+
 </script>
+
+</body>
+</html>
