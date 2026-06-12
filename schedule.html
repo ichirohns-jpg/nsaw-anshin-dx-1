@@ -14,9 +14,12 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-background:
-linear-gradient(
+background:linear-gradient(
 180deg,
 #000000 0%,
 #0a1220 50%,
@@ -25,20 +28,6 @@ linear-gradient(
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 color:#fff;
 min-height:100vh;
-}
-
-.banner{
-height:260px;
-overflow:hidden;
-position:relative;
-margin-bottom:18px;
-}
-
-.banner img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
 }
 
 .wrap{
@@ -83,22 +72,71 @@ padding:18px;
 margin-bottom:16px;
 }
 
-.time{
-font-size:26px;
-font-weight:900;
-color:#42a5f5;
-margin-bottom:6px;
+.item{
+background:rgba(255,255,255,.06);
+border-radius:18px;
+padding:16px;
+margin-bottom:12px;
 }
 
-.plan{
-font-size:22px;
+.date{
+font-size:18px;
 font-weight:900;
+color:#00d4ff;
+}
+
+.time{
+font-size:16px;
+opacity:.85;
+margin-top:6px;
+}
+
+.name{
+font-size:16px;
+opacity:.85;
+margin-top:6px;
+}
+
+.schedule-title{
+font-size:24px;
+font-weight:900;
+margin-top:10px;
+}
+
+.place{
+font-size:16px;
+margin-top:8px;
 }
 
 .memo{
-margin-top:8px;
-font-size:14px;
+font-size:15px;
 opacity:.8;
+line-height:1.7;
+margin-top:8px;
+}
+
+button{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:12px;
+}
+
+.blue{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.green{
+background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+.gray{
+background:linear-gradient(135deg,#455a64,#78909c);
 }
 
 .footer{
@@ -109,14 +147,9 @@ opacity:.6;
 }
 
 </style>
-
 </head>
 
 <body>
-
-<div class="banner">
-<img src="schedule-top.jpg">
-</div>
 
 <div class="wrap">
 
@@ -124,8 +157,8 @@ opacity:.6;
 
 <div
 class="back"
-onclick="location.href='family.html'">
-← 家族確認へ戻る
+onclick="location.href='index.html'">
+← ホームへ戻る
 </div>
 
 <div class="title">
@@ -133,96 +166,113 @@ onclick="location.href='family.html'">
 </div>
 
 <div class="sub">
-本日の予定
+登録された予定を確認します
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="time">
-09:00
-</div>
+<button
+class="blue"
+onclick="loadSchedules()">
+予定を更新
+</button>
 
-<div class="plan">
-病院
-</div>
+<button
+class="green"
+onclick="location.href='schedule-edit.html'">
+予定を登録する
+</button>
 
-<div class="memo">
-定期受診
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-12:00
-</div>
-
-<div class="plan">
-昼食
-</div>
-
-<div class="memo">
-昼ごはん
+<div id="list">
+読み込み中...
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="time">
-15:00
-</div>
-
-<div class="plan">
-買い物
-</div>
-
-<div class="memo">
-日用品購入
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-18:00
-</div>
-
-<div class="plan">
-夕食
-</div>
-
-<div class="memo">
-夕ごはん
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-21:00
-</div>
-
-<div class="plan">
-就寝前の薬
-</div>
-
-<div class="memo">
-服薬確認
-</div>
+<button
+class="gray"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
 
 </div>
 
 <div class="footer">
-NSAW 予定確認システム
+NSAW 予定確認
 </div>
 
 </div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
+
+function loadSchedules(){
+
+document.getElementById("list").innerHTML =
+"読み込み中...";
+
+fetch(GAS_URL + "?action=scheduleList")
+.then(r=>r.json())
+.then(data=>{
+
+let html = "";
+
+(data.data || []).forEach(v=>{
+
+html += `
+<div class="item">
+
+<div class="date">
+${v.date || ""}
+</div>
+
+<div class="time">
+${v.time || ""}
+</div>
+
+<div class="name">
+${v.name || ""}
+</div>
+
+<div class="schedule-title">
+${v.title || ""}
+</div>
+
+<div class="place">
+${v.place || ""}
+</div>
+
+<div class="memo">
+${v.memo || ""}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("list").innerHTML =
+html || "予定なし";
+
+})
+.catch(()=>{
+
+document.getElementById("list").innerHTML =
+"取得エラー";
+
+});
+
+}
+
+loadSchedules();
+
+</script>
 
 </body>
 </html>
