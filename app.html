@@ -168,20 +168,38 @@ onclick="location.href='medicine.html?id='+USER_ID">
 
 <button
 class="schedule-btn"
+onclick="location.href='schedule-edit.html?id='+USER_ID">
+📝 予定登録
+</button>
+
+<button
+class="schedule-btn"
 onclick="location.href='schedule.html?id='+USER_ID">
-📅 予定確認
+📅 予定一覧
 </button>
 
 <button
 class="map-btn"
 onclick="location.href='map.html?id='+USER_ID">
-📍 現在地
+📍 現在地送信
+</button>
+
+<button
+class="schedule-btn"
+onclick="location.href='family.html?id='+USER_ID">
+👪 家族確認
+</button>
+
+<button
+class="schedule-btn"
+onclick="location.href='qr.html?id='+USER_ID">
+📱 QRコード
 </button>
 
 <button
 class="emg-btn"
-onclick="sendStatus('緊急連絡')">
-☎ 緊急連絡
+onclick="location.href='emergency.html?id='+USER_ID">
+🚨 緊急連絡
 </button>
 
 <button
@@ -258,7 +276,6 @@ body.append("memo","");
 
 try{
 
-const response =
 await fetch(
 GAS_URL,
 {
@@ -269,9 +286,6 @@ headers:{
 body:body.toString()
 }
 );
-
-const text =
-await response.text();
 
 document.getElementById("currentStatus").innerHTML =
 status;
