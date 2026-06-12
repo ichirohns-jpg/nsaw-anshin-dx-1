@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>服薬確認｜見守りDX</title>
+<title>服薬確認</title>
 
 <link rel="icon" href="icon.png">
 
@@ -19,7 +19,7 @@ box-sizing:border-box;
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+color:#fff;
 min-height:100vh;
 }
 
@@ -43,20 +43,14 @@ box-shadow:0 10px 30px rgba(0,0,0,.35);
 font-size:34px;
 font-weight:900;
 text-align:center;
-margin-bottom:10px;
+margin-bottom:20px;
 }
 
 .name{
 font-size:26px;
 font-weight:900;
 text-align:center;
-margin-bottom:20px;
-}
-
-.time{
-text-align:center;
-opacity:.8;
-margin-bottom:20px;
+margin-bottom:10px;
 }
 
 button{
@@ -72,23 +66,27 @@ margin-bottom:12px;
 }
 
 .morning-btn{
-background:linear-gradient(135deg,#f57c00,#ffb300);
+background:linear-gradient(135deg,#ff9800,#ffb74d);
 }
 
 .noon-btn{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
+background:linear-gradient(135deg,#2196f3,#64b5f6);
+}
+
+.evening-btn{
+background:linear-gradient(135deg,#8e24aa,#ba68c8);
 }
 
 .night-btn{
-background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+background:linear-gradient(135deg,#455a64,#78909c);
 }
 
-.sleep-btn{
-background:linear-gradient(135deg,#283593,#5c6bc0);
+.extra-btn{
+background:linear-gradient(135deg,#26a69a,#4db6ac);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 .msg{
@@ -99,15 +97,21 @@ margin-top:10px;
 min-height:30px;
 }
 
+.history{
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:12px;
+margin-bottom:10px;
+}
+
 .footer{
 text-align:center;
 padding:20px;
-opacity:.6;
 font-size:12px;
+opacity:.6;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -126,43 +130,47 @@ class="name">
 読み込み中...
 </div>
 
+<button
+class="morning-btn"
+onclick="saveMedicine('朝')">
+🌅 朝の薬
+</button>
+
+<button
+class="noon-btn"
+onclick="saveMedicine('昼')">
+☀ 昼の薬
+</button>
+
+<button
+class="evening-btn"
+onclick="saveMedicine('夕')">
+🌇 夕の薬
+</button>
+
+<button
+class="night-btn"
+onclick="saveMedicine('就寝前')">
+🌙 就寝前の薬
+</button>
+
+<button
+class="extra-btn"
+onclick="saveMedicine('頓服')">
+🩺 頓服
+</button>
+
 <div
-id="currentTime"
-class="time">
--
+id="msg"
+class="msg">
 </div>
 
 </div>
 
 <div class="card">
 
-<button
-class="morning-btn"
-onclick="sendMedicine('朝の薬')">
-🌅 朝の薬
-</button>
-
-<button
-class="noon-btn"
-onclick="sendMedicine('昼の薬')">
-☀️ 昼の薬
-</button>
-
-<button
-class="night-btn"
-onclick="sendMedicine('夜の薬')">
-🌙 夜の薬
-</button>
-
-<button
-class="sleep-btn"
-onclick="sendMedicine('就寝前の薬')">
-😴 就寝前の薬
-</button>
-
-<div
-id="msg"
-class="msg">
+<div id="historyArea">
+読み込み中...
 </div>
 
 </div>
@@ -229,19 +237,20 @@ document.getElementById("userName").innerHTML =
 
 }
 
-async function sendMedicine(type){
+async function saveMedicine(type){
 
 document.getElementById("msg").innerHTML =
-"送信中...";
+"記録中...";
+
+try{
 
 const body =
 new URLSearchParams();
 
-body.append("action","medicine");
+body.append("action","watch");
 body.append("id",USER_ID);
+body.append("status","服薬");
 body.append("memo",type);
-
-try{
 
 await fetch(
 GAS_URL,
@@ -255,10 +264,9 @@ body:body.toString()
 );
 
 document.getElementById("msg").innerHTML =
-type + " 送信完了";
+type + " を記録しました";
 
-document.getElementById("currentTime").innerHTML =
-new Date().toLocaleString("ja-JP");
+loadHistory();
 
 }catch(error){
 
@@ -269,7 +277,61 @@ document.getElementById("msg").innerHTML =
 
 }
 
+async function loadHistory(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=dashboard&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const history =
+json.history || [];
+
+let html = "";
+
+history.forEach(item=>{
+
+if(item.status !== "服薬"){
+return;
+}
+
+html += `
+<div class="history">
+
+<div>
+${item.time || ""}
+</div>
+
+<div>
+💊 ${item.memo || ""}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("historyArea").innerHTML =
+html || "服薬履歴なし";
+
+}catch(error){
+
+document.getElementById("historyArea").innerHTML =
+"取得エラー";
+
+}
+
+}
+
 loadUser();
+loadHistory();
 
 </script>
 
