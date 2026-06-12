@@ -83,8 +83,12 @@ margin-bottom:10px;
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.family-btn{
+.print-btn{
 background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+.save-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
 
 .home-btn{
@@ -132,15 +136,27 @@ id="openBtn">
 </button>
 
 <button
-class="family-btn"
-id="familyBtn">
-👪 家族ページを開く
+class="print-btn"
+onclick="window.print()">
+🖨 QR印刷
+</button>
+
+<button
+class="save-btn"
+onclick="saveQR()">
+📥 QR保存
 </button>
 
 <button
 class="home-btn"
 onclick="location.href='users.html'">
 👥 利用者一覧へ戻る
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
 </button>
 
 </div>
@@ -202,14 +218,10 @@ height:260
 
 document.getElementById("openBtn").onclick =
 function(){
+
 location.href =
 "app.html?id=" + USER_ID;
-};
 
-document.getElementById("familyBtn").onclick =
-function(){
-location.href =
-"family.html?id=" + USER_ID;
 };
 
 }catch(error){
@@ -218,6 +230,28 @@ document.getElementById("userName").innerHTML =
 "取得エラー";
 
 }
+
+}
+
+function saveQR(){
+
+const canvas =
+document.querySelector("#qrcode canvas");
+
+if(!canvas){
+return;
+}
+
+const link =
+document.createElement("a");
+
+link.download =
+"qr-" + USER_ID + ".png";
+
+link.href =
+canvas.toDataURL("image/png");
+
+link.click();
 
 }
 
