@@ -46,9 +46,20 @@ document.getElementById("msg").innerText =
 const params =
 new URLSearchParams();
 
-params.append("name",name);
-params.append("status",status);
-params.append("memo",memo);
+params.append(
+"name",
+name
+);
+
+params.append(
+"status",
+status
+);
+
+params.append(
+"memo",
+memo
+);
 
 try{
 
@@ -68,8 +79,8 @@ const text =
 await response.text();
 
 if(
-text.indexOf("OK") > -1 ||
-response.ok
+response.ok &&
+text.indexOf("ERROR") === -1
 ){
 
 document.getElementById("msg").innerText =
@@ -79,12 +90,13 @@ document.getElementById("currentTime").innerText =
 "最終送信：" +
 new Date().toLocaleString("ja-JP");
 
-document.getElementById("memo").value = "";
+document.getElementById("memo").value =
+"";
 
 }else{
 
 document.getElementById("msg").innerText =
-text;
+"送信失敗";
 
 }
 
@@ -93,10 +105,16 @@ text;
 document.getElementById("msg").innerText =
 "通信エラー";
 
-console.error(error);
-
 }
 
 }
+
+window.onload = function(){
+
+document.getElementById("currentTime").innerText =
+"現在時刻：" +
+new Date().toLocaleString("ja-JP");
+
+};
 
 </script>
