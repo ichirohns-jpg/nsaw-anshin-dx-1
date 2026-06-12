@@ -157,3 +157,134 @@ class="msg">
 </div>
 
 </div>
+
+<div class="card">
+
+<button
+class="list-btn"
+onclick="location.href='schedule.html?id='+USER_ID">
+📅 予定一覧
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='app.html?id='+USER_ID">
+😊 本人ページ
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW 予定登録
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+
+const params =
+new URLSearchParams(location.search);
+
+const USER_ID =
+params.get("id") || "";
+
+async function loadUser(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const user =
+json.data || {};
+
+document.getElementById("userName").innerHTML =
+user.name || "利用者";
+
+}catch(error){
+
+document.getElementById("userName").innerHTML =
+"利用者";
+
+}
+
+}
+
+async function saveSchedule(){
+
+document.getElementById("msg").innerHTML =
+"登録中...";
+
+try{
+
+const body =
+new URLSearchParams();
+
+body.append("action","watch");
+body.append("id",USER_ID);
+body.append("status","予定");
+
+body.append(
+"memo",
+document.getElementById("date").value +
+" " +
+document.getElementById("time").value +
+" " +
+document.getElementById("title").value +
+" " +
+document.getElementById("memo").value
+);
+
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:body.toString()
+}
+);
+
+document.getElementById("msg").innerHTML =
+"登録完了";
+
+setTimeout(function(){
+
+location.href =
+"schedule.html?id=" +
+USER_ID;
+
+},1000);
+
+}catch(error){
+
+document.getElementById("msg").innerHTML =
+"通信エラー";
+
+}
+
+}
+
+loadUser();
+
+</script>
+
+</body>
+</html>
