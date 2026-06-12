@@ -189,30 +189,47 @@ html += `
 <div class="card">
 
 <div class="name">
-${user.name || ""}
+👤 ${user.name || ""}
+</div>
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+">
+
+<div style="
+font-size:14px;
+opacity:.8;
+">
+ID : ${user.id || ""}
+</div>
+
+<div style="
+font-size:14px;
+font-weight:900;
+color:#00e676;
+">
+${user.lastStatus || "未送信"}
+</div>
+
 </div>
 
 <div class="info">
 
-ID : ${user.id || ""}
+☎ ${user.tel || "-"}
+
 <br>
 
-電話 : ${user.tel || ""}
-<br>
-
-状態 :
-${user.lastStatus || "未送信"}
-<br>
-
-最終送信 :
-${user.lastTime || "-"}
+🕒 ${user.lastTime || "-"}
 
 </div>
 
 <div style="
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
 margin-top:12px;
 ">
 
