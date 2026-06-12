@@ -1,127 +1,108 @@
-function loadUsers(){
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-fetch(GAS_URL + "?action=users")
-.then(r=>r.json())
-.then(data=>{
+<title>見守りDX｜地域OS</title>
 
-let html="";
+<meta name="description" content="高齢者と家族をつなぐ見守りDX。元気ですボタン、家族確認、地域ラジオ、4市瓦版、動画、地図、予定管理をまとめた地域の安心システムです。">
 
-(data.data || []).forEach(v=>{
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="見守りDX">
+<meta property="og:title" content="見守りDX｜地域OS">
+<meta property="og:description" content="元気ですボタンで家族に安心を届ける、地域の見守りDX。">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/home-top.jpg">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share.html">
 
-html += `
-<div class="item">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="見守りDX｜地域OS">
+<meta name="twitter:description" content="元気ですボタンで家族に安心を届ける、地域の見守りDX。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/home-top.jpg">
 
-<div class="name">
-${v.name || ""}
-</div>
+<meta http-equiv="refresh" content="1;url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/index.html">
 
-<button
-class="actionBtn mapBtn"
-onclick="location.href='map.html'">
-📍 現在地
-</button>
-
-<button
-class="actionBtn medBtn"
-onclick="location.href='medicine.html'">
-💊 服薬確認
-</button>
-
-<button
-class="actionBtn emgBtn"
-onclick="location.href='emergency.html'">
-☎ 緊急連絡
-</button>
-
-</div>
-`;
-
-});
-
-document.getElementById("users").innerHTML =
-html || "利用者なし";
-
-})
-.catch(()=>{
-
-document.getElementById("users").innerHTML =
-"取得エラー";
-
-});
-
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-function loadMedicineStatus(){
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#000000 0%,#0a1220 50%,#000000 100%);
+color:#fff;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+}
 
-fetch(GAS_URL + "?action=records")
-.then(r=>r.json())
-.then(data=>{
+.card{
+max-width:560px;
+width:100%;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
 
-const rows = data.data || [];
+img{
+width:100%;
+border-radius:22px;
+margin-bottom:20px;
+}
 
-let html = "";
+h1{
+font-size:34px;
+font-weight:900;
+margin-bottom:12px;
+}
 
-rows.forEach(v=>{
+p{
+font-size:17px;
+line-height:1.8;
+opacity:.85;
+}
 
-if(
-(v.memo || "").includes("薬")
-){
+a{
+display:block;
+margin-top:24px;
+padding:18px;
+border-radius:20px;
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
+color:#fff;
+text-decoration:none;
+font-size:20px;
+font-weight:900;
+}
+</style>
+</head>
 
-html += `
-<div class="medStatus">
-${v.time || ""}
-<br>
-${v.memo || ""}
+<body>
+
+<div class="card">
+
+<img src="home-top.jpg" alt="見守りDX">
+
+<h1>
+見守りDX｜地域OS
+</h1>
+
+<p>
+元気ですボタンで家族に安心を届ける、地域の見守りDX。
+</p>
+
+<a href="index.html">
+見守りDXを開く
+</a>
+
 </div>
-`;
-
-}
-
-});
-
-document.getElementById("medicineStatus").innerHTML =
-html || "<div class='medStatus'>服薬記録なし</div>";
-
-})
-.catch(()=>{
-
-document.getElementById("medicineStatus").innerHTML =
-"<div class='medStatus'>取得エラー</div>";
-
-});
-
-}
-
-function ping(){
-
-fetch(GAS_URL + "?action=ping")
-.then(r=>r.json())
-.then(data=>{
-
-document.getElementById("ping").innerHTML =
-`
-<div class="item">
-状態 : ${data.status || ""}
-<br>
-時刻 : ${data.time || ""}
-</div>
-`;
-
-})
-.catch(()=>{
-
-document.getElementById("ping").innerHTML =
-"接続エラー";
-
-});
-
-}
-
-loadHeader();
-loadRecords();
-loadMedicineStatus();
-
-</script>
 
 </body>
 </html>
