@@ -1,7 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>地域ラジオ</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#050505 0%,#101827 50%,#000000 100%);
+color:#fff;
+min-height:100vh;
+}
+
+header{
+text-align:center;
+padding:25px 10px;
+}
+
+.logo{
+font-size:34px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.sub{
+margin-top:8px;
+font-size:14px;
+opacity:.8;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:18px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+
+.item{
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px;
+margin-bottom:12px;
+}
+
+.thumb{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:10px;
+}
+
+.date{
+font-size:13px;
+opacity:.7;
+margin-bottom:5px;
+}
+
+.title{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.desc{
+font-size:15px;
+line-height:1.6;
+margin-bottom:10px;
+}
+
+.play{
+display:block;
+width:100%;
+height:240px;
+border:none;
+border-radius:14px;
+margin-top:12px;
+}
+
+button{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:12px;
+}
+
+.home-btn{
+background:linear-gradient(135deg,#455a64,#78909c);
+}
+
+.top-btn{
+background:linear-gradient(135deg,#263238,#546e7a);
+}
+
+.footer{
+text-align:center;
+padding:25px;
+font-size:12px;
+opacity:.6;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+地域ラジオ
+</div>
+
+<div class="sub">
+NSAW RADIO SYSTEM
+</div>
+
+</header>
+
+<div class="wrap">
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="loadRadio()">
+最新放送を更新
+</button>
+
+<div id="list">
+読み込み中...
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+ホームへ戻る
+</button>
+
+<button
+class="top-btn"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+先頭へ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW 地域ラジオ
+</div>
+
+</div>
+
 <script>
 
-const SHEET_ID = "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME = "地域ラジオ";
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"地域ラジオ";
+
+function getVal(cell){
+
+if(!cell){
+return "";
+}
+
+return cell.f || cell.v || "";
+
+}
+
+function youtubeEmbed(url){
+
+if(!url){
+return "";
+}
+
+if(url.includes("watch?v=")){
+
+return url.replace(
+"watch?v=",
+"embed/"
+);
+
+}
+
+if(url.includes("youtu.be/")){
+
+const id =
+url.split("youtu.be/")[1].split("?")[0];
+
+return "https://www.youtube.com/embed/" + id;
+
+}
+
+if(url.includes("/shorts/")){
+
+const id =
+url.split("/shorts/")[1].split("?")[0];
+
+return "https://www.youtube.com/embed/" + id;
+
+}
+
+return "";
+
+}
+
+function loadRadio(){
 
 const url =
 "https://docs.google.com/spreadsheets/d/" +
@@ -9,10 +245,6 @@ SHEET_ID +
 "/gviz/tq?sheet=" +
 encodeURIComponent(SHEET_NAME) +
 "&tqx=out:json";
-
-function getVal(cell){
-return cell ? (cell.f || cell.v || "") : "";
-}
 
 fetch(url)
 .then(r=>r.text())
@@ -33,27 +265,56 @@ rows.reverse();
 
 let html = "";
 
-rows.slice(0,5).forEach(row=>{
+rows.slice(0,20).forEach(row=>{
 
-const date =
+let title = "";
+let desc = "";
+let date = "";
+let image = "";
+let video = "";
+
+(row.c || []).forEach(cell=>{
+
+const value =
+getVal(cell);
+
+if(!value){
+return;
+}
+
+if(
+String(value).includes("youtube.com") ||
+String(value).includes("youtu.be")
+){
+video = String(value);
+}
+
+if(
+String(value).match(/\.(jpg|jpeg|png|webp)/i)
+){
+image = String(value);
+}
+
+});
+
+date =
 getVal(row.c[0]);
-
-const title =
+title =
 getVal(row.c[1]);
-
-const description =
+desc =
 getVal(row.c[2]);
 
-const image =
-getVal(row.c[3]) ||
-"home-top.jpg";
+const embed =
+youtubeEmbed(video);
 
 html += `
 <div class="item">
 
+${image ? `
 <img
 class="thumb"
 src="${image}">
+` : ""}
 
 <div class="date">
 ${date}
@@ -64,8 +325,16 @@ ${title}
 </div>
 
 <div class="desc">
-${description}
+${desc}
 </div>
+
+${embed ? `
+<iframe
+class="play"
+src="${embed}"
+allowfullscreen>
+</iframe>
+` : ""}
 
 </div>
 `;
@@ -79,8 +348,15 @@ html || "データなし";
 .catch(()=>{
 
 document.getElementById("list").innerHTML =
-"読み込みエラー";
+"取得エラー";
 
 });
 
+}
+
+loadRadio();
+
 </script>
+
+</body>
+</html>
