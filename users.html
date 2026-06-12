@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>利用者一覧｜見守りDX</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:linear-gradient(
+180deg,
+#000000 0%,
+#0a1220 50%,
+#000000 100%
+);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#fff;
+min-height:100vh;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.header{
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:20px;
+backdrop-filter:blur(12px);
+}
+
+.title{
+font-size:36px;
+font-weight:900;
+}
+
+.sub{
+margin-top:8px;
+opacity:.8;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.15);
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+backdrop-filter:blur(12px);
+}
+
+.name{
+font-size:26px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.info{
+font-size:14px;
+opacity:.8;
+line-height:1.8;
+margin-bottom:15px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:16px;
+font-size:18px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
+margin-bottom:10px;
+}
+
+.blue{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.green{
+background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+.orange{
+background:linear-gradient(135deg,#fb8c00,#ffb300);
+}
+
+.purple{
+background:linear-gradient(135deg,#7b1fa2,#ba68c8);
+}
+
+.footer{
+text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+
+<div class="title">
+👥 利用者一覧
+</div>
+
+<div class="sub">
+登録済み利用者
+</div>
+
+</div>
+
+<div id="users">
+
+<div class="card">
+読み込み中...
+</div>
+
+</div>
+
+<div class="footer">
+NSAW 利用者管理
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+
+async function loadUsers(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL + "?action=users"
+);
+
+const json =
+await response.json();
+
+const data =
+json.data || [];
+
+let html = "";
+
+data.forEach(v=>{
+
+html += `
+<div class="card">
+
+<div class="name">
+${v.name || ""}
+</div>
+
+<div class="info">
+ID : ${v.id || ""}
+<br>
+電話 : ${v.tel || ""}
+</div>
+
+<button
+class="btn blue"
+onclick="location.href='app.html?id=${v.id}'">
+本人ページ
+</button>
+
+<button
+class="btn green"
+onclick="location.href='family.html?id=${v.id}'">
+家族確認
+</button>
+
+<button
+class="btn orange"
+onclick="location.href='schedule.html?id=${v.id}'">
+予定確認
+</button>
+
+<button
+class="btn purple"
+onclick="location.href='qr.html?id=${v.id}'">
+QRコード
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("users").innerHTML =
+html || `
+<div class="card">
+利用者がいません
+</div>
+`;
+
+}catch(error){
+
+document.getElementById("users").innerHTML =
+`
+<div class="card">
+取得エラー
+</div>
+`;
+
+}
+
+}
+
+loadUsers();
+
+</script>
+
+</body>
+</html>
