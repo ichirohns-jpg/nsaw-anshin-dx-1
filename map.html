@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>現在地・地図｜見守りDX</title>
+<title>現在地送信</title>
 
 <link rel="icon" href="icon.png">
 
@@ -24,7 +24,7 @@ min-height:100vh;
 }
 
 .wrap{
-max-width:900px;
+max-width:760px;
 margin:auto;
 padding:16px;
 }
@@ -36,68 +36,69 @@ border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
 padding:20px;
 margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
 font-size:34px;
 font-weight:900;
 text-align:center;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
 .name{
-font-size:24px;
+font-size:26px;
 font-weight:900;
 text-align:center;
 margin-bottom:15px;
 }
 
-.info{
-font-size:18px;
+.location{
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px;
+margin-bottom:12px;
 line-height:1.8;
-margin-bottom:10px;
-}
-
-#map{
-width:100%;
-height:400px;
-border-radius:20px;
-border:none;
-background:#fff;
+word-break:break-all;
 }
 
 button{
 width:100%;
 border:none;
-border-radius:18px;
-padding:18px;
-font-size:20px;
-font-weight:900;
-color:#fff;
 cursor:pointer;
-margin-bottom:10px;
+color:#fff;
+font-weight:900;
+padding:22px;
+border-radius:20px;
+font-size:22px;
+margin-bottom:12px;
 }
 
-.gps-btn{
+.send-btn{
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
+.map-btn{
+background:linear-gradient(135deg,#43a047,#66bb6a);
+}
+
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 .msg{
 text-align:center;
-font-size:18px;
+font-size:20px;
 font-weight:900;
 margin-top:10px;
+min-height:30px;
 }
 
 .footer{
 text-align:center;
 padding:20px;
-font-size:12px;
 opacity:.6;
+font-size:12px;
 }
 
 </style>
@@ -111,7 +112,7 @@ opacity:.6;
 <div class="card">
 
 <div class="title">
-📍 現在地確認
+📍 現在地送信
 </div>
 
 <div
@@ -122,29 +123,26 @@ class="name">
 
 <div
 id="locationText"
-class="info">
+class="location">
 位置情報未取得
 </div>
 
 <button
-class="gps-btn"
+class="send-btn"
 onclick="sendLocation()">
 📍 現在地を送信
+</button>
+
+<button
+class="map-btn"
+id="mapOpenBtn">
+🗺 Googleマップで開く
 </button>
 
 <div
 id="msg"
 class="msg">
 </div>
-
-</div>
-
-<div class="card">
-
-<iframe
-id="map"
-src="https://maps.google.com/maps?q=35.8206,139.5753&z=15&output=embed">
-</iframe>
 
 </div>
 
@@ -165,7 +163,7 @@ onclick="location.href='index.html'">
 </div>
 
 <div class="footer">
-NSAW 位置情報管理
+NSAW 現在地送信
 </div>
 
 </div>
@@ -181,6 +179,9 @@ new URLSearchParams(location.search);
 const USER_ID =
 params.get("id") || "";
 
+let currentLat = "";
+let currentLng = "";
+
 async function loadUser(){
 
 try{
@@ -195,11 +196,8 @@ encodeURIComponent(USER_ID)
 const json =
 await response.json();
 
-const user =
-json.data || {};
-
 document.getElementById("userName").innerHTML =
-user.name || "利用者";
+(json.data || {}).name || "利用者";
 
 }catch(error){
 
@@ -212,47 +210,46 @@ document.getElementById("userName").innerHTML =
 
 function sendLocation(){
 
-if(!navigator.geolocation){
-
 document.getElementById("msg").innerHTML =
-"GPS非対応";
-
-return;
-
-}
-
-document.getElementById("msg").innerHTML =
-"取得中...";
+"位置取得中...";
 
 navigator.geolocation.getCurrentPosition(
 
-async function(position){
+async function(pos){
 
-const lat =
-position.coords.latitude;
+currentLat =
+pos.coords.latitude;
 
-const lng =
-position.coords.longitude;
+currentLng =
+pos.coords.longitude;
 
 document.getElementById("locationText").innerHTML =
-lat + "," + lng;
+currentLat + "," + currentLng;
 
-document.getElementById("map").src =
-"https://maps.google.com/maps?q=" +
-lat +
+document.getElementById("mapOpenBtn").onclick =
+function(){
+
+window.open(
+"https://maps.google.com/?q=" +
+currentLat +
 "," +
-lng +
-"&z=17&output=embed";
+currentLng
+);
+
+};
+
+try{
 
 const body =
 new URLSearchParams();
 
-body.append("action","location");
+body.append("action","watch");
 body.append("id",USER_ID);
-body.append("lat",lat);
-body.append("lng",lng);
-
-try{
+body.append("status","位置情報");
+body.append(
+"memo",
+currentLat + "," + currentLng
+);
 
 await fetch(
 GAS_URL,
@@ -271,7 +268,7 @@ document.getElementById("msg").innerHTML =
 }catch(error){
 
 document.getElementById("msg").innerHTML =
-"送信失敗";
+"通信エラー";
 
 }
 
@@ -280,7 +277,7 @@ document.getElementById("msg").innerHTML =
 function(){
 
 document.getElementById("msg").innerHTML =
-"位置情報取得失敗";
+"位置取得失敗";
 
 }
 
