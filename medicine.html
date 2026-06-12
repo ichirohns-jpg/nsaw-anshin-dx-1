@@ -1,42 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>服薬確認｜見守りDX</title>
+
+<link rel="icon" href="icon.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
+min-height:100vh;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+text-align:center;
+margin-bottom:10px;
+}
+
+.name{
+font-size:26px;
+font-weight:900;
+text-align:center;
+margin-bottom:20px;
+}
+
+.time{
+text-align:center;
+opacity:.8;
+margin-bottom:20px;
+}
+
+button{
+width:100%;
+border:none;
+cursor:pointer;
+color:#fff;
+font-weight:900;
+padding:22px;
+border-radius:20px;
+font-size:24px;
+margin-bottom:12px;
+}
+
+.morning-btn{
+background:linear-gradient(135deg,#f57c00,#ffb300);
+}
+
+.noon-btn{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.night-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+}
+
+.sleep-btn{
+background:linear-gradient(135deg,#283593,#5c6bc0);
+}
+
+.home-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
+.msg{
+text-align:center;
+font-size:20px;
+font-weight:900;
+margin-top:10px;
+min-height:30px;
+}
+
+.footer{
+text-align:center;
+padding:20px;
+opacity:.6;
+font-size:12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+💊 服薬確認
+</div>
+
+<div
+id="userName"
+class="name">
+読み込み中...
+</div>
+
+<div
+id="currentTime"
+class="time">
+-
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="morning-btn"
+onclick="sendMedicine('朝の薬')">
+🌅 朝の薬
+</button>
+
+<button
+class="noon-btn"
+onclick="sendMedicine('昼の薬')">
+☀️ 昼の薬
+</button>
+
+<button
+class="night-btn"
+onclick="sendMedicine('夜の薬')">
+🌙 夜の薬
+</button>
+
+<button
+class="sleep-btn"
+onclick="sendMedicine('就寝前の薬')">
+😴 就寝前の薬
+</button>
+
+<div
+id="msg"
+class="msg">
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="location.href='app.html?id='+USER_ID">
+😊 本人ページ
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
+</button>
+
+</div>
+
+<div class="footer">
+NSAW 服薬確認
+</div>
+
+</div>
+
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-async function done(type){
+const params =
+new URLSearchParams(location.search);
 
-const msg =
-document.getElementById("msg");
+const USER_ID =
+params.get("id") || "";
 
-msg.innerHTML =
-"送信中...";
+async function loadUser(){
 
 try{
 
-const params =
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const user =
+json.data || {};
+
+document.getElementById("userName").innerHTML =
+user.name || "利用者";
+
+}catch(error){
+
+document.getElementById("userName").innerHTML =
+"利用者";
+
+}
+
+}
+
+async function sendMedicine(type){
+
+document.getElementById("msg").innerHTML =
+"送信中...";
+
+const body =
 new URLSearchParams();
 
-params.append(
-"name",
-"山口貞一郎"
-);
+body.append("action","medicine");
+body.append("id",USER_ID);
+body.append("memo",type);
 
-params.append(
-"status",
-"服薬確認"
-);
+try{
 
-params.append(
-"memo",
-type
-);
-
-params.append(
-"time",
-new Date().toLocaleString("ja-JP")
-);
-
-const response =
 await fetch(
 GAS_URL,
 {
@@ -44,56 +250,28 @@ method:"POST",
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
-body:params.toString()
+body:body.toString()
 }
 );
 
-const result =
-await response.text();
+document.getElementById("msg").innerHTML =
+type + " 送信完了";
 
-if(
-response.ok &&
-result.indexOf("ERROR") === -1
-){
-
-msg.innerHTML =
-"✓ " + type;
-
-const buttons =
-document.querySelectorAll(".btn");
-
-buttons.forEach(btn=>{
-
-if(
-btn.getAttribute("onclick") &&
-btn.getAttribute("onclick").includes(type)
-){
-
-btn.disabled = true;
-
-btn.style.opacity = ".5";
-
-btn.innerHTML =
-"確認済み";
-
-}
-
-});
-
-}else{
-
-msg.innerHTML =
-"送信失敗";
-
-}
+document.getElementById("currentTime").innerHTML =
+new Date().toLocaleString("ja-JP");
 
 }catch(error){
 
-msg.innerHTML =
+document.getElementById("msg").innerHTML =
 "通信エラー";
 
 }
 
 }
 
+loadUser();
+
 </script>
+
+</body>
+</html>
