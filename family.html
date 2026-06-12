@@ -295,7 +295,7 @@ NSAW 家族確認システム
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbz-3TNkoNef__Kb3VRKmYkeapVu4Sn_4I4EdAx4x0UzDMashKCV10MJtBkx9tqX0BY4/exec";
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
 
 function loadHeader(){
 
@@ -353,96 +353,3 @@ document.getElementById("records").innerHTML =
 });
 
 }
-
-function loadUsers(){
-
-fetch(GAS_URL + "?action=users")
-.then(r=>r.json())
-.then(data=>{
-
-let html="";
-
-(data.data || []).forEach(v=>{
-
-html += `
-<div class="item">
-
-<div class="name">
-${v.name || ""}
-</div>
-
-<button
-class="actionBtn mapBtn"
-onclick="location.href='map.html'">
-📍 現在地
-</button>
-
-<button
-class="actionBtn medBtn"
-onclick="location.href='medicine.html'">
-💊 服薬確認
-</button>
-
-<button
-class="actionBtn schBtn"
-onclick="location.href='schedule.html'">
-📅 予定確認
-</button>
-
-<button
-class="actionBtn emgBtn"
-onclick="location.href='emergency.html'">
-☎ 緊急連絡
-</button>
-
-</div>
-`;
-
-});
-
-document.getElementById("users").innerHTML =
-html || "利用者なし";
-
-});
-
-}
-
-function loadMedicineStatus(){
-
-document.getElementById("medicineStatus").innerHTML =
-`
-<div class="medStatus">朝の薬　未確認</div>
-<div class="medStatus">昼の薬　未確認</div>
-<div class="medStatus">夜の薬　未確認</div>
-<div class="medStatus">就寝前の薬　未確認</div>
-`;
-
-}
-
-function ping(){
-
-fetch(GAS_URL + "?action=ping")
-.then(r=>r.json())
-.then(data=>{
-
-document.getElementById("ping").innerHTML =
-`
-<div class="item">
-状態 : ${data.status || ""}
-<br>
-時刻 : ${data.time || ""}
-</div>
-`;
-
-});
-
-}
-
-loadHeader();
-loadRecords();
-
-</script>
-
-</body>
-</html>
-</div>
