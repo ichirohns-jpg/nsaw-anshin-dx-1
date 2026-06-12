@@ -10,19 +10,28 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000 0%,#0a1220 45%,#000 100%);
-color:#fff;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
 min-height:100vh;
 }
 
 .banner{
-height:260px;
+height:280px;
 overflow:hidden;
+position:relative;
 }
 
 .banner img{
@@ -32,10 +41,20 @@ object-fit:cover;
 display:block;
 }
 
+.banner:after{
+content:"";
+position:absolute;
+left:0;
+top:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.25);
+}
+
 .wrap{
 max-width:760px;
 margin:auto;
-padding:12px 20px 20px;
+padding:16px;
 }
 
 .card{
@@ -65,19 +84,10 @@ box-shadow:0 0 25px rgba(0,212,255,.35);
 }
 
 .sub-btn{
-padding:26px;
+padding:28px;
 border-radius:22px;
 font-size:28px;
 background:linear-gradient(135deg,#1f2937,#475569);
-box-shadow:0 0 25px rgba(255,255,255,.15);
-}
-
-.info-btn{
-padding:22px;
-border-radius:18px;
-font-size:22px;
-margin-bottom:12px;
-background:linear-gradient(135deg,#1c2331,#334155);
 }
 
 .life-btn{
@@ -86,6 +96,14 @@ border-radius:18px;
 font-size:22px;
 margin-bottom:12px;
 background:linear-gradient(135deg,#37474f,#607d8b);
+}
+
+.info-btn{
+padding:22px;
+border-radius:18px;
+font-size:22px;
+margin-bottom:12px;
+background:linear-gradient(135deg,#1c2331,#334155);
 }
 
 .emg-btn{
@@ -104,7 +122,29 @@ margin:24px 0 12px;
 padding-left:4px;
 }
 
-a{text-decoration:none}
+.news{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.news:last-child{
+border-bottom:none;
+}
+
+.news-title{
+font-size:17px;
+font-weight:900;
+}
+
+.news-text{
+font-size:13px;
+opacity:.7;
+margin-top:4px;
+}
+
+a{
+text-decoration:none;
+}
 
 .footer{
 text-align:center;
@@ -112,6 +152,7 @@ padding:30px 10px;
 opacity:.6;
 font-size:12px;
 }
+
 </style>
 </head>
 
@@ -125,53 +166,110 @@ font-size:12px;
 
 <div class="card">
 <a href="app.html">
-<button class="main-btn">元気です</button>
+<button class="main-btn">
+元気です
+</button>
 </a>
 </div>
 
 <div class="card">
 <a href="family.html">
-<button class="sub-btn">家族確認</button>
+<button class="sub-btn">
+家族確認
+</button>
 </a>
 </div>
 
-<div class="section-title">生活支援</div>
+<div class="section-title">
+生活支援
+</div>
 
 <div class="card">
 
 <a href="map.html">
-<button class="life-btn">📍 現在地</button>
+<button class="life-btn">
+📍 現在地
+</button>
 </a>
 
 <a href="medicine.html">
-<button class="life-btn">💊 服薬確認</button>
+<button class="life-btn">
+💊 服薬確認
+</button>
 </a>
 
 <a href="schedule.html">
-<button class="life-btn">📅 予定確認</button>
+<button class="life-btn">
+📅 予定確認
+</button>
 </a>
 
 <a href="emergency.html">
-<button class="emg-btn">☎ 緊急連絡</button>
+<button class="emg-btn">
+☎ 緊急連絡
+</button>
 </a>
 
 </div>
 
-<div class="section-title">地域情報</div>
+<div class="section-title">
+地域情報
+</div>
 
 <div class="card">
 
 <a href="radio.html">
-<button class="info-btn">地域ラジオ</button>
+<button class="info-btn">
+📻 地域ラジオ
+</button>
 </a>
 
 <a href="kawaraban.html">
-<button class="info-btn">４市瓦版</button>
+<button class="info-btn">
+📰 ４市瓦版
+</button>
 </a>
 
 <a href="video.html">
-<button class="info-btn">お楽しみ動画</button>
+<button class="info-btn">
+🎬 お楽しみ動画
+</button>
 </a>
+
+</div>
+
+<div class="section-title">
+最新情報
+</div>
+
+<div class="card">
+
+<div class="news">
+<div class="news-title">
+４市瓦版
+</div>
+<div class="news-text">
+スプレッドシート連携予定
+</div>
+</div>
+
+<div class="news">
+<div class="news-title">
+地域ラジオ
+</div>
+<div class="news-text">
+スプレッドシート連携予定
+</div>
+</div>
+
+<div class="news">
+<div class="news-title">
+お楽しみ動画
+</div>
+<div class="news-text">
+スプレッドシート連携予定
+</div>
+</div>
 
 </div>
 
