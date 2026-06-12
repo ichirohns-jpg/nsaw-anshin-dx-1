@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>予定登録｜見守りDX</title>
+<title>予定登録</title>
 
 <link rel="icon" href="icon.png">
 
@@ -19,7 +19,7 @@ box-sizing:border-box;
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+color:#fff;
 min-height:100vh;
 }
 
@@ -47,10 +47,10 @@ margin-bottom:20px;
 }
 
 .name{
-font-size:24px;
+font-size:26px;
 font-weight:900;
 text-align:center;
-margin-bottom:20px;
+margin-bottom:10px;
 }
 
 input,
@@ -76,9 +76,9 @@ border:none;
 cursor:pointer;
 color:#fff;
 font-weight:900;
-padding:20px;
+padding:22px;
 border-radius:20px;
-font-size:22px;
+font-size:24px;
 margin-bottom:12px;
 }
 
@@ -91,13 +91,14 @@ background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 .msg{
 text-align:center;
-font-size:18px;
+font-size:20px;
 font-weight:900;
+margin-top:10px;
 min-height:30px;
 }
 
@@ -109,6 +110,7 @@ font-size:12px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -118,7 +120,7 @@ font-size:12px;
 <div class="card">
 
 <div class="title">
-📅 予定登録
+📝 予定登録
 </div>
 
 <div
@@ -137,16 +139,16 @@ id="time">
 
 <input
 id="title"
-placeholder="予定タイトル">
+placeholder="予定名">
 
 <textarea
 id="memo"
-placeholder="詳細メモ"></textarea>
+placeholder="内容"></textarea>
 
 <button
 class="save-btn"
 onclick="saveSchedule()">
-予定を登録
+登録する
 </button>
 
 <div
@@ -155,139 +157,3 @@ class="msg">
 </div>
 
 </div>
-
-<div class="card">
-
-<button
-class="list-btn"
-onclick="location.href='schedule.html?id='+USER_ID">
-📅 予定一覧
-</button>
-
-<button
-class="home-btn"
-onclick="location.href='app.html?id='+USER_ID">
-😊 本人ページ
-</button>
-
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-🏠 ホームへ戻る
-</button>
-
-</div>
-
-<div class="footer">
-NSAW 予定登録
-</div>
-
-</div>
-
-<script>
-
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
-
-const params =
-new URLSearchParams(location.search);
-
-const USER_ID =
-params.get("id") || "";
-
-async function loadUser(){
-
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?action=user&id=" +
-encodeURIComponent(USER_ID)
-);
-
-const json =
-await response.json();
-
-const user =
-json.data || {};
-
-document.getElementById("userName").innerHTML =
-user.name || "利用者";
-
-}catch(error){
-
-document.getElementById("userName").innerHTML =
-"利用者";
-
-}
-
-}
-
-async function saveSchedule(){
-
-const date =
-document.getElementById("date").value;
-
-const time =
-document.getElementById("time").value;
-
-const title =
-document.getElementById("title").value;
-
-const memo =
-document.getElementById("memo").value;
-
-if(!date || !title){
-
-document.getElementById("msg").innerHTML =
-"日付と予定を入力してください";
-
-return;
-
-}
-
-document.getElementById("msg").innerHTML =
-"登録中...";
-
-const body =
-new URLSearchParams();
-
-body.append("action","schedule");
-body.append("id",USER_ID);
-body.append("date",date);
-body.append("time",time);
-body.append("title",title);
-body.append("memo",memo);
-
-try{
-
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/x-www-form-urlencoded"
-},
-body:body.toString()
-}
-);
-
-document.getElementById("msg").innerHTML =
-"登録完了";
-
-}catch(error){
-
-document.getElementById("msg").innerHTML =
-"通信エラー";
-
-}
-
-}
-
-loadUser();
-
-</script>
-
-</body>
-</html>
