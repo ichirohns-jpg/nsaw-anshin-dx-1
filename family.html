@@ -6,6 +6,8 @@
 
 <title>家族確認｜見守りDX</title>
 
+<link rel="icon" href="icon.png">
+
 <style>
 
 *{
@@ -15,130 +17,162 @@ box-sizing:border-box;
 }
 
 body{
-background:linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#fff;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
 min-height:100vh;
-}
-
-.banner{
-height:260px;
-overflow:hidden;
-}
-
-.banner img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
 }
 
 .wrap{
 max-width:900px;
 margin:auto;
-padding:18px;
-}
-
-.header{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:24px;
-margin-bottom:18px;
-}
-
-.back{
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-}
-
-.title{
-font-size:36px;
-font-weight:900;
-}
-
-.sub{
-margin-top:8px;
-font-size:14px;
-opacity:.8;
+padding:16px;
 }
 
 .card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
 padding:20px;
 margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-.cardTitle{
-font-size:24px;
+.title{
+font-size:34px;
 font-weight:900;
-margin-bottom:12px;
+text-align:center;
+margin-bottom:20px;
 }
 
-.row{
-padding:10px 0;
+.name{
+font-size:28px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.item{
+padding:12px 0;
 border-bottom:1px solid rgba(255,255,255,.08);
-line-height:1.7;
 }
 
-.row:last-child{
+.item:last-child{
 border-bottom:none;
+}
+
+.label{
+font-size:14px;
+opacity:.7;
+margin-bottom:4px;
+}
+
+.value{
+font-size:20px;
+font-weight:900;
+}
+
+button{
+width:100%;
+border:none;
+cursor:pointer;
+color:#fff;
+font-weight:900;
+padding:18px;
+border-radius:18px;
+font-size:18px;
+margin-bottom:10px;
+}
+
+.home-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
+.app-btn{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
 .footer{
 text-align:center;
 padding:20px;
-font-size:12px;
 opacity:.6;
+font-size:12px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="banner">
-<img src="family-top.jpg">
-</div>
-
 <div class="wrap">
 
-<div class="header">
-
-<div
-class="back"
-onclick="location.href='index.html'">
-← ホームへ戻る
-</div>
+<div class="card">
 
 <div class="title">
 👪 家族確認
 </div>
 
-<div class="sub">
-本人の状況を確認
-</div>
-
-</div>
-
-<div id="dashboard">
-
-<div class="card">
-<div class="cardTitle">
+<div
+id="userName"
+class="name">
 読み込み中...
 </div>
+
+<div class="item">
+<div class="label">
+最終確認
 </div>
+<div
+id="lastTime"
+class="value">
+-
+</div>
+</div>
+
+<div class="item">
+<div class="label">
+状態
+</div>
+<div
+id="lastStatus"
+class="value">
+-
+</div>
+</div>
+
+<div class="item">
+<div class="label">
+メモ
+</div>
+<div
+id="lastMemo"
+class="value">
+-
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<button
+class="app-btn"
+id="openUser">
+😊 本人ページ
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='users.html'">
+👥 利用者一覧
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
+</button>
 
 </div>
 
@@ -153,15 +187,13 @@ NSAW 家族ダッシュボード
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-async function loadDashboard(){
-
 const params =
-new URLSearchParams(
-location.search
-);
+new URLSearchParams(location.search);
 
-const id =
+const USER_ID =
 params.get("id") || "";
+
+async function loadData(){
 
 try{
 
@@ -169,7 +201,7 @@ const response =
 await fetch(
 GAS_URL +
 "?action=dashboard&id=" +
-encodeURIComponent(id)
+encodeURIComponent(USER_ID)
 );
 
 const json =
@@ -181,130 +213,36 @@ json.user || {};
 const latest =
 json.latest || {};
 
-const medicine =
-json.medicine || [];
+document.getElementById("userName").innerHTML =
+user.name || "利用者";
 
-const schedules =
-json.schedules || [];
+document.getElementById("lastTime").innerHTML =
+latest.time || "-";
 
-const location =
-json.location || {};
+document.getElementById("lastStatus").innerHTML =
+latest.status || "-";
 
-const emergency =
-json.emergency || {};
+document.getElementById("lastMemo").innerHTML =
+latest.memo || "-";
 
-let html = "";
+document.getElementById("openUser").onclick =
+function(){
 
-html += `
-<div class="card">
-<div class="cardTitle">
-👤 ${user.name || "利用者"}
-</div>
+location.href =
+"app.html?id=" + USER_ID;
 
-<div class="row">
-最終確認：${latest.time || "-"}
-</div>
-
-<div class="row">
-状態：${latest.status || "-"}
-</div>
-
-<div class="row">
-内容：${latest.memo || "-"}
-</div>
-</div>
-`;
-
-html += `
-<div class="card">
-<div class="cardTitle">
-💊 服薬状況
-</div>
-
-<div class="row">
-${medicine.length ? medicine[0].memo : "記録なし"}
-</div>
-</div>
-`;
-
-html += `
-<div class="card">
-<div class="cardTitle">
-📅 予定
-</div>
-`;
-
-if(schedules.length){
-
-schedules.slice(0,5).forEach(v=>{
-
-html += `
-<div class="row">
-${v.date} ${v.time}<br>
-${v.title}
-</div>
-`;
-
-});
-
-}else{
-
-html += `
-<div class="row">
-予定なし
-</div>
-`;
-
-}
-
-html += `
-</div>
-`;
-
-html += `
-<div class="card">
-<div class="cardTitle">
-📍 現在地
-</div>
-
-<div class="row">
-緯度：${location.lat || "-"}
-</div>
-
-<div class="row">
-経度：${location.lng || "-"}
-</div>
-</div>
-`;
-
-html += `
-<div class="card">
-<div class="cardTitle">
-☎ 緊急通知
-</div>
-
-<div class="row">
-${emergency ? emergency.memo || "なし" : "なし"}
-</div>
-</div>
-`;
-
-document.getElementById(
-"dashboard"
-).innerHTML = html;
+};
 
 }catch(error){
 
-document.getElementById(
-"dashboard"
-).innerHTML =
+document.getElementById("userName").innerHTML =
 "取得エラー";
 
 }
 
 }
 
-loadDashboard();
+loadData();
 
 </script>
 
