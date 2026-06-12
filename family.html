@@ -28,12 +28,6 @@ onclick="location.href='medicine.html'">
 </button>
 
 <button
-class="actionBtn schBtn"
-onclick="location.href='schedule.html'">
-📅 予定確認
-</button>
-
-<button
 class="actionBtn emgBtn"
 onclick="location.href='emergency.html'">
 ☎ 緊急連絡
@@ -49,21 +43,52 @@ html || "利用者なし";
 
 })
 .catch(()=>{
+
 document.getElementById("users").innerHTML =
 "取得エラー";
+
 });
 
 }
 
 function loadMedicineStatus(){
 
-document.getElementById("medicineStatus").innerHTML =
-`
-<div class="medStatus">朝の薬　未確認</div>
-<div class="medStatus">昼の薬　未確認</div>
-<div class="medStatus">夜の薬　未確認</div>
-<div class="medStatus">就寝前の薬　未確認</div>
+fetch(GAS_URL + "?action=records")
+.then(r=>r.json())
+.then(data=>{
+
+const rows = data.data || [];
+
+let html = "";
+
+rows.forEach(v=>{
+
+if(
+(v.memo || "").includes("薬")
+){
+
+html += `
+<div class="medStatus">
+${v.time || ""}
+<br>
+${v.memo || ""}
+</div>
 `;
+
+}
+
+});
+
+document.getElementById("medicineStatus").innerHTML =
+html || "<div class='medStatus'>服薬記録なし</div>";
+
+})
+.catch(()=>{
+
+document.getElementById("medicineStatus").innerHTML =
+"<div class='medStatus'>取得エラー</div>";
+
+});
 
 }
 
@@ -94,6 +119,7 @@ document.getElementById("ping").innerHTML =
 
 loadHeader();
 loadRecords();
+loadMedicineStatus();
 
 </script>
 
