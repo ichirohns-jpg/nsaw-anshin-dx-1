@@ -31,6 +31,11 @@ params.append(
 type
 );
 
+params.append(
+"time",
+new Date().toLocaleString("ja-JP")
+);
+
 const response =
 await fetch(
 GAS_URL,
@@ -47,11 +52,33 @@ const result =
 await response.text();
 
 if(
-response.ok
+response.ok &&
+result.indexOf("ERROR") === -1
 ){
 
 msg.innerHTML =
 "✓ " + type;
+
+const buttons =
+document.querySelectorAll(".btn");
+
+buttons.forEach(btn=>{
+
+if(
+btn.getAttribute("onclick") &&
+btn.getAttribute("onclick").includes(type)
+){
+
+btn.disabled = true;
+
+btn.style.opacity = ".5";
+
+btn.innerHTML =
+"確認済み";
+
+}
+
+});
 
 }else{
 
