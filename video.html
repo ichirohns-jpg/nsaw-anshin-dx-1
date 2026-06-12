@@ -20,13 +20,7 @@ scroll-behavior:smooth;
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:
-linear-gradient(
-180deg,
-#050505 0%,
-#101827 50%,
-#000000 100%
-);
+background:linear-gradient(180deg,#050505 0%,#101827 50%,#000000 100%);
 color:#fff;
 min-height:100vh;
 }
@@ -61,8 +55,7 @@ border:1px solid rgba(255,255,255,.15);
 border-radius:24px;
 padding:18px;
 margin-bottom:16px;
-box-shadow:
-0 8px 24px rgba(0,0,0,.35);
+box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
 .item{
@@ -121,21 +114,11 @@ margin-bottom:12px;
 }
 
 .home-btn{
-background:
-linear-gradient(
-135deg,
-#455a64,
-#78909c
-);
+background:linear-gradient(135deg,#455a64,#78909c);
 }
 
 .top-btn{
-background:
-linear-gradient(
-135deg,
-#673ab7,
-#9575cd
-);
+background:linear-gradient(135deg,#263238,#546e7a);
 }
 
 .footer{
@@ -146,6 +129,7 @@ opacity:.6;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -196,62 +180,71 @@ NSAW お楽しみ動画
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec?action=video";
+const ITEMS = [
 
-fetch(GAS_URL)
-.then(res => res.json())
-.then(data => {
+{
+date:"今日",
+title:"地域紹介動画",
+description:"地域の魅力を動画で紹介します。",
+image:"home-top.jpg",
+url:"#"
+},
 
-let html = "";
+{
+date:"見守りDX",
+title:"見守りシステム紹介",
+description:"地域OSと見守りDXの紹介動画。",
+image:"family-top.jpg",
+url:"#"
+},
 
-(data || []).slice(0,5).forEach(d => {
+{
+date:"地域マップ",
+title:"まち歩き情報",
+description:"地域施設や生活情報を動画で案内。",
+image:"map-top.jpg",
+url:"#"
+}
+
+];
+
+let html="";
+
+ITEMS.forEach(d=>{
 
 html += `
-
 <div class="item">
 
 <img
 class="thumb"
-src="${d.image || 'top.jpg'}">
+src="${d.image}">
 
 <div class="date">
-${d.date || ''}
+${d.date}
 </div>
 
 <div class="title">
-${d.title || ''}
+${d.title}
 </div>
 
 <div class="desc">
-${d.description || ''}
+${d.description}
 </div>
 
 <a
 class="play-btn"
-href="${d.url || '#'}"
+href="${d.url}"
 target="_blank">
 動画を見る
 </a>
 
 </div>
-
 `;
 
 });
 
 document.getElementById("list").innerHTML =
-html || "データなし";
-
-})
-.catch(error => {
-
-document.getElementById("list").innerHTML =
-"読み込みエラー";
-
-console.error(error);
-
-});
+html;
 
 </script>
 
