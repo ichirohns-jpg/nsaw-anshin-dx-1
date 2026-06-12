@@ -1,18 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>見守りDX｜HOME</title>
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
+min-height:100vh;
+}
+
+.banner{
+height:280px;
+overflow:hidden;
+position:relative;
+}
+
+.banner img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.banner:after{
+content:"";
+position:absolute;
+left:0;
+top:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.25);
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+button{
+width:100%;
+border:none;
+cursor:pointer;
+color:#fff;
+font-weight:900;
+}
+
+.main-btn{
+padding:34px;
+border-radius:24px;
+font-size:34px;
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
+margin-bottom:12px;
+}
+
+.sub-btn{
+padding:28px;
+border-radius:22px;
+font-size:26px;
+background:linear-gradient(135deg,#1f2937,#475569);
+margin-bottom:12px;
+}
+
+.life-btn{
+padding:22px;
+border-radius:18px;
+font-size:22px;
+margin-bottom:12px;
+background:linear-gradient(135deg,#37474f,#607d8b);
+}
+
+.info-btn{
+padding:22px;
+border-radius:18px;
+font-size:22px;
+margin-bottom:12px;
+background:linear-gradient(135deg,#1c2331,#334155);
+}
+
+.emg-btn{
+padding:22px;
+border-radius:18px;
+font-size:22px;
+margin-bottom:12px;
+background:linear-gradient(135deg,#c62828,#ef5350);
+}
+
+.section-title{
+font-size:13px;
+letter-spacing:4px;
+opacity:.55;
+margin:24px 0 12px;
+padding-left:4px;
+}
+
+.news{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.news:last-child{
+border-bottom:none;
+}
+
+.news-title{
+font-size:17px;
+font-weight:900;
+}
+
+.news-text{
+font-size:13px;
+opacity:.7;
+margin-top:4px;
+}
+
+a{
+text-decoration:none;
+}
+
+.footer{
+text-align:center;
+padding:30px 10px;
+opacity:.6;
+font-size:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="banner">
+<img src="home-top.jpg">
+</div>
+
+<div class="wrap">
+
 <div class="card">
 
 <div style="
-font-size:28px;
+font-size:30px;
 font-weight:900;
-margin-bottom:20px;
 text-align:center;
+margin-bottom:20px;
 ">
-見守りダッシュボード
+LEXUS STYLE DASHBOARD
 </div>
 
 <div style="
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(3,1fr);
 gap:12px;
+margin-bottom:15px;
 ">
 
 <div style="
@@ -25,7 +193,7 @@ text-align:center;
 <div
 id="okCount"
 style="
-font-size:38px;
+font-size:42px;
 font-weight:900;
 color:#00e676;
 ">
@@ -33,7 +201,7 @@ color:#00e676;
 </div>
 
 <div>
-😊 今日元気
+🟢 元気
 </div>
 
 </div>
@@ -48,7 +216,7 @@ text-align:center;
 <div
 id="waitCount"
 style="
-font-size:38px;
+font-size:42px;
 font-weight:900;
 color:#ffd54f;
 ">
@@ -56,7 +224,7 @@ color:#ffd54f;
 </div>
 
 <div>
-⚠ 未確認
+🟡 未確認
 </div>
 
 </div>
@@ -71,7 +239,7 @@ text-align:center;
 <div
 id="emgCount"
 style="
-font-size:38px;
+font-size:42px;
 font-weight:900;
 color:#ff5252;
 ">
@@ -79,22 +247,30 @@ color:#ff5252;
 </div>
 
 <div>
-🚨 緊急
+🔴 緊急
+</div>
+
 </div>
 
 </div>
 
 <div style="
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+">
+
+<div style="
 background:rgba(33,150,243,.15);
-padding:18px;
-border-radius:20px;
+padding:15px;
+border-radius:18px;
 text-align:center;
 ">
 
 <div
-id="userCount"
+id="scheduleCount"
 style="
-font-size:38px;
+font-size:30px;
 font-weight:900;
 color:#64b5f6;
 ">
@@ -102,7 +278,53 @@ color:#64b5f6;
 </div>
 
 <div>
-👤 利用者数
+📅 予定
+</div>
+
+</div>
+
+<div style="
+background:rgba(156,39,176,.15);
+padding:15px;
+border-radius:18px;
+text-align:center;
+">
+
+<div
+id="medicineCount"
+style="
+font-size:30px;
+font-weight:900;
+color:#ce93d8;
+">
+0
+</div>
+
+<div>
+💊 服薬
+</div>
+
+</div>
+
+<div style="
+background:rgba(0,150,136,.15);
+padding:15px;
+border-radius:18px;
+text-align:center;
+">
+
+<div
+id="locationCount"
+style="
+font-size:30px;
+font-weight:900;
+color:#4db6ac;
+">
+0
+</div>
+
+<div>
+📍 位置
 </div>
 
 </div>
@@ -428,6 +650,15 @@ document.getElementById("emgCount").innerHTML =
 "0";
 
 document.getElementById("userCount").innerHTML =
+"0";
+
+document.getElementById("scheduleCount").innerHTML =
+"0";
+
+document.getElementById("medicineCount").innerHTML =
+"0";
+
+document.getElementById("locationCount").innerHTML =
 "0";
 
 }catch(error){
