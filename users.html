@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>利用者一覧｜見守りDX</title>
+<title>利用者一覧</title>
+
+<link rel="icon" href="icon.png">
 
 <style>
 
@@ -15,49 +17,41 @@ box-sizing:border-box;
 }
 
 body{
-background:linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#fff;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#ffffff;
 min-height:100vh;
 }
 
 .wrap{
 max-width:900px;
 margin:auto;
-padding:20px;
+padding:16px;
 }
 
 .header{
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.15);
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
-padding:24px;
-margin-bottom:20px;
-backdrop-filter:blur(12px);
+padding:20px;
+margin-bottom:16px;
+text-align:center;
 }
 
 .title{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
-.sub{
-margin-top:8px;
-opacity:.8;
-}
-
 .card{
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
 padding:20px;
 margin-bottom:16px;
-backdrop-filter:blur(12px);
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .name{
@@ -67,48 +61,49 @@ margin-bottom:10px;
 }
 
 .info{
-font-size:14px;
+font-size:15px;
 opacity:.8;
 line-height:1.8;
-margin-bottom:15px;
+margin-bottom:14px;
 }
 
-.btn{
+button{
 width:100%;
 border:none;
-border-radius:18px;
-padding:16px;
-font-size:18px;
-font-weight:900;
-color:#fff;
 cursor:pointer;
-margin-bottom:10px;
+color:#fff;
+font-weight:900;
+padding:18px;
+border-radius:18px;
+font-size:18px;
+margin-bottom:8px;
 }
 
-.blue{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
+.app-btn{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.green{
+.family-btn{
 background:linear-gradient(135deg,#00c853,#00e676);
 }
 
-.orange{
-background:linear-gradient(135deg,#fb8c00,#ffb300);
+.qr-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
 
-.purple{
-background:linear-gradient(135deg,#7b1fa2,#ba68c8);
+.home-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
 .footer{
 text-align:center;
 padding:20px;
-font-size:12px;
 opacity:.6;
+font-size:12px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -121,10 +116,6 @@ opacity:.6;
 👥 利用者一覧
 </div>
 
-<div class="sub">
-登録済み利用者
-</div>
-
 </div>
 
 <div id="users">
@@ -132,6 +123,22 @@ opacity:.6;
 <div class="card">
 読み込み中...
 </div>
+
+</div>
+
+<div class="card">
+
+<button
+class="home-btn"
+onclick="location.href='register.html'">
+👤 利用者登録
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホームへ戻る
+</button>
 
 </div>
 
@@ -152,7 +159,8 @@ try{
 
 const response =
 await fetch(
-GAS_URL + "?action=users"
+GAS_URL +
+"?action=users"
 );
 
 const json =
@@ -163,43 +171,43 @@ json.data || [];
 
 let html = "";
 
-data.forEach(v=>{
+data.forEach(user=>{
 
 html += `
 <div class="card">
 
 <div class="name">
-${v.name || ""}
+${user.name || ""}
 </div>
 
 <div class="info">
-ID : ${v.id || ""}
+
+ID :
+${user.id || ""}
+
 <br>
-電話 : ${v.tel || ""}
+
+電話 :
+${user.tel || ""}
+
 </div>
 
 <button
-class="btn blue"
-onclick="location.href='app.html?id=${v.id}'">
-本人ページ
+class="app-btn"
+onclick="location.href='app.html?id=${user.id}'">
+😊 本人ページ
 </button>
 
 <button
-class="btn green"
-onclick="location.href='family.html?id=${v.id}'">
-家族確認
+class="family-btn"
+onclick="location.href='family.html?id=${user.id}'">
+👪 家族確認
 </button>
 
 <button
-class="btn orange"
-onclick="location.href='schedule.html?id=${v.id}'">
-予定確認
-</button>
-
-<button
-class="btn purple"
-onclick="location.href='qr.html?id=${v.id}'">
-QRコード
+class="qr-btn"
+onclick="location.href='qr.html?id=${user.id}'">
+📱 QRコード
 </button>
 
 </div>
@@ -210,7 +218,7 @@ QRコード
 document.getElementById("users").innerHTML =
 html || `
 <div class="card">
-利用者がいません
+利用者が登録されていません
 </div>
 `;
 
