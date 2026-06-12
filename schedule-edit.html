@@ -1,41 +1,144 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
 
-<title>予定登録｜見守りDX</title>
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
 
-<style>
+async function saveSchedule(){
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+const name =
+document.getElementById("name").value.trim();
+
+const date =
+document.getElementById("date").value;
+
+const time =
+document.getElementById("time").value;
+
+const title =
+document.getElementById("title").value.trim();
+
+const place =
+document.getElementById("place").value.trim();
+
+const memo =
+document.getElementById("memo").value.trim();
+
+if(name === ""){
+
+document.getElementById("msg").innerHTML =
+"利用者名を入力してください";
+
+return;
+
 }
 
-body{
-background:linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
+if(date === ""){
+
+document.getElementById("msg").innerHTML =
+"予定日を入力してください";
+
+return;
+
+}
+
+if(title === ""){
+
+document.getElementById("msg").innerHTML =
+"予定内容を入力してください";
+
+return;
+
+}
+
+document.getElementById("msg").innerHTML =
+"保存中...";
+
+const params =
+new URLSearchParams();
+
+params.append(
+"action",
+"scheduleAdd"
 );
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#fff;
-min-height:100vh;
+
+params.append(
+"name",
+name
+);
+
+params.append(
+"date",
+date
+);
+
+params.append(
+"time",
+time
+);
+
+params.append(
+"title",
+title
+);
+
+params.append(
+"place",
+place
+);
+
+params.append(
+"memo",
+memo
+);
+
+try{
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:params.toString()
+}
+);
+
+const result =
+await response.text();
+
+if(
+response.ok &&
+result.indexOf("ERROR") === -1
+){
+
+document.getElementById("msg").innerHTML =
+"保存しました";
+
+document.getElementById("title").value =
+"";
+
+document.getElementById("place").value =
+"";
+
+document.getElementById("memo").value =
+"";
+
+}else{
+
+document.getElementById("msg").innerHTML =
+"保存失敗";
+
 }
 
-.wrap{
-max-width:760px;
-margin:auto;
-padding:18px;
+}catch(error){
+
+document.getElementById("msg").innerHTML =
+"通信エラー";
+
 }
 
-.header{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:24px;
-margin-bottom
+}
+
+</script>
