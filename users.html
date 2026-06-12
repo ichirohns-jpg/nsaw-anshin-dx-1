@@ -62,7 +62,7 @@ margin-bottom:10px;
 
 .info{
 font-size:15px;
-opacity:.8;
+opacity:.9;
 line-height:1.8;
 margin-bottom:14px;
 }
@@ -193,9 +193,20 @@ ${user.name || ""}
 </div>
 
 <div class="info">
+
 ID : ${user.id || ""}
 <br>
+
 電話 : ${user.tel || ""}
+<br>
+
+最終状態 :
+${user.lastStatus || "未送信"}
+<br>
+
+最終送信 :
+${user.lastTime || "-"}
+
 </div>
 
 <button
