@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>QRコード発行</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:linear-gradient(
+180deg,
+#000000 0%,
+#0a1220 50%,
+#000000 100%
+);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#fff;
+min-height:100vh;
+}
+
+.wrap{
+max-width:700px;
+margin:auto;
+padding:20px;
+text-align:center;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:20px;
+backdrop-filter:blur(12px);
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.name{
+font-size:24px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.url{
+word-break:break-all;
+font-size:14px;
+opacity:.8;
+margin-top:20px;
+}
+
+#qrcode{
+display:flex;
+justify-content:center;
+margin-top:20px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:20px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
+margin-top:20px;
+background:linear-gradient(
+135deg,
+#1565c0,
+#42a5f5
+);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+QRコード
+</div>
+
+<div
+class="name"
+id="name">
+読み込み中...
+</div>
+
+<div id="qrcode"></div>
+
+<div
+class="url"
+id="url">
+</div>
+
+<button
+class="btn"
+onclick="location.href='users.html'">
+利用者一覧へ戻る
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+
+const params =
+new URLSearchParams(location.search);
+
+const USER_ID =
+params.get("id") || "";
+
+async function loadUser(){
+
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const user =
+json.data || {};
+
+document.getElementById("name").innerHTML =
+user.name || "利用者";
+
+const url =
+"https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=" +
+USER_ID;
+
+document.getElementById("url").innerHTML =
+url;
+
+new QRCode(
+document.getElementById("qrcode"),
+{
+text:url,
+width:260,
+height:260
+}
+);
+
+}
+
+loadUser();
+
+</script>
+
+</body>
+</html>
