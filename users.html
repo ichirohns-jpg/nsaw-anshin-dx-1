@@ -62,9 +62,9 @@ margin-bottom:10px;
 
 .info{
 font-size:15px;
-opacity:.9;
 line-height:1.8;
 margin-bottom:14px;
+opacity:.9;
 }
 
 button{
@@ -104,7 +104,7 @@ background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 .footer{
@@ -189,7 +189,7 @@ html += `
 <div class="card">
 
 <div class="name">
-${user.name || ""}
+${user.name || ""} 
 </div>
 
 <div class="info">
@@ -224,13 +224,13 @@ onclick="location.href='qr.html?id=${user.id}'">
 <button
 class="medicine-btn"
 onclick="location.href='medicine.html?id=${user.id}'">
-💊 服薬確認
+💊 服薬
 </button>
 
 <button
 class="schedule-btn"
 onclick="location.href='schedule.html?id=${user.id}'">
-📅 予定一覧
+📅 予定
 </button>
 
 <button
@@ -242,7 +242,13 @@ onclick="location.href='map.html?id=${user.id}'">
 <button
 class="emg-btn"
 onclick="location.href='emergency.html?id=${user.id}'">
-🚨 緊急連絡
+🚨 緊急
+</button>
+
+<button
+class="home-btn"
+onclick="copyUrl('${user.id}')">
+🔗 URLコピー
 </button>
 
 </div>
@@ -267,6 +273,23 @@ document.getElementById("users").innerHTML =
 `;
 
 }
+
+}
+
+function copyUrl(id){
+
+const url =
+location.origin +
+location.pathname.replace(
+"users.html",
+"app.html"
+) +
+"?id=" +
+id;
+
+navigator.clipboard.writeText(url);
+
+alert("URLをコピーしました");
 
 }
 
