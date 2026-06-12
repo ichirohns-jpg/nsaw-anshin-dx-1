@@ -99,6 +99,10 @@ background:linear-gradient(135deg,#455a64,#607d8b);
 background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
+.info-btn{
+background:linear-gradient(135deg,#1c2331,#334155);
+}
+
 .home-btn{
 background:linear-gradient(135deg,#37474f,#607d8b);
 }
@@ -163,19 +167,13 @@ onclick="sendStatus('元気です')">
 <button
 class="medicine-btn"
 onclick="location.href='medicine.html?id='+USER_ID">
-💊 服薬確認
-</button>
-
-<button
-class="schedule-btn"
-onclick="location.href='schedule-edit.html?id='+USER_ID">
-📝 予定登録
+💊 本日の服薬
 </button>
 
 <button
 class="schedule-btn"
 onclick="location.href='schedule.html?id='+USER_ID">
-📅 予定一覧
+📅 本日の予定
 </button>
 
 <button
@@ -185,33 +183,42 @@ onclick="location.href='map.html?id='+USER_ID">
 </button>
 
 <button
-class="schedule-btn"
-onclick="location.href='qr.html?id='+USER_ID">
-📱 マイQRコード
+class="emg-btn"
+onclick="location.href='emergency.html?id='+USER_ID">
+🚨 緊急連絡
 </button>
 
+<div
+id="msg"
+class="msg">
+</div>
+
+</div>
+
+<div class="card">
+
 <button
-class="schedule-btn"
+class="info-btn"
 onclick="location.href='radio.html'">
 📻 地域ラジオ
 </button>
 
 <button
-class="schedule-btn"
+class="info-btn"
 onclick="location.href='kawaraban.html'">
 📰 ４市瓦版
 </button>
 
 <button
-class="schedule-btn"
+class="info-btn"
 onclick="location.href='video.html'">
 🎬 お楽しみ動画
 </button>
 
 <button
-class="emg-btn"
-onclick="location.href='emergency.html?id='+USER_ID">
-🚨 緊急連絡
+class="info-btn"
+onclick="location.href='qr.html?id='+USER_ID">
+📱 マイQRコード
 </button>
 
 <button
@@ -219,11 +226,6 @@ class="home-btn"
 onclick="location.href='index.html'">
 🏠 ホームへ戻る
 </button>
-
-<div
-id="msg"
-class="msg">
-</div>
 
 </div>
 
