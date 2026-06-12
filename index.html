@@ -168,31 +168,38 @@ font-size:12px;
 <div class="card">
 
 <div style="
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
+font-size:28px;
+font-weight:900;
+margin-bottom:20px;
 text-align:center;
+">
+見守りダッシュボード
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 ">
 
 <div style="
 background:rgba(0,200,83,.15);
-padding:16px;
-border-radius:18px;
+padding:18px;
+border-radius:20px;
+text-align:center;
 ">
 
-<div id="okCount"
+<div
+id="okCount"
 style="
-font-size:30px;
+font-size:38px;
 font-weight:900;
 color:#00e676;
 ">
 0
 </div>
 
-<div style="
-font-size:13px;
-margin-top:5px;
-">
+<div>
 😊 今日元気
 </div>
 
@@ -200,23 +207,22 @@ margin-top:5px;
 
 <div style="
 background:rgba(255,193,7,.15);
-padding:16px;
-border-radius:18px;
+padding:18px;
+border-radius:20px;
+text-align:center;
 ">
 
-<div id="waitCount"
+<div
+id="waitCount"
 style="
-font-size:30px;
+font-size:38px;
 font-weight:900;
 color:#ffd54f;
 ">
 0
 </div>
 
-<div style="
-font-size:13px;
-margin-top:5px;
-">
+<div>
 ⚠ 未確認
 </div>
 
@@ -224,24 +230,46 @@ margin-top:5px;
 
 <div style="
 background:rgba(244,67,54,.15);
-padding:16px;
-border-radius:18px;
+padding:18px;
+border-radius:20px;
+text-align:center;
 ">
 
-<div id="emgCount"
+<div
+id="emgCount"
 style="
-font-size:30px;
+font-size:38px;
 font-weight:900;
 color:#ff5252;
 ">
 0
 </div>
 
-<div style="
-font-size:13px;
-margin-top:5px;
-">
+<div>
 🚨 緊急
+</div>
+
+</div>
+
+<div style="
+background:rgba(33,150,243,.15);
+padding:18px;
+border-radius:20px;
+text-align:center;
+">
+
+<div
+id="userCount"
+style="
+font-size:38px;
+font-weight:900;
+color:#64b5f6;
+">
+0
+</div>
+
+<div>
+👤 利用者数
 </div>
 
 </div>
@@ -383,9 +411,6 @@ NSAW 地域OS / 見守りDX
 const SHEET_ID =
 "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
-
 function getVal(cell){
 
 if(!cell){
@@ -420,9 +445,7 @@ text.lastIndexOf("}") + 1
 async function loadSheet(sheetName){
 
 const res =
-await fetch(
-makeUrl(sheetName)
-);
+await fetch(makeUrl(sheetName));
 
 const text =
 await res.text();
@@ -494,36 +517,12 @@ ${getVal(row.c[2])}
 }
 
 document.getElementById("newsArea").innerHTML =
-html || `
-<div class="news">
-
-<div class="news-title">
-データなし
-</div>
-
-<div class="news-text">
-スプレッドシートを確認してください
-</div>
-
-</div>
-`;
+html;
 
 }catch(error){
 
 document.getElementById("newsArea").innerHTML =
-`
-<div class="news">
-
-<div class="news-title">
-読み込みエラー
-</div>
-
-<div class="news-text">
-スプレッドシートを確認してください
-</div>
-
-</div>
-`;
+"取得エラー";
 
 }
 
@@ -533,23 +532,10 @@ async function loadDashboard(){
 
 try{
 
-const response =
-await fetch(
-GAS_URL +
-"?action=dashboardSummary"
-);
-
-const json =
-await response.json();
-
-document.getElementById("okCount").innerHTML =
-json.ok || 0;
-
-document.getElementById("waitCount").innerHTML =
-json.wait || 0;
-
-document.getElementById("emgCount").innerHTML =
-json.emergency || 0;
+document.getElementById("okCount").innerHTML = "0";
+document.getElementById("waitCount").innerHTML = "0";
+document.getElementById("emgCount").innerHTML = "0";
+document.getElementById("userCount").innerHTML = "0";
 
 }catch(error){
 
@@ -561,11 +547,6 @@ console.log(error);
 
 loadNews();
 loadDashboard();
-
-setInterval(
-loadDashboard,
-30000
-);
 
 </script>
 
