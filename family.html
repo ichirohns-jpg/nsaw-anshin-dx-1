@@ -19,7 +19,7 @@ box-sizing:border-box;
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+color:#fff;
 min-height:100vh;
 }
 
@@ -36,7 +36,6 @@ border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
@@ -49,58 +48,73 @@ margin-bottom:20px;
 .name{
 font-size:28px;
 font-weight:900;
+text-align:center;
+margin-bottom:20px;
+}
+
+.section{
+font-size:20px;
+font-weight:900;
+margin-bottom:10px;
+color:#00d4ff;
+}
+
+.history{
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px;
 margin-bottom:10px;
 }
 
-.item{
-padding:12px 0;
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.item:last-child{
-border-bottom:none;
-}
-
-.label{
+.time{
 font-size:14px;
 opacity:.7;
-margin-bottom:4px;
+margin-bottom:5px;
 }
 
-.value{
+.status{
 font-size:20px;
 font-weight:900;
+margin-bottom:5px;
+}
+
+.memo{
+font-size:15px;
+line-height:1.6;
 }
 
 button{
 width:100%;
 border:none;
-cursor:pointer;
-color:#fff;
-font-weight:900;
 padding:18px;
 border-radius:18px;
-font-size:18px;
+font-size:20px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
 margin-bottom:10px;
-}
-
-.home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
 .app-btn{
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
+.qr-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+}
+
+.home-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
 .footer{
 text-align:center;
 padding:20px;
-opacity:.6;
 font-size:12px;
+opacity:.6;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -119,37 +133,16 @@ class="name">
 読み込み中...
 </div>
 
-<div class="item">
-<div class="label">
-最終確認
-</div>
-<div
-id="lastTime"
-class="value">
--
-</div>
 </div>
 
-<div class="item">
-<div class="label">
-状態
-</div>
-<div
-id="lastStatus"
-class="value">
--
-</div>
+<div class="card">
+
+<div class="section">
+📋 最新履歴
 </div>
 
-<div class="item">
-<div class="label">
-メモ
-</div>
-<div
-id="lastMemo"
-class="value">
--
-</div>
+<div id="historyArea">
+読み込み中...
 </div>
 
 </div>
@@ -158,8 +151,14 @@ class="value">
 
 <button
 class="app-btn"
-id="openUser">
+onclick="location.href='app.html?id='+USER_ID">
 😊 本人ページ
+</button>
+
+<button
+class="qr-btn"
+onclick="location.href='qr.html?id='+USER_ID">
+📱 QRコード
 </button>
 
 <button
@@ -210,32 +209,42 @@ await response.json();
 const user =
 json.user || {};
 
-const latest =
-json.latest || {};
+const history =
+json.history || [];
 
 document.getElementById("userName").innerHTML =
 user.name || "利用者";
 
-document.getElementById("lastTime").innerHTML =
-latest.time || "-";
+let html = "";
 
-document.getElementById("lastStatus").innerHTML =
-latest.status || "-";
+history.forEach(item=>{
 
-document.getElementById("lastMemo").innerHTML =
-latest.memo || "-";
+html += `
+<div class="history">
 
-document.getElementById("openUser").onclick =
-function(){
+<div class="time">
+${item.time || ""}
+</div>
 
-location.href =
-"app.html?id=" + USER_ID;
+<div class="status">
+${item.status || ""}
+</div>
 
-};
+<div class="memo">
+${item.memo || ""}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("historyArea").innerHTML =
+html || "履歴なし";
 
 }catch(error){
 
-document.getElementById("userName").innerHTML =
+document.getElementById("historyArea").innerHTML =
 "取得エラー";
 
 }
@@ -243,6 +252,8 @@ document.getElementById("userName").innerHTML =
 }
 
 loadData();
+
+setInterval(loadData,30000);
 
 </script>
 
