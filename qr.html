@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QRコード発行</title>
+<title>QRコード管理</title>
 
 <link rel="icon" href="icon.png">
 
@@ -21,12 +21,12 @@ box-sizing:border-box;
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+color:#fff;
 min-height:100vh;
 }
 
 .wrap{
-max-width:900px;
+max-width:760px;
 margin:auto;
 padding:16px;
 }
@@ -39,32 +39,39 @@ border-radius:28px;
 padding:20px;
 margin-bottom:16px;
 box-shadow:0 10px 30px rgba(0,0,0,.35);
-text-align:center;
 }
 
 .title{
 font-size:34px;
 font-weight:900;
+text-align:center;
 margin-bottom:20px;
 }
 
 .name{
-font-size:26px;
+font-size:28px;
 font-weight:900;
-margin-bottom:10px;
-}
-
-.info{
-font-size:14px;
-opacity:.8;
-margin-bottom:20px;
-word-break:break-all;
+text-align:center;
+margin-bottom:15px;
 }
 
 #qrcode{
 display:flex;
 justify-content:center;
-margin:20px 0;
+padding:20px;
+background:#fff;
+border-radius:20px;
+margin-bottom:15px;
+}
+
+.url{
+background:rgba(255,255,255,.08);
+padding:12px;
+border-radius:16px;
+font-size:13px;
+word-break:break-all;
+line-height:1.6;
+margin-bottom:12px;
 }
 
 button{
@@ -73,26 +80,22 @@ border:none;
 cursor:pointer;
 color:#fff;
 font-weight:900;
-padding:18px;
-border-radius:18px;
-font-size:18px;
-margin-bottom:10px;
-}
-
-.app-btn{
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
+padding:22px;
+border-radius:20px;
+font-size:22px;
+margin-bottom:12px;
 }
 
 .print-btn{
-background:linear-gradient(135deg,#00c853,#00e676);
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.save-btn{
+.app-btn{
 background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 .footer{
@@ -113,7 +116,7 @@ font-size:12px;
 <div class="card">
 
 <div class="title">
-📱 QRコード発行
+📱 QRコード
 </div>
 
 <div
@@ -126,31 +129,26 @@ class="name">
 
 <div
 id="urlText"
-class="info">
+class="url">
+読み込み中...
 </div>
-
-<button
-class="app-btn"
-id="openBtn">
-😊 本人ページを開く
-</button>
 
 <button
 class="print-btn"
 onclick="window.print()">
-🖨 QR印刷
+🖨 印刷
 </button>
 
 <button
-class="save-btn"
-onclick="saveQR()">
-📥 QR保存
+class="app-btn"
+onclick="location.href='app.html?id='+USER_ID">
+😊 本人ページ
 </button>
 
 <button
 class="home-btn"
 onclick="location.href='users.html'">
-👥 利用者一覧へ戻る
+👥 利用者一覧
 </button>
 
 <button
@@ -173,14 +171,12 @@ const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
 const params =
-new URLSearchParams(
-location.search
-);
+new URLSearchParams(location.search);
 
 const USER_ID =
 params.get("id") || "";
 
-async function loadUser(){
+async function loadQR(){
 
 try{
 
@@ -200,29 +196,29 @@ json.data || {};
 document.getElementById("userName").innerHTML =
 user.name || "利用者";
 
-const appUrl =
-"https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=" +
+const url =
+location.origin +
+location.pathname.replace(
+"qr.html",
+"app.html"
+) +
+"?id=" +
 USER_ID;
 
 document.getElementById("urlText").innerHTML =
-appUrl;
+url;
+
+document.getElementById("qrcode").innerHTML =
+"";
 
 new QRCode(
 document.getElementById("qrcode"),
 {
-text:appUrl,
+text:url,
 width:260,
 height:260
 }
 );
-
-document.getElementById("openBtn").onclick =
-function(){
-
-location.href =
-"app.html?id=" + USER_ID;
-
-};
 
 }catch(error){
 
@@ -233,29 +229,7 @@ document.getElementById("userName").innerHTML =
 
 }
 
-function saveQR(){
-
-const canvas =
-document.querySelector("#qrcode canvas");
-
-if(!canvas){
-return;
-}
-
-const link =
-document.createElement("a");
-
-link.download =
-"qr-" + USER_ID + ".png";
-
-link.href =
-canvas.toDataURL("image/png");
-
-link.click();
-
-}
-
-loadUser();
+loadQR();
 
 </script>
 
