@@ -1,239 +1,79 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>お楽しみ動画</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#050505 0%,#101827 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
-}
-
-header{
-text-align:center;
-padding:25px 10px;
-}
-
-.logo{
-font-size:34px;
-font-weight:900;
-letter-spacing:3px;
-}
-
-.sub{
-margin-top:8px;
-font-size:14px;
-opacity:.8;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:18px;
-}
-
-.card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.35);
-}
-
-.item{
-background:rgba(255,255,255,.08);
-border-radius:18px;
-padding:14px;
-margin-bottom:12px;
-}
-
-.thumb{
-width:100%;
-height:200px;
-object-fit:cover;
-border-radius:14px;
-margin-bottom:10px;
-}
-
-.date{
-font-size:13px;
-opacity:.7;
-margin-bottom:5px;
-}
-
-.title{
-font-size:22px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.desc{
-font-size:15px;
-line-height:1.6;
-margin-bottom:10px;
-}
-
-.play-btn{
-display:inline-block;
-padding:12px 18px;
-border-radius:12px;
-background:#e53935;
-color:#fff;
-text-decoration:none;
-font-weight:900;
-}
-
-button{
-width:100%;
-border:none;
-border-radius:20px;
-padding:18px;
-font-size:22px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-bottom:12px;
-}
-
-.home-btn{
-background:linear-gradient(135deg,#455a64,#78909c);
-}
-
-.top-btn{
-background:linear-gradient(135deg,#263238,#546e7a);
-}
-
-.footer{
-text-align:center;
-padding:25px;
-font-size:12px;
-opacity:.6;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-お楽しみ動画
-</div>
-
-<div class="sub">
-NSAW VIDEO SYSTEM
-</div>
-
-</header>
-
-<div class="wrap">
-
-<div class="card">
-
-<div id="list">
-読み込み中...
-</div>
-
-</div>
-
-<div class="card">
-
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-ホームへ戻る
-</button>
-
-<button
-class="top-btn"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
-</button>
-
-</div>
-
-<div class="footer">
-NSAW お楽しみ動画
-</div>
-
-</div>
-
 <script>
 
-const ITEMS = [
+const SHEET_ID = "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+const SHEET_NAME = "お楽しみ動画";
 
-{
-date:"今日",
-title:"地域紹介動画",
-description:"地域の魅力を動画で紹介します。",
-image:"home-top.jpg",
-url:"#"
-},
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json";
 
-{
-date:"見守りDX",
-title:"見守りシステム紹介",
-description:"地域OSと見守りDXの紹介動画。",
-image:"family-top.jpg",
-url:"#"
-},
-
-{
-date:"地域マップ",
-title:"まち歩き情報",
-description:"地域施設や生活情報を動画で案内。",
-image:"map-top.jpg",
-url:"#"
+function getVal(cell){
+return cell ? (cell.f || cell.v || "") : "";
 }
 
-];
+fetch(url)
+.then(r=>r.text())
+.then(text=>{
+
+const json =
+JSON.parse(
+text.substring(
+47,
+text.length - 2
+)
+);
+
+const rows =
+json.table.rows || [];
+
+rows.reverse();
 
 let html="";
 
-ITEMS.forEach(d=>{
+rows.slice(0,20).forEach(row=>{
+
+const date =
+getVal(row.c[0]);
+
+const title =
+getVal(row.c[1]);
+
+const description =
+getVal(row.c[2]);
+
+const image =
+getVal(row.c[3]) ||
+"home-top.jpg";
+
+const videoUrl =
+getVal(row.c[4]);
 
 html += `
 <div class="item">
 
 <img
 class="thumb"
-src="${d.image}">
+src="${image}"
+onerror="this.src='home-top.jpg'">
 
 <div class="date">
-${d.date}
+${date}
 </div>
 
 <div class="title">
-${d.title}
+${title}
 </div>
 
 <div class="desc">
-${d.description}
+${description}
 </div>
 
 <a
 class="play-btn"
-href="${d.url}"
+href="${videoUrl}"
 target="_blank">
 動画を見る
 </a>
@@ -244,9 +84,14 @@ target="_blank">
 });
 
 document.getElementById("list").innerHTML =
-html;
+html || "データなし";
+
+})
+.catch(()=>{
+
+document.getElementById("list").innerHTML =
+"読み込みエラー";
+
+});
 
 </script>
-
-</body>
-</html>
