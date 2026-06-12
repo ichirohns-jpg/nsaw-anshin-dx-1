@@ -190,8 +190,7 @@ border-radius:20px;
 text-align:center;
 ">
 
-<div
-id="okCount"
+<div id="okCount"
 style="
 font-size:42px;
 font-weight:900;
@@ -213,8 +212,7 @@ border-radius:20px;
 text-align:center;
 ">
 
-<div
-id="waitCount"
+<div id="waitCount"
 style="
 font-size:42px;
 font-weight:900;
@@ -236,8 +234,7 @@ border-radius:20px;
 text-align:center;
 ">
 
-<div
-id="emgCount"
+<div id="emgCount"
 style="
 font-size:42px;
 font-weight:900;
@@ -267,8 +264,7 @@ border-radius:18px;
 text-align:center;
 ">
 
-<div
-id="scheduleCount"
+<div id="scheduleCount"
 style="
 font-size:30px;
 font-weight:900;
@@ -290,8 +286,7 @@ border-radius:18px;
 text-align:center;
 ">
 
-<div
-id="medicineCount"
+<div id="medicineCount"
 style="
 font-size:30px;
 font-weight:900;
@@ -313,8 +308,7 @@ border-radius:18px;
 text-align:center;
 ">
 
-<div
-id="locationCount"
+<div id="locationCount"
 style="
 font-size:30px;
 font-weight:900;
@@ -365,6 +359,32 @@ margin-bottom:15px;
 <a href="app.html">
 <button class="life-btn">
 😊 本人ページ
+</button>
+</a>
+
+</div>
+
+<div class="section-title">
+ワンタッチ操作
+</div>
+
+<div class="card">
+
+<a href="map.html">
+<button class="main-btn">
+📍 現在地送信
+</button>
+</a>
+
+<a href="medicine.html">
+<button class="sub-btn">
+💊 本日の服薬
+</button>
+</a>
+
+<a href="schedule.html">
+<button class="life-btn">
+📅 本日の予定
 </button>
 </a>
 
@@ -538,15 +558,12 @@ radioRows[0];
 
 html += `
 <div class="news">
-
 <div class="news-title">
 📻 ${getVal(row.c[1])}
 </div>
-
 <div class="news-text">
 ${getVal(row.c[2])}
 </div>
-
 </div>
 `;
 
@@ -562,15 +579,12 @@ videoRows[0];
 
 html += `
 <div class="news">
-
 <div class="news-title">
 🎬 ${getVal(row.c[1])}
 </div>
-
 <div class="news-text">
 ${getVal(row.c[2])}
 </div>
-
 </div>
 `;
 
@@ -586,15 +600,12 @@ kawarabanRows[0];
 
 html += `
 <div class="news">
-
 <div class="news-title">
 📰 ${getVal(row.c[2])}
 </div>
-
 <div class="news-text">
 ${getVal(row.c[3])}
 </div>
-
 </div>
 `;
 
@@ -603,15 +614,12 @@ ${getVal(row.c[3])}
 document.getElementById("newsArea").innerHTML =
 html || `
 <div class="news">
-
 <div class="news-title">
 データなし
 </div>
-
 <div class="news-text">
 スプレッドシートを確認してください
 </div>
-
 </div>
 `;
 
@@ -620,15 +628,12 @@ html || `
 document.getElementById("newsArea").innerHTML =
 `
 <div class="news">
-
 <div class="news-title">
 取得エラー
 </div>
-
 <div class="news-text">
 通信状態を確認してください
 </div>
-
 </div>
 `;
 
