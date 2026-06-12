@@ -6,6 +6,8 @@
 
 <title>利用者登録</title>
 
+<link rel="icon" href="icon.png">
+
 <style>
 
 *{
@@ -15,13 +17,8 @@ box-sizing:border-box;
 }
 
 body{
-background:linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
 color:#fff;
 min-height:100vh;
 }
@@ -29,21 +26,23 @@ min-height:100vh;
 .wrap{
 max-width:800px;
 margin:auto;
-padding:20px;
+padding:16px;
 }
 
 .card{
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.15);
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
-padding:24px;
-margin-bottom:20px;
-backdrop-filter:blur(12px);
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
 font-size:34px;
 font-weight:900;
+text-align:center;
 margin-bottom:20px;
 }
 
@@ -55,7 +54,7 @@ border:none;
 border-radius:18px;
 margin-bottom:12px;
 font-size:18px;
-background:rgba(255,255,255,.12);
+background:rgba(255,255,255,.1);
 color:#fff;
 }
 
@@ -66,31 +65,45 @@ resize:none;
 
 button{
 width:100%;
+padding:20px;
 border:none;
 border-radius:20px;
-padding:18px;
-font-size:22px;
+font-size:24px;
 font-weight:900;
 color:#fff;
 cursor:pointer;
+margin-bottom:10px;
 }
 
-.save{
-background:linear-gradient(
-135deg,
-#00c853,
-#00e676
-);
+.save-btn{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
+}
+
+.list-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
+.home-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
 
 .msg{
-margin-top:15px;
+text-align:center;
 font-size:18px;
 font-weight:900;
+margin-top:10px;
+min-height:30px;
+}
+
+.footer{
 text-align:center;
+padding:20px;
+font-size:12px;
+opacity:.6;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -100,27 +113,53 @@ text-align:center;
 <div class="card">
 
 <div class="title">
-利用者登録
+👤 利用者登録
 </div>
 
-<input id="name" placeholder="氏名">
+<input
+id="name"
+placeholder="氏名">
 
-<input id="kana" placeholder="ふりがな">
+<input
+id="kana"
+placeholder="ふりがな">
 
-<input id="tel" placeholder="電話番号">
+<input
+id="tel"
+placeholder="電話番号">
 
-<input id="address" placeholder="住所">
+<input
+id="address"
+placeholder="住所">
 
-<input id="emergencyName" placeholder="緊急連絡先名">
+<input
+id="familyName"
+placeholder="家族氏名">
 
-<input id="emergencyTel" placeholder="緊急連絡先電話">
+<input
+id="familyTel"
+placeholder="家族電話番号">
 
-<textarea id="memo" placeholder="メモ"></textarea>
+<textarea
+id="memo"
+placeholder="メモ"></textarea>
 
 <button
-class="save"
+class="save-btn"
 onclick="saveUser()">
 登録する
+</button>
+
+<button
+class="list-btn"
+onclick="location.href='users.html'">
+利用者一覧
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+ホームへ戻る
 </button>
 
 <div
@@ -128,6 +167,10 @@ id="msg"
 class="msg">
 </div>
 
+</div>
+
+<div class="footer">
+NSAW 利用者登録
 </div>
 
 </div>
@@ -138,6 +181,21 @@ const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
 async function saveUser(){
+
+const name =
+document.getElementById("name").value.trim();
+
+if(name===""){
+
+document.getElementById("msg").innerHTML =
+"氏名を入力してください";
+
+return;
+
+}
+
+document.getElementById("msg").innerHTML =
+"登録中...";
 
 const body =
 new URLSearchParams();
@@ -168,13 +226,13 @@ document.getElementById("address").value
 );
 
 body.append(
-"emergencyName",
-document.getElementById("emergencyName").value
+"familyName",
+document.getElementById("familyName").value
 );
 
 body.append(
-"emergencyTel",
-document.getElementById("emergencyTel").value
+"familyTel",
+document.getElementById("familyTel").value
 );
 
 body.append(
@@ -182,8 +240,7 @@ body.append(
 document.getElementById("memo").value
 );
 
-document.getElementById("msg").innerHTML =
-"登録中...";
+try{
 
 const response =
 await fetch(
@@ -200,7 +257,7 @@ body:body.toString()
 const json =
 await response.json();
 
-if(json.status === "OK"){
+if(json.status==="OK"){
 
 document.getElementById("msg").innerHTML =
 "登録完了";
@@ -215,7 +272,14 @@ location.href =
 }else{
 
 document.getElementById("msg").innerHTML =
-"登録失敗";
+json.message || "登録失敗";
+
+}
+
+}catch(error){
+
+document.getElementById("msg").innerHTML =
+"通信エラー";
 
 }
 
