@@ -78,16 +78,17 @@ font-weight:900;
 .main-btn{
 padding:34px;
 border-radius:24px;
-font-size:38px;
+font-size:34px;
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
-box-shadow:0 0 25px rgba(0,212,255,.35);
+margin-bottom:12px;
 }
 
 .sub-btn{
 padding:28px;
 border-radius:22px;
-font-size:28px;
+font-size:26px;
 background:linear-gradient(135deg,#1f2937,#475569);
+margin-bottom:12px;
 }
 
 .life-btn{
@@ -172,23 +173,15 @@ font-size:12px;
 </button>
 </a>
 
-</div>
-
-<div class="card">
-
 <a href="users.html">
 <button class="sub-btn">
 👥 利用者一覧
 </button>
 </a>
 
-</div>
-
-<div class="card">
-
 <a href="qr.html">
-<button class="sub-btn">
-📱 QRコード発行
+<button class="life-btn">
+📱 QRコード管理
 </button>
 </a>
 
@@ -218,15 +211,15 @@ font-size:12px;
 </button>
 </a>
 
-<a href="schedule.html">
-<button class="life-btn">
-📅 予定確認
-</button>
-</a>
-
 <a href="schedule-edit.html">
 <button class="life-btn">
 📝 予定登録
+</button>
+</a>
+
+<a href="schedule.html">
+<button class="life-btn">
+📅 予定一覧
 </button>
 </a>
 
@@ -238,7 +231,7 @@ font-size:12px;
 
 <a href="emergency.html">
 <button class="emg-btn">
-☎ 緊急連絡
+🚨 緊急連絡
 </button>
 </a>
 
@@ -279,7 +272,6 @@ font-size:12px;
 <div id="newsArea">
 
 <div class="news">
-
 <div class="news-title">
 読み込み中...
 </div>
@@ -287,7 +279,6 @@ font-size:12px;
 <div class="news-text">
 最新情報を取得しています
 </div>
-
 </div>
 
 </div>
@@ -339,9 +330,7 @@ text.lastIndexOf("}") + 1
 async function loadSheet(sheetName){
 
 const res =
-await fetch(
-makeUrl(sheetName)
-);
+await fetch(makeUrl(sheetName));
 
 const text =
 await res.text();
@@ -412,9 +401,7 @@ ${getVal(row.c[2])}
 
 }
 
-document.getElementById(
-"newsArea"
-).innerHTML =
+document.getElementById("newsArea").innerHTML =
 html || `
 <div class="news">
 
@@ -431,9 +418,7 @@ html || `
 
 }catch(error){
 
-document.getElementById(
-"newsArea"
-).innerHTML =
+document.getElementById("newsArea").innerHTML =
 `
 <div class="news">
 
