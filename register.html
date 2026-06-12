@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>利用者登録</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:linear-gradient(
+180deg,
+#000000 0%,
+#0a1220 50%,
+#000000 100%
+);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+color:#fff;
+min-height:100vh;
+}
+
+.wrap{
+max-width:800px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.15);
+border-radius:28px;
+padding:24px;
+margin-bottom:20px;
+backdrop-filter:blur(12px);
+}
+
+.title{
+font-size:34px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+input,
+textarea{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+margin-bottom:12px;
+font-size:18px;
+background:rgba(255,255,255,.12);
+color:#fff;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+button{
+width:100%;
+border:none;
+border-radius:20px;
+padding:18px;
+font-size:22px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
+}
+
+.save{
+background:linear-gradient(
+135deg,
+#00c853,
+#00e676
+);
+}
+
+.msg{
+margin-top:15px;
+font-size:18px;
+font-weight:900;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+利用者登録
+</div>
+
+<input id="name" placeholder="氏名">
+
+<input id="kana" placeholder="ふりがな">
+
+<input id="tel" placeholder="電話番号">
+
+<input id="address" placeholder="住所">
+
+<input id="emergencyName" placeholder="緊急連絡先名">
+
+<input id="emergencyTel" placeholder="緊急連絡先電話">
+
+<textarea id="memo" placeholder="メモ"></textarea>
+
+<button
+class="save"
+onclick="saveUser()">
+登録する
+</button>
+
+<div
+id="msg"
+class="msg">
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+
+async function saveUser(){
+
+const body =
+new URLSearchParams();
+
+body.append(
+"action",
+"registerUser"
+);
+
+body.append(
+"name",
+document.getElementById("name").value
+);
+
+body.append(
+"kana",
+document.getElementById("kana").value
+);
+
+body.append(
+"tel",
+document.getElementById("tel").value
+);
+
+body.append(
+"address",
+document.getElementById("address").value
+);
+
+body.append(
+"emergencyName",
+document.getElementById("emergencyName").value
+);
+
+body.append(
+"emergencyTel",
+document.getElementById("emergencyTel").value
+);
+
+body.append(
+"memo",
+document.getElementById("memo").value
+);
+
+document.getElementById("msg").innerHTML =
+"登録中...";
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:body.toString()
+}
+);
+
+const json =
+await response.json();
+
+if(json.status === "OK"){
+
+document.getElementById("msg").innerHTML =
+"登録完了";
+
+setTimeout(function(){
+
+location.href =
+"users.html";
+
+},1000);
+
+}else{
+
+document.getElementById("msg").innerHTML =
+"登録失敗";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
