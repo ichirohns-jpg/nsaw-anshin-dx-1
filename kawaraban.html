@@ -20,13 +20,7 @@ scroll-behavior:smooth;
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:
-linear-gradient(
-180deg,
-#050505 0%,
-#101827 50%,
-#000000 100%
-);
+background:linear-gradient(180deg,#050505 0%,#101827 50%,#000000 100%);
 color:#fff;
 min-height:100vh;
 }
@@ -61,8 +55,7 @@ border:1px solid rgba(255,255,255,.15);
 border-radius:24px;
 padding:18px;
 margin-bottom:16px;
-box-shadow:
-0 8px 24px rgba(0,0,0,.35);
+box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
 .item{
@@ -128,21 +121,11 @@ margin-bottom:12px;
 }
 
 .home-btn{
-background:
-linear-gradient(
-135deg,
-#455a64,
-#78909c
-);
+background:linear-gradient(135deg,#455a64,#78909c);
 }
 
 .top-btn{
-background:
-linear-gradient(
-135deg,
-#673ab7,
-#9575cd
-);
+background:linear-gradient(135deg,#263238,#546e7a);
 }
 
 .footer{
@@ -203,66 +186,87 @@ NSAW ４市瓦版
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec?action=kawaraban";
+const ITEMS = [
 
-fetch(GAS_URL)
-.then(res => res.json())
-.then(data => {
+{
+city:"志木市",
+date:"今日",
+title:"４市瓦版",
+description:"志木市の最新情報を掲載します。",
+image:"family-top.jpg",
+url:"#"
+},
 
-let html = "";
+{
+city:"新座市",
+date:"今日",
+title:"地域ニュース",
+description:"新座市の暮らし情報。",
+image:"map-top.jpg",
+url:"#"
+},
 
-(data || []).slice(0,5).forEach(d => {
+{
+city:"朝霞市",
+date:"今日",
+title:"生活情報",
+description:"朝霞市の地域情報。",
+image:"schedule-top.jpg",
+url:"#"
+},
+
+{
+city:"和光市",
+date:"今日",
+title:"お知らせ",
+description:"和光市の最新情報。",
+image:"medicine-top.jpg",
+url:"#"
+}
+
+];
+
+let html="";
+
+ITEMS.forEach(d=>{
 
 html += `
-
 <div class="item">
 
 <img
 class="thumb"
-src="${d.image || 'top.jpg'}">
+src="${d.image}">
 
 <div class="city">
-${d.city || ''}
+${d.city}
 </div>
 
 <div class="date">
-${d.date || ''}
+${d.date}
 </div>
 
 <div class="title">
-${d.title || ''}
+${d.title}
 </div>
 
 <div class="desc">
-${d.description || ''}
+${d.description}
 </div>
 
 <a
 class="link"
-href="${d.url || '#'}"
+href="${d.url}"
 target="_blank">
 記事を見る
 </a>
 
 </div>
-
 `;
 
 });
 
 document.getElementById("list").innerHTML =
-html || "データなし";
-
-})
-.catch(error => {
-
-document.getElementById("list").innerHTML =
-"読み込みエラー";
-
-console.error(error);
-
-});
+html;
 
 </script>
 
