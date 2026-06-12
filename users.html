@@ -83,12 +83,24 @@ margin-bottom:8px;
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.family-btn{
-background:linear-gradient(135deg,#00c853,#00e676);
-}
-
 .qr-btn{
 background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+}
+
+.medicine-btn{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
+.schedule-btn{
+background:linear-gradient(135deg,#8e24aa,#ba68c8);
+}
+
+.map-btn{
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
+.emg-btn{
+background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
 .home-btn{
@@ -181,15 +193,9 @@ ${user.name || ""}
 </div>
 
 <div class="info">
-
-ID :
-${user.id || ""}
-
+ID : ${user.id || ""}
 <br>
-
-電話 :
-${user.tel || ""}
-
+電話 : ${user.tel || ""}
 </div>
 
 <button
@@ -199,15 +205,33 @@ onclick="location.href='app.html?id=${user.id}'">
 </button>
 
 <button
-class="family-btn"
-onclick="location.href='family.html?id=${user.id}'">
-👪 家族確認
-</button>
-
-<button
 class="qr-btn"
 onclick="location.href='qr.html?id=${user.id}'">
 📱 QRコード
+</button>
+
+<button
+class="medicine-btn"
+onclick="location.href='medicine.html?id=${user.id}'">
+💊 服薬確認
+</button>
+
+<button
+class="schedule-btn"
+onclick="location.href='schedule.html?id=${user.id}'">
+📅 予定一覧
+</button>
+
+<button
+class="map-btn"
+onclick="location.href='map.html?id=${user.id}'">
+📍 現在地
+</button>
+
+<button
+class="emg-btn"
+onclick="location.href='emergency.html?id=${user.id}'">
+🚨 緊急連絡
 </button>
 
 </div>
