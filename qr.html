@@ -90,6 +90,10 @@ margin-bottom:12px;
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
+.save-btn{
+background:linear-gradient(135deg,#00c853,#00e676);
+}
+
 .app-btn{
 background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
@@ -137,6 +141,12 @@ class="url">
 class="print-btn"
 onclick="window.print()">
 🖨 印刷
+</button>
+
+<button
+class="save-btn"
+onclick="saveQR()">
+💾 PNG保存
 </button>
 
 <button
@@ -224,6 +234,48 @@ height:260
 
 document.getElementById("userName").innerHTML =
 "取得エラー";
+
+}
+
+}
+
+function saveQR(){
+
+const img =
+document.querySelector("#qrcode img");
+
+if(img){
+
+const a =
+document.createElement("a");
+
+a.href =
+img.src;
+
+a.download =
+"qr-" + USER_ID + ".png";
+
+a.click();
+
+return;
+
+}
+
+const canvas =
+document.querySelector("#qrcode canvas");
+
+if(canvas){
+
+const a =
+document.createElement("a");
+
+a.href =
+canvas.toDataURL("image/png");
+
+a.download =
+"qr-" + USER_ID + ".png";
+
+a.click();
 
 }
 
