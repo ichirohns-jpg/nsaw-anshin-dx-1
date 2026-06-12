@@ -10,26 +10,12 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:
-linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 45%,
-#000000 100%
-);
+background:linear-gradient(180deg,#000 0%,#0a1220 45%,#000 100%);
 color:#fff;
 min-height:100vh;
 }
@@ -37,7 +23,6 @@ min-height:100vh;
 .banner{
 height:260px;
 overflow:hidden;
-position:relative;
 }
 
 .banner img{
@@ -60,92 +45,55 @@ border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
 padding:18px;
 margin-bottom:16px;
-box-shadow:
-0 10px 30px rgba(0,0,0,.35);
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+button{
+width:100%;
+border:none;
+cursor:pointer;
+color:#fff;
+font-weight:900;
 }
 
 .main-btn{
-width:100%;
 padding:34px;
-border:none;
 border-radius:24px;
 font-size:38px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
+box-shadow:0 0 25px rgba(0,212,255,.35);
 }
 
 .sub-btn{
-width:100%;
 padding:26px;
-border:none;
 border-radius:22px;
 font-size:28px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
+background:linear-gradient(135deg,#1f2937,#475569);
+box-shadow:0 0 25px rgba(255,255,255,.15);
 }
 
 .info-btn{
-width:100%;
 padding:22px;
-border:none;
 border-radius:18px;
 font-size:22px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
 margin-bottom:12px;
+background:linear-gradient(135deg,#1c2331,#334155);
 }
 
-.green{
-background:
-linear-gradient(
-135deg,
-#00a3c4,
-#00d4ff
-);
-box-shadow:
-0 0 25px rgba(0,212,255,.35);
+.life-btn{
+padding:22px;
+border-radius:18px;
+font-size:22px;
+margin-bottom:12px;
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
-.blue{
-background:
-linear-gradient(
-135deg,
-#1565c0,
-#42a5f5
-);
-}
-
-.gray{
-background:
-linear-gradient(
-135deg,
-#37474f,
-#607d8b
-);
-}
-
-.dark{
-background:
-linear-gradient(
-135deg,
-#1c2331,
-#334155
-);
-}
-
-.gold{
-background:
-linear-gradient(
-135deg,
-#1f2937,
-#475569
-);
-color:#fff;
-box-shadow:
-0 0 25px rgba(255,255,255,.15);
+.emg-btn{
+padding:22px;
+border-radius:18px;
+font-size:22px;
+margin-bottom:12px;
+background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
 .section-title{
@@ -156,45 +104,7 @@ margin:24px 0 12px;
 padding-left:4px;
 }
 
-.news-card{
-background:rgba(255,255,255,.06);
-border-radius:20px;
-padding:16px;
-margin-bottom:12px;
-}
-
-.news-title{
-font-size:18px;
-font-weight:900;
-margin-bottom:6px;
-}
-
-.news-text{
-font-size:14px;
-opacity:.85;
-line-height:1.6;
-}
-
-.top-btn{
-width:100%;
-padding:20px;
-border:none;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-background:
-linear-gradient(
-135deg,
-#263238,
-#546e7a
-);
-}
-
-a{
-text-decoration:none;
-}
+a{text-decoration:none}
 
 .footer{
 text-align:center;
@@ -202,137 +112,66 @@ padding:30px 10px;
 opacity:.6;
 font-size:12px;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="banner">
-
 <img src="home-top.jpg">
-
 </div>
 
 <div class="wrap">
 
 <div class="card">
-
 <a href="app.html">
-
-<button class="main-btn green">
-元気です
-</button>
-
+<button class="main-btn">元気です</button>
 </a>
-
 </div>
 
 <div class="card">
-
 <a href="family.html">
-
-<button class="sub-btn gold">
-家族確認
-</button>
-
+<button class="sub-btn">家族確認</button>
 </a>
-
 </div>
 
-<div class="section-title">
-地域情報
-</div>
-
-<div class="card">
-
-<a href="radio.html">
-<button class="info-btn dark">
-地域ラジオ
-</button>
-</a>
-
-<a href="kawaraban.html">
-<button class="info-btn dark">
-４市瓦版
-</button>
-</a>
-
-<a href="video.html">
-<button class="info-btn dark">
-お楽しみ動画
-</button>
-</a>
-
-</div>
-
-<div class="section-title">
-生活支援
-</div>
+<div class="section-title">生活支援</div>
 
 <div class="card">
 
 <a href="map.html">
-<button class="info-btn gray">
-地域マップ
-</button>
+<button class="life-btn">📍 現在地</button>
+</a>
+
+<a href="medicine.html">
+<button class="life-btn">💊 服薬確認</button>
 </a>
 
 <a href="schedule.html">
-<button class="info-btn gray">
-スケジュール
-</button>
+<button class="life-btn">📅 予定確認</button>
+</a>
+
+<a href="emergency.html">
+<button class="emg-btn">☎ 緊急連絡</button>
 </a>
 
 </div>
 
-<div class="section-title">
-最新情報
-</div>
-
-<div class="news-card">
-
-<div class="news-title">
-地域ラジオ
-</div>
-
-<div class="news-text">
-地域の最新情報を毎日配信
-</div>
-
-</div>
-
-<div class="news-card">
-
-<div class="news-title">
-４市瓦版
-</div>
-
-<div class="news-text">
-志木・新座・朝霞・和光の最新情報
-</div>
-
-</div>
-
-<div class="news-card">
-
-<div class="news-title">
-見守りDX
-</div>
-
-<div class="news-text">
-地域と家族をつなぐ安心ナビ
-</div>
-
-</div>
+<div class="section-title">地域情報</div>
 
 <div class="card">
 
-<button
-class="top-btn"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
-</button>
+<a href="radio.html">
+<button class="info-btn">地域ラジオ</button>
+</a>
+
+<a href="kawaraban.html">
+<button class="info-btn">４市瓦版</button>
+</a>
+
+<a href="video.html">
+<button class="info-btn">お楽しみ動画</button>
+</a>
 
 </div>
 
