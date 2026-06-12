@@ -1,263 +1,54 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>服薬確認｜見守りDX</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:
-linear-gradient(
-180deg,
-#000000 0%,
-#0a1220 50%,
-#000000 100%
-);
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-color:#fff;
-min-height:100vh;
-}
-
-.banner{
-height:260px;
-overflow:hidden;
-position:relative;
-margin-bottom:18px;
-}
-
-.banner img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:18px;
-}
-
-.header{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:28px;
-padding:24px;
-margin-bottom:18px;
-}
-
-.back{
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-}
-
-.title{
-font-size:38px;
-font-weight:900;
-}
-
-.sub{
-margin-top:8px;
-font-size:15px;
-opacity:.8;
-}
-
-.card{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,.15);
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-}
-
-.time{
-font-size:26px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.memo{
-font-size:15px;
-opacity:.8;
-line-height:1.7;
-}
-
-.btn{
-width:100%;
-border:none;
-border-radius:20px;
-padding:18px;
-font-size:22px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-top:14px;
-}
-
-.green{
-background:linear-gradient(135deg,#00c853,#00e676);
-}
-
-.blue{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
-}
-
-.orange{
-background:linear-gradient(135deg,#fb8c00,#ffb300);
-}
-
-.purple{
-background:linear-gradient(135deg,#7b1fa2,#ba68c8);
-}
-
-.footer{
-text-align:center;
-padding:20px;
-font-size:12px;
-opacity:.6;
-}
-
-#msg{
-text-align:center;
-font-size:22px;
-font-weight:900;
-margin-top:20px;
-color:#00e676;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="banner">
-<img src="medicine-top.jpg">
-</div>
-
-<div class="wrap">
-
-<div class="header">
-
-<div
-class="back"
-onclick="location.href='index.html'">
-← ホームへ戻る
-</div>
-
-<div class="title">
-💊 服薬確認
-</div>
-
-<div class="sub">
-薬を飲んだら押してください
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-朝の薬
-</div>
-
-<div class="memo">
-朝食後に服用
-</div>
-
-<button
-class="btn green"
-onclick="done('朝の薬を飲みました')">
-薬を飲みました
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-昼の薬
-</div>
-
-<div class="memo">
-昼食後に服用
-</div>
-
-<button
-class="btn blue"
-onclick="done('昼の薬を飲みました')">
-薬を飲みました
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-夜の薬
-</div>
-
-<div class="memo">
-夕食後に服用
-</div>
-
-<button
-class="btn orange"
-onclick="done('夜の薬を飲みました')">
-薬を飲みました
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="time">
-就寝前の薬
-</div>
-
-<div class="memo">
-寝る前に服用
-</div>
-
-<button
-class="btn purple"
-onclick="done('就寝前の薬を飲みました')">
-薬を飲みました
-</button>
-
-</div>
-
-<div id="msg"></div>
-
-<div class="footer">
-NSAW 服薬確認システム
-</div>
-
-</div>
-
 <script>
 
-function done(text){
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec";
+
+async function done(text){
+
+document.getElementById("msg").innerHTML =
+"送信中...";
+
+try{
+
+const params =
+new URLSearchParams();
+
+params.append(
+"name",
+"山口貞一郎"
+);
+
+params.append(
+"status",
+"服薬確認"
+);
+
+params.append(
+"memo",
+text
+);
+
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:params.toString()
+}
+);
 
 document.getElementById("msg").innerHTML =
 "✓ " + text;
 
+}catch(error){
+
+document.getElementById("msg").innerHTML =
+"送信失敗";
+
+}
+
 }
 
 </script>
-
-</body>
-</html>
