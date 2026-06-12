@@ -7,7 +7,6 @@
 <title>地域ラジオ</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -20,13 +19,7 @@ scroll-behavior:smooth;
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:
-linear-gradient(
-180deg,
-#050505 0%,
-#101827 50%,
-#000000 100%
-);
+background:linear-gradient(180deg,#050505 0%,#101827 50%,#000000 100%);
 color:#fff;
 min-height:100vh;
 }
@@ -61,8 +54,7 @@ border:1px solid rgba(255,255,255,.15);
 border-radius:24px;
 padding:18px;
 margin-bottom:16px;
-box-shadow:
-0 8px 24px rgba(0,0,0,.35);
+box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
 .item{
@@ -110,21 +102,11 @@ margin-bottom:12px;
 }
 
 .home-btn{
-background:
-linear-gradient(
-135deg,
-#455a64,
-#78909c
-);
+background:linear-gradient(135deg,#455a64,#78909c);
 }
 
 .top-btn{
-background:
-linear-gradient(
-135deg,
-#673ab7,
-#9575cd
-);
+background:linear-gradient(135deg,#263238,#546e7a);
 }
 
 .footer{
@@ -133,22 +115,14 @@ padding:25px;
 font-size:12px;
 opacity:.6;
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">
-地域ラジオ
-</div>
-
-<div class="sub">
-NSAW RADIO SYSTEM
-</div>
-
+<div class="logo">地域ラジオ</div>
+<div class="sub">NSAW RADIO SYSTEM</div>
 </header>
 
 <div class="wrap">
@@ -185,24 +159,37 @@ NSAW 地域ラジオ
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxHknfXsWiwwIhuJ88JFDNRi51jEvD-vgzdeld3YTnfL_0CsrhKmTzxaWUFLVnisRCp/exec?action=radio";
-
-fetch(GAS_URL)
-.then(res => res.json())
-.then(data => {
+const ITEMS = [
+{
+date:"今日",
+title:"地域ラジオ",
+description:"志木・新座・朝霞・和光の暮らし情報をお届けします。",
+image:"home-top.jpg"
+},
+{
+date:"見守りDX",
+title:"朝の3分地域ニュース",
+description:"生活、防災、イベント、行政情報をわかりやすくまとめます。",
+image:"family-top.jpg"
+},
+{
+date:"4市情報",
+title:"地域の安心ナビ",
+description:"毎日の暮らしに役立つ情報を確認できます。",
+image:"map-top.jpg"
+}
+];
 
 let html = "";
 
-(data || []).slice(0,5).forEach(d => {
+ITEMS.slice(0,5).forEach(d => {
 
 html += `
-
 <div class="item">
 
 <img
 class="thumb"
-src="${d.image || 'top.jpg'}">
+src="${d.image || 'home-top.jpg'}">
 
 <div class="date">
 ${d.date || ''}
@@ -217,23 +204,12 @@ ${d.description || ''}
 </div>
 
 </div>
-
 `;
 
 });
 
 document.getElementById("list").innerHTML =
 html || "データなし";
-
-})
-.catch(error => {
-
-document.getElementById("list").innerHTML =
-"読み込みエラー";
-
-console.error(error);
-
-});
 
 </script>
 
