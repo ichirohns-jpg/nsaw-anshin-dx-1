@@ -175,6 +175,18 @@ onclick="loadVideos()">
 
 <button
 class="home-btn"
+onclick="location.href='radio.html'">
+📻 地域ラジオ
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='kawaraban.html'">
+📰 ４市瓦版
+</button>
+
+<button
+class="home-btn"
 onclick="location.href='index.html'">
 ホームへ戻る
 </button>
@@ -276,7 +288,7 @@ rows.reverse();
 
 let html = "";
 
-rows.slice(0,20).forEach(row=>{
+rows.forEach(row=>{
 
 let image = "";
 let videoUrl = "";
