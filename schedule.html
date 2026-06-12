@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>予定一覧｜見守りDX</title>
+<title>予定一覧</title>
 
 <link rel="icon" href="icon.png">
 
@@ -19,12 +19,12 @@ box-sizing:border-box;
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+color:#fff;
 min-height:100vh;
 }
 
 .wrap{
-max-width:900px;
+max-width:760px;
 margin:auto;
 padding:16px;
 }
@@ -43,38 +43,38 @@ box-shadow:0 10px 30px rgba(0,0,0,.35);
 font-size:34px;
 font-weight:900;
 text-align:center;
-margin-bottom:10px;
-}
-
-.name{
-font-size:24px;
-font-weight:900;
-text-align:center;
 margin-bottom:20px;
 }
 
-.schedule{
-background:rgba(255,255,255,.08);
-border-radius:20px;
-padding:16px;
-margin-bottom:12px;
+.name{
+font-size:26px;
+font-weight:900;
+text-align:center;
+margin-bottom:10px;
 }
 
-.date{
-font-size:18px;
+.section{
+font-size:20px;
 font-weight:900;
+margin-bottom:10px;
 color:#00d4ff;
-margin-bottom:6px;
+}
+
+.item{
+background:rgba(255,255,255,.08);
+border-radius:18px;
+padding:14px;
+margin-bottom:10px;
+}
+
+.time{
+font-size:14px;
+opacity:.7;
+margin-bottom:5px;
 }
 
 .text{
 font-size:18px;
-font-weight:900;
-margin-bottom:6px;
-}
-
-.memo{
-opacity:.8;
 line-height:1.6;
 }
 
@@ -84,10 +84,10 @@ border:none;
 cursor:pointer;
 color:#fff;
 font-weight:900;
-padding:18px;
-border-radius:18px;
-font-size:18px;
-margin-bottom:10px;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+margin-bottom:12px;
 }
 
 .add-btn{
@@ -95,14 +95,7 @@ background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
-}
-
-.footer{
-text-align:center;
-padding:20px;
-opacity:.6;
-font-size:12px;
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 </style>
@@ -125,12 +118,16 @@ class="name">
 読み込み中...
 </div>
 
-<div id="scheduleArea">
-
-<div class="schedule">
-予定を読み込み中...
 </div>
 
+<div class="card">
+
+<div class="section">
+📌 予定
+</div>
+
+<div id="scheduleArea">
+読み込み中...
 </div>
 
 </div>
@@ -157,10 +154,6 @@ onclick="location.href='index.html'">
 
 </div>
 
-<div class="footer">
-NSAW 予定管理
-</div>
-
 </div>
 
 <script>
@@ -174,6 +167,32 @@ new URLSearchParams(location.search);
 const USER_ID =
 params.get("id") || "";
 
+async function loadUser(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+document.getElementById("userName").innerHTML =
+(json.data || {}).name || "利用者";
+
+}catch(error){
+
+document.getElementById("userName").innerHTML =
+"利用者";
+
+}
+
+}
+
 async function loadSchedule(){
 
 try{
@@ -181,39 +200,32 @@ try{
 const response =
 await fetch(
 GAS_URL +
-"?action=schedules&id=" +
+"?action=dashboard&id=" +
 encodeURIComponent(USER_ID)
 );
 
 const json =
 await response.json();
 
-const user =
-json.user || {};
-
-const schedules =
-json.data || [];
-
-document.getElementById("userName").innerHTML =
-user.name || "利用者";
+const history =
+json.history || [];
 
 let html = "";
 
-schedules.forEach(item=>{
+history.forEach(item=>{
+
+if(item.status !== "予定"){
+return;
+}
 
 html += `
-<div class="schedule">
+<div class="item">
 
-<div class="date">
-${item.date || ""}
- ${item.time || ""}
+<div class="time">
+${item.time || ""}
 </div>
 
 <div class="text">
-${item.title || ""}
-</div>
-
-<div class="memo">
 ${item.memo || ""}
 </div>
 
@@ -223,25 +235,18 @@ ${item.memo || ""}
 });
 
 document.getElementById("scheduleArea").innerHTML =
-html || `
-<div class="schedule">
-予定はありません
-</div>
-`;
+html || "予定はありません";
 
 }catch(error){
 
 document.getElementById("scheduleArea").innerHTML =
-`
-<div class="schedule">
-取得エラー
-</div>
-`;
+"取得エラー";
 
 }
 
 }
 
+loadUser();
 loadSchedule();
 
 </script>
