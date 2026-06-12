@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>緊急連絡｜見守りDX</title>
+<title>緊急連絡</title>
 
 <link rel="icon" href="icon.png">
 
@@ -18,8 +18,8 @@ box-sizing:border-box;
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+background:linear-gradient(180deg,#3b0000 0%,#08111d 50%,#000000 100%);
+color:#fff;
 min-height:100vh;
 }
 
@@ -40,30 +40,18 @@ box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
-font-size:34px;
+font-size:36px;
 font-weight:900;
 text-align:center;
 margin-bottom:20px;
+color:#ff5252;
 }
 
 .name{
-font-size:24px;
+font-size:26px;
 font-weight:900;
 text-align:center;
-margin-bottom:20px;
-}
-
-textarea{
-width:100%;
-height:140px;
-padding:18px;
-border:none;
-border-radius:18px;
-font-size:18px;
-background:rgba(255,255,255,.1);
-color:#fff;
-resize:none;
-margin-bottom:12px;
+margin-bottom:15px;
 }
 
 button{
@@ -72,22 +60,34 @@ border:none;
 cursor:pointer;
 color:#fff;
 font-weight:900;
-padding:22px;
+padding:24px;
 border-radius:20px;
-font-size:22px;
+font-size:24px;
 margin-bottom:12px;
 }
 
-.emg-btn{
-background:linear-gradient(135deg,#c62828,#ef5350);
+.ambulance-btn{
+background:linear-gradient(135deg,#d50000,#ff5252);
 }
 
-.call-btn{
-background:linear-gradient(135deg,#ff6f00,#ffa000);
+.police-btn{
+background:linear-gradient(135deg,#0d47a1,#42a5f5);
+}
+
+.fire-btn{
+background:linear-gradient(135deg,#e65100,#ff9800);
+}
+
+.family-btn{
+background:linear-gradient(135deg,#6a1b9a,#ab47bc);
+}
+
+.location-btn{
+background:linear-gradient(135deg,#00695c,#26a69a);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
 .msg{
@@ -95,6 +95,7 @@ text-align:center;
 font-size:20px;
 font-weight:900;
 min-height:30px;
+margin-top:10px;
 }
 
 .footer{
@@ -124,20 +125,34 @@ class="name">
 読み込み中...
 </div>
 
-<textarea
-id="memo"
-placeholder="状況を入力してください"></textarea>
-
 <button
-class="emg-btn"
-onclick="sendEmergency()">
-🚨 緊急通知送信
+class="ambulance-btn"
+onclick="sendEmergency('救急')">
+🚑 救急
 </button>
 
 <button
-class="call-btn"
-onclick="location.href='tel:119'">
-☎ 119へ電話
+class="police-btn"
+onclick="sendEmergency('警察')">
+🚔 警察
+</button>
+
+<button
+class="fire-btn"
+onclick="sendEmergency('消防')">
+🔥 消防
+</button>
+
+<button
+class="family-btn"
+onclick="sendEmergency('家族連絡')">
+👪 家族へ連絡
+</button>
+
+<button
+class="location-btn"
+onclick="sendLocationEmergency()">
+📍 現在地付き送信
 </button>
 
 <div
@@ -164,7 +179,7 @@ onclick="location.href='index.html'">
 </div>
 
 <div class="footer">
-NSAW 緊急連絡システム
+NSAW 緊急連絡
 </div>
 
 </div>
@@ -194,11 +209,8 @@ encodeURIComponent(USER_ID)
 const json =
 await response.json();
 
-const user =
-json.data || {};
-
 document.getElementById("userName").innerHTML =
-user.name || "利用者";
+(json.data || {}).name || "利用者";
 
 }catch(error){
 
@@ -209,10 +221,12 @@ document.getElementById("userName").innerHTML =
 
 }
 
-async function sendEmergency(){
+async function sendEmergency(type){
 
 document.getElementById("msg").innerHTML =
 "送信中...";
+
+try{
 
 const body =
 new URLSearchParams();
@@ -220,12 +234,7 @@ new URLSearchParams();
 body.append("action","watch");
 body.append("id",USER_ID);
 body.append("status","緊急連絡");
-body.append(
-"memo",
-document.getElementById("memo").value
-);
-
-try{
+body.append("memo",type);
 
 await fetch(
 GAS_URL,
@@ -239,14 +248,76 @@ body:body.toString()
 );
 
 document.getElementById("msg").innerHTML =
-"緊急通知を送信しました";
+type + " を送信しました";
 
 }catch(error){
 
 document.getElementById("msg").innerHTML =
-"送信エラー";
+"通信エラー";
 
 }
+
+}
+
+function sendLocationEmergency(){
+
+document.getElementById("msg").innerHTML =
+"位置取得中...";
+
+navigator.geolocation.getCurrentPosition(
+
+async function(pos){
+
+const lat =
+pos.coords.latitude;
+
+const lng =
+pos.coords.longitude;
+
+try{
+
+const body =
+new URLSearchParams();
+
+body.append("action","watch");
+body.append("id",USER_ID);
+body.append("status","緊急連絡");
+body.append(
+"memo",
+"位置情報 " + lat + "," + lng
+);
+
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:body.toString()
+}
+);
+
+document.getElementById("msg").innerHTML =
+"現在地付きで送信しました";
+
+}catch(error){
+
+document.getElementById("msg").innerHTML =
+"通信エラー";
+
+}
+
+},
+
+function(){
+
+document.getElementById("msg").innerHTML =
+"位置取得失敗";
+
+}
+
+);
 
 }
 
