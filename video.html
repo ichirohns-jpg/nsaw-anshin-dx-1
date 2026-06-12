@@ -7,16 +7,8 @@
 <title>お楽しみ動画</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
@@ -86,9 +78,10 @@ margin-bottom:8px;
 }
 
 .desc{
-font-size:15px;
-line-height:1.6;
+font-size:16px;
+line-height:1.7;
 margin-bottom:10px;
+white-space:pre-wrap;
 }
 
 .play{
@@ -136,65 +129,44 @@ padding:25px;
 font-size:12px;
 opacity:.6;
 }
-
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">
-お楽しみ動画
-</div>
-
-<div class="sub">
-NSAW VIDEO SYSTEM
-</div>
-
+<div class="logo">お楽しみ動画</div>
+<div class="sub">NSAW VIDEO SYSTEM</div>
 </header>
 
 <div class="wrap">
 
 <div class="card">
 
-<button
-class="home-btn"
-onclick="loadVideos()">
+<button class="home-btn" onclick="loadVideos()">
 最新動画を更新
 </button>
 
-<div id="list">
-読み込み中...
-</div>
+<div id="list">読み込み中...</div>
 
 </div>
 
 <div class="card">
 
-<button
-class="home-btn"
-onclick="location.href='radio.html'">
+<button class="home-btn" onclick="location.href='radio.html'">
 📻 地域ラジオ
 </button>
 
-<button
-class="home-btn"
-onclick="location.href='kawaraban.html'">
+<button class="home-btn" onclick="location.href='kawaraban.html'">
 📰 ４市瓦版
 </button>
 
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-ホームへ戻る
+<button class="home-btn" onclick="location.href='index.html'">
+🏠 ホームへ戻る
 </button>
 
-<button
-class="top-btn"
-onclick="window.scrollTo({top:0,behavior:'smooth'})">
-先頭へ戻る
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+⬆ 先頭へ戻る
 </button>
 
 </div>
@@ -219,11 +191,21 @@ if(!cell){
 return "";
 }
 
-return cell.f || cell.v || "";
+return String(cell.f || cell.v || "").trim();
+
+}
+
+function cleanUrl(url){
+
+return String(url || "")
+.replace(/\\/g,"")
+.trim();
 
 }
 
 function youtubeEmbed(url){
+
+url = cleanUrl(url);
 
 if(!url){
 return "";
@@ -231,10 +213,10 @@ return "";
 
 if(url.includes("watch?v=")){
 
-return url.replace(
-"watch?v=",
-"embed/"
-);
+const id =
+url.split("watch?v=")[1].split("&")[0];
+
+return "https://www.youtube.com/embed/" + id;
 
 }
 
@@ -288,15 +270,17 @@ rows.reverse();
 
 let html = "";
 
-rows.forEach(row=>{
+rows.slice(0,50).forEach(row=>{
 
 let image = "";
 let videoUrl = "";
 
+const texts = [];
+
 (row.c || []).forEach(cell=>{
 
 const value =
-String(getVal(cell));
+getVal(cell);
 
 if(!value){
 return;
@@ -306,32 +290,109 @@ if(
 value.includes("youtube.com") ||
 value.includes("youtu.be")
 ){
-videoUrl = value;
+videoUrl = cleanUrl(value);
 }
 
 if(
-value.match(/\.(jpg|jpeg|png|webp)/i)
+/\.(jpg|jpeg|png|webp)/i.test(value)
 ){
-image = value;
+image = cleanUrl(value);
 }
+
+texts.push(value);
 
 });
 
 const date =
-getVal(row.c[0]);
+texts[0] || "";
 
 const title =
-getVal(row.c[1]);
+texts[1] || "";
 
-const desc =
-getVal(row.c[2]);
+let desc = "";
+
+for(let i=2;i<texts.length;i++){
+
+const t = texts[i];
+
+if(
+t.includes("youtube.com") ||
+t.includes("youtu.be")
+){
+continue;
+}
+
+if(
+/\.(jpg|jpeg|png|webp)/i.test(t)
+){
+continue;
+}
+
+desc += t + "\n";
+
+}
+
+desc = desc.trim();
 
 if(!image){
-image = getVal(row.c[3]) || "home-top.jpg";
+
+for(const t of texts){
+
+const m =
+String(t).match(
+/https?:\/\/[^\s"'`]+/gi
+);
+
+if(!m){
+continue;
+}
+
+const found = m.find(x=>
+/\.(jpg|jpeg|png|webp)/i.test(x)
+);
+
+if(found){
+
+image = cleanUrl(found);
+break;
+
+}
+
+}
+
 }
 
 if(!videoUrl){
-videoUrl = getVal(row.c[4]) || "#";
+
+for(const t of texts){
+
+const m =
+String(t).match(
+/https?:\/\/[^\s"'`]+/gi
+);
+
+if(!m){
+continue;
+}
+
+const found = m.find(x=>
+x.includes("youtube.com") ||
+x.includes("youtu.be")
+);
+
+if(found){
+
+videoUrl = cleanUrl(found);
+break;
+
+}
+
+}
+
+}
+
+if(!image){
+image = "home-top.jpg";
 }
 
 const embed =
