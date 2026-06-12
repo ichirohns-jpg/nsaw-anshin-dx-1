@@ -73,10 +73,9 @@ border:none;
 cursor:pointer;
 color:#fff;
 font-weight:900;
-padding:18px;
-border-radius:18px;
-font-size:18px;
-margin-bottom:8px;
+padding:16px;
+border-radius:16px;
+font-size:16px;
 }
 
 .app-btn{
@@ -105,6 +104,7 @@ background:linear-gradient(135deg,#c62828,#ef5350);
 
 .home-btn{
 background:linear-gradient(135deg,#37474f,#607d8b);
+margin-top:10px;
 }
 
 .footer{
@@ -189,7 +189,7 @@ html += `
 <div class="card">
 
 <div class="name">
-${user.name || ""} 
+${user.name || ""}
 </div>
 
 <div class="info">
@@ -200,7 +200,7 @@ ID : ${user.id || ""}
 電話 : ${user.tel || ""}
 <br>
 
-最終状態 :
+状態 :
 ${user.lastStatus || "未送信"}
 <br>
 
@@ -209,16 +209,23 @@ ${user.lastTime || "-"}
 
 </div>
 
+<div style="
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:12px;
+">
+
 <button
 class="app-btn"
 onclick="location.href='app.html?id=${user.id}'">
-😊 本人ページ
+😊 本人
 </button>
 
 <button
 class="qr-btn"
 onclick="location.href='qr.html?id=${user.id}'">
-📱 QRコード
+📱 QR
 </button>
 
 <button
@@ -236,7 +243,7 @@ onclick="location.href='schedule.html?id=${user.id}'">
 <button
 class="map-btn"
 onclick="location.href='map.html?id=${user.id}'">
-📍 現在地
+📍 地図
 </button>
 
 <button
@@ -244,6 +251,8 @@ class="emg-btn"
 onclick="location.href='emergency.html?id=${user.id}'">
 🚨 緊急
 </button>
+
+</div>
 
 <button
 class="home-btn"
