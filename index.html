@@ -18,7 +18,7 @@ box-sizing:border-box;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
 color:#fff;
 min-height:100vh;
@@ -130,6 +130,32 @@ background:linear-gradient(135deg,#c62828,#ef5350);
 background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
+.linkBox{
+display:block;
+width:100%;
+border-radius:20px;
+padding:24px;
+font-size:24px;
+font-weight:900;
+color:#fff;
+text-decoration:none;
+text-align:center;
+margin-bottom:12px;
+background:linear-gradient(135deg,#455a64,#607d8b);
+}
+
+.linkBlue{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
+}
+
+.linkGreen{
+background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+.linkOrange{
+background:linear-gradient(135deg,#ff9800,#ffb74d);
+}
+
 </style>
 </head>
 
@@ -238,43 +264,63 @@ line-height:1.8;
 <div class="card">
 
 <div class="section">
-家族へ共有
+地域情報
 </div>
 
-<button class="btn-green" onclick="shareLine()">
-📤 LINEで送る
-</button>
+<a class="linkBox linkBlue" href="radio.html">
+📻 地域ラジオ
+</a>
 
-<button class="btn-blue" onclick="copyUrl()">
-📋 URLコピー
-</button>
+<a class="linkBox linkOrange" href="kawaraban.html">
+📰 4市瓦版
+</a>
 
-<button class="btn-gray" onclick="shareSms()">
-📱 SMSで送る
-</button>
+<a class="linkBox linkGreen" href="fun.html">
+🎬 お楽しみ動画
+</a>
 
-<button class="btn-gray" onclick="location.href='qr.html'">
-📱 QRコード表示
-</button>
+<a class="linkBox" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html">
+📻 ラジオを直接開く
+</a>
+
+<a class="linkBox" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/kawaraban.html">
+📰 瓦版を直接開く
+</a>
+
+<a class="linkBox" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/fun.html">
+🎬 動画を直接開く
+</a>
 
 </div>
 
 <div class="card">
 
 <div class="section">
-地域情報
+家族へ共有
 </div>
 
-<button class="btn-gray" onclick="location.href='radio.html'">
-📻 地域ラジオ
+<button
+class="btn-green"
+onclick="shareLine()">
+📤 LINEで送る
 </button>
 
-<button class="btn-gray" onclick="location.href='kawaraban.html'">
-📰 4市瓦版
+<button
+class="btn-blue"
+onclick="copyUrl()">
+📋 URLコピー
 </button>
 
-<button class="btn-gray" onclick="location.href='fun.html'">
-🎬 お楽しみ動画
+<button
+class="btn-gray"
+onclick="shareSms()">
+📱 SMSで送る
+</button>
+
+<button
+class="btn-gray"
+onclick="location.href='qr.html'">
+📱 QRコード表示
 </button>
 
 </div>
@@ -395,292 +441,12 @@ console.log(err);
 
 }
 
-async function loadHistory(){
-
-try{
-
-const res =
-await fetch(
-GAS_URL +
-"?action=records"
-);
-
-const json =
-await res.json();
-
-const data =
-json.data || [];
-
-let html = "";
-
-data.slice(0,5).forEach(item=>{
-
-html += `
-<div style="
-padding:15px;
-border-bottom:1px solid rgba(255,255,255,.08);
-">
-
-<div style="
-font-weight:900;
-font-size:18px;
-">
-${item.name || ""}
-</div>
-
-<div style="
-opacity:.7;
-font-size:14px;
-">
-${item.date || ""}
-</div>
-
-<div style="
-margin-top:6px;
-">
-${item.status || ""}
-</div>
-
-</div>
-`;
-
-});
-
-document.getElementById(
-"historyArea"
-).innerHTML =
-html;
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-async function loadGomi(){
-
-try{
-
-const url =
-"https://docs.google.com/spreadsheets/d/149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc/gviz/tq?sheet=ゴミ&tqx=out:json";
-
-const txt =
-await fetch(url)
-.then(r=>r.text());
-
-const json =
-JSON.parse(
-txt.substring(47).slice(0,-2)
-);
-
-const rows =
-json.table.rows;
-
-const today =
-["日","月","火","水","木","金","土"]
-[new Date().getDay()];
-
-const tomorrowDate =
-new Date();
-
-tomorrowDate.setDate(
-tomorrowDate.getDate()+1
-);
-
-const tomorrow =
-["日","月","火","水","木","金","土"]
-[tomorrowDate.getDay()];
-
-const userCity =
-localStorage.getItem(
-"userCity"
-) || "";
-
-const userArea =
-localStorage.getItem(
-"userArea"
-) || "";
-
-let todayText =
-"収集なし";
-
-let tomorrowText =
-"収集なし";
-
-let todayMsg =
-"本日の収集はありません";
-
-let tomorrowMsg =
-"明日の収集はありません";
-
-rows.forEach(row=>{
-
-const cityName =
-row.c[0]?.v || "";
-
-const areaName =
-row.c[1]?.v || "";
-
-const week =
-String(
-row.c[2]?.v || ""
-);
-
-const type =
-row.c[3]?.v || "";
-
-const msg =
-row.c[6]?.v ||
-row.c[4]?.v ||
-"";
-
-if(
-cityName===userCity &&
-areaName===userArea
-){
-
-if(
-week.indexOf(today)>-1
-){
-todayText = type;
-todayMsg = msg;
-}
-
-if(
-week.indexOf(tomorrow)>-1
-){
-tomorrowText = type;
-tomorrowMsg = msg;
-}
-
-}
-
-});
-
-document.getElementById(
-"gomiArea"
-).innerHTML =
-
-"🟢 今日 : " +
-todayText +
-"<br>" +
-todayMsg +
-"<br><br>" +
-"🔵 明日 : " +
-tomorrowText +
-"<br>" +
-tomorrowMsg;
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-async function loadStatus(){
-
-try{
-
-const res =
-await fetch(
-GAS_URL +
-"?action=scheduleList"
-);
-
-const json =
-await res.json();
-
-const data =
-json.data || [];
-
-let html = "";
-
-data.slice(0,5).forEach(item=>{
-
-html += `
-<div style="
-padding:15px;
-border-bottom:1px solid rgba(255,255,255,.08);
-">
-
-<div style="
-font-weight:900;
-">
-${item.date || ""}
- ${item.time || ""}
-</div>
-
-<div>
-${item.title || ""}
-</div>
-
-</div>
-`;
-
-});
-
-document.getElementById(
-"statusArea"
-).innerHTML =
-html;
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-function shareLine(){
-
-const url =
-location.href;
-
-location.href =
-"https://line.me/R/msg/text/?"+
-encodeURIComponent(
-"NSAW見守りDX\n"+url
-);
-
-}
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"URLをコピーしました"
-);
-
-}
-
-function shareSms(){
-
-location.href =
-"sms:?body=" +
-encodeURIComponent(
-"NSAW見守りDX " +
-location.href
-);
-
-}
-
 loadDashboard();
-loadHistory();
-loadStatus();
-loadGomi();
 
-setInterval(loadDashboard,60000);
-setInterval(loadHistory,60000);
-setInterval(loadStatus,60000);
-setInterval(loadGomi,60000);
+setInterval(
+loadDashboard,
+60000
+);
 
 </script>
 
