@@ -43,6 +43,13 @@ margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
+.photo{
+width:100%;
+height:260px;
+object-fit:cover;
+display:block;
+}
+
 .thumb{
 width:100%;
 aspect-ratio:16/9;
@@ -190,66 +197,45 @@ const cells =
 row.c || [];
 
 const title =
-getVal(cells[1]);
-
-const desc =
 getVal(cells[2]);
 
-let videoUrl = "";
+const image =
+getVal(cells[3]);
 
-cells.forEach(cell=>{
+const desc =
+getVal(cells[4]);
 
-const txt =
-JSON.stringify(
-cell || {}
-);
+const videoUrl =
+getVal(cells[5]);
 
 if(
-
-txt.includes(
-"youtube.com"
-)
-
-||
-
-txt.includes(
-"youtu.be"
-)
-
-){
-
-const m =
-txt.match(
-/https?:\/\/[^\s"'\}]+/
-);
-
-if(m){
-
-videoUrl =
-m[0]
-.replace(
-/\\/g,
-""
-);
-
-}
-
-}
-
-});
+!title
+) return;
 
 const embedUrl =
 youtubeEmbed(
 videoUrl
 );
 
-if(
-!videoUrl
-) return;
-
 html += `
 
 <div class="card">
+
+${
+image
+?
+
+`
+<img
+class="photo"
+src="${image}">
+`
+
+:
+
+""
+
+}
 
 <iframe
 class="thumb"
