@@ -32,9 +32,10 @@ color:#fff;
 padding:24px;
 border-radius:24px;
 text-align:center;
-font-size:34px;
+font-size:32px;
 font-weight:900;
 margin-bottom:16px;
+line-height:1.4;
 }
 
 .card{
@@ -61,13 +62,14 @@ background:#eef6ff;
 border:3px solid #2196f3;
 }
 
-.next{
-background:#fff5df;
-border:3px solid #ff9800;
+.label{
+font-size:22px;
+font-weight:900;
+margin-bottom:12px;
 }
 
-.label{
-font-size:24px;
+.date{
+font-size:20px;
 font-weight:900;
 margin-bottom:12px;
 }
@@ -80,7 +82,7 @@ margin-bottom:10px;
 
 .msg{
 font-size:18px;
-line-height:1.7;
+line-height:1.8;
 }
 
 .btn{
@@ -113,7 +115,8 @@ color:#fff;
 <div class="wrap">
 
 <div class="header">
-🗑 今日と明日のゴミ
+🗑️ 今日のゴミ<br>
+🗑️ 明日のゴミ
 </div>
 
 <div class="card">
@@ -121,7 +124,13 @@ color:#fff;
 <div class="box today">
 
 <div class="label">
-🟢 今日のゴミ
+🟢 今日
+</div>
+
+<div
+id="todayDate"
+class="date">
+読込中...
 </div>
 
 <div
@@ -141,7 +150,13 @@ class="msg">
 <div class="box tomorrow">
 
 <div class="label">
-🔵 明日のゴミ
+🔵 明日
+</div>
+
+<div
+id="tomorrowDate"
+class="date">
+読込中...
 </div>
 
 <div
@@ -152,26 +167,6 @@ class="type">
 
 <div
 id="tomorrowMsg"
-class="msg">
-読込中...
-</div>
-
-</div>
-
-<div class="box next">
-
-<div class="label">
-🟠 次回のゴミ
-</div>
-
-<div
-id="nextType"
-class="type">
-読込中...
-</div>
-
-<div
-id="nextMsg"
 class="msg">
 読込中...
 </div>
@@ -192,6 +187,8 @@ onclick="history.back()">
 
 </div>
 
+</div>
+
 <script>
 
 const SHEET_ID =
@@ -208,6 +205,38 @@ return row.c[index]
 
 }
 
+const weekNames = [
+"日",
+"月",
+"火",
+"水",
+"木",
+"金",
+"土"
+];
+
+const todayDateObj =
+new Date();
+
+const tomorrowDateObj =
+new Date();
+
+tomorrowDateObj.setDate(
+todayDateObj.getDate()+1
+);
+
+document.getElementById(
+"todayDate"
+).innerHTML =
+
+`${todayDateObj.getFullYear()}年${todayDateObj.getMonth()+1}月${todayDateObj.getDate()}日（${weekNames[todayDateObj.getDay()]}）`;
+
+document.getElementById(
+"tomorrowDate"
+).innerHTML =
+
+`${tomorrowDateObj.getFullYear()}年${tomorrowDateObj.getMonth()+1}月${tomorrowDateObj.getDate()}日（${weekNames[tomorrowDateObj.getDay()]}）`;
+
 function weekName(offset){
 
 const d =
@@ -217,15 +246,7 @@ d.setDate(
 d.getDate()+offset
 );
 
-return [
-"日",
-"月",
-"火",
-"水",
-"木",
-"金",
-"土"
-][d.getDay()];
+return weekNames[d.getDay()];
 
 }
 
@@ -271,7 +292,6 @@ weekName(1);
 
 let todayData = null;
 let tomorrowData = null;
-let nextData = null;
 
 rows.forEach(row=>{
 
@@ -305,19 +325,6 @@ week.indexOf(tomorrow) > -1
 ){
 
 tomorrowData = {
-type:cell(row,3),
-msg:cell(row,6) || cell(row,4)
-};
-
-}
-
-if(
-!nextData &&
-week !== today &&
-week !== tomorrow
-){
-
-nextData = {
 type:cell(row,3),
 msg:cell(row,6) || cell(row,4)
 };
@@ -376,33 +383,7 @@ document.getElementById(
 document.getElementById(
 "tomorrowMsg"
 ).innerHTML =
-"明日の収集はありません";
-
-}
-
-if(nextData){
-
-document.getElementById(
-"nextType"
-).innerHTML =
-nextData.type;
-
-document.getElementById(
-"nextMsg"
-).innerHTML =
-nextData.msg;
-
-}else{
-
-document.getElementById(
-"nextType"
-).innerHTML =
-"未設定";
-
-document.getElementById(
-"nextMsg"
-).innerHTML =
-"次回収集情報なし";
+"明日の収集はありません。<br><br>次回収集日に前日の夜ではなく、収集日の朝8時30分までに出してください。";
 
 }
 
@@ -414,14 +395,19 @@ document.getElementById(
 "取得失敗";
 
 document.getElementById(
+"todayMsg"
+).innerHTML =
+"データ取得エラー";
+
+document.getElementById(
 "tomorrowType"
 ).innerHTML =
 "取得失敗";
 
 document.getElementById(
-"nextType"
+"tomorrowMsg"
 ).innerHTML =
-"取得失敗";
+"データ取得エラー";
 
 }
 
@@ -452,15 +438,7 @@ document.getElementById(
 
 document.getElementById(
 "tomorrowMsg"
-).innerText +
-
-"。次回のゴミは" +
-
-document.getElementById(
-"nextType"
-).innerText +
-
-"です。";
+).innerText;
 
 const speech =
 new SpeechSynthesisUtterance(
@@ -475,6 +453,7 @@ speech.rate = 1;
 speech.pitch = 1;
 
 speechSynthesis.cancel();
+
 speechSynthesis.speak(
 speech
 );
