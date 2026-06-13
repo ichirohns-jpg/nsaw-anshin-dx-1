@@ -18,24 +18,21 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#334155);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
+border-radius:30px;
 text-align:center;
+margin-bottom:18px;
 }
 
 .header h1{
-font-size:42px;
+font-size:36px;
 font-weight:900;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-padding:18px;
 }
 
 .card{
@@ -47,13 +44,13 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:22px;
+font-size:24px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
 .gomi{
-font-size:42px;
+font-size:40px;
 font-weight:900;
 text-align:center;
 padding:20px;
@@ -67,16 +64,24 @@ color:#2563eb;
 color:#16a34a;
 }
 
-.back{
-display:block;
-text-align:center;
-background:#334155;
-color:#fff;
-text-decoration:none;
-padding:18px;
-border-radius:20px;
-font-size:22px;
+.area{
+font-size:26px;
 font-weight:900;
+text-align:center;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:22px;
+border-radius:20px;
+margin-top:12px;
+text-decoration:none;
+text-align:center;
+font-size:24px;
+font-weight:900;
+color:#fff;
+background:#475569;
 }
 
 </style>
@@ -89,7 +94,17 @@ font-weight:900;
 <h1>🗑 ゴミ情報</h1>
 </div>
 
-<div class="wrap">
+<div class="card">
+
+<div class="title">
+地区
+</div>
+
+<div class="area">
+志木市
+</div>
+
+</div>
 
 <div class="card">
 
@@ -97,10 +112,8 @@ font-weight:900;
 今日のゴミ
 </div>
 
-<div
-id="today"
-class="gomi today">
-読込中...
+<div class="gomi today">
+燃えるゴミ
 </div>
 
 </div>
@@ -111,85 +124,15 @@ class="gomi today">
 明日のゴミ
 </div>
 
-<div
-id="tomorrow"
-class="gomi tomorrow">
-読込中...
+<div class="gomi tomorrow">
+資源ごみ
 </div>
 
 </div>
 
-<div class="card">
-
-<div class="title">
-地区
-</div>
-
-<div
-id="area"
-class="gomi">
-志木市
-</div>
-
-</div>
-
-<a
-href="index.html"
-class="back">
-トップへ戻る
+<a href="index.html" class="btn">
+🏠 トップへ戻る
 </a>
-
-</div>
-
-<script>
-
-const userArea =
-localStorage.getItem(
-"userArea"
-) || "志木市";
-
-document.getElementById(
-"area"
-).textContent =
-userArea;
-
-const todayMap = {
-
-"志木市":"燃えるゴミ",
-"朝霞市":"燃えるゴミ",
-"和光市":"資源ごみ",
-"新座市":"燃えるゴミ"
-
-};
-
-const tomorrowMap = {
-
-"志木市":"資源ごみ",
-"朝霞市":"資源ごみ",
-"和光市":"燃えるゴミ",
-"新座市":"資源ごみ"
-
-};
-
-document.getElementById(
-"today"
-).textContent =
-
-todayMap[userArea]
-||
-
-"確認中";
-
-document.getElementById(
-"tomorrow"
-).textContent =
-
-tomorrowMap[userArea]
-||
-
-"確認中";
-
-</script>
 
 </body>
 </html>
