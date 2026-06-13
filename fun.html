@@ -120,6 +120,19 @@ font-weight:900;
 
 <script>
 
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"お楽しみ動画";
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json";
+
 function getVal(cell){
 
 if(!cell) return "";
@@ -169,7 +182,8 @@ return "";
 
 }
 
-function handleSheet(json){
+window.handleSheet =
+function(json){
 
 const rows =
 json.table.rows || [];
@@ -275,35 +289,21 @@ html ||
 
 `;
 
-}
+};
 
-fetch(
-"https://docs.google.com/spreadsheets/d/149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc/gviz/tq?sheet=お楽しみ動画&tqx=out:json"
-)
-
-.then(r=>r.text())
-
-.then(txt=>{
-
-const start =
-txt.indexOf("{");
-
-const end =
-txt.lastIndexOf("}");
-
-const json =
-JSON.parse(
-txt.substring(
-start,
-end + 1
-)
+const script =
+document.createElement(
+"script"
 );
 
-handleSheet(json);
+script.src =
 
-})
+url +
 
-.catch(error=>{
+"&callback=handleSheet";
+
+script.onerror =
+function(){
 
 document.getElementById(
 "videoList"
@@ -319,7 +319,11 @@ document.getElementById(
 
 `;
 
-});
+};
+
+document.body.appendChild(
+script
+);
 
 </script>
 
