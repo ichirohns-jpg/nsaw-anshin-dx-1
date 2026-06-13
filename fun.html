@@ -120,19 +120,6 @@ font-weight:900;
 
 <script>
 
-const SHEET_ID =
-"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-
-const SHEET_NAME =
-"お楽しみ動画";
-
-const url =
-"https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(SHEET_NAME) +
-"&tqx=out:json";
-
 function getVal(cell){
 
 if(!cell) return "";
@@ -205,30 +192,20 @@ getVal(cells[3]);
 const desc =
 getVal(cells[4]);
 
-const videoUrl =
-getVal(cells[5]);
-
-if(!title) return;
-
-const embedUrl =
-youtubeEmbed(videoUrl);
-
 let videoUrl =
 getVal(cells[5]);
 
-if(
-!videoUrl
-){
+if(!videoUrl){
 
 videoUrl =
 getVal(cells[1]);
 
 }
 
+if(!title) return;
+
 const embedUrl =
-youtubeEmbed(
-videoUrl
-);
+youtubeEmbed(videoUrl);
 
 html += `
 
@@ -241,7 +218,8 @@ image
 `
 <img
 class="photo"
-src="${image}">
+src="${image}"
+loading="lazy">
 `
 
 :
@@ -299,16 +277,26 @@ html ||
 
 }
 
-fetch(url)
+fetch(
+"https://docs.google.com/spreadsheets/d/149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc/gviz/tq?sheet=お楽しみ動画&tqx=out:json"
+)
 
-.then(response=>response.text())
+.then(r=>r.text())
 
-.then(text=>{
+.then(txt=>{
+
+const start =
+txt.indexOf("{");
+
+const end =
+txt.lastIndexOf("}");
 
 const json =
-
 JSON.parse(
-text.substring(47).slice(0,-2)
+txt.substring(
+start,
+end + 1
+)
 );
 
 handleSheet(json);
@@ -330,8 +318,6 @@ document.getElementById(
 </div>
 
 `;
-
-console.error(error);
 
 });
 
