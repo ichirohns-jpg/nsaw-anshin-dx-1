@@ -102,6 +102,7 @@ font-size:18px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -276,12 +277,26 @@ let html = "";
 
 data.slice(0,5).forEach(item=>{
 
-html +=
+html += `
+<div style="
+padding:12px;
+border-bottom:1px solid #ddd;
+">
 
-(item.date || "") +
-" " +
-(item.status || "") +
-"<br>";
+<div>
+${item.name || ""}
+</div>
+
+<div>
+${item.date || ""}
+</div>
+
+<div>
+${item.status || ""}
+</div>
+
+</div>
+`;
 
 });
 
@@ -321,14 +336,23 @@ let html = "";
 
 data.slice(0,5).forEach(item=>{
 
-html +=
+html += `
+<div style="
+padding:12px;
+border-bottom:1px solid #ddd;
+">
 
-(item.date || "") +
-" " +
-(item.time || "") +
-" " +
-(item.title || "") +
-"<br>";
+<div>
+${item.date || ""}
+ ${item.time || ""}
+</div>
+
+<div>
+${item.title || ""}
+</div>
+
+</div>
+`;
 
 });
 
