@@ -189,6 +189,24 @@ onclick="location.href='fun.html'">
 🎬 お楽しみ動画
 </button>
 
+<button
+class="btn gray"
+onclick="shareLine()">
+📤 LINEで共有
+</button>
+
+<button
+class="btn blue"
+onclick="shareX()">
+𝕏 Xで共有
+</button>
+
+<button
+class="btn orange"
+onclick="shareFacebook()">
+f Facebookで共有
+</button>
+
 </div>
 
 <div class="card">
@@ -275,7 +293,7 @@ json.data || [];
 
 let html = "";
 
-data.slice(0,5).forEach(item=>{
+data.slice(0,10).forEach(item=>{
 
 html += `
 <div style="
@@ -283,7 +301,9 @@ padding:12px;
 border-bottom:1px solid #ddd;
 ">
 
-<div>
+<div style="
+font-weight:900;
+">
 ${item.name || ""}
 </div>
 
@@ -334,7 +354,7 @@ json.data || [];
 
 let html = "";
 
-data.slice(0,5).forEach(item=>{
+data.slice(0,10).forEach(item=>{
 
 html += `
 <div style="
@@ -342,7 +362,9 @@ padding:12px;
 border-bottom:1px solid #ddd;
 ">
 
-<div>
+<div style="
+font-weight:900;
+">
 ${item.date || ""}
  ${item.time || ""}
 </div>
@@ -372,18 +394,42 @@ document.getElementById(
 
 }
 
+function shareLine(){
+
+location.href =
+"https://line.me/R/msg/text/?"+
+encodeURIComponent(
+document.title + "\n" +
+location.href
+);
+
+}
+
+function shareX(){
+
+window.open(
+"https://twitter.com/intent/tweet?text=" +
+encodeURIComponent(document.title) +
+"&url=" +
+encodeURIComponent(location.href)
+);
+
+}
+
+function shareFacebook(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(location.href)
+);
+
+}
+
 loadHistory();
 loadStatus();
 
-setInterval(
-loadHistory,
-60000
-);
-
-setInterval(
-loadStatus,
-60000
-);
+setInterval(loadHistory,60000);
+setInterval(loadStatus,60000);
 
 </script>
 
