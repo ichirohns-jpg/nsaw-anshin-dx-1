@@ -6,8 +6,6 @@
 
 <title>服薬確認</title>
 
-<link rel="icon" href="icon.png">
-
 <style>
 
 *{
@@ -17,71 +15,80 @@ box-sizing:border-box;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:15px;
+color:#1f2d3d;
 }
 
 .wrap{
 max-width:800px;
 margin:auto;
-padding:16px;
 }
 
-.card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
-border-radius:28px;
-padding:20px;
+.header{
+background:linear-gradient(135deg,#4caf50,#2e7d32);
+color:#fff;
+padding:24px;
+border-radius:24px;
+text-align:center;
+font-size:34px;
+font-weight:900;
 margin-bottom:16px;
 }
 
-.title{
-font-size:34px;
-font-weight:900;
-text-align:center;
-margin-bottom:20px;
+.card{
+background:#fff;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-button{
-width:100%;
-border:none;
-border-radius:24px;
-padding:28px;
+.med{
 font-size:28px;
 font-weight:900;
-color:#fff;
-margin-bottom:14px;
-cursor:pointer;
+margin-bottom:15px;
+text-align:center;
 }
 
-.morning{
-background:linear-gradient(135deg,#ff9800,#ffb74d);
+.time{
+font-size:20px;
+margin-bottom:15px;
+text-align:center;
 }
 
-.noon{
-background:linear-gradient(135deg,#42a5f5,#64b5f6);
+.result{
+font-size:24px;
+font-weight:900;
+text-align:center;
+padding:20px;
 }
 
-.night{
-background:linear-gradient(135deg,#8e24aa,#ba68c8);
-}
-
-.sleep{
-background:linear-gradient(135deg,#37474f,#607d8b);
-}
-
-.home{
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
-}
-
-.log{
-background:rgba(255,255,255,.08);
-padding:15px;
+.btn{
+width:100%;
+border:none;
 border-radius:18px;
-margin-bottom:10px;
+padding:22px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+margin-bottom:12px;
+}
+
+.ok{
+background:#4caf50;
+color:#fff;
+}
+
+.ng{
+background:#f44336;
+color:#fff;
+}
+
+.back{
+background:#666;
+color:#fff;
 }
 
 </style>
@@ -92,194 +99,154 @@ margin-bottom:10px;
 
 <div class="wrap">
 
-<div class="card">
-
-<div class="title">
+<div class="header">
 💊 服薬確認
 </div>
 
-<button
-class="morning"
-onclick="saveMedicine('朝')">
-🌅 朝の薬
-</button>
-
-<button
-class="noon"
-onclick="saveMedicine('昼')">
-☀ 昼の薬
-</button>
-
-<button
-class="night"
-onclick="saveMedicine('夜')">
-🌙 夜の薬
-</button>
-
-<button
-class="sleep"
-onclick="saveMedicine('寝る前')">
-😴 寝る前の薬
-</button>
-
-<button
-class="home"
-onclick="history.back()">
-🏠 戻る
-</button>
-
-</div>
-
 <div class="card">
 
-<div id="historyArea">
-読み込み中...
+<div class="med">
+本日の服薬
 </div>
+
+<div
+id="todayDate"
+class="time">
+読込中...
+</div>
+
+<button
+class="btn ok"
+onclick="takeMedicine()">
+💊 飲みました
+</button>
+
+<button
+class="btn ng"
+onclick="notTakeMedicine()">
+⚠️ まだです
+</button>
+
+<div
+id="result"
+class="result">
+未確認
+</div>
+
+<button
+class="btn back"
+onclick="history.back()">
+戻る
+</button>
 
 </div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
-
-const USER_ID =
-new URLSearchParams(
-location.search
-).get("id") || "";
-
-async function saveMedicine(type){
-
-try{
-
-const body =
-new URLSearchParams();
-
-body.append(
-"action",
-"watch"
-);
-
-body.append(
-"id",
-USER_ID
-);
-
-body.append(
-"status",
-"💊" + type + "服薬"
-);
-
-body.append(
-"memo",
-type + "の薬を飲みました"
-);
-
-const response =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/x-www-form-urlencoded"
-},
-body:body.toString()
-}
-);
-
-const json =
-await response.json();
-
-if(json.status==="OK"){
-
-alert(
-type + "の服薬を記録しました"
-);
-
-loadHistory();
-
-}
-
-}catch(error){
-
-alert(
-"保存失敗"
-);
-
-}
-
-}
-
-async function loadHistory(){
-
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?action=records&id=" +
-encodeURIComponent(USER_ID)
-);
-
-const json =
-await response.json();
-
-const data =
-json.data || [];
-
-let html = "";
-
-data.forEach(item=>{
-
-if(
-String(item.status || "")
-.indexOf("服薬") === -1
-){
-return;
-}
-
-html += `
-<div class="log">
-
-<div style="
-font-size:18px;
-font-weight:900;
-margin-bottom:5px;
-">
-${item.status || ""}
-</div>
-
-<div style="
-opacity:.8;
-font-size:14px;
-">
-${item.date || ""}
-</div>
-
-</div>
-`;
-
-});
+const today =
+new Date();
 
 document.getElementById(
-"historyArea"
+"todayDate"
 ).innerHTML =
-html ||
-"服薬履歴なし";
+today.toLocaleDateString(
+"ja-JP"
+);
 
-}catch(error){
+function saveMedicine(status){
+
+const now =
+new Date();
+
+if(status==="ok"){
+
+localStorage.setItem(
+"medicineStatus",
+"服薬済"
+);
+
+localStorage.setItem(
+"medicineTime",
+now.toLocaleString("ja-JP")
+);
 
 document.getElementById(
-"historyArea"
+"result"
 ).innerHTML =
-"取得失敗";
+
+"✅ 服薬済<br><br>" +
+
+now.toLocaleString(
+"ja-JP"
+);
+
+}else{
+
+localStorage.setItem(
+"medicineStatus",
+"未服薬"
+);
+
+localStorage.setItem(
+"medicineTime",
+now.toLocaleString("ja-JP")
+);
+
+document.getElementById(
+"result"
+).innerHTML =
+
+"⚠️ 未服薬<br><br>" +
+
+now.toLocaleString(
+"ja-JP"
+);
 
 }
 
 }
 
-loadHistory();
+function takeMedicine(){
+
+saveMedicine(
+"ok"
+);
+
+}
+
+function notTakeMedicine(){
+
+saveMedicine(
+"ng"
+);
+
+}
+
+window.onload=function(){
+
+const status =
+localStorage.getItem(
+"medicineStatus"
+);
+
+const time =
+localStorage.getItem(
+"medicineTime"
+);
+
+if(status){
+
+document.getElementById(
+"result"
+).innerHTML =
+
+status +
+"<br><br>" +
+(time || "");
+
+}
+
+};
 
 </script>
 
