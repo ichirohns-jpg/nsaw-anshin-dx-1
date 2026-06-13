@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>今日のゴミ</title>
+<title>ゴミ情報</title>
 
 <style>
 
@@ -17,8 +17,8 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
 padding:18px;
+color:#1f2d3d;
 }
 
 .header{
@@ -49,25 +49,26 @@ font-weight:900;
 margin-bottom:12px;
 }
 
+.area{
+font-size:30px;
+font-weight:900;
+text-align:center;
+color:#2563eb;
+}
+
 .gomi{
-font-size:40px;
+font-size:42px;
 font-weight:900;
 text-align:center;
 padding:20px;
 }
 
 .today{
-color:#2563eb;
+color:#dc2626;
 }
 
 .tomorrow{
 color:#16a34a;
-}
-
-.area{
-font-size:26px;
-font-weight:900;
-text-align:center;
 }
 
 .btn{
@@ -97,7 +98,7 @@ background:#475569;
 <div class="card">
 
 <div class="title">
-地区
+対象地域
 </div>
 
 <div class="area">
@@ -129,6 +130,14 @@ background:#475569;
 </div>
 
 </div>
+
+<a href="hospital.html" class="btn">
+🏥 病院・薬局
+</a>
+
+<a href="map.html" class="btn">
+🗺 地域マップ
+</a>
 
 <a href="index.html" class="btn">
 🏠 トップへ戻る
