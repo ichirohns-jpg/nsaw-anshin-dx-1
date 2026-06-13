@@ -38,9 +38,20 @@ padding:18px;
 .card{
 background:#fff;
 border-radius:24px;
-padding:20px;
-margin-bottom:18px;
+overflow:hidden;
+margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.photo{
+width:100%;
+height:280px;
+object-fit:cover;
+display:block;
+}
+
+.body{
+padding:20px;
 }
 
 .city{
@@ -74,6 +85,7 @@ text-decoration:none;
 text-align:center;
 font-size:24px;
 font-weight:900;
+margin-top:10px;
 }
 
 .error{
@@ -144,6 +156,18 @@ rows.forEach(row=>{
 const cells =
 row.c || [];
 
+/*
+列例
+
+0 日付
+1 市名
+2 タイトル
+3 説明
+4 記事URL
+5 画像URL
+
+*/
+
 const city =
 getVal(cells[1]);
 
@@ -156,6 +180,9 @@ getVal(cells[3]);
 const link =
 getVal(cells[4]);
 
+const image =
+getVal(cells[5]);
+
 if(
 !title
 ) return;
@@ -163,6 +190,24 @@ if(
 html += `
 
 <div class="card">
+
+${
+image
+?
+
+`
+<img
+class="photo"
+src="${image}">
+`
+
+:
+
+""
+
+}
+
+<div class="body">
 
 <div class="city">
 ${city}
@@ -182,6 +227,8 @@ href="${link}"
 target="_blank">
 📰 記事を見る
 </a>
+
+</div>
 
 </div>
 
