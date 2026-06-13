@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QRコード発行</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>QRコード</title>
 
 <style>
 
@@ -17,82 +15,72 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:15px;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#673ab7,#9575cd);
+background:linear-gradient(135deg,#0f172a,#334155);
 color:#fff;
-padding:28px;
-border-radius:28px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-font-size:40px;
+margin-bottom:18px;
+}
+
+.title{
+font-size:36px;
 font-weight:900;
-margin-bottom:20px;
 }
 
 .card{
 background:#fff;
-border-radius:28px;
+border-radius:30px;
 padding:24px;
+margin-bottom:18px;
 text-align:center;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.qr{
+width:280px;
+height:280px;
+margin:auto;
+display:block;
 }
 
 .name{
-font-size:34px;
+font-size:28px;
 font-weight:900;
-margin-bottom:10px;
+margin-top:18px;
 }
 
-.address{
-font-size:22px;
-margin-bottom:20px;
-}
-
-.note{
-font-size:20px;
-font-weight:900;
-color:#666;
-margin-bottom:20px;
-}
-
-#qrcode{
-display:flex;
-justify-content:center;
-margin:20px 0;
-}
-
-.btn{
-width:100%;
-height:90px;
-border:none;
-border-radius:20px;
-font-size:30px;
-font-weight:900;
-color:#fff;
-cursor:pointer;
+.url{
+font-size:18px;
+word-break:break-all;
 margin-top:12px;
 }
 
-.printBtn{
-background:#00c853;
+.btn{
+display:block;
+width:100%;
+padding:22px;
+border-radius:20px;
+margin-top:12px;
+text-decoration:none;
+text-align:center;
+font-size:24px;
+font-weight:900;
+color:#fff;
 }
 
-.lineBtn{
-background:#06c755;
+.blue{
+background:#2563eb;
 }
 
-.homeBtn{
-background:#607d8b;
+.green{
+background:#16a34a;
 }
 
 </style>
@@ -101,128 +89,41 @@ background:#607d8b;
 
 <body>
 
-<div class="wrap">
-
 <div class="header">
-📱 QRコード発行
+
+<div class="title">
+📱 QRコード
+</div>
+
 </div>
 
 <div class="card">
 
-<div
-id="userName"
-class="name">
-読込中...
+<img
+class="qr"
+src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html">
+
+<div class="name">
+利用者001
 </div>
 
-<div
-id="userAddress"
-class="address">
-読込中...
+<div class="url">
+https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html
 </div>
 
-<div class="note">
-家族・支援者用QRコード
-</div>
+<a
+href="app.html"
+class="btn blue">
+本人ページ
+</a>
 
-<div id="qrcode"></div>
-
-<button
-class="btn printBtn"
-onclick="window.print()">
-🖨 印刷する
-</button>
-
-<button
-class="btn lineBtn"
-onclick="shareLine()">
-📤 LINEで送る
-</button>
-
-<button
-class="btn homeBtn"
-onclick="location.href='index.html'">
-🏠 ホームへ戻る
-</button>
+<a
+href="family.html"
+class="btn green">
+家族ページ
+</a>
 
 </div>
-
-</div>
-
-<script>
-
-const name =
-localStorage.getItem(
-"userName"
-) || "";
-
-const city =
-localStorage.getItem(
-"userCity"
-) || "";
-
-const town =
-localStorage.getItem(
-"userTown"
-) || "";
-
-const chome =
-localStorage.getItem(
-"userChome"
-) || "";
-
-document.getElementById(
-"userName"
-).innerHTML =
-name || "利用者";
-
-document.getElementById(
-"userAddress"
-).innerHTML =
-
-city + " " +
-town + " " +
-chome;
-
-const qrUrl =
-
-location.origin +
-
-location.pathname.replace(
-"qr.html",
-"family.html"
-) +
-
-"?name=" +
-
-encodeURIComponent(name);
-
-new QRCode(
-
-document.getElementById(
-"qrcode"
-),
-
-{
-text:qrUrl,
-width:280,
-height:280
-}
-
-);
-
-function shareLine(){
-
-location.href =
-"https://line.me/R/msg/text/?" +
-encodeURIComponent(
-"見守りDX QRコード\n" +
-qrUrl
-);
-
-}
-
-</script>
 
 </body>
 </html>
