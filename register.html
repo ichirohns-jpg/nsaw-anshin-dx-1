@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>利用者登録</title>
-
-<link rel="icon" href="icon.png">
+<title>服薬確認</title>
 
 <style>
 
@@ -17,88 +15,80 @@ box-sizing:border-box;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:15px;
+color:#1f2d3d;
 }
 
 .wrap{
 max-width:800px;
 margin:auto;
-padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#4caf50,#2e7d32);
+color:#fff;
+padding:24px;
+border-radius:24px;
+text-align:center;
+font-size:34px;
+font-weight:900;
+margin-bottom:16px;
 }
 
 .card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
-border-radius:28px;
+background:#fff;
+border-radius:24px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-.title{
-font-size:34px;
+.med{
+font-size:28px;
 font-weight:900;
+margin-bottom:15px;
 text-align:center;
-margin-bottom:20px;
 }
 
-input,
-select{
+.time{
+font-size:20px;
+margin-bottom:15px;
+text-align:center;
+}
+
+.btn{
 width:100%;
-padding:18px;
 border:none;
 border-radius:18px;
+padding:22px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
 margin-bottom:12px;
-font-size:18px;
-background:rgba(255,255,255,.1);
+}
+
+.ok{
+background:#4caf50;
 color:#fff;
 }
 
-option{
-color:#000;
+.ng{
+background:#f44336;
+color:#fff;
 }
 
-button{
-width:100%;
-padding:20px;
-border:none;
-border-radius:20px;
+.back{
+background:#666;
+color:#fff;
+}
+
+#result{
 font-size:24px;
 font-weight:900;
-color:#fff;
-cursor:pointer;
-margin-bottom:10px;
-}
-
-.save-btn{
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
-}
-
-.list-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
-}
-
-.home-btn{
-background:linear-gradient(135deg,#7b1fa2,#ab47bc);
-}
-
-.msg{
-text-align:center;
-font-size:18px;
-font-weight:900;
-margin-top:10px;
-min-height:30px;
-}
-
-.footer{
 text-align:center;
 padding:20px;
-font-size:12px;
-opacity:.6;
 }
 
 </style>
@@ -109,286 +99,339 @@ opacity:.6;
 
 <div class="wrap">
 
+<div class="header">
+💊 服薬確認
+</div>
+
 <div class="card">
 
-<div class="title">
-👤 利用者登録
+<div class="med">
+本日の薬
 </div>
 
-<input
-id="name"
-placeholder="氏名">
-
-<input
-id="tel"
-placeholder="電話番号">
-
-<select id="city">
-
-<option value="">
-市を選択
-</option>
-
-<option value="志木市">
-志木市
-</option>
-
-<option value="新座市">
-新座市
-</option>
-
-<option value="朝霞市">
-朝霞市
-</option>
-
-<option value="和光市">
-和光市
-</option>
-
-</select>
-
-<select id="town">
-
-<option value="">
-町名を選択
-</option>
-
-</select>
-
-<select id="block">
-
-<option value="">
-丁目を選択
-</option>
-
-<option value="1丁目">1丁目</option>
-<option value="2丁目">2丁目</option>
-<option value="3丁目">3丁目</option>
-<option value="4丁目">4丁目</option>
-<option value="5丁目">5丁目</option>
-<option value="6丁目">6丁目</option>
-<option value="7丁目">7丁目</option>
-<option value="8丁目">8丁目</option>
-<option value="9丁目">9丁目</option>
-
-</select>
-
-<input
-id="supportKey"
-maxlength="4"
-placeholder="支援者閲覧キー（4桁）">
+<div class="time" id="todayDate">
+読込中...
+</div>
 
 <button
-class="save-btn"
-onclick="saveUser()">
-登録する
+class="btn ok"
+onclick="takeMedicine()">
+💊 飲みました
 </button>
 
 <button
-class="list-btn"
-onclick="location.href='users.html'">
-利用者一覧
+class="btn ng"
+onclick="notTakeMedicine()">
+⚠️ まだです
 </button>
+
+<div id="result">
+未確認
+</div>
 
 <button
-class="home-btn"
-onclick="location.href='index.html'">
-ホームへ戻る
+class="btn back"
+onclick="history.back()">
+戻る
 </button>
 
-<div
-id="msg"
-class="msg">
-</div>
-
-</div>
-
-<div class="footer">
-NSAW 利用者登録
 </div>
 
 </div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+const today =
+new Date();
 
-const towns = {
+document.getElementById(
+"todayDate"
+).innerHTML =
+today.toLocaleDateString(
+"ja-JP"
+);
 
-"志木市":[
-"本町",
-"館",
-"幸町",
-"柏町",
-"上宗岡",
-"中宗岡",
-"下宗岡"
-],
+function takeMedicine(){
 
-"新座市":[
-"東",
-"野火止",
-"大和田",
-"栗原",
-"石神",
-"片山",
-"新座"
-],
+const now =
+new Date();
 
-"朝霞市":[
-"本町",
-"仲町",
-"栄町",
-"幸町",
-"根岸台",
-"浜崎",
-"膝折"
-],
+localStorage.setItem(
+"medicineStatus",
+"服薬済"
+);
 
-"和光市":[
-"本町",
-"白子",
-"新倉",
-"中央",
-"下新倉",
-"南"
-]
+localStorage.setItem(
+"medicineTime",
+now.toLocaleString("ja-JP")
+);
 
-};
+document.getElementById(
+"result"
+).innerHTML =
+"✅ 服薬済";
 
-document
-.getElementById("city")
-.addEventListener(
-"change",
-function(){
+}
 
-const city =
-this.value;
+function notTakeMedicine(){
 
-const town =
-document.getElementById("town");
+localStorage.setItem(
+"medicineStatus",
+"未服薬"
+);
 
-town.innerHTML =
-'<option value="">町名を選択</option>';
+document.getElementById(
+"result"
+).innerHTML =
+"⚠️ 未服薬";
 
-if(!towns[city]){
+}
+
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>予定管理</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:15px;
+color:#1f2d3d;
+}
+
+.wrap{
+max-width:800px;
+margin:auto;
+}
+
+.header{
+background:linear-gradient(135deg,#ff9800,#ff6f00);
+color:#fff;
+padding:24px;
+border-radius:24px;
+text-align:center;
+font-size:34px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+label{
+display:block;
+font-size:20px;
+font-weight:900;
+margin-bottom:8px;
+margin-top:10px;
+}
+
+input,textarea{
+width:100%;
+padding:15px;
+border:2px solid #ddd;
+border-radius:15px;
+font-size:18px;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:20px;
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+margin-top:12px;
+}
+
+.save{
+background:#ff9800;
+color:#fff;
+}
+
+.back{
+background:#666;
+color:#fff;
+}
+
+.item{
+background:#f7f9fc;
+padding:15px;
+border-radius:15px;
+margin-top:10px;
+}
+
+.date{
+font-size:18px;
+font-weight:900;
+margin-bottom:5px;
+}
+
+.memo{
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+📅 予定管理
+</div>
+
+<div class="card">
+
+<label>
+日付
+</label>
+
+<input
+type="date"
+id="date">
+
+<label>
+予定内容
+</label>
+
+<textarea
+id="memo"
+placeholder="予定を入力">
+</textarea>
+
+<button
+class="btn save"
+onclick="saveSchedule()">
+💾 保存
+</button>
+
+<button
+class="btn back"
+onclick="history.back()">
+戻る
+</button>
+
+</div>
+
+<div
+class="card"
+id="list">
+</div>
+
+</div>
+
+<script>
+
+loadSchedule();
+
+function saveSchedule(){
+
+const date =
+document.getElementById(
+"date"
+).value;
+
+const memo =
+document.getElementById(
+"memo"
+).value;
+
+if(!date || !memo){
 return;
 }
 
-towns[city].forEach(function(item){
+let data =
+JSON.parse(
+localStorage.getItem(
+"scheduleList"
+) || "[]"
+);
 
-const option =
-document.createElement("option");
+data.push({
+date:date,
+memo:memo
+});
 
-option.value = item;
-option.textContent = item;
+localStorage.setItem(
+"scheduleList",
+JSON.stringify(data)
+);
 
-town.appendChild(option);
+document.getElementById(
+"memo"
+).value = "";
+
+loadSchedule();
+
+}
+
+function loadSchedule(){
+
+let data =
+JSON.parse(
+localStorage.getItem(
+"scheduleList"
+) || "[]"
+);
+
+data.sort((a,b)=>
+a.date.localeCompare(b.date)
+);
+
+let html = "";
+
+data.forEach(item=>{
+
+html +=
+
+'<div class="item">' +
+
+'<div class="date">' +
+item.date +
+'</div>' +
+
+'<div class="memo">' +
+item.memo +
+'</div>' +
+
+'</div>';
 
 });
 
-}
-);
-
-async function saveUser(){
-
-const name =
-document.getElementById("name").value.trim();
-
-if(name===""){
-
-document.getElementById("msg").innerHTML =
-"氏名を入力してください";
-
-return;
-
-}
-
-document.getElementById("msg").innerHTML =
-"登録中...";
-
-const address =
-
-document.getElementById("city").value +
-" " +
-document.getElementById("town").value +
-" " +
-document.getElementById("block").value;
-
-const body =
-new URLSearchParams();
-
-body.append(
-"action",
-"registerUser"
-);
-
-body.append(
-"name",
-document.getElementById("name").value
-);
-
-body.append(
-"tel",
-document.getElementById("tel").value
-);
-
-body.append(
-"address",
-address
-);
-
-body.append(
-"supportKey",
-document.getElementById("supportKey").value
-);
-
-try{
-
-const response =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/x-www-form-urlencoded"
-},
-body:body.toString()
-}
-);
-
-const json =
-await response.json();
-
-if(json.status==="OK"){
-
-document.getElementById("msg").innerHTML =
-"登録完了";
-
-setTimeout(function(){
-
-location.href =
-"qr.html?id=" +
-json.id;
-
-},1000);
-
-}else{
-
-document.getElementById("msg").innerHTML =
-json.message ||
-"登録失敗";
-
-}
-
-}catch(error){
-
-document.getElementById("msg").innerHTML =
-"通信エラー";
-
-}
+document.getElementById(
+"list"
+).innerHTML =
+html;
 
 }
 
