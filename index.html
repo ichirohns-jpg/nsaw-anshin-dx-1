@@ -15,32 +15,43 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#1f2d3d;
+padding-bottom:30px;
 }
 
 .header{
-background:linear-gradient(135deg,#1565c0,#42a5f5);
-padding:30px;
-text-align:center;
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
-font-size:42px;
+padding:34px 20px;
+text-align:center;
+box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+.logo{
+font-size:46px;
 font-weight:900;
+letter-spacing:2px;
 }
 
 .sub{
-text-align:center;
-font-size:22px;
-padding:12px;
-background:#fff;
-font-weight:900;
+font-size:18px;
+margin-top:8px;
+opacity:.9;
 }
 
 .wrap{
-max-width:1000px;
+max-width:900px;
 margin:auto;
 padding:16px;
+}
+
+.section{
+font-size:24px;
+font-weight:900;
+margin:18px 0 12px;
+color:#334155;
 }
 
 .grid{
@@ -51,29 +62,56 @@ gap:14px;
 
 .card{
 background:#fff;
-border-radius:24px;
-padding:22px;
+border-radius:30px;
+height:150px;
 text-decoration:none;
 color:#1f2d3d;
-text-align:center;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.big{
+height:170px;
 }
 
 .icon{
-font-size:56px;
+font-size:54px;
 margin-bottom:10px;
 }
 
 .title{
-font-size:24px;
+font-size:22px;
 font-weight:900;
+text-align:center;
 line-height:1.4;
 }
 
-.section{
-font-size:24px;
-font-weight:900;
-margin:20px 0 12px;
+.green{
+background:linear-gradient(135deg,#16a34a,#22c55e);
+color:#fff;
+}
+
+.blue{
+background:linear-gradient(135deg,#2563eb,#60a5fa);
+color:#fff;
+}
+
+.orange{
+background:linear-gradient(135deg,#ea580c,#fb923c);
+color:#fff;
+}
+
+.red{
+background:linear-gradient(135deg,#dc2626,#ef4444);
+color:#fff;
+}
+
+.white{
+background:#fff;
+color:#1f2d3d;
 }
 
 .snsBar{
@@ -84,10 +122,10 @@ margin-top:20px;
 
 .snsBtn{
 flex:1;
-height:54px;
+height:42px;
 border:none;
-border-radius:12px;
-font-size:16px;
+border-radius:10px;
+font-size:14px;
 font-weight:900;
 color:#fff;
 }
@@ -105,7 +143,7 @@ background:#000;
 }
 
 .copyBtn{
-background:#607d8b;
+background:#64748b;
 }
 
 </style>
@@ -115,6 +153,8 @@ background:#607d8b;
 <body>
 
 <div class="header">
+
+<div class="logo">
 見守りDX
 </div>
 
@@ -122,35 +162,9 @@ background:#607d8b;
 地域情報・見守り・生活支援
 </div>
 
+</div>
+
 <div class="wrap">
-
-<div class="section">
-地域情報
-</div>
-
-<div class="grid">
-
-<a href="kawaraban.html" class="card">
-<div class="icon">📰</div>
-<div class="title">4市瓦版</div>
-</a>
-
-<a href="radio.html" class="card">
-<div class="icon">📻</div>
-<div class="title">地域ラジオ</div>
-</a>
-
-<a href="fun.html" class="card">
-<div class="icon">🎬</div>
-<div class="title">お楽しみ動画</div>
-</a>
-
-<a href="garbage.html" class="card">
-<div class="icon">🗑</div>
-<div class="title">ゴミ収集</div>
-</a>
-
-</div>
 
 <div class="section">
 見守り
@@ -158,34 +172,80 @@ background:#607d8b;
 
 <div class="grid">
 
-<a href="app.html" class="card">
+<a href="app.html" class="card big green">
 <div class="icon">😊</div>
-<div class="title">本人ページ</div>
+<div class="title">元気です</div>
 </a>
 
-<a href="family.html" class="card">
+<a href="medicine.html" class="card big blue">
+<div class="icon">💊</div>
+<div class="title">薬を飲みました</div>
+</a>
+
+<a href="gps.html" class="card orange">
+<div class="icon">📍</div>
+<div class="title">現在地送信</div>
+</a>
+
+<a href="sos.html" class="card red">
+<div class="icon">🚨</div>
+<div class="title">困っています</div>
+</a>
+
+<a href="family.html" class="card white">
 <div class="icon">👪</div>
 <div class="title">家族ページ</div>
 </a>
 
-<a href="qr.html" class="card">
+<a href="qr.html" class="card white">
 <div class="icon">📱</div>
 <div class="title">QRコード</div>
 </a>
 
-<a href="hospital.html" class="card">
+</div>
+
+<div class="section">
+生活支援
+</div>
+
+<div class="grid">
+
+<a href="garbage.html" class="card white">
+<div class="icon">🗑</div>
+<div class="title">今日のゴミ</div>
+</a>
+
+<a href="hospital.html" class="card white">
 <div class="icon">🏥</div>
-<div class="title">病院</div>
+<div class="title">病院・薬局</div>
 </a>
 
-<a href="pharmacy.html" class="card">
-<div class="icon">💊</div>
-<div class="title">薬局</div>
+</div>
+
+<div class="section">
+地域情報
+</div>
+
+<div class="grid">
+
+<a href="kawaraban.html" class="card white">
+<div class="icon">📰</div>
+<div class="title">4市瓦版</div>
 </a>
 
-<a href="convenience.html" class="card">
-<div class="icon">🏪</div>
-<div class="title">コンビニ</div>
+<a href="radio.html" class="card white">
+<div class="icon">📻</div>
+<div class="title">地域ラジオ</div>
+</a>
+
+<a href="fun.html" class="card white">
+<div class="icon">🎬</div>
+<div class="title">お楽しみ動画</div>
+</a>
+
+<a href="map.html" class="card white">
+<div class="icon">🗺️</div>
+<div class="title">地域マップ</div>
 </a>
 
 </div>
@@ -225,11 +285,8 @@ onclick="copyLink()">
 function shareLine(){
 
 location.href =
-
 "https://line.me/R/msg/text/?"
-
 +
-
 encodeURIComponent(
 location.href
 );
@@ -239,15 +296,11 @@ location.href
 function shareFacebook(){
 
 window.open(
-
 "https://www.facebook.com/sharer/sharer.php?u="
-
 +
-
 encodeURIComponent(
 location.href
 )
-
 );
 
 }
@@ -255,15 +308,11 @@ location.href
 function shareX(){
 
 window.open(
-
 "https://twitter.com/intent/tweet?url="
-
 +
-
 encodeURIComponent(
 location.href
 )
-
 );
 
 }
