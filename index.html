@@ -101,6 +101,25 @@ line-height:1.8;
 font-size:18px;
 }
 
+.snsBar{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+}
+
+.snsBar button{
+height:48px;
+font-size:15px;
+font-weight:900;
+border:none;
+border-radius:12px;
+background:#e9eef3;
+color:#333;
+margin:0;
+padding:0;
+cursor:pointer;
+}
+
 </style>
 
 </head>
@@ -189,24 +208,6 @@ onclick="location.href='fun.html'">
 🎬 お楽しみ動画
 </button>
 
-<button
-class="btn gray"
-onclick="shareLine()">
-📤 LINEで共有
-</button>
-
-<button
-class="btn blue"
-onclick="shareX()">
-𝕏 Xで共有
-</button>
-
-<button
-class="btn orange"
-onclick="shareFacebook()">
-Facebookで共有
-</button>
-
 </div>
 
 <div class="card">
@@ -262,6 +263,30 @@ class="btn blue"
 onclick="location.href='register.html'">
 👤 利用者登録
 </button>
+
+</div>
+
+<div class="card">
+
+<div class="snsBar">
+
+<button onclick="shareLine()">
+LINE
+</button>
+
+<button onclick="shareX()">
+X
+</button>
+
+<button onclick="shareFacebook()">
+FB
+</button>
+
+<button onclick="copyUrl()">
+コピー
+</button>
+
+</div>
 
 </div>
 
@@ -399,3 +424,64 @@ document.getElementById(
 }
 
 }
+
+function shareLine(){
+
+location.href =
+"https://line.me/R/msg/text/?"+
+encodeURIComponent(
+document.title + "\n" +
+location.href
+);
+
+}
+
+function shareX(){
+
+window.open(
+"https://twitter.com/intent/tweet?text=" +
+encodeURIComponent(document.title) +
+"&url=" +
+encodeURIComponent(location.href)
+);
+
+}
+
+function shareFacebook(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(location.href)
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+}
+
+loadHistory();
+loadStatus();
+
+setInterval(
+loadHistory,
+60000
+);
+
+setInterval(
+loadStatus,
+60000
+);
+
+</script>
+
+</body>
+</html>
