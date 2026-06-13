@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>家族確認｜見守りDX</title>
-
-<link rel="icon" href="icon.png">
+<title>家族確認</title>
 
 <style>
 
@@ -17,110 +15,78 @@ box-sizing:border-box;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
+padding:15px;
 }
 
 .wrap{
 max-width:900px;
 margin:auto;
-padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#1976d2,#64b5f6);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+font-size:40px;
+font-weight:900;
+margin-bottom:20px;
 }
 
 .card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
+background:#fff;
 border-radius:28px;
-padding:20px;
+padding:24px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 margin-bottom:16px;
 }
 
-.title{
+.name{
 font-size:34px;
 font-weight:900;
 text-align:center;
-margin-bottom:20px;
+margin-bottom:10px;
 }
 
-.name{
-font-size:28px;
-font-weight:900;
+.address{
+font-size:22px;
 text-align:center;
 margin-bottom:20px;
 }
 
-.section{
-font-size:20px;
+.label{
+font-size:28px;
 font-weight:900;
 margin-bottom:10px;
-color:#00d4ff;
 }
 
-.history{
-background:rgba(255,255,255,.08);
-border-radius:18px;
-padding:14px;
-margin-bottom:10px;
-}
-
-.time{
-font-size:14px;
-opacity:.7;
-margin-bottom:5px;
-}
-
-.status{
-font-size:20px;
-font-weight:900;
-margin-bottom:5px;
-}
-
-.memo{
-font-size:15px;
-line-height:1.6;
-}
-
-button{
+.input{
 width:100%;
+height:90px;
+border:2px solid #d9e2ec;
+border-radius:20px;
+padding:0 20px;
+font-size:32px;
+margin-bottom:20px;
+}
+
+.btn{
+width:100%;
+height:90px;
 border:none;
-padding:18px;
-border-radius:18px;
-font-size:20px;
+border-radius:20px;
+font-size:32px;
 font-weight:900;
 color:#fff;
 cursor:pointer;
-margin-bottom:10px;
 }
 
-input{
-width:100%;
-border:none;
-padding:20px;
-border-radius:18px;
-font-size:24px;
-margin-bottom:15px;
-}
-
-.app-btn{
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
-}
-
-.qr-btn{
-background:linear-gradient(135deg,#7b1fa2,#ab47bc);
-}
-
-.home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
-}
-
-.footer{
-text-align:center;
-padding:20px;
-font-size:12px;
-opacity:.6;
+.loginBtn{
+background:#00c853;
 }
 
 </style>
@@ -129,87 +95,58 @@ opacity:.6;
 
 <body>
 
-<div
-id="loginArea"
-class="wrap">
+<div class="wrap">
+
+<div class="header">
+👪 家族確認
+</div>
 
 <div class="card">
 
-<div class="title">
-🔐 支援者認証
+<div
+id="userName"
+class="name">
+利用者
+</div>
+
+<div
+id="userAddress"
+class="address">
+住所
+</div>
+
+<div class="label">
+🔐 暗証番号
 </div>
 
 <input
 type="password"
-id="pinInput"
-placeholder="暗証番号">
+id="pin"
+class="input"
+placeholder="暗証番号を入力">
 
 <button
-class="app-btn"
+class="btn loginBtn"
 onclick="checkPin()">
 認証する
 </button>
 
 </div>
 
-</div>
-
 <div
-id="mainArea"
+id="historyCard"
+class="card"
 style="display:none;">
 
-<div class="wrap">
-
-<div class="card">
-
-<div class="title">
-👪 家族確認
+<div class="label">
+📋 見守り履歴
 </div>
 
 <div
-id="userName"
-class="name">
-読み込み中...
-</div>
+id="historyArea">
 
-</div>
+読込中...
 
-<div class="card">
-
-<div class="section">
-📋 最新履歴
-</div>
-
-<div id="historyArea">
-読み込み中...
-</div>
-
-</div>
-
-<div class="card">
-
-<button
-class="app-btn"
-onclick="location.href='app.html?id='+USER_ID">
-😊 本人ページ
-</button>
-
-<button
-class="qr-btn"
-onclick="location.href='qr.html?id='+USER_ID">
-📱 QRコード
-</button>
-
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-🏠 ホームへ戻る
-</button>
-
-</div>
-
-<div class="footer">
-NSAW 家族ダッシュボード
 </div>
 
 </div>
@@ -218,31 +155,35 @@ NSAW 家族ダッシュボード
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
-
-const params =
+const name =
 new URLSearchParams(
 location.search
-);
+).get("name") || "";
 
-const USER_ID =
-params.get("id") || "";
+document.getElementById(
+"userName"
+).innerHTML =
+name || "利用者";
+
+document.getElementById(
+"userAddress"
+).innerHTML =
+"志木市";
 
 function checkPin(){
+
+const pin =
+document.getElementById(
+"pin"
+).value;
 
 const savedPin =
 localStorage.getItem(
 "supportPin"
-) || "";
-
-const inputPin =
-document.getElementById(
-"pinInput"
-).value;
+) || "1234";
 
 if(
-inputPin !== savedPin
+pin !== savedPin
 ){
 
 alert(
@@ -254,96 +195,51 @@ return;
 }
 
 document.getElementById(
-"loginArea"
-).style.display =
-"none";
-
-document.getElementById(
-"mainArea"
+"historyCard"
 ).style.display =
 "block";
 
-loadData();
+loadHistory();
 
 }
 
-async function loadData(){
-
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?action=dashboard&id=" +
-encodeURIComponent(USER_ID)
-);
-
-const json =
-await response.json();
-
-const user =
-json.user || {};
-
-const history =
-json.history || [];
+function loadHistory(){
 
 document.getElementById(
-"userName"
+"historyArea"
 ).innerHTML =
 
-user.name ||
+`
 
-localStorage.getItem(
-"userName"
-) ||
-
-"利用者";
-
-let html = "";
-
-history.forEach(item=>{
-
-html += `
-<div class="history">
-
-<div class="time">
-${item.time || ""}
+<div style="
+padding:12px;
+border-bottom:1px solid #ddd;
+">
+2026/06/13 08:10
+<br>
+😊 元気です
 </div>
 
-<div class="status">
-${item.status || ""}
+<div style="
+padding:12px;
+border-bottom:1px solid #ddd;
+">
+2026/06/13 12:00
+<br>
+💊 薬を飲みました
 </div>
 
-<div class="memo">
-${item.memo || ""}
+<div style="
+padding:12px;
+">
+2026/06/13 18:20
+<br>
+📍 現在地送信
 </div>
 
-</div>
 `;
 
-});
-
-document.getElementById(
-"historyArea"
-).innerHTML =
-
-html || "履歴なし";
-
-}catch(error){
-
-document.getElementById(
-"historyArea"
-).innerHTML =
-"取得エラー";
-
 }
-
-}
-
-setInterval(
-loadData,
-30000
-);
 
 </script>
 
