@@ -18,10 +18,11 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:18px;
+color:#1f2d3d;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#334155);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
 border-radius:30px;
@@ -30,7 +31,7 @@ margin-bottom:18px;
 }
 
 .name{
-font-size:34px;
+font-size:36px;
 font-weight:900;
 }
 
@@ -49,31 +50,43 @@ padding:28px;
 border:none;
 border-radius:24px;
 margin-bottom:14px;
-font-size:30px;
+font-size:28px;
 font-weight:900;
 color:#fff;
+text-align:center;
+text-decoration:none;
 }
 
-.genki{
+.green{
 background:#16a34a;
 }
 
-.medicine{
+.blue{
 background:#2563eb;
 }
 
-.help{
-background:#dc2626;
-}
-
-.family{
+.orange{
 background:#ea580c;
 }
 
-.status{
-font-size:24px;
+.red{
+background:#dc2626;
+}
+
+.gray{
+background:#475569;
+}
+
+.title{
+font-size:26px;
 font-weight:900;
-text-align:center;
+margin-bottom:14px;
+}
+
+.status{
+font-size:22px;
+font-weight:900;
+line-height:2;
 }
 
 </style>
@@ -90,37 +103,63 @@ text-align:center;
 
 <div class="card">
 
-<button
-class="btn genki">
+<a href="#" class="btn green">
 元気です
-</button>
+</a>
 
-<button
-class="btn medicine">
-薬を飲みました
-</button>
+<a href="#" class="btn blue">
+💊 薬を飲みました
+</a>
 
-<button
-class="btn help">
-困っています
-</button>
+<a href="#" class="btn red">
+🚨 困っています
+</a>
 
-<button
-class="btn family">
-家族へ連絡
-</button>
+<a href="family.html" class="btn orange">
+👪 家族ページ
+</a>
 
 </div>
 
 <div class="card">
 
+<div class="title">
+履歴
+</div>
+
+<a href="history.html" class="btn gray">
+📋 見守り履歴
+</a>
+
+<a href="check-history.html" class="btn gray">
+😊 元気です履歴
+</a>
+
+<a href="medicine-history.html" class="btn gray">
+💊 服薬履歴
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+現在の状況
+</div>
+
 <div class="status">
-最終確認
+最終確認：2026/06/13 08:15
 <br>
-2026/06/13
+服薬：確認済み
+<br>
+状態：元気です
 </div>
 
 </div>
+
+<a href="index.html" class="btn gray">
+🏠 トップへ戻る
+</a>
 
 </body>
 </html>
