@@ -95,6 +95,15 @@ cursor:pointer;
 margin-bottom:10px;
 }
 
+input{
+width:100%;
+border:none;
+padding:20px;
+border-radius:18px;
+font-size:24px;
+margin-bottom:15px;
+}
+
 .app-btn{
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
@@ -115,9 +124,39 @@ opacity:.6;
 }
 
 </style>
+
 </head>
 
 <body>
+
+<div
+id="loginArea"
+class="wrap">
+
+<div class="card">
+
+<div class="title">
+🔐 支援者認証
+</div>
+
+<input
+type="password"
+id="pinInput"
+placeholder="暗証番号">
+
+<button
+class="app-btn"
+onclick="checkPin()">
+認証する
+</button>
+
+</div>
+
+</div>
+
+<div
+id="mainArea"
+style="display:none;">
 
 <div class="wrap">
 
@@ -163,12 +202,6 @@ onclick="location.href='qr.html?id='+USER_ID">
 
 <button
 class="home-btn"
-onclick="location.href='users.html'">
-👥 利用者一覧
-</button>
-
-<button
-class="home-btn"
 onclick="location.href='index.html'">
 🏠 ホームへ戻る
 </button>
@@ -181,16 +214,58 @@ NSAW 家族ダッシュボード
 
 </div>
 
+</div>
+
 <script>
 
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
 const params =
-new URLSearchParams(location.search);
+new URLSearchParams(
+location.search
+);
 
 const USER_ID =
 params.get("id") || "";
+
+function checkPin(){
+
+const savedPin =
+localStorage.getItem(
+"supportPin"
+) || "";
+
+const inputPin =
+document.getElementById(
+"pinInput"
+).value;
+
+if(
+inputPin !== savedPin
+){
+
+alert(
+"暗証番号が違います"
+);
+
+return;
+
+}
+
+document.getElementById(
+"loginArea"
+).style.display =
+"none";
+
+document.getElementById(
+"mainArea"
+).style.display =
+"block";
+
+loadData();
+
+}
 
 async function loadData(){
 
@@ -212,8 +287,17 @@ json.user || {};
 const history =
 json.history || [];
 
-document.getElementById("userName").innerHTML =
-user.name || "利用者";
+document.getElementById(
+"userName"
+).innerHTML =
+
+user.name ||
+
+localStorage.getItem(
+"userName"
+) ||
+
+"利用者";
 
 let html = "";
 
@@ -239,21 +323,27 @@ ${item.memo || ""}
 
 });
 
-document.getElementById("historyArea").innerHTML =
+document.getElementById(
+"historyArea"
+).innerHTML =
+
 html || "履歴なし";
 
 }catch(error){
 
-document.getElementById("historyArea").innerHTML =
+document.getElementById(
+"historyArea"
+).innerHTML =
 "取得エラー";
 
 }
 
 }
 
-loadData();
-
-setInterval(loadData,30000);
+setInterval(
+loadData,
+30000
+);
 
 </script>
 
