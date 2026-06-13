@@ -23,54 +23,65 @@ color:#1f2d3d;
 .header{
 background:linear-gradient(135deg,#2196f3,#64b5f6);
 color:#fff;
-padding:24px;
+padding:28px;
 text-align:center;
-font-size:32px;
+font-size:42px;
 font-weight:900;
 }
 
 .wrap{
-max-width:900px;
+max-width:1000px;
 margin:auto;
-padding:15px;
+padding:18px;
 }
 
 .card{
 background:#fff;
-border-radius:20px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 4px 12px rgba(0,0,0,.08);
+border-radius:24px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
 .city{
-font-size:14px;
+font-size:20px;
 font-weight:900;
 color:#1976d2;
-margin-bottom:8px;
-}
-
-.title{
-font-size:22px;
-font-weight:900;
 margin-bottom:10px;
 }
 
+.title{
+font-size:30px;
+font-weight:900;
+line-height:1.5;
+margin-bottom:12px;
+}
+
 .desc{
-line-height:1.7;
+font-size:22px;
+line-height:1.9;
 margin-bottom:15px;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:18px;
-border-radius:16px;
+padding:20px;
+border-radius:18px;
 background:#2196f3;
 color:#fff;
 text-decoration:none;
 text-align:center;
-font-size:20px;
+font-size:24px;
+font-weight:900;
+}
+
+.error{
+background:#fff3cd;
+border:2px solid #ffe082;
+padding:20px;
+border-radius:18px;
+font-size:22px;
 font-weight:900;
 }
 
@@ -88,8 +99,8 @@ font-weight:900;
 
 <div id="newsList">
 
-<div class="card">
-読込中...
+<div class="error">
+記事を読込中...
 </div>
 
 </div>
@@ -145,6 +156,10 @@ getVal(cells[3]);
 const link =
 getVal(cells[4]);
 
+if(
+!title
+) return;
+
 html += `
 
 <div class="card">
@@ -165,7 +180,7 @@ ${desc}
 class="btn"
 href="${link}"
 target="_blank">
-記事を見る
+📰 記事を見る
 </a>
 
 </div>
@@ -177,7 +192,18 @@ target="_blank">
 document.getElementById(
 "newsList"
 ).innerHTML =
-html || "記事がありません";
+
+html ||
+
+`
+
+<div class="error">
+
+記事がありません
+
+</div>
+
+`;
 
 }
 
@@ -189,6 +215,25 @@ document.createElement(
 script.src =
 url +
 "&callback=handleSheet";
+
+script.onerror =
+function(){
+
+document.getElementById(
+"newsList"
+).innerHTML =
+
+`
+
+<div class="error">
+
+スプレッドシート接続失敗
+
+</div>
+
+`;
+
+};
 
 document.body.appendChild(
 script
