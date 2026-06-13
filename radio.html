@@ -167,23 +167,12 @@ id;
 
 }
 
-if(url.includes("/shorts/")){
-
-const id =
-url.split("/shorts/")[1]
-.split("?")[0];
-
-return
-"https://www.youtube.com/embed/" +
-id;
-
-}
-
 return "";
 
 }
 
-function handleSheet(json){
+window.handleSheet =
+function(json){
 
 const rows =
 json.table.rows || [];
@@ -209,14 +198,10 @@ getVal(cells[3]);
 const hashtags =
 getVal(cells[4]);
 
-if(
-!videoUrl
-) return;
+if(!videoUrl) return;
 
 const embedUrl =
-youtubeEmbed(
-videoUrl
-);
+youtubeEmbed(videoUrl);
 
 html += `
 
@@ -273,7 +258,7 @@ html ||
 
 `;
 
-}
+};
 
 const script =
 document.createElement(
@@ -281,7 +266,9 @@ document.createElement(
 );
 
 script.src =
+
 url +
+
 "&callback=handleSheet";
 
 script.onerror =
