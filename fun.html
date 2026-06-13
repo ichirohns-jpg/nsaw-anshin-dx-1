@@ -23,24 +23,24 @@ color:#1f2d3d;
 .header{
 background:linear-gradient(135deg,#ff9800,#ffb74d);
 color:#fff;
-padding:24px;
+padding:28px;
 text-align:center;
-font-size:32px;
+font-size:42px;
 font-weight:900;
 }
 
 .wrap{
-max-width:900px;
+max-width:1000px;
 margin:auto;
-padding:15px;
+padding:18px;
 }
 
 .card{
 background:#fff;
-border-radius:20px;
+border-radius:24px;
 overflow:hidden;
-margin-bottom:16px;
-box-shadow:0 4px 12px rgba(0,0,0,.08);
+margin-bottom:20px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
 .thumb{
@@ -50,18 +50,20 @@ border:none;
 }
 
 .body{
-padding:16px;
+padding:20px;
 }
 
 .title{
-font-size:22px;
+font-size:30px;
 font-weight:900;
-margin-bottom:10px;
+line-height:1.5;
+margin-bottom:12px;
 }
 
 .desc{
-line-height:1.7;
-font-size:16px;
+font-size:22px;
+line-height:1.9;
+margin-bottom:15px;
 }
 
 .btn{
@@ -71,11 +73,20 @@ background:#ff9800;
 color:#fff;
 text-decoration:none;
 text-align:center;
-padding:18px;
-font-size:20px;
+padding:20px;
+font-size:24px;
 font-weight:900;
-border-radius:16px;
+border-radius:18px;
 margin-top:12px;
+}
+
+.error{
+background:#fff3cd;
+border:2px solid #ffe082;
+padding:20px;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
 }
 
 </style>
@@ -92,12 +103,8 @@ margin-top:12px;
 
 <div id="videoList">
 
-<div class="card">
-
-<div class="body">
-読込中...
-</div>
-
+<div class="error">
+動画を読込中...
 </div>
 
 </div>
@@ -179,7 +186,8 @@ let html = "";
 
 rows.forEach(row=>{
 
-const cells = row.c || [];
+const cells =
+row.c || [];
 
 const title =
 getVal(cells[1]);
@@ -192,11 +200,22 @@ let videoUrl = "";
 cells.forEach(cell=>{
 
 const txt =
-JSON.stringify(cell || {});
+JSON.stringify(
+cell || {}
+);
 
 if(
-txt.includes("youtube.com") ||
-txt.includes("youtu.be")
+
+txt.includes(
+"youtube.com"
+)
+
+||
+
+txt.includes(
+"youtu.be"
+)
+
 ){
 
 const m =
@@ -208,7 +227,10 @@ if(m){
 
 videoUrl =
 m[0]
-.replace(/\\/g,"");
+.replace(
+/\\/g,
+""
+);
 
 }
 
@@ -217,7 +239,13 @@ m[0]
 });
 
 const embedUrl =
-youtubeEmbed(videoUrl);
+youtubeEmbed(
+videoUrl
+);
+
+if(
+!videoUrl
+) return;
 
 html += `
 
@@ -243,7 +271,7 @@ ${desc}
 class="btn"
 href="${videoUrl}"
 target="_blank">
-YouTubeで見る
+▶ YouTubeで見る
 </a>
 
 </div>
@@ -257,7 +285,18 @@ YouTubeで見る
 document.getElementById(
 "videoList"
 ).innerHTML =
-html || "動画がありません";
+
+html ||
+
+`
+
+<div class="error">
+
+動画がありません
+
+</div>
+
+`;
 
 }
 
@@ -269,6 +308,25 @@ document.createElement(
 script.src =
 url +
 "&callback=handleSheet";
+
+script.onerror =
+function(){
+
+document.getElementById(
+"videoList"
+).innerHTML =
+
+`
+
+<div class="error">
+
+スプレッドシート接続失敗
+
+</div>
+
+`;
+
+};
 
 document.body.appendChild(
 script
