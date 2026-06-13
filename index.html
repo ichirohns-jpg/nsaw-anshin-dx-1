@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>見守りDX｜HOME</title>
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<title>NSAW見守りDX</title>
 
 <style>
 
@@ -15,143 +12,134 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
+font-family:sans-serif;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
-min-height:100vh;
-}
-
-.banner{
-height:280px;
-overflow:hidden;
-position:relative;
-}
-
-.banner img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
-
-.banner:after{
-content:"";
-position:absolute;
-left:0;
-top:0;
-right:0;
-bottom:0;
-background:rgba(0,0,0,.25);
+background:
+linear-gradient(
+180deg,
+#020814,
+#03152e,
+#000814
+);
+color:#fff;
+padding:20px;
 }
 
 .wrap{
-max-width:760px;
+max-width:700px;
 margin:auto;
-padding:16px;
 }
 
 .card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,.12);
-border-radius:28px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
+border-radius:40px;
+padding:25px;
+margin-bottom:25px;
+box-shadow:
+0 0 30px rgba(0,0,0,.4);
 }
 
-button{
+h1{
+font-size:52px;
+font-weight:900;
+text-align:center;
+margin-bottom:25px;
+}
+
+.sectionTitle{
+font-size:18px;
+letter-spacing:8px;
+opacity:.7;
+margin-bottom:18px;
+}
+
+.bigBtn{
 width:100%;
 border:none;
+border-radius:35px;
+padding:34px;
+font-size:26px;
+font-weight:900;
+margin-bottom:18px;
 cursor:pointer;
 color:#fff;
-font-weight:900;
 }
 
-.main-btn{
-padding:34px;
-border-radius:24px;
-font-size:34px;
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
-margin-bottom:12px;
+.blue{
+background:#12bde7;
 }
 
-.sub-btn{
-padding:28px;
-border-radius:22px;
-font-size:26px;
-background:linear-gradient(135deg,#1f2937,#475569);
-margin-bottom:12px;
+.green{
+background:#17b857;
 }
 
-.life-btn{
-padding:22px;
-border-radius:18px;
-font-size:22px;
-margin-bottom:12px;
-background:linear-gradient(135deg,#37474f,#607d8b);
+.orange{
+background:#ff9800;
 }
 
-.info-btn{
-padding:22px;
-border-radius:18px;
-font-size:22px;
-margin-bottom:12px;
-background:linear-gradient(135deg,#1c2331,#334155);
+.red{
+background:#ef4444;
 }
 
-.emg-btn{
-padding:22px;
-border-radius:18px;
-font-size:22px;
-margin-bottom:12px;
-background:linear-gradient(135deg,#c62828,#ef5350);
+.gray{
+background:#5d7287;
 }
 
-.section-title{
-font-size:13px;
-letter-spacing:4px;
-opacity:.55;
-margin:24px 0 12px;
-padding-left:4px;
+.grid{
+display:grid;
+grid-template-columns:
+repeat(3,1fr);
+gap:15px;
 }
 
-.news{
-padding:12px;
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.news:last-child{
-border-bottom:none;
-}
-
-.news-title{
-font-size:17px;
-font-weight:900;
-}
-
-.news-text{
-font-size:13px;
-opacity:.7;
-margin-top:4px;
-}
-
-a{
-text-decoration:none;
-}
-
-.footer{
+.mini{
+background:
+rgba(255,255,255,.08);
+border-radius:25px;
+padding:25px 10px;
 text-align:center;
-padding:30px 10px;
-opacity:.6;
-font-size:12px;
+font-size:20px;
+font-weight:900;
+}
+
+.count{
+font-size:55px;
+font-weight:900;
+display:block;
+margin-bottom:10px;
+}
+
+.shareArea{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.shareBtn{
+width:100%;
+border:none;
+border-radius:30px;
+padding:25px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+}
+
+.line{
+background:#06c755;
+}
+
+.copy{
+background:#2196f3;
+}
+
+.sms{
+background:#7c4dff;
 }
 
 </style>
@@ -159,168 +147,45 @@ font-size:12px;
 
 <body>
 
-<div class="banner">
-<img src="home-top.jpg">
-</div>
-
 <div class="wrap">
 
 <div class="card">
 
-<div style="
-font-size:30px;
-font-weight:900;
-text-align:center;
-margin-bottom:20px;
-">
-LEXUS STYLE DASHBOARD
+<h1>
+NSAW<br>
+見守りDX
+</h1>
+
+<div class="grid">
+
+<div class="mini">
+<span class="count" id="genkiCount">0</span>
+😊元気
 </div>
 
-<div style="
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-bottom:15px;
-">
-
-<div style="
-background:rgba(0,200,83,.15);
-padding:18px;
-border-radius:20px;
-text-align:center;
-">
-
-<div id="okCount"
-style="
-font-size:42px;
-font-weight:900;
-color:#00e676;
-">
-0
+<div class="mini">
+<span class="count" id="waitCount">0</span>
+⏰未確認
 </div>
 
-<div>
-🟢 元気
+<div class="mini">
+<span class="count" id="emgCount">0</span>
+🚨緊急
 </div>
 
+<div class="mini">
+<span class="count" id="scheduleCount">0</span>
+📅予定
 </div>
 
-<div style="
-background:rgba(255,193,7,.15);
-padding:18px;
-border-radius:20px;
-text-align:center;
-">
-
-<div id="waitCount"
-style="
-font-size:42px;
-font-weight:900;
-color:#ffd54f;
-">
-0
+<div class="mini">
+<span class="count" id="medicineCount">0</span>
+💊服薬
 </div>
 
-<div>
-🟡 未確認
-</div>
-
-</div>
-
-<div style="
-background:rgba(244,67,54,.15);
-padding:18px;
-border-radius:20px;
-text-align:center;
-">
-
-<div id="emgCount"
-style="
-font-size:42px;
-font-weight:900;
-color:#ff5252;
-">
-0
-</div>
-
-<div>
-🔴 緊急
-</div>
-
-</div>
-
-</div>
-
-<div style="
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-">
-
-<div style="
-background:rgba(33,150,243,.15);
-padding:15px;
-border-radius:18px;
-text-align:center;
-">
-
-<div id="scheduleCount"
-style="
-font-size:30px;
-font-weight:900;
-color:#64b5f6;
-">
-0
-</div>
-
-<div>
-📅 予定
-</div>
-
-</div>
-
-<div style="
-background:rgba(156,39,176,.15);
-padding:15px;
-border-radius:18px;
-text-align:center;
-">
-
-<div id="medicineCount"
-style="
-font-size:30px;
-font-weight:900;
-color:#ce93d8;
-">
-0
-</div>
-
-<div>
-💊 服薬
-</div>
-
-</div>
-
-<div style="
-background:rgba(0,150,136,.15);
-padding:15px;
-border-radius:18px;
-text-align:center;
-">
-
-<div id="locationCount"
-style="
-font-size:30px;
-font-weight:900;
-color:#4db6ac;
-">
-0
-</div>
-
-<div>
-📍 位置
-</div>
-
+<div class="mini">
+<span class="count" id="mapCount">0</span>
+📍位置
 </div>
 
 </div>
@@ -329,396 +194,172 @@ color:#4db6ac;
 
 <div class="card">
 
-<div style="
-font-size:24px;
-font-weight:900;
-text-align:center;
-margin-bottom:15px;
-">
-メインメニュー
+<div class="sectionTitle">
+本人操作
 </div>
 
-<a href="register.html">
-<button class="main-btn">
-👤 利用者登録
+<button
+class="bigBtn green"
+onclick="location.href='app.html'">
+😊 元気です
 </button>
-</a>
 
-<a href="users.html">
-<button class="sub-btn">
-👥 利用者一覧
+<button
+class="bigBtn orange"
+onclick="location.href='medicine.html'">
+💊 薬を飲みました
 </button>
-</a>
 
-<a href="support.html">
-<button class="life-btn">
-👪 支援者ページ
+<button
+class="bigBtn blue"
+onclick="location.href='schedule.html'">
+📅 今日の予定
 </button>
-</a>
 
-<a href="app.html">
-<button class="life-btn">
-😊 本人ページ
-</button>
-</a>
-
-<a href="qr.html">
-<button class="life-btn">
-📱 QRコード管理
-</button>
-</a>
-
-</div>
-
-<div class="section-title">
-ワンタッチ操作
-</div>
-
-<div class="card">
-
-<a href="map.html">
-<button class="main-btn">
+<button
+class="bigBtn gray"
+onclick="location.href='map.html'">
 📍 現在地送信
 </button>
-</a>
 
-<a href="medicine.html">
-<button class="sub-btn">
-💊 本日の服薬
+<button
+class="bigBtn red"
+onclick="location.href='emergency.html'">
+🚨 困っています
 </button>
-</a>
 
-<a href="schedule.html">
-<button class="life-btn">
-📅 本日の予定
+</<div class="card">
+
+<div class="sectionTitle">
+家族へ共有
+</div>
+
+<div class="shareArea">
+
+<button
+class="shareBtn line"
+onclick="shareLine()">
+📤 LINEで送る
 </button>
-</a>
+
+<button
+class="shareBtn copy"
+onclick="copyUrl()">
+📋 URLコピー
+</button>
+
+<button
+class="shareBtn sms"
+onclick="shareSms()">
+📱 SMSで送る
+</button>
 
 </div>
 
-<div class="section-title">
-見守りDX
 </div>
 
 <div class="card">
 
-<a href="medicine.html">
-<button class="life-btn">
-💊 服薬確認
-</button>
-</a>
-
-<a href="schedule-edit.html">
-<button class="life-btn">
-📝 予定登録
-</button>
-</a>
-
-<a href="schedule.html">
-<button class="life-btn">
-📅 予定一覧
-</button>
-</a>
-
-<a href="map.html">
-<button class="life-btn">
-📍 現在地
-</button>
-</a>
-
-<a href="emergency.html">
-<button class="emg-btn">
-🚨 緊急連絡
-</button>
-</a>
-
-</div>
-
-<div class="section-title">
+<div class="sectionTitle">
 地域情報
 </div>
 
-<div class="card">
-
-<div style="
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-">
-
-<a href="radio.html">
-<button class="info-btn">
-📻<br>
-ラジオ
+<button
+class="bigBtn gray"
+onclick="location.href='radio.html'">
+📻 地域ラジオ
 </button>
-</a>
 
-<a href="kawaraban.html">
-<button class="info-btn">
-📰<br>
-瓦版
+<button
+class="bigBtn gray"
+onclick="location.href='kawaraban.html'">
+📰 4市瓦版
 </button>
-</a>
 
-<a href="video.html">
-<button class="info-btn">
-🎬<br>
-動画
+<button
+class="bigBtn gray"
+onclick="location.href='fun.html'">
+🎬 お楽しみ動画
 </button>
-</a>
 
-</div>
-
-</div>
-
-<div class="section-title">
-見守り履歴
 </div>
 
 <div class="card">
 
-<div id="historyArea">
-
-<div class="news">
-
-<div class="news-title">
-読み込み中
+<div class="sectionTitle">
+管理メニュー
 </div>
 
-<div class="news-text">
-履歴を取得しています
-</div>
+<button
+class="bigBtn blue"
+onclick="location.href='register.html'">
+👤 利用者登録
+</button>
 
-</div>
+<button
+class="bigBtn gray"
+onclick="location.href='users.html'">
+👥 利用者一覧
+</button>
 
-</div>
+<button
+class="bigBtn gray"
+onclick="location.href='support.html'">
+👪 家族ページ
+</button>
 
-</div>
+<button
+class="bigBtn gray"
+onclick="location.href='qr.html'">
+📱 QRコード発行
+</button>
 
-<div class="section-title">
-今日の状況
-</div>
-
-<div class="card">
-
-<div id="newsArea">
-
-<div class="news">
-
-<div class="news-title">
-システム起動中
-</div>
-
-<div class="news-text">
-見守り状況を確認しています
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="footer">
-NSAW 地域OS / 見守りDX
 </div>
 
 </div>
 
 <script>
 
-const SHEET_ID =
-"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+const SHARE_URL =
+location.origin +
+location.pathname;
 
-function getVal(cell){
+function shareLine(){
 
-if(!cell){
-return "";
-}
+const url =
+'https://line.me/R/msg/text/?' +
+encodeURIComponent(
+'NSAW見守りDX\n' +
+SHARE_URL
+);
 
-return cell.f || cell.v || "";
-
-}
-
-function makeUrl(sheetName){
-
-return "https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(sheetName) +
-"&tqx=out:json";
+location.href = url;
 
 }
 
-function parseGviz(text){
+function copyUrl(){
 
-return JSON.parse(
-text.substring(
-text.indexOf("{"),
-text.lastIndexOf("}") + 1
-)
+navigator.clipboard
+.writeText(
+SHARE_URL
+);
+
+alert(
+'URLをコピーしました'
 );
 
 }
 
-async function loadSheet(sheetName){
+function shareSms(){
 
-const res =
-await fetch(
-makeUrl(sheetName)
+location.href =
+'sms:?body=' +
+encodeURIComponent(
+'NSAW見守りDX ' +
+SHARE_URL
 );
 
-const text =
-await res.text();
-
-const json =
-parseGviz(text);
-
-const rows =
-json.table.rows || [];
-
-rows.reverse();
-
-return rows;
-
 }
-
-async function loadNews(){
-
-try{
-
-let html = "";
-
-const radioRows =
-await loadSheet("地域ラジオ");
-
-if(radioRows.length){
-
-const row =
-radioRows[0];
-
-html += `
-<div class="news">
-<div class="news-title">
-📻 ${getVal(row.c[1])}
-</div>
-<div class="news-text">
-${getVal(row.c[2])}
-</div>
-</div>
-`;
-
-}
-
-const videoRows =
-await loadSheet("お楽しみ動画");
-
-if(videoRows.length){
-
-const row =
-videoRows[0];
-
-html += `
-<div class="news">
-<div class="news-title">
-🎬 ${getVal(row.c[1])}
-</div>
-<div class="news-text">
-${getVal(row.c[2])}
-</div>
-</div>
-`;
-
-}
-
-const kawarabanRows =
-await loadSheet("４市瓦版");
-
-if(kawarabanRows.length){
-
-const row =
-kawarabanRows[0];
-
-html += `
-<div class="news">
-<div class="news-title">
-📰 ${getVal(row.c[2])}
-</div>
-<div class="news-text">
-${getVal(row.c[3])}
-</div>
-</div>
-`;
-
-}
-
-document.getElementById("newsArea").innerHTML =
-html || `
-<div class="news">
-<div class="news-title">
-データなし
-</div>
-<div class="news-text">
-スプレッドシートを確認してください
-</div>
-</div>
-`;
-
-}catch(error){
-
-document.getElementById("newsArea").innerHTML =
-`
-<div class="news">
-<div class="news-title">
-取得エラー
-</div>
-<div class="news-text">
-通信状態を確認してください
-</div>
-</div>
-`;
-
-}
-
-}
-
-async function loadDashboard(){
-
-try{
-
-document.getElementById("okCount").innerHTML =
-"0";
-
-document.getElementById("waitCount").innerHTML =
-"0";
-
-document.getElementById("emgCount").innerHTML =
-"0";
-
-document.getElementById("scheduleCount").innerHTML =
-"0";
-
-document.getElementById("medicineCount").innerHTML =
-"0";
-
-document.getElementById("locationCount").innerHTML =
-"0";
-
-}catch(error){
-
-console.log(error);
-
-}
-
-}
-
-loadNews();
-loadDashboard();
-
-setInterval(
-loadNews,
-60000
-);
 
 </script>
 
