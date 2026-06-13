@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>本人ページ｜見守りDX</title>
+<title>本人ページ</title>
 
 <link rel="icon" href="icon.png">
 
@@ -19,12 +19,12 @@ box-sizing:border-box;
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#ffffff;
+color:#fff;
 min-height:100vh;
 }
 
 .wrap{
-max-width:760px;
+max-width:800px;
 margin:auto;
 padding:16px;
 }
@@ -39,32 +39,18 @@ margin-bottom:16px;
 box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-.title{
+.name{
 font-size:34px;
 font-weight:900;
 text-align:center;
 margin-bottom:10px;
 }
 
-.name{
-font-size:28px;
-font-weight:900;
-text-align:center;
-margin-bottom:10px;
-}
-
-.status{
-font-size:48px;
-font-weight:900;
-text-align:center;
-color:#00d4ff;
-margin:10px 0;
-}
-
 .time{
+font-size:18px;
 text-align:center;
 opacity:.8;
-margin-bottom:10px;
+margin-bottom:20px;
 }
 
 button{
@@ -73,13 +59,13 @@ border:none;
 cursor:pointer;
 color:#fff;
 font-weight:900;
-padding:22px;
-border-radius:20px;
-font-size:24px;
-margin-bottom:12px;
+padding:28px;
+border-radius:24px;
+font-size:28px;
+margin-bottom:14px;
 }
 
-.genki-btn{
+.ok-btn{
 background:linear-gradient(135deg,#00c853,#00e676);
 }
 
@@ -88,38 +74,26 @@ background:linear-gradient(135deg,#1565c0,#42a5f5);
 }
 
 .schedule-btn{
-background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+background:linear-gradient(135deg,#8e24aa,#ba68c8);
+}
+
+.gomi-btn{
+background:linear-gradient(135deg,#455a64,#78909c);
 }
 
 .map-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+background:linear-gradient(135deg,#00897b,#26a69a);
 }
 
 .emg-btn{
 background:linear-gradient(135deg,#c62828,#ef5350);
 }
 
-.info-btn{
-background:linear-gradient(135deg,#1c2331,#334155);
-}
-
-.home-btn{
-background:linear-gradient(135deg,#37474f,#607d8b);
-}
-
-.msg{
-text-align:center;
-font-size:20px;
+.info{
+font-size:22px;
 font-weight:900;
-margin-top:10px;
-min-height:30px;
-}
-
-.footer{
 text-align:center;
-padding:20px;
-opacity:.6;
-font-size:12px;
+line-height:1.8;
 }
 
 </style>
@@ -132,10 +106,6 @@ font-size:12px;
 
 <div class="card">
 
-<div class="title">
-😊 本人ページ
-</div>
-
 <div
 id="userName"
 class="name">
@@ -143,15 +113,9 @@ class="name">
 </div>
 
 <div
-id="currentStatus"
-class="status">
-元気です
-</div>
-
-<div
-id="currentTime"
+id="nowTime"
 class="time">
--
+--
 </div>
 
 </div>
@@ -159,78 +123,49 @@ class="time">
 <div class="card">
 
 <button
-class="genki-btn"
-onclick="sendStatus('元気です')">
+class="ok-btn"
+onclick="sendStatus('😊 元気です')">
 😊 元気です
 </button>
 
 <button
 class="medicine-btn"
 onclick="location.href='medicine.html?id='+USER_ID">
-💊 本日の服薬
+💊 薬を飲みました
 </button>
 
 <button
 class="schedule-btn"
 onclick="location.href='schedule.html?id='+USER_ID">
-📅 本日の予定
+📅 今日の予定
+</button>
+
+<button
+class="gomi-btn"
+onclick="location.href='gomi.html?id='+USER_ID">
+🚮 今日のゴミ
 </button>
 
 <button
 class="map-btn"
-onclick="location.href='map.html?id='+USER_ID">
+onclick="sendLocation()">
 📍 現在地送信
 </button>
 
 <button
 class="emg-btn"
 onclick="location.href='emergency.html?id='+USER_ID">
-🚨 緊急連絡
+🆘 緊急
 </button>
-
-<div
-id="msg"
-class="msg">
-</div>
 
 </div>
 
 <div class="card">
 
-<button
-class="info-btn"
-onclick="location.href='radio.html'">
-📻 地域ラジオ
-</button>
-
-<button
-class="info-btn"
-onclick="location.href='kawaraban.html'">
-📰 ４市瓦版
-</button>
-
-<button
-class="info-btn"
-onclick="location.href='video.html'">
-🎬 お楽しみ動画
-</button>
-
-<button
-class="info-btn"
-onclick="location.href='qr.html?id='+USER_ID">
-📱 マイQRコード
-</button>
-
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-🏠 ホームへ戻る
-</button>
-
-</div>
-
-<div class="footer">
-NSAW 見守りDX
+<div
+id="todayInfo"
+class="info">
+読み込み中...
 </div>
 
 </div>
@@ -240,11 +175,10 @@ NSAW 見守りDX
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-const params =
-new URLSearchParams(location.search);
-
 const USER_ID =
-params.get("id") || "";
+new URLSearchParams(
+location.search
+).get("id") || "";
 
 async function loadUser(){
 
@@ -263,13 +197,17 @@ await response.json();
 const user =
 json.data || {};
 
-document.getElementById("userName").innerHTML =
+document.getElementById(
+"userName"
+).innerHTML =
 user.name || "利用者";
 
 }catch(error){
 
-document.getElementById("userName").innerHTML =
-"利用者";
+document.getElementById(
+"userName"
+).innerHTML =
+"取得エラー";
 
 }
 
@@ -277,49 +215,170 @@ document.getElementById("userName").innerHTML =
 
 async function sendStatus(status){
 
-document.getElementById("msg").innerHTML =
-"送信中...";
+try{
 
 const body =
 new URLSearchParams();
 
-body.append("action","watch");
-body.append("id",USER_ID);
-body.append("status",status);
-body.append("memo","");
+body.append(
+"action",
+"watch"
+);
+
+body.append(
+"id",
+USER_ID
+);
+
+body.append(
+"status",
+status
+);
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body:body.toString()
+}
+);
+
+const json =
+await response.json();
+
+if(json.status==="OK"){
+
+alert(
+status + " を送信しました"
+);
+
+}
+
+}catch(error){
+
+alert(
+"送信エラー"
+);
+
+}
+
+}
+
+function sendLocation(){
+
+if(!navigator.geolocation){
+
+alert(
+"位置情報が使えません"
+);
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+async function(position){
 
 try{
+
+const body =
+new URLSearchParams();
+
+body.append(
+"action",
+"watch"
+);
+
+body.append(
+"id",
+USER_ID
+);
+
+body.append(
+"status",
+"📍位置情報送信"
+);
+
+body.append(
+"lat",
+position.coords.latitude
+);
+
+body.append(
+"lng",
+position.coords.longitude
+);
 
 await fetch(
 GAS_URL,
 {
 method:"POST",
 headers:{
-"Content-Type":"application/x-www-form-urlencoded"
+"Content-Type":
+"application/x-www-form-urlencoded"
 },
 body:body.toString()
 }
 );
 
-document.getElementById("currentStatus").innerHTML =
-status;
-
-document.getElementById("currentTime").innerHTML =
-new Date().toLocaleString("ja-JP");
-
-document.getElementById("msg").innerHTML =
-"送信完了";
+alert(
+"位置情報を送信しました"
+);
 
 }catch(error){
 
-document.getElementById("msg").innerHTML =
-"通信エラー";
+alert(
+"送信失敗"
+);
 
 }
 
+}
+
+);
+
+}
+
+function updateClock(){
+
+const now =
+new Date();
+
+document.getElementById(
+"nowTime"
+).innerHTML =
+now.toLocaleString(
+"ja-JP"
+);
+
+}
+
+function loadTodayInfo(){
+
+document.getElementById(
+"todayInfo"
+).innerHTML =
+`
+📅 今日も元気に過ごしましょう
+<br><br>
+💊 お薬の飲み忘れに注意
+`;
 }
 
 loadUser();
+loadTodayInfo();
+updateClock();
+
+setInterval(
+updateClock,
+1000
+);
 
 </script>
 
