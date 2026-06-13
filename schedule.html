@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>予定管理</title>
-
-<link rel="icon" href="icon.png">
+<title>現在地送信</title>
 
 <style>
 
@@ -17,80 +15,77 @@ box-sizing:border-box;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:15px;
+color:#1f2d3d;
 }
 
 .wrap{
 max-width:800px;
 margin:auto;
-padding:16px;
 }
 
-.card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
-border-radius:28px;
-padding:20px;
+.header{
+background:linear-gradient(135deg,#2196f3,#1565c0);
+color:#fff;
+padding:24px;
+border-radius:24px;
+text-align:center;
+font-size:34px;
+font-weight:900;
 margin-bottom:16px;
 }
 
-.title{
-font-size:34px;
-font-weight:900;
-text-align:center;
-margin-bottom:20px;
+.card{
+background:#fff;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-input,
-select,
-textarea{
+.info{
+font-size:20px;
+line-height:1.8;
+margin-bottom:15px;
+}
+
+.btn{
 width:100%;
-padding:18px;
 border:none;
 border-radius:18px;
-margin-bottom:12px;
-font-size:18px;
-background:rgba(255,255,255,.1);
-color:#fff;
-}
-
-option{
-color:#000;
-}
-
-textarea{
-height:100px;
-}
-
-button{
-width:100%;
-border:none;
-border-radius:22px;
-padding:24px;
-font-size:24px;
+padding:22px;
+font-size:26px;
 font-weight:900;
-color:#fff;
 cursor:pointer;
 margin-bottom:12px;
 }
 
-.save-btn{
-background:linear-gradient(135deg,#00c853,#00e676);
+.gps{
+background:#2196f3;
+color:#fff;
 }
 
-.home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+.map{
+background:#4caf50;
+color:#fff;
 }
 
-.item{
-background:rgba(255,255,255,.08);
+.back{
+background:#666;
+color:#fff;
+}
+
+.result{
+font-size:22px;
+font-weight:900;
+text-align:center;
 padding:15px;
-border-radius:18px;
-margin-bottom:10px;
+}
+
+a{
+text-decoration:none;
 }
 
 </style>
@@ -101,247 +96,246 @@ margin-bottom:10px;
 
 <div class="wrap">
 
-<div class="card">
-
-<div class="title">
-📅 予定管理
+<div class="header">
+📍 現在地送信
 </div>
 
-<input
-type="date"
-id="date">
+<div class="card">
 
-<input
-type="time"
-id="time">
-
-<select id="title">
-
-<option value="">
-予定を選択
-</option>
-
-<option>
-病院
-</option>
-
-<option>
-デイサービス
-</option>
-
-<option>
-買い物
-</option>
-
-<option>
-散歩
-</option>
-
-<option>
-食事会
-</option>
-
-<option>
-その他
-</option>
-
-</select>
-
-<input
-id="place"
-placeholder="場所">
-
-<textarea
-id="memo"
-placeholder="メモ"></textarea>
+<div class="info">
+現在地を取得して家族や支援者へ送信します
+</div>
 
 <button
-class="save-btn"
-onclick="saveSchedule()">
-💾 予定登録
+class="btn gps"
+onclick="getLocation()">
+📍 現在地取得
 </button>
 
+<a
+id="mapLink"
+href="#"
+target="_blank">
+
 <button
-class="home-btn"
+class="btn map">
+🗺 地図を開く
+</button>
+
+</a>
+
+<div
+id="result"
+class="result">
+未取得
+</div>
+
+<button
+class="btn back"
 onclick="history.back()">
-🏠 戻る
+戻る
 </button>
 
-</div>
-
-<div class="card">
-
-<div id="scheduleArea">
-読み込み中...
 </div>
 
 </div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+function getLocation(){
 
-const USER_ID =
-new URLSearchParams(
-location.search
-).get("id") || "";
-
-async function saveSchedule(){
-
-try{
-
-const body =
-new URLSearchParams();
-
-body.append(
-"action",
-"scheduleAdd"
-);
-
-body.append(
-"id",
-USER_ID
-);
-
-body.append(
-"date",
-document.getElementById(
-"date"
-).value
-);
-
-body.append(
-"time",
-document.getElementById(
-"time"
-).value
-);
-
-body.append(
-"title",
-document.getElementById(
-"title"
-).value
-);
-
-body.append(
-"place",
-document.getElementById(
-"place"
-).value
-);
-
-body.append(
-"memo",
-document.getElementById(
-"memo"
-).value
-);
-
-const response =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/x-www-form-urlencoded"
-},
-body:body.toString()
-}
-);
-
-const json =
-await response.json();
-
-if(json.status==="OK"){
-
-alert(
-"予定を登録しました"
-);
-
-loadSchedules();
-
+if(
+!navigator.geolocation
+){
+return;
 }
 
-}catch(error){
+navigator.geolocation.getCurrentPosition(
 
-alert(
-"登録失敗"
+function(position){
+
+const lat =
+position.coords.latitude;
+
+const lng =
+position.coords.longitude;
+
+localStorage.setItem(
+"gpsLat",
+lat
 );
 
-}
-
-}
-
-async function loadSchedules(){
-
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?action=scheduleList&id=" +
-encodeURIComponent(USER_ID)
+localStorage.setItem(
+"gpsLng",
+lng
 );
 
-const json =
-await response.json();
-
-const data =
-json.data || [];
-
-let html = "";
-
-data.forEach(item=>{
-
-html += `
-<div class="item">
-
-<div style="
-font-size:20px;
-font-weight:900;
-margin-bottom:5px;
-">
-📅 ${item.title || ""}
-</div>
-
-<div>
-🕒 ${item.date || ""} ${item.time || ""}
-</div>
-
-<div>
-📍 ${item.place || ""}
-</div>
-
-<div>
-📝 ${item.memo || ""}
-</div>
-
-</div>
-`;
-
-});
+const mapUrl =
+"https://maps.google.com/?q=" +
+lat +
+"," +
+lng;
 
 document.getElementById(
-"scheduleArea"
+"mapLink"
+).href =
+mapUrl;
+
+document.getElementById(
+"result"
 ).innerHTML =
-html ||
-"予定はありません";
 
-}catch(error){
+"取得完了<br>" +
+
+lat +
+"<br>" +
+
+lng;
+
+},
+
+function(){
 
 document.getElementById(
-"scheduleArea"
+"result"
 ).innerHTML =
 "取得失敗";
 
 }
 
+);
+
 }
 
-loadSchedules();
+</script>
+
+</body>
+</html>
+
+<script>
+
+loadSchedule();
+
+function saveSchedule(){
+
+const date =
+document.getElementById(
+"date"
+).value;
+
+const memo =
+document.getElementById(
+"memo"
+).value;
+
+if(
+!date ||
+!memo
+){
+return;
+}
+
+let data =
+JSON.parse(
+localStorage.getItem(
+"scheduleList"
+) || "[]"
+);
+
+data.push({
+
+date:date,
+memo:memo,
+time:new Date()
+.toLocaleString(
+"ja-JP"
+)
+
+});
+
+localStorage.setItem(
+"scheduleList",
+JSON.stringify(data)
+);
+
+document.getElementById(
+"memo"
+).value = "";
+
+loadSchedule();
+
+}
+
+function deleteSchedule(index){
+
+let data =
+JSON.parse(
+localStorage.getItem(
+"scheduleList"
+) || "[]"
+);
+
+data.splice(
+index,
+1
+);
+
+localStorage.setItem(
+"scheduleList",
+JSON.stringify(data)
+);
+
+loadSchedule();
+
+}
+
+function loadSchedule(){
+
+let data =
+JSON.parse(
+localStorage.getItem(
+"scheduleList"
+) || "[]"
+);
+
+data.sort(
+(a,b)=>
+a.date.localeCompare(
+b.date
+)
+);
+
+let html = "";
+
+data.forEach(
+(item,index)=>{
+
+html +=
+
+'<div class="item">' +
+
+'<div class="date">' +
+item.date +
+'</div>' +
+
+'<div class="memo">' +
+item.memo +
+'</div>' +
+
+'<button onclick="deleteSchedule(' +
+index +
+')">削除</button>' +
+
+'</div>';
+
+});
+
+document.getElementById(
+"list"
+).innerHTML =
+html;
+
+}
 
 </script>
 
