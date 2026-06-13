@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>今日のゴミ</title>
-
-<link rel="icon" href="icon.png">
+<title>今日と明日のゴミ</title>
 
 <style>
 
@@ -17,82 +15,84 @@ box-sizing:border-box;
 }
 
 body{
+background:#f5f7fb;
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
+padding:15px;
 }
 
 .wrap{
 max-width:800px;
 margin:auto;
-padding:16px;
 }
 
 .card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
-border-radius:28px;
+background:#fff;
+border-radius:20px;
 padding:20px;
-margin-bottom:16px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:34px;
+font-size:30px;
 font-weight:900;
 text-align:center;
 margin-bottom:20px;
+}
+
+.box{
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
 }
 
 .today{
-font-size:40px;
-font-weight:900;
-text-align:center;
-margin:20px 0;
-color:#00e676;
+background:#e8fff0;
 }
 
 .tomorrow{
-font-size:26px;
-font-weight:900;
-text-align:center;
-margin:20px 0;
-color:#64b5f6;
+background:#eef5ff;
 }
 
-.area{
+.label{
 font-size:22px;
-text-align:center;
-margin-bottom:20px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.type{
+font-size:32px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.msg{
+font-size:18px;
+line-height:1.6;
 }
 
 button{
 width:100%;
-border:none;
-border-radius:22px;
-padding:24px;
-font-size:24px;
-font-weight:900;
-color:#fff;
-cursor:pointer;
-margin-bottom:12px;
-}
-
-.home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
-}
-
-.info{
-background:rgba(255,255,255,.08);
 padding:18px;
-border-radius:18px;
-line-height:1.8;
-font-size:18px;
+border:none;
+border-radius:15px;
+font-size:22px;
+font-weight:900;
+margin-top:10px;
+cursor:pointer;
+}
+
+.readBtn{
+background:#1976d2;
+color:#fff;
+}
+
+.homeBtn{
+background:#666;
+color:#fff;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -102,99 +102,231 @@ font-size:18px;
 <div class="card">
 
 <div class="title">
-🚮 今日のゴミ
+🗑 ゴミ収集案内
 </div>
 
-<div
-id="area"
-class="area">
-地域確認中...
+<div class="box today">
+
+<div class="label">
+🟢 今日のゴミ
 </div>
 
-<div
-id="today"
-class="today">
-確認中...
+<div id="todayType" class="type">
+読込中...
 </div>
 
-<div
-id="tomorrow"
-class="tomorrow">
-確認中...
+<div id="todayMsg" class="msg">
+読込中...
 </div>
 
 </div>
 
-<div class="card">
+<div class="box tomorrow">
 
-<div class="info">
+<div class="label">
+🔵 明日のゴミ
+</div>
 
-収集日の朝8時までに
-ゴミを出してください。
+<div id="tomorrowType" class="type">
+読込中...
+</div>
 
+<div id="tomorrowMsg" class="msg">
+読込中...
 </div>
 
 </div>
 
 <button
-class="home-btn"
-onclick="history.back()">
-🏠 戻る
+class="readBtn"
+onclick="speakGarbage()">
+🔊 読み上げ
 </button>
+
+<button
+class="homeBtn"
+onclick="history.back()">
+戻る
+</button>
+
+</div>
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-const USER_ID =
+const SHEET_NAME =
+"ゴミ";
+
+function getWeek(offset){
+
+const d = new Date();
+
+d.setDate(
+d.getDate()+offset
+);
+
+return [
+"日","月","火","水","木","金","土"
+][d.getDay()];
+
+}
+
+function cell(row,index){
+
+return row.c[index]
+? (row.c[index].v || row.c[index].f || "")
+: "";
+
+}
+
+async function loadGarbage(){
+
+const params =
 new URLSearchParams(
 location.search
-).get("id") || "";
+);
 
-const week = [
-"日",
-"月",
-"火",
-"水",
-"木",
-"金",
-"土"
-];
+const city =
+params.get("city") || "志木市";
 
-async function loadUser(){
+const area =
+params.get("area") || "本町";
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json";
 
 try{
 
-const response =
-await fetch(
-GAS_URL +
-"?action=user&id=" +
-encodeURIComponent(USER_ID)
-);
+const txt =
+await fetch(url)
+.then(r=>r.text());
 
 const json =
-await response.json();
-
-const user =
-json.data || {};
-
-const address =
-String(
-user.address || ""
+JSON.parse(
+txt.substring(47).slice(0,-2)
 );
 
-document.getElementById(
-"area"
-).innerHTML =
-address || "住所未登録";
+const rows =
+json.table.rows;
 
-judgeGomi(address);
+const today =
+getWeek(0);
+
+const tomorrow =
+getWeek(1);
+
+let todayData = null;
+let tomorrowData = null;
+
+rows.forEach(row=>{
+
+const cityName =
+cell(row,0);
+
+const areaName =
+cell(row,1);
+
+const week =
+String(cell(row,2));
+
+if(
+cityName === city &&
+areaName === area
+){
+
+if(
+week.indexOf(today) > -1
+){
+
+todayData = {
+type:cell(row,3),
+msg:cell(row,6) || cell(row,4)
+};
+
+}
+
+if(
+week.indexOf(tomorrow) > -1
+){
+
+tomorrowData = {
+type:cell(row,3),
+msg:cell(row,6) || cell(row,4)
+};
+
+}
+
+}
+
+});
+
+if(todayData){
+
+document.getElementById(
+"todayType"
+).innerHTML =
+todayData.type;
+
+document.getElementById(
+"todayMsg"
+).innerHTML =
+todayData.msg;
+
+}else{
+
+document.getElementById(
+"todayType"
+).innerHTML =
+"収集なし";
+
+document.getElementById(
+"todayMsg"
+).innerHTML =
+"本日の収集はありません";
+
+}
+
+if(tomorrowData){
+
+document.getElementById(
+"tomorrowType"
+).innerHTML =
+tomorrowData.type;
+
+document.getElementById(
+"tomorrowMsg"
+).innerHTML =
+tomorrowData.msg;
+
+}else{
+
+document.getElementById(
+"tomorrowType"
+).innerHTML =
+"収集なし";
+
+document.getElementById(
+"tomorrowMsg"
+).innerHTML =
+"明日の収集はありません";
+
+}
 
 }catch(error){
 
 document.getElementById(
-"today"
+"todayType"
+).innerHTML =
+"取得失敗";
+
+document.getElementById(
+"tomorrowType"
 ).innerHTML =
 "取得失敗";
 
@@ -202,114 +334,57 @@ document.getElementById(
 
 }
 
-function judgeGomi(address){
+function speakGarbage(){
 
-const day =
-new Date().getDay();
+const text =
 
-const tomorrowDay =
-(day + 1) % 7;
-
-let todayText = "";
-let tomorrowText = "";
-
-if(address.indexOf("志木市") > -1){
-
-if(day===1){
-todayText="燃えるゴミ";
-}
-else if(day===3){
-todayText="資源ゴミ";
-}
-else if(day===5){
-todayText="燃えないゴミ";
-}
-else{
-todayText="収集なし";
-}
-
-if(tomorrowDay===1){
-tomorrowText="明日：燃えるゴミ";
-}
-else if(tomorrowDay===3){
-tomorrowText="明日：資源ゴミ";
-}
-else if(tomorrowDay===5){
-tomorrowText="明日：燃えないゴミ";
-}
-else{
-tomorrowText="明日：収集なし";
-}
-
-}
-
-else if(address.indexOf("新座市") > -1){
-
-todayText =
-(day===2 || day===5)
-? "燃えるゴミ"
-: "収集なし";
-
-tomorrowText =
-(tomorrowDay===2 || tomorrowDay===5)
-? "明日：燃えるゴミ"
-: "明日：収集なし";
-
-}
-
-else if(address.indexOf("朝霞市") > -1){
-
-todayText =
-(day===1 || day===4)
-? "燃えるゴミ"
-: "収集なし";
-
-tomorrowText =
-(tomorrowDay===1 || tomorrowDay===4)
-? "明日：燃えるゴミ"
-: "明日：収集なし";
-
-}
-
-else if(address.indexOf("和光市") > -1){
-
-todayText =
-(day===2 || day===4)
-? "燃えるゴミ"
-: "収集なし";
-
-tomorrowText =
-(tomorrowDay===2 || tomorrowDay===4)
-? "明日：燃えるゴミ"
-: "明日：収集なし";
-
-}
-
-else{
-
-todayText =
-"地域未設定";
-
-tomorrowText =
-"住所登録が必要";
-
-}
+"今日のゴミは" +
 
 document.getElementById(
-"today"
-).innerHTML =
-"🚮 " + todayText;
+"todayType"
+).innerText +
+
+"です。" +
 
 document.getElementById(
-"tomorrow"
-).innerHTML =
-tomorrowText;
+"todayMsg"
+).innerText +
+
+"。明日のゴミは" +
+
+document.getElementById(
+"tomorrowType"
+).innerText +
+
+"です。" +
+
+document.getElementById(
+"tomorrowMsg"
+).innerText;
+
+const speech =
+new SpeechSynthesisUtterance(
+text
+);
+
+speech.lang =
+"ja-JP";
+
+speech.rate = 1;
+
+speech.pitch = 1;
+
+speechSynthesis.speak(
+speech
+);
 
 }
 
-loadUser();
+loadGarbage();
 
 </script>
+
+</div>
 
 </body>
 </html>
