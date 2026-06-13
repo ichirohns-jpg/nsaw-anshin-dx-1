@@ -204,7 +204,7 @@ onclick="shareX()">
 <button
 class="btn orange"
 onclick="shareFacebook()">
-f Facebookで共有
+Facebookで共有
 </button>
 
 </div>
@@ -255,6 +255,12 @@ f Facebookで共有
 class="btn gray"
 onclick="location.href='family.html'">
 👪 家族ページ
+</button>
+
+<button
+class="btn blue"
+onclick="location.href='register.html'">
+👤 利用者登録
 </button>
 
 </div>
@@ -393,45 +399,3 @@ document.getElementById(
 }
 
 }
-
-function shareLine(){
-
-location.href =
-"https://line.me/R/msg/text/?"+
-encodeURIComponent(
-document.title + "\n" +
-location.href
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?text=" +
-encodeURIComponent(document.title) +
-"&url=" +
-encodeURIComponent(location.href)
-);
-
-}
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(location.href)
-);
-
-}
-
-loadHistory();
-loadStatus();
-
-setInterval(loadHistory,60000);
-setInterval(loadStatus,60000);
-
-</script>
-
-</body>
-</html>
