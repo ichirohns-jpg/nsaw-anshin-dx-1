@@ -17,82 +17,81 @@ box-sizing:border-box;
 body{
 background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:15px;
 color:#1f2d3d;
+padding:15px;
 }
 
 .wrap{
-max-width:700px;
+max-width:900px;
 margin:auto;
 }
 
 .header{
-background:linear-gradient(135deg,#1976d2,#42a5f5);
+background:linear-gradient(135deg,#1976d2,#64b5f6);
 color:#fff;
-padding:25px;
-border-radius:24px;
+padding:28px;
+border-radius:28px;
 text-align:center;
-font-size:32px;
+font-size:42px;
 font-weight:900;
-margin-bottom:16px;
+margin-bottom:20px;
 }
 
 .card{
 background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
+border-radius:28px;
+padding:24px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-label{
-display:block;
-font-size:20px;
+.step{
+font-size:18px;
 font-weight:900;
+color:#1976d2;
 margin-bottom:8px;
 }
 
-input{
-width:100%;
-padding:18px;
-font-size:20px;
-border:1px solid #ccc;
-border-radius:14px;
-margin-bottom:15px;
+.label{
+font-size:34px;
+font-weight:900;
+margin-bottom:10px;
 }
 
-button{
+.input{
 width:100%;
+height:80px;
+border:2px solid #d9e2ec;
+border-radius:20px;
+padding:0 20px;
+font-size:32px;
+margin-bottom:20px;
+}
+
+.select{
+width:100%;
+height:90px;
+border:2px solid #d9e2ec;
+border-radius:20px;
+padding:0 20px;
+font-size:32px;
+font-weight:900;
+margin-bottom:20px;
+background:#fff;
+}
+
+.nextBtn{
+width:100%;
+height:90px;
 border:none;
-border-radius:18px;
-padding:22px;
-font-size:26px;
+border-radius:20px;
+background:#00c853;
+color:#fff;
+font-size:34px;
 font-weight:900;
 cursor:pointer;
 }
 
-.save{
-background:#00c853;
-color:#fff;
-}
-
-.result{
-margin-top:20px;
-padding:20px;
-background:#f7f9fc;
-border-radius:18px;
-text-align:center;
-}
-
-#qrcode{
-margin-top:15px;
-display:flex;
-justify-content:center;
-}
-
 </style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 </head>
 
@@ -106,64 +105,94 @@ justify-content:center;
 
 <div class="card">
 
-<label>
+<div class="step">
+STEP 1
+</div>
+
+<div class="label">
 お名前
-</label>
+</div>
 
 <input
-type="text"
-id="userName"
-placeholder="山田太郎">
+id="name"
+class="input"
+placeholder="山口貞一郎">
 
-<label>
-住所（町名・丁目まで）
-</label>
+<div class="step">
+STEP 2
+</div>
 
-<input
-type="text"
-id="userAddress"
-placeholder="志木市本町2丁目">
+<div class="label">
+市を選択
+</div>
 
-<label>
-支援者暗証番号
-</label>
+<select
+id="city"
+class="select">
 
-<input
-type="password"
-id="pin"
-placeholder="好きな暗証番号">
+<option value="">
+選択してください
+</option>
 
-<label>
-支援者暗証番号確認
-</label>
+<option>
+志木市
+</option>
 
-<input
-type="password"
-id="pin2"
-placeholder="もう一度入力">
+<option>
+新座市
+</option>
+
+<option>
+朝霞市
+</option>
+
+<option>
+和光市
+</option>
+
+</select>
+
+<div class="step">
+STEP 3
+</div>
+
+<div class="label">
+町名を選択
+</div>
+
+<select
+id="town"
+class="select">
+
+<option value="">
+まず市を選択
+</option>
+
+</select>
+
+<div class="step">
+STEP 4
+</div>
+
+<div class="label">
+丁目を選択
+</div>
+
+<select
+id="chome"
+class="select">
+
+<option value="">
+まず町名を選択
+</option>
+
+</select>
 
 <button
-class="save"
-onclick="createUser()">
+class="nextBtn"
+onclick="registerUser()">
 登録してQR発行
 </button>
-
-<div
-id="result"
-class="result"
-style="display:none;">
-
-<div style="
-font-size:24px;
-font-weight:900;
-margin-bottom:15px;
-">
-登録完了
-</div>
-
-<div id="qrcode"></div>
-
-</div>
 
 </div>
 
@@ -171,49 +200,135 @@ margin-bottom:15px;
 
 <script>
 
-function createUser(){
+const townData = {
+
+"志木市":[
+"本町",
+"館",
+"柏町",
+"幸町",
+"中宗岡",
+"上宗岡",
+"下宗岡"
+],
+
+"新座市":[
+"東",
+"野火止",
+"栗原",
+"片山",
+"新堀",
+"石神"
+],
+
+"朝霞市":[
+"本町",
+"仲町",
+"栄町",
+"根岸台",
+"膝折町"
+],
+
+"和光市":[
+"本町",
+"新倉",
+"白子",
+"中央",
+"下新倉"
+]
+
+};
+
+document
+.getElementById("city")
+.addEventListener(
+"change",
+function(){
+
+const city =
+this.value;
+
+const town =
+document.getElementById(
+"town"
+);
+
+town.innerHTML =
+'<option value="">選択してください</option>';
+
+(townData[city]||[])
+.forEach(item=>{
+
+town.innerHTML +=
+`<option>${item}</option>`;
+
+});
+
+}
+);
+
+document
+.getElementById("town")
+.addEventListener(
+"change",
+function(){
+
+const chome =
+document.getElementById(
+"chome"
+);
+
+chome.innerHTML =
+
+`
+<option value="">
+選択してください
+</option>
+
+<option>1丁目</option>
+<option>2丁目</option>
+<option>3丁目</option>
+<option>4丁目</option>
+<option>5丁目</option>
+<option>6丁目</option>
+<option>7丁目</option>
+<option>8丁目</option>
+`;
+
+}
+);
+
+function registerUser(){
 
 const name =
 document.getElementById(
-"userName"
-).value.trim();
+"name"
+).value;
 
-const address =
+const city =
 document.getElementById(
-"userAddress"
-).value.trim();
+"city"
+).value;
 
-const pin =
+const town =
 document.getElementById(
-"pin"
-).value.trim();
+"town"
+).value;
 
-const pin2 =
+const chome =
 document.getElementById(
-"pin2"
-).value.trim();
+"chome"
+).value;
 
 if(
 !name ||
-!address ||
-!pin ||
-!pin2
+!city ||
+!town ||
+!chome
 ){
 
 alert(
-"全て入力してください"
-);
-
-return;
-
-}
-
-if(
-pin !== pin2
-){
-
-alert(
-"暗証番号が一致しません"
+"未入力があります"
 );
 
 return;
@@ -226,45 +341,22 @@ name
 );
 
 localStorage.setItem(
-"userAddress",
-address
+"userCity",
+city
 );
 
 localStorage.setItem(
-"supportPin",
-pin
+"userTown",
+town
 );
 
-document.getElementById(
-"result"
-).style.display =
-"block";
-
-const qrArea =
-document.getElementById(
-"qrcode"
+localStorage.setItem(
+"userChome",
+chome
 );
 
-qrArea.innerHTML = "";
-
-const url =
-
-"https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/family.html" +
-
-"?name=" +
-
-encodeURIComponent(
-name
-);
-
-new QRCode(
-qrArea,
-{
-text:url,
-width:240,
-height:240
-}
-);
+location.href =
+"qr.html";
 
 }
 
