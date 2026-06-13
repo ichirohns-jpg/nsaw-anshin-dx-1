@@ -98,6 +98,10 @@ background:linear-gradient(135deg,#00c853,#00e676);
 background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
 
+.support-btn{
+background:linear-gradient(135deg,#2e7d32,#43a047);
+}
+
 .home-btn{
 background:linear-gradient(135deg,#37474f,#607d8b);
 }
@@ -156,6 +160,12 @@ onclick="location.href='app.html?id='+USER_ID">
 </button>
 
 <button
+class="support-btn"
+onclick="location.href='support.html?id='+USER_ID">
+👪 支援者ページ
+</button>
+
+<button
 class="home-btn"
 onclick="location.href='users.html'">
 👥 利用者一覧
@@ -206,17 +216,17 @@ json.data || {};
 document.getElementById("userName").innerHTML =
 user.name || "利用者";
 
-const url =
+const supportUrl =
 location.origin +
 location.pathname.replace(
 "qr.html",
-"app.html"
+"support.html"
 ) +
 "?id=" +
 USER_ID;
 
 document.getElementById("urlText").innerHTML =
-url;
+supportUrl;
 
 document.getElementById("qrcode").innerHTML =
 "";
@@ -224,7 +234,7 @@ document.getElementById("qrcode").innerHTML =
 new QRCode(
 document.getElementById("qrcode"),
 {
-text:url,
+text:supportUrl,
 width:260,
 height:260
 }
