@@ -17,70 +17,70 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#334155);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
+border-radius:30px;
 text-align:center;
+margin-bottom:18px;
 }
 
 .header h1{
-font-size:40px;
+font-size:36px;
 font-weight:900;
 }
 
-.wrap{
-padding:18px;
-max-width:1000px;
-margin:auto;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-bottom:18px;
+}
+
+.card{
+background:#fff;
+border-radius:28px;
+padding:24px;
+text-decoration:none;
+text-align:center;
+color:#1f2d3d;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.icon{
+font-size:50px;
+margin-bottom:10px;
+}
+
+.title{
+font-size:22px;
+font-weight:900;
+}
+
+.map{
+width:100%;
+height:65vh;
+border:none;
+border-radius:30px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:18px;
 }
 
 .btn{
 display:block;
 width:100%;
 padding:22px;
-margin-bottom:14px;
-border-radius:24px;
+background:#475569;
+color:#fff;
 text-decoration:none;
 text-align:center;
-font-size:26px;
+border-radius:20px;
+font-size:24px;
 font-weight:900;
-color:#fff;
-}
-
-.hospital{
-background:#2563eb;
-}
-
-.pharmacy{
-background:#16a34a;
-}
-
-.store{
-background:#ea580c;
-}
-
-.toilet{
-background:#7c3aed;
-}
-
-.shelter{
-background:#dc2626;
-}
-
-.map{
-width:100%;
-height:70vh;
-border:none;
-border-radius:30px;
-margin-top:12px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.back{
-background:#334155;
 }
 
 </style>
@@ -93,55 +93,38 @@ background:#334155;
 <h1>🗺 地域マップ</h1>
 </div>
 
-<div class="wrap">
+<div class="grid">
 
-<a
-href="https://www.google.com/maps/search/病院"
-target="_blank"
-class="btn hospital">
-🏥 病院
+<a href="https://www.google.com/maps/search/病院" target="_blank" class="card">
+<div class="icon">🏥</div>
+<div class="title">病院</div>
 </a>
 
-<a
-href="https://www.google.com/maps/search/薬局"
-target="_blank"
-class="btn pharmacy">
-💊 薬局
+<a href="https://www.google.com/maps/search/薬局" target="_blank" class="card">
+<div class="icon">💊</div>
+<div class="title">薬局</div>
 </a>
 
-<a
-href="https://www.google.com/maps/search/コンビニ"
-target="_blank"
-class="btn store">
-🏪 コンビニ
+<a href="https://www.google.com/maps/search/コンビニ" target="_blank" class="card">
+<div class="icon">🏪</div>
+<div class="title">コンビニ</div>
 </a>
 
-<a
-href="https://www.google.com/maps/search/公衆トイレ"
-target="_blank"
-class="btn toilet">
-🚻 トイレ
-</a>
-
-<a
-href="https://www.google.com/maps/search/避難所"
-target="_blank"
-class="btn shelter">
-🚨 避難所
-</a>
-
-<iframe
-class="map"
-src="https://maps.google.com/maps?q=志木駅&t=&z=14&ie=UTF8&iwloc=&output=embed">
-</iframe>
-
-<a
-href="index.html"
-class="btn back">
-トップへ戻る
+<a href="https://www.google.com/maps/search/避難所" target="_blank" class="card">
+<div class="icon">🚨</div>
+<div class="title">避難所</div>
 </a>
 
 </div>
+
+<iframe
+class="map"
+src="https://maps.google.com/maps?q=志木駅&z=15&output=embed">
+</iframe>
+
+<a href="index.html" class="btn">
+🏠 トップへ戻る
+</a>
 
 </body>
 </html>
