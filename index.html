@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>利用者登録</title>
+<title>NSAW 見守りDX</title>
+
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 
 <style>
 
@@ -15,404 +18,669 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-padding:15px;
-color:#1f2d3d;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#fff;
+min-height:100vh;
+}
+
+.banner{
+height:260px;
+overflow:hidden;
+position:relative;
+}
+
+.banner img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.banner:after{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.25);
 }
 
 .wrap{
 max-width:800px;
 margin:auto;
-}
-
-.header{
-background:linear-gradient(135deg,#1976d2,#42a5f5);
-color:#fff;
-padding:25px;
-border-radius:24px;
-text-align:center;
-font-size:34px;
-font-weight:900;
-margin-bottom:16px;
+padding:16px;
 }
 
 .card{
-background:#fff;
-border-radius:24px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
-font-size:24px;
+font-size:34px;
 font-weight:900;
-margin-bottom:15px;
+text-align:center;
+margin-bottom:20px;
 }
 
-label{
-display:block;
-font-size:18px;
-font-weight:900;
-margin-bottom:8px;
+.dashboard{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
 }
 
-input,
-select{
-width:100%;
+.box{
 padding:18px;
-border:1px solid #ccc;
-border-radius:14px;
-font-size:18px;
-margin-bottom:15px;
+border-radius:20px;
+text-align:center;
+}
+
+.boxNum{
+font-size:42px;
+font-weight:900;
+margin-bottom:6px;
+}
+
+.green{background:rgba(0,200,83,.15);}
+.yellow{background:rgba(255,193,7,.15);}
+.red{background:rgba(244,67,54,.15);}
+.blue{background:rgba(33,150,243,.15);}
+.purple{background:rgba(156,39,176,.15);}
+.teal{background:rgba(0,150,136,.15);}
+
+.section{
+font-size:14px;
+letter-spacing:4px;
+opacity:.7;
+margin-bottom:12px;
 }
 
 button{
 width:100%;
 border:none;
-border-radius:18px;
-padding:22px;
+border-radius:20px;
+padding:24px;
 font-size:24px;
 font-weight:900;
+color:#fff;
 cursor:pointer;
 margin-bottom:12px;
 }
 
-.save{
-background:#00c853;
-color:#fff;
+.btn-green{
+background:linear-gradient(135deg,#00c853,#00e676);
 }
 
-.back{
-background:#607d8b;
-color:#fff;
+.btn-blue{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.result{
-font-size:20px;
-font-weight:900;
-text-align:center;
-padding:15px;
+.btn-orange{
+background:linear-gradient(135deg,#ff9800,#ffb74d);
+}
+
+.btn-red{
+background:linear-gradient(135deg,#c62828,#ef5350);
+}
+
+.btn-gray{
+background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="wrap">
-
-<div class="header">
-👤 利用者登録
+<div class="banner">
+<img src="home-top.jpg">
 </div>
+
+<div class="wrap">
 
 <div class="card">
 
 <div class="title">
-基本情報
+LEXUS STYLE DASHBOARD
 </div>
 
-<label>
-お名前
-</label>
+<div class="dashboard">
 
-<input
-type="text"
-id="userName"
-placeholder="例：山田太郎">
+<div class="box green">
+<div id="genkiCount" class="boxNum">0</div>
+😊 元気
+</div>
 
-<label>
-市
-</label>
+<div class="box yellow">
+<div id="waitCount" class="boxNum">0</div>
+⏰ 未確認
+</div>
 
-<select id="userCity">
+<div class="box red">
+<div id="emgCount" class="boxNum">0</div>
+🚨 緊急
+</div>
 
-<option value="">
-選択してください
-</option>
+<div class="box blue">
+<div id="scheduleCount" class="boxNum">0</div>
+📅 予定
+</div>
 
-<option value="志木市">
-志木市
-</option>
+<div class="box purple">
+<div id="medicineCount" class="boxNum">0</div>
+💊 服薬
+</div>
 
-<option value="朝霞市">
-朝霞市
-</option>
+<div class="box teal">
+<div id="mapCount" class="boxNum">0</div>
+📍 位置
+</div>
 
-<option value="新座市">
-新座市
-</option>
+</div>
 
-<option value="和光市">
-和光市
-</option>
+</div>
 
-</select>
+<div class="card">
 
-<label>
-地区
-</label>
+<div class="section">
+本人操作
+</div>
 
-<select id="userArea">
-
-<option value="">
-先に市を選択してください
-</option>
-
-</select>
-
-<button
-class="save"
-onclick="saveUser()">
-💾 保存
+<button class="btn-green" onclick="location.href='app.html'">
+😊 元気です
 </button>
 
-<div
-id="result"
-class="result">
-未登録
-</div>
-
-</div>
-
-<label>
-電話番号
-</label>
-
-<input
-type="tel"
-id="userPhone"
-placeholder="09012345678">
-
-<label>
-家族連絡先
-</label>
-
-<input
-type="text"
-id="familyName"
-placeholder="家族名">
-
-<label>
-家族電話番号
-</label>
-
-<input
-type="tel"
-id="familyPhone"
-placeholder="09012345678">
-
-<button
-class="back"
-onclick="history.back()">
-戻る
+<button class="btn-orange" onclick="location.href='medicine.html'">
+💊 薬を飲みました
 </button>
 
+<button class="btn-blue" onclick="location.href='schedule.html'">
+📅 今日の予定
+</button>
+
+<button class="btn-gray" onclick="location.href='gomi.html'">
+🚮 今日のゴミ
+</button>
+
+<button class="btn-blue" onclick="location.href='gps.html'">
+📍 現在地送信
+</button>
+
+<button class="btn-red" onclick="location.href='sos.html'">
+🚨 困っています
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="section">
+🚮 ゴミ収集案内
+</div>
+
+<div id="gomiArea">
+
+<div style="
+padding:15px;
+font-size:18px;
+line-height:1.8;
+">
+読込中...
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="section">
+家族へ共有
+</div>
+
+<button class="btn-green" onclick="shareLine()">
+📤 LINEで送る
+</button>
+
+<button class="btn-blue" onclick="copyUrl()">
+📋 URLコピー
+</button>
+
+<button class="btn-gray" onclick="shareSms()">
+📱 SMSで送る
+</button>
+
+<button class="btn-gray" onclick="location.href='qr.html'">
+📱 QRコード表示
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="section">
+地域情報
+</div>
+
+<button class="btn-gray" onclick="location.href='radio.html'">
+📻 地域ラジオ
+</button>
+
+<button class="btn-gray" onclick="location.href='kawaraban.html'">
+📰 4市瓦版
+</button>
+
+<button class="btn-gray" onclick="location.href='fun.html'">
+🎬 お楽しみ動画
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="section">
+見守り履歴
+</div>
+
+<div id="historyArea">
+
+<div style="
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,.08);
+">
+読み込み中...
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="section">
+今日の状況
+</div>
+
+<div id="statusArea">
+
+<div style="
+padding:15px;
+">
+確認中...
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="section">
+家族・支援者
+</div>
+
+<button
+class="btn-gray"
+onclick="location.href='family.html'">
+👪 家族ページ
+</button>
+
+<button
+class="btn-gray"
+onclick="location.href='users.html'">
+👥 利用者一覧
+</button>
+
+<button
+class="btn-gray"
+onclick="location.href='register.html'">
+👤 利用者登録
+</button>
+
+<button
+class="btn-gray"
+onclick="location.href='qr.html'">
+📱 QRコード発行
+</button>
+
+</div>
+
+<div style="
+text-align:center;
+padding:30px;
+opacity:.6;
+font-size:12px;
+">
+NSAW 地域OS / 見守りDX
 </div>
 
 </div>
 
 <script>
 
-const areaData = {
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-"志木市":[
-"本町",
-"柏町",
-"幸町",
-"館",
-"宗岡",
-"上宗岡",
-"中宗岡1丁目",
-"中宗岡2丁目",
-"中宗岡3丁目",
-"中宗岡4丁目",
-"中宗岡5丁目",
-"下宗岡1丁目",
-"下宗岡2丁目",
-"下宗岡3丁目",
-"下宗岡4丁目"
-],
+async function loadDashboard(){
 
-"朝霞市":[
-"朝志ヶ丘",
-"北原",
-"岡",
-"幸町",
-"栄町",
-"泉水",
-"田島",
-"仲町",
-"西原",
-"西弁財",
-"根岸台",
-"浜崎",
-"東弁財",
-"膝折町",
-"本町",
-"溝沼",
-"三原",
-"宮戸"
-],
+try{
 
-"新座市":[
-"池田",
-"石神",
-"大和田",
-"片山",
-"北野",
-"栗原",
-"栄",
-"新堀",
-"菅沢",
-"道場",
-"東北",
-"野火止",
-"馬場",
-"東",
-"堀ノ内",
-"本多",
-"畑中",
-"新塚",
-"柳瀬",
-"中野",
-"西堀",
-"新座",
-"野寺"
-],
-
-"和光市":[
-"白子",
-"下新倉",
-"中央",
-"新倉",
-"南",
-"丸山台",
-"本町",
-"広沢",
-"諏訪"
-]
-
-};
-
-document.getElementById(
-"userCity"
-).addEventListener(
-"change",
-function(){
-
-const city =
-this.value;
-
-const area =
-document.getElementById(
-"userArea"
+const res =
+await fetch(
+GAS_URL +
+"?action=dashboard"
 );
 
-area.innerHTML = "";
+const json =
+await res.json();
 
-(areaData[city] || [])
-.forEach(item=>{
+const d =
+json.data || {};
 
-const op =
-document.createElement(
-"option"
+document.getElementById("genkiCount").innerHTML = d.genki || 0;
+document.getElementById("waitCount").innerHTML = d.wait || 0;
+document.getElementById("emgCount").innerHTML = d.emergency || 0;
+document.getElementById("scheduleCount").innerHTML = d.schedule || 0;
+document.getElementById("medicineCount").innerHTML = d.medicine || 0;
+document.getElementById("mapCount").innerHTML = d.location || 0;
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+async function loadHistory(){
+
+try{
+
+const res =
+await fetch(
+GAS_URL +
+"?action=records"
 );
 
-op.value = item;
-op.textContent = item;
+const json =
+await res.json();
 
-area.appendChild(op);
+const data =
+json.data || [];
+
+let html = "";
+
+data.slice(0,5).forEach(item=>{
+
+html += `
+<div style="
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,.08);
+">
+
+<div style="
+font-weight:900;
+font-size:18px;
+">
+${item.name || ""}
+</div>
+
+<div style="
+opacity:.7;
+font-size:14px;
+">
+${item.date || ""}
+</div>
+
+<div style="
+margin-top:6px;
+">
+${item.status || ""}
+</div>
+
+</div>
+`;
 
 });
 
-}
-);
-
-function saveUser(){
-
-localStorage.setItem(
-"userName",
 document.getElementById(
-"userName"
-).value
-);
-
-localStorage.setItem(
-"userCity",
-document.getElementById(
-"userCity"
-).value
-);
-
-localStorage.setItem(
-"userArea",
-document.getElementById(
-"userArea"
-).value
-);
-
-localStorage.setItem(
-"userPhone",
-document.getElementById(
-"userPhone"
-).value
-);
-
-localStorage.setItem(
-"familyName",
-document.getElementById(
-"familyName"
-).value
-);
-
-localStorage.setItem(
-"familyPhone",
-document.getElementById(
-"familyPhone"
-).value
-);
-
-document.getElementById(
-"result"
+"historyArea"
 ).innerHTML =
-"✅ 保存しました";
+html;
+
+}catch(err){
+
+console.log(err);
 
 }
 
-window.onload=function(){
+}
 
-document.getElementById(
-"userName"
-).value =
+async function loadGomi(){
+
+try{
+
+const url =
+"https://docs.google.com/spreadsheets/d/149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc/gviz/tq?sheet=ゴミ&tqx=out:json";
+
+const txt =
+await fetch(url)
+.then(r=>r.text());
+
+const json =
+JSON.parse(
+txt.substring(47).slice(0,-2)
+);
+
+const rows =
+json.table.rows;
+
+const today =
+["日","月","火","水","木","金","土"]
+[new Date().getDay()];
+
+const tomorrowDate =
+new Date();
+
+tomorrowDate.setDate(
+tomorrowDate.getDate()+1
+);
+
+const tomorrow =
+["日","月","火","水","木","金","土"]
+[tomorrowDate.getDay()];
+
+const userCity =
 localStorage.getItem(
-"userName"
+"userCity"
 ) || "";
 
-document.getElementById(
-"userPhone"
-).value =
+const userArea =
 localStorage.getItem(
-"userPhone"
+"userArea"
 ) || "";
 
-document.getElementById(
-"familyName"
-).value =
-localStorage.getItem(
-"familyName"
-) || "";
+let todayText =
+"収集なし";
+
+let tomorrowText =
+"収集なし";
+
+let todayMsg =
+"本日の収集はありません";
+
+let tomorrowMsg =
+"明日の収集はありません";
+
+rows.forEach(row=>{
+
+const cityName =
+row.c[0]?.v || "";
+
+const areaName =
+row.c[1]?.v || "";
+
+const week =
+String(
+row.c[2]?.v || ""
+);
+
+const type =
+row.c[3]?.v || "";
+
+const msg =
+row.c[6]?.v ||
+row.c[4]?.v ||
+"";
+
+if(
+cityName===userCity &&
+areaName===userArea
+){
+
+if(
+week.indexOf(today)>-1
+){
+todayText = type;
+todayMsg = msg;
+}
+
+if(
+week.indexOf(tomorrow)>-1
+){
+tomorrowText = type;
+tomorrowMsg = msg;
+}
+
+}
+
+});
 
 document.getElementById(
-"familyPhone"
-).value =
-localStorage.getItem(
-"familyPhone"
-) || "";
+"gomiArea"
+).innerHTML =
 
-};
+"🟢 今日 : " +
+todayText +
+"<br>" +
+todayMsg +
+"<br><br>" +
+"🔵 明日 : " +
+tomorrowText +
+"<br>" +
+tomorrowMsg;
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+async function loadStatus(){
+
+try{
+
+const res =
+await fetch(
+GAS_URL +
+"?action=scheduleList"
+);
+
+const json =
+await res.json();
+
+const data =
+json.data || [];
+
+let html = "";
+
+data.slice(0,5).forEach(item=>{
+
+html += `
+<div style="
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,.08);
+">
+
+<div style="
+font-weight:900;
+">
+${item.date || ""}
+ ${item.time || ""}
+</div>
+
+<div>
+${item.title || ""}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById(
+"statusArea"
+).innerHTML =
+html;
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+function shareLine(){
+
+const url =
+location.href;
+
+location.href =
+"https://line.me/R/msg/text/?"+
+encodeURIComponent(
+"NSAW見守りDX\n"+url
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+"URLをコピーしました"
+);
+
+}
+
+function shareSms(){
+
+location.href =
+"sms:?body=" +
+encodeURIComponent(
+"NSAW見守りDX " +
+location.href
+);
+
+}
+
+loadDashboard();
+loadHistory();
+loadStatus();
+loadGomi();
+
+setInterval(loadDashboard,60000);
+setInterval(loadHistory,60000);
+setInterval(loadStatus,60000);
+setInterval(loadGomi,60000);
 
 </script>
 
