@@ -45,7 +45,7 @@ box-shadow:0 6px 18px rgba(0,0,0,.08);
 
 .photo{
 width:100%;
-height:280px;
+height:260px;
 object-fit:cover;
 display:block;
 }
@@ -77,15 +77,15 @@ margin-bottom:15px;
 .btn{
 display:block;
 width:100%;
-padding:20px;
-border-radius:18px;
 background:#2196f3;
 color:#fff;
 text-decoration:none;
 text-align:center;
+padding:20px;
 font-size:24px;
 font-weight:900;
-margin-top:10px;
+border-radius:18px;
+margin-top:12px;
 }
 
 .error{
@@ -142,7 +142,8 @@ return cell.v || cell.f || "";
 
 }
 
-function handleSheet(json){
+window.handleSheet =
+function(json){
 
 const rows =
 json.table.rows || [];
@@ -155,18 +156,6 @@ rows.forEach(row=>{
 
 const cells =
 row.c || [];
-
-/*
-列例
-
-0 日付
-1 市名
-2 タイトル
-3 説明
-4 記事URL
-5 画像URL
-
-*/
 
 const city =
 getVal(cells[1]);
@@ -183,9 +172,7 @@ getVal(cells[4]);
 const image =
 getVal(cells[5]);
 
-if(
-!title
-) return;
+if(!title) return;
 
 html += `
 
@@ -198,7 +185,8 @@ image
 `
 <img
 class="photo"
-src="${image}">
+src="${image}"
+loading="lazy">
 `
 
 :
@@ -252,7 +240,7 @@ html ||
 
 `;
 
-}
+};
 
 const script =
 document.createElement(
@@ -260,7 +248,9 @@ document.createElement(
 );
 
 script.src =
+
 url +
+
 "&callback=handleSheet";
 
 script.onerror =
