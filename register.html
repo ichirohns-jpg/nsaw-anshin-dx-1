@@ -90,13 +90,6 @@ display:flex;
 justify-content:center;
 }
 
-.pin{
-font-size:32px;
-font-weight:900;
-color:#d32f2f;
-margin-top:10px;
-}
-
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -131,6 +124,24 @@ type="text"
 id="userAddress"
 placeholder="志木市本町2丁目">
 
+<label>
+支援者暗証番号
+</label>
+
+<input
+type="password"
+id="pin"
+placeholder="好きな暗証番号">
+
+<label>
+支援者暗証番号確認
+</label>
+
+<input
+type="password"
+id="pin2"
+placeholder="もう一度入力">
+
 <button
 class="save"
 onclick="createUser()">
@@ -142,14 +153,12 @@ id="result"
 class="result"
 style="display:none;">
 
-<div>
-支援者用暗証番号
-</div>
-
-<div
-id="pin"
-class="pin">
-0000
+<div style="
+font-size:24px;
+font-weight:900;
+margin-bottom:15px;
+">
+登録完了
 </div>
 
 <div id="qrcode"></div>
@@ -174,24 +183,42 @@ document.getElementById(
 "userAddress"
 ).value.trim();
 
+const pin =
+document.getElementById(
+"pin"
+).value.trim();
+
+const pin2 =
+document.getElementById(
+"pin2"
+).value.trim();
+
 if(
 !name ||
-!address
+!address ||
+!pin ||
+!pin2
 ){
 
 alert(
-"名前と住所を入力してください"
+"全て入力してください"
 );
 
 return;
 
 }
 
-const pin =
-Math.floor(
-1000 +
-Math.random()*9000
-).toString();
+if(
+pin !== pin2
+){
+
+alert(
+"暗証番号が一致しません"
+);
+
+return;
+
+}
 
 localStorage.setItem(
 "userName",
@@ -207,11 +234,6 @@ localStorage.setItem(
 "supportPin",
 pin
 );
-
-document.getElementById(
-"pin"
-).innerHTML =
-pin;
 
 document.getElementById(
 "result"
@@ -239,8 +261,8 @@ new QRCode(
 qrArea,
 {
 text:url,
-width:220,
-height:220
+width:240,
+height:240
 }
 );
 
