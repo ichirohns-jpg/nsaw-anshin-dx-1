@@ -247,6 +247,26 @@ onclick="location.href='sos.html'">
 <div class="card">
 
 <div class="section">
+🚮 ゴミ収集案内
+</div>
+
+<div id="gomiArea">
+
+<div style="
+padding:15px;
+font-size:18px;
+line-height:1.8;
+">
+読込中...
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="section">
 家族へ共有
 </div>
 
@@ -403,35 +423,12 @@ await res.json();
 const d =
 json.data || {};
 
-document.getElementById(
-"genkiCount"
-).innerHTML =
-d.genki || 0;
-
-document.getElementById(
-"waitCount"
-).innerHTML =
-d.wait || 0;
-
-document.getElementById(
-"emgCount"
-).innerHTML =
-d.emergency || 0;
-
-document.getElementById(
-"scheduleCount"
-).innerHTML =
-d.schedule || 0;
-
-document.getElementById(
-"medicineCount"
-).innerHTML =
-d.medicine || 0;
-
-document.getElementById(
-"mapCount"
-).innerHTML =
-d.location || 0;
+document.getElementById("genkiCount").innerHTML = d.genki || 0;
+document.getElementById("waitCount").innerHTML = d.wait || 0;
+document.getElementById("emgCount").innerHTML = d.emergency || 0;
+document.getElementById("scheduleCount").innerHTML = d.schedule || 0;
+document.getElementById("medicineCount").innerHTML = d.medicine || 0;
+document.getElementById("mapCount").innerHTML = d.location || 0;
 
 }catch(err){
 
@@ -462,28 +459,17 @@ let html = "";
 data.slice(0,5).forEach(item=>{
 
 html += `
-<div style="
-padding:15px;
-border-bottom:1px solid rgba(255,255,255,.08);
-">
+<div style="padding:15px;border-bottom:1px solid rgba(255,255,255,.08);">
 
-<div style="
-font-weight:900;
-font-size:18px;
-">
+<div style="font-weight:900;font-size:18px;">
 ${item.name || ""}
 </div>
 
-<div style="
-opacity:.7;
-font-size:14px;
-">
+<div style="opacity:.7;font-size:14px;">
 ${item.date || ""}
 </div>
 
-<div style="
-margin-top:6px;
-">
+<div style="margin-top:6px;">
 ${item.status || ""}
 </div>
 
@@ -494,8 +480,7 @@ ${item.status || ""}
 
 document.getElementById(
 "historyArea"
-).innerHTML =
-html;
+).innerHTML = html;
 
 }catch(err){
 
@@ -505,52 +490,90 @@ console.log(err);
 
 }
 
-async function loadStatus(){
+async function loadGomi(){
 
 try{
 
-const res =
-await fetch(
-GAS_URL +
-"?action=scheduleList"
-);
+const url =
+"https://docs.google.com/spreadsheets/d/149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc/gviz/tq?sheet=ゴミ&tqx=out:json";
+
+const txt =
+await fetch(url)
+.then(r=>r.text());
 
 const json =
-await res.json();
+JSON.parse(
+txt.substring(47).slice(0,-2)
+);
 
-const data =
-json.data || [];
+const rows =
+json.table.rows;
 
-let html = "";
+const today =
+["日","月","火","水","木","金","土"]
+[new Date().getDay()];
 
-data.slice(0,5).forEach(item=>{
+const tomorrowDate =
+new Date();
 
-html += `
-<div style="
-padding:15px;
-border-bottom:1px solid rgba(255,255,255,.08);
-">
+tomorrowDate.setDate(
+tomorrowDate.getDate()+1
+);
 
-<div style="
-font-weight:900;
-">
-${item.date || ""}
- ${item.time || ""}
-</div>
+const tomorrow =
+["日","月","火","水","木","金","土"]
+[tomorrowDate.getDay()];
 
-<div>
-${item.title || ""}
-</div>
+let todayText =
+"収集なし";
 
-</div>
-`;
+let tomorrowText =
+"収集なし";
+
+rows.forEach(row=>{
+
+const city =
+row.c[0]?.v || "";
+
+const area =
+row.c[1]?.v || "";
+
+const week =
+row.c[2]?.v || "";
+
+const type =
+row.c[3]?.v || "";
+
+if(
+city==="志木市" &&
+area==="本町"
+){
+
+if(
+String(week).indexOf(today)>-1
+){
+todayText = type;
+}
+
+if(
+String(week).indexOf(tomorrow)>-1
+){
+tomorrowText = type;
+}
+
+}
 
 });
 
 document.getElementById(
-"statusArea"
+"gomiArea"
 ).innerHTML =
-html;
+
+"🟢 今日 : " +
+todayText +
+"<br><br>" +
+"🔵 明日 : " +
+tomorrowText;
 
 }catch(err){
 
@@ -559,64 +582,3 @@ console.log(err);
 }
 
 }
-
-function shareLine(){
-
-const url =
-location.href;
-
-location.href =
-"https://line.me/R/msg/text/?"+
-encodeURIComponent(
-"NSAW見守りDX\n"+url
-);
-
-}
-
-function copyUrl(){
-
-navigator.clipboard
-.writeText(
-location.href
-);
-
-alert(
-"URLをコピーしました"
-);
-
-}
-
-function shareSms(){
-
-location.href =
-"sms:?body=" +
-encodeURIComponent(
-"NSAW見守りDX " +
-location.href
-);
-
-}
-
-loadDashboard();
-loadHistory();
-loadStatus();
-
-setInterval(
-loadDashboard,
-60000
-);
-
-setInterval(
-loadHistory,
-60000
-);
-
-setInterval(
-loadStatus,
-60000
-);
-
-</script>
-
-</body>
-</html>
