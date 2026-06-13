@@ -6,8 +6,6 @@
 
 <title>QRコード発行</title>
 
-<link rel="icon" href="icon.png">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
@@ -19,129 +17,132 @@ box-sizing:border-box;
 }
 
 body{
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
-color:#fff;
-min-height:100vh;
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:15px;
+color:#1f2d3d;
 }
 
 .wrap{
-max-width:800px;
+max-width:900px;
 margin:auto;
-padding:16px;
 }
 
-.card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(14px);
+.header{
+background:linear-gradient(135deg,#673ab7,#9575cd);
+color:#fff;
+padding:28px;
 border-radius:28px;
-padding:20px;
-margin-bottom:16px;
-}
-
-.title{
-font-size:34px;
-font-weight:900;
 text-align:center;
+font-size:40px;
+font-weight:900;
 margin-bottom:20px;
 }
 
-.name{
-font-size:28px;
-font-weight:900;
+.card{
+background:#fff;
+border-radius:28px;
+padding:24px;
 text-align:center;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.name{
+font-size:34px;
+font-weight:900;
 margin-bottom:10px;
 }
 
-.key{
-font-size:40px;
+.address{
+font-size:22px;
+margin-bottom:20px;
+}
+
+.note{
+font-size:20px;
 font-weight:900;
-text-align:center;
-color:#00e676;
+color:#666;
 margin-bottom:20px;
 }
 
 #qrcode{
-background:#fff;
-padding:20px;
-border-radius:20px;
 display:flex;
 justify-content:center;
-margin-bottom:20px;
+margin:20px 0;
 }
 
-button{
+.btn{
 width:100%;
-padding:20px;
+height:90px;
 border:none;
 border-radius:20px;
-font-size:22px;
+font-size:30px;
 font-weight:900;
 color:#fff;
-margin-bottom:10px;
 cursor:pointer;
+margin-top:12px;
 }
 
-.print-btn{
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
+.printBtn{
+background:#00c853;
 }
 
-.home-btn{
-background:linear-gradient(135deg,#455a64,#607d8b);
+.lineBtn{
+background:#06c755;
+}
+
+.homeBtn{
+background:#607d8b;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="wrap">
 
-<div class="card">
-
-<div class="title">
-📱 支援者用QRコード
+<div class="header">
+📱 QRコード発行
 </div>
+
+<div class="card">
 
 <div
 id="userName"
 class="name">
-読み込み中
+読込中...
 </div>
 
 <div
-id="supportKey"
-class="key">
-----
+id="userAddress"
+class="address">
+読込中...
+</div>
+
+<div class="note">
+家族・支援者用QRコード
 </div>
 
 <div id="qrcode"></div>
 
-<div style="
-text-align:center;
-font-size:20px;
-font-weight:900;
-margin-bottom:20px;
-">
-支援者はQRコードと4桁キーで閲覧
-</div>
-
 <button
-class="print-btn"
+class="btn printBtn"
 onclick="window.print()">
-🖨 印刷
+🖨 印刷する
 </button>
 
 <button
-class="home-btn"
-onclick="location.href='users.html'">
-👥 利用者一覧
+class="btn lineBtn"
+onclick="shareLine()">
+📤 LINEで送る
 </button>
 
 <button
-class="home-btn"
+class="btn homeBtn"
 onclick="location.href='index.html'">
-🏠 ホーム
+🏠 ホームへ戻る
 </button>
 
 </div>
@@ -150,78 +151,76 @@ onclick="location.href='index.html'">
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+const name =
+localStorage.getItem(
+"userName"
+) || "";
 
-const USER_ID =
-new URLSearchParams(
-location.search
-).get("id") || "";
+const city =
+localStorage.getItem(
+"userCity"
+) || "";
 
-async function loadUser(){
+const town =
+localStorage.getItem(
+"userTown"
+) || "";
 
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?action=user&id=" +
-encodeURIComponent(USER_ID)
-);
-
-const json =
-await response.json();
-
-const user =
-json.data || {};
+const chome =
+localStorage.getItem(
+"userChome"
+) || "";
 
 document.getElementById(
 "userName"
 ).innerHTML =
-user.name || "利用者";
+name || "利用者";
 
 document.getElementById(
-"supportKey"
+"userAddress"
 ).innerHTML =
-user.supportKey || "----";
 
-const url =
+city + " " +
+town + " " +
+chome;
+
+const qrUrl =
+
 location.origin +
+
 location.pathname.replace(
 "qr.html",
-"support.html"
+"family.html"
 ) +
-"?id=" +
-USER_ID;
 
-document.getElementById(
-"qrcode"
-).innerHTML =
-"";
+"?name=" +
+
+encodeURIComponent(name);
 
 new QRCode(
+
 document.getElementById(
 "qrcode"
 ),
+
 {
-text:url,
-width:260,
-height:260
+text:qrUrl,
+width:280,
+height:280
 }
+
 );
 
-}catch(error){
+function shareLine(){
 
-document.getElementById(
-"userName"
-).innerHTML =
-"取得エラー";
+location.href =
+"https://line.me/R/msg/text/?" +
+encodeURIComponent(
+"見守りDX QRコード\n" +
+qrUrl
+);
 
 }
-
-}
-
-loadUser();
 
 </script>
 
