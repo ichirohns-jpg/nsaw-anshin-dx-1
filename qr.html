@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QRコード管理</title>
+<title>QRコード発行</title>
 
 <link rel="icon" href="icon.png">
 
@@ -26,7 +26,7 @@ min-height:100vh;
 }
 
 .wrap{
-max-width:760px;
+max-width:800px;
 margin:auto;
 padding:16px;
 }
@@ -34,11 +34,9 @@ padding:16px;
 .card{
 background:rgba(255,255,255,.06);
 backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
@@ -52,69 +50,47 @@ margin-bottom:20px;
 font-size:28px;
 font-weight:900;
 text-align:center;
-margin-bottom:15px;
+margin-bottom:10px;
+}
+
+.key{
+font-size:40px;
+font-weight:900;
+text-align:center;
+color:#00e676;
+margin-bottom:20px;
 }
 
 #qrcode{
+background:#fff;
+padding:20px;
+border-radius:20px;
 display:flex;
 justify-content:center;
-padding:20px;
-background:#fff;
-border-radius:20px;
-margin-bottom:15px;
-}
-
-.url{
-background:rgba(255,255,255,.08);
-padding:12px;
-border-radius:16px;
-font-size:13px;
-word-break:break-all;
-line-height:1.6;
-margin-bottom:12px;
+margin-bottom:20px;
 }
 
 button{
 width:100%;
+padding:20px;
 border:none;
-cursor:pointer;
-color:#fff;
-font-weight:900;
-padding:22px;
 border-radius:20px;
 font-size:22px;
-margin-bottom:12px;
+font-weight:900;
+color:#fff;
+margin-bottom:10px;
+cursor:pointer;
 }
 
 .print-btn{
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.save-btn{
-background:linear-gradient(135deg,#00c853,#00e676);
-}
-
-.app-btn{
-background:linear-gradient(135deg,#7b1fa2,#ab47bc);
-}
-
-.support-btn{
-background:linear-gradient(135deg,#2e7d32,#43a047);
-}
-
 .home-btn{
-background:linear-gradient(135deg,#37474f,#607d8b);
-}
-
-.footer{
-text-align:center;
-padding:20px;
-opacity:.6;
-font-size:12px;
+background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
 </style>
-
 </head>
 
 <body>
@@ -124,45 +100,36 @@ font-size:12px;
 <div class="card">
 
 <div class="title">
-📱 QRコード
+📱 支援者用QRコード
 </div>
 
 <div
 id="userName"
 class="name">
-読み込み中...
+読み込み中
+</div>
+
+<div
+id="supportKey"
+class="key">
+----
 </div>
 
 <div id="qrcode"></div>
 
-<div
-id="urlText"
-class="url">
-読み込み中...
+<div style="
+text-align:center;
+font-size:20px;
+font-weight:900;
+margin-bottom:20px;
+">
+支援者はQRコードと4桁キーで閲覧
 </div>
 
 <button
 class="print-btn"
 onclick="window.print()">
 🖨 印刷
-</button>
-
-<button
-class="save-btn"
-onclick="saveQR()">
-💾 PNG保存
-</button>
-
-<button
-class="app-btn"
-onclick="location.href='app.html?id='+USER_ID">
-😊 本人ページ
-</button>
-
-<button
-class="support-btn"
-onclick="location.href='support.html?id='+USER_ID">
-👪 支援者ページ
 </button>
 
 <button
@@ -174,13 +141,9 @@ onclick="location.href='users.html'">
 <button
 class="home-btn"
 onclick="location.href='index.html'">
-🏠 ホームへ戻る
+🏠 ホーム
 </button>
 
-</div>
-
-<div class="footer">
-NSAW QRコード管理
 </div>
 
 </div>
@@ -190,13 +153,12 @@ NSAW QRコード管理
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-const params =
-new URLSearchParams(location.search);
-
 const USER_ID =
-params.get("id") || "";
+new URLSearchParams(
+location.search
+).get("id") || "";
 
-async function loadQR(){
+async function loadUser(){
 
 try{
 
@@ -213,10 +175,17 @@ await response.json();
 const user =
 json.data || {};
 
-document.getElementById("userName").innerHTML =
+document.getElementById(
+"userName"
+).innerHTML =
 user.name || "利用者";
 
-const supportUrl =
+document.getElementById(
+"supportKey"
+).innerHTML =
+user.supportKey || "----";
+
+const url =
 location.origin +
 location.pathname.replace(
 "qr.html",
@@ -225,16 +194,17 @@ location.pathname.replace(
 "?id=" +
 USER_ID;
 
-document.getElementById("urlText").innerHTML =
-supportUrl;
-
-document.getElementById("qrcode").innerHTML =
+document.getElementById(
+"qrcode"
+).innerHTML =
 "";
 
 new QRCode(
-document.getElementById("qrcode"),
+document.getElementById(
+"qrcode"
+),
 {
-text:supportUrl,
+text:url,
 width:260,
 height:260
 }
@@ -242,56 +212,16 @@ height:260
 
 }catch(error){
 
-document.getElementById("userName").innerHTML =
+document.getElementById(
+"userName"
+).innerHTML =
 "取得エラー";
 
 }
 
 }
 
-function saveQR(){
-
-const img =
-document.querySelector("#qrcode img");
-
-if(img){
-
-const a =
-document.createElement("a");
-
-a.href =
-img.src;
-
-a.download =
-"qr-" + USER_ID + ".png";
-
-a.click();
-
-return;
-
-}
-
-const canvas =
-document.querySelector("#qrcode canvas");
-
-if(canvas){
-
-const a =
-document.createElement("a");
-
-a.href =
-canvas.toDataURL("image/png");
-
-a.download =
-"qr-" + USER_ID + ".png";
-
-a.click();
-
-}
-
-}
-
-loadQR();
+loadUser();
 
 </script>
 
