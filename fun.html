@@ -208,9 +208,22 @@ getVal(cells[4]);
 const videoUrl =
 getVal(cells[5]);
 
+if(!title) return;
+
+const embedUrl =
+youtubeEmbed(videoUrl);
+
+let videoUrl =
+getVal(cells[5]);
+
 if(
-!title
-) return;
+!videoUrl
+){
+
+videoUrl =
+getVal(cells[1]);
+
+}
 
 const embedUrl =
 youtubeEmbed(
@@ -286,17 +299,23 @@ html ||
 
 }
 
-const script =
-document.createElement(
-"script"
+fetch(url)
+
+.then(response=>response.text())
+
+.then(text=>{
+
+const json =
+
+JSON.parse(
+text.substring(47).slice(0,-2)
 );
 
-script.src =
-url +
-"&callback=handleSheet";
+handleSheet(json);
 
-script.onerror =
-function(){
+})
+
+.catch(error=>{
 
 document.getElementById(
 "videoList"
@@ -312,11 +331,9 @@ document.getElementById(
 
 `;
 
-};
+console.error(error);
 
-document.body.appendChild(
-script
-);
+});
 
 </script>
 
