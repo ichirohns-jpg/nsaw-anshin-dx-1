@@ -18,91 +18,75 @@ box-sizing:border-box;
 
 body{
 font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-background:linear-gradient(180deg,#3b0000 0%,#08111d 50%,#000000 100%);
+background:linear-gradient(180deg,#3b0000 0%,#120000 100%);
 color:#fff;
 min-height:100vh;
 }
 
 .wrap{
-max-width:760px;
+max-width:800px;
 margin:auto;
 padding:16px;
 }
 
 .card{
-background:rgba(255,255,255,.06);
+background:rgba(255,255,255,.08);
 backdrop-filter:blur(14px);
 border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
-font-size:36px;
+font-size:38px;
 font-weight:900;
 text-align:center;
 margin-bottom:20px;
-color:#ff5252;
+color:#ff8a80;
 }
 
-.name{
-font-size:26px;
+.warning{
+font-size:22px;
 font-weight:900;
 text-align:center;
-margin-bottom:15px;
+line-height:1.8;
+margin-bottom:20px;
 }
 
 button{
 width:100%;
 border:none;
-cursor:pointer;
-color:#fff;
+border-radius:24px;
+padding:28px;
+font-size:28px;
 font-weight:900;
-padding:24px;
-border-radius:20px;
-font-size:24px;
-margin-bottom:12px;
+color:#fff;
+cursor:pointer;
+margin-bottom:14px;
 }
 
-.ambulance-btn{
-background:linear-gradient(135deg,#d50000,#ff5252);
+.red-btn{
+background:linear-gradient(135deg,#b71c1c,#f44336);
 }
 
-.police-btn{
-background:linear-gradient(135deg,#0d47a1,#42a5f5);
+.orange-btn{
+background:linear-gradient(135deg,#ef6c00,#ffa726);
 }
 
-.fire-btn{
-background:linear-gradient(135deg,#e65100,#ff9800);
-}
-
-.family-btn{
-background:linear-gradient(135deg,#6a1b9a,#ab47bc);
-}
-
-.location-btn{
-background:linear-gradient(135deg,#00695c,#26a69a);
+.blue-btn{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
 }
 
 .home-btn{
-background:linear-gradient(135deg,#37474f,#607d8b);
+background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
-.msg{
-text-align:center;
-font-size:20px;
-font-weight:900;
-min-height:30px;
-margin-top:10px;
-}
-
-.footer{
-text-align:center;
-padding:20px;
-opacity:.6;
-font-size:12px;
+.log{
+background:rgba(255,255,255,.08);
+padding:15px;
+border-radius:18px;
+margin-bottom:10px;
 }
 
 </style>
@@ -119,67 +103,50 @@ font-size:12px;
 🚨 緊急連絡
 </div>
 
-<div
-id="userName"
-class="name">
-読み込み中...
+<div class="warning">
+
+緊急時のみ使用してください
+
 </div>
 
 <button
-class="ambulance-btn"
-onclick="sendEmergency('救急')">
-🚑 救急
+class="red-btn"
+onclick="sendEmergency('🚑 救急要請')">
+🚑 救急車を呼んでください
 </button>
 
 <button
-class="police-btn"
-onclick="sendEmergency('警察')">
-🚔 警察
+class="orange-btn"
+onclick="sendEmergency('⚠ 困っています')">
+⚠ 困っています
 </button>
 
 <button
-class="fire-btn"
-onclick="sendEmergency('消防')">
-🔥 消防
+class="blue-btn"
+onclick="sendEmergency('📞 折り返し希望')">
+📞 電話してください
 </button>
 
 <button
-class="family-btn"
-onclick="sendEmergency('家族連絡')">
-👪 家族へ連絡
+class="home-btn"
+onclick="history.back()">
+🏠 戻る
 </button>
-
-<button
-class="location-btn"
-onclick="sendLocationEmergency()">
-📍 現在地付き送信
-</button>
-
-<div
-id="msg"
-class="msg">
-</div>
 
 </div>
 
 <div class="card">
 
-<button
-class="home-btn"
-onclick="location.href='app.html?id='+USER_ID">
-😊 本人ページ
-</button>
-
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-🏠 ホームへ戻る
-</button>
-
+<div style="
+font-size:24px;
+font-weight:900;
+margin-bottom:15px;
+">
+緊急履歴
 </div>
 
-<div class="footer">
-NSAW 緊急連絡
+<div id="historyArea">
+読み込み中...
 </div>
 
 </div>
@@ -189,139 +156,161 @@ NSAW 緊急連絡
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-const params =
-new URLSearchParams(location.search);
-
 const USER_ID =
-params.get("id") || "";
+new URLSearchParams(
+location.search
+).get("id") || "";
 
-async function loadUser(){
+async function sendEmergency(status){
+
+if(
+!confirm(
+status + "\n送信しますか？"
+)
+){
+return;
+}
+
+try{
+
+const body =
+new URLSearchParams();
+
+body.append(
+"action",
+"watch"
+);
+
+body.append(
+"id",
+USER_ID
+);
+
+body.append(
+"status",
+status
+);
+
+body.append(
+"memo",
+"緊急連絡"
+);
+
+const response =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body:body.toString()
+}
+);
+
+const json =
+await response.json();
+
+if(json.status==="OK"){
+
+alert(
+"送信しました"
+);
+
+loadHistory();
+
+}
+
+}catch(error){
+
+alert(
+"送信失敗"
+);
+
+}
+
+}
+
+async function loadHistory(){
 
 try{
 
 const response =
 await fetch(
 GAS_URL +
-"?action=user&id=" +
+"?action=records&id=" +
 encodeURIComponent(USER_ID)
 );
 
 const json =
 await response.json();
 
-document.getElementById("userName").innerHTML =
-(json.data || {}).name || "利用者";
+const data =
+json.data || [];
+
+let html = "";
+
+data.forEach(item=>{
+
+const txt =
+String(
+item.status || ""
+);
+
+if(
+txt.indexOf("救急") === -1 &&
+txt.indexOf("困っています") === -1 &&
+txt.indexOf("電話してください") === -1
+){
+return;
+}
+
+html += `
+<div class="log">
+
+<div style="
+font-size:18px;
+font-weight:900;
+margin-bottom:5px;
+color:#ff8a80;
+">
+${item.status || ""}
+</div>
+
+<div style="
+opacity:.8;
+">
+${item.date || ""}
+</div>
+
+<div>
+${item.memo || ""}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById(
+"historyArea"
+).innerHTML =
+html ||
+"履歴なし";
 
 }catch(error){
 
-document.getElementById("userName").innerHTML =
-"利用者";
+document.getElementById(
+"historyArea"
+).innerHTML =
+"取得失敗";
 
 }
 
 }
 
-async function sendEmergency(type){
-
-document.getElementById("msg").innerHTML =
-"送信中...";
-
-try{
-
-const body =
-new URLSearchParams();
-
-body.append("action","watch");
-body.append("id",USER_ID);
-body.append("status","緊急連絡");
-body.append("memo",type);
-
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/x-www-form-urlencoded"
-},
-body:body.toString()
-}
-);
-
-document.getElementById("msg").innerHTML =
-type + " を送信しました";
-
-}catch(error){
-
-document.getElementById("msg").innerHTML =
-"通信エラー";
-
-}
-
-}
-
-function sendLocationEmergency(){
-
-document.getElementById("msg").innerHTML =
-"位置取得中...";
-
-navigator.geolocation.getCurrentPosition(
-
-async function(pos){
-
-const lat =
-pos.coords.latitude;
-
-const lng =
-pos.coords.longitude;
-
-try{
-
-const body =
-new URLSearchParams();
-
-body.append("action","watch");
-body.append("id",USER_ID);
-body.append("status","緊急連絡");
-body.append(
-"memo",
-"位置情報 " + lat + "," + lng
-);
-
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/x-www-form-urlencoded"
-},
-body:body.toString()
-}
-);
-
-document.getElementById("msg").innerHTML =
-"現在地付きで送信しました";
-
-}catch(error){
-
-document.getElementById("msg").innerHTML =
-"通信エラー";
-
-}
-
-},
-
-function(){
-
-document.getElementById("msg").innerHTML =
-"位置取得失敗";
-
-}
-
-);
-
-}
-
-loadUser();
+loadHistory();
 
 </script>
 
