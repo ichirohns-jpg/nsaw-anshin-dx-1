@@ -24,7 +24,7 @@ min-height:100vh;
 }
 
 .wrap{
-max-width:760px;
+max-width:800px;
 margin:auto;
 padding:16px;
 }
@@ -36,7 +36,6 @@ border:1px solid rgba(255,255,255,.12);
 border-radius:28px;
 padding:20px;
 margin-bottom:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
@@ -46,72 +45,47 @@ text-align:center;
 margin-bottom:20px;
 }
 
-.name{
-font-size:26px;
-font-weight:900;
-text-align:center;
-margin-bottom:10px;
-}
-
 button{
 width:100%;
 border:none;
-cursor:pointer;
-color:#fff;
+border-radius:24px;
+padding:28px;
+font-size:28px;
 font-weight:900;
-padding:22px;
-border-radius:20px;
-font-size:24px;
-margin-bottom:12px;
+color:#fff;
+margin-bottom:14px;
+cursor:pointer;
 }
 
-.morning-btn{
+.morning{
 background:linear-gradient(135deg,#ff9800,#ffb74d);
 }
 
-.noon-btn{
-background:linear-gradient(135deg,#2196f3,#64b5f6);
+.noon{
+background:linear-gradient(135deg,#42a5f5,#64b5f6);
 }
 
-.evening-btn{
+.night{
 background:linear-gradient(135deg,#8e24aa,#ba68c8);
 }
 
-.night-btn{
-background:linear-gradient(135deg,#455a64,#78909c);
-}
-
-.extra-btn{
-background:linear-gradient(135deg,#26a69a,#4db6ac);
-}
-
-.home-btn{
+.sleep{
 background:linear-gradient(135deg,#37474f,#607d8b);
 }
 
-.msg{
-text-align:center;
-font-size:20px;
-font-weight:900;
-margin-top:10px;
-min-height:30px;
+.home{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.history{
+.log{
 background:rgba(255,255,255,.08);
+padding:15px;
 border-radius:18px;
-padding:12px;
 margin-bottom:10px;
 }
 
-.footer{
-text-align:center;
-padding:20px;
-font-size:12px;
-opacity:.6;
-}
-
 </style>
+
 </head>
 
 <body>
@@ -124,46 +98,35 @@ opacity:.6;
 💊 服薬確認
 </div>
 
-<div
-id="userName"
-class="name">
-読み込み中...
-</div>
-
 <button
-class="morning-btn"
+class="morning"
 onclick="saveMedicine('朝')">
 🌅 朝の薬
 </button>
 
 <button
-class="noon-btn"
+class="noon"
 onclick="saveMedicine('昼')">
 ☀ 昼の薬
 </button>
 
 <button
-class="evening-btn"
-onclick="saveMedicine('夕')">
-🌇 夕の薬
+class="night"
+onclick="saveMedicine('夜')">
+🌙 夜の薬
 </button>
 
 <button
-class="night-btn"
-onclick="saveMedicine('就寝前')">
-🌙 就寝前の薬
+class="sleep"
+onclick="saveMedicine('寝る前')">
+😴 寝る前の薬
 </button>
 
 <button
-class="extra-btn"
-onclick="saveMedicine('頓服')">
-🩺 頓服
+class="home"
+onclick="history.back()">
+🏠 戻る
 </button>
-
-<div
-id="msg"
-class="msg">
-</div>
 
 </div>
 
@@ -175,103 +138,74 @@ class="msg">
 
 </div>
 
-<div class="card">
-
-<button
-class="home-btn"
-onclick="location.href='app.html?id='+USER_ID">
-😊 本人ページ
-</button>
-
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-🏠 ホームへ戻る
-</button>
-
-</div>
-
-<div class="footer">
-NSAW 服薬確認
-</div>
-
-</div>
-
 <script>
 
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
 
-const params =
-new URLSearchParams(location.search);
-
 const USER_ID =
-params.get("id") || "";
-
-async function loadUser(){
-
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?action=user&id=" +
-encodeURIComponent(USER_ID)
-);
-
-const json =
-await response.json();
-
-const user =
-json.data || {};
-
-document.getElementById("userName").innerHTML =
-user.name || "利用者";
-
-}catch(error){
-
-document.getElementById("userName").innerHTML =
-"利用者";
-
-}
-
-}
+new URLSearchParams(
+location.search
+).get("id") || "";
 
 async function saveMedicine(type){
-
-document.getElementById("msg").innerHTML =
-"記録中...";
 
 try{
 
 const body =
 new URLSearchParams();
 
-body.append("action","watch");
-body.append("id",USER_ID);
-body.append("status","服薬");
-body.append("memo",type);
+body.append(
+"action",
+"watch"
+);
 
+body.append(
+"id",
+USER_ID
+);
+
+body.append(
+"status",
+"💊" + type + "服薬"
+);
+
+body.append(
+"memo",
+type + "の薬を飲みました"
+);
+
+const response =
 await fetch(
 GAS_URL,
 {
 method:"POST",
 headers:{
-"Content-Type":"application/x-www-form-urlencoded"
+"Content-Type":
+"application/x-www-form-urlencoded"
 },
 body:body.toString()
 }
 );
 
-document.getElementById("msg").innerHTML =
-type + " を記録しました";
+const json =
+await response.json();
+
+if(json.status==="OK"){
+
+alert(
+type + "の服薬を記録しました"
+);
 
 loadHistory();
 
+}
+
 }catch(error){
 
-document.getElementById("msg").innerHTML =
-"通信エラー";
+alert(
+"保存失敗"
+);
 
 }
 
@@ -284,33 +218,43 @@ try{
 const response =
 await fetch(
 GAS_URL +
-"?action=dashboard&id=" +
+"?action=records&id=" +
 encodeURIComponent(USER_ID)
 );
 
 const json =
 await response.json();
 
-const history =
-json.history || [];
+const data =
+json.data || [];
 
 let html = "";
 
-history.forEach(item=>{
+data.forEach(item=>{
 
-if(item.status !== "服薬"){
+if(
+String(item.status || "")
+.indexOf("服薬") === -1
+){
 return;
 }
 
 html += `
-<div class="history">
+<div class="log">
 
-<div>
-${item.time || ""}
+<div style="
+font-size:18px;
+font-weight:900;
+margin-bottom:5px;
+">
+${item.status || ""}
 </div>
 
-<div>
-💊 ${item.memo || ""}
+<div style="
+opacity:.8;
+font-size:14px;
+">
+${item.date || ""}
 </div>
 
 </div>
@@ -318,19 +262,23 @@ ${item.time || ""}
 
 });
 
-document.getElementById("historyArea").innerHTML =
-html || "服薬履歴なし";
+document.getElementById(
+"historyArea"
+).innerHTML =
+html ||
+"服薬履歴なし";
 
 }catch(error){
 
-document.getElementById("historyArea").innerHTML =
-"取得エラー";
+document.getElementById(
+"historyArea"
+).innerHTML =
+"取得失敗";
 
 }
 
 }
 
-loadUser();
 loadHistory();
 
 </script>
