@@ -17,29 +17,26 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#334155);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
+border-radius:30px;
 text-align:center;
+margin-bottom:18px;
 }
 
 .header h1{
-font-size:40px;
+font-size:36px;
 font-weight:900;
-}
-
-.wrap{
-max-width:1000px;
-margin:auto;
-padding:18px;
 }
 
 .card{
 background:#fff;
-border-radius:28px;
+border-radius:30px;
 overflow:hidden;
 margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
@@ -56,20 +53,19 @@ padding:20px;
 }
 
 .title{
-font-size:30px;
+font-size:28px;
 font-weight:900;
-margin-bottom:12px;
+margin-bottom:10px;
 }
 
 .desc{
 font-size:20px;
-line-height:1.8;
-margin-bottom:12px;
+line-height:1.7;
+margin-bottom:10px;
 }
 
 .btn{
 display:block;
-margin-top:16px;
 padding:18px;
 text-align:center;
 background:#ea580c;
@@ -78,6 +74,11 @@ text-decoration:none;
 border-radius:18px;
 font-size:22px;
 font-weight:900;
+}
+
+.back{
+background:#475569;
+margin-top:18px;
 }
 
 </style>
@@ -90,103 +91,25 @@ font-weight:900;
 <h1>🎬 お楽しみ動画</h1>
 </div>
 
-<div class="wrap">
-
-<div id="videoList">
-読込中...
-</div>
-
-<script>
-
-const SHEET_ID =
-"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-
-const SHEET_NAME =
-"お楽しみ動画";
-
-const url =
-"https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(SHEET_NAME) +
-"&tqx=out:json";
-
-function getVal(cell){
-return cell ? (cell.v || cell.f || "") : "";
-}
-
-function youtubeEmbed(url){
-
-if(url.includes("watch?v="))
-return url.replace(
-"watch?v=",
-"embed/"
-);
-
-if(url.includes("youtu.be/")){
-
-const id =
-url.split("youtu.be/")[1]
-.split("?")[0];
-
-return
-"https://www.youtube.com/embed/" +
-id;
-
-}
-
-return url;
-
-}
-
-window.handleSheet =
-function(json){
-
-const rows =
-json.table.rows || [];
-
-rows.reverse();
-
-let html = "";
-
-rows.forEach(row=>{
-
-const c =
-row.c || [];
-
-const title =
-getVal(c[2]);
-
-const desc =
-getVal(c[4]);
-
-const video =
-getVal(c[5]);
-
-html += `
-
 <div class="card">
 
 <iframe
 class="video"
-src="${youtubeEmbed(video)}"
+src="https://www.youtube.com/embed/dQw4w9WgXcQ"
 allowfullscreen>
 </iframe>
 
 <div class="body">
 
 <div class="title">
-${title}
+今日のお楽しみ動画
 </div>
 
 <div class="desc">
-${desc}
+懐メロ・健康体操・地域散歩・脳トレなどを楽しめます。
 </div>
 
-<a
-href="${video}"
-target="_blank"
-class="btn">
+<a href="#" class="btn">
 YouTubeで見る
 </a>
 
@@ -194,28 +117,9 @@ YouTubeで見る
 
 </div>
 
-`;
-
-});
-
-document.getElementById(
-"videoList"
-).innerHTML = html;
-
-};
-
-const script =
-document.createElement("script");
-
-script.src =
-url +
-"&callback=handleSheet";
-
-document.body.appendChild(script);
-
-</script>
-
-</div>
+<a href="index.html" class="btn back">
+🏠 トップへ戻る
+</a>
 
 </body>
 </html>
