@@ -130,33 +130,8 @@ background:linear-gradient(135deg,#c62828,#ef5350);
 background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
-.linkBox{
-display:block;
-width:100%;
-border-radius:20px;
-padding:24px;
-font-size:24px;
-font-weight:900;
-color:#fff;
-text-decoration:none;
-text-align:center;
-margin-bottom:12px;
-background:linear-gradient(135deg,#455a64,#607d8b);
-}
-
-.linkBlue{
-background:linear-gradient(135deg,#00a3c4,#00d4ff);
-}
-
-.linkGreen{
-background:linear-gradient(135deg,#00c853,#00e676);
-}
-
-.linkOrange{
-background:linear-gradient(135deg,#ff9800,#ffb74d);
-}
-
 </style>
+
 </head>
 
 <body>
@@ -267,29 +242,23 @@ line-height:1.8;
 地域情報
 </div>
 
-<a class="linkBox linkBlue" href="radio.html">
+<button
+class="btn-blue"
+onclick="location.href='radio.html'">
 📻 地域ラジオ
-</a>
+</button>
 
-<a class="linkBox linkOrange" href="kawaraban.html">
+<button
+class="btn-orange"
+onclick="location.href='kawaraban.html'">
 📰 4市瓦版
-</a>
+</button>
 
-<a class="linkBox linkGreen" href="fun.html">
+<button
+class="btn-green"
+onclick="location.href='fun.html'">
 🎬 お楽しみ動画
-</a>
-
-<a class="linkBox" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html">
-📻 ラジオを直接開く
-</a>
-
-<a class="linkBox" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/kawaraban.html">
-📰 瓦版を直接開く
-</a>
-
-<a class="linkBox" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/fun.html">
-🎬 動画を直接開く
-</a>
+</button>
 
 </div>
 
@@ -370,7 +339,7 @@ padding:15px;
 
 <button
 class="btn-gray"
-onclick="location.href='family.html'">
+onclick="location.href='support.html'">
 👪 家族ページ
 </button>
 
@@ -441,12 +410,136 @@ console.log(err);
 
 }
 
-loadDashboard();
+async function loadHistory(){
 
-setInterval(
-loadDashboard,
-60000
+try{
+
+const res =
+await fetch(
+GAS_URL +
+"?action=records"
 );
+
+const json =
+await res.json();
+
+const data =
+json.data || [];
+
+let html = "";
+
+data.slice(0,5).forEach(item=>{
+
+html += `
+<div style="padding:15px;border-bottom:1px solid rgba(255,255,255,.08);">
+<div style="font-weight:900;font-size:18px;">${item.name || ""}</div>
+<div style="opacity:.7;font-size:14px;">${item.date || ""}</div>
+<div style="margin-top:6px;">${item.status || ""}</div>
+</div>
+`;
+
+});
+
+document.getElementById(
+"historyArea"
+).innerHTML = html;
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+async function loadStatus(){
+
+try{
+
+const res =
+await fetch(
+GAS_URL +
+"?action=scheduleList"
+);
+
+const json =
+await res.json();
+
+const data =
+json.data || [];
+
+let html = "";
+
+data.slice(0,5).forEach(item=>{
+
+html += `
+<div style="padding:15px;border-bottom:1px solid rgba(255,255,255,.08);">
+<div style="font-weight:900;">
+${item.date || ""} ${item.time || ""}
+</div>
+<div>
+${item.title || ""}
+</div>
+</div>
+`;
+
+});
+
+document.getElementById(
+"statusArea"
+).innerHTML = html;
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+function shareLine(){
+
+const url =
+location.href;
+
+location.href =
+"https://line.me/R/msg/text/?"+
+encodeURIComponent(
+"NSAW見守りDX\n"+url
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+"URLをコピーしました"
+);
+
+}
+
+function shareSms(){
+
+location.href =
+"sms:?body=" +
+encodeURIComponent(
+"NSAW見守りDX " +
+location.href
+);
+
+}
+
+loadDashboard();
+loadHistory();
+loadStatus();
+
+setInterval(loadDashboard,60000);
+setInterval(loadHistory,60000);
+setInterval(loadStatus,60000);
 
 </script>
 
