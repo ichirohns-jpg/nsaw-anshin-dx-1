@@ -52,9 +52,10 @@ padding:18px;
 border:none;
 border-radius:18px;
 margin-bottom:12px;
-font-size:20px;
+font-size:22px;
 background:rgba(255,255,255,.1);
 color:#fff;
+text-align:center;
 }
 
 button{
@@ -73,8 +74,16 @@ margin-bottom:10px;
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
+.ok-btn{
+background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+.map-btn{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+}
+
 .home-btn{
-background:linear-gradient(135deg,#37474f,#607d8b);
+background:linear-gradient(135deg,#455a64,#607d8b);
 }
 
 .name{
@@ -85,7 +94,7 @@ margin-bottom:10px;
 }
 
 .status{
-font-size:22px;
+font-size:26px;
 font-weight:900;
 text-align:center;
 color:#00e676;
@@ -131,7 +140,7 @@ display:none;
 <input
 id="supportKey"
 maxlength="4"
-placeholder="支援者閲覧キー">
+placeholder="4桁キー">
 
 <button
 class="login-btn"
@@ -139,16 +148,10 @@ onclick="loginSupport()">
 閲覧する
 </button>
 
-<button
-class="home-btn"
-onclick="location.href='index.html'">
-ホームへ戻る
-</button>
-
 </div>
 
 <div
-id="supportArea"
+id="mainArea"
 class="hidden">
 
 <div class="card">
@@ -156,7 +159,7 @@ class="hidden">
 <div
 id="userName"
 class="name">
-利用者名
+利用者
 </div>
 
 <div
@@ -171,12 +174,17 @@ class="status">
 
 <div class="item">
 <div class="label">最終確認</div>
-<div id="lastCheck" class="value">---</div>
+<div id="lastTime" class="value">---</div>
 </div>
 
 <div class="item">
-<div class="label">服薬状況</div>
-<div id="medicine" class="value">---</div>
+<div class="label">住所</div>
+<div id="address" class="value">---</div>
+</div>
+
+<div class="item">
+<div class="label">電話番号</div>
+<div id="tel" class="value">---</div>
 </div>
 
 <div class="item">
@@ -185,14 +193,31 @@ class="status">
 </div>
 
 <div class="item">
-<div class="label">最終位置</div>
-<div id="location" class="value">---</div>
+<div class="label">見守り履歴</div>
+<div id="history" class="value">---</div>
 </div>
 
-<div class="item">
-<div class="label">緊急履歴</div>
-<div id="emergency" class="value">異常なし</div>
 </div>
+
+<div class="card">
+
+<button
+class="ok-btn"
+onclick="location.href='app.html?id='+USER_ID">
+😊 本人ページ
+</button>
+
+<button
+class="map-btn"
+onclick="location.href='map.html?id='+USER_ID">
+📍 地図を見る
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+🏠 ホーム
+</button>
 
 </div>
 
@@ -210,17 +235,21 @@ new URLSearchParams(
 location.search
 ).get("id") || "";
 
+let USER_DATA = null;
+
 async function loginSupport(){
 
 const key =
-document
-.getElementById("supportKey")
-.value
-.trim();
+document.getElementById(
+"supportKey"
+).value.trim();
 
 if(key===""){
 
-alert("支援者閲覧キーを入力してください");
+alert(
+"4桁キーを入力してください"
+);
+
 return;
 
 }
@@ -245,61 +274,136 @@ String(user.supportKey || "")
 !== String(key)
 ){
 
-alert("閲覧キーが違います");
+alert(
+"キーが違います"
+);
+
 return;
 
 }
 
+USER_DATA = user;
+
 document
-.getElementById("supportArea")
+.getElementById(
+"mainArea"
+)
 .classList
-.remove("hidden");
+.remove(
+"hidden"
+);
 
 document
-.getElementById("userName")
-.innerHTML =
-user.name || "利用者";
+.getElementById(
+"userName"
+).innerHTML =
+user.name || "";
 
 document
-.getElementById("userStatus")
-.innerHTML =
-"😊 元気です";
+.getElementById(
+"address"
+).innerHTML =
+user.address || "-";
 
 document
-.getElementById("lastCheck")
-.innerHTML =
-user.lastTime || "---";
+.getElementById(
+"tel"
+).innerHTML =
+user.tel || "-";
 
-document
-.getElementById("medicine")
-.innerHTML =
-user.medicine || "---";
+loadRecords();
 
-document
-.getElementById("schedule")
-.innerHTML =
-user.schedule || "---";
-
-document
-.getElementById("location")
-.innerHTML =
-user.location || "---";
-
-document
-.getElementById("emergency")
-.innerHTML =
-user.emergency || "異常なし";
-
-window.scrollTo({
-top:500,
-behavior:"smooth"
-});
+loadSchedules();
 
 }catch(error){
 
-alert("通信エラー");
+alert(
+"通信エラー"
+);
 
 }
+
+}
+
+async function loadRecords(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=records&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const data =
+json.data || [];
+
+if(data.length){
+
+document
+.getElementById(
+"lastTime"
+)
+.innerHTML =
+data[0].date || "-";
+
+document
+.getElementById(
+"userStatus"
+)
+.innerHTML =
+data[0].status || "-";
+
+document
+.getElementById(
+"history"
+)
+.innerHTML =
+data[0].memo || "-";
+
+}
+
+}catch(error){}
+
+}
+
+async function loadSchedules(){
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=scheduleList&id=" +
+encodeURIComponent(USER_ID)
+);
+
+const json =
+await response.json();
+
+const data =
+json.data || [];
+
+if(data.length){
+
+document
+.getElementById(
+"schedule"
+)
+.innerHTML =
+data[0].date +
+" " +
+data[0].time +
+"<br>" +
+data[0].title;
+
+}
+
+}catch(error){}
 
 }
 
