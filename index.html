@@ -1,3 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>見守りDX</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
+}
+
+.header{
+background:linear-gradient(135deg,#1565c0,#42a5f5);
+padding:30px;
+text-align:center;
+color:#fff;
+font-size:42px;
+font-weight:900;
+}
+
+.sub{
+text-align:center;
+font-size:22px;
+padding:12px;
+background:#fff;
+font-weight:900;
+}
+
+.wrap{
+max-width:1000px;
+margin:auto;
+padding:16px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+padding:22px;
+text-decoration:none;
+color:#1f2d3d;
+text-align:center;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.icon{
+font-size:56px;
+margin-bottom:10px;
+}
+
+.title{
+font-size:24px;
+font-weight:900;
+line-height:1.4;
+}
+
+.section{
+font-size:24px;
+font-weight:900;
+margin:20px 0 12px;
+}
+
+.snsBar{
+display:flex;
+gap:8px;
+margin-top:20px;
+}
+
+.snsBtn{
+flex:1;
+height:54px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:900;
+color:#fff;
+}
+
+.lineBtn{
+background:#06c755;
+}
+
+.fbBtn{
+background:#1877f2;
+}
+
+.xBtn{
+background:#000;
+}
+
+.copyBtn{
+background:#607d8b;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+見守りDX
+</div>
+
+<div class="sub">
+地域情報・見守り・生活支援
+</div>
+
+<div class="wrap">
+
+<div class="section">
+地域情報
+</div>
+
+<div class="grid">
+
+<a href="kawaraban.html" class="card">
+<div class="icon">📰</div>
+<div class="title">4市瓦版</div>
+</a>
+
+<a href="radio.html" class="card">
+<div class="icon">📻</div>
+<div class="title">地域ラジオ</div>
+</a>
+
+<a href="fun.html" class="card">
+<div class="icon">🎬</div>
+<div class="title">お楽しみ動画</div>
+</a>
+
+<a href="garbage.html" class="card">
+<div class="icon">🗑</div>
+<div class="title">ゴミ収集</div>
+</a>
+
+</div>
+
+<div class="section">
+見守り
+</div>
+
+<div class="grid">
+
+<a href="app.html" class="card">
+<div class="icon">😊</div>
+<div class="title">本人ページ</div>
+</a>
+
+<a href="family.html" class="card">
+<div class="icon">👪</div>
+<div class="title">家族ページ</div>
+</a>
+
+<a href="qr.html" class="card">
+<div class="icon">📱</div>
+<div class="title">QRコード</div>
+</a>
+
+<a href="hospital.html" class="card">
+<div class="icon">🏥</div>
+<div class="title">病院</div>
+</a>
+
+<a href="pharmacy.html" class="card">
+<div class="icon">💊</div>
+<div class="title">薬局</div>
+</a>
+
+<a href="convenience.html" class="card">
+<div class="icon">🏪</div>
+<div class="title">コンビニ</div>
+</a>
+
+</div>
+
 <div class="snsBar">
 
 <button
@@ -23,6 +215,8 @@ class="snsBtn copyBtn"
 onclick="copyLink()">
 コピー
 </button>
+
+</div>
 
 </div>
 
@@ -87,3 +281,6 @@ alert(
 }
 
 </script>
+
+</body>
+</html>
