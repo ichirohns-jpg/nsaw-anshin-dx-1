@@ -3,16 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>元気です履歴</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 background:#eef2f7;
@@ -46,20 +40,20 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .time{
-font-size:18px;
+font-size:16px;
 color:#64748b;
 font-weight:900;
 margin-bottom:8px;
 }
 
 .name{
-font-size:28px;
+font-size:26px;
 font-weight:900;
 margin-bottom:8px;
 }
 
 .status{
-font-size:24px;
+font-size:22px;
 font-weight:900;
 color:#16a34a;
 }
@@ -76,11 +70,9 @@ font-size:22px;
 font-weight:900;
 margin-top:20px;
 }
-
 </style>
 
 </head>
-
 <body>
 
 <div class="header">
@@ -89,29 +81,57 @@ margin-top:20px;
 
 <div class="wrap">
 
-<div class="card">
-<div class="time">2026/06/13 08:15</div>
-<div class="name">山田太郎</div>
-<div class="status">元気です</div>
-</div>
+<div id="list"></div>
 
-<div class="card">
-<div class="time">2026/06/12 08:08</div>
-<div class="name">山田太郎</div>
-<div class="status">元気です</div>
-</div>
-
-<div class="card">
-<div class="time">2026/06/11 08:11</div>
-<div class="name">山田太郎</div>
-<div class="status">元気です</div>
-</div>
-
-<a href="history.html" class="back">
-履歴へ戻る
+<a href="index.html" class="back">
+🏠 トップへ戻る
 </a>
 
 </div>
+
+<script>
+
+const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+const SHEET_NAME='見守り記録';
+
+const url=
+'https://docs.google.com/spreadsheets/d/'+
+SHEET_ID+
+'/gviz/tq?sheet='+
+encodeURIComponent(SHEET_NAME)+
+'&tqx=out:json';
+
+fetch(url)
+.then(r=>r.text())
+.then(text=>{
+
+const json=JSON.parse(text.substring(47,text.length-2));
+
+let html='';
+
+json.table.rows.reverse().forEach(row=>{
+
+const time=row.c[0]?.v||'';
+const name=row.c[1]?.v||'';
+const status=row.c[2]?.v||'';
+
+if(status!=='元気です') return;
+
+html+=`
+<div class="card">
+<div class="time">${time}</div>
+<div class="name">${name}</div>
+<div class="status">${status}</div>
+</div>
+`;
+
+});
+
+document.getElementById('list').innerHTML=html;
+
+});
+
+</script>
 
 </body>
 </html>
