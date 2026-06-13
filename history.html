@@ -20,7 +20,7 @@ font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#334155);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
 text-align:center;
@@ -101,32 +101,87 @@ margin-top:20px;
 
 <div class="wrap">
 
-<div class="card">
-<div class="time">2026/06/13 08:15</div>
-<div class="title">元気です</div>
-<div class="ok">確認済み</div>
-</div>
+<div id="list"></div>
 
-<div class="card">
-<div class="time">2026/06/13 08:20</div>
-<div class="title">薬を飲みました</div>
-<div class="med">服薬済み</div>
-</div>
+<script>
 
-<div class="card">
-<div class="time">2026/06/13 09:05</div>
-<div class="title">家族確認</div>
-<div class="ok">確認済み</div>
-</div>
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 
-<div class="card">
-<div class="time">2026/06/13 10:30</div>
-<div class="title">困っています</div>
-<div class="help">未対応</div>
-</div>
+const SHEET_NAME =
+'見守り記録';
 
-<a href="index.html" class="back">
-トップへ戻る
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
+fetch(url)
+.then(r=>r.text())
+.then(text=>{
+
+const json =
+JSON.parse(
+text.substring(
+47,
+text.length-2
+)
+);
+
+let html='';
+
+const rows =
+json.table.rows.reverse();
+
+rows.forEach(row=>{
+
+const time =
+row.c[0] ? row.c[0].v : '';
+
+const name =
+row.c[1] ? row.c[1].v : '';
+
+const status =
+row.c[2] ? row.c[2].v : '';
+
+let cls='ok';
+
+if(status.includes('薬')){
+cls='med';
+}
+
+if(status.includes('困')){
+cls='help';
+}
+
+html +=
+'<div class="card">' +
+'<div class="time">' +
+time +
+'</div>' +
+'<div class="title">' +
+name +
+'</div>' +
+'<div class="' + cls + '">' +
+status +
+'</div>' +
+'</div>';
+
+});
+
+document.getElementById('list').innerHTML =
+html;
+
+});
+
+</script>
+
+<a
+href="index.html"
+class="back">
+🏠 トップへ戻る
 </a>
 
 </div>
