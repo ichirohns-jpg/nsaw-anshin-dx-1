@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>支援者ページ｜見守りDX</title>
+<title>支援者ページ</title>
 
 <link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
 
 <style>
 
@@ -18,137 +17,101 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#000000 0%,#08111d 50%,#000000 100%);
+color:#fff;
+min-height:100vh;
 }
 
 .wrap{
-max-width:560px;
+max-width:900px;
 margin:auto;
 padding:16px;
 }
 
-.header{
-background:#7b1fa2;
-color:#fff;
-border-radius:26px;
-padding:22px;
+.card{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:28px;
+padding:20px;
 margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.back{
-font-size:16px;
-font-weight:900;
-margin-bottom:12px;
-cursor:pointer;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .title{
 font-size:34px;
 font-weight:900;
-}
-
-.sub{
-font-size:16px;
-margin-top:6px;
-opacity:.95;
-}
-
-.card{
-background:#fff;
-border-radius:26px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+text-align:center;
+margin-bottom:20px;
 }
 
 .name{
 font-size:28px;
 font-weight:900;
-color:#7b1fa2;
+text-align:center;
 margin-bottom:10px;
 }
 
 .status{
-font-size:26px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.time{
-font-size:16px;
-font-weight:700;
-color:#666;
-margin-bottom:16px;
-}
-
-.memo{
-background:#f3e5f5;
-border-radius:18px;
-padding:16px;
-font-size:18px;
-font-weight:700;
-line-height:1.7;
-}
-
-.sectionTitle{
 font-size:22px;
 font-weight:900;
-color:#7b1fa2;
-margin-bottom:12px;
+text-align:center;
+margin-bottom:20px;
+color:#00e676;
 }
 
 .item{
-background:#f8f5fb;
-border-left:8px solid #7b1fa2;
-border-radius:18px;
+background:rgba(255,255,255,.08);
 padding:16px;
+border-radius:20px;
 margin-bottom:12px;
 }
 
-.itemTitle{
-font-size:20px;
+.label{
+font-size:16px;
+opacity:.7;
+margin-bottom:5px;
+}
+
+.value{
+font-size:22px;
 font-weight:900;
 }
 
-.itemText{
-font-size:16px;
-font-weight:700;
-color:#666;
-margin-top:6px;
-line-height:1.6;
+input{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+margin-bottom:12px;
+font-size:20px;
+background:rgba(255,255,255,.1);
+color:#fff;
 }
 
-.btn{
+button{
 width:100%;
-border:none;
-border-radius:22px;
 padding:20px;
+border:none;
+border-radius:20px;
 font-size:24px;
 font-weight:900;
 color:#fff;
-background:#7b1fa2;
-margin-top:14px;
 cursor:pointer;
+margin-bottom:10px;
 }
 
-.callBtn{
-background:#e53935;
+.login-btn{
+background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
-.footer{
-display:flex;
-justify-content:space-around;
-margin-top:20px;
-padding:18px 0;
-background:#fff;
-border-radius:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-font-size:14px;
-font-weight:900;
-color:#666;
+.home-btn{
+background:linear-gradient(135deg,#7b1fa2,#ab47bc);
+}
+
+.hidden{
+display:none;
 }
 
 </style>
@@ -158,129 +121,192 @@ color:#666;
 
 <div class="wrap">
 
-<div class="header">
-
-<div class="back" onclick="location.href='index.html'">
-← トップへ戻る
-</div>
+<div class="card">
 
 <div class="title">
-👨‍👩‍👧 支援者ページ
+👪 支援者ページ
 </div>
 
-<div class="sub">
-見守り状況を確認します
-</div>
+<input
+id="supportKey"
+maxlength="4"
+placeholder="支援者閲覧キー（4桁）">
+
+<button
+class="login-btn"
+onclick="loginSupport()">
+閲覧する
+</button>
+
+<button
+class="home-btn"
+onclick="location.href='index.html'">
+ホームへ戻る
+</button>
 
 </div>
+
+<div
+id="supportArea"
+class="hidden">
 
 <div class="card">
 
-<div class="name">
-山田 太郎 さん
+<div
+id="userName"
+class="name">
+利用者名
 </div>
 
-<div class="status">
+<div
+id="userStatus"
+class="status">
 😊 元気です
 </div>
 
-<div class="time">
-最終確認：2026-05-31 09:20
-</div>
-
-<div class="memo">
-本日は朝の薬確認済み。<br>
-午後2時に訪問予定があります。<br>
-緊急対応は不要です。
-</div>
-
-<button class="btn" onclick="alert('支援確認しました')">
-✅ 支援確認しました
-</button>
-
-<button class="btn callBtn" onclick="location.href='tel:119'">
-🚨 緊急時 119へ電話
-</button>
-
 </div>
 
 <div class="card">
 
-<div class="sectionTitle">
-📅 今日の予定
+<div class="item">
+<div class="label">最終確認</div>
+<div id="lastCheck" class="value">---</div>
 </div>
 
 <div class="item">
-<div class="itemTitle">
-09:00 朝の薬
-</div>
-<div class="itemText">
-確認済み
-</div>
+<div class="label">服薬状況</div>
+<div id="medicine" class="value">---</div>
 </div>
 
 <div class="item">
-<div class="itemTitle">
-14:00 訪問予定
-</div>
-<div class="itemText">
-支援者が訪問予定
-</div>
+<div class="label">本日の予定</div>
+<div id="schedule" class="value">---</div>
 </div>
 
 <div class="item">
-<div class="itemTitle">
-18:00 夜の薬
-</div>
-<div class="itemText">
-未確認
-</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="sectionTitle">
-📍 位置情報
+<div class="label">最終位置</div>
+<div id="location" class="value">---</div>
 </div>
 
 <div class="item">
-<div class="itemTitle">
-現在地確認
-</div>
-<div class="itemText">
-必要な場合は本人の現在地ボタンから確認します。
-</div>
-</div>
-
-<button class="btn" onclick="window.open('https://www.google.com/maps','_blank')">
-📍 Googleマップを開く
-</button>
-
-</div>
-
-<div class="footer">
-
-<div onclick="location.href='index.html'">
-見守り
-</div>
-
-<div onclick="location.href='schedule.html'">
-予定
-</div>
-
-<div onclick="location.href='gomi.html'">
-ゴミ
-</div>
-
-<div onclick="location.href='news.html'">
-地域情報
+<div class="label">緊急履歴</div>
+<div id="emergency" class="value">異常なし</div>
 </div>
 
 </div>
 
 </div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec";
+
+const id =
+new URLSearchParams(
+location.search
+).get("id");
+
+async function loginSupport(){
+
+const key =
+document
+.getElementById("supportKey")
+.value
+.trim();
+
+if(key===""){
+
+alert("閲覧キーを入力してください");
+return;
+
+}
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?action=user&id=" +
+encodeURIComponent(id)
+);
+
+const user =
+await response.json();
+
+if(!user){
+
+alert("利用者が見つかりません");
+return;
+
+}
+
+if(
+String(user.supportKey || "")
+!== String(key)
+){
+
+alert("閲覧キーが違います");
+return;
+
+}
+
+document
+.getElementById("supportArea")
+.classList
+.remove("hidden");
+
+document
+.getElementById("userName")
+.innerHTML =
+user.name || "利用者";
+
+document
+.getElementById("userStatus")
+.innerHTML =
+"😊 元気です";
+
+document
+.getElementById("lastCheck")
+.innerHTML =
+user.lastCheck || "---";
+
+document
+.getElementById("medicine")
+.innerHTML =
+user.medicine || "---";
+
+document
+.getElementById("schedule")
+.innerHTML =
+user.schedule || "---";
+
+document
+.getElementById("location")
+.innerHTML =
+user.location || "---";
+
+document
+.getElementById("emergency")
+.innerHTML =
+user.emergency || "異常なし";
+
+window.scrollTo({
+top:500,
+behavior:"smooth"
+});
+
+}catch(error){
+
+alert("通信エラー");
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
