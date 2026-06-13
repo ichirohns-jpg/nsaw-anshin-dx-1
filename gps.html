@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>現在地送信</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:15px;
+color:#1f2d3d;
+}
+
+.wrap{
+max-width:800px;
+margin:auto;
+}
+
+.header{
+background:linear-gradient(135deg,#2196f3,#1565c0);
+color:#fff;
+padding:24px;
+border-radius:24px;
+text-align:center;
+font-size:34px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.info{
+font-size:20px;
+line-height:1.8;
+margin-bottom:15px;
+}
+
+.result{
+font-size:22px;
+font-weight:900;
+text-align:center;
+padding:15px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:22px;
+font-size:26px;
+font-weight:900;
+cursor:pointer;
+margin-bottom:12px;
+}
+
+.gps{
+background:#2196f3;
+color:#fff;
+}
+
+.map{
+background:#4caf50;
+color:#fff;
+}
+
+.back{
+background:#666;
+color:#fff;
+}
+
+a{
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+📍 現在地送信
+</div>
+
+<div class="card">
+
+<div class="info">
+現在地を取得して保存します
+</div>
+
+<button
+class="btn gps"
+onclick="getLocation()">
+📍 現在地取得
+</button>
+
+<a
+id="mapLink"
+href="#"
+target="_blank">
+
+<button
+type="button"
+class="btn map">
+🗺 地図を見る
+</button>
+
+</a>
+
+<div
+id="result"
+class="result">
+未取得
+</div>
+
+<button
+class="btn back"
+onclick="history.back()">
+戻る
+</button>
+
+</div>
+
+<script>
+
+function getLocation(){
+
+if(!navigator.geolocation){
+
+document.getElementById(
+"result"
+).innerHTML =
+"GPS未対応";
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(position){
+
+const lat =
+position.coords.latitude;
+
+const lng =
+position.coords.longitude;
+
+const now =
+new Date()
+.toLocaleString("ja-JP");
+
+localStorage.setItem(
+"gpsLat",
+lat
+);
+
+localStorage.setItem(
+"gpsLng",
+lng
+);
+
+localStorage.setItem(
+"gpsTime",
+now
+);
+
+const mapUrl =
+"https://maps.google.com/?q=" +
+lat +
+"," +
+lng;
+
+document.getElementById(
+"mapLink"
+).href =
+mapUrl;
+
+document.getElementById(
+"result"
+).innerHTML =
+
+"取得完了<br><br>" +
+
+"緯度<br>" +
+lat +
+"<br><br>" +
+
+"経度<br>" +
+lng +
+"<br><br>" +
+
+now;
+
+},
+
+function(error){
+
+document.getElementById(
+"result"
+).innerHTML =
+"位置取得失敗";
+
+}
+
+);
+
+}
+
+window.onload=function(){
+
+const lat =
+localStorage.getItem(
+"gpsLat"
+);
+
+const lng =
+localStorage.getItem(
+"gpsLng"
+);
+
+const time =
+localStorage.getItem(
+"gpsTime"
+);
+
+if(lat && lng){
+
+document.getElementById(
+"result"
+).innerHTML =
+
+"前回取得<br><br>" +
+
+"緯度<br>" +
+lat +
+"<br><br>" +
+
+"経度<br>" +
+lng +
+"<br><br>" +
+
+(time || "");
+
+document.getElementById(
+"mapLink"
+).href =
+
+"https://maps.google.com/?q=" +
+lat +
+"," +
+lng;
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
