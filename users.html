@@ -82,6 +82,10 @@ font-size:16px;
 background:linear-gradient(135deg,#00a3c4,#00d4ff);
 }
 
+.support-btn{
+background:linear-gradient(135deg,#2e7d32,#43a047);
+}
+
 .qr-btn{
 background:linear-gradient(135deg,#7b1fa2,#ab47bc);
 }
@@ -240,6 +244,12 @@ onclick="location.href='app.html?id=${user.id}'">
 </button>
 
 <button
+class="support-btn"
+onclick="location.href='support.html?id=${user.id}'">
+👪 支援者
+</button>
+
+<button
 class="qr-btn"
 onclick="location.href='qr.html?id=${user.id}'">
 📱 QR
@@ -308,7 +318,7 @@ const url =
 location.origin +
 location.pathname.replace(
 "users.html",
-"app.html"
+"support.html"
 ) +
 "?id=" +
 id;
