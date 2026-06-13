@@ -15,17 +15,19 @@ box-sizing:border-box;
 }
 
 body{
-background:#f4f6f8;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
 }
 
 .header{
-background:linear-gradient(135deg,#ff9800,#ffb74d);
+background:linear-gradient(135deg,#0f172a,#334155);
 color:#fff;
-padding:28px;
+padding:30px;
 text-align:center;
-font-size:42px;
+}
+
+.header h1{
+font-size:40px;
 font-weight:900;
 }
 
@@ -37,20 +39,13 @@ padding:18px;
 
 .card{
 background:#fff;
-border-radius:24px;
+border-radius:28px;
 overflow:hidden;
-margin-bottom:20px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.photo{
-width:100%;
-height:260px;
-object-fit:cover;
-display:block;
-}
-
-.thumb{
+.video{
 width:100%;
 aspect-ratio:16/9;
 border:none;
@@ -63,34 +58,23 @@ padding:20px;
 .title{
 font-size:30px;
 font-weight:900;
-line-height:1.5;
 margin-bottom:12px;
 }
 
 .desc{
-font-size:22px;
-line-height:1.9;
-margin-bottom:15px;
+font-size:20px;
+line-height:1.8;
+margin-bottom:12px;
 }
 
 .btn{
 display:block;
-width:100%;
-background:#ff9800;
+margin-top:16px;
+padding:18px;
+text-align:center;
+background:#ea580c;
 color:#fff;
 text-decoration:none;
-text-align:center;
-padding:20px;
-font-size:24px;
-font-weight:900;
-border-radius:18px;
-margin-top:12px;
-}
-
-.error{
-background:#fff3cd;
-border:2px solid #ffe082;
-padding:20px;
 border-radius:18px;
 font-size:22px;
 font-weight:900;
@@ -103,19 +87,13 @@ font-weight:900;
 <body>
 
 <div class="header">
-🎬 お楽しみ動画
+<h1>🎬 お楽しみ動画</h1>
 </div>
 
 <div class="wrap">
 
 <div id="videoList">
-
-<div class="error">
-動画を読込中...
-</div>
-
-</div>
-
+読込中...
 </div>
 
 <script>
@@ -134,25 +112,16 @@ encodeURIComponent(SHEET_NAME) +
 "&tqx=out:json";
 
 function getVal(cell){
-
-if(!cell) return "";
-
-return cell.v || cell.f || "";
-
+return cell ? (cell.v || cell.f || "") : "";
 }
 
 function youtubeEmbed(url){
 
-if(!url) return "";
-
-if(url.includes("watch?v=")){
-
+if(url.includes("watch?v="))
 return url.replace(
 "watch?v=",
 "embed/"
 );
-
-}
 
 if(url.includes("youtu.be/")){
 
@@ -166,19 +135,7 @@ id;
 
 }
 
-if(url.includes("/shorts/")){
-
-const id =
-url.split("/shorts/")[1]
-.split("?")[0];
-
-return
-"https://www.youtube.com/embed/" +
-id;
-
-}
-
-return "";
+return url;
 
 }
 
@@ -194,57 +151,25 @@ let html = "";
 
 rows.forEach(row=>{
 
-const cells =
+const c =
 row.c || [];
 
 const title =
-getVal(cells[2]);
-
-const image =
-getVal(cells[3]);
+getVal(c[2]);
 
 const desc =
-getVal(cells[4]);
+getVal(c[4]);
 
-let videoUrl =
-getVal(cells[5]);
-
-if(!videoUrl){
-
-videoUrl =
-getVal(cells[1]);
-
-}
-
-if(!title) return;
-
-const embedUrl =
-youtubeEmbed(videoUrl);
+const video =
+getVal(c[5]);
 
 html += `
 
 <div class="card">
 
-${
-image
-?
-
-`
-<img
-class="photo"
-src="${image}"
-loading="lazy">
-`
-
-:
-
-""
-
-}
-
 <iframe
-class="thumb"
-src="${embedUrl}"
+class="video"
+src="${youtubeEmbed(video)}"
 allowfullscreen>
 </iframe>
 
@@ -259,10 +184,10 @@ ${desc}
 </div>
 
 <a
-class="btn"
-href="${videoUrl}"
-target="_blank">
-▶ YouTubeで見る
+href="${video}"
+target="_blank"
+class="btn">
+YouTubeで見る
 </a>
 
 </div>
@@ -275,57 +200,22 @@ target="_blank">
 
 document.getElementById(
 "videoList"
-).innerHTML =
-
-html ||
-
-`
-
-<div class="error">
-
-動画がありません
-
-</div>
-
-`;
+).innerHTML = html;
 
 };
 
 const script =
-document.createElement(
-"script"
-);
+document.createElement("script");
 
 script.src =
-
 url +
-
 "&callback=handleSheet";
 
-script.onerror =
-function(){
-
-document.getElementById(
-"videoList"
-).innerHTML =
-
-`
-
-<div class="error">
-
-スプレッドシート接続失敗
-
-</div>
-
-`;
-
-};
-
-document.body.appendChild(
-script
-);
+document.body.appendChild(script);
 
 </script>
+
+</div>
 
 </body>
 </html>
