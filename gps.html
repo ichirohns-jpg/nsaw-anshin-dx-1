@@ -15,77 +15,61 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:15px;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:800px;
-margin:auto;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#2196f3,#1565c0);
+background:linear-gradient(135deg,#ea580c,#fb923c);
 color:#fff;
-padding:24px;
-border-radius:24px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-font-size:34px;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
 font-weight:900;
-margin-bottom:16px;
 }
 
 .card{
 background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-.info{
-font-size:20px;
-line-height:1.8;
-margin-bottom:15px;
-}
-
-.result{
-font-size:22px;
-font-weight:900;
-text-align:center;
-padding:15px;
+border-radius:30px;
+padding:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .btn{
 width:100%;
+padding:28px;
 border:none;
-border-radius:18px;
-padding:22px;
-font-size:26px;
+border-radius:24px;
+font-size:28px;
 font-weight:900;
+background:#ea580c;
+color:#fff;
 cursor:pointer;
-margin-bottom:12px;
 }
 
-.gps{
-background:#2196f3;
-color:#fff;
+.result{
+background:#f1f5f9;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+text-align:center;
+line-height:1.8;
 }
 
 .map{
-background:#4caf50;
-color:#fff;
-}
-
-.back{
-background:#666;
-color:#fff;
-}
-
-a{
-text-decoration:none;
+width:100%;
+height:400px;
+border:none;
+border-radius:20px;
+margin-top:12px;
 }
 
 </style>
@@ -94,65 +78,43 @@ text-decoration:none;
 
 <body>
 
-<div class="wrap">
-
 <div class="header">
-📍 現在地送信
+<h1>📍 現在地送信</h1>
 </div>
 
 <div class="card">
 
-<div class="info">
-現在地を取得して保存します
+<button
+class="btn"
+onclick="sendLocation()">
+📍 現在地を送信
+</button>
+
 </div>
 
-<button
-class="btn gps"
-onclick="getLocation()">
-📍 現在地取得
-</button>
-
-<a
-id="mapLink"
-href="#"
-target="_blank">
-
-<button
-type="button"
-class="btn map">
-🗺 地図を見る
-</button>
-
-</a>
+<div class="card">
 
 <div
 id="result"
 class="result">
-未取得
+
+位置情報未取得
+
 </div>
 
-<button
-class="btn back"
-onclick="history.back()">
-戻る
-</button>
+<iframe
+id="map"
+class="map">
+</iframe>
 
 </div>
 
 <script>
 
-function getLocation(){
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-if(!navigator.geolocation){
-
-document.getElementById(
-"result"
-).innerHTML =
-"GPS未対応";
-
-return;
-
-}
+function sendLocation(){
 
 navigator.geolocation.getCurrentPosition(
 
@@ -164,116 +126,62 @@ position.coords.latitude;
 const lng =
 position.coords.longitude;
 
-const now =
-new Date()
-.toLocaleString("ja-JP");
+document.getElementById('result').innerHTML =
 
-localStorage.setItem(
-"gpsLat",
-lat
-);
+'緯度：' + lat +
+'<br><br>' +
+'経度：' + lng;
 
-localStorage.setItem(
-"gpsLng",
-lng
-);
+document.getElementById('map').src =
 
-localStorage.setItem(
-"gpsTime",
-now
-);
-
-const mapUrl =
-"https://maps.google.com/?q=" +
+'https://maps.google.com/maps?q=' +
 lat +
-"," +
-lng;
-
-document.getElementById(
-"mapLink"
-).href =
-mapUrl;
-
-document.getElementById(
-"result"
-).innerHTML =
-
-"取得完了<br><br>" +
-
-"緯度<br>" +
-lat +
-"<br><br>" +
-
-"経度<br>" +
+',' +
 lng +
-"<br><br>" +
+'&z=16&output=embed';
 
-now;
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+name:'利用者001',
+status:'現在地送信',
+latitude:lat,
+longitude:lng,
+time:new Date().toLocaleString('ja-JP')
+})
+}
+);
 
 },
 
-function(error){
+function(){
 
-document.getElementById(
-"result"
-).innerHTML =
-"位置取得失敗";
+alert('位置情報取得失敗');
 
 }
 
 );
 
 }
-
-window.onload=function(){
-
-const lat =
-localStorage.getItem(
-"gpsLat"
-);
-
-const lng =
-localStorage.getItem(
-"gpsLng"
-);
-
-const time =
-localStorage.getItem(
-"gpsTime"
-);
-
-if(lat && lng){
-
-document.getElementById(
-"result"
-).innerHTML =
-
-"前回取得<br><br>" +
-
-"緯度<br>" +
-lat +
-"<br><br>" +
-
-"経度<br>" +
-lng +
-"<br><br>" +
-
-(time || "");
-
-document.getElementById(
-"mapLink"
-).href =
-
-"https://maps.google.com/?q=" +
-lat +
-"," +
-lng;
-
-}
-
-};
 
 </script>
+
+<a
+href="family.html"
+class="btn">
+👪 家族ページ
+</a>
+
+<a
+href="index.html"
+class="btn">
+🏠 トップへ戻る
+</a>
 
 </body>
 </html>
