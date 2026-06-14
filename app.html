@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>本人ページ</title>
+<title>本人登録</title>
 
 <style>
 
@@ -34,19 +34,190 @@ font-size:38px;
 font-weight:900;
 }
 
-.hero{
-display:block;
-width:100%;
-background:#16a34a;
-color:#fff;
-text-decoration:none;
-text-align:center;
-padding:40px;
-border-radius:30px;
-font-size:60px;
-font-weight:900;
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
 margin-bottom:18px;
-box-shadow:0 10px 25px rgba(0,0,0,.12);
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.hero span{
+.label{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.input{
+width:100%;
+padding:20px;
+font-size:24px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:28px;
+border:none;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+}
+
+.green{
+background:#16a34a;
+}
+
+.gray{
+background:#475569;
+margin-top:14px;
+text-decoration:none;
+text-align:center;
+}
+
+.result{
+background:#fff;
+padding:22px;
+border-radius:24px;
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>👤 本人登録</h1>
+</div>
+
+<div class="card">
+
+<div class="label">
+お名前
+</div>
+
+<input
+id="name"
+class="input"
+placeholder="山田太郎">
+
+<div class="label">
+住所
+</div>
+
+<input
+id="address"
+class="input"
+placeholder="住所">
+
+<div class="label">
+電話番号
+</div>
+
+<input
+id="phone"
+class="input"
+placeholder="09012345678">
+
+<div class="label">
+緊急連絡先
+</div>
+
+<input
+id="family"
+class="input"
+placeholder="09012345678">
+
+<button
+class="btn green"
+onclick="saveUser()">
+登録する
+</button>
+
+</div>
+
+<div
+id="result"
+class="result">
+
+未登録
+
+</div>
+
+<a
+href="index.html"
+class="btn gray">
+🏠 トップへ戻る
+</a>
+
+<script>
+
+function saveUser(){
+
+const userId =
+Date.now().toString();
+
+localStorage.setItem(
+'userId',
+userId
+);
+
+localStorage.setItem(
+'userName',
+document.getElementById(
+'name'
+).value
+);
+
+localStorage.setItem(
+'userAddress',
+document.getElementById(
+'address'
+).value
+);
+
+localStorage.setItem(
+'userPhone',
+document.getElementById(
+'phone'
+).value
+);
+
+localStorage.setItem(
+'userFamily',
+document.getElementById(
+'family'
+).value
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'登録完了<br><br>' +
+
+document.getElementById(
+'name'
+).value +
+
+'<br><br>ID<br>' +
+
+userId;
+
+}
+
+</script>
+
+</body>
+</html>
