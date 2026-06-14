@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>SOS</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
+}
+
+.header{
+background:linear-gradient(135deg,#dc2626,#ef4444);
+color:#fff;
+padding:30px;
+border-radius:30px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:38px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+border-radius:30px;
+padding:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.btn{
+display:block;
+width:100%;
+padding:30px;
+border:none;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
+margin-bottom:14px;
+text-decoration:none;
+text-align:center;
+}
+
+.red{
+background:#dc2626;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.gray{
+background:#475569;
+}
+
+.result{
+background:#f1f5f9;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+text-align:center;
+line-height:1.8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>🚨 SOS</h1>
+</div>
+
+<div class="card">
+
+<button
+class="btn red"
+onclick="sendSOS('緊急です')">
+🚨 緊急です
+</button>
+
+<button
+class="btn orange"
+onclick="sendSOS('困っています')">
+😥 困っています
+</button>
+
+<button
+class="btn blue"
+onclick="sendSOS('連絡ください')">
+📞 連絡ください
+</button>
+
+</div>
+
+<div class="card">
+
+<div
+id="result"
+class="result">
+
+待機中
+
+</div>
+
+</div>
+
+<a
+href="family.html"
+class="btn gray">
+👪 家族ページ
+</a>
+
+<a
+href="history.html"
+class="btn gray">
+📋 見守り履歴
+</a>
+
+<a
+href="index.html"
+class="btn gray">
+🏠 トップへ戻る
+</a>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+
+function sendSOS(type){
+
+document.getElementById('result').innerHTML =
+'送信中...';
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+name:'利用者001',
+status:type,
+time:new Date().toLocaleString('ja-JP')
+})
+}
+)
+.then(r=>r.text())
+.then(data=>{
+
+document.getElementById('result').innerHTML =
+type + '<br><br>送信完了';
+
+})
+.catch(err=>{
+
+document.getElementById('result').innerHTML =
+'送信失敗';
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
