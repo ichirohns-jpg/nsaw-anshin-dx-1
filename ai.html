@@ -1,3 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>AIに聞く</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#111827,#334155);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+margin-bottom:16px;
+}
+
+.header h1{
+font-size:34px;
+font-weight:900;
+}
+
+.micBtn{
+width:100%;
+border:none;
+border-radius:28px;
+padding:28px;
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:#fff;
+font-size:32px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+padding:20px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:16px;
+}
+
+.result{
+font-size:22px;
+line-height:1.8;
+font-weight:700;
+min-height:120px;
+}
+
+.home{
+display:block;
+text-decoration:none;
+background:#475569;
+color:#fff;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
+.navBtn{
+display:inline-block;
+margin-top:15px;
+padding:12px 20px;
+border-radius:14px;
+background:#2563eb;
+color:#fff;
+text-decoration:none;
+font-weight:900;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>🎤 AIに聞く</h1>
+</div>
+
+<button
+class="micBtn"
+onclick="startVoice()">
+🎤 話す
+</button>
+
+<div class="card">
+<div id="result" class="result">
+話してください
+</div>
+</div>
+
+<a href="index.html" class="home">
+🏠 トップへ戻る
+</a>
+
 <script>
 
 const SHEET_ID =
@@ -48,31 +161,14 @@ return;
 const rec =
 new webkitSpeechRecognition();
 
-rec.lang =
-'ja-JP';
-
-rec.interimResults =
-false;
-
-rec.continuous =
-false;
+rec.lang='ja-JP';
 
 rec.start();
 
-rec.onresult =
-function(e){
+rec.onresult=function(e){
 
 const q =
-e.results[0][0]
-.transcript;
-
-document.getElementById(
-'result'
-).innerHTML =
-
-'質問<br><br>' +
-
-q;
+e.results[0][0].transcript;
 
 processQuestion(q);
 
@@ -82,62 +178,79 @@ processQuestion(q);
 
 function processQuestion(q){
 
-if(
-q.includes('ゴミ')
-){
+if(q.includes('ゴミ')){
+searchGarbage();
+return;
+}
 
-searchSheet(
-'ゴミ',
-q
+if(q.includes('予定')){
+searchSchedule();
+return;
+}
+
+if(
+q.includes('包括') ||
+q.includes('相談')
+){
+searchFacility('包括');
+return;
+}
+
+if(
+q.includes('避難')
+){
+searchFacility('避難所');
+return;
+}
+
+if(
+q.includes('市役所')
+){
+searchFacility('市役所');
+return;
+}
+
+if(
+q.includes('休日') ||
+q.includes('救急')
+){
+searchFacility('休日診療');
+return;
+}
+if(q.includes('病院')){
+
+window.open(
+'https://www.google.com/maps/search/病院'
 );
 
 return;
 
 }
 
-if(
-q.includes('病院')
-||
-q.includes('薬局')
-||
-q.includes('避難所')
-||
-q.includes('包括')
-||
-q.includes('コンビニ')
-||
-q.includes('トイレ')
-){
+if(q.includes('薬局')){
 
-searchSheet(
-'施設マスター',
-q
+window.open(
+'https://www.google.com/maps/search/薬局'
 );
 
 return;
 
 }
 
-if(
-q.includes('予定')
-){
+if(q.includes('コンビニ')){
 
-searchSheet(
-'予定',
-q
+window.open(
+'https://www.google.com/maps/search/コンビニ'
 );
 
 return;
 
 }
 
-if(
-q.includes('元気')
-){
+if(q.includes('トイレ')){
 
-searchSheet(
-'見守り記録',
-q
+window.open(
+'https://www.google.com/maps/search/公衆トイレ'
 );
 
 return;
@@ -145,12 +258,12 @@ return;
 }
 
 speak(
-'質問内容を確認しています'
+'もう一度話してください'
 );
 
 }
 
-function searchSheet(sheetName,q){
+function searchFacility(type){
 
 const url =
 
@@ -160,149 +273,111 @@ SHEET_ID +
 
 '/gviz/tq?sheet=' +
 
-encodeURIComponent(sheetName) +
+encodeURIComponent(
+'施設マスター'
+) +
 
 '&tqx=out:json';
+
+window.handleFacility =
+function(json){
+
+const rows =
+json.table.rows;
+
+for(let i=0;i<rows.length;i++){
+
+const row =
+rows[i];
+
+const facilityType =
+getVal(row.c[2]);
+
+if(
+facilityType === type
+){
+
+const name =
+getVal(row.c[3]);
+
+const address =
+getVal(row.c[4]);
+
+const tel =
+getVal(row.c[5]);
+
+const map =
+getVal(row.c[6]);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'【' +
+type +
+'】<br><br>' +
+
+name +
+
+'<br><br>' +
+
+address +
+
+'<br><br>' +
+
+(tel || '') +
+
+'<br><br>' +
+
+'<a class="navBtn" target="_blank" href="' +
+
+map +
+
+'">📍 ナビ開始</a>';
+
+speechSynthesis.speak(
+new SpeechSynthesisUtterance(
+name
+)
+);
+
+return;
+
+}
+
+}
+
+speak(
+'データが見つかりません'
+);
+
+};
 
 const script =
 document.createElement(
 'script'
 );
 
-const callbackName =
-
-'cb_' +
-
-Date.now();
-
-window[callbackName] =
-function(json){
-
-try{
-
-const rows =
-json.table.rows;
-
-const areaCode =
-localStorage.getItem(
-'areaCode'
-) || '';
-
-const today =
-['日','月','火','水','木','金','土']
-[new Date().getDay()];
-
-let answer = '';
-
-for(
-let i=0;
-i<rows.length;
-i++
-){
-
-const row =
-rows[i];
-
-const c0 =
-getVal(row.c[0]);
-
-const c1 =
-getVal(row.c[1]);
-
-const c2 =
-getVal(row.c[2]);
-
-const c3 =
-getVal(row.c[3]);
-
-const c4 =
-getVal(row.c[4]);
-
-if(
-sheetName === 'ゴミ'
-){
-
-if(
-c1 === areaCode &&
-c2.indexOf(today) > -1
-){
-
-answer =
-
-'今日のゴミは ' +
-
-c3 +
-
-' です。 ' +
-
-c4;
-
-break;
-
-}
-
-}
-
-else{
-
-const text =
-
-JSON.stringify(
-row
-);
-
-if(
-text.includes(
-areaCode
-)
-){
-
-answer =
-text;
-
-break;
-
-}
-
-}
-
-}
-
-if(!answer){
-
-answer =
-'該当データが見つかりません';
-
-}
-
-speak(answer);
-
-}
-catch(e){
-
-speak(
-'検索エラーです'
-);
-
-}
-
-delete window[
-callbackName
-];
-
-};
-
 script.src =
-
 url +
-
-'&callback=' +
-
-callbackName;
+'&callback=handleFacility';
 
 document.body.appendChild(
-script
-);
+script);
+
+}
+
+function searchGarbage(){
+
+location.href =
+'garbage.html';
+
+}
+
+function searchSchedule(){
+
+location.href =
+'schedule.html';
 
 }
 
