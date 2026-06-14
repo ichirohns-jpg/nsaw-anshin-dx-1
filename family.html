@@ -72,11 +72,11 @@ border-left:8px solid #3b82f6;
 border-left:8px solid #06b6d4;
 }
 
-.garbage{
-border-left:8px solid #16a34a;
+.homeStatus{
+border-left:8px solid #2563eb;
 }
 
-.schedule{
+.request{
 border-left:8px solid #f59e0b;
 }
 
@@ -119,8 +119,22 @@ margin-top:16px;
 </div>
 
 <div class="card">
+<div class="title">🏠 帰宅しました</div>
+<div id="homeArea" class="item homeStatus">
+記録なし
+</div>
+</div>
+
+<div class="card">
 <div class="title">💊 服薬状況</div>
 <div id="medicineArea" class="item medicine">
+記録なし
+</div>
+</div>
+
+<div class="card">
+<div class="title">💊 薬がない</div>
+<div id="requestArea" class="item request">
 記録なし
 </div>
 </div>
@@ -129,20 +143,6 @@ margin-top:16px;
 <div class="title">📍 現在地</div>
 <div id="gpsArea" class="item gps">
 位置情報なし
-</div>
-</div>
-
-<div class="card">
-<div class="title">🗑 今日のゴミ</div>
-<div id="garbageArea" class="item garbage">
-読込中...
-</div>
-</div>
-
-<div class="card">
-<div class="title">📅 今日の予定</div>
-<div id="scheduleArea" class="item schedule">
-予定なし
 </div>
 </div>
 
@@ -161,16 +161,13 @@ document.getElementById(
 'sosArea'
 ).innerHTML =
 
-(lastSOS.mainType||'') +
+(lastSOS.mainType || '') +
 '<br>' +
 
-(lastSOS.type||'') +
+(lastSOS.memo || '') +
 '<br>' +
 
-(lastSOS.memo||'') +
-'<br>' +
-
-(lastSOS.time||'');
+(lastSOS.time || '');
 
 }
 
@@ -187,9 +184,28 @@ document.getElementById(
 'genkiArea'
 ).innerHTML =
 
-'元気です<br>' +
+'最終送信<br><br>' +
 
-(lastGenki.time||'');
+(lastGenki.time || '');
+
+}
+
+const lastHome =
+JSON.parse(
+localStorage.getItem(
+'lastHome'
+) || 'null'
+);
+
+if(lastHome){
+
+document.getElementById(
+'homeArea'
+).innerHTML =
+
+'最終帰宅<br><br>' +
+
+(lastHome.time || '');
 
 }
 
@@ -202,28 +218,42 @@ localStorage.getItem(
 
 let med='';
 
-if(medicine.morning){
-med+='☑ 朝<br>';
-}
+med += medicine.morning ? '☑ 朝<br>' : '☐ 朝<br>';
+med += medicine.noon ? '☑ 昼<br>' : '☐ 昼<br>';
+med += medicine.evening ? '☑ 夕方<br>' : '☐ 夕方<br>';
+med += medicine.night ? '☑ 寝る前<br>' : '☐ 寝る前<br>';
 
-if(medicine.noon){
-med+='☑ 昼<br>';
-}
+if(medicine.time){
 
-if(medicine.evening){
-med+='☑ 夕方<br>';
-}
+med +=
+'<br>最終記録<br>' +
+medicine.time;
 
-if(medicine.night){
-med+='☑ 寝る前<br>';
 }
-
-if(med){
 
 document.getElementById(
 'medicineArea'
 ).innerHTML =
 med;
+
+const request =
+JSON.parse(
+localStorage.getItem(
+'medicineRequest'
+) || 'null'
+);
+
+if(request){
+
+document.getElementById(
+'requestArea'
+).innerHTML =
+
+(request.type || '') +
+
+'<br><br>' +
+
+(request.time || '');
 
 }
 
@@ -251,53 +281,6 @@ gps.mapUrl +
 '">📍 地図を見る</a>';
 
 }
-
-const schedules =
-JSON.parse(
-localStorage.getItem(
-'schedules'
-) || '[]'
-);
-
-const today =
-new Date()
-.toISOString()
-.split('T')[0];
-
-let scheduleText='';
-
-schedules.forEach(item=>{
-
-if(item.date===today){
-
-scheduleText +=
-
-(item.time||'') +
-
-' ' +
-
-(item.title||'') +
-
-'<br>';
-
-}
-
-});
-
-if(scheduleText){
-
-document.getElementById(
-'scheduleArea'
-).innerHTML =
-scheduleText;
-
-}
-
-document.getElementById(
-'garbageArea'
-).innerHTML =
-
-'<a class="btn" href="garbage.html">🗑 ゴミ確認</a>';
 
 </script>
 
