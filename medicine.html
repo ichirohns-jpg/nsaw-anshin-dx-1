@@ -12,23 +12,21 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
-color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
-padding:30px;
-border-radius:30px;
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:#fff;
+padding:28px;
+border-radius:28px;
 text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
@@ -36,68 +34,57 @@ font-size:34px;
 font-weight:900;
 }
 
-.header p{
-margin-top:8px;
-color:#cbd5e1;
-font-size:16px;
-font-weight:700;
-}
-
-.result{
-background:linear-gradient(135deg,#1e293b,#0f172a);
+.card{
+background:#fff;
 padding:24px;
 border-radius:24px;
-font-size:24px;
-font-weight:900;
-text-align:center;
-margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
-line-height:1.8;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .btn{
-display:block;
 width:100%;
-padding:30px;
 border:none;
-border-radius:24px;
-font-size:30px;
+padding:24px;
+border-radius:20px;
+font-size:28px;
 font-weight:900;
-margin-bottom:14px;
 color:#fff;
-cursor:pointer;
+margin-bottom:12px;
 }
 
 .morning{
-background:linear-gradient(135deg,#f59e0b,#fbbf24);
+background:#f59e0b;
 }
 
 .noon{
-background:linear-gradient(135deg,#16a34a,#22c55e);
+background:#22c55e;
 }
 
 .evening{
-background:linear-gradient(135deg,#2563eb,#3b82f6);
+background:#3b82f6;
 }
 
 .night{
-background:linear-gradient(135deg,#7c3aed,#9333ea);
+background:#7c3aed;
 }
 
-.gray{
-background:linear-gradient(135deg,#475569,#334155);
-text-decoration:none;
-text-align:center;
+.status{
+font-size:22px;
+line-height:1.8;
+font-weight:900;
 }
 
-.done{
-opacity:.35;
-}
-
-.doneText{
-font-size:20px;
+.home{
 display:block;
-margin-top:6px;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
 }
 
 </style>
@@ -108,211 +95,131 @@ margin-top:6px;
 
 <div class="header">
 <h1>💊 服薬確認</h1>
-<p>飲んだら押してください</p>
 </div>
+
+<div class="card">
+
+<button
+class="btn morning"
+onclick="saveMedicine('morning')">
+🌅 朝の薬
+</button>
+
+<button
+class="btn noon"
+onclick="saveMedicine('noon')">
+☀️ 昼の薬
+</button>
+
+<button
+class="btn evening"
+onclick="saveMedicine('evening')">
+🌇 夕方の薬
+</button>
+
+<button
+class="btn night"
+onclick="saveMedicine('night')">
+🌙 寝る前の薬
+</button>
+
+</div>
+
+<div class="card">
 
 <div
-id="result"
-class="result">
+id="statusArea"
+class="status">
 
-本日の服薬状況を確認してください
+記録なし
 
 </div>
 
-<button
-id="morningBtn"
-class="btn morning"
-onclick="takeMedicine('morning','朝')">
-
-🌅 朝の薬
-
-</button>
-
-<button
-id="noonBtn"
-class="btn noon"
-onclick="takeMedicine('noon','昼')">
-
-☀️ 昼の薬
-
-</button>
-
-<button
-id="eveningBtn"
-class="btn evening"
-onclick="takeMedicine('evening','夕方')">
-
-🌆 夕方の薬
-
-</button>
-
-<button
-id="nightBtn"
-class="btn night"
-onclick="takeMedicine('night','寝る前')">
-
-🌙 寝る前の薬
-
-</button>
+</div>
 
 <a
-href="app.html"
-class="btn gray">
+href="index.html"
+class="home">
 
-🏠 本人ページへ戻る
+🏠 トップへ戻る
 
 </a>
 
 <script>
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+function saveMedicine(type){
 
-let medicineStatus =
+const data =
 JSON.parse(
 localStorage.getItem(
 'medicineStatus'
-) ||
-'{}'
+) || '{}'
 );
 
-loadStatus();
+data[type] = true;
 
-function loadStatus(){
-
-if(medicineStatus.morning){
-
-document.getElementById(
-'morningBtn'
-).classList.add('done');
-
-document.getElementById(
-'morningBtn'
-).innerHTML =
-'☑ 朝の薬<br><span class="doneText">' +
-medicineStatus.morningTime +
-'</span>';
-
-}
-
-if(medicineStatus.noon){
-
-document.getElementById(
-'noonBtn'
-).classList.add('done');
-
-document.getElementById(
-'noonBtn'
-).innerHTML =
-'☑ 昼の薬<br><span class="doneText">' +
-medicineStatus.noonTime +
-'</span>';
-
-}
-
-if(medicineStatus.evening){
-
-document.getElementById(
-'eveningBtn'
-).classList.add('done');
-
-document.getElementById(
-'eveningBtn'
-).innerHTML =
-'☑ 夕方の薬<br><span class="doneText">' +
-medicineStatus.eveningTime +
-'</span>';
-
-}
-
-if(medicineStatus.night){
-
-document.getElementById(
-'nightBtn'
-).classList.add('done');
-
-document.getElementById(
-'nightBtn'
-).innerHTML =
-'☑ 寝る前の薬<br><span class="doneText">' +
-medicineStatus.nightTime +
-'</span>';
-
-}
-
-}
-
-function takeMedicine(key,label){
-
-if(medicineStatus[key]){
-
-alert(
-'すでに記録済みです'
-);
-
-return;
-
-}
-
-const now =
-new Date().toLocaleString(
+data.time =
+new Date()
+.toLocaleString(
 'ja-JP'
 );
 
-medicineStatus[key] = true;
-
-medicineStatus[key + 'Time'] =
-now;
-
 localStorage.setItem(
 'medicineStatus',
-JSON.stringify(
-medicineStatus
-)
+JSON.stringify(data)
 );
 
-fetch(
-GAS_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
+showStatus();
 
-type:'medicine',
+alert(
+'記録しました'
+);
 
-name:
-localStorage.getItem(
-'userName'
-) || '利用者',
-
-userId:
-localStorage.getItem(
-'userId'
-) || '',
-
-medicine:label,
-
-time:now
-
-})
 }
+
+function showStatus(){
+
+const data =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
 );
+
+let html = '';
+
+html += data.morning ?
+'☑ 朝の薬<br>' :
+'☐ 朝の薬<br>';
+
+html += data.noon ?
+'☑ 昼の薬<br>' :
+'☐ 昼の薬<br>';
+
+html += data.evening ?
+'☑ 夕方の薬<br>' :
+'☐ 夕方の薬<br>';
+
+html += data.night ?
+'☑ 寝る前の薬<br>' :
+'☐ 寝る前の薬<br>';
+
+if(data.time){
+
+html +=
+'<br>最終記録<br>' +
+data.time;
+
+}
 
 document.getElementById(
-'result'
+'statusArea'
 ).innerHTML =
-
-'💊 ' +
-label +
-'の薬を記録しました<br><br>' +
-
-now;
-
-loadStatus();
+html;
 
 }
+
+showStatus();
 
 </script>
 
