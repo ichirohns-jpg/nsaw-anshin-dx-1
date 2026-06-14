@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>利用者登録</title>
+<title>本人登録</title>
 
 <style>
 
@@ -15,80 +15,57 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
-padding:15px;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#1976d2,#64b5f6);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
-padding:28px;
-border-radius:28px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-font-size:42px;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
 font-weight:900;
-margin-bottom:20px;
 }
 
 .card{
 background:#fff;
-border-radius:28px;
+border-radius:30px;
 padding:24px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-.step{
-font-size:18px;
-font-weight:900;
-color:#1976d2;
-margin-bottom:8px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .label{
-font-size:34px;
+font-size:22px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .input{
 width:100%;
-height:80px;
-border:2px solid #d9e2ec;
-border-radius:20px;
-padding:0 20px;
-font-size:32px;
-margin-bottom:20px;
+padding:18px;
+font-size:22px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
 }
 
-.select{
+.btn{
 width:100%;
-height:90px;
-border:2px solid #d9e2ec;
-border-radius:20px;
-padding:0 20px;
-font-size:32px;
-font-weight:900;
-margin-bottom:20px;
-background:#fff;
-}
-
-.nextBtn{
-width:100%;
-height:90px;
+padding:24px;
 border:none;
-border-radius:20px;
-background:#00c853;
-color:#fff;
-font-size:34px;
+border-radius:24px;
+font-size:28px;
 font-weight:900;
-cursor:pointer;
+background:#16a34a;
+color:#fff;
 }
 
 </style>
@@ -97,17 +74,11 @@ cursor:pointer;
 
 <body>
 
-<div class="wrap">
-
 <div class="header">
-👤 利用者登録
+<h1>👤 本人登録</h1>
 </div>
 
 <div class="card">
-
-<div class="step">
-STEP 1
-</div>
 
 <div class="label">
 お名前
@@ -116,247 +87,91 @@ STEP 1
 <input
 id="name"
 class="input"
-placeholder="山口貞一郎">
-
-<div class="step">
-STEP 2
-</div>
+placeholder="山田太郎">
 
 <div class="label">
-市を選択
+住所
 </div>
 
-<select
-id="city"
-class="select">
-
-<option value="">
-選択してください
-</option>
-
-<option>
-志木市
-</option>
-
-<option>
-新座市
-</option>
-
-<option>
-朝霞市
-</option>
-
-<option>
-和光市
-</option>
-
-</select>
-
-<div class="step">
-STEP 3
-</div>
+<input
+id="address"
+class="input"
+placeholder="志木市○○">
 
 <div class="label">
-町名を選択
+電話番号
 </div>
 
-<select
-id="town"
-class="select">
-
-<option value="">
-まず市を選択
-</option>
-
-</select>
-
-<div class="step">
-STEP 4
-</div>
+<input
+id="phone"
+class="input"
+placeholder="09000000000">
 
 <div class="label">
-丁目を選択
+緊急連絡先
 </div>
 
-<select
-id="chome"
-class="select">
-
-<option value="">
-まず町名を選択
-</option>
-
-</select>
+<input
+id="family"
+class="input"
+placeholder="09000000000">
 
 <button
-class="nextBtn"
-onclick="registerUser()">
-登録してQR発行
+class="btn"
+onclick="saveUser()">
+登録する
 </button>
-
-</div>
 
 </div>
 
 <script>
 
-const townData = {
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-"志木市":[
-"本町",
-"館",
-"柏町",
-"幸町",
-"中宗岡",
-"上宗岡",
-"下宗岡"
-],
+function saveUser(){
 
-"新座市":[
-"東",
-"野火止",
-"栗原",
-"片山",
-"新堀",
-"石神"
-],
+const data = {
 
-"朝霞市":[
-"本町",
-"仲町",
-"栄町",
-"根岸台",
-"膝折町"
-],
+type:'register',
 
-"和光市":[
-"本町",
-"新倉",
-"白子",
-"中央",
-"下新倉"
-]
+name:
+document.getElementById('name').value,
+
+address:
+document.getElementById('address').value,
+
+phone:
+document.getElementById('phone').value,
+
+family:
+document.getElementById('family').value
 
 };
 
-document
-.getElementById("city")
-.addEventListener(
-"change",
-function(){
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify(data)
+}
+)
+.then(r=>r.text())
+.then(data=>{
 
-const city =
-this.value;
+alert('登録しました');
 
-const town =
-document.getElementById(
-"town"
-);
+location.href='qr.html';
 
-town.innerHTML =
-'<option value="">選択してください</option>';
+})
+.catch(err=>{
 
-(townData[city]||[])
-.forEach(item=>{
-
-town.innerHTML +=
-`<option>${item}</option>`;
+alert('登録失敗');
 
 });
-
-}
-);
-
-document
-.getElementById("town")
-.addEventListener(
-"change",
-function(){
-
-const chome =
-document.getElementById(
-"chome"
-);
-
-chome.innerHTML =
-
-`
-<option value="">
-選択してください
-</option>
-
-<option>1丁目</option>
-<option>2丁目</option>
-<option>3丁目</option>
-<option>4丁目</option>
-<option>5丁目</option>
-<option>6丁目</option>
-<option>7丁目</option>
-<option>8丁目</option>
-`;
-
-}
-);
-
-function registerUser(){
-
-const name =
-document.getElementById(
-"name"
-).value;
-
-const city =
-document.getElementById(
-"city"
-).value;
-
-const town =
-document.getElementById(
-"town"
-).value;
-
-const chome =
-document.getElementById(
-"chome"
-).value;
-
-if(
-!name ||
-!city ||
-!town ||
-!chome
-){
-
-alert(
-"未入力があります"
-);
-
-return;
-
-}
-
-localStorage.setItem(
-"userName",
-name
-);
-
-localStorage.setItem(
-"userCity",
-city
-);
-
-localStorage.setItem(
-"userTown",
-town
-);
-
-localStorage.setItem(
-"userChome",
-chome
-);
-
-location.href =
-"qr.html";
 
 }
 
