@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>4市瓦版</title>
 
 <style>
@@ -14,22 +13,22 @@ box-sizing:border-box;
 }
 
 body{
-background:#f4f6f8;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2937;
+color:#111827;
 }
 
 header{
-background:linear-gradient(135deg,#111827,#1e3a8a,#2563eb);
+background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
 color:#fff;
 padding:24px 16px;
 text-align:center;
-font-size:32px;
+font-size:34px;
 font-weight:900;
 position:sticky;
 top:0;
 z-index:999;
-box-shadow:0 6px 20px rgba(0,0,0,.22);
+box-shadow:0 8px 24px rgba(0,0,0,.25);
 }
 
 .wrap{
@@ -40,45 +39,46 @@ padding:16px;
 
 .card{
 background:#fff;
-border-radius:26px;
+border-radius:30px;
 overflow:hidden;
-margin-bottom:20px;
-box-shadow:0 10px 26px rgba(0,0,0,.10);
+margin-bottom:28px;
+box-shadow:0 15px 35px rgba(0,0,0,.12);
 border:1px solid #e5e7eb;
 }
 
 .thumb{
 width:100%;
-aspect-ratio:16/9;
+height:520px;
 object-fit:cover;
-background:#e5e7eb;
+object-position:center;
 display:block;
+background:#ddd;
 }
 
 .body{
-padding:18px;
+padding:22px;
 }
 
 .title{
-font-size:25px;
+font-size:34px;
 font-weight:900;
-line-height:1.45;
-margin-bottom:10px;
-color:#0f172a;
+line-height:1.4;
+margin-bottom:16px;
+color:#111827;
 }
 
 .desc{
-font-size:18px;
-line-height:1.75;
+font-size:24px;
+line-height:1.8;
 color:#475569;
-margin-bottom:12px;
+margin-bottom:16px;
 }
 
 .date{
-font-size:15px;
-color:#64748b;
+font-size:18px;
 font-weight:700;
-margin-bottom:14px;
+color:#64748b;
+margin-bottom:16px;
 }
 
 .readBtn{
@@ -86,40 +86,46 @@ display:block;
 background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
 text-decoration:none;
-padding:17px;
+padding:20px;
 text-align:center;
-border-radius:16px;
-font-size:21px;
+border-radius:18px;
+font-size:26px;
 font-weight:900;
-box-shadow:0 6px 16px rgba(37,99,235,.28);
 }
 
 .sns{
 display:flex;
 gap:8px;
-margin-top:12px;
+margin-top:14px;
 }
 
 .sns a{
 flex:1;
 text-align:center;
-padding:13px 8px;
-border-radius:13px;
+padding:14px;
+border-radius:14px;
 text-decoration:none;
-color:#fff;
 font-weight:900;
-font-size:16px;
+color:#fff;
+font-size:18px;
 }
 
-.line{background:#06c755;}
-.x{background:#000;}
-.facebook{background:#1877f2;}
+.line{
+background:#06c755;
+}
+
+.x{
+background:#000;
+}
+
+.facebook{
+background:#1877f2;
+}
 
 .sectionTitle{
-font-size:28px;
+font-size:32px;
 font-weight:900;
-margin:26px 0 14px;
-color:#0f172a;
+margin:24px 0 16px;
 }
 
 .home{
@@ -128,127 +134,198 @@ width:100%;
 border:none;
 background:#475569;
 color:#fff;
-padding:18px;
-text-align:center;
+padding:20px;
 border-radius:18px;
-font-size:22px;
+font-size:24px;
 font-weight:900;
-margin-top:22px;
+margin-top:20px;
 }
 
 .loading{
 background:#fff;
-border-radius:22px;
 padding:24px;
-font-size:22px;
-font-weight:900;
+border-radius:24px;
 text-align:center;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+font-size:24px;
+font-weight:900;
+}
+
+.city{
+display:inline-block;
+background:#2563eb;
+color:#fff;
+padding:8px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:900;
+margin-bottom:12px;
 }
 </style>
 
 <script>
-const SHEET_ID = '149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-const SHEET_NAME = '4市瓦版';
+const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+const SHEET_NAME='4市瓦版';
 
 function getVal(cell){
-  if(!cell) return '';
-  return cell.f || cell.v || '';
+if(!cell) return '';
+return cell.f || cell.v || '';
 }
 
 function esc(text){
-  return String(text || '')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#39;');
+return String(text || '')
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#39;');
 }
 
 function makeImageUrl(url){
-  url = String(url || '').trim();
 
-  if(url.indexOf('drive.google.com/file/d/') !== -1){
-    const id = url.split('/file/d/')[1].split('/')[0];
-    return 'https://drive.google.com/uc?export=view&id=' + id;
-  }
+url=String(url || '').trim();
 
-  if(url.indexOf('drive.google.com/open?id=') !== -1){
-    const id = url.split('open?id=')[1].split('&')[0];
-    return 'https://drive.google.com/uc?export=view&id=' + id;
-  }
-
-  return url;
+if(url.indexOf('/file/d/')>-1){
+const id=url.split('/file/d/')[1].split('/')[0];
+return 'https://drive.google.com/uc?export=view&id='+id;
 }
 
-window.handleSheet = function(json){
-  const latestBox = document.getElementById('latest');
-  const archiveBox = document.getElementById('archive');
+return url;
+}
 
-  if(!json || !json.table || !json.table.rows){
-    latestBox.innerHTML = '<div class="loading">データがありません</div>';
-    return;
-  }
+window.handleSheet=function(json){
 
-  const rows = json.table.rows.slice().reverse();
+const latestBox=document.getElementById('latest');
+const archiveBox=document.getElementById('archive');
 
-  let latest = '';
-  let archive = '';
+if(!json||!json.table||!json.table.rows){
+latestBox.innerHTML=
+'<div class="loading">データがありません</div>';
+return;
+}
 
-  rows.forEach(function(row,index){
-    if(!row.c) return;
+const rows=json.table.rows.slice().reverse();
 
-    const id = getVal(row.c[0]);
-    const image = makeImageUrl(getVal(row.c[1]));
-    const title = getVal(row.c[2]);
-    const desc = getVal(row.c[3]);
-    const date = getVal(row.c[4]);
+let latest='';
+let archive='';
 
-    if(!title) return;
+rows.forEach(function(row,index){
 
-    const articleUrl = 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' + encodeURIComponent(id);
+if(!row.c) return;
 
-    const html =
-      '<div class="card">' +
-        (image ? '<img class="thumb" src="' + esc(image) + '" alt="">' : '') +
-        '<div class="body">' +
-          '<div class="title">' + esc(title) + '</div>' +
-          '<div class="desc">' + esc(desc) + '</div>' +
-          '<div class="date">' + esc(date) + '</div>' +
-          '<a class="readBtn" href="app.html?id=' + encodeURIComponent(id) + '">続きを読む</a>' +
-          '<div class="sns">' +
-            '<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(articleUrl) + '">LINE</a>' +
-            '<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' + encodeURIComponent(articleUrl) + '&text=' + encodeURIComponent(title) + '">X</a>' +
-            '<a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(articleUrl) + '">FB</a>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
+const id=getVal(row.c[0]);
+const image=makeImageUrl(getVal(row.c[1]));
+const title=getVal(row.c[2]);
+const desc=getVal(row.c[3]);
+const date=getVal(row.c[4]);
 
-    if(index < 5){
-      latest += html;
-    }else{
-      archive += html;
-    }
-  });
+if(!title) return;
 
-  latestBox.innerHTML = latest || '<div class="loading">記事なし</div>';
-  archiveBox.innerHTML = archive;
+let city='4市';
+
+const text=(title+' '+desc);
+
+if(text.includes('志木')){
+city='志木市';
+}
+else if(text.includes('新座')){
+city='新座市';
+}
+else if(text.includes('朝霞')){
+city='朝霞市';
+}
+else if(text.includes('和光')){
+city='和光市';
+}
+
+const shareUrl=
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id='+
+encodeURIComponent(id);
+
+const html=
+
+'<div class="card">'+
+
+(image
+?'<img class="thumb" src="'+esc(image)+'">'
+:''
+)+
+
+'<div class="body">'+
+
+'<div class="city">'+city+'</div>'+
+
+'<div class="title">'+
+esc(title)+
+'</div>'+
+
+'<div class="desc">'+
+esc(desc)+
+'</div>'+
+
+'<div class="date">'+
+esc(date)+
+'</div>'+
+
+'<a class="readBtn" href="app.html?id='+
+encodeURIComponent(id)+
+'">続きを読む</a>'+
+
+'<div class="sns">'+
+
+'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url='+
+encodeURIComponent(shareUrl)+
+'">LINE</a>'+
+
+'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url='+
+encodeURIComponent(shareUrl)+
+'&text='+
+encodeURIComponent(title)+
+'">X</a>'+
+
+'<a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+
+encodeURIComponent(shareUrl)+
+'">FB</a>'+
+
+'</div>'+
+
+'</div>'+
+
+'</div>';
+
+if(index<5){
+latest+=html;
+}else{
+archive+=html;
+}
+
+});
+
+latestBox.innerHTML=
+latest||
+'<div class="loading">記事なし</div>';
+
+archiveBox.innerHTML=archive;
+
 };
 
 function loadSheet(){
-  const script = document.createElement('script');
-  script.src =
-    'https://docs.google.com/spreadsheets/d/' +
-    SHEET_ID +
-    '/gviz/tq?sheet=' +
-    encodeURIComponent(SHEET_NAME) +
-    '&tqx=out:json;responseHandler:handleSheet';
 
-  document.body.appendChild(script);
+const script=document.createElement('script');
+
+script.src=
+'https://docs.google.com/spreadsheets/d/'+
+SHEET_ID+
+'/gviz/tq?sheet='+
+encodeURIComponent(SHEET_NAME)+
+'&tqx=out:json;responseHandler:handleSheet';
+
+document.body.appendChild(script);
+
 }
 
-window.onload = loadSheet;
+window.onload=loadSheet;
 </script>
+
 </head>
 
 <body>
@@ -260,7 +337,9 @@ window.onload = loadSheet;
 <div class="wrap">
 
 <div id="latest">
-<div class="loading">読込中...</div>
+<div class="loading">
+読込中...
+</div>
 </div>
 
 <div class="sectionTitle">
@@ -269,8 +348,12 @@ window.onload = loadSheet;
 
 <div id="archive"></div>
 
-<button class="home" onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+<button
+class="home"
+onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+
 🏠 トップへ戻る
+
 </button>
 
 </div>
