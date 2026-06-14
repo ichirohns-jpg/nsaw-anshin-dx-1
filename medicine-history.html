@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>服薬履歴</title>
 
 <style>
@@ -12,64 +13,56 @@
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#60a5fa);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
 padding:30px;
+border-radius:30px;
 text-align:center;
+margin-bottom:18px;
 }
 
 .header h1{
-font-size:38px;
+font-size:36px;
 font-weight:900;
-}
-
-.wrap{
-max-width:1000px;
-margin:auto;
-padding:18px;
 }
 
 .card{
 background:#fff;
-border-radius:28px;
 padding:20px;
-margin-bottom:16px;
+border-radius:24px;
+margin-bottom:14px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .time{
 font-size:16px;
 color:#64748b;
-font-weight:900;
 margin-bottom:8px;
-}
-
-.name{
-font-size:26px;
 font-weight:900;
-margin-bottom:8px;
 }
 
 .status{
-font-size:22px;
+font-size:24px;
 font-weight:900;
 color:#2563eb;
 }
 
-.back{
+.btn{
 display:block;
-background:#334155;
+width:100%;
+padding:22px;
+background:#475569;
 color:#fff;
 text-decoration:none;
 text-align:center;
-padding:18px;
-border-radius:18px;
-font-size:22px;
+border-radius:20px;
+font-size:24px;
 font-weight:900;
-margin-top:20px;
+margin-top:14px;
 }
 
 </style>
@@ -82,33 +75,47 @@ margin-top:20px;
 <h1>💊 服薬履歴</h1>
 </div>
 
-<div class="wrap">
+<div id="list">
 
-<div id="list"></div>
+<div class="card">
 
-<a href="index.html" class="back">
-🏠 トップへ戻る
-</a>
+<div class="time">
+読込中...
+</div>
+
+<div class="status">
+履歴取得中
+</div>
 
 </div>
 
+</div>
+
+<a href="index.html" class="btn">
+🏠 トップへ戻る
+</a>
+
 <script>
 
-const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-const SHEET_NAME='見守り記録';
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 
-const url=
-'https://docs.google.com/spreadsheets/d/'+
-SHEET_ID+
-'/gviz/tq?sheet='+
-encodeURIComponent(SHEET_NAME)+
+const SHEET_NAME =
+'見守り記録';
+
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
 '&tqx=out:json';
 
 fetch(url)
 .then(r=>r.text())
 .then(text=>{
 
-const json=JSON.parse(
+const json =
+JSON.parse(
 text.substring(47,text.length-2)
 );
 
@@ -116,23 +123,44 @@ let html='';
 
 json.table.rows.reverse().forEach(row=>{
 
-const time=row.c[0]?.v||'';
-const name=row.c[1]?.v||'';
-const status=row.c[2]?.v||'';
+const time =
+row.c[0] ? row.c[0].v : '';
 
-if(!String(status).includes('薬')) return;
+const name =
+row.c[1] ? row.c[1].v : '';
 
-html+=`
-<div class="card">
-<div class="time">${time}</div>
-<div class="name">${name}</div>
-<div class="status">${status}</div>
-</div>
-`;
+const status =
+row.c[2] ? row.c[2].v : '';
+
+if(
+!String(status).includes('薬')
+) return;
+
+html +=
+
+'<div class="card">' +
+
+'<div class="time">' +
+time +
+'</div>' +
+
+'<div class="status">' +
+name +
+'<br>' +
+status +
+'</div>' +
+
+'</div>';
 
 });
 
-document.getElementById('list').innerHTML=html;
+document.getElementById(
+'list'
+).innerHTML =
+
+html ||
+
+'<div class="card"><div class="status">履歴なし</div></div>';
 
 });
 
