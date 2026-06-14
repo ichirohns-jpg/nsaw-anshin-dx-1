@@ -53,8 +53,6 @@ font-weight:900;
 color:#fff;
 cursor:pointer;
 margin-bottom:14px;
-text-decoration:none;
-text-align:center;
 }
 
 .red{
@@ -65,12 +63,17 @@ background:#dc2626;
 background:#ea580c;
 }
 
-.blue{
-background:#2563eb;
-}
-
 .gray{
 background:#475569;
+}
+
+.select{
+width:100%;
+padding:22px;
+font-size:24px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:14px;
 }
 
 .result{
@@ -101,16 +104,27 @@ onclick="sendSOS('緊急です')">
 🚨 緊急です
 </button>
 
-<button
-class="btn orange"
-onclick="sendSOS('困っています')">
-😥 困っています
-</button>
+<select
+id="helpType"
+class="select">
+
+<option>トイレを手伝って</option>
+<option>食事を手伝って</option>
+<option>水がほしい</option>
+<option>薬がわからない</option>
+<option>買い物をお願い</option>
+<option>病院へ行きたい</option>
+<option>電話してください</option>
+<option>家に来てください</option>
+<option>ゴミ出しをお願い</option>
+<option>その他</option>
+
+</select>
 
 <button
-class="btn blue"
-onclick="sendSOS('連絡ください')">
-📞 連絡ください
+class="btn orange"
+onclick="sendHelp()">
+😥 困っています
 </button>
 
 </div>
@@ -127,23 +141,11 @@ class="result">
 
 </div>
 
-<a
-href="family.html"
-class="btn gray">
-👪 家族ページ
-</a>
-
-<a
-href="history.html"
-class="btn gray">
-📋 見守り履歴
-</a>
-
-<a
-href="index.html"
-class="btn gray">
+<button
+class="btn gray"
+onclick="location.href='index.html'">
 🏠 トップへ戻る
-</a>
+</button>
 
 <script>
 
@@ -152,7 +154,26 @@ const GAS_URL =
 
 function sendSOS(type){
 
-document.getElementById('result').innerHTML =
+send(type);
+
+}
+
+function sendHelp(){
+
+const type =
+document.getElementById(
+'helpType'
+).value;
+
+send(type);
+
+}
+
+function send(type){
+
+document.getElementById(
+'result'
+).innerHTML =
 '送信中...';
 
 fetch(
@@ -172,13 +193,19 @@ time:new Date().toLocaleString('ja-JP')
 .then(r=>r.text())
 .then(data=>{
 
-document.getElementById('result').innerHTML =
-type + '<br><br>送信完了';
+document.getElementById(
+'result'
+).innerHTML =
+
+type +
+'<br><br>送信完了';
 
 })
 .catch(err=>{
 
-document.getElementById('result').innerHTML =
+document.getElementById(
+'result'
+).innerHTML =
 '送信失敗';
 
 });
