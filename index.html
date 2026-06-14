@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>あんしん生活ボタン</title>
+<title>薬がない</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#dc2626,#b91c1c);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -34,61 +34,63 @@ font-size:34px;
 font-weight:900;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-bottom:16px;
-}
-
-.btn{
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-decoration:none;
-color:#fff;
-height:120px;
-border-radius:22px;
-font-size:40px;
-font-weight:900;
-box-shadow:0 8px 20px rgba(0,0,0,.10);
-}
-
-.btn div{
-font-size:20px;
-margin-top:6px;
-}
-
-.green{background:#16a34a;}
-.red{background:#dc2626;}
-.orange{background:#ea580c;}
-.blue{background:#2563eb;}
-.purple{background:#7c3aed;}
-.gray{background:#475569;}
-
-.section{
+.card{
 background:#fff;
-padding:20px;
+padding:24px;
 border-radius:24px;
 margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.sectionTitle{
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.link{
-display:block;
-padding:16px;
-text-decoration:none;
+.label{
 font-size:22px;
 font-weight:900;
-color:#1f2937;
-border-bottom:1px solid #e5e7eb;
+margin-bottom:8px;
+}
+
+.select,
+.textarea{
+width:100%;
+padding:16px;
+border:2px solid #e5e7eb;
+border-radius:16px;
+font-size:20px;
+margin-bottom:16px;
+}
+
+.textarea{
+height:120px;
+resize:none;
+}
+
+.sendBtn{
+width:100%;
+border:none;
+background:#dc2626;
+color:#fff;
+padding:28px;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
+}
+
+.status{
+margin-top:20px;
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
 }
 
 </style>
@@ -98,114 +100,134 @@ border-bottom:1px solid #e5e7eb;
 <body>
 
 <div class="header">
-<h1>あんしん生活ボタン</h1>
+<h1>💊 薬がない</h1>
 </div>
 
-<div class="grid">
+<div class="card">
 
-<a href="genki.html" class="btn green">
-😊
-<div>元気です</div>
-</a>
-
-<a href="sos.html" class="btn red">
-🚨
-<div>SOS</div>
-</a>
-
-<a href="gps.html" class="btn blue">
-📍
-<div>現在地</div>
-</a>
-
-<a href="schedule.html" class="btn orange">
-📅
-<div>予定</div>
-</a>
-
-<a href="garbage.html" class="btn green">
-🗑
-<div>ゴミ</div>
-</a>
-
-<a href="ai.html" class="btn purple">
-🎤
-<div>AIに聞く</div>
-</a>
-
+<div class="label">
+薬の種類
 </div>
 
-<div class="section">
+<select
+id="medicineType"
+class="select">
 
-<div class="sectionTitle">
-生活支援
+<option>朝の薬</option>
+<option>昼の薬</option>
+<option>夕方の薬</option>
+<option>寝る前の薬</option>
+<option>その他</option>
+
+</select>
+
+<div class="label">
+内容
 </div>
 
-<a href="hospital.html" class="link">
-🏥 地域サポート
-</a>
+<textarea
+id="memo"
+class="textarea"
+placeholder="薬がなくなった・残り何日分など">
+</textarea>
 
-<a href="home.html" class="link">
-🏠 帰宅しました
-</a>
+<button
+class="sendBtn"
+onclick="sendRequest()">
 
-<a href="medicine.html" class="link">
-💊 服薬確認
-</a>
-
-<a href="medicine-request.html" class="link">
 💊 薬がない
-</a>
 
-<a href="tel-family.html" class="link">
-📞 家族へ電話
-</a>
+</button>
 
-<a href="line-family.html" class="link">
-💬 家族へLINE
-</a>
+<div
+id="statusArea"
+class="status">
 
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">
-地域情報
-</div>
-
-<a href="kawaraban.html" class="link">
-📰 4市瓦版
-</a>
-
-<a href="radio.html" class="link">
-📻 地域ラジオ
-</a>
-
-<a href="fun.html" class="link">
-🎬 お楽しみ動画
-</a>
+未送信
 
 </div>
 
-<div class="section">
-
-<div class="sectionTitle">
-管理
 </div>
 
-<a href="family.html" class="link">
-👪 支援者ページ
+<a
+href="index.html"
+class="home">
+
+🏠 トップへ戻る
+
 </a>
 
-<a href="qr.html" class="link">
-📱 QRコード
-</a>
+<script>
 
-<a href="register.html" class="link">
-⚙️ 本人登録
-</a>
+function sendRequest(){
 
-</div>
+const type =
+document.getElementById(
+'medicineType'
+).value;
+
+const memo =
+document.getElementById(
+'memo'
+).value;
+
+const data = {
+
+type:type,
+
+memo:memo,
+
+time:
+new Date()
+.toLocaleString(
+'ja-JP'
+)
+
+};
+
+localStorage.setItem(
+'medicineRequest',
+JSON.stringify(data)
+);
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'送信済み<br><br>' +
+
+data.time;
+
+alert(
+'薬がないを記録しました'
+);
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'medicineRequest'
+) || 'null'
+);
+
+if(last){
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'送信済み<br><br>' +
+
+last.time +
+
+'<br><br>' +
+
+last.type;
+
+}
+
+</script>
 
 </body>
 </html>
