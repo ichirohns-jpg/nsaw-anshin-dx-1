@@ -60,12 +60,29 @@ font-size:20px;
 margin-top:6px;
 }
 
-.green{background:#16a34a;}
-.red{background:#dc2626;}
-.orange{background:#ea580c;}
-.blue{background:#2563eb;}
-.purple{background:#7c3aed;}
-.gray{background:#475569;}
+.green{
+background:#16a34a;
+}
+
+.red{
+background:#dc2626;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.purple{
+background:#7c3aed;
+}
+
+.gray{
+background:#475569;
+}
 
 .section{
 background:#fff;
@@ -91,6 +108,10 @@ color:#1f2937;
 border-bottom:1px solid #e5e7eb;
 }
 
+.link:last-child{
+border-bottom:none;
+}
+
 </style>
 
 </head>
@@ -106,6 +127,11 @@ border-bottom:1px solid #e5e7eb;
 <a href="app.html" class="btn green">
 😊
 <div>元気です</div>
+</a>
+
+<a href="ai.html" class="btn purple">
+🎤
+<div>AIに聞く</div>
 </a>
 
 <a href="sos.html" class="btn red">
@@ -140,7 +166,12 @@ border-bottom:1px solid #e5e7eb;
 
 <a href="schedule.html" class="btn orange">
 📅
-<div>今日の予定</div>
+<div>カレンダー</div>
+</a>
+
+<a href="consult.html" class="btn blue">
+☎
+<div>相談する</div>
 </a>
 
 </div>
@@ -179,15 +210,11 @@ border-bottom:1px solid #e5e7eb;
 🗑 ゴミの日
 </a>
 
-<a href="consult.html" class="link">
-☎ 相談する
-</a>
-
-<a href="tel-family.html" class="link">
+<a href="tel:" class="link">
 📞 家族へ電話
 </a>
 
-<a href="line-family.html" class="link">
+<a href="#" class="link">
 💬 家族へLINE
 </a>
 
