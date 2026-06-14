@@ -2,130 +2,141 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>4市瓦版</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>4市瓦版 デジタルお助け掲示板</title>
 
 <style>
+:root{
+--primary:#005bac;
+--navy:#0f172a;
+--blue:#2563eb;
+--bg:#eef2f7;
+--card:#ffffff;
+--text:#111827;
+}
+
 *{
+box-sizing:border-box;
 margin:0;
 padding:0;
-box-sizing:border-box;
 }
 
 body{
-background:#eef2f7;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#111827;
+font-family:"Helvetica Neue",Arial,"Hiragino Sans","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+background:var(--bg);
+color:var(--text);
+line-height:1.6;
+padding:10px;
+}
+
+.container{
+max-width:520px;
+margin:0 auto;
 }
 
 header{
 background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
 color:#fff;
-padding:24px 16px;
 text-align:center;
-font-size:34px;
+padding:20px 12px;
+border-radius:18px;
+margin-bottom:18px;
+font-size:26px;
 font-weight:900;
-position:sticky;
-top:0;
-z-index:999;
-box-shadow:0 8px 24px rgba(0,0,0,.25);
+box-shadow:0 10px 28px rgba(0,0,0,.22);
 }
 
-.wrap{
-max-width:1000px;
-margin:auto;
-padding:16px;
+header .sub{
+font-size:14px;
+font-weight:700;
+margin-top:4px;
+opacity:.95;
+}
+
+.section-title{
+font-size:24px;
+font-weight:900;
+margin:20px 0 14px;
+border-left:8px solid var(--blue);
+padding-left:12px;
+color:#0f172a;
+}
+
+#news-container{
+display:flex;
+flex-direction:column;
+gap:24px;
 }
 
 .card{
-background:#fff;
-border-radius:30px;
+background:var(--card);
+border-radius:28px;
+box-shadow:0 14px 35px rgba(0,0,0,.14);
 overflow:hidden;
-margin-bottom:28px;
-box-shadow:0 15px 35px rgba(0,0,0,.12);
 border:1px solid #e5e7eb;
 }
 
-.thumb{
+.image-container{
+position:relative;
 width:100%;
-height:520px;
+padding-top:177.77%;
+background:#e5e7eb;
+overflow:hidden;
+}
+
+.image-container img{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
 object-fit:cover;
 object-position:center;
-display:block;
-background:#ddd;
 }
 
-.body{
-padding:22px;
+.card-content{
+padding:20px;
 }
 
-.title{
-font-size:34px;
+.card-tag{
+display:inline-block;
+background:#e3f2fd;
+color:var(--primary);
+font-size:16px;
+padding:7px 12px;
+border-radius:999px;
+margin-bottom:12px;
+font-weight:900;
+}
+
+.card-title{
+font-size:28px;
 font-weight:900;
 line-height:1.4;
-margin-bottom:16px;
+margin-bottom:12px;
 color:#111827;
 }
 
-.desc{
-font-size:24px;
-line-height:1.8;
+.card-text{
+font-size:21px;
+line-height:1.85;
 color:#475569;
 margin-bottom:16px;
+white-space:pre-wrap;
 }
 
-.date{
-font-size:18px;
-font-weight:700;
-color:#64748b;
-margin-bottom:16px;
-}
-
-.readBtn{
+.btn-link{
 display:block;
+text-align:center;
 background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
 text-decoration:none;
-padding:20px;
-text-align:center;
+padding:18px;
 border-radius:18px;
-font-size:26px;
+font-size:22px;
 font-weight:900;
-}
-
-.sns{
-display:flex;
-gap:8px;
-margin-top:14px;
-}
-
-.sns a{
-flex:1;
-text-align:center;
-padding:14px;
-border-radius:14px;
-text-decoration:none;
-font-weight:900;
-color:#fff;
-font-size:18px;
-}
-
-.line{
-background:#06c755;
-}
-
-.x{
-background:#000;
-}
-
-.facebook{
-background:#1877f2;
-}
-
-.sectionTitle{
-font-size:32px;
-font-weight:900;
-margin:24px 0 16px;
+margin-top:8px;
+box-shadow:0 8px 18px rgba(37,99,235,.28);
 }
 
 .home{
@@ -134,41 +145,55 @@ width:100%;
 border:none;
 background:#475569;
 color:#fff;
-padding:20px;
+padding:18px;
 border-radius:18px;
-font-size:24px;
+font-size:22px;
 font-weight:900;
-margin-top:20px;
+margin:24px 0 10px;
 }
 
 .loading{
+text-align:center;
 background:#fff;
 padding:24px;
-border-radius:24px;
-text-align:center;
-font-size:24px;
+border-radius:22px;
+font-size:22px;
 font-weight:900;
-}
-
-.city{
-display:inline-block;
-background:#2563eb;
-color:#fff;
-padding:8px 14px;
-border-radius:999px;
-font-size:16px;
-font-weight:900;
-margin-bottom:12px;
+color:#475569;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+4市瓦版
+<div class="sub">志木市・朝霞市・新座市・和光市</div>
+</header>
+
+<div class="section-title">最新の回覧板データー</div>
+
+<div id="news-container">
+<div class="loading">データを読み込み中...</div>
+</div>
+
+<button class="home" onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+🏠 トップへ戻る
+</button>
+
+</div>
 
 <script>
-const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-const SHEET_NAME='4市瓦版';
+const SPREADSHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+const SHEET_NAME='回覧板データー';
 
-function getVal(cell){
-if(!cell) return '';
-return cell.f || cell.v || '';
+function getCell(row,index){
+if(index<0) return '';
+if(!row.c[index]) return '';
+return row.c[index].f || row.c[index].v || '';
 }
 
 function esc(text){
@@ -181,182 +206,112 @@ return String(text || '')
 }
 
 function makeImageUrl(url){
-
 url=String(url || '').trim();
 
-if(url.indexOf('/file/d/')>-1){
-const id=url.split('/file/d/')[1].split('/')[0];
-return 'https://drive.google.com/uc?export=view&id='+id;
+if(url.includes('drive.google.com')){
+let match=url.match(/\/file\/d\/([^\/]+)/);
+if(match && match[1]){
+return 'https://docs.google.com/uc?export=view&id=' + match[1];
+}
+
+match=url.match(/\/d\/([^\/]+)/);
+if(match && match[1]){
+return 'https://docs.google.com/uc?export=view&id=' + match[1];
+}
+
+match=url.match(/[?&]id=([^&]+)/);
+if(match && match[1]){
+return 'https://docs.google.com/uc?export=view&id=' + match[1];
+}
 }
 
 return url;
 }
 
+function findHeader(headers,names){
+for(let i=0;i<headers.length;i++){
+for(let j=0;j<names.length;j++){
+if(headers[i].includes(names[j])){
+return i;
+}
+}
+}
+return -1;
+}
+
 window.handleSheet=function(json){
 
-const latestBox=document.getElementById('latest');
-const archiveBox=document.getElementById('archive');
+const container=document.getElementById('news-container');
+container.innerHTML='';
 
-if(!json||!json.table||!json.table.rows){
-latestBox.innerHTML=
-'<div class="loading">データがありません</div>';
+if(!json || !json.table || !json.table.rows){
+container.innerHTML='<div class="loading">データがありません。</div>';
 return;
 }
 
+const headers=json.table.cols.map(function(col){
+return col.label ? col.label.trim().replace(/\s+/g,'') : '';
+});
+
+const idxTitle=findHeader(headers,['タイトル','件名','見出し']);
+const idxImg=findHeader(headers,['画像URL','画像','写真URL','写真']);
+const idxContent=findHeader(headers,['詳細内容','内容','本文','説明']);
+const idxLink=findHeader(headers,['市ホームページURL','市ホームURL','公式URL','リンク','URL']);
+
 const rows=json.table.rows.slice().reverse();
 
-let latest='';
-let archive='';
-
-rows.forEach(function(row,index){
+rows.forEach(function(row){
 
 if(!row.c) return;
 
-const id=getVal(row.c[0]);
-const image=makeImageUrl(getVal(row.c[1]));
-const title=getVal(row.c[2]);
-const desc=getVal(row.c[3]);
-const date=getVal(row.c[4]);
+const title=getCell(row,idxTitle);
+let imgUrl=makeImageUrl(getCell(row,idxImg));
+const content=getCell(row,idxContent);
+const linkUrl=getCell(row,idxLink);
 
-if(!title) return;
+if(!title && !content) return;
 
-let city='4市';
+const card=document.createElement('div');
+card.className='card';
 
-const text=(title+' '+desc);
-
-if(text.includes('志木')){
-city='志木市';
-}
-else if(text.includes('新座')){
-city='新座市';
-}
-else if(text.includes('朝霞')){
-city='朝霞市';
-}
-else if(text.includes('和光')){
-city='和光市';
-}
-
-const shareUrl=
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id='+
-encodeURIComponent(id);
-
-const html=
-
-'<div class="card">'+
-
-(image
-?'<img class="thumb" src="'+esc(image)+'">'
-:''
-)+
-
-'<div class="body">'+
-
-'<div class="city">'+city+'</div>'+
-
-'<div class="title">'+
-esc(title)+
-'</div>'+
-
-'<div class="desc">'+
-esc(desc)+
-'</div>'+
-
-'<div class="date">'+
-esc(date)+
-'</div>'+
-
-'<a class="readBtn" href="app.html?id='+
-encodeURIComponent(id)+
-'">続きを読む</a>'+
-
-'<div class="sns">'+
-
-'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url='+
-encodeURIComponent(shareUrl)+
-'">LINE</a>'+
-
-'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url='+
-encodeURIComponent(shareUrl)+
-'&text='+
-encodeURIComponent(title)+
-'">X</a>'+
-
-'<a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+
-encodeURIComponent(shareUrl)+
-'">FB</a>'+
-
-'</div>'+
-
-'</div>'+
-
+card.innerHTML=
+(imgUrl
+? '<div class="image-container"><img src="'+esc(imgUrl)+'" alt="'+esc(title)+'"></div>'
+: ''
+) +
+'<div class="card-content">' +
+'<span class="card-tag">朝霞地区4市広域連携</span>' +
+'<div class="card-title">'+esc(title || 'お知らせ')+'</div>' +
+'<div class="card-text">'+esc(content)+'</div>' +
+(linkUrl
+? '<a href="'+esc(linkUrl)+'" class="btn-link" target="_blank">詳細リンク（公式HP）へ</a>'
+: ''
+) +
 '</div>';
 
-if(index<5){
-latest+=html;
-}else{
-archive+=html;
-}
+container.appendChild(card);
 
 });
 
-latestBox.innerHTML=
-latest||
-'<div class="loading">記事なし</div>';
-
-archiveBox.innerHTML=archive;
+if(container.children.length===0){
+container.innerHTML='<div class="loading">現在、表示できる回覧板データーはありません。</div>';
+}
 
 };
 
 function loadSheet(){
-
 const script=document.createElement('script');
-
 script.src=
-'https://docs.google.com/spreadsheets/d/'+
-SHEET_ID+
-'/gviz/tq?sheet='+
-encodeURIComponent(SHEET_NAME)+
+'https://docs.google.com/spreadsheets/d/' +
+SPREADSHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
 '&tqx=out:json;responseHandler:handleSheet';
-
 document.body.appendChild(script);
-
 }
 
 window.onload=loadSheet;
 </script>
-
-</head>
-
-<body>
-
-<header>
-📰 4市瓦版
-</header>
-
-<div class="wrap">
-
-<div id="latest">
-<div class="loading">
-読込中...
-</div>
-</div>
-
-<div class="sectionTitle">
-📚 アーカイブ
-</div>
-
-<div id="archive"></div>
-
-<button
-class="home"
-onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
-
-🏠 トップへ戻る
-
-</button>
-
-</div>
 
 </body>
 </html>
