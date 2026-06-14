@@ -124,36 +124,7 @@ return cell.f || cell.v || '';
 
 }
 
-function loadSheet(){
-
-const script =
-document.createElement(
-'script'
-);
-
-script.src =
-
-'https://docs.google.com/spreadsheets/d/' +
-
-SHEET_ID +
-
-'/gviz/tq?sheet=' +
-
-encodeURIComponent(
-SHEET_NAME
-) +
-
-'&tqx=out:json&callback=handleSheet';
-
-document.body.appendChild(
-script
-);
-
-}
-
-window.handleSheet=function(json){
-
-try{
+handleSheet=function(json){
 
 const rows =
 json.table.rows;
@@ -233,7 +204,7 @@ archive += html;
 document.getElementById(
 'latest'
 ).innerHTML =
-latest || '記事がありません';
+latest || '記事なし';
 
 document.getElementById(
 'archive'
@@ -241,23 +212,31 @@ document.getElementById(
 archive;
 
 }
-catch(e){
-
-document.getElementById(
-'latest'
-).innerHTML =
-
-'エラー<br><br>' +
-
-e.message;
-
-}
-
-};
 
 window.onload=function(){
 
-loadSheet();
+const script =
+document.createElement(
+'script'
+);
+
+script.src =
+
+'https://docs.google.com/spreadsheets/d/' +
+
+SHEET_ID +
+
+'/gviz/tq?sheet=' +
+
+encodeURIComponent(
+SHEET_NAME
+) +
+
+'&tqx=out:json;responseHandler:handleSheet';
+
+document.body.appendChild(
+script
+);
 
 };
 
