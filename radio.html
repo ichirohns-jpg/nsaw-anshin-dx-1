@@ -105,6 +105,35 @@ font-weight:900;
 margin-top:10px;
 }
 
+.share{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+margin-top:12px;
+}
+
+.share a{
+text-decoration:none;
+color:#fff;
+padding:12px;
+border-radius:12px;
+text-align:center;
+font-size:16px;
+font-weight:900;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#111;
+}
+
+.fb{
+background:#1877f2;
+}
+
 .sectionTitle{
 font-size:28px;
 font-weight:900;
@@ -226,6 +255,10 @@ videoId;
 
 }
 
+const shareUrl =
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio.html?title=' +
+encodeURIComponent(title);
+
 const html =
 
 '<div class="card">' +
@@ -272,6 +305,22 @@ youtube +
 '</a>'
 
 : '') +
+
+'<div class="share">' +
+
+'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(shareUrl) +
+'">LINE</a>' +
+
+'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(shareUrl) +
+'">X</a>' +
+
+'<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(shareUrl) +
+'">Facebook</a>' +
+
+'</div>' +
 
 '</div>' +
 
