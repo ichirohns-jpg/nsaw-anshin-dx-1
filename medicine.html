@@ -136,7 +136,40 @@ class="btn gray">
 
 <script>
 
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+
 function takeMedicine(type){
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+
+type:'medicine',
+
+name:
+localStorage.getItem(
+'userName'
+) || '利用者',
+
+userId:
+localStorage.getItem(
+'userId'
+) || '',
+
+medicine:type,
+
+time:
+new Date().toLocaleString('ja-JP')
+
+})
+}
+);
 
 document.getElementById(
 'result'
@@ -166,11 +199,6 @@ document.getElementById(
 'nightBtn'
 ).classList.add('done');
 }
-
-localStorage.setItem(
-'medicine_' + type,
-new Date().toLocaleString('ja-JP')
-);
 
 }
 
