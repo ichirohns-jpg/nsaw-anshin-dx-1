@@ -60,6 +60,8 @@ font-weight:900;
 cursor:pointer;
 margin-bottom:14px;
 color:#fff;
+text-decoration:none;
+text-align:center;
 }
 
 .red{
@@ -106,9 +108,6 @@ class="btn gray">
 
 <script>
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
-
 function sendGPS(){
 
 document.getElementById(
@@ -132,23 +131,18 @@ lat +
 ',' +
 lng;
 
-fetch(
-GAS_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
-type:'gps',
-name:
-localStorage.getItem('userName') || '利用者',
+const gpsData = {
+
 lat:lat,
 lng:lng,
 mapUrl:mapUrl,
 time:new Date().toLocaleString('ja-JP')
-})
-}
+
+};
+
+localStorage.setItem(
+'lastGPS',
+JSON.stringify(gpsData)
 );
 
 document.getElementById(
