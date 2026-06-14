@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>家族へ電話</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+text-align:center;
+}
+
+.header{
+background:linear-gradient(135deg,#16a34a,#15803d);
+color:#fff;
+padding:28px;
+border-radius:28px;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:34px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:16px;
+}
+
+.tel{
+font-size:28px;
+font-weight:900;
+margin:20px 0;
+}
+
+.callBtn{
+display:block;
+width:100%;
+padding:26px;
+border:none;
+border-radius:24px;
+background:#16a34a;
+color:#fff;
+font-size:30px;
+font-weight:900;
+text-decoration:none;
+}
+
+.home{
+display:block;
+margin-top:16px;
+padding:20px;
+background:#475569;
+color:#fff;
+text-decoration:none;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>📞 家族へ電話</h1>
+</div>
+
+<div class="card">
+
+<div>
+登録されている電話番号
+</div>
+
+<div id="telArea" class="tel">
+未登録
+</div>
+
+<a
+id="callBtn"
+class="callBtn"
+href="#">
+📞 電話する
+</a>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+🏠 トップへ戻る
+</a>
+
+<script>
+
+const tel =
+localStorage.getItem(
+'familyTel'
+) || '';
+
+if(tel){
+
+document.getElementById(
+'telArea'
+).innerHTML =
+tel;
+
+document.getElementById(
+'callBtn'
+).href =
+'tel:' + tel;
+
+}else{
+
+document.getElementById(
+'telArea'
+).innerHTML =
+'電話番号未登録';
+
+}
+
+</script>
+
+</body>
+</html>
