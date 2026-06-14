@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>4市瓦版 デジタルお助け掲示板</title>
+<title>4市瓦版</title>
 
 <style>
 :root{
@@ -22,7 +22,7 @@ padding:0;
 }
 
 body{
-font-family:"Helvetica Neue",Arial,"Hiragino Sans","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+font-family:"Helvetica Neue",Arial,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
 background:var(--bg);
 color:var(--text);
 line-height:1.6;
@@ -38,28 +38,26 @@ header{
 background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
 color:#fff;
 text-align:center;
-padding:20px 12px;
-border-radius:18px;
-margin-bottom:18px;
-font-size:26px;
+padding:22px;
+border-radius:24px;
+margin-bottom:20px;
+font-size:34px;
 font-weight:900;
-box-shadow:0 10px 28px rgba(0,0,0,.22);
+box-shadow:0 12px 30px rgba(0,0,0,.25);
 }
 
-header .sub{
-font-size:14px;
+.sub{
+font-size:16px;
+margin-top:8px;
 font-weight:700;
-margin-top:4px;
-opacity:.95;
 }
 
 .section-title{
-font-size:24px;
+font-size:38px;
 font-weight:900;
-margin:20px 0 14px;
-border-left:8px solid var(--blue);
-padding-left:12px;
-color:#0f172a;
+margin:20px 0;
+border-left:10px solid #2563eb;
+padding-left:14px;
 }
 
 #news-container{
@@ -69,10 +67,10 @@ gap:24px;
 }
 
 .card{
-background:var(--card);
-border-radius:28px;
-box-shadow:0 14px 35px rgba(0,0,0,.14);
+background:#fff;
+border-radius:30px;
 overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,.15);
 border:1px solid #e5e7eb;
 }
 
@@ -98,30 +96,30 @@ object-position:center;
 padding:20px;
 }
 
-.card-tag{
+.city-tag{
 display:inline-block;
-background:#e3f2fd;
-color:var(--primary);
-font-size:16px;
-padding:7px 12px;
+background:#dbeafe;
+color:#1d4ed8;
+padding:8px 14px;
 border-radius:999px;
-margin-bottom:12px;
+font-size:16px;
 font-weight:900;
+margin-bottom:12px;
 }
 
 .card-title{
-font-size:28px;
+font-size:34px;
 font-weight:900;
 line-height:1.4;
-margin-bottom:12px;
+margin-bottom:14px;
 color:#111827;
 }
 
 .card-text{
-font-size:21px;
-line-height:1.85;
+font-size:24px;
+line-height:1.9;
 color:#475569;
-margin-bottom:16px;
+margin-bottom:18px;
 white-space:pre-wrap;
 }
 
@@ -131,12 +129,10 @@ text-align:center;
 background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
 text-decoration:none;
-padding:18px;
+padding:20px;
 border-radius:18px;
-font-size:22px;
+font-size:24px;
 font-weight:900;
-margin-top:8px;
-box-shadow:0 8px 18px rgba(37,99,235,.28);
 }
 
 .home{
@@ -145,22 +141,20 @@ width:100%;
 border:none;
 background:#475569;
 color:#fff;
-padding:18px;
-border-radius:18px;
-font-size:22px;
+padding:20px;
+border-radius:20px;
+font-size:24px;
 font-weight:900;
-margin:24px 0 10px;
+margin-top:24px;
 }
 
 .loading{
-text-align:center;
 background:#fff;
-padding:24px;
-border-radius:22px;
-font-size:22px;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
 font-weight:900;
-color:#475569;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 </style>
 </head>
@@ -170,30 +164,54 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 <div class="container">
 
 <header>
-4市瓦版
-<div class="sub">志木市・朝霞市・新座市・和光市</div>
+📰 4市瓦版
+<div class="sub">
+志木市・朝霞市・新座市・和光市
+</div>
 </header>
 
-<div class="section-title">最新の回覧板データー</div>
-
-<div id="news-container">
-<div class="loading">データを読み込み中...</div>
+<div class="section-title">
+最新の回覧板データー
 </div>
 
-<button class="home" onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+<div id="news-container">
+<div class="loading">
+読込中...
+</div>
+</div>
+
+<button
+class="home"
+onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
 🏠 トップへ戻る
 </button>
 
 </div>
 
 <script>
-const SPREADSHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-const SHEET_NAME='回覧板データー';
+const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+const SHEET_NAME='4市瓦版';
 
-function getCell(row,index){
-if(index<0) return '';
-if(!row.c[index]) return '';
-return row.c[index].f || row.c[index].v || '';
+function getVal(cell){
+if(!cell) return '';
+return cell.f || cell.v || '';
+}
+
+function makeImageUrl(url){
+
+url=String(url || '').trim();
+
+if(url.includes('drive.google.com/file/d/')){
+const id=url.split('/file/d/')[1].split('/')[0];
+return 'https://docs.google.com/uc?export=view&id='+id;
+}
+
+if(url.includes('open?id=')){
+const id=url.split('open?id=')[1].split('&')[0];
+return 'https://docs.google.com/uc?export=view&id='+id;
+}
+
+return url;
 }
 
 function esc(text){
@@ -205,109 +223,104 @@ return String(text || '')
 .replace(/'/g,'&#39;');
 }
 
-function makeImageUrl(url){
-url=String(url || '').trim();
-
-if(url.includes('drive.google.com')){
-let match=url.match(/\/file\/d\/([^\/]+)/);
-if(match && match[1]){
-return 'https://docs.google.com/uc?export=view&id=' + match[1];
-}
-
-match=url.match(/\/d\/([^\/]+)/);
-if(match && match[1]){
-return 'https://docs.google.com/uc?export=view&id=' + match[1];
-}
-
-match=url.match(/[?&]id=([^&]+)/);
-if(match && match[1]){
-return 'https://docs.google.com/uc?export=view&id=' + match[1];
-}
-}
-
-return url;
-}
-
-function findHeader(headers,names){
-for(let i=0;i<headers.length;i++){
-for(let j=0;j<names.length;j++){
-if(headers[i].includes(names[j])){
-return i;
-}
-}
-}
-return -1;
-}
-
 window.handleSheet=function(json){
 
 const container=document.getElementById('news-container');
-container.innerHTML='';
 
 if(!json || !json.table || !json.table.rows){
-container.innerHTML='<div class="loading">データがありません。</div>';
+container.innerHTML=
+'<div class="loading">データがありません</div>';
 return;
 }
 
-const headers=json.table.cols.map(function(col){
-return col.label ? col.label.trim().replace(/\s+/g,'') : '';
-});
-
-const idxTitle=findHeader(headers,['タイトル','件名','見出し']);
-const idxImg=findHeader(headers,['画像URL','画像','写真URL','写真']);
-const idxContent=findHeader(headers,['詳細内容','内容','本文','説明']);
-const idxLink=findHeader(headers,['市ホームページURL','市ホームURL','公式URL','リンク','URL']);
-
 const rows=json.table.rows.slice().reverse();
+
+container.innerHTML='';
 
 rows.forEach(function(row){
 
 if(!row.c) return;
 
-const title=getCell(row,idxTitle);
-let imgUrl=makeImageUrl(getCell(row,idxImg));
-const content=getCell(row,idxContent);
-const linkUrl=getCell(row,idxLink);
+const id=getVal(row.c[0]);
+const image=makeImageUrl(getVal(row.c[1]));
+const title=getVal(row.c[2]);
+const content=getVal(row.c[3]);
+const date=getVal(row.c[4]);
 
-if(!title && !content) return;
+if(!title) return;
+
+let city='4市瓦版';
+
+const check=(title+' '+content);
+
+if(check.includes('志木')){
+city='志木市';
+}
+else if(check.includes('新座')){
+city='新座市';
+}
+else if(check.includes('朝霞')){
+city='朝霞市';
+}
+else if(check.includes('和光')){
+city='和光市';
+}
 
 const card=document.createElement('div');
 card.className='card';
 
 card.innerHTML=
-(imgUrl
-? '<div class="image-container"><img src="'+esc(imgUrl)+'" alt="'+esc(title)+'"></div>'
-: ''
-) +
-'<div class="card-content">' +
-'<span class="card-tag">朝霞地区4市広域連携</span>' +
-'<div class="card-title">'+esc(title || 'お知らせ')+'</div>' +
-'<div class="card-text">'+esc(content)+'</div>' +
-(linkUrl
-? '<a href="'+esc(linkUrl)+'" class="btn-link" target="_blank">詳細リンク（公式HP）へ</a>'
-: ''
-) +
+(image
+?'<div class="image-container"><img src="'+esc(image)+'"></div>'
+:''
+)+
+
+'<div class="card-content">'+
+
+'<div class="city-tag">'+city+'</div>'+
+
+'<div class="card-title">'+
+esc(title)+
+'</div>'+
+
+'<div class="card-text">'+
+esc(content)+
+'</div>'+
+
+'<div style="font-size:16px;color:#64748b;margin-bottom:16px;">'+
+esc(date)+
+'</div>'+
+
+'<a class="btn-link" href="app.html?id='+
+encodeURIComponent(id)+
+'">続きを読む</a>'+
+
 '</div>';
 
 container.appendChild(card);
 
 });
 
-if(container.children.length===0){
-container.innerHTML='<div class="loading">現在、表示できる回覧板データーはありません。</div>';
+if(container.innerHTML===''){
+container.innerHTML=
+'<div class="loading">記事がありません</div>';
 }
 
 };
 
 function loadSheet(){
+
 const script=document.createElement('script');
+
 script.src=
-'https://docs.google.com/spreadsheets/d/' +
-SPREADSHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
+'https://docs.google.com/spreadsheets/d/'+
+SHEET_ID+
+'/gviz/tq?sheet='+
+encodeURIComponent(SHEET_NAME)+
 '&tqx=out:json;responseHandler:handleSheet';
+
 document.body.appendChild(script);
+
 }
 
 window.onload=loadSheet;
