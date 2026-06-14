@@ -16,29 +16,28 @@
 }
 
 *{
-box-sizing:border-box;
 margin:0;
 padding:0;
+box-sizing:border-box;
 }
 
 body{
-font-family:"Helvetica Neue",Arial,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 background:var(--bg);
 color:var(--text);
-line-height:1.6;
 padding:10px;
 }
 
 .container{
 max-width:520px;
-margin:0 auto;
+margin:auto;
 }
 
 header{
 background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
 color:#fff;
 text-align:center;
-padding:22px;
+padding:24px;
 border-radius:24px;
 margin-bottom:20px;
 font-size:34px;
@@ -112,12 +111,11 @@ font-size:34px;
 font-weight:900;
 line-height:1.4;
 margin-bottom:14px;
-color:#111827;
 }
 
 .card-text{
 font-size:24px;
-line-height:1.9;
+line-height:1.8;
 color:#475569;
 margin-bottom:18px;
 white-space:pre-wrap;
@@ -156,7 +154,16 @@ text-align:center;
 font-size:24px;
 font-weight:900;
 }
+
+.error{
+background:#fee2e2;
+color:#991b1b;
+padding:20px;
+border-radius:20px;
+font-weight:900;
+}
 </style>
+
 </head>
 
 <body>
@@ -197,23 +204,6 @@ if(!cell) return '';
 return cell.f || cell.v || '';
 }
 
-function makeImageUrl(url){
-
-url=String(url || '').trim();
-
-if(url.includes('drive.google.com/file/d/')){
-const id=url.split('/file/d/')[1].split('/')[0];
-return 'https://docs.google.com/uc?export=view&id='+id;
-}
-
-if(url.includes('open?id=')){
-const id=url.split('open?id=')[1].split('&')[0];
-return 'https://docs.google.com/uc?export=view&id='+id;
-}
-
-return url;
-}
-
 function esc(text){
 return String(text || '')
 .replace(/&/g,'&amp;')
@@ -223,13 +213,25 @@ return String(text || '')
 .replace(/'/g,'&#39;');
 }
 
+function makeImageUrl(url){
+
+url=String(url || '').trim();
+
+if(url.includes('/file/d/')){
+const id=url.split('/file/d/')[1].split('/')[0];
+return 'https://docs.google.com/uc?export=view&id='+id;
+}
+
+return url;
+}
+
 window.handleSheet=function(json){
 
 const container=document.getElementById('news-container');
 
 if(!json || !json.table || !json.table.rows){
 container.innerHTML=
-'<div class="loading">データがありません</div>';
+'<div class="error">データ取得失敗</div>';
 return;
 }
 
@@ -241,35 +243,37 @@ rows.forEach(function(row){
 
 if(!row.c) return;
 
-const id=getVal(row.c[0]);
+const date=getVal(row.c[0]);
 const image=makeImageUrl(getVal(row.c[1]));
 const title=getVal(row.c[2]);
 const content=getVal(row.c[3]);
-const date=getVal(row.c[4]);
 
-if(!title) return;
+const shikiTitle=getVal(row.c[4]);
+const shikiUrl=getVal(row.c[5]);
 
-let city='4市瓦版';
+const niizaTitle=getVal(row.c[6]);
+const niizaUrl=getVal(row.c[7]);
 
-const check=(title+' '+content);
+const asakaTitle=getVal(row.c[8]);
+const asakaUrl=getVal(row.c[9]);
 
-if(check.includes('志木')){
-city='志木市';
-}
-else if(check.includes('新座')){
-city='新座市';
-}
-else if(check.includes('朝霞')){
-city='朝霞市';
-}
-else if(check.includes('和光')){
-city='和光市';
+const wakoTitle=getVal(row.c[10]);
+const wakoUrl=getVal(row.c[11]);
+
+if(
+!title &&
+!content &&
+!image
+){
+return;
 }
 
 const card=document.createElement('div');
+
 card.className='card';
 
 card.innerHTML=
+
 (image
 ?'<div class="image-container"><img src="'+esc(image)+'"></div>'
 :''
@@ -277,23 +281,39 @@ card.innerHTML=
 
 '<div class="card-content">'+
 
-'<div class="city-tag">'+city+'</div>'+
+'<div class="city-tag">4市瓦版</div>'+
 
 '<div class="card-title">'+
 esc(title)+
+'</div>'+
+
+'<div style="font-size:18px;color:#64748b;font-weight:700;margin-bottom:12px;">'+
+esc(date)+
 '</div>'+
 
 '<div class="card-text">'+
 esc(content)+
 '</div>'+
 
-'<div style="font-size:16px;color:#64748b;margin-bottom:16px;">'+
-esc(date)+
-'</div>'+
+(shikiTitle
+?'<a class="btn-link" target="_blank" href="'+esc(shikiUrl)+'">志木市：'+esc(shikiTitle)+'</a><br>'
+:''
+)+
 
-'<a class="btn-link" href="app.html?id='+
-encodeURIComponent(id)+
-'">続きを読む</a>'+
+(niizaTitle
+?'<a class="btn-link" target="_blank" href="'+esc(niizaUrl)+'">新座市：'+esc(niizaTitle)+'</a><br>'
+:''
+)+
+
+(asakaTitle
+?'<a class="btn-link" target="_blank" href="'+esc(asakaUrl)+'">朝霞市：'+esc(asakaTitle)+'</a><br>'
+:''
+)+
+
+(wakoTitle
+?'<a class="btn-link" target="_blank" href="'+esc(wakoUrl)+'">和光市：'+esc(wakoTitle)+'</a>'
+:''
+)+
 
 '</div>';
 
@@ -301,9 +321,11 @@ container.appendChild(card);
 
 });
 
-if(container.innerHTML===''){
+if(container.children.length===0){
+
 container.innerHTML=
-'<div class="loading">記事がありません</div>';
+'<div class="error">記事が見つかりません</div>';
+
 }
 
 };
@@ -324,6 +346,7 @@ document.body.appendChild(script);
 }
 
 window.onload=loadSheet;
+
 </script>
 
 </body>
