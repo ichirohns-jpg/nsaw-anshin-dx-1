@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>AIに聞く</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
+}
+
+.header{
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:#fff;
+padding:30px;
+border-radius:30px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.result{
+font-size:24px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:28px;
+border:none;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:14px;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.gray{
+background:#475569;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>🎤 AIに聞く</h1>
+</div>
+
+<div class="card">
+
+<div
+id="result"
+class="result">
+
+ボタンを押して話してください
+
+</div>
+
+</div>
+
+<button
+class="btn blue"
+onclick="startVoice()">
+
+🎤 話す
+
+</button>
+
+<button
+class="btn gray"
+onclick="location.href='index.html'">
+
+🏠 トップへ戻る
+
+</button>
+
+<script>
+
+function speak(text){
+
+document.getElementById(
+'result'
+).innerHTML =
+text;
+
+speechSynthesis.cancel();
+
+speechSynthesis.speak(
+new SpeechSynthesisUtterance(
+text
+)
+);
+
+}
+
+function startVoice(){
+
+if(!(
+'webkitSpeechRecognition'
+in window
+)){
+
+alert(
+'音声認識未対応'
+);
+
+return;
+
+}
+
+const rec =
+new webkitSpeechRecognition();
+
+rec.lang =
+'ja-JP';
+
+rec.start();
+
+rec.onresult =
+function(e){
+
+const q =
+e.results[0][0]
+.transcript;
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'質問：<br><br>' +
+
+q;
+
+answer(q);
+
+};
+
+}
+
+function answer(q){
+
+const schedules =
+JSON.parse(
+localStorage.getItem(
+'schedules'
+) || '[]'
+);
+
+if(
+q.includes('予定')
+){
+
+if(
+!schedules.length
+){
+
+speak(
+'予定はありません'
+);
+
+return;
+
+}
+
+let text =
+'予定をお知らせします。';
+
+schedules.forEach(item=>{
+
+text +=
+
+item.date +
+
+' ' +
+
+(item.time || '') +
+
+' ' +
+
+item.title +
+
+'。';
+
+});
+
+speak(text);
+
+return;
+
+}
+
+if(
+q.includes('薬')
+){
+
+const med =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+let text='';
+
+if(med.morning)
+text+='朝は飲みました。';
+
+if(med.noon)
+text+='昼は飲みました。';
+
+if(med.evening)
+text+='夕方は飲みました。';
+
+if(med.night)
+text+='寝る前は飲みました。';
+
+if(text===''){
+text='服薬記録はありません';
+}
+
+speak(text);
+
+return;
+
+}
+
+if(
+q.includes('元気')
+){
+
+const genki =
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
+);
+
+if(genki){
+
+speak(
+'最後の元気ですは ' +
+genki.time +
+' です'
+);
+
+}else{
+
+speak(
+'記録がありません'
+);
+
+}
+
+return;
+
+}
+
+if(
+q.includes('ゴミ')
+){
+
+speak(
+'ゴミの日は今後連携予定です'
+);
+
+return;
+
+}
+
+if(
+q.includes('病院')
+){
+
+speak(
+'病院案内は今後連携予定です'
+);
+
+return;
+
+}
+
+speak(
+'すみません。まだ勉強中です。'
+);
+
+}
+
+</script>
+
+</body>
+</html>
