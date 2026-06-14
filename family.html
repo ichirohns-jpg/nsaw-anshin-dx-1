@@ -1,15 +1,88 @@
-<div class="card">
+<script>
 
-<div class="title">
-📅 今日の予定
-</div>
+const scheduleData =
+localStorage.getItem(
+'scheduleData'
+);
 
-<div
-id="scheduleArea"
-class="status">
+if(scheduleData){
 
-予定なし
+const data =
+JSON.parse(
+scheduleData
+);
 
-</div>
+document.getElementById(
+'scheduleArea'
+).innerHTML =
 
-</div>
+'🏥 ' +
+(data.hospital || '-') +
+
+'<br><br>' +
+
+'🕒 ' +
+(data.hospitalTime || '-') +
+
+'<br><br>' +
+
+'🛒 ' +
+(data.shopping || '-') +
+
+'<br><br>' +
+
+'🕒 ' +
+(data.shoppingTime || '-') +
+
+'<br><br>' +
+
+'🚌 ' +
+(data.dayservice || '-') +
+
+'<br><br>' +
+
+'🕒 ' +
+(data.dayserviceTime || '-') +
+
+'<br><br>' +
+
+'💊 ' +
+(data.medicineTime || '-') +
+
+'<br><br>' +
+
+'📝 ' +
+(data.memo || '-');
+
+}
+
+const lastSOS =
+localStorage.getItem(
+'lastSOS'
+);
+
+if(lastSOS){
+
+const sos =
+JSON.parse(
+lastSOS
+);
+
+document.getElementById(
+'sosArea'
+).innerHTML =
+
+'🚨 ' +
+sos.type +
+
+'<br><br>' +
+
+sos.memo +
+
+'<br><br>' +
+
+sos.time;
+
+}
+
+</script>
