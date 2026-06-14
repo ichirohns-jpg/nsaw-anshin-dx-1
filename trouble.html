@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>困っています</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
+}
+
+.header{
+background:linear-gradient(135deg,#ea580c,#fb923c);
+color:#fff;
+padding:30px;
+border-radius:30px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.select{
+width:100%;
+padding:20px;
+font-size:24px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
+}
+
+.textarea{
+width:100%;
+height:140px;
+padding:18px;
+font-size:22px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:26px;
+border:none;
+border-radius:24px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:14px;
+text-decoration:none;
+text-align:center;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.gray{
+background:#475569;
+}
+
+.result{
+background:#f8fafc;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>😟 困っています</h1>
+</div>
+
+<div class="card">
+
+<select
+id="troubleType"
+class="select">
+
+<option value="">選択してください</option>
+
+<option>買い物に行けない</option>
+
+<option>ゴミ出しできない</option>
+
+<option>話し相手がほしい</option>
+
+<option>体調が悪い</option>
+
+<option>病院に行きたい</option>
+
+<option>薬が心配</option>
+
+<option>家のことで困っている</option>
+
+<option>食事で困っている</option>
+
+<option>手伝ってほしい</option>
+
+<option>その他</option>
+
+</select>
+
+<textarea
+id="memo"
+class="textarea"
+placeholder="困っている内容を書いてください"></textarea>
+
+<button
+class="btn orange"
+onclick="sendTrouble()">
+😟 送信する
+</button>
+
+<div
+id="result"
+class="result">
+
+選択して送信してください
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="btn gray">
+🏠 トップへ戻る
+</a>
+
+<script>
+
+function sendTrouble(){
+
+const type =
+document.getElementById(
+'troubleType'
+).value;
+
+const memo =
+document.getElementById(
+'memo'
+).value;
+
+if(!type){
+
+alert(
+'内容を選択してください'
+);
+
+return;
+
+}
+
+const data = {
+
+type:type,
+
+memo:memo,
+
+time:new Date().toLocaleString(
+'ja-JP'
+)
+
+};
+
+localStorage.setItem(
+'lastTrouble',
+JSON.stringify(data)
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'送信しました<br><br>' +
+
+type +
+
+'<br><br>' +
+
+memo;
+
+}
+
+</script>
+
+</body>
+</html>
