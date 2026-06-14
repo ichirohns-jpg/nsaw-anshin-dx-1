@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ゴミの日</title>
+<title>あんしん生活DX</title>
 
 <style>
 
@@ -15,57 +15,99 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef2f7;
+background:#0f172a;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#475569,#334155);
-color:#fff;
-padding:30px;
+background:linear-gradient(135deg,#111827,#1e293b);
 border-radius:30px;
+padding:30px;
 text-align:center;
 margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:42px;
 font-weight:900;
 }
 
-.card{
-background:#fff;
-padding:24px;
-border-radius:24px;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+.header p{
+margin-top:10px;
+font-size:18px;
+opacity:.8;
 }
 
-.day{
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.type{
-font-size:30px;
-font-weight:900;
-color:#dc2626;
-}
-
-.btn{
+.bigBtn{
 display:block;
 width:100%;
-padding:22px;
-background:#475569;
+padding:36px;
+border-radius:30px;
+background:#16a34a;
 color:#fff;
 text-decoration:none;
 text-align:center;
-border-radius:20px;
-font-size:24px;
+font-size:42px;
 font-weight:900;
-margin-top:14px;
+margin-bottom:18px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-bottom:18px;
+}
+
+.menu{
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:140px;
+border-radius:28px;
+text-decoration:none;
+color:#fff;
+font-size:30px;
+font-weight:900;
+text-align:center;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.red{
+background:#dc2626;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.gray{
+background:#475569;
+}
+
+.card{
+background:#1e293b;
+border-radius:24px;
+padding:20px;
+margin-top:18px;
+}
+
+.card a{
+display:block;
+color:#fff;
+text-decoration:none;
+padding:12px 0;
+font-size:22px;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.card a:last-child{
+border:none;
 }
 
 </style>
@@ -75,31 +117,82 @@ margin-top:14px;
 <body>
 
 <div class="header">
-<h1>🗑 ゴミの日</h1>
+
+<h1>あんしん生活DX</h1>
+
+<p>
+押すだけ見守り
+</p>
+
+</div>
+
+<a href="app.html" class="bigBtn">
+😊 元気です
+</a>
+
+<div class="grid">
+
+<a href="medicine.html" class="menu blue">
+💊<br>服薬
+</a>
+
+<a href="gps.html" class="menu red">
+📍<br>現在地
+</a>
+
+<a href="sos.html" class="menu red">
+🚨<br>SOS
+</a>
+
+<a href="family.html" class="menu orange">
+👪<br>家族
+</a>
+
+</div>
+
+<div class="grid">
+
+<a href="history.html" class="menu gray">
+📋<br>履歴
+</a>
+
+<a href="schedule.html" class="menu blue">
+📅<br>予定
+</a>
+
 </div>
 
 <div class="card">
 
-<div class="day">
-今日の収集
-</div>
-
-<div
-id="garbageType"
-class="type">
-
-確認中...
-
-</div>
-
-</div>
-
-<a href="index.html" class="btn">
-🏠 トップへ戻る
+<a href="register.html">
+👤 本人登録
 </a>
 
-<script>
+<a href="qr.html">
+📱 QRコード
+</a>
 
-const week = [
-'日曜日',
-'月曜日
+<a href="kawaraban.html">
+📰 4市瓦版
+</a>
+
+<a href="radio.html">
+📻 地域ラジオ
+</a>
+
+<a href="fun.html">
+🎬 お楽しみ動画
+</a>
+
+<a href="hospital.html">
+🏥 病院・薬局
+</a>
+
+<a href="garbage.html">
+🗑 ゴミの日
+</a>
+
+</div>
+
+</body>
+</html>
