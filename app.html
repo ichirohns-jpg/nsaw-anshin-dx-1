@@ -38,7 +38,6 @@ font-weight:900;
 .sub{
 font-size:18px;
 margin-top:8px;
-opacity:.9;
 }
 
 .card{
@@ -82,12 +81,6 @@ background:#dc2626;
 
 .gray{
 background:#475569;
-}
-
-.title{
-font-size:26px;
-font-weight:900;
-margin-bottom:14px;
 }
 
 .result{
@@ -154,10 +147,6 @@ class="btn red">
 
 <div class="card">
 
-<div class="title">
-送信結果
-</div>
-
 <div
 id="result"
 class="result">
@@ -170,10 +159,6 @@ class="result">
 
 <div class="card">
 
-<div class="title">
-履歴
-</div>
-
 <a
 href="history.html"
 class="btn gray">
@@ -182,13 +167,13 @@ class="btn gray">
 
 <a
 href="check-history.html"
-class="btn gray">
+class="btn green">
 😊 元気です履歴
 </a>
 
 <a
 href="medicine-history.html"
-class="btn gray">
+class="btn blue">
 💊 服薬履歴
 </a>
 
@@ -226,9 +211,24 @@ headers:{
 'Content-Type':'application/json'
 },
 body:JSON.stringify({
-name:'利用者001',
+
+type:'status',
+
+name:
+localStorage.getItem(
+'userName'
+) || '利用者',
+
+userId:
+localStorage.getItem(
+'userId'
+) || '',
+
 status:status,
-time:new Date().toLocaleString('ja-JP')
+
+time:
+new Date().toLocaleString('ja-JP')
+
 })
 }
 )
@@ -238,6 +238,7 @@ time:new Date().toLocaleString('ja-JP')
 document.getElementById(
 'result'
 ).innerHTML =
+
 status +
 '<br><br>送信完了';
 
