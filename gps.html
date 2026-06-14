@@ -30,7 +30,7 @@ margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:38px;
 font-weight:900;
 }
 
@@ -43,15 +43,26 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .btn{
+display:block;
 width:100%;
 padding:28px;
 border:none;
 border-radius:24px;
 font-size:28px;
 font-weight:900;
-background:#ea580c;
 color:#fff;
 cursor:pointer;
+text-align:center;
+text-decoration:none;
+margin-bottom:14px;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.gray{
+background:#475569;
 }
 
 .result{
@@ -85,7 +96,7 @@ margin-top:12px;
 <div class="card">
 
 <button
-class="btn"
+class="btn orange"
 onclick="sendLocation()">
 📍 現在地を送信
 </button>
@@ -97,9 +108,7 @@ onclick="sendLocation()">
 <div
 id="result"
 class="result">
-
 位置情報未取得
-
 </div>
 
 <iframe
@@ -108,6 +117,18 @@ class="map">
 </iframe>
 
 </div>
+
+<a
+href="family.html"
+class="btn gray">
+👪 家族ページ
+</a>
+
+<a
+href="index.html"
+class="btn gray">
+🏠 トップへ戻る
+</a>
 
 <script>
 
@@ -127,13 +148,11 @@ const lng =
 position.coords.longitude;
 
 document.getElementById('result').innerHTML =
-
 '緯度：' + lat +
 '<br><br>' +
 '経度：' + lng;
 
 document.getElementById('map').src =
-
 'https://maps.google.com/maps?q=' +
 lat +
 ',' +
@@ -157,12 +176,6 @@ time:new Date().toLocaleString('ja-JP')
 }
 );
 
-},
-
-function(){
-
-alert('位置情報取得失敗');
-
 }
 
 );
@@ -170,18 +183,6 @@ alert('位置情報取得失敗');
 }
 
 </script>
-
-<a
-href="family.html"
-class="btn">
-👪 家族ページ
-</a>
-
-<a
-href="index.html"
-class="btn">
-🏠 トップへ戻る
-</a>
 
 </body>
 </html>
