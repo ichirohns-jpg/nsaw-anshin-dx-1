@@ -104,14 +104,16 @@ background:#06c755;
 
 .home{
 display:block;
+width:100%;
+border:none;
 background:#475569;
 color:#fff;
-text-decoration:none;
 padding:20px;
 border-radius:20px;
 text-align:center;
 font-size:22px;
 font-weight:900;
+margin-top:16px;
 }
 
 </style>
@@ -156,7 +158,7 @@ placeholder="薬がなくなった・残り何日分など">
 class="sendBtn"
 onclick="sendRequest()">
 
-💊 薬がない
+💊 薬がないを送信
 
 </button>
 
@@ -188,17 +190,24 @@ href="#">
 
 </a>
 
-</div>
-
-<a
-href="index.html"
-class="home">
+<button
+class="home"
+onclick="goHome()">
 
 🏠 トップへ戻る
 
-</a>
+</button>
+
+</div>
 
 <script>
+
+function goHome(){
+
+location.href =
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/';
+
+}
 
 function showButtons(){
 
@@ -285,7 +294,11 @@ data.time +
 
 '<br><br>' +
 
-data.type;
+data.type +
+
+'<br><br>' +
+
+(data.memo || '');
 
 showButtons();
 
@@ -314,7 +327,11 @@ last.time +
 
 '<br><br>' +
 
-last.type;
+last.type +
+
+'<br><br>' +
+
+(last.memo || '');
 
 showButtons();
 
