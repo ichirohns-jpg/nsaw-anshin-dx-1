@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>薬がない</title>
+<title>服薬確認</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#dc2626,#b91c1c);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -42,55 +42,71 @@ margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.label{
-font-size:22px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.select,
-.textarea{
-width:100%;
-padding:16px;
-border:2px solid #e5e7eb;
-border-radius:16px;
-font-size:20px;
-margin-bottom:16px;
-}
-
-.textarea{
-height:120px;
-resize:none;
-}
-
-.sendBtn{
+.btn{
 width:100%;
 border:none;
-background:#dc2626;
-color:#fff;
-padding:28px;
-border-radius:24px;
-font-size:30px;
+padding:24px;
+border-radius:20px;
+font-size:28px;
 font-weight:900;
+color:#fff;
+margin-bottom:12px;
+}
+
+.morning{
+background:#f59e0b;
+}
+
+.noon{
+background:#22c55e;
+}
+
+.evening{
+background:#3b82f6;
+}
+
+.night{
+background:#7c3aed;
 }
 
 .status{
-margin-top:20px;
+font-size:22px;
+line-height:1.8;
+font-weight:900;
+}
+
+.actionBtn{
+display:block;
+width:100%;
+padding:20px;
+border-radius:20px;
+text-decoration:none;
+text-align:center;
 font-size:22px;
 font-weight:900;
-line-height:1.8;
+color:#fff;
+margin-top:12px;
+}
+
+.telBtn{
+background:#16a34a;
+}
+
+.lineBtn{
+background:#06c755;
 }
 
 .home{
 display:block;
+width:100%;
+border:none;
 background:#475569;
 color:#fff;
-text-decoration:none;
 padding:20px;
 border-radius:20px;
-text-align:center;
 font-size:22px;
 font-weight:900;
+margin-top:16px;
 }
 
 </style>
@@ -100,132 +116,207 @@ font-weight:900;
 <body>
 
 <div class="header">
-<h1>💊 薬がない</h1>
+<h1>💊 服薬確認</h1>
 </div>
 
 <div class="card">
 
-<div class="label">
-薬の種類
-</div>
-
-<select
-id="medicineType"
-class="select">
-
-<option>朝の薬</option>
-<option>昼の薬</option>
-<option>夕方の薬</option>
-<option>寝る前の薬</option>
-<option>その他</option>
-
-</select>
-
-<div class="label">
-内容
-</div>
-
-<textarea
-id="memo"
-class="textarea"
-placeholder="薬がなくなった・残り何日分など">
-</textarea>
+<button
+class="btn morning"
+onclick="saveMedicine('morning')">
+🌅 朝の薬
+</button>
 
 <button
-class="sendBtn"
-onclick="sendRequest()">
-
-💊 薬がない
-
+class="btn noon"
+onclick="saveMedicine('noon')">
+☀️ 昼の薬
 </button>
+
+<button
+class="btn evening"
+onclick="saveMedicine('evening')">
+🌇 夕方の薬
+</button>
+
+<button
+class="btn night"
+onclick="saveMedicine('night')">
+🌙 寝る前の薬
+</button>
+
+</div>
+
+<div class="card">
 
 <div
 id="statusArea"
 class="status">
 
-未送信
-
-</div>
+記録なし
 
 </div>
 
 <a
-href="index.html"
-class="home">
+id="telBtn"
+class="actionBtn telBtn"
+style="display:none"
+href="#">
 
-🏠 トップへ戻る
+📞 家族へ電話
 
 </a>
 
+<a
+id="lineBtn"
+class="actionBtn lineBtn"
+style="display:none"
+href="#">
+
+💬 家族へLINE
+
+</a>
+
+<button
+class="home"
+onclick="goHome()">
+
+🏠 トップへ戻る
+
+</button>
+
+</div>
+
 <script>
 
-function sendRequest(){
+function goHome(){
 
-const type =
+location.href =
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/';
+
+}
+
+function showButtons(){
+
+const tel =
+localStorage.getItem(
+'familyTel'
+) || '';
+
+const line =
+localStorage.getItem(
+'familyLine'
+) || '';
+
+if(tel){
+
+const telBtn =
 document.getElementById(
-'medicineType'
-).value;
+'telBtn'
+);
 
-const memo =
+telBtn.href =
+'tel:' + tel;
+
+telBtn.style.display =
+'block';
+
+}
+
+if(line){
+
+const lineBtn =
 document.getElementById(
-'memo'
-).value;
+'lineBtn'
+);
 
-const data = {
+lineBtn.href =
+line;
 
-type:type,
+lineBtn.style.display =
+'block';
 
-memo:memo,
+}
 
-time:
+}
+
+function saveMedicine(type){
+
+const data =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+data[type] = true;
+
+data.time =
 new Date()
 .toLocaleString(
 'ja-JP'
-)
-
-};
+);
 
 localStorage.setItem(
-'medicineRequest',
+'medicineStatus',
 JSON.stringify(data)
 );
 
-document.getElementById(
-'statusArea'
-).innerHTML =
+showStatus();
 
-'送信済み<br><br>' +
-
-data.time;
+showButtons();
 
 alert(
-'薬がないを記録しました'
+'服薬を記録しました'
 );
 
 }
 
-const last =
+function showStatus(){
+
+const data =
 JSON.parse(
 localStorage.getItem(
-'medicineRequest'
-) || 'null'
+'medicineStatus'
+) || '{}'
 );
 
-if(last){
+let html='';
+
+html += data.morning ?
+'☑ 朝の薬<br>' :
+'☐ 朝の薬<br>';
+
+html += data.noon ?
+'☑ 昼の薬<br>' :
+'☐ 昼の薬<br>';
+
+html += data.evening ?
+'☑ 夕方の薬<br>' :
+'☐ 夕方の薬<br>';
+
+html += data.night ?
+'☑ 寝る前の薬<br>' :
+'☐ 寝る前の薬<br>';
+
+if(data.time){
+
+html +=
+'<br>最終記録<br>' +
+data.time;
+
+}
 
 document.getElementById(
 'statusArea'
 ).innerHTML =
-
-'送信済み<br><br>' +
-
-last.time +
-
-'<br><br>' +
-
-last.type;
+html;
 
 }
+
+showStatus();
+
+showButtons();
 
 </script>
 
