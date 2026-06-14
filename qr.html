@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QRコード発行</title>
+<title>QRコード</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <style>
 
@@ -19,15 +19,15 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
 text-align:center;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
+background:linear-gradient(135deg,#7c3aed,#6d28d9);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:28px;
+border-radius:28px;
 margin-bottom:18px;
 }
 
@@ -38,45 +38,43 @@ font-weight:900;
 
 .card{
 background:#fff;
-border-radius:24px;
 padding:24px;
-margin-bottom:18px;
+border-radius:24px;
+margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 #qrcode{
-display:flex;
-justify-content:center;
-margin:20px 0;
+margin:20px auto;
 }
 
 .info{
 font-size:20px;
-font-weight:900;
+font-weight:700;
 line-height:1.8;
 }
 
-.btn{
+.home{
 display:block;
-width:100%;
-padding:24px;
-border:none;
-border-radius:24px;
-font-size:26px;
-font-weight:900;
-cursor:pointer;
-text-decoration:none;
-text-align:center;
-color:#fff;
-margin-top:14px;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.gray{
 background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+}
+
+.copyBtn{
+width:100%;
+border:none;
+background:#2563eb;
+color:#fff;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+margin-top:16px;
 }
 
 </style>
@@ -93,25 +91,23 @@ background:#475569;
 
 <div id="qrcode"></div>
 
-<div
-id="info"
-class="info">
+<div id="info" class="info">
 読込中...
 </div>
 
+<button
+class="copyBtn"
+onclick="copyUrl()">
+
+📋 URLコピー
+
+</button>
+
 </div>
 
 <a
-href="register.html"
-class="btn blue">
-
-👤 登録画面へ
-
-</a>
-
-<a
 href="index.html"
-class="btn gray">
+class="home">
 
 🏠 トップへ戻る
 
@@ -119,77 +115,87 @@ class="btn gray">
 
 <script>
 
-const userId =
-localStorage.getItem(
-'userId'
-) || '';
-
 const userName =
 localStorage.getItem(
 'userName'
 ) || '';
 
-const address =
+const city =
 localStorage.getItem(
-'userAddress'
+'city'
 ) || '';
 
-const familyPhone =
+const areaCode =
 localStorage.getItem(
-'familyPhone'
+'areaCode'
 ) || '';
 
-const familyLine =
-localStorage.getItem(
-'familyLine'
-) || '';
-
-const qrData =
-
-JSON.stringify({
-
-userId:userId,
-
-name:userName,
-
-address:address,
-
-familyPhone:familyPhone,
-
-familyLine:familyLine
-
-});
-
-new QRCode(
-
-document.getElementById(
-'qrcode'
-),
-
-{
-text:qrData,
-width:260,
-height:260
-}
-
+const qrUrl =
+location.origin +
+location.pathname
+.replace(
+'qr.html',
+'index.html'
+) +
+'?user=' +
+encodeURIComponent(
+userName
 );
 
 document.getElementById(
 'info'
 ).innerHTML =
 
-'氏名：' +
+'氏名<br><br>' +
+
 userName +
 
 '<br><br>' +
 
-'住所：' +
-address +
+city +
 
-'<br><br>' +
+' ' +
 
-'利用者ID：' +
-userId;
+areaCode;
+
+QRCode.toCanvas(
+
+document.getElementById(
+'qrcode'
+),
+
+qrUrl,
+
+{
+width:260,
+margin:2
+},
+
+function(error){
+
+if(error){
+
+console.error(
+error
+);
+
+}
+
+}
+
+);
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+qrUrl
+);
+
+alert(
+'URLをコピーしました'
+);
+
+}
 
 </script>
 
