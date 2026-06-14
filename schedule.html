@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>カレンダー予定</title>
+<title>予定案内</title>
 
 <style>
 
@@ -17,16 +17,16 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#ea580c,#fb923c);
+background:linear-gradient(135deg,#f59e0b,#d97706);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:28px;
+border-radius:28px;
 text-align:center;
-margin-bottom:18px;
+margin-bottom:16px;
 }
 
 .header h1{
@@ -36,8 +36,8 @@ font-weight:900;
 
 .card{
 background:#fff;
-padding:24px;
 border-radius:24px;
+padding:20px;
 margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
@@ -48,136 +48,84 @@ font-weight:900;
 margin-bottom:12px;
 }
 
-.input{
-width:100%;
-padding:18px;
+.data{
 font-size:22px;
-border:2px solid #cbd5e1;
-border-radius:18px;
-margin-bottom:14px;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:24px;
-border:none;
-border-radius:24px;
-font-size:26px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-bottom:12px;
-}
-
-.orange{
-background:#ea580c;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.green{
-background:#16a34a;
-}
-
-.gray{
-background:#475569;
-}
-
-.item{
-background:#f8fafc;
-padding:16px;
-border-radius:16px;
-margin-bottom:10px;
-font-size:20px;
-font-weight:900;
 line-height:1.8;
+font-weight:700;
+}
+
+.speakBtn{
+width:100%;
+border:none;
+background:#2563eb;
+color:#fff;
+padding:18px;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
-<h1>📅 カレンダー予定</h1>
+<h1>📅 予定案内</h1>
 </div>
 
-<div class="card">
-
-<div class="title">
-予定登録
-</div>
-
-<input
-id="date"
-class="input"
-type="date">
-
-<input
-id="time"
-class="input"
-type="time">
-
-<input
-id="title"
-class="input"
-placeholder="病院・買い物・薬局など">
-
 <button
-class="btn orange"
-onclick="saveSchedule()">
-
-📅 保存する
-
-</button>
-
-<button
-class="btn blue"
-onclick="startVoice()">
-
-🎤 音声で予定入力
-
-</button>
-
-<button
-class="btn green"
+class="speakBtn"
 onclick="readSchedule()">
-
-🔊 予定を聞く
-
+🔊 読み上げ
 </button>
+
+<div class="card">
+
+<div class="title">
+今日の予定
+</div>
+
+<div id="todayArea" class="data">
+読込中...
+</div>
 
 </div>
 
 <div class="card">
 
 <div class="title">
-今日・明日・今後の予定
+明日の予定
 </div>
 
-<div id="scheduleList">
-
-予定なし
-
+<div id="tomorrowArea" class="data">
+読込中...
 </div>
 
 </div>
 
 <a
 href="index.html"
-class="btn gray">
-
+class="home">
 🏠 トップへ戻る
-
 </a>
 
 <script>
 
-function saveSchedule(){
-
 const schedules =
 JSON.parse(
 localStorage.getItem(
@@ -185,175 +133,98 @@ localStorage.getItem(
 ) || '[]'
 );
 
-const item = {
+const today =
+new Date();
 
-date:
-document.getElementById(
-'date'
-).value,
+const todayStr =
+today.toISOString().split('T')[0];
 
-time:
-document.getElementById(
-'time'
-).value,
+const tomorrow =
+new Date();
 
-title:
-document.getElementById(
-'title'
-).value
-
-};
-
-if(!item.date || !item.title){
-
-alert(
-'日付と予定を入力してください'
+tomorrow.setDate(
+today.getDate()+1
 );
 
-return;
+const tomorrowStr =
+tomorrow.toISOString().split('T')[0];
 
-}
-
-schedules.push(item);
-
-schedules.sort((a,b)=>
-(a.date+a.time).localeCompare(
-b.date+b.time
-)
-);
-
-localStorage.setItem(
-'schedules',
-JSON.stringify(
-schedules
-)
-);
-
-loadSchedules();
-
-}
-
-function loadSchedules(){
-
-const schedules =
-JSON.parse(
-localStorage.getItem(
-'schedules'
-) || '[]'
-);
-
-if(!schedules.length){
-
-document.getElementById(
-'scheduleList'
-).innerHTML =
-'予定なし';
-
-return;
-
-}
-
-let html='';
+let todayHtml='';
+let tomorrowHtml='';
 
 schedules.forEach(item=>{
 
-html +=
+if(item.date===todayStr){
 
-'<div class="item">' +
+todayHtml +=
 
-'📅 ' +
-item.date +
+(item.time||'') +
 
-'<br>' +
+' ' +
 
-'🕒 ' +
-(item.time || '') +
+(item.title||'') +
 
-'<br>' +
+'<br>';
 
-'📍 ' +
-item.title +
+}
 
-'</div>';
+if(item.date===tomorrowStr){
+
+tomorrowHtml +=
+
+(item.time||'') +
+
+' ' +
+
+(item.title||'') +
+
+'<br>';
+
+}
 
 });
 
+if(!todayHtml){
+
+todayHtml =
+'予定はありません';
+
+}
+
+if(!tomorrowHtml){
+
+tomorrowHtml =
+'予定はありません';
+
+}
+
 document.getElementById(
-'scheduleList'
+'todayArea'
 ).innerHTML =
-html;
-
-}
-
-function startVoice(){
-
-if(!('webkitSpeechRecognition' in window)){
-
-alert(
-'音声入力に対応していません'
-);
-
-return;
-
-}
-
-const rec =
-new webkitSpeechRecognition();
-
-rec.lang='ja-JP';
-
-rec.start();
-
-rec.onresult=function(e){
-
-const text =
-e.results[0][0].transcript;
+todayHtml;
 
 document.getElementById(
-'title'
-).value =
-text;
-
-};
-
-}
+'tomorrowArea'
+).innerHTML =
+tomorrowHtml;
 
 function readSchedule(){
 
-const schedules =
-JSON.parse(
-localStorage.getItem(
-'schedules'
-) || '[]'
-);
+const text =
 
-let text =
-'予定はありません';
+'今日の予定は ' +
 
-if(schedules.length){
+document.getElementById(
+'todayArea'
+).innerText +
 
-text =
-'予定をお知らせします。';
+'。明日の予定は ' +
 
-schedules.forEach(item=>{
+document.getElementById(
+'tomorrowArea'
+).innerText;
 
-text +=
-
-item.date +
-
-' ' +
-
-(item.time || '') +
-
-' ' +
-
-item.title +
-
-'。';
-
-});
-
-}
+speechSynthesis.cancel();
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance(
@@ -362,8 +233,6 @@ text
 );
 
 }
-
-loadSchedules();
 
 </script>
 
