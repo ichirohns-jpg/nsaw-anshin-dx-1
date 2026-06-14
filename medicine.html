@@ -15,80 +15,71 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:15px;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:800px;
-margin:auto;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#4caf50,#2e7d32);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
-padding:24px;
-border-radius:24px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-font-size:34px;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
 font-weight:900;
-margin-bottom:16px;
-}
-
-.card{
-background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-.med{
-font-size:28px;
-font-weight:900;
-margin-bottom:15px;
-text-align:center;
-}
-
-.time{
-font-size:20px;
-margin-bottom:15px;
-text-align:center;
-}
-
-.result{
-font-size:24px;
-font-weight:900;
-text-align:center;
-padding:20px;
 }
 
 .btn{
+display:block;
 width:100%;
+padding:30px;
 border:none;
-border-radius:18px;
-padding:22px;
-font-size:28px;
+border-radius:24px;
+font-size:30px;
 font-weight:900;
+margin-bottom:14px;
+color:#fff;
 cursor:pointer;
-margin-bottom:12px;
 }
 
-.ok{
-background:#4caf50;
-color:#fff;
+.morning{
+background:#f59e0b;
 }
 
-.ng{
-background:#f44336;
-color:#fff;
+.noon{
+background:#16a34a;
 }
 
-.back{
-background:#666;
-color:#fff;
+.evening{
+background:#2563eb;
+}
+
+.night{
+background:#7c3aed;
+}
+
+.gray{
+background:#475569;
+}
+
+.result{
+background:#fff;
+padding:24px;
+border-radius:24px;
+font-size:24px;
+font-weight:900;
+text-align:center;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.done{
+opacity:.45;
 }
 
 </style>
@@ -97,156 +88,91 @@ color:#fff;
 
 <body>
 
-<div class="wrap">
-
 <div class="header">
-💊 服薬確認
+<h1>💊 服薬確認</h1>
 </div>
-
-<div class="card">
-
-<div class="med">
-本日の服薬
-</div>
-
-<div
-id="todayDate"
-class="time">
-読込中...
-</div>
-
-<button
-class="btn ok"
-onclick="takeMedicine()">
-💊 飲みました
-</button>
-
-<button
-class="btn ng"
-onclick="notTakeMedicine()">
-⚠️ まだです
-</button>
 
 <div
 id="result"
 class="result">
-未確認
+
+服薬してください
+
 </div>
 
 <button
-class="btn back"
-onclick="history.back()">
-戻る
+id="morningBtn"
+class="btn morning"
+onclick="takeMedicine('朝')">
+🌅 朝の薬
 </button>
 
-</div>
+<button
+id="noonBtn"
+class="btn noon"
+onclick="takeMedicine('昼')">
+☀️ 昼の薬
+</button>
+
+<button
+id="eveningBtn"
+class="btn evening"
+onclick="takeMedicine('夕方')">
+🌆 夕方の薬
+</button>
+
+<button
+id="nightBtn"
+class="btn night"
+onclick="takeMedicine('寝る前')">
+🌙 寝る前の薬
+</button>
+
+<a
+href="app.html"
+class="btn gray">
+🏠 本人ページへ戻る
+</a>
 
 <script>
 
-const today =
-new Date();
+function takeMedicine(type){
 
 document.getElementById(
-"todayDate"
+'result'
 ).innerHTML =
-today.toLocaleDateString(
-"ja-JP"
-);
+'💊 ' + type + 'の薬を記録しました';
 
-function saveMedicine(status){
-
-const now =
-new Date();
-
-if(status==="ok"){
-
-localStorage.setItem(
-"medicineStatus",
-"服薬済"
-);
-
-localStorage.setItem(
-"medicineTime",
-now.toLocaleString("ja-JP")
-);
-
+if(type==='朝'){
 document.getElementById(
-"result"
-).innerHTML =
+'morningBtn'
+).classList.add('done');
+}
 
-"✅ 服薬済<br><br>" +
+if(type==='昼'){
+document.getElementById(
+'noonBtn'
+).classList.add('done');
+}
 
-now.toLocaleString(
-"ja-JP"
-);
+if(type==='夕方'){
+document.getElementById(
+'eveningBtn'
+).classList.add('done');
+}
 
-}else{
+if(type==='寝る前'){
+document.getElementById(
+'nightBtn'
+).classList.add('done');
+}
 
 localStorage.setItem(
-"medicineStatus",
-"未服薬"
-);
-
-localStorage.setItem(
-"medicineTime",
-now.toLocaleString("ja-JP")
-);
-
-document.getElementById(
-"result"
-).innerHTML =
-
-"⚠️ 未服薬<br><br>" +
-
-now.toLocaleString(
-"ja-JP"
+'medicine_' + type,
+new Date().toLocaleString('ja-JP')
 );
 
 }
-
-}
-
-function takeMedicine(){
-
-saveMedicine(
-"ok"
-);
-
-}
-
-function notTakeMedicine(){
-
-saveMedicine(
-"ng"
-);
-
-}
-
-window.onload=function(){
-
-const status =
-localStorage.getItem(
-"medicineStatus"
-);
-
-const time =
-localStorage.getItem(
-"medicineTime"
-);
-
-if(status){
-
-document.getElementById(
-"result"
-).innerHTML =
-
-status +
-"<br><br>" +
-(time || "");
-
-}
-
-};
 
 </script>
 
