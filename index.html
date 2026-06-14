@@ -7,6 +7,7 @@
 <title>あんしん生活DX</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -93,12 +94,25 @@ margin-top:5px;
 color:rgba(255,255,255,.86);
 }
 
-.green{background:linear-gradient(135deg,#047857,#22c55e);}
-.red{background:linear-gradient(135deg,#991b1b,#ef4444);}
-.orange{background:linear-gradient(135deg,#9a3412,#f97316);}
-.blue{background:linear-gradient(135deg,#1e3a8a,#3b82f6);}
-.purple{background:linear-gradient(135deg,#581c87,#a855f7);}
-.dark{background:linear-gradient(135deg,#111827,#334155);}
+.green{
+background:linear-gradient(135deg,#047857,#22c55e);
+}
+
+.red{
+background:linear-gradient(135deg,#991b1b,#ef4444);
+}
+
+.orange{
+background:linear-gradient(135deg,#9a3412,#f97316);
+}
+
+.blue{
+background:linear-gradient(135deg,#1e3a8a,#3b82f6);
+}
+
+.purple{
+background:linear-gradient(135deg,#581c87,#a855f7);
+}
 
 .section{
 background:linear-gradient(135deg,#172033,#0f172a);
@@ -142,7 +156,7 @@ border-bottom:none;
 
 <div class="main">
 
-<a href="app.html" class="big green">
+<a href="index.html?genki=1" class="big green">
 <div class="icon">😊</div>
 <div class="text">
 <div class="title">元気です</div>
@@ -206,35 +220,151 @@ border-bottom:none;
 </div>
 </a>
 
+<a href="consult.html" class="big blue">
+<div class="icon">☎</div>
+<div class="text">
+<div class="title">相談する</div>
+<div class="sub">困りごと相談</div>
 </div>
-
-<div class="section">
-<div class="sectionTitle">地域情報</div>
-
-<a href="kawaraban.html" class="link">📰 4市瓦版</a>
-<a href="radio.html" class="link">📻 地域ラジオ</a>
-<a href="fun.html" class="link">🎬 お楽しみ動画</a>
-
-</div>
-
-<div class="section">
-<div class="sectionTitle">生活支援</div>
-
-<a href="medicine-request.html" class="link">💊 薬がない</a>
-<a href="hospital.html" class="link">🏥 病院・薬局</a>
-<a href="garbage.html" class="link">🗑 ゴミの日</a>
-<a href="consult.html" class="link">☎ 相談する</a>
+</a>
 
 </div>
 
 <div class="section">
-<div class="sectionTitle">家族・管理</div>
 
-<a href="family.html" class="link">👪 支援者ページ</a>
-<a href="qr.html" class="link">📱 QRコード</a>
-<a href="register.html" class="link">⚙️ 本人登録</a>
+<div class="sectionTitle">
+地域情報
+</div>
+
+<a href="kawaraban.html" class="link">
+📰 4市瓦版
+</a>
+
+<a href="radio.html" class="link">
+📻 地域ラジオ
+</a>
+
+<a href="fun.html" class="link">
+🎬 お楽しみ動画
+</a>
 
 </div>
+
+<div class="section">
+
+<div class="sectionTitle">
+生活支援
+</div>
+
+<a href="medicine-request.html" class="link">
+💊 薬がない
+</a>
+
+<a href="hospital.html" class="link">
+🏥 病院・薬局
+</a>
+
+<a href="garbage.html" class="link">
+🗑 ゴミの日
+</a>
+
+<a
+id="familyPhoneBtn"
+href="#"
+class="link">
+📞 家族へ電話
+</a>
+
+<a
+id="familyLineBtn"
+href="#"
+class="link"
+target="_blank">
+💬 家族へLINE
+</a>
+
+</div>
+
+<div class="section">
+
+<div class="sectionTitle">
+家族・管理
+</div>
+
+<a href="family.html" class="link">
+👪 支援者ページ
+</a>
+
+<a href="qr.html" class="link">
+📱 QRコード
+</a>
+
+<a href="register.html" class="link">
+⚙️ 本人登録
+</a>
+
+</div>
+
+<script>
+
+const familyPhone =
+localStorage.getItem(
+'familyPhone'
+);
+
+if(familyPhone){
+
+document.getElementById(
+'familyPhoneBtn'
+).href =
+'tel:' + familyPhone;
+
+}
+
+const familyLine =
+localStorage.getItem(
+'familyLine'
+);
+
+if(familyLine){
+
+document.getElementById(
+'familyLineBtn'
+).href =
+familyLine;
+
+}
+
+if(
+location.search.includes(
+'genki=1'
+)
+){
+
+const data = {
+
+time:new Date()
+.toLocaleString(
+'ja-JP'
+)
+
+};
+
+localStorage.setItem(
+'lastGenki',
+JSON.stringify(data)
+);
+
+alert(
+'😊 元気です を記録しました'
+);
+
+location.href =
+'index.html';
+
+}
+
+</script>
 
 </body>
 </html>
