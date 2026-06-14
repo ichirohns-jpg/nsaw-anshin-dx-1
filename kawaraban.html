@@ -27,9 +27,6 @@ padding:24px;
 text-align:center;
 font-size:32px;
 font-weight:900;
-position:sticky;
-top:0;
-z-index:999;
 }
 
 .wrap{
@@ -119,35 +116,44 @@ const SHEET_ID =
 const SHEET_NAME =
 '4市瓦版';
 
-const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
+function getVal(cell){
 
-function getVal(c){
+if(!cell) return '';
 
-if(!c) return '';
-
-return c.f || c.v || '';
+return cell.f || cell.v || '';
 
 }
 
 function loadSheet(){
 
-const s =
-document.createElement('script');
+const script =
+document.createElement(
+'script'
+);
 
-s.src =
-url +
-'&callback=handleSheet';
+script.src =
 
-document.body.appendChild(s);
+'https://docs.google.com/spreadsheets/d/' +
+
+SHEET_ID +
+
+'/gviz/tq?sheet=' +
+
+encodeURIComponent(
+SHEET_NAME
+) +
+
+'&tqx=out:json&callback=handleSheet';
+
+document.body.appendChild(
+script
+);
 
 }
 
 window.handleSheet=function(json){
+
+try{
 
 const rows =
 json.table.rows;
@@ -233,6 +239,19 @@ document.getElementById(
 'archive'
 ).innerHTML =
 archive;
+
+}
+catch(e){
+
+document.getElementById(
+'latest'
+).innerHTML =
+
+'エラー<br><br>' +
+
+e.message;
+
+}
 
 };
 
