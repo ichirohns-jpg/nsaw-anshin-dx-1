@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ゴミ情報</title>
+<title>ゴミの日</title>
 
 <style>
 
@@ -12,109 +12,103 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2d3d;
+padding:16px;
+color:#fff;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
 padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
+}
+
+.header p{
+margin-top:8px;
+font-size:16px;
+color:#cbd5e1;
+font-weight:700;
 }
 
 .card{
-background:#fff;
-border-radius:30px;
+background:linear-gradient(135deg,#1e293b,#0f172a);
 padding:24px;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 10px 24px rgba(0,0,0,.30);
 }
 
 .title{
-font-size:24px;
+font-size:26px;
 font-weight:900;
+margin-bottom:14px;
+}
+
+.item{
+background:rgba(255,255,255,.08);
+padding:18px;
+border-radius:18px;
 margin-bottom:12px;
-}
-
-.area{
-font-size:30px;
+font-size:22px;
 font-weight:900;
-text-align:center;
-color:#2563eb;
+line-height:1.8;
 }
 
-.gomi{
-font-size:42px;
-font-weight:900;
-text-align:center;
-padding:20px;
+.next{
+background:#16a34a;
 }
 
-.today{
-color:#dc2626;
-}
-
-.tomorrow{
-color:#16a34a;
+.notice{
+font-size:18px;
+line-height:1.8;
+color:#e2e8f0;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:22px;
-border-radius:20px;
-margin-top:12px;
+padding:24px;
+border-radius:24px;
 text-decoration:none;
 text-align:center;
 font-size:24px;
 font-weight:900;
 color:#fff;
-background:#475569;
+background:linear-gradient(135deg,#475569,#334155);
+margin-top:16px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-<h1>🗑 ゴミ情報</h1>
+<h1>🗑 ゴミの日</h1>
+<p>登録住所から表示</p>
 </div>
 
 <div class="card">
 
 <div class="title">
-対象地域
+📍 登録地区
 </div>
 
-<div class="area">
-志木市
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-今日のゴミ
-</div>
-
-<div class="gomi today">
-燃えるゴミ
+<div id="area" class="item">
+未登録
 </div>
 
 </div>
@@ -122,26 +116,84 @@ background:#475569;
 <div class="card">
 
 <div class="title">
-明日のゴミ
+🗑 次回収集
 </div>
 
-<div class="gomi tomorrow">
+<div id="nextGarbage" class="item next">
+登録後に表示
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+📅 今週の予定
+</div>
+
+<div id="weekSchedule">
+
+<div class="item">
+可燃ごみ
+</div>
+
+<div class="item">
 資源ごみ
 </div>
 
+<div class="item">
+不燃ごみ
 </div>
 
-<a href="hospital.html" class="btn">
-🏥 病院・薬局
-</a>
+</div>
 
-<a href="map.html" class="btn">
-🗺 地域マップ
-</a>
+</div>
+
+<div class="card">
+
+<div class="title">
+ℹ️ お知らせ
+</div>
+
+<div class="notice">
+住所登録後に地区ごとの収集日を表示します。
+今後は志木市・新座市・朝霞市・和光市の地区判定に対応します。
+</div>
+
+</div>
 
 <a href="index.html" class="btn">
 🏠 トップへ戻る
 </a>
+
+<script>
+
+const city =
+localStorage.getItem('userCity') || '';
+
+const area =
+localStorage.getItem('userArea') || '';
+
+const chome =
+localStorage.getItem('userChome') || '';
+
+document.getElementById(
+'area'
+).innerHTML =
+
+(city || '-') +
+'<br>' +
+(area || '-') +
+'<br>' +
+(chome || '-');
+
+document.getElementById(
+'nextGarbage'
+).innerHTML =
+
+'住所登録後に地区別回収日を表示';
+
+</script>
 
 </body>
 </html>
