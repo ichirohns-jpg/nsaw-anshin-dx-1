@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>本人登録</title>
+<title>元気です</title>
 
 <style>
 
@@ -12,208 +12,229 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
-padding:28px;
-border-radius:28px;
+border-radius:30px;
+padding:30px;
 text-align:center;
 margin-bottom:18px;
 }
 
 .header h1{
-font-size:38px;
+font-size:36px;
 font-weight:900;
 }
 
 .card{
-background:#fff;
+background:linear-gradient(135deg,#1e293b,#0f172a);
 padding:24px;
 border-radius:24px;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.label{
-font-size:22px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.input{
-width:100%;
-padding:20px;
-font-size:24px;
-border:2px solid #cbd5e1;
-border-radius:18px;
 margin-bottom:16px;
 }
 
-.btn{
+.status{
+font-size:24px;
+font-weight:900;
+text-align:center;
+line-height:1.8;
+}
+
+.bigBtn{
 display:block;
 width:100%;
-padding:28px;
+padding:40px;
 border:none;
-border-radius:24px;
-font-size:30px;
+border-radius:30px;
+font-size:42px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
+background:linear-gradient(135deg,#16a34a,#22c55e);
+margin-bottom:16px;
 }
 
-.green{
-background:#16a34a;
+.info{
+background:rgba(255,255,255,.08);
+padding:18px;
+border-radius:18px;
+margin-bottom:12px;
+font-size:20px;
+font-weight:900;
+line-height:1.8;
+}
+
+.menu{
+display:block;
+width:100%;
+padding:22px;
+border-radius:20px;
+text-decoration:none;
+text-align:center;
+font-size:24px;
+font-weight:900;
+color:#fff;
+margin-bottom:12px;
+}
+
+.blue{
+background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.red{
+background:linear-gradient(135deg,#dc2626,#ef4444);
+}
+
+.orange{
+background:linear-gradient(135deg,#ea580c,#fb923c);
 }
 
 .gray{
-background:#475569;
-margin-top:14px;
-text-decoration:none;
-text-align:center;
-}
-
-.result{
-background:#fff;
-padding:22px;
-border-radius:24px;
-font-size:22px;
-font-weight:900;
-line-height:1.8;
-text-align:center;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+background:linear-gradient(135deg,#475569,#334155);
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-<h1>👤 本人登録</h1>
+<h1>😊 元気です</h1>
 </div>
 
 <div class="card">
 
-<div class="label">
-お名前
+<div id="statusArea" class="status">
+本日の安否確認をしてください
 </div>
 
-<input
-id="name"
-class="input"
-placeholder="山田太郎">
-
-<div class="label">
-住所
 </div>
-
-<input
-id="address"
-class="input"
-placeholder="住所">
-
-<div class="label">
-電話番号
-</div>
-
-<input
-id="phone"
-class="input"
-placeholder="09012345678">
-
-<div class="label">
-緊急連絡先
-</div>
-
-<input
-id="family"
-class="input"
-placeholder="09012345678">
 
 <button
-class="btn green"
-onclick="saveUser()">
-登録する
+class="bigBtn"
+onclick="sendGenki()">
+😊 元気です
 </button>
 
+<div class="card">
+
+<div id="lastArea" class="info">
+未送信
 </div>
 
-<div
-id="result"
-class="result">
-
-未登録
-
 </div>
 
-<a
-href="index.html"
-class="btn gray">
+<a href="medicine.html" class="menu blue">
+💊 服薬
+</a>
+
+<a href="gps.html" class="menu red">
+📍 現在地
+</a>
+
+<a href="sos.html" class="menu orange">
+🚨 困りごと・SOS
+</a>
+
+<a href="index.html" class="menu gray">
 🏠 トップへ戻る
 </a>
 
 <script>
 
-function saveUser(){
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-const userId =
-Date.now().toString();
+loadLast();
 
-localStorage.setItem(
-'userId',
-userId
+function loadLast(){
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
 );
 
-localStorage.setItem(
-'userName',
-document.getElementById(
-'name'
-).value
-);
-
-localStorage.setItem(
-'userAddress',
-document.getElementById(
-'address'
-).value
-);
-
-localStorage.setItem(
-'userPhone',
-document.getElementById(
-'phone'
-).value
-);
-
-localStorage.setItem(
-'userFamily',
-document.getElementById(
-'family'
-).value
-);
+if(last){
 
 document.getElementById(
-'result'
+'lastArea'
 ).innerHTML =
 
-'登録完了<br><br>' +
+'最終送信<br><br>' +
+
+last.time;
+
+}
+
+}
+
+function sendGenki(){
+
+const now =
+new Date().toLocaleString(
+'ja-JP'
+);
+
+const data = {
+
+type:'genki',
+
+time:now,
+
+name:
+localStorage.getItem(
+'userName'
+) || '利用者',
+
+userId:
+localStorage.getItem(
+'userId'
+) || ''
+
+};
+
+localStorage.setItem(
+'lastGenki',
+JSON.stringify(data)
+);
 
 document.getElementById(
-'name'
-).value +
+'statusArea'
+).innerHTML =
 
-'<br><br>ID<br>' +
+'😊 元気です送信完了<br><br>' +
 
-userId;
+now;
+
+document.getElementById(
+'lastArea'
+).innerHTML =
+
+'最終送信<br><br>' +
+
+now;
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify(data)
+}
+).catch(()=>{});
 
 }
 
