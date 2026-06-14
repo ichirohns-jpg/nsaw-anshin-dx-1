@@ -6,10 +6,15 @@
 
 <title>記事詳細</title>
 
-<meta property="og:title" content="地域情報">
-<meta property="og:description" content="地域情報を表示">
-<meta property="og:image" content="">
 <meta property="og:type" content="article">
+<meta property="og:title" content="地域情報">
+<meta property="og:description" content="地域情報">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="地域情報">
+<meta name="twitter:description" content="地域情報">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/icon.png">
 
 <style>
 
@@ -126,20 +131,18 @@ margin-top:20px;
 const SHEET_ID =
 '149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 
-const SHEET_NAME =
-'4市瓦版';
-
 const articleId =
 new URLSearchParams(
 location.search
 ).get('id');
 
-const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
+const SHEETS = [
+
+'4市瓦版',
+'地域ラジオ',
+'お楽しみ動画'
+
+];
 
 function getVal(c){
 
@@ -149,20 +152,29 @@ return c.f || c.v || '';
 
 }
 
-function loadArticle(){
+function loadSheet(sheetName){
+
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(sheetName) +
+'&tqx=out:json';
 
 const script =
 document.createElement('script');
 
 script.src =
 url +
-'&callback=handleSheet';
+'&callback=handle_' +
+encodeURIComponent(sheetName);
 
 document.body.appendChild(script);
 
-}
-
-function handleSheet(json){
+window[
+'handle_' +
+sheetName
+] = function(json){
 
 const rows =
 json.table.rows;
@@ -170,9 +182,13 @@ json.table.rows;
 rows.forEach(row=>{
 
 const id =
-String(getVal(row.c[0]));
+String(
+getVal(row.c[0])
+);
 
-if(id !== articleId) return;
+if(id !== articleId){
+return;
+}
 
 const title =
 getVal(row.c[1]);
@@ -219,33 +235,50 @@ img.style.display =
 
 }
 
-const pageUrl =
+const shareUrl =
 location.href;
 
 document.getElementById(
 'line'
 ).href =
 'https://social-plugins.line.me/lineit/share?url=' +
-encodeURIComponent(pageUrl);
+encodeURIComponent(
+shareUrl
+);
 
 document.getElementById(
 'x'
 ).href =
 'https://twitter.com/intent/tweet?url=' +
-encodeURIComponent(pageUrl);
+encodeURIComponent(
+shareUrl
+);
 
 document.getElementById(
 'fb'
 ).href =
 'https://www.facebook.com/sharer/sharer.php?u=' +
-encodeURIComponent(pageUrl);
+encodeURIComponent(
+shareUrl
+);
+
+};
 
 });
 
+};
+
 }
 
-window.onload =
-loadArticle;
+window.onload = function(){
+
+SHEETS.forEach(sheet=>{
+
+loadSheet(sheet);
+
+});
+
+};
 
 </script>
 
