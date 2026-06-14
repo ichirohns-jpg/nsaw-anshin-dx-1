@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>記事詳細</title>
+
+<meta property="og:title" content="地域情報">
+<meta property="og:description" content="地域情報を表示">
+<meta property="og:image" content="">
+<meta property="og:type" content="article">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#f4f6f8;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2937;
+}
+
+header{
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:#fff;
+padding:24px;
+text-align:center;
+font-size:30px;
+font-weight:900;
+}
+
+.wrap{
+max-width:1000px;
+margin:auto;
+padding:15px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+overflow:hidden;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.image{
+width:100%;
+max-height:500px;
+object-fit:cover;
+display:none;
+}
+
+.body{
+padding:24px;
+}
+
+.title{
+font-size:32px;
+font-weight:900;
+line-height:1.5;
+margin-bottom:12px;
+}
+
+.date{
+font-size:14px;
+color:#64748b;
+margin-bottom:20px;
+}
+
+.content{
+font-size:20px;
+line-height:1.9;
+white-space:pre-wrap;
+}
+
+.share{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+margin-top:20px;
+}
+
+.share a{
+text-decoration:none;
+color:#fff;
+padding:16px;
+text-align:center;
+border-radius:14px;
+font-size:18px;
+font-weight:900;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#111;
+}
+
+.fb{
+background:#1877f2;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:18px;
+text-align:center;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+margin-top:20px;
+}
+
+</style>
+
+<script>
+
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+
+const SHEET_NAME =
+'4市瓦版';
+
+const articleId =
+new URLSearchParams(
+location.search
+).get('id');
+
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
+function getVal(c){
+
+if(!c) return '';
+
+return c.f || c.v || '';
+
+}
+
+function loadArticle(){
+
+const script =
+document.createElement('script');
+
+script.src =
+url +
+'&callback=handleSheet';
+
+document.body.appendChild(script);
+
+}
+
+function handleSheet(json){
+
+const rows =
+json.table.rows;
+
+rows.forEach(row=>{
+
+const id =
+String(getVal(row.c[0]));
+
+if(id !== articleId) return;
+
+const title =
+getVal(row.c[1]);
+
+const content =
+getVal(row.c[2]);
+
+const image =
+getVal(row.c[3]);
+
+const date =
+getVal(row.c[4]);
+
+document.title =
+title;
+
+document.getElementById(
+'title'
+).innerHTML =
+title;
+
+document.getElementById(
+'date'
+).innerHTML =
+date;
+
+document.getElementById(
+'content'
+).innerHTML =
+content;
+
+if(image){
+
+const img =
+document.getElementById(
+'image'
+);
+
+img.src =
+image;
+
+img.style.display =
+'block';
+
+}
+
+const pageUrl =
+location.href;
+
+document.getElementById(
+'line'
+).href =
+'https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(pageUrl);
+
+document.getElementById(
+'x'
+).href =
+'https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(pageUrl);
+
+document.getElementById(
+'fb'
+).href =
+'https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(pageUrl);
+
+});
+
+}
+
+window.onload =
+loadArticle;
+
+</script>
+
+</head>
+
+<body>
+
+<header>
+地域情報
+</header>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+id="image"
+class="image">
+
+<div class="body">
+
+<div
+id="title"
+class="title">
+読込中...
+</div>
+
+<div
+id="date"
+class="date">
+</div>
+
+<div
+id="content"
+class="content">
+</div>
+
+<div class="share">
+
+<a
+id="line"
+class="line"
+target="_blank">
+LINE
+</a>
+
+<a
+id="x"
+class="x"
+target="_blank">
+X
+</a>
+
+<a
+id="fb"
+class="fb"
+target="_blank">
+Facebook
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<a href="index.html" class="home">
+🏠 トップへ戻る
+</a>
+
+</div>
+
+</body>
+</html>
