@@ -7,7 +7,7 @@
 <title>お楽しみ動画</title>
 
 <meta property="og:title" content="お楽しみ動画">
-<meta property="og:description" content="地域の動画・おすすめ動画">
+<meta property="og:description" content="地域の暮らしに役立つ動画・楽しい動画をお届け">
 <meta property="og:image" content="icon.png">
 
 <style>
@@ -51,11 +51,30 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 width:100%;
 aspect-ratio:16/9;
 object-fit:cover;
+display:block;
 background:#ddd;
 }
 
 .body{
 padding:18px;
+}
+
+.date{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:12px;
+font-weight:700;
+}
+
+.genre{
+display:inline-block;
+background:#dcfce7;
+color:#16a34a;
+padding:6px 12px;
+border-radius:999px;
+font-size:14px;
+font-weight:900;
+margin-bottom:12px;
 }
 
 .title{
@@ -67,15 +86,20 @@ margin-bottom:10px;
 
 .desc{
 font-size:18px;
-line-height:1.7;
+line-height:1.8;
 color:#475569;
-margin-bottom:12px;
+margin-bottom:14px;
+white-space:pre-wrap;
 }
 
-.date{
-font-size:14px;
-color:#94a3b8;
-margin-bottom:12px;
+.memo{
+font-size:15px;
+line-height:1.7;
+color:#64748b;
+background:#f8fafc;
+padding:12px;
+border-radius:14px;
+margin-bottom:14px;
 }
 
 .btn{
@@ -89,35 +113,6 @@ border-radius:14px;
 font-size:20px;
 font-weight:900;
 margin-top:10px;
-}
-
-.share{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:8px;
-margin-top:12px;
-}
-
-.share a{
-text-decoration:none;
-color:#fff;
-padding:12px;
-border-radius:12px;
-text-align:center;
-font-size:16px;
-font-weight:900;
-}
-
-.line{
-background:#06c755;
-}
-
-.x{
-background:#111;
-}
-
-.fb{
-background:#1877f2;
 }
 
 .sectionTitle{
@@ -149,18 +144,37 @@ const SHEET_ID =
 const SHEET_NAME =
 'お楽しみ動画';
 
-const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
-
 function getVal(c){
 
 if(!c) return '';
 
 return c.f || c.v || '';
+
+}
+
+function makeImageUrl(url){
+
+url = String(url || '').trim();
+
+if(url.includes('drive.google.com/file/d/')){
+
+const id =
+url.split('/file/d/')[1].split('/')[0];
+
+return 'https://docs.google.com/uc?export=view&id=' + id;
+
+}
+
+if(url.includes('open?id=')){
+
+const id =
+url.split('open?id=')[1].split('&')[0];
+
+return 'https://docs.google.com/uc?export=view&id=' + id;
+
+}
+
+return url;
 
 }
 
@@ -170,8 +184,11 @@ const s =
 document.createElement('script');
 
 s.src =
-url +
-'&callback=handleSheet';
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json;responseHandler:handleSheet';
 
 document.body.appendChild(s);
 
@@ -189,38 +206,54 @@ let archive='';
 
 rows.forEach((row,index)=>{
 
-const id =
+if(!row.c) return;
+
+const date =
 getVal(row.c[0]);
 
 const title =
-getVal(row.c[1]);
-
-const desc =
 getVal(row.c[2]);
 
 const image =
-getVal(row.c[3]);
+makeImageUrl(
+getVal(row.c[3])
+);
 
-const date =
+const desc =
 getVal(row.c[4]);
 
-const shareUrl =
-location.origin +
-location.pathname.replace(
-'fun.html',
-'share.html?id=' + id
-);
+const video =
+getVal(row.c[5]);
+
+const genre =
+getVal(row.c[7]);
+
+const memo =
+getVal(row.c[8]);
 
 const html =
 
 '<div class="card">' +
 
 (image ?
+
 '<img class="thumb" src="' +
 image +
-'">' : '') +
+'" loading="lazy">' : '') +
 
 '<div class="body">' +
+
+'<div class="date">' +
+date +
+'</div>' +
+
+(genre ?
+
+'<div class="genre">' +
+genre +
+'</div>'
+
+: '') +
 
 '<div class="title">' +
 title +
@@ -230,35 +263,29 @@ title +
 desc +
 '</div>' +
 
-'<div class="date">' +
-date +
-'</div>' +
+(memo ?
 
-'<a class="btn" href="article.html?id=' +
-id +
-'">🎬 動画を見る</a>' +
+'<div class="memo">' +
+memo +
+'</div>'
 
-'<div class="share">' +
+: '') +
 
-'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
-encodeURIComponent(shareUrl) +
-'">LINE</a>' +
+(video ?
 
-'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
-encodeURIComponent(shareUrl) +
-'">X</a>' +
+'<a class="btn" target="_blank" href="' +
+video +
+'">' +
+'▶ 動画を見る' +
+'</a>'
 
-'<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
-encodeURIComponent(shareUrl) +
-'">Facebook</a>' +
-
-'</div>' +
+: '') +
 
 '</div>' +
 
 '</div>';
 
-if(index < 5){
+if(index === 0){
 
 latest += html;
 
@@ -271,44 +298,51 @@ archive += html;
 });
 
 document.getElementById(
-'latest'
+'latest-area'
 ).innerHTML =
-latest;
+latest || '動画がありません';
 
 document.getElementById(
-'archive'
+'archive-area'
 ).innerHTML =
 archive;
 
 }
 
-window.onload =
-loadSheet;
-
 </script>
 
 </head>
 
-<body>
+<body onload="loadSheet()">
 
 <header>
+
 🎬 お楽しみ動画
+
 </header>
 
 <div class="wrap">
 
-<div id="latest">
+<div id="latest-area">
+
 読込中...
+
 </div>
 
 <div class="sectionTitle">
+
 📚 アーカイブ
+
 </div>
 
-<div id="archive"></div>
+<div id="archive-area"></div>
 
-<a href="index.html" class="home">
+<a
+href="index.html"
+class="home">
+
 🏠 トップへ戻る
+
 </a>
 
 </div>
