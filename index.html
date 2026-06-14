@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>服薬確認</title>
+<title>家族ページ</title>
 
 <style>
 
@@ -18,10 +18,11 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:18px;
+color:#1f2d3d;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#60a5fa);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
 border-radius:30px;
@@ -29,7 +30,7 @@ text-align:center;
 margin-bottom:18px;
 }
 
-.header h1{
+.name{
 font-size:36px;
 font-weight:900;
 }
@@ -42,41 +43,53 @@ margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.btn{
-width:100%;
-padding:28px;
-border:none;
-border-radius:24px;
+.title{
+font-size:26px;
+font-weight:900;
 margin-bottom:14px;
-font-size:28px;
+}
+
+.status{
+font-size:22px;
+font-weight:900;
+line-height:2;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:24px;
+border-radius:22px;
+margin-bottom:14px;
+text-align:center;
+text-decoration:none;
+font-size:24px;
 font-weight:900;
 color:#fff;
-cursor:pointer;
 }
 
-.morning{
-background:#f59e0b;
-}
-
-.noon{
+.green{
 background:#16a34a;
 }
 
-.evening{
+.blue{
 background:#2563eb;
 }
 
-.night{
-background:#7c3aed;
+.orange{
+background:#ea580c;
 }
 
-.result{
-background:#f1f5f9;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-text-align:center;
+.red{
+background:#dc2626;
+}
+
+.gray{
+background:#475569;
+}
+
+.teal{
+background:#0f766e;
 }
 
 </style>
@@ -86,108 +99,127 @@ text-align:center;
 <body>
 
 <div class="header">
-<h1>💊 服薬確認</h1>
+
+<div class="name">
+👪 家族ページ
+</div>
+
 </div>
 
 <div class="card">
 
-<button
-class="btn morning"
-onclick="sendMedicine('朝の薬')">
-🌅 朝の薬
-</button>
-
-<button
-class="btn noon"
-onclick="sendMedicine('昼の薬')">
-☀️ 昼の薬
-</button>
-
-<button
-class="btn evening"
-onclick="sendMedicine('夕方の薬')">
-🌇 夕方の薬
-</button>
-
-<button
-class="btn night"
-onclick="sendMedicine('寝る前の薬')">
-🌙 寝る前の薬
-</button>
-
+<div class="title">
+利用者状況
 </div>
-
-<div class="card">
 
 <div
-id="result"
-class="result">
+id="statusArea"
+class="status">
 
-待機中
-
-</div>
+読込中...
 
 </div>
 
-<script>
+</div>
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+<div class="card">
 
-function sendMedicine(type){
-
-document.getElementById('result').innerHTML =
-'送信中...';
-
-fetch(
-GAS_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
-name:'利用者001',
-status:type,
-time:new Date().toLocaleString('ja-JP')
-})
-}
-)
-.then(r=>r.text())
-.then(data=>{
-
-document.getElementById('result').innerHTML =
-type + '<br>送信完了';
-
-})
-.catch(err=>{
-
-document.getElementById('result').innerHTML =
-'送信失敗';
-
-});
-
-}
-
-</script>
-
-<a
-href="app.html"
-class="btn evening">
-😊 本人ページ
+<a href="schedule.html" class="btn teal">
+📅 今日の予定
 </a>
 
-<a
-href="medicine-history.html"
-class="btn night">
+<a href="history.html" class="btn gray">
+📋 見守り履歴
+</a>
+
+<a href="check-history.html" class="btn green">
+😊 元気です履歴
+</a>
+
+<a href="medicine-history.html" class="btn blue">
 💊 服薬履歴
 </a>
 
-<a
-href="index.html"
-class="btn noon">
+</div>
+
+<div class="card">
+
+<a href="tel:0000000000" class="btn orange">
+📞 電話する
+</a>
+
+<a href="map.html" class="btn red">
+📍 現在地を見る
+</a>
+
+<a href="garbage.html" class="btn gray">
+🗑 今日のゴミ
+</a>
+
+<a href="hospital.html" class="btn gray">
+🏥 病院・薬局
+</a>
+
+</div>
+
+<a href="index.html" class="btn gray">
 🏠 トップへ戻る
 </a>
+
+<script>
+
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+
+const SHEET_NAME =
+'見守り記録';
+
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
+fetch(url)
+.then(r=>r.text())
+.then(text=>{
+
+const json =
+JSON.parse(
+text.substring(47,text.length-2)
+);
+
+const rows =
+json.table.rows;
+
+const last =
+rows[rows.length-1];
+
+const time =
+last.c[0] ? last.c[0].v : '';
+
+const name =
+last.c[1] ? last.c[1].v : '';
+
+const status =
+last.c[2] ? last.c[2].v : '';
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'👤 ' + name +
+'<br><br>' +
+
+status +
+'<br><br>' +
+
+'🕒 ' + time;
+
+});
+
+</script>
 
 </body>
 </html>
