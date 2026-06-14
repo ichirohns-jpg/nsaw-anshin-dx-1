@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>病院・薬局ナビ</title>
+<title>地域サポート案内</title>
 
 <style>
 
@@ -17,7 +17,7 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
 }
 
 .header{
@@ -30,208 +30,257 @@ margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
-.btn{
-display:block;
-width:100%;
-padding:28px;
-border:none;
-border-radius:24px;
-font-size:28px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-bottom:14px;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.green{
-background:#16a34a;
-}
-
-.orange{
-background:#ea580c;
-}
-
-.purple{
-background:#7c3aed;
-}
-
-.red{
-background:#dc2626;
-}
-
-.gray{
-background:#475569;
-}
-
-.result{
+.card{
 background:#fff;
-padding:24px;
 border-radius:24px;
-font-size:22px;
-font-weight:900;
-line-height:1.8;
-margin-bottom:18px;
+padding:20px;
+margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
+.title{
+font-size:24px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.item{
+background:#f8fafc;
+border-radius:18px;
+padding:18px;
+margin-bottom:12px;
+}
+
+.name{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.addr{
+font-size:16px;
+margin-bottom:8px;
+}
+
+.tel{
+font-size:18px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.btn{
+display:inline-block;
+padding:12px 18px;
+border-radius:14px;
+text-decoration:none;
+color:#fff;
+font-weight:900;
+margin-right:8px;
+}
+
+.map{
+background:#2563eb;
+}
+
+.call{
+background:#16a34a;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
 </style>
+
+<script>
+
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+
+const SHEET_NAME =
+'施設マスター';
+
+function getVal(c){
+
+if(!c) return '';
+
+return c.f || c.v || '';
+
+}
+
+function loadData(){
+
+const url =
+
+'https://docs.google.com/spreadsheets/d/' +
+
+SHEET_ID +
+
+'/gviz/tq?sheet=' +
+
+encodeURIComponent(
+SHEET_NAME
+) +
+
+'&tqx=out:json';
+
+const script =
+document.createElement(
+'script'
+);
+
+script.src =
+url +
+'&callback=handleSheet';
+
+document.body.appendChild(
+script
+);
+
+}
+
+function handleSheet(json){
+
+const rows =
+json.table.rows;
+
+const wrap =
+document.getElementById(
+'wrap'
+);
+
+for(let i=0;i<rows.length;i++){
+
+const row =
+rows[i];
+
+const city =
+getVal(row.c[0]);
+
+const type =
+getVal(row.c[2]);
+
+const name =
+getVal(row.c[3]);
+
+const address =
+getVal(row.c[4]);
+
+const tel =
+getVal(row.c[5]);
+
+const map =
+getVal(row.c[6]);
+
+if(
+type !== '包括' &&
+type !== '避難所' &&
+type !== '市役所' &&
+type !== '休日診療'
+){
+continue;
+}
+
+wrap.innerHTML +=
+
+'<div class="card">' +
+
+'<div class="title">' +
+
+type +
+
+'</div>' +
+
+'<div class="item">' +
+
+'<div class="name">' +
+
+name +
+
+'</div>' +
+
+'<div class="addr">' +
+
+address +
+
+'</div>' +
+
+'<div class="tel">' +
+
+(tel || '') +
+
+'</div>' +
+
+(map ?
+
+'<a class="btn map" target="_blank" href="' +
+
+map +
+
+'">📍 ナビ</a>'
+
+: '') +
+
+(tel ?
+
+'<a class="btn call" href="tel:' +
+
+tel +
+
+'">📞 電話</a>'
+
+: '') +
+
+'</div>' +
+
+'</div>';
+
+}
+
+}
+
+window.onload =
+loadData;
+
+</script>
 
 </head>
 
 <body>
 
 <div class="header">
-<h1>🏥 地域ナビ</h1>
-</div>
 
-<div
-id="result"
-class="result">
+<h1>
 
-案内したい施設を選んでください
+🏢 地域サポート案内
+
+</h1>
 
 </div>
 
-<button
-class="btn blue"
-onclick="searchPlace('内科')">
+<div id="wrap">
 
-🏥 病院
+</div>
 
-</button>
-
-<button
-class="btn green"
-onclick="searchPlace('薬局')">
-
-💊 薬局
-
-</button>
-
-<button
-class="btn orange"
-onclick="searchPlace('避難所')">
-
-🏫 避難所
-
-</button>
-
-<button
-class="btn purple"
-onclick="searchPlace('公衆トイレ')">
-
-🚻 公衆トイレ
-
-</button>
-
-<button
-class="btn red"
-onclick="searchPlace('コンビニ')">
-
-🏪 コンビニ
-
-</button>
-
-<button
-class="btn gray"
-onclick="location.href='index.html'">
+<a
+href="index.html"
+class="home">
 
 🏠 トップへ戻る
 
-</button>
-
-<script>
-
-function searchPlace(type){
-
-document.getElementById(
-'result'
-).innerHTML =
-
-type +
-
-' を検索しています';
-
-if(
-navigator.geolocation
-){
-
-navigator.geolocation.getCurrentPosition(
-
-function(pos){
-
-const lat =
-pos.coords.latitude;
-
-const lng =
-pos.coords.longitude;
-
-const url =
-
-'https://www.google.com/maps/search/' +
-
-encodeURIComponent(type) +
-
-'/@' +
-
-lat +
-
-',' +
-
-lng +
-
-',15z';
-
-window.open(
-url,
-'_blank'
-);
-
-},
-
-function(){
-
-const url =
-
-'https://www.google.com/maps/search/' +
-
-encodeURIComponent(type);
-
-window.open(
-url,
-'_blank'
-);
-
-}
-
-);
-
-}else{
-
-const url =
-
-'https://www.google.com/maps/search/' +
-
-encodeURIComponent(type);
-
-window.open(
-url,
-'_blank'
-);
-
-}
-
-}
-
-</script>
+</a>
 
 </body>
 </html>
