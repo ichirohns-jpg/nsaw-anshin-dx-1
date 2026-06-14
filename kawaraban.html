@@ -124,7 +124,22 @@ return cell.f || cell.v || '';
 
 }
 
-handleSheet=function(json){
+window.handleSheet=function(json){
+
+if(
+!json ||
+!json.table ||
+!json.table.rows
+){
+
+document.getElementById(
+'latest'
+).innerHTML =
+'データ取得失敗';
+
+return;
+
+}
 
 const rows =
 json.table.rows;
@@ -211,9 +226,9 @@ document.getElementById(
 ).innerHTML =
 archive;
 
-}
+};
 
-window.onload=function(){
+function loadSheet(){
 
 const script =
 document.createElement(
@@ -232,11 +247,17 @@ encodeURIComponent(
 SHEET_NAME
 ) +
 
-'&tqx=out:json;responseHandler:handleSheet';
+'&tqx=responseHandler:handleSheet';
 
 document.body.appendChild(
 script
 );
+
+}
+
+window.onload=function(){
+
+loadSheet();
 
 };
 
