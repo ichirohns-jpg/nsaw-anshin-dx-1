@@ -8,17 +8,22 @@
 
 <style>
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:#fff;
+background:linear-gradient(135deg,#111827,#334155);
 padding:30px;
 border-radius:30px;
 text-align:center;
@@ -26,47 +31,45 @@ margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
 .card{
-background:#fff;
-padding:20px;
+background:linear-gradient(135deg,#1e293b,#0f172a);
+padding:22px;
 border-radius:24px;
 margin-bottom:14px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.time{
-font-size:16px;
-color:#64748b;
-margin-bottom:8px;
+.item{
+background:rgba(255,255,255,.08);
+padding:18px;
+border-radius:18px;
+font-size:22px;
 font-weight:900;
+line-height:1.8;
 }
 
-.status{
-font-size:24px;
-font-weight:900;
-color:#2563eb;
+.blue{
+border-left:8px solid #3b82f6;
 }
 
 .btn{
 display:block;
 width:100%;
 padding:22px;
-background:#475569;
-color:#fff;
+border-radius:22px;
 text-decoration:none;
 text-align:center;
-border-radius:20px;
 font-size:24px;
 font-weight:900;
-margin-top:14px;
+color:#fff;
+background:linear-gradient(135deg,#475569,#334155);
+margin-top:16px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -75,21 +78,19 @@ margin-top:14px;
 <h1>💊 服薬履歴</h1>
 </div>
 
-<div id="list">
-
 <div class="card">
 
-<div class="time">
-読込中...
-</div>
+<div id="historyArea" class="item blue">
 
-<div class="status">
-履歴取得中
-</div>
+履歴なし
 
 </div>
 
 </div>
+
+<a href="history.html" class="btn">
+📋 見守り履歴へ戻る
+</a>
 
 <a href="index.html" class="btn">
 🏠 トップへ戻る
@@ -97,72 +98,36 @@ margin-top:14px;
 
 <script>
 
-const SHEET_ID =
-'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-
-const SHEET_NAME =
-'見守り記録';
-
-const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
-
-fetch(url)
-.then(r=>r.text())
-.then(text=>{
-
-const json =
+const medicine =
 JSON.parse(
-text.substring(47,text.length-2)
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
 );
 
-let html='';
+let html = '';
 
-json.table.rows.reverse().forEach(row=>{
+if(medicine.morning){
+html += '☑ 朝　' + medicine.morningTime + '<br><br>';
+}
 
-const time =
-row.c[0] ? row.c[0].v : '';
+if(medicine.noon){
+html += '☑ 昼　' + medicine.noonTime + '<br><br>';
+}
 
-const name =
-row.c[1] ? row.c[1].v : '';
+if(medicine.evening){
+html += '☑ 夕方　' + medicine.eveningTime + '<br><br>';
+}
 
-const status =
-row.c[2] ? row.c[2].v : '';
+if(medicine.night){
+html += '☑ 寝る前　' + medicine.nightTime + '<br><br>';
+}
 
-if(
-!String(status).includes('薬')
-) return;
-
-html +=
-
-'<div class="card">' +
-
-'<div class="time">' +
-time +
-'</div>' +
-
-'<div class="status">' +
-name +
-'<br>' +
-status +
-'</div>' +
-
-'</div>';
-
-});
-
+if(html){
 document.getElementById(
-'list'
-).innerHTML =
-
-html ||
-
-'<div class="card"><div class="status">履歴なし</div></div>';
-
-});
+'historyArea'
+).innerHTML = html;
+}
 
 </script>
 
