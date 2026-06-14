@@ -17,29 +17,28 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2937;
+padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:28px;
+border-radius:28px;
 text-align:center;
 margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-border-radius:30px;
-padding:24px;
-margin-bottom:18px;
+padding:20px;
+border-radius:24px;
+margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
@@ -51,45 +50,35 @@ margin-bottom:8px;
 
 .input{
 width:100%;
-padding:18px;
-font-size:22px;
+padding:16px;
 border:2px solid #cbd5e1;
-border-radius:18px;
+border-radius:16px;
+font-size:20px;
 margin-bottom:16px;
 }
 
-.btn{
+.saveBtn{
 width:100%;
-padding:24px;
 border:none;
-border-radius:24px;
-font-size:28px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-color:#fff;
-}
-
-.green{
 background:#16a34a;
+color:#fff;
+padding:22px;
+border-radius:22px;
+font-size:24px;
+font-weight:900;
 }
 
-.blue{
-background:#2563eb;
-}
-
-.gray{
+.home{
+display:block;
+text-decoration:none;
 background:#475569;
-}
-
-.result{
-background:#f1f5f9;
+color:#fff;
 padding:20px;
 border-radius:20px;
+text-align:center;
 font-size:22px;
 font-weight:900;
-text-align:center;
-line-height:1.8;
+margin-top:16px;
 }
 
 </style>
@@ -99,7 +88,7 @@ line-height:1.8;
 <body>
 
 <div class="header">
-<h1>👤 本人登録</h1>
+<h1>⚙️ 本人登録</h1>
 </div>
 
 <div class="card">
@@ -109,27 +98,40 @@ line-height:1.8;
 </div>
 
 <input
-id="name"
-class="input"
-placeholder="山田太郎">
+id="userName"
+class="input">
 
 <div class="label">
-住所（丁目まで）
+市
+</div>
+
+<select
+id="city"
+class="input">
+
+<option>志木市</option>
+<option>新座市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+
+</select>
+
+<div class="label">
+地区
 </div>
 
 <input
-id="address"
+id="areaCode"
 class="input"
-placeholder="志木市本町○丁目">
+placeholder="本町・柏町・館・幸町など">
 
 <div class="label">
 家族電話
 </div>
 
 <input
-id="familyPhone"
-class="input"
-placeholder="09012345678">
+id="familyTel"
+class="input">
 
 <div class="label">
 家族LINE
@@ -137,120 +139,133 @@ placeholder="09012345678">
 
 <input
 id="familyLine"
-class="input"
-placeholder="https://line.me/...">
+class="input">
 
 <button
-class="btn green"
-onclick="saveUser()">
-登録する
+class="saveBtn"
+onclick="saveData()">
+
+💾 保存
+
 </button>
 
 </div>
 
-<div class="card">
-
-<div
-id="result"
-class="result">
-
-未登録
-
-</div>
-
-</div>
-
-<button
-class="btn blue"
-onclick="location.href='qr.html'">
-
-📱 QRコード
-
-</button>
-
-<button
-class="btn gray"
-onclick="location.href='index.html'">
+<a
+href="index.html"
+class="home">
 
 🏠 トップへ戻る
 
-</button>
+</a>
 
 <script>
 
-function saveUser(){
+function saveData(){
 
-const userId =
-Date.now().toString();
-
-const user = {
-
-userId:userId,
-
-name:
+const userName =
 document.getElementById(
-'name'
-).value,
+'userName'
+).value;
 
-address:
+const city =
 document.getElementById(
-'address'
-).value,
+'city'
+).value;
 
-familyPhone:
+const areaCode =
 document.getElementById(
-'familyPhone'
-).value,
+'areaCode'
+).value;
 
-familyLine:
+const familyTel =
+document.getElementById(
+'familyTel'
+).value;
+
+const familyLine =
 document.getElementById(
 'familyLine'
-).value
-
-};
-
-localStorage.setItem(
-'userId',
-user.userId
-);
+).value;
 
 localStorage.setItem(
 'userName',
-user.name
+userName
 );
 
 localStorage.setItem(
-'userAddress',
-user.address
+'city',
+city
 );
 
 localStorage.setItem(
-'familyPhone',
-user.familyPhone
+'areaCode',
+areaCode
+);
+
+localStorage.setItem(
+'familyTel',
+familyTel
 );
 
 localStorage.setItem(
 'familyLine',
-user.familyLine
+familyLine
 );
 
-document.getElementById(
-'result'
-).innerHTML =
+localStorage.setItem(
+'userAddress',
+city + areaCode
+);
 
-'登録完了<br><br>' +
+alert(
+'登録しました'
+);
 
-user.name +
-
-'<br><br>' +
-
-user.address +
-
-'<br><br>ID<br>' +
-
-user.userId;
+location.href =
+'index.html';
 
 }
+
+window.onload =
+function(){
+
+document.getElementById(
+'userName'
+).value =
+localStorage.getItem(
+'userName'
+) || '';
+
+document.getElementById(
+'city'
+).value =
+localStorage.getItem(
+'city'
+) || '志木市';
+
+document.getElementById(
+'areaCode'
+).value =
+localStorage.getItem(
+'areaCode'
+) || '';
+
+document.getElementById(
+'familyTel'
+).value =
+localStorage.getItem(
+'familyTel'
+) || '';
+
+document.getElementById(
+'familyLine'
+).value =
+localStorage.getItem(
+'familyLine'
+) || '';
+
+};
 
 </script>
 
