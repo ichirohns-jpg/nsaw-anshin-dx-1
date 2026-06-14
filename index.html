@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>家族ページ</title>
+<title>QRコード管理</title>
 
 <style>
 
@@ -30,7 +30,7 @@ text-align:center;
 margin-bottom:18px;
 }
 
-.name{
+.title{
 font-size:36px;
 font-weight:900;
 }
@@ -40,56 +40,68 @@ background:#fff;
 border-radius:30px;
 padding:24px;
 margin-bottom:18px;
+text-align:center;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.title{
-font-size:26px;
-font-weight:900;
+.input{
+width:100%;
+padding:18px;
+font-size:22px;
+border:2px solid #cbd5e1;
+border-radius:18px;
 margin-bottom:14px;
 }
 
-.status{
-font-size:22px;
+.qr{
+width:280px;
+height:280px;
+margin:auto;
+display:block;
+}
+
+.name{
+font-size:28px;
 font-weight:900;
-line-height:2;
+margin-top:18px;
+}
+
+.url{
+font-size:16px;
+word-break:break-all;
+margin-top:12px;
+line-height:1.6;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:24px;
-border-radius:22px;
-margin-bottom:14px;
-text-align:center;
+padding:22px;
+border:none;
+border-radius:20px;
+margin-top:12px;
 text-decoration:none;
+text-align:center;
 font-size:24px;
 font-weight:900;
 color:#fff;
-}
-
-.green{
-background:#16a34a;
+cursor:pointer;
 }
 
 .blue{
 background:#2563eb;
 }
 
-.orange{
-background:#ea580c;
-}
-
-.red{
-background:#dc2626;
+.green{
+background:#16a34a;
 }
 
 .gray{
 background:#475569;
 }
 
-.teal{
-background:#0f766e;
+.orange{
+background:#ea580c;
 }
 
 </style>
@@ -100,124 +112,85 @@ background:#0f766e;
 
 <div class="header">
 
-<div class="name">
-👪 家族ページ
+<div class="title">
+📱 QRコード管理
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="title">
-利用者状況
+<input
+id="userId"
+class="input"
+placeholder="001">
+
+<button
+class="btn orange"
+onclick="createQR()">
+QR作成
+</button>
+
+</div>
+
+<div class="card">
+
+<img
+id="qr"
+class="qr"
+src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001">
+
+<div
+id="userName"
+class="name">
+利用者001
 </div>
 
 <div
-id="statusArea"
-class="status">
-
-読込中...
-
+id="urlText"
+class="url">
+https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001
 </div>
 
-</div>
+<a href="app.html" class="btn blue">
+😊 本人ページ
+</a>
 
-<div class="card">
-
-<a href="schedule.html" class="btn teal">
-📅 今日の予定
+<a href="family.html" class="btn green">
+👪 家族ページ
 </a>
 
 <a href="history.html" class="btn gray">
 📋 見守り履歴
 </a>
 
-<a href="check-history.html" class="btn green">
-😊 元気です履歴
-</a>
-
-<a href="medicine-history.html" class="btn blue">
-💊 服薬履歴
-</a>
-
-</div>
-
-<div class="card">
-
-<a href="tel:0000000000" class="btn orange">
-📞 電話する
-</a>
-
-<a href="map.html" class="btn red">
-📍 現在地を見る
-</a>
-
-<a href="garbage.html" class="btn gray">
-🗑 今日のゴミ
-</a>
-
-<a href="hospital.html" class="btn gray">
-🏥 病院・薬局
-</a>
-
-</div>
-
 <a href="index.html" class="btn gray">
 🏠 トップへ戻る
 </a>
 
+</div>
+
 <script>
 
-const SHEET_ID =
-'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+function createQR(){
 
-const SHEET_NAME =
-'見守り記録';
+const id =
+document.getElementById('userId').value || '001';
 
 const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' + id;
 
-fetch(url)
-.then(r=>r.text())
-.then(text=>{
+document.getElementById('qr').src =
+'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' +
+encodeURIComponent(url);
 
-const json =
-JSON.parse(
-text.substring(47,text.length-2)
-);
+document.getElementById('userName').innerHTML =
+'利用者' + id;
 
-const rows =
-json.table.rows;
+document.getElementById('urlText').innerHTML =
+url;
 
-const last =
-rows[rows.length-1];
-
-const time =
-last.c[0] ? last.c[0].v : '';
-
-const name =
-last.c[1] ? last.c[1].v : '';
-
-const status =
-last.c[2] ? last.c[2].v : '';
-
-document.getElementById(
-'statusArea'
-).innerHTML =
-
-'👤 ' + name +
-'<br><br>' +
-
-status +
-'<br><br>' +
-
-'🕒 ' + time;
-
-});
+}
 
 </script>
 
