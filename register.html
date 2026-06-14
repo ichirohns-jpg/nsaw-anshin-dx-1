@@ -18,6 +18,7 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:18px;
+color:#1f2d3d;
 }
 
 .header{
@@ -64,8 +65,31 @@ border:none;
 border-radius:24px;
 font-size:28px;
 font-weight:900;
-background:#16a34a;
+cursor:pointer;
+margin-bottom:14px;
 color:#fff;
+}
+
+.green{
+background:#16a34a;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.gray{
+background:#475569;
+}
+
+.result{
+background:#f1f5f9;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+text-align:center;
+line-height:1.8;
 }
 
 </style>
@@ -96,7 +120,7 @@ placeholder="山田太郎">
 <input
 id="address"
 class="input"
-placeholder="志木市○○">
+placeholder="志木市本町">
 
 <div class="label">
 電話番号
@@ -117,12 +141,34 @@ class="input"
 placeholder="09000000000">
 
 <button
-class="btn"
+class="btn green"
 onclick="saveUser()">
 登録する
 </button>
 
 </div>
+
+<div class="card">
+
+<div
+id="result"
+class="result">
+未登録
+</div>
+
+</div>
+
+<button
+class="btn blue"
+onclick="goQR()">
+📱 QR発行
+</button>
+
+<button
+class="btn gray"
+onclick="location.href='index.html'">
+🏠 トップへ戻る
+</button>
 
 <script>
 
@@ -131,9 +177,14 @@ const GAS_URL =
 
 function saveUser(){
 
-const data = {
+const userId =
+Date.now().toString();
+
+const user = {
 
 type:'register',
+
+userId:userId,
 
 name:
 document.getElementById('name').value,
@@ -145,9 +196,15 @@ phone:
 document.getElementById('phone').value,
 
 family:
-document.getElementById('family').value
+document.getElementById('family').value,
+
+time:
+new Date().toLocaleString('ja-JP')
 
 };
+
+document.getElementById('result').innerHTML =
+'登録中...';
 
 fetch(
 GAS_URL,
@@ -156,22 +213,58 @@ method:'POST',
 headers:{
 'Content-Type':'application/json'
 },
-body:JSON.stringify(data)
+body:JSON.stringify(user)
 }
 )
 .then(r=>r.text())
 .then(data=>{
 
-alert('登録しました');
+localStorage.setItem(
+'userId',
+user.userId
+);
 
-location.href='qr.html';
+localStorage.setItem(
+'userName',
+user.name
+);
+
+localStorage.setItem(
+'userAddress',
+user.address
+);
+
+localStorage.setItem(
+'userPhone',
+user.phone
+);
+
+localStorage.setItem(
+'userFamily',
+user.family
+);
+
+document.getElementById('result').innerHTML =
+'登録完了<br><br>' +
+user.name +
+'<br><br>' +
+user.address +
+'<br><br>利用者ID<br>' +
+user.userId;
 
 })
 .catch(err=>{
 
-alert('登録失敗');
+document.getElementById('result').innerHTML =
+'登録失敗';
 
 });
+
+}
+
+function goQR(){
+
+location.href='qr.html';
 
 }
 
