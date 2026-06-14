@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>服薬確認</title>
+<title>あんしん生活ボタン</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -34,79 +34,77 @@ font-size:34px;
 font-weight:900;
 }
 
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:18px;
+}
+
+.btn{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:120px;
+border-radius:24px;
+text-decoration:none;
+color:#fff;
+font-size:40px;
+font-weight:900;
+}
+
+.btn div{
+font-size:20px;
+margin-top:6px;
+}
+
+.green{
+background:#16a34a;
+}
+
+.red{
+background:#dc2626;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.purple{
+background:#7c3aed;
+}
+
 .card{
 background:#fff;
-padding:24px;
 border-radius:24px;
+padding:20px;
 margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.btn{
-width:100%;
-border:none;
-padding:24px;
-border-radius:20px;
-font-size:28px;
+.sectionTitle{
+font-size:24px;
 font-weight:900;
-color:#fff;
 margin-bottom:12px;
 }
 
-.morning{
-background:#f59e0b;
-}
-
-.noon{
-background:#22c55e;
-}
-
-.evening{
-background:#3b82f6;
-}
-
-.night{
-background:#7c3aed;
-}
-
-.status{
-font-size:22px;
-line-height:1.8;
-font-weight:900;
-}
-
-.actionBtn{
+.link{
 display:block;
-width:100%;
-padding:20px;
-border-radius:20px;
+padding:18px;
 text-decoration:none;
-text-align:center;
 font-size:22px;
 font-weight:900;
-color:#fff;
-margin-top:12px;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
 }
 
-.telBtn{
-background:#16a34a;
-}
-
-.lineBtn{
-background:#06c755;
-}
-
-.home{
-display:block;
-width:100%;
-border:none;
-background:#475569;
-color:#fff;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-margin-top:16px;
+.link:last-child{
+border-bottom:none;
 }
 
 </style>
@@ -116,209 +114,114 @@ margin-top:16px;
 <body>
 
 <div class="header">
-<h1>💊 服薬確認</h1>
+<h1>あんしん生活ボタン</h1>
+</div>
+
+<div class="grid">
+
+<a href="genki.html" class="btn green">
+😊
+<div>元気です</div>
+</a>
+
+<a href="sos.html" class="btn red">
+🚨
+<div>SOS</div>
+</a>
+
+<a href="gps.html" class="btn blue">
+📍
+<div>現在地</div>
+</a>
+
+<a href="schedule.html" class="btn orange">
+📅
+<div>予定</div>
+</a>
+
+<a href="garbage.html" class="btn green">
+🗑
+<div>ゴミ</div>
+</a>
+
+<a href="ai.html" class="btn purple">
+🎤
+<div>AIに聞く</div>
+</a>
+
 </div>
 
 <div class="card">
 
-<button
-class="btn morning"
-onclick="saveMedicine('morning')">
-🌅 朝の薬
-</button>
-
-<button
-class="btn noon"
-onclick="saveMedicine('noon')">
-☀️ 昼の薬
-</button>
-
-<button
-class="btn evening"
-onclick="saveMedicine('evening')">
-🌇 夕方の薬
-</button>
-
-<button
-class="btn night"
-onclick="saveMedicine('night')">
-🌙 寝る前の薬
-</button>
-
+<div class="sectionTitle">
+生活サポート
 </div>
 
-<div class="card">
+<a href="home.html" class="link">
+🏠 帰宅しました
+</a>
 
-<div
-id="statusArea"
-class="status">
+<a href="medicine.html" class="link">
+💊 服薬確認
+</a>
 
-記録なし
+<a href="medicine-request.html" class="link">
+💊 薬がない
+</a>
 
-</div>
+<a href="hospital.html" class="link">
+🏥 地域サポート
+</a>
 
-<a
-id="telBtn"
-class="actionBtn telBtn"
-style="display:none"
-href="#">
-
+<a href="tel-family.html" class="link">
 📞 家族へ電話
-
 </a>
 
-<a
-id="lineBtn"
-class="actionBtn lineBtn"
-style="display:none"
-href="#">
-
+<a href="line-family.html" class="link">
 💬 家族へLINE
-
 </a>
-
-<button
-class="home"
-onclick="goHome()">
-
-🏠 トップへ戻る
-
-</button>
 
 </div>
 
-<script>
+<div class="card">
 
-function goHome(){
+<div class="sectionTitle">
+地域情報
+</div>
 
-location.href =
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/';
+<a href="kawaraban.html" class="link">
+📰 4市瓦版
+</a>
 
-}
+<a href="radio.html" class="link">
+📻 地域ラジオ
+</a>
 
-function showButtons(){
+<a href="fun.html" class="link">
+🎬 お楽しみ動画
+</a>
 
-const tel =
-localStorage.getItem(
-'familyTel'
-) || '';
+</div>
 
-const line =
-localStorage.getItem(
-'familyLine'
-) || '';
+<div class="card">
 
-if(tel){
+<div class="sectionTitle">
+管理
+</div>
 
-const telBtn =
-document.getElementById(
-'telBtn'
-);
+<a href="family.html" class="link">
+👪 支援者ページ
+</a>
 
-telBtn.href =
-'tel:' + tel;
+<a href="qr.html" class="link">
+📱 QRコード
+</a>
 
-telBtn.style.display =
-'block';
+<a href="register.html" class="link">
+⚙️ 本人登録
+</a>
 
-}
-
-if(line){
-
-const lineBtn =
-document.getElementById(
-'lineBtn'
-);
-
-lineBtn.href =
-line;
-
-lineBtn.style.display =
-'block';
-
-}
-
-}
-
-function saveMedicine(type){
-
-const data =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
-data[type] = true;
-
-data.time =
-new Date()
-.toLocaleString(
-'ja-JP'
-);
-
-localStorage.setItem(
-'medicineStatus',
-JSON.stringify(data)
-);
-
-showStatus();
-
-showButtons();
-
-alert(
-'服薬を記録しました'
-);
-
-}
-
-function showStatus(){
-
-const data =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
-let html='';
-
-html += data.morning ?
-'☑ 朝の薬<br>' :
-'☐ 朝の薬<br>';
-
-html += data.noon ?
-'☑ 昼の薬<br>' :
-'☐ 昼の薬<br>';
-
-html += data.evening ?
-'☑ 夕方の薬<br>' :
-'☐ 夕方の薬<br>';
-
-html += data.night ?
-'☑ 寝る前の薬<br>' :
-'☐ 寝る前の薬<br>';
-
-if(data.time){
-
-html +=
-'<br>最終記録<br>' +
-data.time;
-
-}
-
-document.getElementById(
-'statusArea'
-).innerHTML =
-html;
-
-}
-
-showStatus();
-
-showButtons();
-
-</script>
+</div>
 
 </body>
 </html>
