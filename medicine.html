@@ -12,26 +12,47 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:#fff;
+background:linear-gradient(135deg,#111827,#334155);
 padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
+}
+
+.header p{
+margin-top:8px;
+color:#cbd5e1;
+font-size:16px;
+font-weight:700;
+}
+
+.result{
+background:linear-gradient(135deg,#1e293b,#0f172a);
+padding:24px;
+border-radius:24px;
+font-size:24px;
+font-weight:900;
+text-align:center;
+margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
+line-height:1.8;
 }
 
 .btn{
@@ -48,38 +69,35 @@ cursor:pointer;
 }
 
 .morning{
-background:#f59e0b;
+background:linear-gradient(135deg,#f59e0b,#fbbf24);
 }
 
 .noon{
-background:#16a34a;
+background:linear-gradient(135deg,#16a34a,#22c55e);
 }
 
 .evening{
-background:#2563eb;
+background:linear-gradient(135deg,#2563eb,#3b82f6);
 }
 
 .night{
-background:#7c3aed;
+background:linear-gradient(135deg,#7c3aed,#9333ea);
 }
 
 .gray{
-background:#475569;
-}
-
-.result{
-background:#fff;
-padding:24px;
-border-radius:24px;
-font-size:24px;
-font-weight:900;
+background:linear-gradient(135deg,#475569,#334155);
+text-decoration:none;
 text-align:center;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .done{
-opacity:.45;
+opacity:.35;
+}
+
+.doneText{
+font-size:20px;
+display:block;
+margin-top:6px;
 }
 
 </style>
@@ -90,48 +108,59 @@ opacity:.45;
 
 <div class="header">
 <h1>💊 服薬確認</h1>
+<p>飲んだら押してください</p>
 </div>
 
 <div
 id="result"
 class="result">
 
-服薬してください
+本日の服薬状況を確認してください
 
 </div>
 
 <button
 id="morningBtn"
 class="btn morning"
-onclick="takeMedicine('朝')">
+onclick="takeMedicine('morning','朝')">
+
 🌅 朝の薬
+
 </button>
 
 <button
 id="noonBtn"
 class="btn noon"
-onclick="takeMedicine('昼')">
+onclick="takeMedicine('noon','昼')">
+
 ☀️ 昼の薬
+
 </button>
 
 <button
 id="eveningBtn"
 class="btn evening"
-onclick="takeMedicine('夕方')">
+onclick="takeMedicine('evening','夕方')">
+
 🌆 夕方の薬
+
 </button>
 
 <button
 id="nightBtn"
 class="btn night"
-onclick="takeMedicine('寝る前')">
+onclick="takeMedicine('night','寝る前')">
+
 🌙 寝る前の薬
+
 </button>
 
 <a
 href="app.html"
 class="btn gray">
+
 🏠 本人ページへ戻る
+
 </a>
 
 <script>
@@ -139,7 +168,108 @@ class="btn gray">
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-function takeMedicine(type){
+let medicineStatus =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) ||
+'{}'
+);
+
+loadStatus();
+
+function loadStatus(){
+
+if(medicineStatus.morning){
+
+document.getElementById(
+'morningBtn'
+).classList.add('done');
+
+document.getElementById(
+'morningBtn'
+).innerHTML =
+'☑ 朝の薬<br><span class="doneText">' +
+medicineStatus.morningTime +
+'</span>';
+
+}
+
+if(medicineStatus.noon){
+
+document.getElementById(
+'noonBtn'
+).classList.add('done');
+
+document.getElementById(
+'noonBtn'
+).innerHTML =
+'☑ 昼の薬<br><span class="doneText">' +
+medicineStatus.noonTime +
+'</span>';
+
+}
+
+if(medicineStatus.evening){
+
+document.getElementById(
+'eveningBtn'
+).classList.add('done');
+
+document.getElementById(
+'eveningBtn'
+).innerHTML =
+'☑ 夕方の薬<br><span class="doneText">' +
+medicineStatus.eveningTime +
+'</span>';
+
+}
+
+if(medicineStatus.night){
+
+document.getElementById(
+'nightBtn'
+).classList.add('done');
+
+document.getElementById(
+'nightBtn'
+).innerHTML =
+'☑ 寝る前の薬<br><span class="doneText">' +
+medicineStatus.nightTime +
+'</span>';
+
+}
+
+}
+
+function takeMedicine(key,label){
+
+if(medicineStatus[key]){
+
+alert(
+'すでに記録済みです'
+);
+
+return;
+
+}
+
+const now =
+new Date().toLocaleString(
+'ja-JP'
+);
+
+medicineStatus[key] = true;
+
+medicineStatus[key + 'Time'] =
+now;
+
+localStorage.setItem(
+'medicineStatus',
+JSON.stringify(
+medicineStatus
+)
+);
 
 fetch(
 GAS_URL,
@@ -162,10 +292,9 @@ localStorage.getItem(
 'userId'
 ) || '',
 
-medicine:type,
+medicine:label,
 
-time:
-new Date().toLocaleString('ja-JP')
+time:now
 
 })
 }
@@ -174,31 +303,14 @@ new Date().toLocaleString('ja-JP')
 document.getElementById(
 'result'
 ).innerHTML =
-'💊 ' + type + 'の薬を記録しました';
 
-if(type==='朝'){
-document.getElementById(
-'morningBtn'
-).classList.add('done');
-}
+'💊 ' +
+label +
+'の薬を記録しました<br><br>' +
 
-if(type==='昼'){
-document.getElementById(
-'noonBtn'
-).classList.add('done');
-}
+now;
 
-if(type==='夕方'){
-document.getElementById(
-'eveningBtn'
-).classList.add('done');
-}
-
-if(type==='寝る前'){
-document.getElementById(
-'nightBtn'
-).classList.add('done');
-}
+loadStatus();
 
 }
 
