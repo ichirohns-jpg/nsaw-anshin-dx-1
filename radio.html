@@ -6,6 +6,10 @@
 
 <title>地域ラジオ</title>
 
+<meta property="og:title" content="地域ラジオ">
+<meta property="og:description" content="地域の最新情報を音声でお届け">
+<meta property="og:image" content="icon.png">
+
 <style>
 
 *{
@@ -15,50 +19,39 @@ box-sizing:border-box;
 }
 
 body{
-background:#101827;
+background:#f4f6f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#fff;
+color:#1f2937;
 }
 
 header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#dc2626,#ef4444);
+color:#fff;
 padding:24px;
 text-align:center;
-position:sticky;
-top:0;
-z-index:999;
-}
-
-header h1{
 font-size:32px;
 font-weight:900;
 }
 
-.topInfo{
-padding:10px;
-font-size:14px;
-color:#cbd5e1;
-}
-
 .wrap{
-max-width:900px;
+max-width:1000px;
 margin:auto;
-padding:14px;
+padding:15px;
 }
 
-.article{
-background:#1e293b;
+.card{
+background:#fff;
 border-radius:24px;
 overflow:hidden;
 margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.25);
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .thumb{
 width:100%;
 aspect-ratio:16/9;
 object-fit:cover;
-background:#000;
+background:#ddd;
 }
 
 .body{
@@ -75,52 +68,75 @@ margin-bottom:10px;
 .desc{
 font-size:18px;
 line-height:1.7;
-color:#e2e8f0;
+color:#475569;
 margin-bottom:12px;
 }
 
 .date{
 font-size:14px;
 color:#94a3b8;
-margin-bottom:14px;
+margin-bottom:12px;
 }
 
-.readBtn{
+.btn{
 display:block;
 background:#dc2626;
 color:#fff;
 text-decoration:none;
 padding:16px;
 text-align:center;
-border-radius:16px;
+border-radius:14px;
 font-size:20px;
 font-weight:900;
+margin-top:10px;
 }
 
-.archiveTitle{
+.share{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+margin-top:12px;
+}
+
+.share a{
+text-decoration:none;
+color:#fff;
+padding:12px;
+border-radius:12px;
+text-align:center;
+font-size:16px;
+font-weight:900;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#111;
+}
+
+.fb{
+background:#1877f2;
+}
+
+.sectionTitle{
 font-size:28px;
 font-weight:900;
-margin:24px 0 12px;
-}
-
-.loading{
-text-align:center;
-padding:40px;
-font-size:24px;
-font-weight:900;
+margin:24px 0 14px;
 }
 
 .home{
 display:block;
-margin:20px 0;
 background:#475569;
 color:#fff;
 text-decoration:none;
 padding:18px;
 text-align:center;
-border-radius:20px;
+border-radius:18px;
 font-size:22px;
 font-weight:900;
+margin-top:20px;
 }
 
 </style>
@@ -128,10 +144,10 @@ font-weight:900;
 <script>
 
 const SHEET_ID =
-'ここをラジオシートIDに変更';
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 
 const SHEET_NAME =
-'ラジオ';
+'地域ラジオ';
 
 const url =
 'https://docs.google.com/spreadsheets/d/' +
@@ -139,19 +155,6 @@ SHEET_ID +
 '/gviz/tq?sheet=' +
 encodeURIComponent(SHEET_NAME) +
 '&tqx=out:json';
-
-function loadNews(){
-
-const script =
-document.createElement('script');
-
-script.src =
-url +
-'&callback=handleSheet';
-
-document.body.appendChild(script);
-
-}
 
 function getVal(c){
 
@@ -161,15 +164,28 @@ return c.f || c.v || '';
 
 }
 
+function loadSheet(){
+
+const s =
+document.createElement('script');
+
+s.src =
+url +
+'&callback=handleSheet';
+
+document.body.appendChild(s);
+
+}
+
 function handleSheet(json){
 
 const rows =
 json.table.rows;
 
+rows.reverse();
+
 let latest='';
 let archive='';
-
-rows.reverse();
 
 rows.forEach((row,index)=>{
 
@@ -188,9 +204,16 @@ getVal(row.c[3]);
 const date =
 getVal(row.c[4]);
 
+const shareUrl =
+location.origin +
+location.pathname.replace(
+'radio.html',
+'share.html?id=' + id
+);
+
 const html =
 
-'<div class="article">' +
+'<div class="card">' +
 
 (image ?
 '<img class="thumb" src="' +
@@ -211,9 +234,25 @@ desc +
 date +
 '</div>' +
 
-'<a class="readBtn" href="article.html?id=' +
+'<a class="btn" href="article.html?id=' +
 id +
-'">📻 聴く</a>' +
+'">📻 ラジオを開く</a>' +
+
+'<div class="share">' +
+
+'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(shareUrl) +
+'">LINE</a>' +
+
+'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(shareUrl) +
+'">X</a>' +
+
+'<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(shareUrl) +
+'">Facebook</a>' +
+
+'</div>' +
 
 '</div>' +
 
@@ -234,7 +273,7 @@ archive += html;
 document.getElementById(
 'latest'
 ).innerHTML =
-latest || '記事なし';
+latest;
 
 document.getElementById(
 'archive'
@@ -243,7 +282,8 @@ archive;
 
 }
 
-window.onload = loadNews;
+window.onload =
+loadSheet;
 
 </script>
 
@@ -252,19 +292,16 @@ window.onload = loadNews;
 <body>
 
 <header>
-<h1>📻 地域ラジオ</h1>
-<div class="topInfo">
-最新5件表示＋アーカイブ
-</div>
+📻 地域ラジオ
 </header>
 
 <div class="wrap">
 
-<div id="latest" class="loading">
+<div id="latest">
 読込中...
 </div>
 
-<div class="archiveTitle">
+<div class="sectionTitle">
 📚 アーカイブ
 </div>
 
