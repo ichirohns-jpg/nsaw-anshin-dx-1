@@ -15,124 +15,152 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef2f7;
+background:#e9edf3;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2d3d;
+padding:16px;
+color:#111827;
+max-width:700px;
+margin:auto;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#111827,#1e293b,#334155);
 color:#fff;
-padding:30px;
+padding:28px;
 border-radius:30px;
 text-align:center;
-margin-bottom:20px;
+margin-bottom:18px;
+box-shadow:0 10px 30px rgba(0,0,0,.18);
 }
 
 .header h1{
-font-size:38px;
-font-weight:900;
-}
-
-.heroBtn{
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:#16a34a;
-color:#fff;
-text-decoration:none;
-border-radius:30px;
-padding:40px;
-font-size:60px;
-font-weight:900;
-margin-bottom:20px;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
-}
-
-.heroBtn div{
 font-size:34px;
-margin-top:10px;
+font-weight:900;
+letter-spacing:2px;
 }
 
-.grid{
+.header p{
+margin-top:8px;
+font-size:15px;
+opacity:.8;
+}
+
+.mainGrid{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:1fr;
 gap:14px;
 margin-bottom:18px;
 }
 
-.menu{
+.bigBtn{
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
+gap:20px;
+background:#fff;
 text-decoration:none;
-color:#fff;
-height:150px;
-border-radius:26px;
-font-size:48px;
-font-weight:900;
-box-shadow:0 8px 24px rgba(0,0,0,.10);
+color:#111827;
+padding:24px;
+border-radius:28px;
+min-height:110px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+border:2px solid #dbe3ee;
 }
 
-.menu div{
-font-size:24px;
-margin-top:8px;
+.icon{
+font-size:54px;
+width:70px;
+text-align:center;
+}
+
+.text{
+flex:1;
+}
+
+.title{
+font-size:28px;
+font-weight:900;
+}
+
+.sub{
+font-size:14px;
+color:#64748b;
+margin-top:4px;
+}
+
+.green{
+border-left:12px solid #16a34a;
 }
 
 .blue{
-background:#2563eb;
+border-left:12px solid #2563eb;
 }
 
 .red{
-background:#dc2626;
+border-left:12px solid #dc2626;
 }
 
 .orange{
-background:#ea580c;
+border-left:12px solid #ea580c;
 }
 
-.gray{
-background:#475569;
+.family{
+display:block;
+background:#fff;
+color:#111827;
+text-decoration:none;
+padding:24px;
+border-radius:28px;
+font-size:28px;
+font-weight:900;
+text-align:center;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:14px;
+border:2px solid #dbe3ee;
 }
 
-.historyBtn{
+.history{
 display:block;
 background:#475569;
 color:#fff;
 text-decoration:none;
-padding:24px;
-text-align:center;
+padding:22px;
 border-radius:24px;
-font-size:28px;
+font-size:24px;
 font-weight:900;
+text-align:center;
 margin-bottom:18px;
 }
 
 details{
 background:#fff;
-padding:20px;
-border-radius:24px;
+border-radius:28px;
+padding:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 summary{
-font-size:28px;
+font-size:24px;
 font-weight:900;
 cursor:pointer;
-margin-bottom:10px;
+list-style:none;
+}
+
+summary::-webkit-details-marker{
+display:none;
 }
 
 .other{
 display:block;
-padding:18px;
 text-decoration:none;
-color:#1f2d3d;
-font-size:24px;
-font-weight:900;
+color:#111827;
+font-size:22px;
+font-weight:700;
+padding:18px 6px;
 border-bottom:1px solid #e5e7eb;
+}
+
+.other:last-child{
+border-bottom:none;
 }
 
 </style>
@@ -142,89 +170,4 @@ border-bottom:1px solid #e5e7eb;
 <body>
 
 <div class="header">
-<h1>あんしん生活ボタン</h1>
-</div>
-
-<a href="app.html" class="heroBtn">
-😊
-<div>元気です</div>
-</a>
-
-<div class="grid">
-
-<a href="medicine.html" class="menu blue">
-💊
-<div>服薬</div>
-</a>
-
-<a href="gps.html" class="menu red">
-📍
-<div>現在地</div>
-</a>
-
-<a href="sos.html" class="menu red">
-🚨
-<div>SOS</div>
-</a>
-
-<a href="family.html" class="menu orange">
-👪
-<div>家族</div>
-</a>
-
-</div>
-
-<a href="history.html" class="historyBtn">
-📋 見守り履歴
-</a>
-
-<details>
-
-<summary>
-その他
-</summary>
-
-<a href="schedule.html" class="other">
-📅 今日の予定
-</a>
-
-<a href="qr.html" class="other">
-📱 QRコード
-</a>
-
-<a href="register.html" class="other">
-👤 本人登録
-</a>
-
-<a href="check-history.html" class="other">
-😊 元気履歴
-</a>
-
-<a href="medicine-history.html" class="other">
-💊 服薬履歴
-</a>
-
-<a href="kawaraban.html" class="other">
-📰 4市瓦版
-</a>
-
-<a href="radio.html" class="other">
-📻 地域ラジオ
-</a>
-
-<a href="fun.html" class="other">
-🎬 お楽しみ動画
-</a>
-
-<a href="hospital.html" class="other">
-🏥 病院・薬局
-</a>
-
-<a href="garbage.html" class="other">
-🗑 ゴミの日
-</a>
-
-</details>
-
-</body>
-</html>
+<h1>あんしん生活ボ
