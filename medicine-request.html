@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>薬がなくなる</title>
+<title>薬がない</title>
 
 <style>
 
@@ -17,20 +17,20 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+background:linear-gradient(135deg,#dc2626,#b91c1c);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:28px;
+border-radius:28px;
 text-align:center;
 margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
@@ -38,59 +38,80 @@ font-weight:900;
 background:#fff;
 padding:24px;
 border-radius:24px;
-margin-bottom:18px;
+margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.select{
-width:100%;
-padding:20px;
-font-size:24px;
-border:2px solid #cbd5e1;
-border-radius:18px;
-margin-bottom:16px;
-}
-
-.input{
-width:100%;
-padding:18px;
+.label{
 font-size:22px;
-border:2px solid #cbd5e1;
-border-radius:18px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.select,
+.textarea{
+width:100%;
+padding:16px;
+border:2px solid #e5e7eb;
+border-radius:16px;
+font-size:20px;
 margin-bottom:16px;
 }
 
-.btn{
-display:block;
+.textarea{
+height:120px;
+resize:none;
+}
+
+.sendBtn{
 width:100%;
-padding:26px;
 border:none;
-border-radius:24px;
-font-size:28px;
-font-weight:900;
-cursor:pointer;
+background:#dc2626;
 color:#fff;
-margin-bottom:14px;
-text-decoration:none;
-text-align:center;
+padding:28px;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
 }
 
-.purple{
-background:#7c3aed;
-}
-
-.gray{
-background:#475569;
-}
-
-.result{
-background:#f8fafc;
-padding:20px;
-border-radius:20px;
+.status{
+margin-top:20px;
 font-size:22px;
 font-weight:900;
 line-height:1.8;
+}
+
+.actionBtn{
+display:block;
+width:100%;
+padding:20px;
+border-radius:20px;
+text-decoration:none;
 text-align:center;
+font-size:22px;
+font-weight:900;
+color:#fff;
+margin-top:12px;
+}
+
+.telBtn{
+background:#16a34a;
+}
+
+.lineBtn{
+background:#06c755;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
 }
 
 </style>
@@ -100,99 +121,150 @@ text-align:center;
 <body>
 
 <div class="header">
-<h1>💊 薬がなくなる</h1>
+<h1>💊 薬がない</h1>
 </div>
 
 <div class="card">
+
+<div class="label">
+薬の種類
+</div>
 
 <select
 id="medicineType"
 class="select">
 
-<option value="">
-薬を選択
-</option>
-
-<option>
-朝の薬
-</option>
-
-<option>
-昼の薬
-</option>
-
-<option>
-夕方の薬
-</option>
-
-<option>
-寝る前の薬
-</option>
-
-<option>
-その他
-</option>
+<option>朝の薬</option>
+<option>昼の薬</option>
+<option>夕方の薬</option>
+<option>寝る前の薬</option>
+<option>その他</option>
 
 </select>
 
-<input
-id="remain"
-class="input"
-placeholder="残り日数（例 3日）">
+<div class="label">
+内容
+</div>
+
+<textarea
+id="memo"
+class="textarea"
+placeholder="薬がなくなった・残り何日分など">
+</textarea>
 
 <button
-class="btn purple"
-onclick="sendMedicineRequest()">
-💊 連絡する
+class="sendBtn"
+onclick="sendRequest()">
+
+💊 薬がない
+
 </button>
 
 <div
-id="result"
-class="result">
+id="statusArea"
+class="status">
 
-薬の残量を連絡してください
+未送信
 
 </div>
+
+<a
+id="telBtn"
+class="actionBtn telBtn"
+style="display:none"
+href="#">
+
+📞 家族へ電話
+
+</a>
+
+<a
+id="lineBtn"
+class="actionBtn lineBtn"
+style="display:none"
+href="#">
+
+💬 家族へLINE
+
+</a>
 
 </div>
 
 <a
 href="index.html"
-class="btn gray">
+class="home">
+
 🏠 トップへ戻る
+
 </a>
 
 <script>
 
-function sendMedicineRequest(){
+function showButtons(){
 
-const medicine =
+const tel =
+localStorage.getItem(
+'familyTel'
+) || '';
+
+const line =
+localStorage.getItem(
+'familyLine'
+) || '';
+
+if(tel){
+
+const telBtn =
+document.getElementById(
+'telBtn'
+);
+
+telBtn.href =
+'tel:' + tel;
+
+telBtn.style.display =
+'block';
+
+}
+
+if(line){
+
+const lineBtn =
+document.getElementById(
+'lineBtn'
+);
+
+lineBtn.href =
+line;
+
+lineBtn.style.display =
+'block';
+
+}
+
+}
+
+function sendRequest(){
+
+const type =
 document.getElementById(
 'medicineType'
 ).value;
 
-const remain =
+const memo =
 document.getElementById(
-'remain'
+'memo'
 ).value;
-
-if(!medicine){
-
-alert(
-'薬を選択してください'
-);
-
-return;
-
-}
 
 const data = {
 
-medicine:medicine,
+type:type,
 
-remain:remain,
+memo:memo,
 
-time:new Date().toLocaleString(
+time:
+new Date()
+.toLocaleString(
 'ja-JP'
 )
 
@@ -204,18 +276,47 @@ JSON.stringify(data)
 );
 
 document.getElementById(
-'result'
+'statusArea'
 ).innerHTML =
 
-'連絡しました<br><br>' +
+'送信済み<br><br>' +
 
-medicine +
+data.time +
 
 '<br><br>' +
 
-'残り ' +
+data.type;
 
-remain;
+showButtons();
+
+alert(
+'薬がないを送信しました'
+);
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'medicineRequest'
+) || 'null'
+);
+
+if(last){
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'送信済み<br><br>' +
+
+last.time +
+
+'<br><br>' +
+
+last.type;
+
+showButtons();
 
 }
 
