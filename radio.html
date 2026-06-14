@@ -49,9 +49,10 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 
 .thumb{
 width:100%;
-aspect-ratio:9/16;
-object-fit:cover;
-background:#ddd;
+aspect-ratio:16/9;
+border:none;
+display:block;
+background:#000;
 }
 
 .body{
@@ -93,14 +94,12 @@ margin-top:10px;
 
 .share{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:1fr 1fr 1fr;
 gap:8px;
 margin-top:12px;
 }
 
-.share a,
-.share button{
-border:none;
+.share a{
 text-decoration:none;
 color:#fff;
 padding:12px;
@@ -108,7 +107,6 @@ border-radius:12px;
 text-align:center;
 font-size:16px;
 font-weight:900;
-cursor:pointer;
 }
 
 .line{
@@ -121,10 +119,6 @@ background:#111;
 
 .fb{
 background:#1877f2;
-}
-
-.copy{
-background:#475569;
 }
 
 .sectionTitle{
@@ -164,14 +158,6 @@ return c.f || c.v || '';
 
 }
 
-function copyLink(url){
-
-navigator.clipboard.writeText(url);
-
-alert('コピーしました');
-
-}
-
 function loadSheet(){
 
 const s =
@@ -205,17 +191,38 @@ if(!row.c) return;
 const id =
 getVal(row.c[0]);
 
-const title =
+const youtube =
 getVal(row.c[1]);
 
-const desc =
+const title =
 getVal(row.c[2]);
 
-const image =
+const desc =
 getVal(row.c[3]);
 
 const date =
 getVal(row.c[4]);
+
+let embed='';
+
+if(youtube){
+
+embed =
+youtube
+.replace(
+'https://www.youtube.com/watch?v=',
+'https://www.youtube.com/embed/'
+)
+.replace(
+'https://youtube.com/watch?v=',
+'https://www.youtube.com/embed/'
+)
+.replace(
+'https://youtu.be/',
+'https://www.youtube.com/embed/'
+);
+
+}
 
 const shareUrl =
 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share.html';
@@ -224,10 +231,13 @@ const html =
 
 '<div class="card">' +
 
-(image ?
-'<img class="thumb" src="' +
-image +
-'">' : '') +
+(embed ?
+
+'<iframe class="thumb" src="' +
+embed +
+'" allowfullscreen></iframe>'
+
+: '') +
 
 '<div class="body">' +
 
@@ -242,91 +252,3 @@ desc +
 '<div class="date">' +
 date +
 '</div>' +
-
-'<a class="btn" href="article.html?id=' +
-encodeURIComponent(id) +
-'">📻 ラジオを開く</a>' +
-
-'<div class="share">' +
-
-'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
-encodeURIComponent(shareUrl) +
-'">LINE</a>' +
-
-'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
-encodeURIComponent(shareUrl) +
-'&text=' +
-encodeURIComponent(title) +
-'">X</a>' +
-
-'<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
-encodeURIComponent(shareUrl) +
-'">Facebook</a>' +
-
-'<button class="copy" onclick="copyLink(\'' +
-shareUrl +
-'\')">コピー</button>' +
-
-'</div>' +
-
-'</div>' +
-
-'</div>';
-
-if(index < 5){
-
-latest += html;
-
-}else{
-
-archive += html;
-
-}
-
-});
-
-document.getElementById(
-'latest'
-).innerHTML =
-latest || '記事なし';
-
-document.getElementById(
-'archive'
-).innerHTML =
-archive;
-
-}
-
-window.onload =
-loadSheet;
-
-</script>
-
-</head>
-
-<body>
-
-<header>
-📻 地域ラジオ
-</header>
-
-<div class="wrap">
-
-<div id="latest">
-読込中...
-</div>
-
-<div class="sectionTitle">
-📚 アーカイブ
-</div>
-
-<div id="archive"></div>
-
-<a href="index.html" class="home">
-🏠 トップへ戻る
-</a>
-
-</div>
-
-</body>
-</html>
