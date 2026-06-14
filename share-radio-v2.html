@@ -23,9 +23,8 @@
 <meta name="twitter:description" content="志木市・新座市・朝霞市・和光市の最新情報を音声でお届けします。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
 
-<link rel="canonical" href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
-
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -35,21 +34,17 @@ box-sizing:border-box;
 body{
 background:#f4f6f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
 color:#1f2937;
+padding:20px;
 }
 
 .card{
+max-width:900px;
+margin:auto;
 background:#fff;
-width:100%;
-max-width:820px;
 border-radius:30px;
 overflow:hidden;
-box-shadow:0 14px 36px rgba(0,0,0,.14);
+box-shadow:0 12px 36px rgba(0,0,0,.12);
 }
 
 .hero{
@@ -58,7 +53,7 @@ display:block;
 }
 
 .content{
-padding:30px 24px;
+padding:30px;
 text-align:center;
 }
 
@@ -66,47 +61,66 @@ text-align:center;
 display:inline-block;
 background:#fee2e2;
 color:#dc2626;
-padding:8px 18px;
+padding:10px 18px;
 border-radius:999px;
 font-size:18px;
 font-weight:900;
-margin-bottom:18px;
+margin-bottom:20px;
 }
 
 h1{
 font-size:42px;
 font-weight:900;
-line-height:1.35;
-margin-bottom:18px;
-color:#111827;
+margin-bottom:20px;
 }
 
-p{
+.desc{
 font-size:22px;
 line-height:1.8;
 color:#475569;
-font-weight:700;
-margin-bottom:24px;
+margin-bottom:25px;
 }
 
 .btn{
 display:block;
-background:linear-gradient(135deg,#dc2626,#ef4444);
-color:#fff;
 text-decoration:none;
-padding:20px;
-border-radius:20px;
-font-size:24px;
+padding:18px;
+border-radius:18px;
+font-size:22px;
 font-weight:900;
-box-shadow:0 8px 18px rgba(220,38,38,.25);
+margin-bottom:12px;
+color:#fff;
+}
+
+.open{
+background:#dc2626;
+}
+
+.copy{
+background:#2563eb;
+border:none;
+width:100%;
+cursor:pointer;
+}
+
+.line{
+background:#06c755;
+}
+
+.fb{
+background:#1877f2;
+}
+
+.x{
+background:#111;
 }
 
 .note{
-margin-top:18px;
+margin-top:20px;
 font-size:16px;
 color:#94a3b8;
-font-weight:700;
 }
+
 </style>
 </head>
 
@@ -129,25 +143,86 @@ alt="地域ラジオ">
 地域ラジオ
 </h1>
 
-<p>
-志木市・新座市・朝霞市・和光市の最新情報を音声でお届けします。
-</p>
+<div class="desc">
+
+志木市・新座市・朝霞市・和光市の
+最新情報を音声でお届けします。
+
+</div>
 
 <a
-class="btn"
+class="btn open"
 href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html">
 
 📻 地域ラジオを開く
 
 </a>
 
+<button
+class="btn copy"
+onclick="copyText()">
+
+📋 紹介文をコピー
+
+</button>
+
+<a
+class="btn line"
+target="_blank"
+href="https://social-plugins.line.me/lineit/share?url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
+
+LINEで共有
+
+</a>
+
+<a
+class="btn fb"
+target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
+
+Facebookで共有
+
+</a>
+
+<a
+class="btn x"
+target="_blank"
+href="https://twitter.com/intent/tweet?url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
+
+Xで共有
+
+</a>
+
 <div class="note">
-Facebook・LINE・Xで共有できます
-</div>
+
+SNSで共有すると
+画像・タイトル・説明付きで表示されます
 
 </div>
 
 </div>
+
+</div>
+
+<script>
+
+function copyText(){
+
+const text =
+
+'📻地域ラジオ\n\n' +
+
+'志木市・新座市・朝霞市・和光市の最新情報を音声でお届けしています。\n\n' +
+
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html';
+
+navigator.clipboard.writeText(text);
+
+alert('コピーしました');
+
+}
+
+</script>
 
 </body>
 </html>
