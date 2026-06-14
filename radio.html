@@ -49,7 +49,7 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 
 .thumb{
 width:100%;
-aspect-ratio:16/9;
+aspect-ratio:9/16;
 object-fit:cover;
 background:#ddd;
 }
@@ -93,12 +93,14 @@ margin-top:10px;
 
 .share{
 display:grid;
-grid-template-columns:1fr 1fr 1fr;
+grid-template-columns:1fr 1fr;
 gap:8px;
 margin-top:12px;
 }
 
-.share a{
+.share a,
+.share button{
+border:none;
 text-decoration:none;
 color:#fff;
 padding:12px;
@@ -106,6 +108,7 @@ border-radius:12px;
 text-align:center;
 font-size:16px;
 font-weight:900;
+cursor:pointer;
 }
 
 .line{
@@ -118,6 +121,10 @@ background:#111;
 
 .fb{
 background:#1877f2;
+}
+
+.copy{
+background:#475569;
 }
 
 .sectionTitle{
@@ -149,18 +156,19 @@ const SHEET_ID =
 const SHEET_NAME =
 '地域ラジオ';
 
-const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
-
 function getVal(c){
 
 if(!c) return '';
 
 return c.f || c.v || '';
+
+}
+
+function copyLink(url){
+
+navigator.clipboard.writeText(url);
+
+alert('コピーしました');
 
 }
 
@@ -170,8 +178,11 @@ const s =
 document.createElement('script');
 
 s.src =
-url +
-'&callback=handleSheet';
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json;responseHandler:handleSheet';
 
 document.body.appendChild(s);
 
@@ -189,6 +200,8 @@ let archive='';
 
 rows.forEach((row,index)=>{
 
+if(!row.c) return;
+
 const id =
 getVal(row.c[0]);
 
@@ -205,11 +218,7 @@ const date =
 getVal(row.c[4]);
 
 const shareUrl =
-location.origin +
-location.pathname.replace(
-'radio.html',
-'share.html?id=' + id
-);
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share.html';
 
 const html =
 
@@ -235,7 +244,7 @@ date +
 '</div>' +
 
 '<a class="btn" href="article.html?id=' +
-id +
+encodeURIComponent(id) +
 '">📻 ラジオを開く</a>' +
 
 '<div class="share">' +
@@ -246,11 +255,17 @@ encodeURIComponent(shareUrl) +
 
 '<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
 encodeURIComponent(shareUrl) +
+'&text=' +
+encodeURIComponent(title) +
 '">X</a>' +
 
 '<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
 encodeURIComponent(shareUrl) +
 '">Facebook</a>' +
+
+'<button class="copy" onclick="copyLink(\'' +
+shareUrl +
+'\')">コピー</button>' +
 
 '</div>' +
 
@@ -273,7 +288,7 @@ archive += html;
 document.getElementById(
 'latest'
 ).innerHTML =
-latest;
+latest || '記事なし';
 
 document.getElementById(
 'archive'
