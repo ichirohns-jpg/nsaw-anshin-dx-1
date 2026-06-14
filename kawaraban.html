@@ -27,6 +27,9 @@ padding:24px;
 text-align:center;
 font-size:32px;
 font-weight:900;
+position:sticky;
+top:0;
+z-index:999;
 }
 
 .wrap{
@@ -84,6 +87,35 @@ text-align:center;
 border-radius:14px;
 font-size:20px;
 font-weight:900;
+}
+
+.sns{
+display:flex;
+gap:8px;
+margin-top:12px;
+}
+
+.sns a{
+flex:1;
+text-align:center;
+padding:12px;
+border-radius:12px;
+text-decoration:none;
+color:#fff;
+font-weight:900;
+font-size:16px;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#000;
+}
+
+.facebook{
+background:#1877f2;
 }
 
 .sectionTitle{
@@ -168,16 +200,18 @@ getVal(row.c[4]);
 
 if(!title) return;
 
+const shareUrl =
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' +
+id;
+
 const html =
 
 '<div class="card">' +
 
 (image ?
-
 '<img class="thumb" src="' +
 image +
 '">' :
-
 ''
 
 ) +
@@ -199,6 +233,24 @@ date +
 '<a class="readBtn" href="app.html?id=' +
 id +
 '">続きを読む</a>' +
+
+'<div class="sns">' +
+
+'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(shareUrl) +
+'">LINE</a>' +
+
+'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(shareUrl) +
+'&text=' +
+encodeURIComponent(title) +
+'">X</a>' +
+
+'<a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(shareUrl) +
+'">FB</a>' +
+
+'</div>' +
 
 '</div>' +
 
