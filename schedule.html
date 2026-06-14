@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>現在地送信</title>
+<title>今日の予定</title>
 
 <style>
 
@@ -15,77 +15,78 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef4fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:15px;
-color:#1f2d3d;
-}
-
-.wrap{
-max-width:800px;
-margin:auto;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#2196f3,#1565c0);
+background:linear-gradient(135deg,#0f766e,#14b8a6);
 color:#fff;
-padding:24px;
-border-radius:24px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-font-size:34px;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
 font-weight:900;
-margin-bottom:16px;
 }
 
 .card{
 background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+border-radius:30px;
+padding:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.info{
-font-size:20px;
-line-height:1.8;
-margin-bottom:15px;
+.label{
+font-size:22px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.input{
+width:100%;
+padding:18px;
+font-size:22px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
 }
 
 .btn{
+display:block;
 width:100%;
+padding:24px;
 border:none;
-border-radius:18px;
-padding:22px;
+border-radius:24px;
 font-size:26px;
 font-weight:900;
+color:#fff;
+text-decoration:none;
+text-align:center;
+margin-bottom:14px;
 cursor:pointer;
-margin-bottom:12px;
 }
 
-.gps{
-background:#2196f3;
-color:#fff;
+.save{
+background:#16a34a;
 }
 
-.map{
-background:#4caf50;
-color:#fff;
-}
-
-.back{
-background:#666;
-color:#fff;
+.home{
+background:#475569;
 }
 
 .result{
+background:#f1f5f9;
+padding:20px;
+border-radius:20px;
 font-size:22px;
 font-weight:900;
 text-align:center;
-padding:15px;
-}
-
-a{
-text-decoration:none;
 }
 
 </style>
@@ -94,246 +95,64 @@ text-decoration:none;
 
 <body>
 
-<div class="wrap">
-
 <div class="header">
-📍 現在地送信
+<h1>📅 今日の予定</h1>
 </div>
 
 <div class="card">
 
-<div class="info">
-現在地を取得して家族や支援者へ送信します
+<div class="label">病院</div>
+<input id="hospital" class="input">
+
+<div class="label">買い物</div>
+<input id="shopping" class="input">
+
+<div class="label">デイサービス</div>
+<input id="dayservice" class="input">
+
+<div class="label">メモ</div>
+<input id="memo" class="input">
+
+<button
+class="btn save"
+onclick="saveSchedule()">
+保存する
+</button>
+
 </div>
 
-<button
-class="btn gps"
-onclick="getLocation()">
-📍 現在地取得
-</button>
-
-<a
-id="mapLink"
-href="#"
-target="_blank">
-
-<button
-class="btn map">
-🗺 地図を開く
-</button>
-
-</a>
+<div class="card">
 
 <div
 id="result"
 class="result">
-未取得
-</div>
-
-<button
-class="btn back"
-onclick="history.back()">
-戻る
-</button>
-
+予定未登録
 </div>
 
 </div>
+
+<a
+href="index.html"
+class="btn home">
+🏠 トップへ戻る
+</a>
 
 <script>
-
-function getLocation(){
-
-if(
-!navigator.geolocation
-){
-return;
-}
-
-navigator.geolocation.getCurrentPosition(
-
-function(position){
-
-const lat =
-position.coords.latitude;
-
-const lng =
-position.coords.longitude;
-
-localStorage.setItem(
-"gpsLat",
-lat
-);
-
-localStorage.setItem(
-"gpsLng",
-lng
-);
-
-const mapUrl =
-"https://maps.google.com/?q=" +
-lat +
-"," +
-lng;
-
-document.getElementById(
-"mapLink"
-).href =
-mapUrl;
-
-document.getElementById(
-"result"
-).innerHTML =
-
-"取得完了<br>" +
-
-lat +
-"<br>" +
-
-lng;
-
-},
-
-function(){
-
-document.getElementById(
-"result"
-).innerHTML =
-"取得失敗";
-
-}
-
-);
-
-}
-
-</script>
-
-</body>
-</html>
-
-<script>
-
-loadSchedule();
 
 function saveSchedule(){
 
-const date =
-document.getElementById(
-"date"
-).value;
+const text =
+'病院：' +
+document.getElementById('hospital').value +
+'<br><br>買い物：' +
+document.getElementById('shopping').value +
+'<br><br>デイサービス：' +
+document.getElementById('dayservice').value +
+'<br><br>メモ：' +
+document.getElementById('memo').value;
 
-const memo =
-document.getElementById(
-"memo"
-).value;
-
-if(
-!date ||
-!memo
-){
-return;
-}
-
-let data =
-JSON.parse(
-localStorage.getItem(
-"scheduleList"
-) || "[]"
-);
-
-data.push({
-
-date:date,
-memo:memo,
-time:new Date()
-.toLocaleString(
-"ja-JP"
-)
-
-});
-
-localStorage.setItem(
-"scheduleList",
-JSON.stringify(data)
-);
-
-document.getElementById(
-"memo"
-).value = "";
-
-loadSchedule();
-
-}
-
-function deleteSchedule(index){
-
-let data =
-JSON.parse(
-localStorage.getItem(
-"scheduleList"
-) || "[]"
-);
-
-data.splice(
-index,
-1
-);
-
-localStorage.setItem(
-"scheduleList",
-JSON.stringify(data)
-);
-
-loadSchedule();
-
-}
-
-function loadSchedule(){
-
-let data =
-JSON.parse(
-localStorage.getItem(
-"scheduleList"
-) || "[]"
-);
-
-data.sort(
-(a,b)=>
-a.date.localeCompare(
-b.date
-)
-);
-
-let html = "";
-
-data.forEach(
-(item,index)=>{
-
-html +=
-
-'<div class="item">' +
-
-'<div class="date">' +
-item.date +
-'</div>' +
-
-'<div class="memo">' +
-item.memo +
-'</div>' +
-
-'<button onclick="deleteSchedule(' +
-index +
-')">削除</button>' +
-
-'</div>';
-
-});
-
-document.getElementById(
-"list"
-).innerHTML =
-html;
+document.getElementById('result').innerHTML =
+text;
 
 }
 
