@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>今日の予定</title>
+<title>予定管理</title>
 
 <style>
 
@@ -12,34 +12,43 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#ea580c,#fb923c);
-color:#fff;
-padding:30px;
+background:linear-gradient(135deg,#111827,#334155);
+padding:28px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
+.header p{
+margin-top:8px;
+font-size:16px;
+color:#cbd5e1;
+font-weight:700;
+}
+
 .card{
-background:#fff;
+background:linear-gradient(135deg,#1e293b,#0f172a);
 padding:24px;
-border-radius:24px;
+border-radius:28px;
 margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .label{
@@ -52,7 +61,7 @@ margin-bottom:8px;
 width:100%;
 padding:18px;
 font-size:22px;
-border:2px solid #cbd5e1;
+border:none;
 border-radius:18px;
 margin-bottom:16px;
 }
@@ -60,123 +69,126 @@ margin-bottom:16px;
 .btn{
 display:block;
 width:100%;
-padding:24px;
+padding:26px;
 border:none;
 border-radius:24px;
 font-size:28px;
 font-weight:900;
 cursor:pointer;
-margin-bottom:14px;
+margin-bottom:12px;
 color:#fff;
 }
 
 .orange{
-background:#ea580c;
+background:linear-gradient(135deg,#ea580c,#fb923c);
 }
 
 .gray{
-background:#475569;
+background:linear-gradient(135deg,#475569,#334155);
+text-decoration:none;
+text-align:center;
+}
+
+.green{
+background:linear-gradient(135deg,#16a34a,#22c55e);
 }
 
 .result{
-background:#f8fafc;
-padding:20px;
-border-radius:20px;
+background:#fff;
+color:#111827;
+padding:22px;
+border-radius:22px;
 font-size:22px;
 font-weight:900;
 line-height:1.8;
 }
 
-</style>
+.item{
+padding:14px;
+margin-bottom:10px;
+border-radius:18px;
+background:#f8fafc;
+}
 
+.time{
+color:#ea580c;
+font-size:20px;
+font-weight:900;
+}
+
+.title{
+font-size:22px;
+font-weight:900;
+}
+
+.memo{
+font-size:18px;
+color:#475569;
+margin-top:4px;
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="header">
-<h1>📅 今日の予定</h1>
+<h1>📅 予定管理</h1>
+<p>予定を登録します</p>
 </div>
 
 <div class="card">
 
 <div class="label">
-🏥 病院
+📅 日付
 </div>
 
 <input
-id="hospital"
+id="scheduleDate"
 class="input"
-placeholder="病院名">
+type="date">
 
 <div class="label">
-🕒 病院時間
+🕒 時間
 </div>
 
 <input
-id="hospitalTime"
+id="scheduleTime"
 class="input"
 type="time">
 
 <div class="label">
-🛒 買い物
+📝 予定
 </div>
 
 <input
-id="shopping"
+id="scheduleTitle"
 class="input"
-placeholder="買い物内容">
+placeholder="病院・買い物・来客など">
 
 <div class="label">
-🕒 買い物時間
+📋 メモ
 </div>
 
 <input
-id="shoppingTime"
+id="scheduleMemo"
 class="input"
-type="time">
-
-<div class="label">
-🚌 デイサービス
-</div>
-
-<input
-id="dayservice"
-class="input"
-placeholder="デイサービス">
-
-<div class="label">
-🕒 デイサービス時間
-</div>
-
-<input
-id="dayserviceTime"
-class="input"
-type="time">
-
-<div class="label">
-💊 服薬
-</div>
-
-<input
-id="medicineTime"
-class="input"
-placeholder="朝・昼・夕・寝る前">
-
-<div class="label">
-📝 メモ
-</div>
-
-<input
-id="memo"
-class="input"
-placeholder="自由入力">
+placeholder="補足内容">
 
 <button
 class="btn orange"
 onclick="saveSchedule()">
+
 保存する
+
 </button>
 
+</div>
+
+<div class="card">
+
+<div class="label">
+📅 登録済み予定
 </div>
 
 <div
@@ -187,60 +199,163 @@ class="result">
 
 </div>
 
+</div>
+
 <a
 href="app.html"
 class="btn gray">
+
 🏠 本人ページへ戻る
+
 </a>
 
 <script>
 
+let schedules =
+JSON.parse(
+localStorage.getItem(
+'schedules'
+) || '[]'
+);
+
+showSchedules();
+
 function saveSchedule(){
 
-const data = {
+const date =
+document.getElementById(
+'scheduleDate'
+).value;
 
-hospital:
-document.getElementById('hospital').value,
+const time =
+document.getElementById(
+'scheduleTime'
+).value;
 
-hospitalTime:
-document.getElementById('hospitalTime').value,
+const title =
+document.getElementById(
+'scheduleTitle'
+).value;
 
-shopping:
-document.getElementById('shopping').value,
+const memo =
+document.getElementById(
+'scheduleMemo'
+).value;
 
-shoppingTime:
-document.getElementById('shoppingTime').value,
+if(
+!date ||
+!title
+){
+alert(
+'日付と予定を入力してください'
+);
+return;
+}
 
-dayservice:
-document.getElementById('dayservice').value,
+schedules.push({
 
-dayserviceTime:
-document.getElementById('dayserviceTime').value,
+date:date,
+time:time,
+title:title,
+memo:memo,
+created:new Date().toLocaleString('ja-JP')
 
-medicineTime:
-document.getElementById('medicineTime').value,
+});
 
-memo:
-document.getElementById('memo').value
+schedules.sort(function(a,b){
 
-};
+const aa =
+a.date + ' ' + a.time;
+
+const bb =
+b.date + ' ' + b.time;
+
+return aa.localeCompare(bb);
+
+});
 
 localStorage.setItem(
-'scheduleData',
-JSON.stringify(data)
+'schedules',
+JSON.stringify(
+schedules
+)
 );
+
+document.getElementById(
+'scheduleDate'
+).value = '';
+
+document.getElementById(
+'scheduleTime'
+).value = '';
+
+document.getElementById(
+'scheduleTitle'
+).value = '';
+
+document.getElementById(
+'scheduleMemo'
+).value = '';
+
+showSchedules();
+
+}
+
+function showSchedules(){
+
+if(
+schedules.length === 0
+){
 
 document.getElementById(
 'result'
 ).innerHTML =
+'予定未登録';
 
-'🏥 ' + data.hospital +
-'<br>' +
-'🛒 ' + data.shopping +
-'<br>' +
-'🚌 ' + data.dayservice +
-'<br>' +
-'💊 ' + data.medicineTime;
+return;
+
+}
+
+let html = '';
+
+schedules.forEach(function(item,index){
+
+html +=
+
+'<div class="item">' +
+
+'<div class="time">' +
+
+item.date +
+' ' +
+(item.time || '')
+
++
+
+'</div>' +
+
+'<div class="title">' +
+
+item.title +
+
+'</div>' +
+
+'<div class="memo">' +
+
+(item.memo || '')
+
++
+
+'</div>' +
+
+'</div>';
+
+});
+
+document.getElementById(
+'result'
+).innerHTML =
+html;
 
 }
 
