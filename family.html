@@ -15,22 +15,24 @@ box-sizing:border-box;
 }
 
 body{
-margin:0;
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
 padding:18px;
+color:#1f2d3d;
 }
 
-header{
+.header{
 background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
-padding:26px;
-border-radius:28px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-font-size:34px;
-font-weight:900;
 margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
+font-weight:900;
 }
 
 .card{
@@ -95,9 +97,9 @@ background:#475569;
 
 <body>
 
-<header>
-👪 家族ページ
-</header>
+<div class="header">
+<h1>👪 家族ページ</h1>
+</div>
 
 <div class="card">
 
@@ -118,34 +120,14 @@ class="status">
 <div class="card">
 
 <div class="title">
-今日の状況
+😊 最終元気です
 </div>
 
 <div
-id="scheduleArea"
+id="genkiArea"
 class="status">
 
-📅 予定未登録
-
-</div>
-
-<br>
-
-<div
-id="gpsArea"
-class="status">
-
-📍 位置情報未取得
-
-</div>
-
-<br>
-
-<div
-id="sosArea"
-class="status">
-
-🚨 SOSなし
+履歴なし
 
 </div>
 
@@ -153,41 +135,77 @@ class="status">
 
 <div class="card">
 
-<a
-href="history.html"
-class="btn gray">
+<div class="title">
+💊 最終服薬
+</div>
+
+<div
+id="medicineArea"
+class="status">
+
+履歴なし
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+📍 最終位置
+</div>
+
+<div
+id="gpsArea"
+class="status">
+
+位置情報なし
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+🚨 最終SOS
+</div>
+
+<div
+id="sosArea"
+class="status">
+
+SOSなし
+
+</div>
+
+</div>
+
+<div class="card">
+
+<a href="history.html" class="btn gray">
 📋 見守り履歴
 </a>
 
-<a
-href="check-history.html"
-class="btn green">
+<a href="check-history.html" class="btn green">
 😊 元気です履歴
 </a>
 
-<a
-href="medicine-history.html"
-class="btn blue">
+<a href="medicine-history.html" class="btn blue">
 💊 服薬履歴
 </a>
 
-<a
-href="gps.html"
-class="btn red">
-📍 最終位置確認
+<a href="gps.html" class="btn red">
+📍 GPS確認
 </a>
 
-<a
-href="schedule.html"
-class="btn orange">
+<a href="schedule.html" class="btn orange">
 📅 今日の予定
 </a>
 
 </div>
 
-<a
-href="index.html"
-class="btn gray">
+<a href="index.html" class="btn gray">
 🏠 トップへ戻る
 </a>
 
@@ -216,12 +234,12 @@ text.substring(47,text.length-2)
 );
 
 const rows =
-json.table.rows;
+json.table.rows.reverse();
 
-if(rows.length===0)return;
+if(rows.length===0) return;
 
 const last =
-rows[rows.length-1];
+rows[0];
 
 const time =
 last.c[0] ? last.c[0].v : '';
@@ -242,40 +260,89 @@ status +
 '<br><br>' +
 '🕒 ' + time;
 
+rows.forEach(row=>{
+
+const t =
+row.c[0] ? row.c[0].v : '';
+
+const s =
+row.c[2] ? row.c[2].v : '';
+
 if(
-status.includes('SOS') ||
-status.includes('緊急') ||
-status.includes('困')
+document.getElementById(
+'genkiArea'
+).innerHTML === '履歴なし'
+&&
+String(s).includes('元気')
 ){
 
 document.getElementById(
-'sosArea'
+'genkiArea'
 ).innerHTML =
-'🚨 ' + status;
+s +
+'<br><br>' +
+t;
 
 }
 
 if(
-status.includes('薬')
+document.getElementById(
+'medicineArea'
+).innerHTML === '履歴なし'
+&&
+String(s).includes('薬')
 ){
 
 document.getElementById(
-'scheduleArea'
+'medicineArea'
 ).innerHTML =
-'💊 ' + status;
+s +
+'<br><br>' +
+t;
 
 }
 
 if(
-status.includes('現在地')
+document.getElementById(
+'gpsArea'
+).innerHTML === '位置情報なし'
+&&
+String(s).includes('現在地')
 ){
 
 document.getElementById(
 'gpsArea'
 ).innerHTML =
-'📍 最終位置送信済み';
+s +
+'<br><br>' +
+t;
 
 }
+
+if(
+document.getElementById(
+'sosArea'
+).innerHTML === 'SOSなし'
+&&
+(
+String(s).includes('SOS')
+||
+String(s).includes('緊急')
+||
+String(s).includes('困')
+)
+){
+
+document.getElementById(
+'sosArea'
+).innerHTML =
+s +
+'<br><br>' +
+t;
+
+}
+
+});
 
 });
 
