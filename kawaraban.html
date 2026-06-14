@@ -97,9 +97,10 @@ margin:24px 0 14px;
 
 .home{
 display:block;
+width:100%;
+border:none;
 background:#475569;
 color:#fff;
-text-decoration:none;
 padding:18px;
 text-align:center;
 border-radius:18px;
@@ -146,7 +147,7 @@ document.body.appendChild(s);
 
 }
 
-function handleSheet(json){
+window.handleSheet=function(json){
 
 const rows =
 json.table.rows;
@@ -173,14 +174,21 @@ getVal(row.c[3]);
 const date =
 getVal(row.c[4]);
 
+if(!title) return;
+
 const html =
 
 '<div class="card">' +
 
 (image ?
+
 '<img class="thumb" src="' +
 image +
-'">' : '') +
+'">' :
+
+''
+
+) +
 
 '<div class="body">' +
 
@@ -218,16 +226,21 @@ archive += html;
 
 document.getElementById(
 'latest'
-).innerHTML = latest;
+).innerHTML =
+latest || '記事がありません';
 
 document.getElementById(
 'archive'
-).innerHTML = archive;
+).innerHTML =
+archive;
 
-}
+};
 
-window.onload =
-loadSheet;
+window.onload=function(){
+
+loadSheet();
+
+};
 
 </script>
 
@@ -251,9 +264,13 @@ loadSheet;
 
 <div id="archive"></div>
 
-<a href="index.html" class="home">
+<button
+class="home"
+onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+
 🏠 トップへ戻る
-</a>
+
+</button>
 
 </div>
 
