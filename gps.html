@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>現在地送信</title>
+<title>GPS送信</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#ea580c,#fb923c);
+background:linear-gradient(135deg,#dc2626,#ef4444);
 color:#fff;
 padding:30px;
 border-radius:30px;
@@ -30,16 +30,23 @@ margin-bottom:18px;
 }
 
 .header h1{
-font-size:38px;
+font-size:36px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-border-radius:30px;
 padding:24px;
+border-radius:24px;
 margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.result{
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
 }
 
 .btn{
@@ -50,37 +57,17 @@ border:none;
 border-radius:24px;
 font-size:28px;
 font-weight:900;
-color:#fff;
 cursor:pointer;
-text-align:center;
-text-decoration:none;
 margin-bottom:14px;
+color:#fff;
 }
 
-.orange{
-background:#ea580c;
+.red{
+background:#dc2626;
 }
 
 .gray{
 background:#475569;
-}
-
-.result{
-background:#f1f5f9;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-text-align:center;
-line-height:1.8;
-}
-
-.map{
-width:100%;
-height:400px;
-border:none;
-border-radius:20px;
-margin-top:12px;
 }
 
 </style>
@@ -90,17 +77,7 @@ margin-top:12px;
 <body>
 
 <div class="header">
-<h1>📍 現在地送信</h1>
-</div>
-
-<div class="card">
-
-<button
-class="btn orange"
-onclick="sendLocation()">
-📍 現在地を送信
-</button>
-
+<h1>📍 GPS送信</h1>
 </div>
 
 <div class="card">
@@ -108,26 +85,23 @@ onclick="sendLocation()">
 <div
 id="result"
 class="result">
-位置情報未取得
-</div>
 
-<iframe
-id="map"
-class="map">
-</iframe>
+位置情報未送信
 
 </div>
 
-<a
-href="family.html"
-class="btn gray">
-👪 家族ページ
-</a>
+</div>
+
+<button
+class="btn red"
+onclick="sendGPS()">
+📍 現在地を送信
+</button>
 
 <a
-href="index.html"
+href="app.html"
 class="btn gray">
-🏠 トップへ戻る
+🏠 本人ページへ戻る
 </a>
 
 <script>
@@ -135,27 +109,28 @@ class="btn gray">
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-function sendLocation(){
+function sendGPS(){
+
+document.getElementById(
+'result'
+).innerHTML =
+'位置取得中...';
 
 navigator.geolocation.getCurrentPosition(
 
-function(position){
+function(pos){
 
 const lat =
-position.coords.latitude;
+pos.coords.latitude;
 
 const lng =
-position.coords.longitude;
+pos.coords.longitude;
 
-document.getElementById('map').src =
-'https://maps.google.com/maps?q=' +
+const mapUrl =
+'https://maps.google.com/?q=' +
 lat +
 ',' +
-lng +
-'&z=16&output=embed';
-
-document.getElementById('result').innerHTML =
-'送信中...';
+lng;
 
 fetch(
 GAS_URL,
@@ -165,56 +140,41 @@ headers:{
 'Content-Type':'application/json'
 },
 body:JSON.stringify({
-
 type:'gps',
-
-name:'利用者001',
-
-status:'現在地送信',
-
-latitude:lat,
-
-longitude:lng,
-
-map:
-'https://maps.google.com/?q=' +
-lat +
-',' +
-lng,
-
-time:
-new Date().toLocaleString('ja-JP')
-
+name:
+localStorage.getItem('userName') || '利用者',
+lat:lat,
+lng:lng,
+mapUrl:mapUrl,
+time:new Date().toLocaleString('ja-JP')
 })
 }
-)
-.then(r=>r.text())
-.then(data=>{
+);
 
-document.getElementById('result').innerHTML =
+document.getElementById(
+'result'
+).innerHTML =
 
-'📍送信完了' +
-'<br><br>' +
-'緯度：' +
+'📍送信完了<br><br>' +
+
 lat +
+'<br>' +
+
+lng +
 '<br><br>' +
-'経度：' +
-lng;
 
-})
-.catch(err=>{
-
-document.getElementById('result').innerHTML =
-'送信失敗';
-
-});
+'<a href="' +
+mapUrl +
+'" target="_blank">Googleマップを開く</a>';
 
 },
 
 function(){
 
-document.getElementById('result').innerHTML =
-'位置情報取得失敗';
+document.getElementById(
+'result'
+).innerHTML =
+'位置取得失敗';
 
 }
 
