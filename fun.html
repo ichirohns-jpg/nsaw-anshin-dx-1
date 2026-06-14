@@ -6,6 +6,10 @@
 
 <title>お楽しみ動画</title>
 
+<meta property="og:title" content="お楽しみ動画">
+<meta property="og:description" content="地域の動画・おすすめ動画">
+<meta property="og:image" content="icon.png">
+
 <style>
 
 *{
@@ -15,112 +19,299 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef2f7;
+background:#f4f6f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2d3d;
+color:#1f2937;
 }
 
-.header{
-background:linear-gradient(135deg,#111827,#334155);
+header{
+background:linear-gradient(135deg,#16a34a,#22c55e);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:24px;
 text-align:center;
-margin-bottom:18px;
+font-size:32px;
+font-weight:900;
 }
 
-.header h1{
-font-size:36px;
-font-weight:900;
+.wrap{
+max-width:1000px;
+margin:auto;
+padding:15px;
 }
 
 .card{
 background:#fff;
-border-radius:30px;
+border-radius:24px;
 overflow:hidden;
 margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.video{
+.thumb{
 width:100%;
 aspect-ratio:16/9;
-border:none;
+object-fit:cover;
+background:#ddd;
 }
 
 .body{
-padding:20px;
+padding:18px;
 }
 
 .title{
-font-size:28px;
+font-size:24px;
 font-weight:900;
+line-height:1.5;
 margin-bottom:10px;
 }
 
 .desc{
-font-size:20px;
+font-size:18px;
 line-height:1.7;
-margin-bottom:10px;
+color:#475569;
+margin-bottom:12px;
+}
+
+.date{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:12px;
 }
 
 .btn{
 display:block;
-padding:18px;
-text-align:center;
-background:#ea580c;
+background:#16a34a;
 color:#fff;
 text-decoration:none;
-border-radius:18px;
-font-size:22px;
+padding:16px;
+text-align:center;
+border-radius:14px;
+font-size:20px;
+font-weight:900;
+margin-top:10px;
+}
+
+.share{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+margin-top:12px;
+}
+
+.share a{
+text-decoration:none;
+color:#fff;
+padding:12px;
+border-radius:12px;
+text-align:center;
+font-size:16px;
 font-weight:900;
 }
 
-.back{
+.line{
+background:#06c755;
+}
+
+.x{
+background:#111;
+}
+
+.fb{
+background:#1877f2;
+}
+
+.sectionTitle{
+font-size:28px;
+font-weight:900;
+margin:24px 0 14px;
+}
+
+.home{
+display:block;
 background:#475569;
-margin-top:18px;
+color:#fff;
+text-decoration:none;
+padding:18px;
+text-align:center;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+margin-top:20px;
 }
 
 </style>
+
+<script>
+
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+
+const SHEET_NAME =
+'お楽しみ動画';
+
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
+function getVal(c){
+
+if(!c) return '';
+
+return c.f || c.v || '';
+
+}
+
+function loadSheet(){
+
+const s =
+document.createElement('script');
+
+s.src =
+url +
+'&callback=handleSheet';
+
+document.body.appendChild(s);
+
+}
+
+function handleSheet(json){
+
+const rows =
+json.table.rows;
+
+rows.reverse();
+
+let latest='';
+let archive='';
+
+rows.forEach((row,index)=>{
+
+const id =
+getVal(row.c[0]);
+
+const title =
+getVal(row.c[1]);
+
+const desc =
+getVal(row.c[2]);
+
+const image =
+getVal(row.c[3]);
+
+const date =
+getVal(row.c[4]);
+
+const shareUrl =
+location.origin +
+location.pathname.replace(
+'fun.html',
+'share.html?id=' + id
+);
+
+const html =
+
+'<div class="card">' +
+
+(image ?
+'<img class="thumb" src="' +
+image +
+'">' : '') +
+
+'<div class="body">' +
+
+'<div class="title">' +
+title +
+'</div>' +
+
+'<div class="desc">' +
+desc +
+'</div>' +
+
+'<div class="date">' +
+date +
+'</div>' +
+
+'<a class="btn" href="article.html?id=' +
+id +
+'">🎬 動画を見る</a>' +
+
+'<div class="share">' +
+
+'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(shareUrl) +
+'">LINE</a>' +
+
+'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(shareUrl) +
+'">X</a>' +
+
+'<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(shareUrl) +
+'">Facebook</a>' +
+
+'</div>' +
+
+'</div>' +
+
+'</div>';
+
+if(index < 5){
+
+latest += html;
+
+}else{
+
+archive += html;
+
+}
+
+});
+
+document.getElementById(
+'latest'
+).innerHTML =
+latest;
+
+document.getElementById(
+'archive'
+).innerHTML =
+archive;
+
+}
+
+window.onload =
+loadSheet;
+
+</script>
 
 </head>
 
 <body>
 
-<div class="header">
-<h1>🎬 お楽しみ動画</h1>
+<header>
+🎬 お楽しみ動画
+</header>
+
+<div class="wrap">
+
+<div id="latest">
+読込中...
 </div>
 
-<div class="card">
-
-<iframe
-class="video"
-src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-allowfullscreen>
-</iframe>
-
-<div class="body">
-
-<div class="title">
-今日のお楽しみ動画
+<div class="sectionTitle">
+📚 アーカイブ
 </div>
 
-<div class="desc">
-懐メロ・健康体操・脳トレ・地域散歩などを楽しめます。
-</div>
+<div id="archive"></div>
 
-<a href="#" class="btn">
-YouTubeで見る
-</a>
-
-</div>
-
-</div>
-
-<a href="index.html" class="btn back">
+<a href="index.html" class="home">
 🏠 トップへ戻る
 </a>
+
+</div>
 
 </body>
 </html>
