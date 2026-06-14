@@ -252,3 +252,89 @@ desc +
 '<div class="date">' +
 date +
 '</div>' +
+
+'<a class="btn" href="' +
+youtube +
+'" target="_blank">' +
+'📻 ラジオを開く' +
+'</a>' +
+
+'<div class="share">' +
+
+'<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(shareUrl) +
+'">LINE</a>' +
+
+'<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(shareUrl) +
+'&text=' +
+encodeURIComponent(title) +
+'">X</a>' +
+
+'<a class="fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(shareUrl) +
+'">Facebook</a>' +
+
+'</div>' +
+
+'</div>' +
+
+'</div>';
+
+if(index < 5){
+
+latest += html;
+
+}else{
+
+archive += html;
+
+}
+
+});
+
+document.getElementById(
+'latest'
+).innerHTML =
+latest || '記事なし';
+
+document.getElementById(
+'archive'
+).innerHTML =
+archive;
+
+}
+
+window.onload =
+loadSheet;
+
+</script>
+
+</head>
+
+<body>
+
+<header>
+📻 地域ラジオ
+</header>
+
+<div class="wrap">
+
+<div id="latest">
+読込中...
+</div>
+
+<div class="sectionTitle">
+📚 アーカイブ
+</div>
+
+<div id="archive"></div>
+
+<a href="index.html" class="home">
+🏠 トップへ戻る
+</a>
+
+</div>
+
+</body>
+</html>
