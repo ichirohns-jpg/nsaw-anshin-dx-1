@@ -18,243 +18,35 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:18px;
-color:#1f2d3d;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:28px;
+border-radius:28px;
 text-align:center;
 margin-bottom:18px;
 }
 
-.name{
-font-size:36px;
+.header h1{
+font-size:38px;
 font-weight:900;
 }
 
-.sub{
-font-size:18px;
-margin-top:8px;
-}
-
-.card{
-background:#fff;
-border-radius:30px;
-padding:24px;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.btn{
+.hero{
 display:block;
 width:100%;
-padding:28px;
-border:none;
-border-radius:24px;
-margin-bottom:14px;
-font-size:28px;
-font-weight:900;
-color:#fff;
-text-align:center;
-cursor:pointer;
-text-decoration:none;
-}
-
-.green{
 background:#16a34a;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.orange{
-background:#ea580c;
-}
-
-.red{
-background:#dc2626;
-}
-
-.gray{
-background:#475569;
-}
-
-.result{
-background:#f1f5f9;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
+color:#fff;
+text-decoration:none;
 text-align:center;
-line-height:1.8;
+padding:40px;
+border-radius:30px;
+font-size:60px;
+font-weight:900;
+margin-bottom:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
 }
 
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-
-<div class="name">
-😊 本人ページ
-</div>
-
-<div class="sub">
-押すだけで記録します
-</div>
-
-</div>
-
-<div class="card">
-
-<button
-class="btn green"
-onclick="sendStatus('元気です')">
-😊 元気です
-</button>
-
-<a
-href="medicine.html"
-class="btn blue">
-💊 服薬確認
-</a>
-
-<a
-href="schedule.html"
-class="btn orange">
-📅 今日の予定
-</a>
-
-<a
-href="gps.html"
-class="btn orange">
-📍 現在地送信
-</a>
-
-<a
-href="sos.html"
-class="btn red">
-🚨 困っています
-</a>
-
-</div>
-
-<div class="card">
-
-<div
-id="result"
-class="result">
-
-待機中
-
-</div>
-
-</div>
-
-<div class="card">
-
-<a
-href="history.html"
-class="btn gray">
-📋 見守り履歴
-</a>
-
-<a
-href="check-history.html"
-class="btn green">
-😊 元気です履歴
-</a>
-
-<a
-href="medicine-history.html"
-class="btn blue">
-💊 服薬履歴
-</a>
-
-</div>
-
-<a
-href="family.html"
-class="btn orange">
-👪 家族ページ
-</a>
-
-<a
-href="index.html"
-class="btn gray">
-🏠 トップへ戻る
-</a>
-
-<script>
-
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
-
-function sendStatus(status){
-
-document.getElementById(
-'result'
-).innerHTML =
-'送信中...';
-
-fetch(
-GAS_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
-
-type:'status',
-
-name:
-localStorage.getItem(
-'userName'
-) || '利用者',
-
-userId:
-localStorage.getItem(
-'userId'
-) || '',
-
-status:status,
-
-time:
-new Date().toLocaleString('ja-JP')
-
-})
-}
-)
-.then(r=>r.text())
-.then(data=>{
-
-document.getElementById(
-'result'
-).innerHTML =
-
-status +
-'<br><br>送信完了';
-
-})
-.catch(err=>{
-
-document.getElementById(
-'result'
-).innerHTML =
-'送信失敗';
-
-});
-
-}
-
-</script>
-
-</body>
-</html>
+.hero span{
