@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>本人登録</title>
+<title>QR発行</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 
@@ -12,261 +14,231 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2d3d;
+padding:16px;
+color:#fff;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
 padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
 .card{
-background:#fff;
-border-radius:30px;
+background:linear-gradient(135deg,#1e293b,#0f172a);
 padding:24px;
+border-radius:28px;
 margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+box-shadow:0 12px 30px rgba(0,0,0,.35);
+text-align:center;
 }
 
-.label{
-font-size:22px;
+.title{
+font-size:26px;
 font-weight:900;
-margin-bottom:8px;
+margin-bottom:12px;
 }
 
-.input{
-width:100%;
-padding:18px;
-font-size:22px;
-border:2px solid #cbd5e1;
-border-radius:18px;
+.info{
+font-size:20px;
+line-height:1.8;
+font-weight:900;
 margin-bottom:16px;
 }
 
-.btn{
-width:100%;
-padding:24px;
-border:none;
-border-radius:24px;
-font-size:28px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-color:#fff;
+.qr{
+background:#fff;
+padding:20px;
+border-radius:20px;
+display:inline-block;
+margin-top:10px;
 }
 
-.green{
-background:#16a34a;
+.btn{
+display:block;
+width:100%;
+padding:26px;
+border:none;
+border-radius:24px;
+font-size:26px;
+font-weight:900;
+text-decoration:none;
+text-align:center;
+color:#fff;
+margin-bottom:12px;
 }
 
 .blue{
-background:#2563eb;
+background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.green{
+background:linear-gradient(135deg,#16a34a,#22c55e);
 }
 
 .gray{
-background:#475569;
+background:linear-gradient(135deg,#475569,#334155);
 }
 
-.result{
-background:#f1f5f9;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-text-align:center;
-line-height:1.8;
+.small{
+font-size:15px;
+color:#cbd5e1;
+margin-top:12px;
+line-height:1.7;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-<h1>👤 本人登録</h1>
+<h1>📱 QR発行</h1>
 </div>
 
 <div class="card">
 
-<div class="label">
-お名前
+<div class="title">
+👤 利用者情報
 </div>
 
-<input
-id="name"
-class="input"
-placeholder="山田太郎">
-
-<div class="label">
-住所
+<div id="userInfo" class="info">
+読込中...
 </div>
-
-<input
-id="address"
-class="input"
-placeholder="志木市本町">
-
-<div class="label">
-電話番号
-</div>
-
-<input
-id="phone"
-class="input"
-placeholder="09000000000">
-
-<div class="label">
-緊急連絡先
-</div>
-
-<input
-id="family"
-class="input"
-placeholder="09000000000">
-
-<button
-class="btn green"
-onclick="saveUser()">
-登録する
-</button>
 
 </div>
 
 <div class="card">
 
-<div
-id="result"
-class="result">
-未登録
+<div class="title">
+📱 本人用QR
+</div>
+
+<div id="userQR" class="qr"></div>
+
+<div class="small">
+本人ページへアクセス
 </div>
 
 </div>
 
-<button
-class="btn blue"
-onclick="goQR()">
-📱 QR発行
-</button>
+<div class="card">
 
-<button
-class="btn gray"
-onclick="location.href='index.html'">
+<div class="title">
+👪 支援者用QR
+</div>
+
+<div id="familyQR" class="qr"></div>
+
+<div class="small">
+支援者ページへアクセス<br>
+※パスワード確認あり
+</div>
+
+</div>
+
+<a href="register.html" class="btn green">
+👤 登録画面へ戻る
+</a>
+
+<a href="index.html" class="btn gray">
 🏠 トップへ戻る
-</button>
+</a>
 
 <script>
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
-
-function saveUser(){
-
 const userId =
-Date.now().toString();
+localStorage.getItem('userId') ||
+'NO-ID';
 
-const user = {
+const userName =
+localStorage.getItem('userName') ||
+'未登録';
 
-type:'register',
+const city =
+localStorage.getItem('userCity') ||
+'';
 
-userId:userId,
+const area =
+localStorage.getItem('userArea') ||
+'';
 
-name:
-document.getElementById('name').value,
+const chome =
+localStorage.getItem('userChome') ||
+'';
 
-address:
-document.getElementById('address').value,
+document.getElementById(
+'userInfo'
+).innerHTML =
 
-phone:
-document.getElementById('phone').value,
+'名前：' +
+userName +
 
-family:
-document.getElementById('family').value,
+'<br>' +
 
-time:
-new Date().toLocaleString('ja-JP')
+'利用者ID：' +
+userId +
 
-};
+'<br>' +
 
-document.getElementById('result').innerHTML =
-'登録中...';
+city +
+' ' +
+area +
+' ' +
+chome;
 
-fetch(
-GAS_URL,
+const baseUrl =
+location.origin +
+location.pathname.replace(
+'qr.html',
+''
+);
+
+const userUrl =
+baseUrl +
+'app.html?id=' +
+userId;
+
+const familyUrl =
+baseUrl +
+'family.html?id=' +
+userId;
+
+new QRCode(
+document.getElementById(
+'userQR'
+),
 {
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify(user)
+text:userUrl,
+width:220,
+height:220
 }
-)
-.then(r=>r.text())
-.then(data=>{
-
-localStorage.setItem(
-'userId',
-user.userId
 );
 
-localStorage.setItem(
-'userName',
-user.name
-);
-
-localStorage.setItem(
-'userAddress',
-user.address
-);
-
-localStorage.setItem(
-'userPhone',
-user.phone
-);
-
-localStorage.setItem(
-'userFamily',
-user.family
-);
-
-document.getElementById('result').innerHTML =
-'登録完了<br><br>' +
-user.name +
-'<br><br>' +
-user.address +
-'<br><br>利用者ID<br>' +
-user.userId;
-
-})
-.catch(err=>{
-
-document.getElementById('result').innerHTML =
-'登録失敗';
-
-});
-
+new QRCode(
+document.getElementById(
+'familyQR'
+),
+{
+text:familyUrl,
+width:220,
+height:220
 }
-
-function goQR(){
-
-location.href='qr.html';
-
-}
+);
 
 </script>
 
