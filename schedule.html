@@ -21,7 +21,7 @@ padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#0f766e,#14b8a6);
+background:linear-gradient(135deg,#ea580c,#fb923c);
 color:#fff;
 padding:30px;
 border-radius:30px;
@@ -36,8 +36,8 @@ font-weight:900;
 
 .card{
 background:#fff;
-border-radius:30px;
 padding:24px;
+border-radius:24px;
 margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
@@ -63,30 +63,28 @@ width:100%;
 padding:24px;
 border:none;
 border-radius:24px;
-font-size:26px;
+font-size:28px;
 font-weight:900;
-color:#fff;
-text-decoration:none;
-text-align:center;
-margin-bottom:14px;
 cursor:pointer;
+margin-bottom:14px;
+color:#fff;
 }
 
-.save{
-background:#16a34a;
+.orange{
+background:#ea580c;
 }
 
-.home{
+.gray{
 background:#475569;
 }
 
 .result{
-background:#f1f5f9;
+background:#f8fafc;
 padding:20px;
 border-radius:20px;
 font-size:22px;
 font-weight:900;
-text-align:center;
+line-height:1.8;
 }
 
 </style>
@@ -101,58 +99,148 @@ text-align:center;
 
 <div class="card">
 
-<div class="label">病院</div>
-<input id="hospital" class="input">
+<div class="label">
+🏥 病院
+</div>
 
-<div class="label">買い物</div>
-<input id="shopping" class="input">
+<input
+id="hospital"
+class="input"
+placeholder="病院名">
 
-<div class="label">デイサービス</div>
-<input id="dayservice" class="input">
+<div class="label">
+🕒 病院時間
+</div>
 
-<div class="label">メモ</div>
-<input id="memo" class="input">
+<input
+id="hospitalTime"
+class="input"
+type="time">
+
+<div class="label">
+🛒 買い物
+</div>
+
+<input
+id="shopping"
+class="input"
+placeholder="買い物内容">
+
+<div class="label">
+🕒 買い物時間
+</div>
+
+<input
+id="shoppingTime"
+class="input"
+type="time">
+
+<div class="label">
+🚌 デイサービス
+</div>
+
+<input
+id="dayservice"
+class="input"
+placeholder="デイサービス">
+
+<div class="label">
+🕒 デイサービス時間
+</div>
+
+<input
+id="dayserviceTime"
+class="input"
+type="time">
+
+<div class="label">
+💊 服薬
+</div>
+
+<input
+id="medicineTime"
+class="input"
+placeholder="朝・昼・夕・寝る前">
+
+<div class="label">
+📝 メモ
+</div>
+
+<input
+id="memo"
+class="input"
+placeholder="自由入力">
 
 <button
-class="btn save"
+class="btn orange"
 onclick="saveSchedule()">
 保存する
 </button>
 
 </div>
 
-<div class="card">
-
 <div
 id="result"
 class="result">
+
 予定未登録
-</div>
 
 </div>
 
 <a
-href="index.html"
-class="btn home">
-🏠 トップへ戻る
+href="app.html"
+class="btn gray">
+🏠 本人ページへ戻る
 </a>
 
 <script>
 
 function saveSchedule(){
 
-const text =
-'病院：' +
-document.getElementById('hospital').value +
-'<br><br>買い物：' +
-document.getElementById('shopping').value +
-'<br><br>デイサービス：' +
-document.getElementById('dayservice').value +
-'<br><br>メモ：' +
-document.getElementById('memo').value;
+const data = {
 
-document.getElementById('result').innerHTML =
-text;
+hospital:
+document.getElementById('hospital').value,
+
+hospitalTime:
+document.getElementById('hospitalTime').value,
+
+shopping:
+document.getElementById('shopping').value,
+
+shoppingTime:
+document.getElementById('shoppingTime').value,
+
+dayservice:
+document.getElementById('dayservice').value,
+
+dayserviceTime:
+document.getElementById('dayserviceTime').value,
+
+medicineTime:
+document.getElementById('medicineTime').value,
+
+memo:
+document.getElementById('memo').value
+
+};
+
+localStorage.setItem(
+'scheduleData',
+JSON.stringify(data)
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'🏥 ' + data.hospital +
+'<br>' +
+'🛒 ' + data.shopping +
+'<br>' +
+'🚌 ' + data.dayservice +
+'<br>' +
+'💊 ' + data.medicineTime;
 
 }
 
