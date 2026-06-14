@@ -131,6 +131,36 @@ padding:20px;
 border-radius:18px;
 font-size:24px;
 font-weight:900;
+margin-bottom:12px;
+}
+
+.share-row{
+display:flex;
+gap:10px;
+margin-top:16px;
+}
+
+.share-row a{
+flex:1;
+text-align:center;
+padding:14px;
+border-radius:14px;
+font-size:18px;
+font-weight:900;
+text-decoration:none;
+color:#fff;
+}
+
+.share-line{
+background:#06c755;
+}
+
+.share-x{
+background:#000;
+}
+
+.share-fb{
+background:#1877f2;
 }
 
 .home{
@@ -230,8 +260,10 @@ window.handleSheet=function(json){
 const container=document.getElementById('news-container');
 
 if(!json || !json.table || !json.table.rows){
+
 container.innerHTML=
 '<div class="error">データ取得失敗</div>';
+
 return;
 }
 
@@ -268,6 +300,9 @@ if(
 return;
 }
 
+const shareUrl=
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/kawaraban.html';
+
 const card=document.createElement('div');
 
 card.className='card';
@@ -296,17 +331,17 @@ esc(content)+
 '</div>'+
 
 (shikiTitle
-?'<a class="btn-link" target="_blank" href="'+esc(shikiUrl)+'">志木市：'+esc(shikiTitle)+'</a><br>'
+?'<a class="btn-link" target="_blank" href="'+esc(shikiUrl)+'">志木市：'+esc(shikiTitle)+'</a>'
 :''
 )+
 
 (niizaTitle
-?'<a class="btn-link" target="_blank" href="'+esc(niizaUrl)+'">新座市：'+esc(niizaTitle)+'</a><br>'
+?'<a class="btn-link" target="_blank" href="'+esc(niizaUrl)+'">新座市：'+esc(niizaTitle)+'</a>'
 :''
 )+
 
 (asakaTitle
-?'<a class="btn-link" target="_blank" href="'+esc(asakaUrl)+'">朝霞市：'+esc(asakaTitle)+'</a><br>'
+?'<a class="btn-link" target="_blank" href="'+esc(asakaUrl)+'">朝霞市：'+esc(asakaTitle)+'</a>'
 :''
 )+
 
@@ -314,6 +349,24 @@ esc(content)+
 ?'<a class="btn-link" target="_blank" href="'+esc(wakoUrl)+'">和光市：'+esc(wakoTitle)+'</a>'
 :''
 )+
+
+'<div class="share-row">'+
+
+'<a class="share-line" target="_blank" href="https://social-plugins.line.me/lineit/share?url='+
+encodeURIComponent(shareUrl)+
+'">LINE</a>'+
+
+'<a class="share-x" target="_blank" href="https://twitter.com/intent/tweet?url='+
+encodeURIComponent(shareUrl)+
+'&text='+
+encodeURIComponent(title)+
+'">X</a>'+
+
+'<a class="share-fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+
+encodeURIComponent(shareUrl)+
+'">FB</a>'+
+
+'</div>'+
 
 '</div>';
 
