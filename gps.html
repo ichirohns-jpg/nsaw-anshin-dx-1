@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>現在地送信</title>
+<title>GPS・ナビ</title>
 
 <style>
 
@@ -12,204 +12,151 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
-color:#fff;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
-padding:30px 20px;
+background:linear-gradient(135deg,#dc2626,#ef4444);
+color:#fff;
+padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:34px;
+font-size:36px;
 font-weight:900;
-}
-
-.header p{
-margin-top:8px;
-font-size:16px;
-color:#cbd5e1;
-font-weight:700;
-}
-
-.card{
-background:linear-gradient(135deg,#1e293b,#0f172a);
-border-radius:28px;
-padding:24px;
-margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
-border:1px solid rgba(255,255,255,.12);
 }
 
 .result{
+background:#fff;
+padding:24px;
+border-radius:24px;
 font-size:22px;
 font-weight:900;
 line-height:1.8;
-text-align:center;
-color:#e5e7eb;
-}
-
-.bigIcon{
-font-size:70px;
-margin-bottom:12px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .btn{
 display:block;
 width:100%;
-padding:28px;
+padding:26px;
 border:none;
 border-radius:24px;
 font-size:28px;
 font-weight:900;
 cursor:pointer;
-margin-bottom:14px;
 color:#fff;
-text-decoration:none;
-text-align:center;
+margin-bottom:14px;
 }
 
 .red{
-background:linear-gradient(135deg,#dc2626,#ef4444);
-box-shadow:0 10px 24px rgba(220,38,38,.35);
+background:#dc2626;
 }
 
 .blue{
-background:linear-gradient(135deg,#2563eb,#38bdf8);
-box-shadow:0 10px 24px rgba(37,99,235,.35);
+background:#2563eb;
+}
+
+.green{
+background:#16a34a;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.purple{
+background:#7c3aed;
 }
 
 .gray{
-background:linear-gradient(135deg,#475569,#334155);
-}
-
-.info{
-margin-top:16px;
-padding:18px;
-background:rgba(255,255,255,.05);
-border-radius:20px;
-font-size:18px;
-line-height:1.8;
-}
-
-.mapLink{
-display:inline-block;
-margin-top:14px;
-padding:14px 18px;
-border-radius:18px;
-background:#2563eb;
-color:#fff;
-text-decoration:none;
-font-size:20px;
-font-weight:900;
+background:#475569;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
-<h1>📍 現在地送信</h1>
-<p>家族へ現在地を送ります</p>
+<h1>📍 GPS・ナビ</h1>
 </div>
-
-<div class="card">
 
 <div
 id="result"
 class="result">
 
-<div class="bigIcon">📍</div>
-
-位置情報未送信
-
-</div>
+現在地を取得してください
 
 </div>
 
 <button
 class="btn red"
 onclick="sendGPS()">
-📍 現在地を送信
+
+📍 現在地送信
+
 </button>
 
-<a
-href="family.html"
-class="btn blue">
-👪 支援者ページ確認
-</a>
+<button
+class="btn blue"
+onclick="navigate('病院')">
 
-<a
-href="app.html"
-class="btn gray">
-🏠 本人ページへ戻る
-</a>
+🏥 病院へ案内
+
+</button>
+
+<button
+class="btn green"
+onclick="navigate('薬局')">
+
+💊 薬局へ案内
+
+</button>
+
+<button
+class="btn orange"
+onclick="navigate('避難所')">
+
+🏫 避難所へ案内
+
+</button>
+
+<button
+class="btn purple"
+onclick="navigate('コンビニ')">
+
+🏪 コンビニへ案内
+
+</button>
+
+<button
+class="btn gray"
+onclick="location.href='index.html'">
+
+🏠 トップへ戻る
+
+</button>
 
 <script>
 
-window.onload = function(){
-
-const lastGPS =
-localStorage.getItem('lastGPS');
-
-if(lastGPS){
-
-const gps =
-JSON.parse(lastGPS);
-
-document.getElementById(
-'result'
-).innerHTML =
-
-'<div class="bigIcon">✅</div>' +
-
-'位置送信済み<br><br>' +
-
-'送信日時<br>' +
-
-gps.time +
-
-'<br><br>' +
-
-'<a class="mapLink" href="' +
-gps.mapUrl +
-'" target="_blank">' +
-'Googleマップを開く' +
-'</a>';
-
-}
-
-};
-
 function sendGPS(){
-
-document.getElementById(
-'result'
-).innerHTML =
-
-'<div class="bigIcon">⌛</div>' +
-
-'現在地取得中...';
 
 if(!navigator.geolocation){
 
-document.getElementById(
-'result'
-).innerHTML =
-
-'GPS非対応端末';
+alert(
+'GPS未対応'
+);
 
 return;
 
@@ -226,69 +173,114 @@ const lng =
 pos.coords.longitude;
 
 const mapUrl =
-'https://maps.google.com/?q=' +
+
+'https://www.google.com/maps?q=' +
+
 lat +
+
 ',' +
+
 lng;
 
-const now =
-new Date().toLocaleString(
-'ja-JP'
-);
-
-const gpsData = {
+const data = {
 
 lat:lat,
+
 lng:lng,
+
 mapUrl:mapUrl,
-time:now
+
+time:new Date()
+.toLocaleString(
+'ja-JP'
+)
 
 };
 
 localStorage.setItem(
+
 'lastGPS',
-JSON.stringify(gpsData)
+
+JSON.stringify(data)
+
 );
 
 document.getElementById(
 'result'
 ).innerHTML =
 
-'<div class="bigIcon">✅</div>' +
+'📍 現在地送信完了<br><br>' +
 
-'位置送信完了<br><br>' +
-
-'送信日時<br>' +
-
-now +
+data.time +
 
 '<br><br>' +
 
-'<a class="mapLink" href="' +
+'<a href="' +
+
 mapUrl +
-'" target="_blank">' +
-'Googleマップを開く' +
-'</a>';
+
+'" target="_blank">地図を見る</a>';
 
 },
 
-function(error){
+function(){
 
-document.getElementById(
-'result'
-).innerHTML =
+alert(
+'GPS取得失敗'
+);
 
-'<div class="bigIcon">❌</div>' +
+}
 
-'位置取得失敗';
+);
 
-},
+}
 
-{
+function navigate(type){
 
-enableHighAccuracy:true,
-timeout:15000,
-maximumAge:0
+if(!navigator.geolocation){
+
+window.open(
+
+'https://www.google.com/maps/search/' +
+
+encodeURIComponent(type)
+
+);
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(pos){
+
+const lat =
+pos.coords.latitude;
+
+const lng =
+pos.coords.longitude;
+
+const url =
+
+'https://www.google.com/maps/search/' +
+
+encodeURIComponent(type) +
+
+'/@' +
+
+lat +
+
+',' +
+
+lng +
+
+',15z';
+
+window.open(
+url,
+'_blank'
+);
 
 }
 
