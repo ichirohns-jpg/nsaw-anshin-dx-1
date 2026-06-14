@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>SOS</title>
+<title>困りごと・SOS</title>
 
 <style>
 
@@ -12,43 +12,59 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#dc2626,#ef4444);
-color:#fff;
-padding:30px;
+background:linear-gradient(135deg,#111827,#334155);
+padding:28px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
+.header p{
+margin-top:8px;
+color:#cbd5e1;
+font-size:16px;
+font-weight:700;
+}
+
 .card{
-background:#fff;
+background:linear-gradient(135deg,#1e293b,#0f172a);
 padding:24px;
-border-radius:24px;
+border-radius:28px;
 margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+
+.label{
+font-size:24px;
+font-weight:900;
+margin-bottom:10px;
 }
 
 .select{
 width:100%;
 padding:20px;
 font-size:24px;
-border:2px solid #cbd5e1;
+border:none;
 border-radius:18px;
 margin-bottom:16px;
+font-weight:900;
 }
 
 .textarea{
@@ -56,7 +72,7 @@ width:100%;
 height:120px;
 padding:18px;
 font-size:22px;
-border:2px solid #cbd5e1;
+border:none;
 border-radius:18px;
 margin-bottom:16px;
 }
@@ -67,71 +83,81 @@ width:100%;
 padding:28px;
 border:none;
 border-radius:24px;
-font-size:30px;
+font-size:28px;
 font-weight:900;
 cursor:pointer;
 color:#fff;
+margin-bottom:12px;
+}
+
+.blue{
+background:linear-gradient(135deg,#2563eb,#38bdf8);
 }
 
 .red{
-background:#dc2626;
+background:linear-gradient(135deg,#dc2626,#ef4444);
 }
 
 .gray{
-background:#475569;
-margin-top:14px;
+background:linear-gradient(135deg,#475569,#334155);
 text-decoration:none;
 text-align:center;
 }
 
 .result{
-background:#f8fafc;
-padding:20px;
-border-radius:20px;
+background:#fff;
+color:#111827;
+padding:22px;
+border-radius:22px;
 font-size:22px;
 font-weight:900;
 line-height:1.8;
 text-align:center;
-margin-top:18px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-<h1>🚨 SOS</h1>
+<h1>🟦 困りごと・🟥 SOS</h1>
+<p>困ったことを簡単に送れます</p>
 </div>
 
 <div class="card">
 
-<select
-id="sosType"
-class="select">
+<div class="label">種類</div>
+
+<select id="mainType" class="select" onchange="changeSubType()">
 
 <option value="">選択してください</option>
-<option>トイレ</option>
-<option>食事</option>
-<option>薬</option>
-<option>買い物</option>
-<option>病院</option>
-<option>電話</option>
-<option>来てほしい</option>
-<option>その他</option>
+
+<option value="困りごと">🟦 困りごと</option>
+
+<option value="SOS">🟥 SOS</option>
+
+</select>
+
+<div class="label">内容</div>
+
+<select id="subType" class="select">
+
+<option value="">選択してください</option>
 
 </select>
 
 <textarea
 id="memo"
 class="textarea"
-placeholder="詳しい内容"></textarea>
+placeholder="補足があれば入力してください"></textarea>
 
 <button
-class="btn red"
-onclick="sendSOS()">
-🚨 SOS送信
+class="btn blue"
+onclick="sendRequest()">
+
+送信する
+
 </button>
 
 <div
@@ -147,7 +173,9 @@ class="result">
 <a
 href="app.html"
 class="btn gray">
+
 🏠 本人ページへ戻る
+
 </a>
 
 <script>
@@ -155,11 +183,88 @@ class="btn gray">
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-function sendSOS(){
+const troubleItems = [
+
+'食事を買ってきてほしい',
+'買い物を手伝ってほしい',
+'病院へ行きたい',
+'通院付き添い希望',
+'電話してほしい',
+'話し相手がほしい',
+'薬が少なくなった',
+'薬を取りに行きたい',
+'ゴミ出しを手伝ってほしい',
+'送迎してほしい',
+'様子を見に来てほしい',
+'少し不安'
+
+];
+
+const sosItems = [
+
+'転倒した',
+'起き上がれない',
+'強い痛み',
+'息苦しい',
+'体調急変',
+'意識がおかしい',
+'今すぐ来てほしい',
+'緊急'
+
+];
+
+function changeSubType(){
 
 const type =
 document.getElementById(
-'sosType'
+'mainType'
+).value;
+
+const sub =
+document.getElementById(
+'subType'
+);
+
+sub.innerHTML =
+'<option value="">選択してください</option>';
+
+let list = [];
+
+if(type === '困りごと'){
+list = troubleItems;
+}
+
+if(type === 'SOS'){
+list = sosItems;
+}
+
+list.forEach(function(item){
+
+const opt =
+document.createElement('option');
+
+opt.textContent =
+item;
+
+opt.value =
+item;
+
+sub.appendChild(opt);
+
+});
+
+}
+
+function sendRequest(){
+
+const mainType =
+document.getElementById(
+'mainType'
+).value;
+
+const subType =
+document.getElementById(
+'subType'
 ).value;
 
 const memo =
@@ -167,10 +272,34 @@ document.getElementById(
 'memo'
 ).value;
 
-if(!type){
-alert('内容を選択してください');
+if(!mainType || !subType){
+
+alert(
+'内容を選択してください'
+);
+
 return;
+
 }
+
+const now =
+new Date().toLocaleString(
+'ja-JP'
+);
+
+const saveData = {
+
+mainType:mainType,
+type:subType,
+memo:memo,
+time:now
+
+};
+
+localStorage.setItem(
+'lastSOS',
+JSON.stringify(saveData)
+);
 
 document.getElementById(
 'result'
@@ -198,12 +327,13 @@ localStorage.getItem(
 'userId'
 ) || '',
 
-sosType:type,
+mainType:mainType,
+
+sosType:subType,
 
 memo:memo,
 
-time:
-new Date().toLocaleString('ja-JP')
+time:now
 
 })
 }
@@ -215,13 +345,19 @@ document.getElementById(
 'result'
 ).innerHTML =
 
-'🚨 SOS送信完了<br><br>' +
-
-type +
+mainType +
 
 '<br><br>' +
 
-memo;
+subType +
+
+'<br><br>' +
+
+now +
+
+'<br><br>' +
+
+'送信完了';
 
 })
 .catch(err=>{
@@ -229,6 +365,7 @@ memo;
 document.getElementById(
 'result'
 ).innerHTML =
+
 '送信失敗';
 
 });
