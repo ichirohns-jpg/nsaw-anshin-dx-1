@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>支援者ページ｜あんしん生活ボタン</title>
+<title>支援者ページ</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -17,480 +18,302 @@ box-sizing:border-box;
 body{
 background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#fff;
 padding:16px;
-}
-
-.wrap{
-max-width:900px;
-margin:0 auto;
+color:#fff;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
-border:1px solid rgba(255,255,255,.16);
+padding:30px;
 border-radius:30px;
-padding:26px 18px;
 text-align:center;
-box-shadow:0 14px 35px rgba(0,0,0,.35);
 margin-bottom:18px;
 }
 
 .header h1{
-font-size:32px;
+font-size:34px;
 font-weight:900;
-letter-spacing:1px;
-}
-
-.header p{
-font-size:16px;
-margin-top:8px;
-color:#cbd5e1;
-font-weight:700;
-}
-
-.lockBox{
-background:linear-gradient(135deg,#1e293b,#0f172a);
-border:1px solid rgba(255,255,255,.16);
-border-radius:28px;
-padding:22px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
-margin-bottom:18px;
-}
-
-.lockTitle{
-font-size:26px;
-font-weight:900;
-margin-bottom:14px;
-}
-
-.passInput{
-width:100%;
-font-size:26px;
-padding:18px;
-border-radius:20px;
-border:2px solid #475569;
-background:#020617;
-color:#fff;
-font-weight:900;
-margin-bottom:14px;
-}
-
-.unlockBtn{
-width:100%;
-border:none;
-border-radius:22px;
-padding:20px;
-font-size:28px;
-font-weight:900;
-color:#fff;
-background:linear-gradient(135deg,#2563eb,#38bdf8);
-box-shadow:0 10px 24px rgba(37,99,235,.35);
-}
-
-.error{
-display:none;
-margin-top:14px;
-font-size:20px;
-font-weight:900;
-color:#fca5a5;
-}
-
-.main{
-display:none;
-}
-
-.statusGrid{
-display:grid;
-grid-template-columns:1fr;
-gap:16px;
 }
 
 .card{
 background:linear-gradient(135deg,#1e293b,#0f172a);
-border:1px solid rgba(255,255,255,.14);
-border-radius:28px;
 padding:22px;
-box-shadow:0 12px 30px rgba(0,0,0,.32);
-}
-
-.cardHead{
-display:flex;
-align-items:center;
-gap:14px;
+border-radius:24px;
 margin-bottom:14px;
 }
 
-.icon{
-font-size:42px;
-width:54px;
-text-align:center;
-}
-
-.cardTitle{
-font-size:26px;
+.title{
+font-size:24px;
 font-weight:900;
+margin-bottom:12px;
 }
 
-.cardBody{
-background:rgba(255,255,255,.06);
-border-radius:22px;
+.item{
 padding:18px;
-font-size:22px;
-font-weight:800;
-line-height:1.7;
-color:#e5e7eb;
-min-height:82px;
+border-radius:18px;
+background:rgba(255,255,255,.08);
+font-size:20px;
+font-weight:900;
+line-height:1.8;
 }
 
-.green{
-border-left:8px solid #22c55e;
-}
-
-.blue{
-border-left:8px solid #38bdf8;
-}
-
-.orange{
-border-left:8px solid #f97316;
-}
-
-.red{
+.sos{
 border-left:8px solid #ef4444;
 }
 
-.purple{
+.trouble{
+border-left:8px solid #f59e0b;
+}
+
+.genki{
+border-left:8px solid #22c55e;
+}
+
+.medicine{
+border-left:8px solid #3b82f6;
+}
+
+.gps{
+border-left:8px solid #06b6d4;
+}
+
+.schedule{
 border-left:8px solid #a855f7;
 }
 
-.gray{
-border-left:8px solid #94a3b8;
+.btn{
+display:block;
+width:100%;
+padding:22px;
+border-radius:22px;
+text-decoration:none;
+text-align:center;
+font-size:24px;
+font-weight:900;
+color:#fff;
+background:linear-gradient(135deg,#475569,#334155);
+margin-top:16px;
 }
 
-.mapLink{
+.mapBtn{
 display:inline-block;
-margin-top:10px;
+padding:12px 18px;
+border-radius:14px;
 background:#2563eb;
 color:#fff;
 text-decoration:none;
-border-radius:18px;
-padding:14px 18px;
-font-size:20px;
-font-weight:900;
+margin-top:10px;
 }
 
-.homeBtn{
-display:block;
-text-align:center;
-text-decoration:none;
-background:linear-gradient(135deg,#475569,#1e293b);
-color:#fff;
-border-radius:24px;
-padding:20px;
-font-size:24px;
-font-weight:900;
-margin-top:18px;
-}
-
-.small{
-font-size:16px;
-color:#cbd5e1;
-font-weight:700;
-margin-top:8px;
-}
-
-@media(min-width:760px){
-.statusGrid{
-grid-template-columns:1fr 1fr;
-}
-.full{
-grid-column:1 / 3;
-}
-}
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
-
 <div class="header">
-<h1>支援者ページ</h1>
-<p>本人の見守り状況を確認します</p>
+<h1>👪 支援者ページ</h1>
 </div>
 
-<div id="lockBox" class="lockBox">
-<div class="lockTitle">🔐 パスワード確認</div>
-<input id="passwordInput" class="passInput" type="password" placeholder="パスワード">
-<button class="unlockBtn" onclick="unlockPage()">確認する</button>
-<div id="errorText" class="error">パスワードが違います</div>
-<div class="small">支援者ページは位置情報・服薬・SOSを扱うため確認が必要です。</div>
+<div class="card">
+
+<div class="title">
+🚨 SOS・困りごと
 </div>
 
-<div id="mainArea" class="main">
-
-<div class="statusGrid">
-
-<div class="card green">
-<div class="cardHead">
-<div class="icon">😊</div>
-<div class="cardTitle">最終元気です</div>
-</div>
-<div id="genkiArea" class="cardBody">まだ記録がありません</div>
-</div>
-
-<div class="card blue">
-<div class="cardHead">
-<div class="icon">💊</div>
-<div class="cardTitle">本日の服薬</div>
-</div>
-<div id="medicineArea" class="cardBody">
-☐ 朝 未確認<br>
-☐ 昼 未確認<br>
-☐ 夕方 未確認<br>
-☐ 寝る前 未確認
-</div>
-</div>
-
-<div class="card purple">
-<div class="cardHead">
-<div class="icon">📅</div>
-<div class="cardTitle">今日の予定</div>
-</div>
-<div id="scheduleArea" class="cardBody">今日の予定はまだ登録されていません</div>
-</div>
-
-<div class="card orange">
-<div class="cardHead">
-<div class="icon">📍</div>
-<div class="cardTitle">最終位置</div>
-</div>
-<div id="gpsArea" class="cardBody">位置情報はまだ送信されていません</div>
-</div>
-
-<div class="card red full">
-<div class="cardHead">
-<div class="icon">🚨</div>
-<div class="cardTitle">SOS</div>
-</div>
-<div id="sosArea" class="cardBody">SOSはまだありません</div>
-</div>
-
-<div class="card gray full">
-<div class="cardHead">
-<div class="icon">📋</div>
-<div class="cardTitle">見守り履歴</div>
-</div>
-<div id="historyArea" class="cardBody">履歴はまだありません</div>
+<div id="sosArea" class="item sos">
+記録なし
 </div>
 
 </div>
 
-<a href="index.html" class="homeBtn">トップへ戻る</a>
+<div class="card">
 
+<div class="title">
+😊 最終元気です
+</div>
+
+<div id="genkiArea" class="item genki">
+記録なし
 </div>
 
 </div>
+
+<div class="card">
+
+<div class="title">
+💊 服薬状況
+</div>
+
+<div id="medicineArea" class="item medicine">
+記録なし
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+📅 予定
+</div>
+
+<div id="scheduleArea" class="item schedule">
+予定なし
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+📍 現在地
+</div>
+
+<div id="gpsArea" class="item gps">
+位置情報なし
+</div>
+
+</div>
+
+<a href="index.html" class="btn">
+🏠 トップへ戻る
+</a>
 
 <script>
-const SUPPORT_PASSWORD =
-'1234';
-
-function unlockPage(){
-const input =
-document.getElementById('passwordInput').value;
-
-if(input === SUPPORT_PASSWORD){
-localStorage.setItem('supporterUnlocked','yes');
-document.getElementById('lockBox').style.display = 'none';
-document.getElementById('mainArea').style.display = 'block';
-loadFamilyData();
-}else{
-document.getElementById('errorText').style.display = 'block';
-}
-}
-
-if(localStorage.getItem('supporterUnlocked') === 'yes'){
-document.getElementById('lockBox').style.display = 'none';
-document.getElementById('mainArea').style.display = 'block';
-loadFamilyData();
-}
-
-function safeParse(key){
-try{
-const value =
-localStorage.getItem(key);
-
-if(!value){
-return null;
-}
-
-return JSON.parse(value);
-}catch(e){
-return null;
-}
-}
-
-function loadFamilyData(){
-
-const lastGenki =
-safeParse('lastGenki');
-
-if(lastGenki){
-document.getElementById('genkiArea').innerHTML =
-'😊 元気です<br><br>' +
-(lastGenki.time || '-');
-}
-
-const medicineStatus =
-safeParse('medicineStatus');
-
-if(medicineStatus){
-
-document.getElementById('medicineArea').innerHTML =
-(medicineStatus.morning ?
-'☑ 朝 服薬済み ' + (medicineStatus.morningTime || '') + '<br>' :
-'☐ 朝 未確認<br>') +
-
-(medicineStatus.noon ?
-'☑ 昼 服薬済み ' + (medicineStatus.noonTime || '') + '<br>' :
-'☐ 昼 未確認<br>') +
-
-(medicineStatus.evening ?
-'☑ 夕方 服薬済み ' + (medicineStatus.eveningTime || '') + '<br>' :
-'☐ 夕方 未確認<br>') +
-
-(medicineStatus.night ?
-'☑ 寝る前 服薬済み ' + (medicineStatus.nightTime || '') :
-'☐ 寝る前 未確認');
-
-}
-
-const scheduleData =
-safeParse('scheduleData');
-
-if(scheduleData){
-
-document.getElementById('scheduleArea').innerHTML =
-'🏥 病院：' +
-(scheduleData.hospital || '-') +
-
-'<br>' +
-
-'🛒 買い物：' +
-(scheduleData.shopping || '-') +
-
-'<br>' +
-
-'🚌 デイサービス：' +
-(scheduleData.dayservice || '-') +
-
-'<br>' +
-
-'💊 薬の時間：' +
-(scheduleData.medicineTime || '-');
-
-}
-
-const lastGPS =
-safeParse('lastGPS');
-
-if(lastGPS){
-
-let mapUrl =
-lastGPS.mapUrl || '';
-
-document.getElementById('gpsArea').innerHTML =
-'📍 位置送信済み' +
-
-'<br><br>' +
-
-(lastGPS.time || '-') +
-
-'<br>' +
-
-(mapUrl ?
-'<a class="mapLink" href="' + mapUrl + '" target="_blank">Googleマップを開く</a>' :
-'地図URLなし');
-
-}
 
 const lastSOS =
-safeParse('lastSOS');
+JSON.parse(
+localStorage.getItem(
+'lastSOS'
+) || 'null'
+);
 
 if(lastSOS){
 
-document.getElementById('sosArea').innerHTML =
-(lastSOS.type || 'SOS') +
+document.getElementById(
+'sosArea'
+).innerHTML =
 
+(lastSOS.mainType || '') +
+'<br><br>' +
+
+(lastSOS.type || '') +
 '<br><br>' +
 
 (lastSOS.memo || '') +
-
 '<br><br>' +
 
-(lastSOS.time || '-');
+(lastSOS.time || '');
 
 }
-
-makeHistory();
-
-}
-
-function makeHistory(){
-
-let html =
-'';
 
 const lastGenki =
-safeParse('lastGenki');
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
+);
 
 if(lastGenki){
+
+document.getElementById(
+'genkiArea'
+).innerHTML =
+
+'😊 元気です<br><br>' +
+
+lastGenki.time;
+
+}
+
+const medicine =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+let med='';
+
+if(medicine.morning){
+med += '☑ 朝<br>';
+}
+
+if(medicine.noon){
+med += '☑ 昼<br>';
+}
+
+if(medicine.evening){
+med += '☑ 夕方<br>';
+}
+
+if(medicine.night){
+med += '☑ 寝る前<br>';
+}
+
+if(med){
+document.getElementById(
+'medicineArea'
+).innerHTML = med;
+}
+
+const schedules =
+JSON.parse(
+localStorage.getItem(
+'schedules'
+) || '[]'
+);
+
+if(schedules.length){
+
+let html='';
+
+schedules.slice(0,5).forEach(item=>{
+
 html +=
-'😊 元気です　' +
-(lastGenki.time || '-') +
-'<br>';
-}
+item.date +
+' ' +
+(item.time || '') +
 
-const lastGPS =
-safeParse('lastGPS');
+'<br>' +
 
-if(lastGPS){
-html +=
-'📍 位置送信　' +
-(lastGPS.time || '-') +
-'<br>';
-}
+item.title +
 
-const lastSOS =
-safeParse('lastSOS');
+'<br><br>';
 
-if(lastSOS){
-html +=
-'🚨 SOS　' +
-(lastSOS.type || '-') +
-'　' +
-(lastSOS.time || '-') +
-'<br>';
-}
+});
 
-const medicineStatus =
-safeParse('medicineStatus');
-
-if(medicineStatus){
-html +=
-'💊 服薬状況確認済み<br>';
-}
-
-if(html === ''){
-html =
-'履歴はまだありません';
-}
-
-document.getElementById('historyArea').innerHTML =
+document.getElementById(
+'scheduleArea'
+).innerHTML =
 html;
 
 }
+
+const gps =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
+) || 'null'
+);
+
+if(gps){
+
+document.getElementById(
+'gpsArea'
+).innerHTML =
+
+gps.time +
+
+'<br><br>' +
+
+'<a class="mapBtn" href="' +
+
+gps.mapUrl +
+
+'" target="_blank">地図を見る</a>';
+
+}
+
 </script>
 
 </body>
