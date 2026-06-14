@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>見守りDX</title>
+<title>服薬確認</title>
 
 <style>
 
@@ -17,133 +17,66 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2d3d;
-padding-bottom:30px;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#2563eb,#60a5fa);
 color:#fff;
-padding:34px 20px;
+padding:30px;
+border-radius:30px;
 text-align:center;
-box-shadow:0 6px 18px rgba(0,0,0,.15);
+margin-bottom:18px;
 }
 
-.logo{
-font-size:46px;
+.header h1{
+font-size:36px;
 font-weight:900;
-letter-spacing:2px;
-}
-
-.sub{
-font-size:18px;
-margin-top:8px;
-opacity:.9;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-padding:16px;
-}
-
-.section{
-font-size:24px;
-font-weight:900;
-margin:18px 0 12px;
-color:#334155;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
 }
 
 .card{
 background:#fff;
 border-radius:30px;
-height:150px;
-text-decoration:none;
-color:#1f2d3d;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+padding:24px;
+margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.big{
-height:170px;
+.btn{
+width:100%;
+padding:28px;
+border:none;
+border-radius:24px;
+margin-bottom:14px;
+font-size:28px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
 }
 
-.icon{
-font-size:54px;
-margin-bottom:10px;
+.morning{
+background:#f59e0b;
 }
 
-.title{
+.noon{
+background:#16a34a;
+}
+
+.evening{
+background:#2563eb;
+}
+
+.night{
+background:#7c3aed;
+}
+
+.result{
+background:#f1f5f9;
+padding:20px;
+border-radius:20px;
 font-size:22px;
 font-weight:900;
 text-align:center;
-line-height:1.4;
-}
-
-.green{
-background:linear-gradient(135deg,#16a34a,#22c55e);
-color:#fff;
-}
-
-.blue{
-background:linear-gradient(135deg,#2563eb,#60a5fa);
-color:#fff;
-}
-
-.orange{
-background:linear-gradient(135deg,#ea580c,#fb923c);
-color:#fff;
-}
-
-.red{
-background:linear-gradient(135deg,#dc2626,#ef4444);
-color:#fff;
-}
-
-.white{
-background:#fff;
-color:#1f2d3d;
-}
-
-.snsBar{
-display:flex;
-gap:8px;
-margin-top:20px;
-}
-
-.snsBtn{
-flex:1;
-height:42px;
-border:none;
-border-radius:10px;
-font-size:14px;
-font-weight:900;
-color:#fff;
-}
-
-.lineBtn{
-background:#06c755;
-}
-
-.fbBtn{
-background:#1877f2;
-}
-
-.xBtn{
-background:#000;
-}
-
-.copyBtn{
-background:#64748b;
 }
 
 </style>
@@ -153,143 +86,44 @@ background:#64748b;
 <body>
 
 <div class="header">
-
-<div class="logo">
-見守りDX
+<h1>💊 服薬確認</h1>
 </div>
 
-<div class="sub">
-地域情報・見守り・生活支援
-</div>
-
-</div>
-
-<div class="wrap">
-
-<div class="section">
-見守り
-</div>
-
-<div class="grid">
-
-<a href="app.html" class="card big green">
-<div class="icon">😊</div>
-<div class="title">元気です</div>
-</a>
-
-<a href="medicine.html" class="card big blue">
-<div class="icon">💊</div>
-<div class="title">薬を飲みました</div>
-</a>
-
-<a href="gps.html" class="card orange">
-<div class="icon">📍</div>
-<div class="title">現在地送信</div>
-</a>
-
-<a href="sos.html" class="card red">
-<div class="icon">🚨</div>
-<div class="title">困っています</div>
-</a>
-
-<a href="family.html" class="card white">
-<div class="icon">👪</div>
-<div class="title">家族ページ</div>
-</a>
-
-<a href="qr.html" class="card white">
-<div class="icon">📱</div>
-<div class="title">QRコード</div>
-</a>
-
-<a href="history.html" class="card white">
-<div class="icon">📋</div>
-<div class="title">見守り履歴</div>
-</a>
-
-<a href="check-history.html" class="card white">
-<div class="icon">😊</div>
-<div class="title">元気です履歴</div>
-</a>
-
-<a href="medicine-history.html" class="card white">
-<div class="icon">💊</div>
-<div class="title">服薬履歴</div>
-</a>
-
-</div>
-
-<div class="section">
-生活支援
-</div>
-
-<div class="grid">
-
-<a href="garbage.html" class="card white">
-<div class="icon">🗑</div>
-<div class="title">今日のゴミ</div>
-</a>
-
-<a href="hospital.html" class="card white">
-<div class="icon">🏥</div>
-<div class="title">病院・薬局</div>
-</a>
-
-<a href="map.html" class="card white">
-<div class="icon">🗺️</div>
-<div class="title">地域マップ</div>
-</a>
-
-</div>
-
-<div class="section">
-地域情報
-</div>
-
-<div class="grid">
-
-<a href="kawaraban.html" class="card white">
-<div class="icon">📰</div>
-<div class="title">4市瓦版</div>
-</a>
-
-<a href="radio.html" class="card white">
-<div class="icon">📻</div>
-<div class="title">地域ラジオ</div>
-</a>
-
-<a href="fun.html" class="card white">
-<div class="icon">🎬</div>
-<div class="title">お楽しみ動画</div>
-</a>
-
-</div>
-
-<div class="snsBar">
+<div class="card">
 
 <button
-class="snsBtn lineBtn"
-onclick="shareLine()">
-LINE
+class="btn morning"
+onclick="sendMedicine('朝の薬')">
+🌅 朝の薬
 </button>
 
 <button
-class="snsBtn fbBtn"
-onclick="shareFacebook()">
-Facebook
+class="btn noon"
+onclick="sendMedicine('昼の薬')">
+☀️ 昼の薬
 </button>
 
 <button
-class="snsBtn xBtn"
-onclick="shareX()">
-X
+class="btn evening"
+onclick="sendMedicine('夕方の薬')">
+🌇 夕方の薬
 </button>
 
 <button
-class="snsBtn copyBtn"
-onclick="copyLink()">
-コピー
+class="btn night"
+onclick="sendMedicine('寝る前の薬')">
+🌙 寝る前の薬
 </button>
+
+</div>
+
+<div class="card">
+
+<div
+id="result"
+class="result">
+
+待機中
 
 </div>
 
@@ -297,54 +131,63 @@ onclick="copyLink()">
 
 <script>
 
-function shareLine(){
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-location.href =
-"https://line.me/R/msg/text/?"
-+
-encodeURIComponent(
-location.href
-);
+function sendMedicine(type){
 
+document.getElementById('result').innerHTML =
+'送信中...';
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+name:'利用者001',
+status:type,
+time:new Date().toLocaleString('ja-JP')
+})
 }
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u="
-+
-encodeURIComponent(
-location.href
 )
-);
+.then(r=>r.text())
+.then(data=>{
 
-}
+document.getElementById('result').innerHTML =
+type + '<br>送信完了';
 
-function shareX(){
+})
+.catch(err=>{
 
-window.open(
-"https://twitter.com/intent/tweet?url="
-+
-encodeURIComponent(
-location.href
-)
-);
+document.getElementById('result').innerHTML =
+'送信失敗';
 
-}
-
-function copyLink(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"リンクをコピーしました"
-);
+});
 
 }
 
 </script>
+
+<a
+href="app.html"
+class="btn evening">
+😊 本人ページ
+</a>
+
+<a
+href="medicine-history.html"
+class="btn night">
+💊 服薬履歴
+</a>
+
+<a
+href="index.html"
+class="btn noon">
+🏠 トップへ戻る
+</a>
 
 </body>
 </html>
