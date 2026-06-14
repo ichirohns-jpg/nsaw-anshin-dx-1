@@ -12,85 +12,83 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+color:#fff;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
 padding:30px;
+border-radius:30px;
 text-align:center;
+margin-bottom:18px;
 }
 
 .header h1{
-font-size:38px;
+font-size:34px;
 font-weight:900;
-}
-
-.wrap{
-max-width:1000px;
-margin:auto;
-padding:18px;
 }
 
 .card{
-background:#fff;
-border-radius:28px;
+background:linear-gradient(135deg,#1e293b,#0f172a);
 padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.time{
-font-size:16px;
-color:#64748b;
-font-weight:900;
-margin-bottom:8px;
+border-radius:24px;
+margin-bottom:14px;
 }
 
 .title{
-font-size:26px;
+font-size:24px;
 font-weight:900;
 margin-bottom:10px;
 }
 
-.ok{
-color:#16a34a;
-font-size:22px;
+.item{
+background:rgba(255,255,255,.08);
+padding:16px;
+border-radius:16px;
+margin-bottom:10px;
+line-height:1.8;
+font-size:20px;
 font-weight:900;
 }
 
-.med{
-color:#2563eb;
-font-size:22px;
-font-weight:900;
+.green{
+border-left:6px solid #22c55e;
 }
 
-.help{
-color:#dc2626;
-font-size:22px;
-font-weight:900;
+.blue{
+border-left:6px solid #3b82f6;
 }
 
-.back{
+.red{
+border-left:6px solid #ef4444;
+}
+
+.orange{
+border-left:6px solid #fb923c;
+}
+
+.btn{
 display:block;
-background:#334155;
-color:#fff;
+width:100%;
+padding:22px;
+border-radius:22px;
 text-decoration:none;
 text-align:center;
-padding:18px;
-border-radius:18px;
-font-size:22px;
+font-size:24px;
 font-weight:900;
-margin-top:20px;
+color:#fff;
+background:linear-gradient(135deg,#475569,#334155);
+margin-top:16px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -99,92 +97,149 @@ margin-top:20px;
 <h1>📋 見守り履歴</h1>
 </div>
 
-<div class="wrap">
+<div class="card">
 
-<div id="list"></div>
+<div class="title">
+😊 元気です
+</div>
 
-<script>
+<div id="genkiHistory" class="item green">
+履歴なし
+</div>
 
-const SHEET_ID =
-'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+</div>
 
-const SHEET_NAME =
-'見守り記録';
+<div class="card">
 
-const url =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json';
+<div class="title">
+💊 服薬
+</div>
 
-fetch(url)
-.then(r=>r.text())
-.then(text=>{
+<div id="medicineHistory" class="item blue">
+履歴なし
+</div>
 
-const json =
-JSON.parse(
-text.substring(
-47,
-text.length-2
-)
-);
+</div>
 
-let html='';
+<div class="card">
 
-const rows =
-json.table.rows.reverse();
+<div class="title">
+📍 位置情報
+</div>
 
-rows.forEach(row=>{
+<div id="gpsHistory" class="item orange">
+履歴なし
+</div>
 
-const time =
-row.c[0] ? row.c[0].v : '';
+</div>
 
-const name =
-row.c[1] ? row.c[1].v : '';
+<div class="card">
 
-const status =
-row.c[2] ? row.c[2].v : '';
+<div class="title">
+🚨 困りごと・SOS
+</div>
 
-let cls='ok';
+<div id="sosHistory" class="item red">
+履歴なし
+</div>
 
-if(status.includes('薬')){
-cls='med';
-}
+</div>
 
-if(status.includes('困')){
-cls='help';
-}
-
-html +=
-'<div class="card">' +
-'<div class="time">' +
-time +
-'</div>' +
-'<div class="title">' +
-name +
-'</div>' +
-'<div class="' + cls + '">' +
-status +
-'</div>' +
-'</div>';
-
-});
-
-document.getElementById('list').innerHTML =
-html;
-
-});
-
-</script>
-
-<a
-href="index.html"
-class="back">
+<a href="index.html" class="btn">
 🏠 トップへ戻る
 </a>
 
-</div>
+<script>
+
+const lastGenki =
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
+);
+
+if(lastGenki){
+
+document.getElementById(
+'genkiHistory'
+).innerHTML =
+
+'😊 元気です<br>' +
+lastGenki.time;
+
+}
+
+const medicineStatus =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+let med = '';
+
+if(medicineStatus.morning){
+med += '☑ 朝<br>';
+}
+
+if(medicineStatus.noon){
+med += '☑ 昼<br>';
+}
+
+if(medicineStatus.evening){
+med += '☑ 夕方<br>';
+}
+
+if(medicineStatus.night){
+med += '☑ 寝る前<br>';
+}
+
+if(med){
+document.getElementById(
+'medicineHistory'
+).innerHTML = med;
+}
+
+const lastGPS =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
+) || 'null'
+);
+
+if(lastGPS){
+
+document.getElementById(
+'gpsHistory'
+).innerHTML =
+
+'📍 位置送信<br>' +
+lastGPS.time;
+
+}
+
+const lastSOS =
+JSON.parse(
+localStorage.getItem(
+'lastSOS'
+) || 'null'
+);
+
+if(lastSOS){
+
+document.getElementById(
+'sosHistory'
+).innerHTML =
+
+(lastSOS.mainType || '') +
+'<br>' +
+(lastSOS.type || '') +
+'<br>' +
+(lastSOS.time || '');
+
+}
+
+</script>
 
 </body>
 </html>
