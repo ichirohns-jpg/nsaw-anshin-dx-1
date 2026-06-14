@@ -12,7 +12,6 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
@@ -61,10 +60,6 @@ line-height:1.8;
 border-left:8px solid #ef4444;
 }
 
-.trouble{
-border-left:8px solid #f59e0b;
-}
-
 .genki{
 border-left:8px solid #22c55e;
 }
@@ -77,42 +72,12 @@ border-left:8px solid #3b82f6;
 border-left:8px solid #06b6d4;
 }
 
-.schedule{
-border-left:8px solid #a855f7;
-}
-
-.home{
+.garbage{
 border-left:8px solid #16a34a;
 }
 
-.consult{
-border-left:8px solid #0891b2;
-}
-
-.phoneBtn{
-display:block;
-background:#16a34a;
-color:#fff;
-text-decoration:none;
-padding:18px;
-border-radius:18px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.lineBtn{
-display:block;
-background:#06c755;
-color:#fff;
-text-decoration:none;
-padding:18px;
-border-radius:18px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-margin-bottom:12px;
+.schedule{
+border-left:8px solid #f59e0b;
 }
 
 .btn{
@@ -129,17 +94,8 @@ background:linear-gradient(135deg,#475569,#334155);
 margin-top:16px;
 }
 
-.mapBtn{
-display:inline-block;
-padding:12px 18px;
-border-radius:14px;
-background:#2563eb;
-color:#fff;
-text-decoration:none;
-margin-top:10px;
-}
-
 </style>
+
 </head>
 
 <body>
@@ -148,162 +104,49 @@ margin-top:10px;
 <h1>👪 支援者ページ</h1>
 </div>
 
-<a
-id="phoneBtn"
-class="phoneBtn"
-href="#">
-📞 本人へ電話
-</a>
-
-<a
-id="lineBtn"
-class="lineBtn"
-href="#"
-target="_blank">
-💬 本人へLINE
-</a>
-
 <div class="card">
-
-<div class="title">
-🚨 SOS
-</div>
-
+<div class="title">🚨 SOS</div>
 <div id="sosArea" class="item sos">
 記録なし
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="title">
-😟 困っています
-</div>
-
-<div id="troubleArea" class="item trouble">
-記録なし
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-😊 元気です
-</div>
-
+<div class="title">😊 元気です</div>
 <div id="genkiArea" class="item genki">
 記録なし
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="title">
-💊 服薬状況
-</div>
-
+<div class="title">💊 服薬状況</div>
 <div id="medicineArea" class="item medicine">
 記録なし
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="title">
-💊 薬がなくなる
-</div>
-
-<div id="medicineRequestArea" class="item medicine">
-記録なし
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-🏠 帰宅状況
-</div>
-
-<div id="homeArea" class="item home">
-記録なし
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-📅 予定
-</div>
-
-<div id="scheduleArea" class="item schedule">
-予定なし
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-☎ 相談内容
-</div>
-
-<div id="consultArea" class="item consult">
-記録なし
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-📍 現在地
-</div>
-
+<div class="title">📍 現在地</div>
 <div id="gpsArea" class="item gps">
 位置情報なし
 </div>
-
 </div>
 
-<a href="index.html" class="btn">
-🏠 トップへ戻る
-</a>
+<div class="card">
+<div class="title">🗑 今日のゴミ</div>
+<div id="garbageArea" class="item garbage">
+読込中...
+</div>
+</div>
+
+<div class="card">
+<div class="title">📅 今日の予定</div>
+<div id="scheduleArea" class="item schedule">
+予定なし
+</div>
+</div>
 
 <script>
-
-const phone =
-localStorage.getItem(
-'userPhone'
-);
-
-if(phone){
-
-document.getElementById(
-'phoneBtn'
-).href =
-'tel:' + phone;
-
-}
-
-const line =
-localStorage.getItem(
-'userLine'
-);
-
-if(line){
-
-document.getElementById(
-'lineBtn'
-).href =
-line;
-
-}
 
 const lastSOS =
 JSON.parse(
@@ -318,61 +161,35 @@ document.getElementById(
 'sosArea'
 ).innerHTML =
 
-(lastSOS.type || '') +
+(lastSOS.mainType||'') +
+'<br>' +
 
-'<br><br>' +
+(lastSOS.type||'') +
+'<br>' +
 
-(lastSOS.memo || '') +
+(lastSOS.memo||'') +
+'<br>' +
 
-'<br><br>' +
-
-(lastSOS.time || '');
-
-}
-
-const trouble =
-JSON.parse(
-localStorage.getItem(
-'lastTrouble'
-) || 'null'
-);
-
-if(trouble){
-
-document.getElementById(
-'troubleArea'
-).innerHTML =
-
-trouble.type +
-
-'<br><br>' +
-
-(trouble.memo || '') +
-
-'<br><br>' +
-
-trouble.time;
+(lastSOS.time||'');
 
 }
 
-const genki =
+const lastGenki =
 JSON.parse(
 localStorage.getItem(
 'lastGenki'
 ) || 'null'
 );
 
-if(genki){
+if(lastGenki){
 
 document.getElementById(
 'genkiArea'
 ).innerHTML =
 
-'😊 元気です' +
+'元気です<br>' +
 
-'<br><br>' +
-
-genki.time;
+(lastGenki.time||'');
 
 }
 
@@ -385,10 +202,21 @@ localStorage.getItem(
 
 let med='';
 
-if(medicine.morning) med+='☑ 朝<br>';
-if(medicine.noon) med+='☑ 昼<br>';
-if(medicine.evening) med+='☑ 夕方<br>';
-if(medicine.night) med+='☑ 寝る前<br>';
+if(medicine.morning){
+med+='☑ 朝<br>';
+}
+
+if(medicine.noon){
+med+='☑ 昼<br>';
+}
+
+if(medicine.evening){
+med+='☑ 夕方<br>';
+}
+
+if(medicine.night){
+med+='☑ 寝る前<br>';
+}
 
 if(med){
 
@@ -396,79 +224,6 @@ document.getElementById(
 'medicineArea'
 ).innerHTML =
 med;
-
-}
-
-const request =
-JSON.parse(
-localStorage.getItem(
-'medicineRequest'
-) || 'null'
-);
-
-if(request){
-
-document.getElementById(
-'medicineRequestArea'
-).innerHTML =
-
-request.medicine +
-
-'<br><br>' +
-
-'残り ' +
-
-request.remain +
-
-'<br><br>' +
-
-request.time;
-
-}
-
-const home =
-JSON.parse(
-localStorage.getItem(
-'homeStatus'
-) || 'null'
-);
-
-if(home){
-
-document.getElementById(
-'homeArea'
-).innerHTML =
-
-home.status +
-
-'<br><br>' +
-
-home.time;
-
-}
-
-const consult =
-JSON.parse(
-localStorage.getItem(
-'consultData'
-) || 'null'
-);
-
-if(consult){
-
-document.getElementById(
-'consultArea'
-).innerHTML =
-
-consult.type +
-
-'<br><br>' +
-
-consult.memo +
-
-'<br><br>' +
-
-consult.time;
 
 }
 
@@ -489,13 +244,66 @@ gps.time +
 
 '<br><br>' +
 
-'<a class="mapBtn" href="' +
+'<a class="btn" target="_blank" href="' +
+
 gps.mapUrl +
-'" target="_blank">地図を見る</a>';
+
+'">📍 地図を見る</a>';
 
 }
 
+const schedules =
+JSON.parse(
+localStorage.getItem(
+'schedules'
+) || '[]'
+);
+
+const today =
+new Date()
+.toISOString()
+.split('T')[0];
+
+let scheduleText='';
+
+schedules.forEach(item=>{
+
+if(item.date===today){
+
+scheduleText +=
+
+(item.time||'') +
+
+' ' +
+
+(item.title||'') +
+
+'<br>';
+
+}
+
+});
+
+if(scheduleText){
+
+document.getElementById(
+'scheduleArea'
+).innerHTML =
+scheduleText;
+
+}
+
+document.getElementById(
+'garbageArea'
+).innerHTML =
+
+'<a class="btn" href="garbage.html">🗑 ゴミ確認</a>';
+
 </script>
+
+<a href="index.html" class="btn">
+🏠 トップへ戻る
+</a>
 
 </body>
 </html>
