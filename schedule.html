@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>予定管理</title>
+<title>カレンダー予定</title>
 
 <style>
 
@@ -12,23 +12,21 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
-color:#fff;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
-padding:28px;
+background:linear-gradient(135deg,#ea580c,#fb923c);
+color:#fff;
+padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
@@ -36,95 +34,66 @@ font-size:34px;
 font-weight:900;
 }
 
-.header p{
-margin-top:8px;
-font-size:16px;
-color:#cbd5e1;
-font-weight:700;
-}
-
 .card{
-background:linear-gradient(135deg,#1e293b,#0f172a);
+background:#fff;
 padding:24px;
-border-radius:28px;
-margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.label{
-font-size:22px;
+.title{
+font-size:24px;
 font-weight:900;
-margin-bottom:8px;
+margin-bottom:12px;
 }
 
 .input{
 width:100%;
 padding:18px;
 font-size:22px;
-border:none;
+border:2px solid #cbd5e1;
 border-radius:18px;
-margin-bottom:16px;
+margin-bottom:14px;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:26px;
+padding:24px;
 border:none;
 border-radius:24px;
-font-size:28px;
+font-size:26px;
 font-weight:900;
 cursor:pointer;
-margin-bottom:12px;
 color:#fff;
+margin-bottom:12px;
 }
 
 .orange{
-background:linear-gradient(135deg,#ea580c,#fb923c);
+background:#ea580c;
 }
 
-.gray{
-background:linear-gradient(135deg,#475569,#334155);
-text-decoration:none;
-text-align:center;
+.blue{
+background:#2563eb;
 }
 
 .green{
-background:linear-gradient(135deg,#16a34a,#22c55e);
+background:#16a34a;
 }
 
-.result{
-background:#fff;
-color:#111827;
-padding:22px;
-border-radius:22px;
-font-size:22px;
-font-weight:900;
-line-height:1.8;
+.gray{
+background:#475569;
 }
 
 .item{
-padding:14px;
-margin-bottom:10px;
-border-radius:18px;
 background:#f8fafc;
-}
-
-.time{
-color:#ea580c;
+padding:16px;
+border-radius:16px;
+margin-bottom:10px;
 font-size:20px;
 font-weight:900;
-}
-
-.title{
-font-size:22px;
-font-weight:900;
-}
-
-.memo{
-font-size:18px;
-color:#475569;
-margin-top:4px;
+line-height:1.8;
 }
 
 </style>
@@ -133,53 +102,51 @@ margin-top:4px;
 <body>
 
 <div class="header">
-<h1>📅 予定管理</h1>
-<p>予定を登録します</p>
+<h1>📅 カレンダー予定</h1>
 </div>
 
 <div class="card">
 
-<div class="label">
-📅 日付
+<div class="title">
+予定登録
 </div>
 
 <input
-id="scheduleDate"
+id="date"
 class="input"
 type="date">
 
-<div class="label">
-🕒 時間
-</div>
-
 <input
-id="scheduleTime"
+id="time"
 class="input"
 type="time">
 
-<div class="label">
-📝 予定
-</div>
-
 <input
-id="scheduleTitle"
+id="title"
 class="input"
-placeholder="病院・買い物・来客など">
-
-<div class="label">
-📋 メモ
-</div>
-
-<input
-id="scheduleMemo"
-class="input"
-placeholder="補足内容">
+placeholder="病院・買い物・薬局など">
 
 <button
 class="btn orange"
 onclick="saveSchedule()">
 
-保存する
+📅 保存する
+
+</button>
+
+<button
+class="btn blue"
+onclick="startVoice()">
+
+🎤 音声で予定入力
+
+</button>
+
+<button
+class="btn green"
+onclick="readSchedule()">
+
+🔊 予定を聞く
 
 </button>
 
@@ -187,92 +154,73 @@ onclick="saveSchedule()">
 
 <div class="card">
 
-<div class="label">
-📅 登録済み予定
+<div class="title">
+今日・明日・今後の予定
 </div>
 
-<div
-id="result"
-class="result">
+<div id="scheduleList">
 
-予定未登録
+予定なし
 
 </div>
 
 </div>
 
 <a
-href="app.html"
+href="index.html"
 class="btn gray">
 
-🏠 本人ページへ戻る
+🏠 トップへ戻る
 
 </a>
 
 <script>
 
-let schedules =
+function saveSchedule(){
+
+const schedules =
 JSON.parse(
 localStorage.getItem(
 'schedules'
 ) || '[]'
 );
 
-showSchedules();
+const item = {
 
-function saveSchedule(){
-
-const date =
+date:
 document.getElementById(
-'scheduleDate'
-).value;
+'date'
+).value,
 
-const time =
+time:
 document.getElementById(
-'scheduleTime'
-).value;
+'time'
+).value,
 
-const title =
+title:
 document.getElementById(
-'scheduleTitle'
-).value;
+'title'
+).value
 
-const memo =
-document.getElementById(
-'scheduleMemo'
-).value;
+};
 
-if(
-!date ||
-!title
-){
+if(!item.date || !item.title){
+
 alert(
 '日付と予定を入力してください'
 );
+
 return;
+
 }
 
-schedules.push({
+schedules.push(item);
 
-date:date,
-time:time,
-title:title,
-memo:memo,
-created:new Date().toLocaleString('ja-JP')
-
-});
-
-schedules.sort(function(a,b){
-
-const aa =
-a.date + ' ' + a.time;
-
-const bb =
-b.date + ' ' + b.time;
-
-return aa.localeCompare(bb);
-
-});
+schedules.sort((a,b)=>
+(a.date+a.time).localeCompare(
+b.date+b.time
+)
+);
 
 localStorage.setItem(
 'schedules',
@@ -281,83 +229,141 @@ schedules
 )
 );
 
-document.getElementById(
-'scheduleDate'
-).value = '';
-
-document.getElementById(
-'scheduleTime'
-).value = '';
-
-document.getElementById(
-'scheduleTitle'
-).value = '';
-
-document.getElementById(
-'scheduleMemo'
-).value = '';
-
-showSchedules();
+loadSchedules();
 
 }
 
-function showSchedules(){
+function loadSchedules(){
 
-if(
-schedules.length === 0
-){
+const schedules =
+JSON.parse(
+localStorage.getItem(
+'schedules'
+) || '[]'
+);
+
+if(!schedules.length){
 
 document.getElementById(
-'result'
+'scheduleList'
 ).innerHTML =
-'予定未登録';
+'予定なし';
 
 return;
 
 }
 
-let html = '';
+let html='';
 
-schedules.forEach(function(item,index){
+schedules.forEach(item=>{
 
 html +=
 
 '<div class="item">' +
 
-'<div class="time">' +
-
+'📅 ' +
 item.date +
-' ' +
-(item.time || '')
 
-+
+'<br>' +
 
-'</div>' +
+'🕒 ' +
+(item.time || '') +
 
-'<div class="title">' +
+'<br>' +
 
+'📍 ' +
 item.title +
-
-'</div>' +
-
-'<div class="memo">' +
-
-(item.memo || '')
-
-+
-
-'</div>' +
 
 '</div>';
 
 });
 
 document.getElementById(
-'result'
+'scheduleList'
 ).innerHTML =
 html;
 
 }
+
+function startVoice(){
+
+if(!('webkitSpeechRecognition' in window)){
+
+alert(
+'音声入力に対応していません'
+);
+
+return;
+
+}
+
+const rec =
+new webkitSpeechRecognition();
+
+rec.lang='ja-JP';
+
+rec.start();
+
+rec.onresult=function(e){
+
+const text =
+e.results[0][0].transcript;
+
+document.getElementById(
+'title'
+).value =
+text;
+
+};
+
+}
+
+function readSchedule(){
+
+const schedules =
+JSON.parse(
+localStorage.getItem(
+'schedules'
+) || '[]'
+);
+
+let text =
+'予定はありません';
+
+if(schedules.length){
+
+text =
+'予定をお知らせします。';
+
+schedules.forEach(item=>{
+
+text +=
+
+item.date +
+
+' ' +
+
+(item.time || '') +
+
+' ' +
+
+item.title +
+
+'。';
+
+});
+
+}
+
+speechSynthesis.speak(
+new SpeechSynthesisUtterance(
+text
+)
+);
+
+}
+
+loadSchedules();
 
 </script>
 
