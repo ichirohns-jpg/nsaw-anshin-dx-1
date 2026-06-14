@@ -1,162 +1,12 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>QRコード</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#eef2f7;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2d3d;
-}
-
-.header{
-background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
-padding:30px;
-border-radius:30px;
-text-align:center;
-margin-bottom:18px;
-}
-
-.title{
-font-size:36px;
-font-weight:900;
-}
-
-.card{
-background:#fff;
-border-radius:30px;
-padding:24px;
-margin-bottom:18px;
-text-align:center;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.qr{
-width:280px;
-height:280px;
-margin:auto;
-display:block;
-}
-
-.name{
-font-size:28px;
-font-weight:900;
-margin-top:18px;
-}
-
-.url{
-font-size:16px;
-word-break:break-all;
-margin-top:12px;
-line-height:1.6;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:22px;
-border-radius:20px;
-margin-top:12px;
-text-decoration:none;
-text-align:center;
-font-size:24px;
-font-weight:900;
-color:#fff;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.green{
-background:#16a34a;
-}
-
-.gray{
-background:#475569;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-
-<div class="title">
-📱 QRコード
-</div>
-
-</div>
-
-<div class="card">
-
-<img
-id="qr"
-class="qr"
-src="">
-
-<div
-id="userName"
-class="name">
-登録者名
-</div>
-
-<div
-id="urlText"
-class="url">
-読み込み中...
-</div>
-
-<a href="app.html" class="btn blue">
-😊 本人ページを開く
-</a>
-
-<a href="family.html" class="btn green">
-👪 家族ページを開く
-</a>
-
-<a href="history.html" class="btn gray">
-📋 見守り履歴
-</a>
-
-<a href="check-history.html" class="btn gray">
-😊 元気です履歴
-</a>
-
-<a href="medicine-history.html" class="btn gray">
-💊 服薬履歴
-</a>
-
-<a href="index.html" class="btn gray">
-🏠 トップへ戻る
-</a>
-
-</div>
-
 <script>
 
 window.onload=function(){
 
-const name=
-localStorage.getItem('userName') || '利用者001';
-
 const userId=
 localStorage.getItem('userId') || '001';
+
+const userName=
+localStorage.getItem('userName') || '利用者';
 
 const url=
 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' +
@@ -164,7 +14,7 @@ userId;
 
 document.getElementById(
 'userName'
-).innerHTML=name;
+).innerHTML=userName;
 
 document.getElementById(
 'urlText'
@@ -177,8 +27,4 @@ document.getElementById(
 encodeURIComponent(url);
 
 }
-
 </script>
-
-</body>
-</html>
