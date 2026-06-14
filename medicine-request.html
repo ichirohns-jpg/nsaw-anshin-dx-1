@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>薬がなくなる</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
+}
+
+.header{
+background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+color:#fff;
+padding:30px;
+border-radius:30px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.select{
+width:100%;
+padding:20px;
+font-size:24px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
+}
+
+.input{
+width:100%;
+padding:18px;
+font-size:22px;
+border:2px solid #cbd5e1;
+border-radius:18px;
+margin-bottom:16px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:26px;
+border:none;
+border-radius:24px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+color:#fff;
+margin-bottom:14px;
+text-decoration:none;
+text-align:center;
+}
+
+.purple{
+background:#7c3aed;
+}
+
+.gray{
+background:#475569;
+}
+
+.result{
+background:#f8fafc;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>💊 薬がなくなる</h1>
+</div>
+
+<div class="card">
+
+<select
+id="medicineType"
+class="select">
+
+<option value="">
+薬を選択
+</option>
+
+<option>
+朝の薬
+</option>
+
+<option>
+昼の薬
+</option>
+
+<option>
+夕方の薬
+</option>
+
+<option>
+寝る前の薬
+</option>
+
+<option>
+その他
+</option>
+
+</select>
+
+<input
+id="remain"
+class="input"
+placeholder="残り日数（例 3日）">
+
+<button
+class="btn purple"
+onclick="sendMedicineRequest()">
+💊 連絡する
+</button>
+
+<div
+id="result"
+class="result">
+
+薬の残量を連絡してください
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="btn gray">
+🏠 トップへ戻る
+</a>
+
+<script>
+
+function sendMedicineRequest(){
+
+const medicine =
+document.getElementById(
+'medicineType'
+).value;
+
+const remain =
+document.getElementById(
+'remain'
+).value;
+
+if(!medicine){
+
+alert(
+'薬を選択してください'
+);
+
+return;
+
+}
+
+const data = {
+
+medicine:medicine,
+
+remain:remain,
+
+time:new Date().toLocaleString(
+'ja-JP'
+)
+
+};
+
+localStorage.setItem(
+'medicineRequest',
+JSON.stringify(data)
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'連絡しました<br><br>' +
+
+medicine +
+
+'<br><br>' +
+
+'残り ' +
+
+remain;
+
+}
+
+</script>
+
+</body>
+</html>
