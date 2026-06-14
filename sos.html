@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>困りごと・SOS</title>
+<title>SOS</title>
 
 <style>
 
@@ -12,259 +12,143 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#fff5f5;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
-color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#dc2626,#b91c1c);
+color:#fff;
 padding:28px;
-border-radius:30px;
+border-radius:28px;
 text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:34px;
+font-size:40px;
 font-weight:900;
-}
-
-.header p{
-margin-top:8px;
-color:#cbd5e1;
-font-size:16px;
-font-weight:700;
 }
 
 .card{
-background:linear-gradient(135deg,#1e293b,#0f172a);
+background:#fff;
 padding:24px;
-border-radius:28px;
-margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .label{
-font-size:24px;
+font-size:22px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
-.select{
+.select,
+.textarea{
 width:100%;
-padding:20px;
-font-size:24px;
-border:none;
-border-radius:18px;
+padding:16px;
+border:2px solid #e5e7eb;
+border-radius:16px;
+font-size:20px;
 margin-bottom:16px;
-font-weight:900;
 }
 
 .textarea{
-width:100%;
 height:120px;
-padding:18px;
-font-size:22px;
-border:none;
-border-radius:18px;
-margin-bottom:16px;
+resize:none;
 }
 
-.btn{
-display:block;
+.sosBtn{
 width:100%;
-padding:28px;
 border:none;
-border-radius:24px;
-font-size:28px;
-font-weight:900;
-cursor:pointer;
+background:#dc2626;
 color:#fff;
-margin-bottom:12px;
+padding:32px;
+border-radius:24px;
+font-size:36px;
+font-weight:900;
 }
 
-.blue{
-background:linear-gradient(135deg,#2563eb,#38bdf8);
-}
-
-.red{
-background:linear-gradient(135deg,#dc2626,#ef4444);
-}
-
-.gray{
-background:linear-gradient(135deg,#475569,#334155);
+.home{
+display:block;
+background:#475569;
+color:#fff;
 text-decoration:none;
+padding:20px;
+border-radius:20px;
 text-align:center;
-}
-
-.result{
-background:#fff;
-color:#111827;
-padding:22px;
-border-radius:22px;
 font-size:22px;
 font-weight:900;
-line-height:1.8;
-text-align:center;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
-<h1>🟦 困りごと・🟥 SOS</h1>
-<p>困ったことを簡単に送れます</p>
+<h1>🚨 SOS</h1>
 </div>
 
 <div class="card">
 
-<div class="label">種類</div>
+<div class="label">
+SOS内容
+</div>
 
-<select id="mainType" class="select" onchange="changeSubType()">
+<select
+id="mainType"
+class="select">
 
-<option value="">選択してください</option>
-
-<option value="困りごと">🟦 困りごと</option>
-
-<option value="SOS">🟥 SOS</option>
-
-</select>
-
-<div class="label">内容</div>
-
-<select id="subType" class="select">
-
-<option value="">選択してください</option>
+<option>体調が悪い</option>
+<option>転倒した</option>
+<option>薬がない</option>
+<option>家に帰れない</option>
+<option>助けてほしい</option>
 
 </select>
+
+<div class="label">
+詳細
+</div>
 
 <textarea
 id="memo"
 class="textarea"
-placeholder="補足があれば入力してください"></textarea>
+placeholder="状況を入力">
+</textarea>
 
 <button
-class="btn blue"
-onclick="sendRequest()">
+class="sosBtn"
+onclick="sendSOS()">
 
-送信する
+🚨 SOS送信
 
 </button>
-
-<div
-id="result"
-class="result">
-
-待機中
-
-</div>
 
 </div>
 
 <a
-href="app.html"
-class="btn gray">
+href="index.html"
+class="home">
 
-🏠 本人ページへ戻る
+🏠 トップへ戻る
 
 </a>
 
 <script>
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
-
-const troubleItems = [
-
-'食事を買ってきてほしい',
-'買い物を手伝ってほしい',
-'病院へ行きたい',
-'通院付き添い希望',
-'電話してほしい',
-'話し相手がほしい',
-'薬が少なくなった',
-'薬を取りに行きたい',
-'ゴミ出しを手伝ってほしい',
-'送迎してほしい',
-'様子を見に来てほしい',
-'少し不安'
-
-];
-
-const sosItems = [
-
-'転倒した',
-'起き上がれない',
-'強い痛み',
-'息苦しい',
-'体調急変',
-'意識がおかしい',
-'今すぐ来てほしい',
-'緊急'
-
-];
-
-function changeSubType(){
-
-const type =
-document.getElementById(
-'mainType'
-).value;
-
-const sub =
-document.getElementById(
-'subType'
-);
-
-sub.innerHTML =
-'<option value="">選択してください</option>';
-
-let list = [];
-
-if(type === '困りごと'){
-list = troubleItems;
-}
-
-if(type === 'SOS'){
-list = sosItems;
-}
-
-list.forEach(function(item){
-
-const opt =
-document.createElement('option');
-
-opt.textContent =
-item;
-
-opt.value =
-item;
-
-sub.appendChild(opt);
-
-});
-
-}
-
-function sendRequest(){
+function sendSOS(){
 
 const mainType =
 document.getElementById(
 'mainType'
-).value;
-
-const subType =
-document.getElementById(
-'subType'
 ).value;
 
 const memo =
@@ -272,103 +156,70 @@ document.getElementById(
 'memo'
 ).value;
 
-if(!mainType || !subType){
-
-alert(
-'内容を選択してください'
-);
-
-return;
-
-}
-
 const now =
-new Date().toLocaleString(
-'ja-JP'
-);
+new Date();
 
-const saveData = {
+const data = {
 
 mainType:mainType,
-type:subType,
+
 memo:memo,
-time:now
+
+time:
+now.toLocaleString(
+'ja-JP'
+)
 
 };
 
 localStorage.setItem(
 'lastSOS',
-JSON.stringify(saveData)
+JSON.stringify(data)
 );
 
-document.getElementById(
-'result'
-).innerHTML =
-'送信中...';
+alert(
+'SOSを送信しました'
+);
 
-fetch(
-GAS_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
-
-type:'sos',
-
-name:
+const familyTel =
 localStorage.getItem(
-'userName'
-) || '利用者',
+'familyTel'
+) || '';
 
-userId:
-localStorage.getItem(
-'userId'
-) || '',
+if(familyTel){
 
-mainType:mainType,
-
-sosType:subType,
-
-memo:memo,
-
-time:now
-
-})
-}
+if(
+confirm(
+'家族へ電話しますか？'
 )
-.then(r=>r.text())
-.then(data=>{
+){
+
+location.href =
+'tel:' +
+familyTel;
+
+}
+
+}
+
+location.href =
+'family.html';
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'lastSOS'
+) || 'null'
+);
+
+if(last){
 
 document.getElementById(
-'result'
-).innerHTML =
-
-mainType +
-
-'<br><br>' +
-
-subType +
-
-'<br><br>' +
-
-now +
-
-'<br><br>' +
-
-'送信完了';
-
-})
-.catch(err=>{
-
-document.getElementById(
-'result'
-).innerHTML =
-
-'送信失敗';
-
-});
+'memo'
+).value =
+last.memo || '';
 
 }
 
