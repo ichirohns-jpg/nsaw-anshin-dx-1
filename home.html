@@ -17,20 +17,20 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+text-align:center;
 }
 
 .header{
-background:linear-gradient(135deg,#16a34a,#22c55e);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
-padding:30px;
-border-radius:30px;
-text-align:center;
+padding:28px;
+border-radius:28px;
 margin-bottom:18px;
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
@@ -38,49 +38,37 @@ font-weight:900;
 background:#fff;
 padding:24px;
 border-radius:24px;
-margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:16px;
 }
 
-.message{
-font-size:26px;
-font-weight:900;
-line-height:1.8;
-text-align:center;
-margin-bottom:20px;
-}
-
-.btn{
-display:block;
+.bigBtn{
 width:100%;
-padding:28px;
 border:none;
-border-radius:24px;
-font-size:30px;
-font-weight:900;
-cursor:pointer;
-text-decoration:none;
-text-align:center;
+background:#2563eb;
 color:#fff;
-margin-bottom:14px;
+padding:40px;
+border-radius:28px;
+font-size:36px;
+font-weight:900;
 }
 
-.green{
-background:#16a34a;
+.time{
+margin-top:20px;
+font-size:24px;
+font-weight:900;
 }
 
-.gray{
-background:#475569;
-}
-
-.result{
-background:#f8fafc;
+.home{
+display:block;
+margin-top:16px;
 padding:20px;
+background:#475569;
+color:#fff;
+text-decoration:none;
 border-radius:20px;
 font-size:22px;
 font-weight:900;
-text-align:center;
-line-height:1.8;
 }
 
 </style>
@@ -95,26 +83,19 @@ line-height:1.8;
 
 <div class="card">
 
-<div class="message">
-
-家に帰ったら<br>
-このボタンを押してください
-
-</div>
-
 <button
-class="btn green"
-onclick="sendHome()">
+class="bigBtn"
+onclick="saveHome()">
 
 🏠 帰宅しました
 
 </button>
 
 <div
-id="result"
-class="result">
+id="timeArea"
+class="time">
 
-未送信
+まだ記録がありません
 
 </div>
 
@@ -122,7 +103,7 @@ class="result">
 
 <a
 href="index.html"
-class="btn gray">
+class="home">
 
 🏠 トップへ戻る
 
@@ -130,30 +111,51 @@ class="btn gray">
 
 <script>
 
-function sendHome(){
+function saveHome(){
+
+const now =
+new Date();
 
 const data = {
 
-status:'帰宅',
-
-time:new Date().toLocaleString(
-'ja-JP'
-)
+time:
+now.toLocaleString('ja-JP')
 
 };
 
 localStorage.setItem(
-'homeStatus',
+'lastHome',
 JSON.stringify(data)
 );
 
 document.getElementById(
-'result'
+'timeArea'
 ).innerHTML =
 
-'帰宅を記録しました<br><br>' +
-
+'最終帰宅<br><br>' +
 data.time;
+
+alert(
+'帰宅を記録しました'
+);
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'lastHome'
+) || 'null'
+);
+
+if(last){
+
+document.getElementById(
+'timeArea'
+).innerHTML =
+
+'最終帰宅<br><br>' +
+last.time;
 
 }
 
