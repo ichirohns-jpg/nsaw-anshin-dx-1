@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QR発行</title>
+<title>QRコード発行</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -14,23 +14,21 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
-color:#fff;
+padding:18px;
+text-align:center;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:#fff;
 padding:30px;
 border-radius:30px;
-text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
@@ -39,206 +37,159 @@ font-weight:900;
 }
 
 .card{
-background:linear-gradient(135deg,#1e293b,#0f172a);
+background:#fff;
+border-radius:24px;
 padding:24px;
-border-radius:28px;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
-text-align:center;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.title{
-font-size:26px;
-font-weight:900;
-margin-bottom:12px;
+#qrcode{
+display:flex;
+justify-content:center;
+margin:20px 0;
 }
 
 .info{
 font-size:20px;
-line-height:1.8;
 font-weight:900;
-margin-bottom:16px;
-}
-
-.qr{
-background:#fff;
-padding:20px;
-border-radius:20px;
-display:inline-block;
-margin-top:10px;
+line-height:1.8;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:26px;
+padding:24px;
 border:none;
 border-radius:24px;
 font-size:26px;
 font-weight:900;
+cursor:pointer;
 text-decoration:none;
 text-align:center;
 color:#fff;
-margin-bottom:12px;
+margin-top:14px;
 }
 
 .blue{
-background:linear-gradient(135deg,#2563eb,#3b82f6);
-}
-
-.green{
-background:linear-gradient(135deg,#16a34a,#22c55e);
+background:#2563eb;
 }
 
 .gray{
-background:linear-gradient(135deg,#475569,#334155);
-}
-
-.small{
-font-size:15px;
-color:#cbd5e1;
-margin-top:12px;
-line-height:1.7;
+background:#475569;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
-<h1>📱 QR発行</h1>
+<h1>📱 QRコード</h1>
 </div>
 
 <div class="card">
 
-<div class="title">
-👤 利用者情報
-</div>
+<div id="qrcode"></div>
 
-<div id="userInfo" class="info">
+<div
+id="info"
+class="info">
 読込中...
 </div>
 
 </div>
 
-<div class="card">
+<a
+href="register.html"
+class="btn blue">
 
-<div class="title">
-📱 本人用QR
-</div>
+👤 登録画面へ
 
-<div id="userQR" class="qr"></div>
-
-<div class="small">
-本人ページへアクセス
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-👪 支援者用QR
-</div>
-
-<div id="familyQR" class="qr"></div>
-
-<div class="small">
-支援者ページへアクセス<br>
-※パスワード確認あり
-</div>
-
-</div>
-
-<a href="register.html" class="btn green">
-👤 登録画面へ戻る
 </a>
 
-<a href="index.html" class="btn gray">
+<a
+href="index.html"
+class="btn gray">
+
 🏠 トップへ戻る
+
 </a>
 
 <script>
 
 const userId =
-localStorage.getItem('userId') ||
-'NO-ID';
+localStorage.getItem(
+'userId'
+) || '';
 
 const userName =
-localStorage.getItem('userName') ||
-'未登録';
+localStorage.getItem(
+'userName'
+) || '';
 
-const city =
-localStorage.getItem('userCity') ||
-'';
+const address =
+localStorage.getItem(
+'userAddress'
+) || '';
 
-const area =
-localStorage.getItem('userArea') ||
-'';
+const familyPhone =
+localStorage.getItem(
+'familyPhone'
+) || '';
 
-const chome =
-localStorage.getItem('userChome') ||
-'';
+const familyLine =
+localStorage.getItem(
+'familyLine'
+) || '';
+
+const qrData =
+
+JSON.stringify({
+
+userId:userId,
+
+name:userName,
+
+address:address,
+
+familyPhone:familyPhone,
+
+familyLine:familyLine
+
+});
+
+new QRCode(
 
 document.getElementById(
-'userInfo'
+'qrcode'
+),
+
+{
+text:qrData,
+width:260,
+height:260
+}
+
+);
+
+document.getElementById(
+'info'
 ).innerHTML =
 
-'名前：' +
+'氏名：' +
 userName +
 
-'<br>' +
+'<br><br>' +
+
+'住所：' +
+address +
+
+'<br><br>' +
 
 '利用者ID：' +
-userId +
-
-'<br>' +
-
-city +
-' ' +
-area +
-' ' +
-chome;
-
-const baseUrl =
-location.origin +
-location.pathname.replace(
-'qr.html',
-''
-);
-
-const userUrl =
-baseUrl +
-'app.html?id=' +
 userId;
-
-const familyUrl =
-baseUrl +
-'family.html?id=' +
-userId;
-
-new QRCode(
-document.getElementById(
-'userQR'
-),
-{
-text:userUrl,
-width:220,
-height:220
-}
-);
-
-new QRCode(
-document.getElementById(
-'familyQR'
-),
-{
-text:familyUrl,
-width:220,
-height:220
-}
-);
 
 </script>
 
