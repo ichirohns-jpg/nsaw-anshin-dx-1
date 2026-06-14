@@ -147,17 +147,15 @@ position.coords.latitude;
 const lng =
 position.coords.longitude;
 
-document.getElementById('result').innerHTML =
-'緯度：' + lat +
-'<br><br>' +
-'経度：' + lng;
-
 document.getElementById('map').src =
 'https://maps.google.com/maps?q=' +
 lat +
 ',' +
 lng +
 '&z=16&output=embed';
+
+document.getElementById('result').innerHTML =
+'送信中...';
 
 fetch(
 GAS_URL,
@@ -167,14 +165,56 @@ headers:{
 'Content-Type':'application/json'
 },
 body:JSON.stringify({
+
+type:'gps',
+
 name:'利用者001',
+
 status:'現在地送信',
+
 latitude:lat,
+
 longitude:lng,
-time:new Date().toLocaleString('ja-JP')
+
+map:
+'https://maps.google.com/?q=' +
+lat +
+',' +
+lng,
+
+time:
+new Date().toLocaleString('ja-JP')
+
 })
 }
-);
+)
+.then(r=>r.text())
+.then(data=>{
+
+document.getElementById('result').innerHTML =
+
+'📍送信完了' +
+'<br><br>' +
+'緯度：' +
+lat +
+'<br><br>' +
+'経度：' +
+lng;
+
+})
+.catch(err=>{
+
+document.getElementById('result').innerHTML =
+'送信失敗';
+
+});
+
+},
+
+function(){
+
+document.getElementById('result').innerHTML =
+'位置情報取得失敗';
 
 }
 
