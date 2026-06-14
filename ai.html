@@ -1,114 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>AIに聞く</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#eef2f7;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-}
-
-.header{
-background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
-padding:30px;
-border-radius:30px;
-text-align:center;
-margin-bottom:18px;
-}
-
-.header h1{
-font-size:36px;
-font-weight:900;
-}
-
-.card{
-background:#fff;
-padding:24px;
-border-radius:24px;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.result{
-font-size:24px;
-font-weight:900;
-line-height:1.8;
-text-align:center;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:28px;
-border:none;
-border-radius:24px;
-font-size:30px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
-margin-bottom:14px;
-}
-
-.purple{
-background:#7c3aed;
-}
-
-.gray{
-background:#475569;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-<h1>🎤 AIに聞く</h1>
-</div>
-
-<div class="card">
-
-<div
-id="result"
-class="result">
-
-ボタンを押して話してください
-
-</div>
-
-</div>
-
-<button
-class="btn purple"
-onclick="startVoice()">
-
-🎤 話す
-
-</button>
-
-<button
-class="btn gray"
-onclick="location.href='index.html'">
-
-🏠 トップへ戻る
-
-</button>
-
 <script>
+
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+
+function getVal(cell){
+
+if(!cell) return '';
+
+return cell.f || cell.v || '';
+
+}
 
 function speak(text){
 
@@ -147,11 +48,19 @@ return;
 const rec =
 new webkitSpeechRecognition();
 
-rec.lang='ja-JP';
+rec.lang =
+'ja-JP';
+
+rec.interimResults =
+false;
+
+rec.continuous =
+false;
 
 rec.start();
 
-rec.onresult=function(e){
+rec.onresult =
+function(e){
 
 const q =
 e.results[0][0]
@@ -162,173 +71,61 @@ document.getElementById(
 ).innerHTML =
 
 '質問<br><br>' +
+
 q;
 
-answer(q);
+processQuestion(q);
 
 };
 
 }
 
-function answer(q){
-
-const schedules =
-JSON.parse(
-localStorage.getItem(
-'schedules'
-) || '[]'
-);
-
-const gps =
-JSON.parse(
-localStorage.getItem(
-'lastGPS'
-) || 'null'
-);
-
-const genki =
-JSON.parse(
-localStorage.getItem(
-'lastGenki'
-) || 'null'
-);
-
-const med =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
-const familyPhone =
-localStorage.getItem(
-'familyPhone'
-) || '';
-
-const familyLine =
-localStorage.getItem(
-'familyLine'
-) || '';
+function processQuestion(q){
 
 if(
-q.includes('今日')
-&&
+q.includes('ゴミ')
+){
+
+searchSheet(
+'ゴミ',
+q
+);
+
+return;
+
+}
+
+if(
+q.includes('病院')
+||
+q.includes('薬局')
+||
+q.includes('避難所')
+||
+q.includes('包括')
+||
+q.includes('コンビニ')
+||
+q.includes('トイレ')
+){
+
+searchSheet(
+'施設マスター',
+q
+);
+
+return;
+
+}
+
+if(
 q.includes('予定')
 ){
 
-const today =
-new Date()
-.toISOString()
-.slice(0,10);
-
-const list =
-schedules.filter(
-x=>x.date===today
+searchSheet(
+'予定',
+q
 );
-
-if(!list.length){
-
-speak(
-'今日は予定ありません'
-);
-
-return;
-
-}
-
-let text =
-'今日の予定です。';
-
-list.forEach(item=>{
-
-text +=
-(item.time || '') +
-' ' +
-item.title +
-'。';
-
-});
-
-speak(text);
-
-return;
-
-}
-
-if(
-q.includes('明日')
-&&
-q.includes('予定')
-){
-
-const d =
-new Date();
-
-d.setDate(
-d.getDate()+1
-);
-
-const tomorrow =
-d.toISOString()
-.slice(0,10);
-
-const list =
-schedules.filter(
-x=>x.date===tomorrow
-);
-
-if(!list.length){
-
-speak(
-'明日の予定はありません'
-);
-
-return;
-
-}
-
-let text =
-'明日の予定です。';
-
-list.forEach(item=>{
-
-text +=
-(item.time || '') +
-' ' +
-item.title +
-'。';
-
-});
-
-speak(text);
-
-return;
-
-}
-
-if(
-q.includes('薬')
-){
-
-let text='';
-
-if(med.morning)
-text+='朝の薬は飲みました。';
-
-if(med.noon)
-text+='昼の薬は飲みました。';
-
-if(med.evening)
-text+='夕方の薬は飲みました。';
-
-if(med.night)
-text+='寝る前の薬は飲みました。';
-
-if(text===''){
-text='服薬記録はありません';
-}
-
-speak(text);
 
 return;
 
@@ -338,145 +135,173 @@ if(
 q.includes('元気')
 ){
 
-if(genki){
-
-speak(
-'最後の元気ですは ' +
-genki.time +
-' です'
+searchSheet(
+'見守り記録',
+q
 );
-
-}else{
-
-speak(
-'元気ですの記録がありません'
-);
-
-}
 
 return;
 
 }
 
-if(
-q.includes('電話')
+speak(
+'質問内容を確認しています'
+);
+
+}
+
+function searchSheet(sheetName,q){
+
+const url =
+
+'https://docs.google.com/spreadsheets/d/' +
+
+SHEET_ID +
+
+'/gviz/tq?sheet=' +
+
+encodeURIComponent(sheetName) +
+
+'&tqx=out:json';
+
+const script =
+document.createElement(
+'script'
+);
+
+const callbackName =
+
+'cb_' +
+
+Date.now();
+
+window[callbackName] =
+function(json){
+
+try{
+
+const rows =
+json.table.rows;
+
+const areaCode =
+localStorage.getItem(
+'areaCode'
+) || '';
+
+const today =
+['日','月','火','水','木','金','土']
+[new Date().getDay()];
+
+let answer = '';
+
+for(
+let i=0;
+i<rows.length;
+i++
 ){
 
-if(familyPhone){
+const row =
+rows[i];
 
-speak(
-'家族へ電話します'
-);
+const c0 =
+getVal(row.c[0]);
 
-setTimeout(()=>{
+const c1 =
+getVal(row.c[1]);
 
-location.href =
-'tel:' +
-familyPhone;
+const c2 =
+getVal(row.c[2]);
 
-},1000);
+const c3 =
+getVal(row.c[3]);
 
-}else{
-
-speak(
-'電話番号が登録されていません'
-);
-
-}
-
-return;
-
-}
+const c4 =
+getVal(row.c[4]);
 
 if(
-q.includes('ライン')
-||
-q.includes('LINE')
+sheetName === 'ゴミ'
 ){
-
-if(familyLine){
-
-speak(
-'家族のラインを開きます'
-);
-
-window.open(
-familyLine
-);
-
-}else{
-
-speak(
-'ラインが登録されていません'
-);
-
-}
-
-return;
-
-}
 
 if(
-q.includes('どこ')
-||
-q.includes('現在地')
+c1 === areaCode &&
+c2.indexOf(today) > -1
 ){
 
-if(gps){
+answer =
 
-speak(
-'最後の位置情報を表示します'
-);
+'今日のゴミは ' +
 
-window.open(
-gps.mapUrl
-);
+c3 +
 
-}else{
+' です。 ' +
 
-speak(
-'位置情報がありません'
-);
+c4;
+
+break;
 
 }
 
-return;
-
 }
+
+else{
+
+const text =
+
+JSON.stringify(
+row
+);
 
 if(
-q.includes('病院')
+text.includes(
+areaCode
+)
 ){
 
-speak(
-'病院ページを開きます'
-);
+answer =
+text;
 
-setTimeout(()=>{
-
-location.href =
-'hospital.html';
-
-},1000);
-
-return;
+break;
 
 }
 
-if(
-q.includes('ゴミ')
-){
-
-speak(
-'ゴミの日機能は作成中です'
-);
-
-return;
+}
 
 }
 
+if(!answer){
+
+answer =
+'該当データが見つかりません';
+
+}
+
+speak(answer);
+
+}
+catch(e){
+
 speak(
-'すみません。まだ勉強中です。'
+'検索エラーです'
+);
+
+}
+
+delete window[
+callbackName
+];
+
+};
+
+script.src =
+
+url +
+
+'&callback=' +
+
+callbackName;
+
+document.body.appendChild(
+script
 );
 
 }
