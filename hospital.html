@@ -12,74 +12,70 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
+color:#fff;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:#fff;
+background:linear-gradient(135deg,#111827,#334155);
 padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
 .card{
-background:#fff;
-padding:24px;
+background:linear-gradient(135deg,#1e293b,#0f172a);
+padding:22px;
 border-radius:24px;
-margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:14px;
+box-shadow:0 10px 24px rgba(0,0,0,.30);
 }
 
 .name{
-font-size:26px;
+font-size:24px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .info{
-font-size:20px;
+font-size:18px;
 line-height:1.8;
+color:#e2e8f0;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:22px;
+padding:20px;
 border-radius:20px;
 text-decoration:none;
 text-align:center;
-font-size:24px;
+font-size:22px;
 font-weight:900;
-color:#fff;
 margin-top:12px;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.green{
-background:#16a34a;
+color:#fff;
+background:linear-gradient(135deg,#2563eb,#3b82f6);
 }
 
 .gray{
-background:#475569;
+background:linear-gradient(135deg,#475569,#334155);
+margin-top:18px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -88,54 +84,63 @@ background:#475569;
 <h1>🏥 病院・薬局</h1>
 </div>
 
-<div class="card">
-
-<div class="name">
-🏥 かかりつけ病院
-</div>
-
-<div class="info">
-病院名を登録予定
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="name">
-💊 かかりつけ薬局
-</div>
-
-<div class="info">
-薬局名を登録予定
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="name">
-📞 緊急連絡先
-</div>
-
-<div class="info">
-119<br>
-#7119
-</div>
-
-</div>
-
-<a href="tel:119" class="btn blue">
-🚑 119へ電話
-</a>
-
-<a href="tel:#7119" class="btn green">
-🏥 救急相談
-</a>
+<div id="hospitalArea"></div>
 
 <a href="index.html" class="btn gray">
 🏠 トップへ戻る
 </a>
+
+<script>
+
+const hospitals = [
+
+{
+name:'かかりつけ病院',
+type:'病院',
+address:'登録後に表示',
+map:'https://maps.google.com'
+},
+
+{
+name:'近隣薬局',
+type:'薬局',
+address:'登録後に表示',
+map:'https://maps.google.com'
+}
+
+];
+
+let html='';
+
+hospitals.forEach(item=>{
+
+html +=
+
+'<div class="card">' +
+
+'<div class="name">' +
+item.name +
+'</div>' +
+
+'<div class="info">' +
+item.type +
+'<br>' +
+item.address +
+'</div>' +
+
+'<a class="btn" href="' +
+item.map +
+'" target="_blank">📍 地図を開く</a>' +
+
+'</div>';
+
+});
+
+document.getElementById(
+'hospitalArea'
+).innerHTML = html;
+
+</script>
 
 </body>
 </html>
