@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>帰宅しました</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:18px;
+}
+
+.header{
+background:linear-gradient(135deg,#16a34a,#22c55e);
+color:#fff;
+padding:30px;
+border-radius:30px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:36px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.message{
+font-size:26px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
+margin-bottom:20px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:28px;
+border:none;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
+cursor:pointer;
+text-decoration:none;
+text-align:center;
+color:#fff;
+margin-bottom:14px;
+}
+
+.green{
+background:#16a34a;
+}
+
+.gray{
+background:#475569;
+}
+
+.result{
+background:#f8fafc;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+text-align:center;
+line-height:1.8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>🏠 帰宅しました</h1>
+</div>
+
+<div class="card">
+
+<div class="message">
+
+家に帰ったら<br>
+このボタンを押してください
+
+</div>
+
+<button
+class="btn green"
+onclick="sendHome()">
+
+🏠 帰宅しました
+
+</button>
+
+<div
+id="result"
+class="result">
+
+未送信
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="btn gray">
+
+🏠 トップへ戻る
+
+</a>
+
+<script>
+
+function sendHome(){
+
+const data = {
+
+status:'帰宅',
+
+time:new Date().toLocaleString(
+'ja-JP'
+)
+
+};
+
+localStorage.setItem(
+'homeStatus',
+JSON.stringify(data)
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'帰宅を記録しました<br><br>' +
+
+data.time;
+
+}
+
+</script>
+
+</body>
+</html>
