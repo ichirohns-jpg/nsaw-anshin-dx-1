@@ -21,7 +21,7 @@ padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#1e293b);
+background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
 padding:30px;
 border-radius:30px;
@@ -62,8 +62,8 @@ color:#fff;
 margin-bottom:14px;
 }
 
-.blue{
-background:#2563eb;
+.purple{
+background:#7c3aed;
 }
 
 .gray{
@@ -93,7 +93,7 @@ class="result">
 </div>
 
 <button
-class="btn blue"
+class="btn purple"
 onclick="startVoice()">
 
 🎤 話す
@@ -129,10 +129,12 @@ text
 
 function startVoice(){
 
-if(!(
+if(
+!(
 'webkitSpeechRecognition'
 in window
-)){
+)
+){
 
 alert(
 '音声認識未対応'
@@ -145,13 +147,11 @@ return;
 const rec =
 new webkitSpeechRecognition();
 
-rec.lang =
-'ja-JP';
+rec.lang='ja-JP';
 
 rec.start();
 
-rec.onresult =
-function(e){
+rec.onresult=function(e){
 
 const q =
 e.results[0][0]
@@ -161,8 +161,7 @@ document.getElementById(
 'result'
 ).innerHTML =
 
-'質問：<br><br>' +
-
+'質問<br><br>' +
 q;
 
 answer(q);
@@ -180,16 +179,57 @@ localStorage.getItem(
 ) || '[]'
 );
 
+const gps =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
+) || 'null'
+);
+
+const genki =
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
+);
+
+const med =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+const familyPhone =
+localStorage.getItem(
+'familyPhone'
+) || '';
+
+const familyLine =
+localStorage.getItem(
+'familyLine'
+) || '';
+
 if(
+q.includes('今日')
+&&
 q.includes('予定')
 ){
 
-if(
-!schedules.length
-){
+const today =
+new Date()
+.toISOString()
+.slice(0,10);
+
+const list =
+schedules.filter(
+x=>x.date===today
+);
+
+if(!list.length){
 
 speak(
-'予定はありません'
+'今日は予定ありません'
 );
 
 return;
@@ -197,22 +237,65 @@ return;
 }
 
 let text =
-'予定をお知らせします。';
+'今日の予定です。';
 
-schedules.forEach(item=>{
+list.forEach(item=>{
 
 text +=
-
-item.date +
-
-' ' +
-
 (item.time || '') +
-
 ' ' +
-
 item.title +
+'。';
 
+});
+
+speak(text);
+
+return;
+
+}
+
+if(
+q.includes('明日')
+&&
+q.includes('予定')
+){
+
+const d =
+new Date();
+
+d.setDate(
+d.getDate()+1
+);
+
+const tomorrow =
+d.toISOString()
+.slice(0,10);
+
+const list =
+schedules.filter(
+x=>x.date===tomorrow
+);
+
+if(!list.length){
+
+speak(
+'明日の予定はありません'
+);
+
+return;
+
+}
+
+let text =
+'明日の予定です。';
+
+list.forEach(item=>{
+
+text +=
+(item.time || '') +
+' ' +
+item.title +
 '。';
 
 });
@@ -227,26 +310,19 @@ if(
 q.includes('薬')
 ){
 
-const med =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
 let text='';
 
 if(med.morning)
-text+='朝は飲みました。';
+text+='朝の薬は飲みました。';
 
 if(med.noon)
-text+='昼は飲みました。';
+text+='昼の薬は飲みました。';
 
 if(med.evening)
-text+='夕方は飲みました。';
+text+='夕方の薬は飲みました。';
 
 if(med.night)
-text+='寝る前は飲みました。';
+text+='寝る前の薬は飲みました。';
 
 if(text===''){
 text='服薬記録はありません';
@@ -262,13 +338,6 @@ if(
 q.includes('元気')
 ){
 
-const genki =
-JSON.parse(
-localStorage.getItem(
-'lastGenki'
-) || 'null'
-);
-
 if(genki){
 
 speak(
@@ -280,7 +349,7 @@ genki.time +
 }else{
 
 speak(
-'記録がありません'
+'元気ですの記録がありません'
 );
 
 }
@@ -290,12 +359,86 @@ return;
 }
 
 if(
-q.includes('ゴミ')
+q.includes('電話')
 ){
 
+if(familyPhone){
+
 speak(
-'ゴミの日は今後連携予定です'
+'家族へ電話します'
 );
+
+setTimeout(()=>{
+
+location.href =
+'tel:' +
+familyPhone;
+
+},1000);
+
+}else{
+
+speak(
+'電話番号が登録されていません'
+);
+
+}
+
+return;
+
+}
+
+if(
+q.includes('ライン')
+||
+q.includes('LINE')
+){
+
+if(familyLine){
+
+speak(
+'家族のラインを開きます'
+);
+
+window.open(
+familyLine
+);
+
+}else{
+
+speak(
+'ラインが登録されていません'
+);
+
+}
+
+return;
+
+}
+
+if(
+q.includes('どこ')
+||
+q.includes('現在地')
+){
+
+if(gps){
+
+speak(
+'最後の位置情報を表示します'
+);
+
+window.open(
+gps.mapUrl
+);
+
+}else{
+
+speak(
+'位置情報がありません'
+);
+
+}
 
 return;
 
@@ -306,7 +449,26 @@ q.includes('病院')
 ){
 
 speak(
-'病院案内は今後連携予定です'
+'病院ページを開きます'
+);
+
+setTimeout(()=>{
+
+location.href =
+'hospital.html';
+
+},1000);
+
+return;
+
+}
+
+if(
+q.includes('ゴミ')
+){
+
+speak(
+'ゴミの日機能は作成中です'
 );
 
 return;
