@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>本人登録</title>
+<title>家族ページ</title>
 
 <style>
 
@@ -15,58 +15,58 @@ box-sizing:border-box;
 }
 
 body{
+margin:0;
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#1f2d3d;
 padding:18px;
 }
 
-.header{
+header{
 background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:26px;
+border-radius:28px;
 text-align:center;
-margin-bottom:18px;
-}
-
-.header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
+margin-bottom:18px;
 }
 
 .card{
 background:#fff;
-border-radius:30px;
-padding:24px;
-margin-bottom:18px;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.label{
-font-size:22px;
+.title{
+font-size:24px;
 font-weight:900;
-margin-bottom:8px;
+margin-bottom:12px;
 }
 
-.input{
-width:100%;
-padding:18px;
-font-size:22px;
-border:2px solid #cbd5e1;
+.status{
+background:#f8fafc;
 border-radius:18px;
-margin-bottom:16px;
+padding:16px;
+font-size:22px;
+line-height:1.8;
+font-weight:700;
 }
 
 .btn{
+display:block;
 width:100%;
-padding:24px;
-border:none;
-border-radius:24px;
-font-size:28px;
+padding:22px;
+border-radius:20px;
+text-decoration:none;
+text-align:center;
+font-size:24px;
 font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
 color:#fff;
+margin-top:12px;
 }
 
 .green{
@@ -77,18 +77,16 @@ background:#16a34a;
 background:#2563eb;
 }
 
-.gray{
-background:#475569;
+.orange{
+background:#ea580c;
 }
 
-.result{
-background:#f1f5f9;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-font-weight:900;
-text-align:center;
-line-height:1.8;
+.red{
+background:#dc2626;
+}
+
+.gray{
+background:#475569;
 }
 
 </style>
@@ -97,168 +95,189 @@ line-height:1.8;
 
 <body>
 
-<div class="header">
-<h1>👤 本人登録</h1>
-</div>
+<header>
+👪 家族ページ
+</header>
 
 <div class="card">
 
-<div class="label">
-お名前
+<div class="title">
+利用者状況
 </div>
-
-<input
-id="name"
-class="input"
-placeholder="山田太郎">
-
-<div class="label">
-住所
-</div>
-
-<input
-id="address"
-class="input"
-placeholder="志木市○○">
-
-<div class="label">
-電話番号
-</div>
-
-<input
-id="phone"
-class="input"
-placeholder="09000000000">
-
-<div class="label">
-緊急連絡先
-</div>
-
-<input
-id="family"
-class="input"
-placeholder="09000000000">
-
-<button
-class="btn green"
-onclick="saveUser()">
-登録する
-</button>
-
-</div>
-
-<div class="card">
 
 <div
-id="result"
-class="result">
+id="statusArea"
+class="status">
 
-未登録
+読込中...
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+今日の状況
+</div>
+
+<div
+id="scheduleArea"
+class="status">
+
+📅 予定未登録
+
+</div>
+
+<br>
+
+<div
+id="gpsArea"
+class="status">
+
+📍 位置情報未取得
+
+</div>
+
+<br>
+
+<div
+id="sosArea"
+class="status">
+
+🚨 SOSなし
 
 </div>
 
 </div>
 
-<button
-class="btn blue"
-onclick="goQR()">
-📱 QR発行
-</button>
+<div class="card">
 
-<button
-class="btn gray"
-onclick="location.href='index.html'">
+<a
+href="history.html"
+class="btn gray">
+📋 見守り履歴
+</a>
+
+<a
+href="check-history.html"
+class="btn green">
+😊 元気です履歴
+</a>
+
+<a
+href="medicine-history.html"
+class="btn blue">
+💊 服薬履歴
+</a>
+
+<a
+href="gps.html"
+class="btn red">
+📍 最終位置確認
+</a>
+
+<a
+href="schedule.html"
+class="btn orange">
+📅 今日の予定
+</a>
+
+</div>
+
+<a
+href="index.html"
+class="btn gray">
 🏠 トップへ戻る
-</button>
+</a>
 
 <script>
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 
-function saveUser(){
+const SHEET_NAME =
+'見守り記録';
 
-const user = {
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
 
-type:'register',
-
-name:
-document.getElementById('name').value,
-
-address:
-document.getElementById('address').value,
-
-phone:
-document.getElementById('phone').value,
-
-family:
-document.getElementById('family').value,
-
-time:
-new Date().toLocaleString('ja-JP')
-
-};
-
-document.getElementById('result').innerHTML =
-'登録中...';
-
-fetch(
-GAS_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify(user)
-}
-)
+fetch(url)
 .then(r=>r.text())
-.then(data=>{
+.then(text=>{
 
-localStorage.setItem(
-'userName',
-user.name
+const json =
+JSON.parse(
+text.substring(47,text.length-2)
 );
 
-localStorage.setItem(
-'userAddress',
-user.address
-);
+const rows =
+json.table.rows;
 
-localStorage.setItem(
-'userPhone',
-user.phone
-);
+if(rows.length===0)return;
 
-localStorage.setItem(
-'userFamily',
-user.family
-);
+const last =
+rows[rows.length-1];
 
-document.getElementById('result').innerHTML =
+const time =
+last.c[0] ? last.c[0].v : '';
 
-'登録完了<br><br>' +
+const name =
+last.c[1] ? last.c[1].v : '';
 
-user.name +
+const status =
+last.c[2] ? last.c[2].v : '';
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'👤 ' + name +
 '<br><br>' +
+status +
+'<br><br>' +
+'🕒 ' + time;
 
-user.address;
+if(
+status.includes('SOS') ||
+status.includes('緊急') ||
+status.includes('困')
+){
 
-})
-.catch(err=>{
+document.getElementById(
+'sosArea'
+).innerHTML =
+'🚨 ' + status;
 
-document.getElementById('result').innerHTML =
-'登録失敗';
+}
+
+if(
+status.includes('薬')
+){
+
+document.getElementById(
+'scheduleArea'
+).innerHTML =
+'💊 ' + status;
+
+}
+
+if(
+status.includes('現在地')
+){
+
+document.getElementById(
+'gpsArea'
+).innerHTML =
+'📍 最終位置送信済み';
+
+}
 
 });
-
-}
-
-function goQR(){
-
-location.href='qr.html';
-
-}
 
 </script>
 
