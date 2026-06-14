@@ -106,15 +106,20 @@ background:#475569;
 <div class="card">
 
 <img
+id="qr"
 class="qr"
-src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001">
+src="">
 
-<div class="name">
-利用者001
+<div
+id="userName"
+class="name">
+登録者名
 </div>
 
-<div class="url">
-https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001
+<div
+id="urlText"
+class="url">
+読み込み中...
 </div>
 
 <a href="app.html" class="btn blue">
@@ -142,6 +147,38 @@ https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001
 </a>
 
 </div>
+
+<script>
+
+window.onload=function(){
+
+const name=
+localStorage.getItem('userName') || '利用者001';
+
+const userId=
+localStorage.getItem('userId') || '001';
+
+const url=
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' +
+userId;
+
+document.getElementById(
+'userName'
+).innerHTML=name;
+
+document.getElementById(
+'urlText'
+).innerHTML=url;
+
+document.getElementById(
+'qr'
+).src=
+'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' +
+encodeURIComponent(url);
+
+}
+
+</script>
 
 </body>
 </html>
