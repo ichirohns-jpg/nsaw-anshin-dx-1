@@ -4,108 +4,126 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>あんしん生活ボタン</title>
+<title>あんしん生活DX</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#eef2f7;
+background:#0b111c;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
+color:#fff;
+padding:14px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
-color:#fff;
-padding:28px;
+background:
+linear-gradient(rgba(10,16,28,.65),rgba(10,16,28,.85)),
+url("top.jpg");
+background-size:cover;
+background-position:center;
 border-radius:28px;
-text-align:center;
+padding:34px 18px;
 margin-bottom:18px;
+box-shadow:0 14px 32px rgba(0,0,0,.45);
+border:1px solid rgba(255,255,255,.15);
 }
 
 .header h1{
 font-size:34px;
 font-weight:900;
+line-height:1.25;
+text-align:center;
+text-shadow:0 3px 8px rgba(0,0,0,.55);
 }
 
-.grid{
+.header p{
+margin-top:10px;
+font-size:17px;
+font-weight:800;
+text-align:center;
+color:#dbeafe;
+}
+
+.main{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-bottom:16px;
+grid-template-columns:1fr;
+gap:14px;
+margin-bottom:18px;
 }
 
-.btn{
+.big{
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
-text-decoration:none;
+gap:18px;
+min-height:106px;
+padding:22px;
+border-radius:28px;
 color:#fff;
-height:120px;
-border-radius:22px;
-font-size:40px;
+text-decoration:none;
+box-shadow:0 12px 30px rgba(0,0,0,.32);
+border:1px solid rgba(255,255,255,.14);
+}
+
+.icon{
+font-size:50px;
+width:64px;
+text-align:center;
+}
+
+.text{
+flex:1;
+}
+
+.title{
+font-size:30px;
 font-weight:900;
-box-shadow:0 8px 20px rgba(0,0,0,.10);
+line-height:1.2;
 }
 
-.btn div{
-font-size:20px;
-margin-top:6px;
+.sub{
+font-size:15px;
+font-weight:800;
+margin-top:5px;
+color:rgba(255,255,255,.86);
 }
 
-.green{
-background:#16a34a;
-}
-
-.red{
-background:#dc2626;
-}
-
-.orange{
-background:#ea580c;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.purple{
-background:#7c3aed;
-}
-
-.gray{
-background:#475569;
-}
+.green{background:linear-gradient(135deg,#047857,#22c55e);}
+.red{background:linear-gradient(135deg,#991b1b,#ef4444);}
+.orange{background:linear-gradient(135deg,#9a3412,#f97316);}
+.blue{background:linear-gradient(135deg,#1e3a8a,#3b82f6);}
+.purple{background:linear-gradient(135deg,#581c87,#a855f7);}
+.dark{background:linear-gradient(135deg,#111827,#334155);}
 
 .section{
-background:#fff;
-padding:20px;
-border-radius:24px;
+background:linear-gradient(135deg,#172033,#0f172a);
+border:1px solid rgba(255,255,255,.12);
+border-radius:26px;
+padding:18px;
 margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+box-shadow:0 10px 28px rgba(0,0,0,.28);
 }
 
 .sectionTitle{
 font-size:24px;
 font-weight:900;
-margin-bottom:12px;
+margin-bottom:10px;
+color:#fff;
 }
 
 .link{
 display:block;
-padding:16px;
+padding:17px 6px;
 text-decoration:none;
 font-size:22px;
 font-weight:900;
-color:#1f2937;
-border-bottom:1px solid #e5e7eb;
+color:#fff;
+border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 .link:last-child{
@@ -113,130 +131,108 @@ border-bottom:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-<h1>あんしん生活ボタン</h1>
+<h1>あんしん生活DX</h1>
+<p>高齢者向け・押すだけ操作盤</p>
 </div>
 
-<div class="grid">
+<div class="main">
 
-<a href="app.html" class="btn green">
-😊
-<div>元気です</div>
-</a>
-
-<a href="ai.html" class="btn purple">
-🎤
-<div>AIに聞く</div>
-</a>
-
-<a href="sos.html" class="btn red">
-🚨
-<div>緊急SOS</div>
-</a>
-
-<a href="trouble.html" class="btn orange">
-😟
-<div>困っています</div>
-</a>
-
-<a href="medicine.html" class="btn blue">
-💊
-<div>服薬確認</div>
-</a>
-
-<a href="medicine-request.html" class="btn purple">
-💊
-<div>薬がない</div>
-</a>
-
-<a href="gps.html" class="btn red">
-📍
-<div>現在地</div>
-</a>
-
-<a href="home.html" class="btn green">
-🏠
-<div>帰宅しました</div>
-</a>
-
-<a href="schedule.html" class="btn orange">
-📅
-<div>カレンダー</div>
-</a>
-
-<a href="consult.html" class="btn blue">
-☎
-<div>相談する</div>
-</a>
-
+<a href="app.html" class="big green">
+<div class="icon">😊</div>
+<div class="text">
+<div class="title">元気です</div>
+<div class="sub">今日の安否確認</div>
 </div>
+</a>
 
-<div class="section">
-
-<div class="sectionTitle">
-地域情報
+<a href="ai.html" class="big purple">
+<div class="icon">🎤</div>
+<div class="text">
+<div class="title">AIに聞く</div>
+<div class="sub">予定・薬・生活確認</div>
 </div>
-
-<a href="kawaraban.html" class="link">
-📰 4市瓦版
 </a>
 
-<a href="radio.html" class="link">
-📻 地域ラジオ
+<a href="sos.html" class="big red">
+<div class="icon">🚨</div>
+<div class="text">
+<div class="title">緊急SOS</div>
+<div class="sub">すぐ助けが必要</div>
+</div>
 </a>
 
-<a href="fun.html" class="link">
-🎬 お楽しみ動画
+<a href="trouble.html" class="big orange">
+<div class="icon">😟</div>
+<div class="text">
+<div class="title">困っています</div>
+<div class="sub">生活の困りごと</div>
+</div>
+</a>
+
+<a href="medicine.html" class="big blue">
+<div class="icon">💊</div>
+<div class="text">
+<div class="title">服薬確認</div>
+<div class="sub">飲んだらチェック</div>
+</div>
+</a>
+
+<a href="schedule.html" class="big orange">
+<div class="icon">📅</div>
+<div class="text">
+<div class="title">カレンダー</div>
+<div class="sub">今日・明日・今後の予定</div>
+</div>
+</a>
+
+<a href="gps.html" class="big red">
+<div class="icon">📍</div>
+<div class="text">
+<div class="title">現在地</div>
+<div class="sub">家族へ場所を送る</div>
+</div>
+</a>
+
+<a href="home.html" class="big green">
+<div class="icon">🏠</div>
+<div class="text">
+<div class="title">帰宅しました</div>
+<div class="sub">家に戻った連絡</div>
+</div>
 </a>
 
 </div>
 
 <div class="section">
+<div class="sectionTitle">地域情報</div>
 
-<div class="sectionTitle">
-生活支援
-</div>
-
-<a href="hospital.html" class="link">
-🏥 病院・薬局
-</a>
-
-<a href="garbage.html" class="link">
-🗑 ゴミの日
-</a>
-
-<a href="tel:" class="link">
-📞 家族へ電話
-</a>
-
-<a href="#" class="link">
-💬 家族へLINE
-</a>
+<a href="kawaraban.html" class="link">📰 4市瓦版</a>
+<a href="radio.html" class="link">📻 地域ラジオ</a>
+<a href="fun.html" class="link">🎬 お楽しみ動画</a>
 
 </div>
 
 <div class="section">
+<div class="sectionTitle">生活支援</div>
 
-<div class="sectionTitle">
-管理
+<a href="medicine-request.html" class="link">💊 薬がない</a>
+<a href="hospital.html" class="link">🏥 病院・薬局</a>
+<a href="garbage.html" class="link">🗑 ゴミの日</a>
+<a href="consult.html" class="link">☎ 相談する</a>
+
 </div>
 
-<a href="family.html" class="link">
-👪 支援者ページ
-</a>
+<div class="section">
+<div class="sectionTitle">家族・管理</div>
 
-<a href="qr.html" class="link">
-📱 QRコード
-</a>
-
-<a href="register.html" class="link">
-⚙️ 本人登録
-</a>
+<a href="family.html" class="link">👪 支援者ページ</a>
+<a href="qr.html" class="link">📱 QRコード</a>
+<a href="register.html" class="link">⚙️ 本人登録</a>
 
 </div>
 
