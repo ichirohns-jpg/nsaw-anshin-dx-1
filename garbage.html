@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ゴミの日</title>
+<title>今日と明日のゴミ</title>
 
 <style>
 
@@ -17,67 +17,53 @@ box-sizing:border-box;
 body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
+padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#15803d,#22c55e);
+background:linear-gradient(135deg,#16a34a,#15803d);
 color:#fff;
-padding:30px;
-border-radius:30px;
+padding:28px;
+border-radius:28px;
 text-align:center;
-margin-bottom:18px;
+margin-bottom:16px;
 }
 
 .header h1{
-font-size:36px;
+font-size:34px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-padding:24px;
 border-radius:24px;
-margin-bottom:18px;
+padding:20px;
+margin-bottom:16px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:24px;
+font-size:26px;
 font-weight:900;
 margin-bottom:12px;
 }
 
-.result{
+.data{
 font-size:24px;
-font-weight:900;
 line-height:1.8;
-text-align:center;
+font-weight:700;
 }
 
-.btn{
+.home{
 display:block;
-width:100%;
-padding:26px;
-border:none;
-border-radius:24px;
-font-size:28px;
-font-weight:900;
-cursor:pointer;
-margin-bottom:14px;
-color:#fff;
-}
-
-.green{
-background:#16a34a;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.gray{
 background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
 }
 
 </style>
@@ -87,271 +73,167 @@ background:#475569;
 <body>
 
 <div class="header">
-<h1>🗑 ゴミの日</h1>
+<h1>🗑 ゴミの日案内</h1>
 </div>
 
 <div class="card">
-
-<div class="title">
-登録住所
-</div>
-
-<div
-id="address"
-class="result">
-
-読込中
-
-</div>
-
-</div>
-
-<div class="card">
-
 <div class="title">
 今日のゴミ
 </div>
 
-<div
-id="todayGarbage"
-class="result">
-
-確認中
-
+<div id="todayGarbage" class="data">
+読込中...
 </div>
-
 </div>
 
 <div class="card">
-
 <div class="title">
 明日のゴミ
 </div>
 
-<div
-id="tomorrowGarbage"
-class="result">
-
-確認中
-
+<div id="tomorrowGarbage" class="data">
+読込中...
 </div>
-
 </div>
-
-<button
-class="btn green"
-onclick="speakGarbage()">
-
-🔊 ゴミの日を聞く
-
-</button>
-
-<button
-class="btn blue"
-onclick="askGarbage()">
-
-🎤 ゴミについて聞く
-
-</button>
 
 <a
 href="index.html"
-class="btn gray">
-
+class="home">
 🏠 トップへ戻る
-
 </a>
 
 <script>
 
-const address =
-localStorage.getItem(
-'userAddress'
-) || '';
+const SHEET_ID =
+'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 
-document.getElementById(
-'address'
-).innerHTML =
-address || '未登録';
+function getVal(cell){
 
-const garbageData = {
+if(!cell) return '';
 
-'月':'燃えるゴミ',
-'火':'資源ゴミ',
-'水':'燃えるゴミ',
-'木':'プラスチック',
-'金':'燃えないゴミ',
-'土':'なし',
-'日':'なし'
-
-};
-
-function getDayName(d){
-
-return ['日','月','火','水','木','金','土']
-[d.getDay()];
+return cell.f || cell.v || '';
 
 }
 
-const today =
-new Date();
+function loadGarbage(){
 
-const tomorrow =
-new Date();
+const url =
 
-tomorrow.setDate(
-tomorrow.getDate()+1
+'https://docs.google.com/spreadsheets/d/' +
+
+SHEET_ID +
+
+'/gviz/tq?sheet=ゴミ&tqx=out:json';
+
+const script =
+document.createElement(
+'script'
 );
 
-const todayName =
-getDayName(today);
+script.src =
+url +
+'&callback=handleGarbage';
 
-const tomorrowName =
-getDayName(tomorrow);
+document.body.appendChild(
+script);
+
+}
+
+function handleGarbage(json){
+
+const rows =
+json.table.rows;
+
+const areaCode =
+localStorage.getItem(
+'areaCode'
+) || '';
+
+const days =
+['日','月','火','水','木','金','土'];
+
+const today =
+days[new Date().getDay()];
+
+const tomorrow =
+days[(new Date().getDay()+1)%7];
+
+let todayText =
+'今日は収集ありません';
+
+let tomorrowText =
+'明日は収集ありません';
+
+for(let i=0;i<rows.length;i++){
+
+const row =
+rows[i];
+
+const city =
+getVal(row.c[0]);
+
+const area =
+getVal(row.c[1]);
+
+const week =
+getVal(row.c[2]);
+
+const garbage =
+getVal(row.c[3]);
+
+const memo =
+getVal(row.c[4]);
+
+if(
+area !== areaCode
+){
+continue;
+}
+
+if(
+week.indexOf(today) > -1
+){
+
+todayText =
+
+garbage +
+
+'<br><br>' +
+
+memo;
+
+}
+
+if(
+week.indexOf(tomorrow) > -1
+){
+
+tomorrowText =
+
+garbage +
+
+'<br><br>' +
+
+memo;
+
+}
+
+}
 
 document.getElementById(
 'todayGarbage'
 ).innerHTML =
-
-garbageData[todayName];
+todayText;
 
 document.getElementById(
 'tomorrowGarbage'
 ).innerHTML =
-
-garbageData[tomorrowName];
-
-function speak(text){
-
-speechSynthesis.cancel();
-
-speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-text
-)
-);
+tomorrowText;
 
 }
 
-function speakGarbage(){
-
-const text =
-
-'今日は ' +
-
-garbageData[todayName] +
-
-' です。' +
-
-'明日は ' +
-
-garbageData[tomorrowName] +
-
-' です。';
-
-speak(text);
-
-}
-
-function askGarbage(){
-
-if(
-!(
-'webkitSpeechRecognition'
-in window
-)
-){
-
-alert(
-'音声認識未対応'
-);
-
-return;
-
-}
-
-const rec =
-new webkitSpeechRecognition();
-
-rec.lang =
-'ja-JP';
-
-rec.start();
-
-rec.onresult =
-function(e){
-
-const q =
-e.results[0][0]
-.transcript;
-
-if(
-q.includes('今日')
-){
-
-speak(
-
-'今日は ' +
-
-garbageData[todayName] +
-
-' です'
-
-);
-
-return;
-
-}
-
-if(
-q.includes('明日')
-){
-
-speak(
-
-'明日は ' +
-
-garbageData[tomorrowName] +
-
-' です'
-
-);
-
-return;
-
-}
-
-if(
-q.includes('今週')
-){
-
-speak(
-
-'月曜日は燃えるゴミ。' +
-
-'火曜日は資源ゴミ。' +
-
-'水曜日は燃えるゴミ。' +
-
-'木曜日はプラスチック。' +
-
-'金曜日は燃えないゴミです。'
-
-);
-
-return;
-
-}
-
-speak(
-
-'今日または明日のゴミの日を聞いてください'
-
-);
-
-};
-
-}
+window.onload =
+loadGarbage;
 
 </script>
 
