@@ -88,6 +88,35 @@ font-size:20px;
 font-weight:900;
 }
 
+.sns{
+display:flex;
+gap:8px;
+margin-top:12px;
+}
+
+.sns a{
+flex:1;
+text-align:center;
+padding:12px;
+border-radius:12px;
+text-decoration:none;
+color:#fff;
+font-weight:900;
+font-size:16px;
+}
+
+.line{
+background:#06c755;
+}
+
+.x{
+background:#000;
+}
+
+.facebook{
+background:#1877f2;
+}
+
 .sectionTitle{
 font-size:28px;
 font-weight:900;
@@ -108,171 +137,119 @@ font-weight:900;
 margin-top:20px;
 }
 
-.debug{
-background:#111;
+.debug-panel {
+background:#222;
 color:#0f0;
 padding:15px;
 border-radius:12px;
-margin-top:30px;
+margin-top:40px;
 font-family:monospace;
-font-size:12px;
-white-space:pre-wrap;
-word-break:break-all;
+font-size:14px;
 }
-
+.debug-panel h3 {
+color:#fff;
+margin-bottom:10px;
+font-size:16px;
+}
+.debug-panel pre {
+white-space:pre-wrap;
+word-wrap:break-word;
+max-height:300px;
+overflow-y:auto;
+background:#111;
+padding:10px;
+border-radius:6px;
+}
 </style>
 
 <script>
-
-const SHEET_ID =
-'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-
-const SHEET_NAME =
-'4市瓦版';
+const SHEET_ID = '149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
+const SHEET_NAME = '4市瓦版';
 
 function getVal(cell){
-
-if(!cell) return '';
-
-return cell.f || cell.v || '';
-
+  if(!cell) return '';
+  return cell.f || cell.v || '';
 }
 
-window.handleSheet=function(json){
+function loadSheetData() {
+  const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(SHEET_NAME);
 
-const rows =
-json.table.rows || [];
+  fetch(url)
+    .then(res => res.text())
+    .then(text => {
+      const start = text.indexOf('{');
+      const end = text.lastIndexOf('}');
+      if (start === -1 || end === -1) {
+        document.getElementById('latest').innerHTML = 'JSONデータの解析に失敗しました。シートの共有設定（リンクを知っている全員が閲覧可能）を確認してください。';
+        return;
+      }
+      
+      const jsonText = text.substring(start, end + 1);
+      const json = JSON.parse(jsonText);
 
-document.getElementById(
-'debug'
-).textContent =
-JSON.stringify(
-rows,
-null,
-2
-);
+      if(!json || !json.table || !json.table.rows){
+        document.getElementById('latest').innerHTML = 'データ構造が不正です';
+        return;
+      }
 
-rows.reverse();
+      const rows = json.table.rows;
 
-let latest='';
-let archive='';
+      document.getElementById('debug-json').textContent = JSON.stringify(rows, null, 2);
 
-rows.forEach((row,index)=>{
+      rows.reverse();
 
-if(!row.c) return;
+      let latest = '';
+      let archive = '';
 
-const id =
-getVal(row.c[0]);
+      rows.forEach((row, index) => {
+        if (!row.c) return;
 
-const title =
-getVal(row.c[1]);
+        const id = getVal(row.c[0]);
+        const title = getVal(row.c[1]);
+        const desc = getVal(row.c[2]);
+        const image = getVal(row.c[3]);
+        const date = getVal(row.c[4]);
 
-const desc =
-getVal(row.c[2]);
+        if(!title) return;
 
-const image =
-getVal(row.c[3]);
+        const shareUrl = 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' + encodeURIComponent(id);
 
-const date =
-getVal(row.c[4]);
+        const html =
+          '<div class="card">' +
+          (image ? '<img class="thumb" src="' + image + '">' : '') +
+          '<div class="body">' +
+          '<div class="title">' + title + '</div>' +
+          '<div class="desc">' + desc + '</div>' +
+          '<div class="date">' + date + '</div>' +
+          '<a class="readBtn" href="app.html?id=' + encodeURIComponent(id) + '">続きを読む</a>' +
+          '<div class="sns">' +
+          '<a class="line" target="_blank" href="https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl) + '">LINE</a>' +
+          '<a class="x" target="_blank" href="https://twitter.com/intent/tweet?url=' + encodeURIComponent(shareUrl) + '&text=' + encodeURIComponent(title) + '">X</a>' +
+          '<a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '">FB</a>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
 
-if(!title) return;
+        if(index < 5){
+          latest += html;
+        }else{
+          archive += html;
+        }
+      });
 
-const html =
-
-'<div class="card">' +
-
-(image ?
-
-'<img class="thumb" src="' +
-image +
-'">' :
-
-''
-
-) +
-
-'<div class="body">' +
-
-'<div class="title">' +
-title +
-'</div>' +
-
-'<div class="desc">' +
-desc +
-'</div>' +
-
-'<div class="date">' +
-date +
-'</div>' +
-
-'<a class="readBtn" href="app.html?id=' +
-encodeURIComponent(id) +
-'">続きを読む</a>' +
-
-'</div>' +
-
-'</div>';
-
-if(index < 5){
-
-latest += html;
-
-}else{
-
-archive += html;
-
+      document.getElementById('latest').innerHTML = latest || '記事なし';
+      document.getElementById('archive').innerHTML = archive;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('latest').innerHTML = 'データ取得に失敗しました。ネットワーク接続またはスプレッドシートの公開状態を確認してください。';
+    });
 }
 
-});
-
-document.getElementById(
-'latest'
-).innerHTML =
-latest || '記事なし';
-
-document.getElementById(
-'archive'
-).innerHTML =
-archive;
-
+window.onload = function(){
+  loadSheetData();
 };
-
-function loadSheet(){
-
-const script =
-document.createElement(
-'script'
-);
-
-script.src =
-
-'https://docs.google.com/spreadsheets/d/' +
-
-SHEET_ID +
-
-'/gviz/tq?sheet=' +
-
-encodeURIComponent(
-SHEET_NAME
-) +
-
-'&tqx=responseHandler:handleSheet';
-
-document.body.appendChild(
-script
-);
-
-}
-
-window.onload=function(){
-
-loadSheet();
-
-};
-
 </script>
-
 </head>
 
 <body>
@@ -293,18 +270,13 @@ loadSheet();
 
 <div id="archive"></div>
 
-<button
-class="home"
-onclick="location.href='index.html'">
-
+<button class="home" onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
 🏠 トップへ戻る
-
 </button>
 
-<div class="debug" id="debug">
-
-rows表示待機中...
-
+<div class="debug-panel">
+  <h3>⚙️ デバッグ用 rows データ確認 (JSON.stringify)</h3>
+  <pre id="debug-json">データを読み込み中...</pre>
 </div>
 
 </div>
