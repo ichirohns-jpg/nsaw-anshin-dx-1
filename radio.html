@@ -15,112 +15,266 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef2f7;
+background:#101827;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:18px;
-color:#1f2d3d;
-}
-
-.header{
-background:linear-gradient(135deg,#111827,#334155);
 color:#fff;
-padding:30px;
-border-radius:30px;
-text-align:center;
-margin-bottom:18px;
 }
 
-.header h1{
-font-size:36px;
+header{
+background:linear-gradient(135deg,#111827,#334155);
+padding:24px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:999;
+}
+
+header h1{
+font-size:32px;
 font-weight:900;
 }
 
-.card{
-background:#fff;
-border-radius:30px;
-overflow:hidden;
-margin-bottom:18px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+.topInfo{
+padding:10px;
+font-size:14px;
+color:#cbd5e1;
 }
 
-.video{
+.wrap{
+max-width:900px;
+margin:auto;
+padding:14px;
+}
+
+.article{
+background:#1e293b;
+border-radius:24px;
+overflow:hidden;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
+.thumb{
 width:100%;
 aspect-ratio:16/9;
-border:none;
+object-fit:cover;
+background:#000;
 }
 
 .body{
-padding:20px;
+padding:18px;
 }
 
 .title{
-font-size:28px;
+font-size:24px;
 font-weight:900;
+line-height:1.5;
 margin-bottom:10px;
 }
 
 .desc{
-font-size:20px;
+font-size:18px;
 line-height:1.7;
-margin-bottom:10px;
+color:#e2e8f0;
+margin-bottom:12px;
 }
 
-.btn{
+.date{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:14px;
+}
+
+.readBtn{
 display:block;
-padding:18px;
-text-align:center;
 background:#dc2626;
 color:#fff;
 text-decoration:none;
-border-radius:18px;
+padding:16px;
+text-align:center;
+border-radius:16px;
+font-size:20px;
+font-weight:900;
+}
+
+.archiveTitle{
+font-size:28px;
+font-weight:900;
+margin:24px 0 12px;
+}
+
+.loading{
+text-align:center;
+padding:40px;
+font-size:24px;
+font-weight:900;
+}
+
+.home{
+display:block;
+margin:20px 0;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:18px;
+text-align:center;
+border-radius:20px;
 font-size:22px;
 font-weight:900;
 }
 
-.back{
-background:#475569;
-margin-top:18px;
+</style>
+
+<script>
+
+const SHEET_ID =
+'ここをラジオシートIDに変更';
+
+const SHEET_NAME =
+'ラジオ';
+
+const url =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json';
+
+function loadNews(){
+
+const script =
+document.createElement('script');
+
+script.src =
+url +
+'&callback=handleSheet';
+
+document.body.appendChild(script);
+
 }
 
-</style>
+function getVal(c){
+
+if(!c) return '';
+
+return c.f || c.v || '';
+
+}
+
+function handleSheet(json){
+
+const rows =
+json.table.rows;
+
+let latest='';
+let archive='';
+
+rows.reverse();
+
+rows.forEach((row,index)=>{
+
+const id =
+getVal(row.c[0]);
+
+const title =
+getVal(row.c[1]);
+
+const desc =
+getVal(row.c[2]);
+
+const image =
+getVal(row.c[3]);
+
+const date =
+getVal(row.c[4]);
+
+const html =
+
+'<div class="article">' +
+
+(image ?
+'<img class="thumb" src="' +
+image +
+'">' : '') +
+
+'<div class="body">' +
+
+'<div class="title">' +
+title +
+'</div>' +
+
+'<div class="desc">' +
+desc +
+'</div>' +
+
+'<div class="date">' +
+date +
+'</div>' +
+
+'<a class="readBtn" href="article.html?id=' +
+id +
+'">📻 聴く</a>' +
+
+'</div>' +
+
+'</div>';
+
+if(index < 5){
+
+latest += html;
+
+}else{
+
+archive += html;
+
+}
+
+});
+
+document.getElementById(
+'latest'
+).innerHTML =
+latest || '記事なし';
+
+document.getElementById(
+'archive'
+).innerHTML =
+archive;
+
+}
+
+window.onload = loadNews;
+
+</script>
 
 </head>
 
 <body>
 
-<div class="header">
+<header>
 <h1>📻 地域ラジオ</h1>
+<div class="topInfo">
+最新5件表示＋アーカイブ
+</div>
+</header>
+
+<div class="wrap">
+
+<div id="latest" class="loading">
+読込中...
 </div>
 
-<div class="card">
-
-<iframe
-class="video"
-src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-allowfullscreen>
-</iframe>
-
-<div class="body">
-
-<div class="title">
-今日の地域ラジオ
+<div class="archiveTitle">
+📚 アーカイブ
 </div>
 
-<div class="desc">
-志木市・新座市・朝霞市・和光市の最新情報を毎朝3分でお届けします。
-</div>
+<div id="archive"></div>
 
-<a href="#" class="btn">
-YouTubeで見る
-</a>
-
-</div>
-
-</div>
-
-<a href="index.html" class="btn back">
+<a href="index.html" class="home">
 🏠 トップへ戻る
 </a>
+
+</div>
 
 </body>
 </html>
