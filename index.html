@@ -12,23 +12,21 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
-color:#fff;
 }
 
 .header{
 background:linear-gradient(135deg,#111827,#334155);
-border-radius:32px;
-padding:30px 20px;
+color:#fff;
+padding:28px;
+border-radius:28px;
 text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
@@ -36,147 +34,184 @@ font-size:34px;
 font-weight:900;
 }
 
-.header p{
-margin-top:8px;
-font-size:16px;
-color:#cbd5e1;
-font-weight:700;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:16px;
 }
 
-.mainBtn{
+.btn{
 display:flex;
+flex-direction:column;
+justify-content:center;
 align-items:center;
-gap:18px;
-padding:28px;
-border-radius:28px;
 text-decoration:none;
 color:#fff;
-margin-bottom:14px;
-box-shadow:0 12px 24px rgba(0,0,0,.25);
-}
-
-.icon{
-font-size:54px;
-width:70px;
-text-align:center;
-}
-
-.text{
-flex:1;
-}
-
-.title{
-font-size:30px;
+height:120px;
+border-radius:22px;
+font-size:40px;
 font-weight:900;
+box-shadow:0 8px 20px rgba(0,0,0,.10);
 }
 
-.sub{
-font-size:15px;
-margin-top:4px;
-opacity:.9;
+.btn div{
+font-size:20px;
+margin-top:6px;
 }
 
-.green{
-background:linear-gradient(135deg,#16a34a,#22c55e);
-}
+.green{background:#16a34a;}
+.red{background:#dc2626;}
+.orange{background:#ea580c;}
+.blue{background:#2563eb;}
+.purple{background:#7c3aed;}
+.gray{background:#475569;}
 
-.blue{
-background:linear-gradient(135deg,#2563eb,#3b82f6);
-}
-
-.red{
-background:linear-gradient(135deg,#dc2626,#ef4444);
-}
-
-.orange{
-background:linear-gradient(135deg,#ea580c,#fb923c);
-}
-
-details{
-margin-top:18px;
-background:linear-gradient(135deg,#1e293b,#0f172a);
-border-radius:24px;
+.section{
+background:#fff;
 padding:20px;
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-summary{
+.sectionTitle{
 font-size:24px;
 font-weight:900;
-cursor:pointer;
+margin-bottom:12px;
 }
 
-.other{
+.link{
 display:block;
-padding:18px 0;
-border-bottom:1px solid rgba(255,255,255,.10);
+padding:16px;
 text-decoration:none;
-color:#fff;
 font-size:22px;
 font-weight:900;
-}
-
-.other:last-child{
-border-bottom:none;
+color:#1f2937;
+border-bottom:1px solid #e5e7eb;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
 <h1>あんしん生活ボタン</h1>
-<p>押すだけ・迷わない・かんたん操作</p>
 </div>
 
-<a href="app.html" class="mainBtn green">
-<div class="icon">😊</div>
-<div class="text">
-<div class="title">元気です</div>
-<div class="sub">今日も元気を送信</div>
-</div>
+<div class="grid">
+
+<a href="app.html" class="btn green">
+😊
+<div>元気です</div>
 </a>
 
-<a href="medicine.html" class="mainBtn blue">
-<div class="icon">💊</div>
-<div class="text">
-<div class="title">服薬</div>
-<div class="sub">朝・昼・夕方・寝る前</div>
-</div>
+<a href="sos.html" class="btn red">
+🚨
+<div>緊急SOS</div>
 </a>
 
-<a href="gps.html" class="mainBtn red">
-<div class="icon">📍</div>
-<div class="text">
-<div class="title">現在地</div>
-<div class="sub">位置情報を送信</div>
-</div>
+<a href="trouble.html" class="btn orange">
+😟
+<div>困っています</div>
 </a>
 
-<a href="sos.html" class="mainBtn orange">
-<div class="icon">🚨</div>
-<div class="text">
-<div class="title">困りごと・SOS</div>
-<div class="sub">支援者へ連絡</div>
-</div>
+<a href="medicine.html" class="btn blue">
+💊
+<div>服薬確認</div>
 </a>
 
-<details>
+<a href="medicine-request.html" class="btn purple">
+💊
+<div>薬がない</div>
+</a>
 
-<summary>その他のメニュー</summary>
+<a href="gps.html" class="btn red">
+📍
+<div>現在地</div>
+</a>
 
-<a href="schedule.html" class="other">📅 予定管理</a>
-<a href="family.html" class="other">👪 支援者ページ</a>
-<a href="history.html" class="other">📋 見守り履歴</a>
-<a href="register.html" class="other">👤 本人登録</a>
-<a href="qr.html" class="other">📱 QR発行</a>
-<a href="hospital.html" class="other">🏥 病院・薬局</a>
-<a href="garbage.html" class="other">🗑 ゴミの日</a>
-<a href="kawaraban.html" class="other">📰 4市瓦版</a>
-<a href="radio.html" class="other">📻 地域ラジオ</a>
-<a href="fun.html" class="other">🎬 お楽しみ動画</a>
+<a href="home.html" class="btn green">
+🏠
+<div>帰宅しました</div>
+</a>
 
-</details>
+<a href="schedule.html" class="btn orange">
+📅
+<div>今日の予定</div>
+</a>
+
+</div>
+
+<div class="section">
+
+<div class="sectionTitle">
+地域情報
+</div>
+
+<a href="kawaraban.html" class="link">
+📰 4市瓦版
+</a>
+
+<a href="radio.html" class="link">
+📻 地域ラジオ
+</a>
+
+<a href="fun.html" class="link">
+🎬 お楽しみ動画
+</a>
+
+</div>
+
+<div class="section">
+
+<div class="sectionTitle">
+生活支援
+</div>
+
+<a href="hospital.html" class="link">
+🏥 病院・薬局
+</a>
+
+<a href="garbage.html" class="link">
+🗑 ゴミの日
+</a>
+
+<a href="consult.html" class="link">
+☎ 相談する
+</a>
+
+<a href="tel-family.html" class="link">
+📞 家族へ電話
+</a>
+
+<a href="line-family.html" class="link">
+💬 家族へLINE
+</a>
+
+</div>
+
+<div class="section">
+
+<div class="sectionTitle">
+管理
+</div>
+
+<a href="family.html" class="link">
+👪 支援者ページ
+</a>
+
+<a href="qr.html" class="link">
+📱 QRコード
+</a>
+
+<a href="register.html" class="link">
+⚙️ 本人登録
+</a>
+
+</div>
 
 </body>
 </html>
