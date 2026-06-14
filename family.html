@@ -81,6 +81,40 @@ border-left:8px solid #06b6d4;
 border-left:8px solid #a855f7;
 }
 
+.home{
+border-left:8px solid #16a34a;
+}
+
+.consult{
+border-left:8px solid #0891b2;
+}
+
+.phoneBtn{
+display:block;
+background:#16a34a;
+color:#fff;
+text-decoration:none;
+padding:18px;
+border-radius:18px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.lineBtn{
+display:block;
+background:#06c755;
+color:#fff;
+text-decoration:none;
+padding:18px;
+border-radius:18px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin-bottom:12px;
+}
+
 .btn{
 display:block;
 width:100%;
@@ -114,10 +148,25 @@ margin-top:10px;
 <h1>👪 支援者ページ</h1>
 </div>
 
+<a
+id="phoneBtn"
+class="phoneBtn"
+href="#">
+📞 本人へ電話
+</a>
+
+<a
+id="lineBtn"
+class="lineBtn"
+href="#"
+target="_blank">
+💬 本人へLINE
+</a>
+
 <div class="card">
 
 <div class="title">
-🚨 SOS・困りごと
+🚨 SOS
 </div>
 
 <div id="sosArea" class="item sos">
@@ -129,7 +178,19 @@ margin-top:10px;
 <div class="card">
 
 <div class="title">
-😊 最終元気です
+😟 困っています
+</div>
+
+<div id="troubleArea" class="item trouble">
+記録なし
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+😊 元気です
 </div>
 
 <div id="genkiArea" class="item genki">
@@ -153,11 +214,47 @@ margin-top:10px;
 <div class="card">
 
 <div class="title">
+💊 薬がなくなる
+</div>
+
+<div id="medicineRequestArea" class="item medicine">
+記録なし
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+🏠 帰宅状況
+</div>
+
+<div id="homeArea" class="item home">
+記録なし
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
 📅 予定
 </div>
 
 <div id="scheduleArea" class="item schedule">
 予定なし
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+☎ 相談内容
+</div>
+
+<div id="consultArea" class="item consult">
+記録なし
 </div>
 
 </div>
@@ -180,6 +277,34 @@ margin-top:10px;
 
 <script>
 
+const phone =
+localStorage.getItem(
+'userPhone'
+);
+
+if(phone){
+
+document.getElementById(
+'phoneBtn'
+).href =
+'tel:' + phone;
+
+}
+
+const line =
+localStorage.getItem(
+'userLine'
+);
+
+if(line){
+
+document.getElementById(
+'lineBtn'
+).href =
+line;
+
+}
+
 const lastSOS =
 JSON.parse(
 localStorage.getItem(
@@ -193,35 +318,61 @@ document.getElementById(
 'sosArea'
 ).innerHTML =
 
-(lastSOS.mainType || '') +
-'<br><br>' +
-
 (lastSOS.type || '') +
+
 '<br><br>' +
 
 (lastSOS.memo || '') +
+
 '<br><br>' +
 
 (lastSOS.time || '');
 
 }
 
-const lastGenki =
+const trouble =
+JSON.parse(
+localStorage.getItem(
+'lastTrouble'
+) || 'null'
+);
+
+if(trouble){
+
+document.getElementById(
+'troubleArea'
+).innerHTML =
+
+trouble.type +
+
+'<br><br>' +
+
+(trouble.memo || '') +
+
+'<br><br>' +
+
+trouble.time;
+
+}
+
+const genki =
 JSON.parse(
 localStorage.getItem(
 'lastGenki'
 ) || 'null'
 );
 
-if(lastGenki){
+if(genki){
 
 document.getElementById(
 'genkiArea'
 ).innerHTML =
 
-'😊 元気です<br><br>' +
+'😊 元気です' +
 
-lastGenki.time;
+'<br><br>' +
+
+genki.time;
 
 }
 
@@ -234,58 +385,90 @@ localStorage.getItem(
 
 let med='';
 
-if(medicine.morning){
-med += '☑ 朝<br>';
-}
-
-if(medicine.noon){
-med += '☑ 昼<br>';
-}
-
-if(medicine.evening){
-med += '☑ 夕方<br>';
-}
-
-if(medicine.night){
-med += '☑ 寝る前<br>';
-}
+if(medicine.morning) med+='☑ 朝<br>';
+if(medicine.noon) med+='☑ 昼<br>';
+if(medicine.evening) med+='☑ 夕方<br>';
+if(medicine.night) med+='☑ 寝る前<br>';
 
 if(med){
+
 document.getElementById(
 'medicineArea'
-).innerHTML = med;
+).innerHTML =
+med;
+
 }
 
-const schedules =
+const request =
 JSON.parse(
 localStorage.getItem(
-'schedules'
-) || '[]'
+'medicineRequest'
+) || 'null'
 );
 
-if(schedules.length){
-
-let html='';
-
-schedules.slice(0,5).forEach(item=>{
-
-html +=
-item.date +
-' ' +
-(item.time || '') +
-
-'<br>' +
-
-item.title +
-
-'<br><br>';
-
-});
+if(request){
 
 document.getElementById(
-'scheduleArea'
+'medicineRequestArea'
 ).innerHTML =
-html;
+
+request.medicine +
+
+'<br><br>' +
+
+'残り ' +
+
+request.remain +
+
+'<br><br>' +
+
+request.time;
+
+}
+
+const home =
+JSON.parse(
+localStorage.getItem(
+'homeStatus'
+) || 'null'
+);
+
+if(home){
+
+document.getElementById(
+'homeArea'
+).innerHTML =
+
+home.status +
+
+'<br><br>' +
+
+home.time;
+
+}
+
+const consult =
+JSON.parse(
+localStorage.getItem(
+'consultData'
+) || 'null'
+);
+
+if(consult){
+
+document.getElementById(
+'consultArea'
+).innerHTML =
+
+consult.type +
+
+'<br><br>' +
+
+consult.memo +
+
+'<br><br>' +
+
+consult.time;
 
 }
 
@@ -307,9 +490,7 @@ gps.time +
 '<br><br>' +
 
 '<a class="mapBtn" href="' +
-
 gps.mapUrl +
-
 '" target="_blank">地図を見る</a>';
 
 }
