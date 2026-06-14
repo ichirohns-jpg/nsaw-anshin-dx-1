@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>あんしん生活DX</title>
+<title>あんしん生活ボタン</title>
 
 <style>
 
@@ -15,43 +15,45 @@ box-sizing:border-box;
 }
 
 body{
-background:#0f172a;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
-color:#fff;
+padding:18px;
+color:#1f2d3d;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#1e293b);
-border-radius:30px;
+background:linear-gradient(135deg,#111827,#334155);
+color:#fff;
 padding:30px;
+border-radius:30px;
 text-align:center;
-margin-bottom:18px;
+margin-bottom:20px;
 }
 
 .header h1{
-font-size:42px;
+font-size:38px;
 font-weight:900;
 }
 
-.header p{
-margin-top:10px;
-font-size:18px;
-opacity:.8;
-}
-
-.bigBtn{
-display:block;
-width:100%;
-padding:36px;
-border-radius:30px;
+.heroBtn{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 background:#16a34a;
 color:#fff;
 text-decoration:none;
-text-align:center;
-font-size:42px;
+border-radius:30px;
+padding:40px;
+font-size:60px;
 font-weight:900;
-margin-bottom:18px;
+margin-bottom:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.heroBtn div{
+font-size:34px;
+margin-top:10px;
 }
 
 .grid{
@@ -63,15 +65,21 @@ margin-bottom:18px;
 
 .menu{
 display:flex;
-align-items:center;
+flex-direction:column;
 justify-content:center;
-min-height:140px;
-border-radius:28px;
+align-items:center;
 text-decoration:none;
 color:#fff;
-font-size:30px;
+height:150px;
+border-radius:26px;
+font-size:48px;
 font-weight:900;
-text-align:center;
+box-shadow:0 8px 24px rgba(0,0,0,.10);
+}
+
+.menu div{
+font-size:24px;
+margin-top:8px;
 }
 
 .blue{
@@ -90,24 +98,41 @@ background:#ea580c;
 background:#475569;
 }
 
-.card{
-background:#1e293b;
-border-radius:24px;
-padding:20px;
-margin-top:18px;
-}
-
-.card a{
+.historyBtn{
 display:block;
+background:#475569;
 color:#fff;
 text-decoration:none;
-padding:12px 0;
-font-size:22px;
-border-bottom:1px solid rgba(255,255,255,.1);
+padding:24px;
+text-align:center;
+border-radius:24px;
+font-size:28px;
+font-weight:900;
+margin-bottom:18px;
 }
 
-.card a:last-child{
-border:none;
+details{
+background:#fff;
+padding:20px;
+border-radius:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+summary{
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+margin-bottom:10px;
+}
+
+.other{
+display:block;
+padding:18px;
+text-decoration:none;
+color:#1f2d3d;
+font-size:24px;
+font-weight:900;
+border-bottom:1px solid #e5e7eb;
 }
 
 </style>
@@ -117,82 +142,89 @@ border:none;
 <body>
 
 <div class="header">
-
-<h1>あんしん生活DX</h1>
-
-<p>
-押すだけ見守り
-</p>
-
+<h1>あんしん生活ボタン</h1>
 </div>
 
-<a href="app.html" class="bigBtn">
-😊 元気です
+<a href="app.html" class="heroBtn">
+😊
+<div>元気です</div>
 </a>
 
 <div class="grid">
 
 <a href="medicine.html" class="menu blue">
-💊<br>服薬
+💊
+<div>服薬</div>
 </a>
 
 <a href="gps.html" class="menu red">
-📍<br>現在地
+📍
+<div>現在地</div>
 </a>
 
 <a href="sos.html" class="menu red">
-🚨<br>SOS
+🚨
+<div>SOS</div>
 </a>
 
 <a href="family.html" class="menu orange">
-👪<br>家族
+👪
+<div>家族</div>
 </a>
 
 </div>
 
-<div class="grid">
-
-<a href="history.html" class="menu gray">
-📋<br>履歴
+<a href="history.html" class="historyBtn">
+📋 見守り履歴
 </a>
 
-<a href="schedule.html" class="menu blue">
-📅<br>予定
+<details>
+
+<summary>
+その他
+</summary>
+
+<a href="schedule.html" class="other">
+📅 今日の予定
 </a>
 
-</div>
-
-<div class="card">
-
-<a href="register.html">
-👤 本人登録
-</a>
-
-<a href="qr.html">
+<a href="qr.html" class="other">
 📱 QRコード
 </a>
 
-<a href="kawaraban.html">
+<a href="register.html" class="other">
+👤 本人登録
+</a>
+
+<a href="check-history.html" class="other">
+😊 元気履歴
+</a>
+
+<a href="medicine-history.html" class="other">
+💊 服薬履歴
+</a>
+
+<a href="kawaraban.html" class="other">
 📰 4市瓦版
 </a>
 
-<a href="radio.html">
+<a href="radio.html" class="other">
 📻 地域ラジオ
 </a>
 
-<a href="fun.html">
+<a href="fun.html" class="other">
 🎬 お楽しみ動画
 </a>
 
-<a href="hospital.html">
+<a href="hospital.html" class="other">
 🏥 病院・薬局
 </a>
 
-<a href="garbage.html">
+<a href="garbage.html" class="other">
 🗑 ゴミの日
 </a>
 
-</div>
+</details>
 
 </body>
 </html>
