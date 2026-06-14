@@ -12,138 +12,95 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#101827;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
-color:#fff;
+padding:18px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#15803d,#22c55e);
+color:#fff;
 padding:30px;
 border-radius:30px;
 text-align:center;
 margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
 
 .header h1{
-font-size:34px;
+font-size:36px;
 font-weight:900;
-}
-
-.header p{
-margin-top:8px;
-font-size:16px;
-color:#cbd5e1;
-font-weight:700;
 }
 
 .card{
-background:linear-gradient(135deg,#1e293b,#0f172a);
+background:#fff;
 padding:24px;
 border-radius:24px;
-margin-bottom:16px;
-box-shadow:0 10px 24px rgba(0,0,0,.30);
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:26px;
+font-size:24px;
 font-weight:900;
-margin-bottom:14px;
-}
-
-.item{
-background:rgba(255,255,255,.08);
-padding:18px;
-border-radius:18px;
 margin-bottom:12px;
-font-size:22px;
+}
+
+.result{
+font-size:24px;
 font-weight:900;
 line-height:1.8;
-}
-
-.next{
-background:#16a34a;
-}
-
-.notice{
-font-size:18px;
-line-height:1.8;
-color:#e2e8f0;
+text-align:center;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:24px;
+padding:26px;
+border:none;
 border-radius:24px;
-text-decoration:none;
-text-align:center;
-font-size:24px;
+font-size:28px;
 font-weight:900;
+cursor:pointer;
+margin-bottom:14px;
 color:#fff;
-background:linear-gradient(135deg,#475569,#334155);
-margin-top:16px;
+}
+
+.green{
+background:#16a34a;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.gray{
+background:#475569;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
 <h1>🗑 ゴミの日</h1>
-<p>登録住所から表示</p>
 </div>
 
 <div class="card">
 
 <div class="title">
-📍 登録地区
+登録住所
 </div>
 
-<div id="area" class="item">
-未登録
-</div>
+<div
+id="address"
+class="result">
 
-</div>
-
-<div class="card">
-
-<div class="title">
-🗑 次回収集
-</div>
-
-<div id="nextGarbage" class="item next">
-登録後に表示
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-📅 今週の予定
-</div>
-
-<div id="weekSchedule">
-
-<div class="item">
-可燃ごみ
-</div>
-
-<div class="item">
-資源ごみ
-</div>
-
-<div class="item">
-不燃ごみ
-</div>
+読込中
 
 </div>
 
@@ -152,46 +109,249 @@ margin-top:16px;
 <div class="card">
 
 <div class="title">
-ℹ️ お知らせ
+今日のゴミ
 </div>
 
-<div class="notice">
-住所登録後に地区ごとの収集日を表示します。
-今後は志木市・新座市・朝霞市・和光市の地区判定に対応します。
-</div>
+<div
+id="todayGarbage"
+class="result">
+
+確認中
 
 </div>
 
-<a href="index.html" class="btn">
+</div>
+
+<div class="card">
+
+<div class="title">
+明日のゴミ
+</div>
+
+<div
+id="tomorrowGarbage"
+class="result">
+
+確認中
+
+</div>
+
+</div>
+
+<button
+class="btn green"
+onclick="speakGarbage()">
+
+🔊 ゴミの日を聞く
+
+</button>
+
+<button
+class="btn blue"
+onclick="askGarbage()">
+
+🎤 ゴミについて聞く
+
+</button>
+
+<a
+href="index.html"
+class="btn gray">
+
 🏠 トップへ戻る
+
 </a>
 
 <script>
 
-const city =
-localStorage.getItem('userCity') || '';
-
-const area =
-localStorage.getItem('userArea') || '';
-
-const chome =
-localStorage.getItem('userChome') || '';
+const address =
+localStorage.getItem(
+'userAddress'
+) || '';
 
 document.getElementById(
-'area'
+'address'
 ).innerHTML =
+address || '未登録';
 
-(city || '-') +
-'<br>' +
-(area || '-') +
-'<br>' +
-(chome || '-');
+const garbageData = {
+
+'月':'燃えるゴミ',
+'火':'資源ゴミ',
+'水':'燃えるゴミ',
+'木':'プラスチック',
+'金':'燃えないゴミ',
+'土':'なし',
+'日':'なし'
+
+};
+
+function getDayName(d){
+
+return ['日','月','火','水','木','金','土']
+[d.getDay()];
+
+}
+
+const today =
+new Date();
+
+const tomorrow =
+new Date();
+
+tomorrow.setDate(
+tomorrow.getDate()+1
+);
+
+const todayName =
+getDayName(today);
+
+const tomorrowName =
+getDayName(tomorrow);
 
 document.getElementById(
-'nextGarbage'
+'todayGarbage'
 ).innerHTML =
 
-'住所登録後に地区別回収日を表示';
+garbageData[todayName];
+
+document.getElementById(
+'tomorrowGarbage'
+).innerHTML =
+
+garbageData[tomorrowName];
+
+function speak(text){
+
+speechSynthesis.cancel();
+
+speechSynthesis.speak(
+new SpeechSynthesisUtterance(
+text
+)
+);
+
+}
+
+function speakGarbage(){
+
+const text =
+
+'今日は ' +
+
+garbageData[todayName] +
+
+' です。' +
+
+'明日は ' +
+
+garbageData[tomorrowName] +
+
+' です。';
+
+speak(text);
+
+}
+
+function askGarbage(){
+
+if(
+!(
+'webkitSpeechRecognition'
+in window
+)
+){
+
+alert(
+'音声認識未対応'
+);
+
+return;
+
+}
+
+const rec =
+new webkitSpeechRecognition();
+
+rec.lang =
+'ja-JP';
+
+rec.start();
+
+rec.onresult =
+function(e){
+
+const q =
+e.results[0][0]
+.transcript;
+
+if(
+q.includes('今日')
+){
+
+speak(
+
+'今日は ' +
+
+garbageData[todayName] +
+
+' です'
+
+);
+
+return;
+
+}
+
+if(
+q.includes('明日')
+){
+
+speak(
+
+'明日は ' +
+
+garbageData[tomorrowName] +
+
+' です'
+
+);
+
+return;
+
+}
+
+if(
+q.includes('今週')
+){
+
+speak(
+
+'月曜日は燃えるゴミ。' +
+
+'火曜日は資源ゴミ。' +
+
+'水曜日は燃えるゴミ。' +
+
+'木曜日はプラスチック。' +
+
+'金曜日は燃えないゴミです。'
+
+);
+
+return;
+
+}
+
+speak(
+
+'今日または明日のゴミの日を聞いてください'
+
+);
+
+};
+
+}
 
 </script>
 
