@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QRコード管理</title>
+<title>ゴミの日</title>
 
 <style>
 
@@ -18,11 +18,10 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:18px;
-color:#1f2d3d;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#334155);
+background:linear-gradient(135deg,#475569,#334155);
 color:#fff;
 padding:30px;
 border-radius:30px;
@@ -30,78 +29,43 @@ text-align:center;
 margin-bottom:18px;
 }
 
-.title{
+.header h1{
 font-size:36px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-border-radius:30px;
 padding:24px;
+border-radius:24px;
 margin-bottom:18px;
-text-align:center;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.input{
-width:100%;
-padding:18px;
-font-size:22px;
-border:2px solid #cbd5e1;
-border-radius:18px;
-margin-bottom:14px;
-}
-
-.qr{
-width:280px;
-height:280px;
-margin:auto;
-display:block;
-}
-
-.name{
-font-size:28px;
+.day{
+font-size:24px;
 font-weight:900;
-margin-top:18px;
+margin-bottom:12px;
 }
 
-.url{
-font-size:16px;
-word-break:break-all;
-margin-top:12px;
-line-height:1.6;
+.type{
+font-size:30px;
+font-weight:900;
+color:#dc2626;
 }
 
 .btn{
 display:block;
 width:100%;
 padding:22px;
-border:none;
-border-radius:20px;
-margin-top:12px;
+background:#475569;
+color:#fff;
 text-decoration:none;
 text-align:center;
+border-radius:20px;
 font-size:24px;
 font-weight:900;
-color:#fff;
-cursor:pointer;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.green{
-background:#16a34a;
-}
-
-.gray{
-background:#475569;
-}
-
-.orange{
-background:#ea580c;
+margin-top:14px;
 }
 
 </style>
@@ -111,88 +75,31 @@ background:#ea580c;
 <body>
 
 <div class="header">
-
-<div class="title">
-📱 QRコード管理
-</div>
-
+<h1>🗑 ゴミの日</h1>
 </div>
 
 <div class="card">
 
-<input
-id="userId"
-class="input"
-placeholder="001">
-
-<button
-class="btn orange"
-onclick="createQR()">
-QR作成
-</button>
-
-</div>
-
-<div class="card">
-
-<img
-id="qr"
-class="qr"
-src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001">
-
-<div
-id="userName"
-class="name">
-利用者001
+<div class="day">
+今日の収集
 </div>
 
 <div
-id="urlText"
-class="url">
-https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=001
+id="garbageType"
+class="type">
+
+確認中...
+
 </div>
 
-<a href="app.html" class="btn blue">
-😊 本人ページ
-</a>
+</div>
 
-<a href="family.html" class="btn green">
-👪 家族ページ
-</a>
-
-<a href="history.html" class="btn gray">
-📋 見守り履歴
-</a>
-
-<a href="index.html" class="btn gray">
+<a href="index.html" class="btn">
 🏠 トップへ戻る
 </a>
 
-</div>
-
 <script>
 
-function createQR(){
-
-const id =
-document.getElementById('userId').value || '001';
-
-const url =
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/app.html?id=' + id;
-
-document.getElementById('qr').src =
-'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' +
-encodeURIComponent(url);
-
-document.getElementById('userName').innerHTML =
-'利用者' + id;
-
-document.getElementById('urlText').innerHTML =
-url;
-
-}
-
-</script>
-
-</body>
-</html>
+const week = [
+'日曜日',
+'月曜日
