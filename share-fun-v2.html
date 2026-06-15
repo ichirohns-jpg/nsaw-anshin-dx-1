@@ -205,48 +205,48 @@ document.body.appendChild(s);
 
 function handleSheet(json){
 
-const rows=
+const rows =
 json.table.rows || [];
 
 rows.reverse();
 
-const params=
+const params =
 new URLSearchParams(location.search);
 
-const targetId=
+const targetId =
 params.get("fun");
 
-let html="";
+let html = "";
 
 if(targetId){
 
-const row=
+const row =
 rows[Number(targetId)-1];
 
 if(row && row.c){
 
-const date=
+const date =
 getVal(row.c[0]);
 
-const title=
+const title =
 getVal(row.c[2]);
 
-const desc=
+const desc =
 getVal(row.c[4]);
 
-const video=
+const video =
 getVal(row.c[5]);
 
-const genre=
+const genre =
 getVal(row.c[7]);
 
-const memo=
+const memo =
 getVal(row.c[8]);
 
-const videoId=
+const videoId =
 getYoutubeId(video);
 
-html+=`
+html += `
 
 <div class="header">
 🎬 お楽しみ動画
@@ -264,10 +264,22 @@ class="homeBtn">
 
 <div class="player">
 
+${
+videoId
+?
+`
 <iframe
 src="https://www.youtube.com/embed/${videoId}"
 allowfullscreen>
 </iframe>
+`
+:
+`
+<div class="loading">
+動画がありません
+</div>
+`
+}
 
 </div>
 
@@ -299,20 +311,24 @@ ${memo}
 
 }
 
-document.body.innerHTML=
-'<div class="wrap">'+
-html+
+document.body.innerHTML =
+'<div class="wrap">' +
+html +
 '</div>';
 
 }
-
-loadSheet();
 
 </script>
 
 </head>
 
-<body>
+<body onload="loadSheet()">
+
+<div class="loading">
+
+読込中...
+
+</div>
 
 </body>
 
