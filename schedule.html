@@ -59,7 +59,7 @@ margin-bottom:14px;
 
 .textarea{
 width:100%;
-height:140px;
+height:120px;
 padding:20px;
 font-size:24px;
 border-radius:18px;
@@ -81,10 +81,6 @@ cursor:pointer;
 
 .orange{
 background:#ea580c;
-}
-
-.blue{
-background:#2563eb;
 }
 
 .scheduleBox{
@@ -109,6 +105,16 @@ font-weight:900;
 margin-top:20px;
 }
 
+.guide{
+background:#fff7ed;
+padding:18px;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+margin-bottom:18px;
+}
+
 </style>
 
 </head>
@@ -125,6 +131,15 @@ margin-top:20px;
 予定登録
 </div>
 
+<div class="guide">
+
+入力例<br>
+📅 6月25日<br>
+🏥 歯医者<br>
+📝 保険証持参
+
+</div>
+
 <input
 id="scheduleDate"
 type="date"
@@ -134,17 +149,19 @@ class="input">
 id="scheduleTitle"
 type="text"
 class="input"
-placeholder="病院・買い物・デイサービス">
+placeholder="歯医者・病院・買い物">
 
 <textarea
 id="scheduleMemo"
 class="textarea"
-placeholder="メモ"></textarea>
+placeholder="保険証持参・送迎あり"></textarea>
 
 <button
 class="btn orange"
 onclick="saveSchedule()">
+
 📅 予定を登録
+
 </button>
 
 </div>
@@ -174,7 +191,7 @@ document.getElementById(
 if(!date || !title){
 
 alert(
-'予定を入力してください'
+'予定日と予定内容を入力してください'
 );
 
 return;
@@ -186,40 +203,32 @@ localStorage.getItem(
 'userId'
 ) || '';
 
-const form =
-new FormData();
+const params =
 
-form.append(
-'action',
-'scheduleAdd'
-);
+'?action=scheduleAdd' +
 
-form.append(
-'id',
+'&id=' +
+encodeURIComponent(
 userId
-);
+) +
 
-form.append(
-'date',
+'&date=' +
+encodeURIComponent(
 date
-);
+) +
 
-form.append(
-'title',
+'&title=' +
+encodeURIComponent(
 title
-);
+) +
 
-form.append(
-'memo',
+'&memo=' +
+encodeURIComponent(
 memo
 );
 
 fetch(
-GAS_URL,
-{
-method:'POST',
-body:form
-}
+GAS_URL + params
 )
 
 .then(r=>r.text())
@@ -244,11 +253,15 @@ localStorage.getItem(
 ) || '';
 
 fetch(
+
 GAS_URL +
+
 '?action=scheduleList&id=' +
+
 encodeURIComponent(
 userId
 )
+
 )
 
 .then(r=>r.json())
@@ -262,7 +275,8 @@ if(
 !data.data.length
 ){
 
-html='予定はありません';
+html =
+'予定はありません';
 
 }else{
 
@@ -275,6 +289,8 @@ html +=
 (item.date || '') +
 
 '<br>' +
+
+'🏥 ' +
 
 (item.title || '') +
 
