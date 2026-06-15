@@ -131,21 +131,10 @@ type="date"
 class="input">
 
 <input
-id="scheduleTime"
-type="time"
-class="input">
-
-<input
 id="scheduleTitle"
 type="text"
 class="input"
-placeholder="歯医者・病院・買い物">
-
-<input
-id="schedulePlace"
-type="text"
-class="input"
-placeholder="場所">
+placeholder="病院・買い物・デイサービス">
 
 <textarea
 id="scheduleMemo"
@@ -160,46 +149,6 @@ onclick="saveSchedule()">
 
 </div>
 
-<div class="card">
-
-<div class="title">
-今日の予定
-</div>
-
-<div
-id="todaySchedule"
-class="scheduleBox">
-読込中...
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-明日の予定
-</div>
-
-<div
-id="tomorrowSchedule"
-class="scheduleBox">
-読込中...
-</div>
-
-</div>
-
-<button
-class="btn blue"
-onclick="speakSchedule()">
-🔊 読み上げ
-</button>
-
-<a
-href="index.html"
-class="home">
-🏠 トップへ戻る
-</a>
-
 <script>
 
 const GAS_URL =
@@ -208,67 +157,59 @@ const GAS_URL =
 function saveSchedule(){
 
 const date =
-document.getElementById('scheduleDate').value;
-
-const time =
-document.getElementById('scheduleTime').value;
+document.getElementById(
+'scheduleDate'
+).value;
 
 const title =
-document.getElementById('scheduleTitle').value;
-
-const place =
-document.getElementById('schedulePlace').value;
+document.getElementById(
+'scheduleTitle'
+).value;
 
 const memo =
-document.getElementById('scheduleMemo').value;
+document.getElementById(
+'scheduleMemo'
+).value;
 
-if(!date || !time || !title){
+if(!date || !title){
 
-alert('日付・時間・予定内容を入力してください');
+alert(
+'予定を入力してください'
+);
 
 return;
 
 }
 
-const params =
-new URLSearchParams();
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
 
-params.append(
+const form =
+new FormData();
+
+form.append(
 'action',
 'scheduleAdd'
 );
 
-params.append(
+form.append(
 'id',
-localStorage.getItem('userId') || ''
+userId
 );
 
-params.append(
-'name',
-localStorage.getItem('userName') || ''
-);
-
-params.append(
+form.append(
 'date',
 date
 );
 
-params.append(
-'time',
-time
-);
-
-params.append(
+form.append(
 'title',
 title
 );
 
-params.append(
-'place',
-place
-);
-
-params.append(
+form.append(
 'memo',
 memo
 );
@@ -277,40 +218,19 @@ fetch(
 GAS_URL,
 {
 method:'POST',
-body:params
+body:form
 }
 )
-.then(r=>r.json())
-.then(data=>{
 
-if(data.status==='OK'){
+.then(r=>r.text())
 
-alert('予定を登録しました');
+.then(()=>{
+
+alert(
+'予定を登録しました'
+);
 
 loadSchedules();
-
-document.getElementById(
-'scheduleTitle'
-).value='';
-
-document.getElementById(
-'schedulePlace'
-).value='';
-
-document.getElementById(
-'scheduleMemo'
-).value='';
-
-}else{
-
-alert('登録失敗');
-
-}
-
-})
-.catch(()=>{
-
-alert('通信エラー');
 
 });
 
@@ -318,64 +238,41 @@ alert('通信エラー');
 
 function loadSchedules(){
 
-const id =
-localStorage.getItem('userId') || '';
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
 
 fetch(
 GAS_URL +
 '?action=scheduleList&id=' +
-encodeURIComponent(id)
+encodeURIComponent(
+userId
+)
 )
 
 .then(r=>r.json())
 
-.then(res=>{
+.then(data=>{
+
+let html='';
 
 if(
-!res.data ||
-!res.data.length
+!data.data ||
+!data.data.length
 ){
 
-document.getElementById(
-'todaySchedule'
-).innerHTML =
-'予定はありません';
+html='予定はありません';
 
-document.getElementById(
-'tomorrowSchedule'
-).innerHTML =
-'予定はありません';
+}else{
 
-return;
+data.data.forEach(item=>{
 
-}
-
-const today =
-new Date()
-.toISOString()
-.split('T')[0];
-
-const tomorrowObj =
-new Date();
-
-tomorrowObj.setDate(
-tomorrowObj.getDate()+1
-);
-
-const tomorrow =
-tomorrowObj
-.toISOString()
-.split('T')[0];
-
-let todayHtml='';
-let tomorrowHtml='';
-
-res.data.forEach(item=>{
-
-const html =
+html +=
 
 '📅 ' +
-(item.time || '') +
+
+(item.date || '') +
 
 '<br>' +
 
@@ -383,62 +280,25 @@ const html =
 
 '<br>' +
 
-(item.place || '') +
+(item.memo || '') +
 
 '<br><br>';
 
-if(item.date===today){
-
-todayHtml += html;
-
-}
-
-if(item.date===tomorrow){
-
-tomorrowHtml += html;
-
-}
-
-});
-
-document.getElementById(
-'todaySchedule'
-).innerHTML =
-todayHtml || '予定はありません';
-
-document.getElementById(
-'tomorrowSchedule'
-).innerHTML =
-tomorrowHtml || '予定はありません';
-
 });
 
 }
 
-function speakSchedule(){
-
-const speech =
-new SpeechSynthesisUtterance(
-
-'今日の予定。' +
-
 document.getElementById(
 'todaySchedule'
-).innerText +
-
-'。明日の予定。' +
+).innerHTML =
+html;
 
 document.getElementById(
 'tomorrowSchedule'
-).innerText
+).innerHTML =
+html;
 
-);
-
-speech.lang='ja-JP';
-
-speechSynthesis.speak(
-speech
-);
+});
 
 }
 
@@ -446,6 +306,46 @@ window.onload =
 loadSchedules;
 
 </script>
+
+<div class="card">
+
+<div class="title">
+登録済み予定
+</div>
+
+<div
+id="todaySchedule"
+class="scheduleBox">
+
+読込中...
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+支援者も同じ予定を確認できます
+</div>
+
+<div
+id="tomorrowSchedule"
+class="scheduleBox">
+
+読込中...
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+
+🏠 トップへ戻る
+
+</a>
 
 </body>
 </html>
