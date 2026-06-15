@@ -120,22 +120,40 @@ function loadGarbage(){
 const url =
 
 'https://docs.google.com/spreadsheets/d/' +
-
 SHEET_ID +
-
 '/gviz/tq?sheet=ゴミ&tqx=out:json';
 
-const script =
-document.createElement(
-'script'
+fetch(url)
+
+.then(r=>r.text())
+
+.then(text=>{
+
+const json =
+JSON.parse(
+text.substring(
+47,
+text.length-2
+)
 );
 
-script.src =
-url +
-'&callback=handleGarbage';
+handleGarbage(json);
 
-document.body.appendChild(
-script);
+})
+
+.catch(()=>{
+
+document.getElementById(
+'todayGarbage'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'tomorrowGarbage'
+).innerHTML =
+'取得失敗';
+
+});
 
 }
 
@@ -185,7 +203,7 @@ const memo =
 getVal(row.c[4]);
 
 if(
-area !== areaCode
+areaCode.indexOf(area) === -1
 ){
 continue;
 }
