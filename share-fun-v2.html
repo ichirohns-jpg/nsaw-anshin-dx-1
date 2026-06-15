@@ -45,7 +45,6 @@ border-radius:28px;
 text-align:center;
 font-size:38px;
 font-weight:900;
-box-shadow:0 10px 30px rgba(0,0,0,.25);
 margin-bottom:20px;
 }
 
@@ -131,36 +130,6 @@ font-size:18px;
 line-height:1.7;
 }
 
-.share{
-display:flex;
-flex-direction:column;
-gap:14px;
-padding:0 22px 24px;
-}
-
-.shareBtn{
-width:100%;
-background:linear-gradient(
-180deg,
-#374151,
-#111827
-);
-color:#fff;
-border:none;
-border-radius:24px;
-padding:24px;
-font-size:24px;
-font-weight:900;
-text-align:left;
-cursor:pointer;
-}
-
-.shareBtn:after{
-content:" ＞";
-float:right;
-opacity:.8;
-}
-
 .loading{
 background:#fff;
 padding:30px;
@@ -174,10 +143,10 @@ font-weight:900;
 
 <script>
 
-const SHEET_ID=
+const SHEET_ID =
 "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-const SHEET_NAME=
+const SHEET_NAME =
 "お楽しみ動画";
 
 function getVal(c){
@@ -211,58 +180,6 @@ m=url.match(/shorts\/([^?&]+)/);
 if(m)return m[1];
 
 return "";
-
-}
-
-function makeShareUrl(id){
-
-return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-fun-v2.html?fun="
-+ encodeURIComponent(id);
-
-}
-
-function shareFacebook(url){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u="
-+
-encodeURIComponent(url),
-"_blank"
-);
-
-}
-
-function shareLine(url){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url="
-+
-encodeURIComponent(url),
-"_blank"
-);
-
-}
-
-function shareX(url,text){
-
-window.open(
-"https://twitter.com/intent/tweet?url="
-+
-encodeURIComponent(url)
-+
-"&text="
-+
-encodeURIComponent(text),
-"_blank"
-);
-
-}
-
-function copyUrl(url){
-
-navigator.clipboard.writeText(url);
-
-alert("URLをコピーしました");
 
 }
 
@@ -329,12 +246,6 @@ getVal(row.c[8]);
 const videoId=
 getYoutubeId(video);
 
-const shareUrl=
-makeShareUrl(targetId);
-
-const shareText=
-title || "お楽しみ動画";
-
 html+=`
 
 <div class="header">
@@ -380,26 +291,6 @@ ${desc}
 ${memo}
 </div>
 
-<div class="share">
-
-<button class="shareBtn" onclick="shareLine('${shareUrl}')">
-💬 LINEで送る
-</button>
-
-<button class="shareBtn" onclick="copyUrl('${shareUrl}')">
-📋 URLコピー
-</button>
-
-<button class="shareBtn" onclick="shareFacebook('${shareUrl}')">
-📘 Facebookへ投稿
-</button>
-
-<button class="shareBtn" onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
-✖ Xへ投稿
-</button>
-
-</div>
-
 </div>
 
 `;
@@ -419,5 +310,10 @@ loadSheet();
 
 </script>
 
+</head>
+
+<body>
+
 </body>
+
 </html>
