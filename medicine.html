@@ -51,7 +51,6 @@ font-size:28px;
 font-weight:900;
 color:#fff;
 margin-bottom:12px;
-cursor:pointer;
 }
 
 .morning{
@@ -102,25 +101,25 @@ font-weight:900;
 
 <button
 class="btn morning"
-onclick="saveMedicine('朝')">
+onclick="saveMedicine('朝の薬')">
 🌅 朝の薬
 </button>
 
 <button
 class="btn noon"
-onclick="saveMedicine('昼')">
+onclick="saveMedicine('昼の薬')">
 ☀️ 昼の薬
 </button>
 
 <button
 class="btn evening"
-onclick="saveMedicine('夕方')">
+onclick="saveMedicine('夕方の薬')">
 🌇 夕方の薬
 </button>
 
 <button
 class="btn night"
-onclick="saveMedicine('寝る前')">
+onclick="saveMedicine('寝る前の薬')">
 🌙 寝る前の薬
 </button>
 
@@ -151,38 +150,38 @@ class="home">
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-const USER_ID =
-localStorage.getItem('userId') || '';
-
-const USER_NAME =
-localStorage.getItem('userName') || '';
-
 function saveMedicine(type){
 
-const formData =
-new URLSearchParams();
+const now =
+new Date()
+.toLocaleString(
+'ja-JP'
+);
 
-formData.append(
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
+const form =
+new FormData();
+
+form.append(
 'action',
 'watch'
 );
 
-formData.append(
+form.append(
 'id',
-USER_ID
+userId
 );
 
-formData.append(
-'name',
-USER_NAME
-);
-
-formData.append(
+form.append(
 'status',
 '服薬'
 );
 
-formData.append(
+form.append(
 'memo',
 type
 );
@@ -191,111 +190,64 @@ fetch(
 GAS_URL,
 {
 method:'POST',
-headers:{
-'Content-Type':
-'application/x-www-form-urlencoded'
-},
-body:formData.toString()
+body:form
 }
 )
-.then(r=>r.json())
-.then(res=>{
 
-const data =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
+.then(r=>r.text())
 
-if(type==='朝'){
-data.morning=true;
-}
-
-if(type==='昼'){
-data.noon=true;
-}
-
-if(type==='夕方'){
-data.evening=true;
-}
-
-if(type==='寝る前'){
-data.night=true;
-}
-
-data.time =
-new Date()
-.toLocaleString(
-'ja-JP'
-);
+.then(()=>{
 
 localStorage.setItem(
-'medicineStatus',
-JSON.stringify(data)
-);
-
-showStatus();
-
-alert(
-type +
-'の薬を記録しました'
-);
-
+'lastMedicine',
+JSON.stringify({
+type:type,
+time:now
 })
-.catch(()=>{
+);
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'☑ ' +
+
+type +
+
+'<br><br>' +
+
+now;
 
 alert(
-'通信エラー'
+'服薬を記録しました'
 );
 
 });
 
 }
 
-function showStatus(){
-
-const data =
+const last =
 JSON.parse(
 localStorage.getItem(
-'medicineStatus'
-) || '{}'
+'lastMedicine'
+) || 'null'
 );
 
-let html='';
-
-html += data.morning ?
-'☑ 朝の薬<br>' :
-'☐ 朝の薬<br>';
-
-html += data.noon ?
-'☑ 昼の薬<br>' :
-'☐ 昼の薬<br>';
-
-html += data.evening ?
-'☑ 夕方の薬<br>' :
-'☐ 夕方の薬<br>';
-
-html += data.night ?
-'☑ 寝る前の薬<br>' :
-'☐ 寝る前の薬<br>';
-
-if(data.time){
-
-html +=
-'<br>最終記録<br>' +
-data.time;
-
-}
+if(last){
 
 document.getElementById(
 'statusArea'
 ).innerHTML =
-html;
+
+'☑ ' +
+
+last.type +
+
+'<br><br>' +
+
+last.time;
 
 }
-
-showStatus();
 
 </script>
 
