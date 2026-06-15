@@ -23,59 +23,90 @@ padding:16px;
 .header{
 background:linear-gradient(135deg,#f59e0b,#d97706);
 color:#fff;
-padding:28px;
-border-radius:28px;
+padding:30px;
+border-radius:32px;
 text-align:center;
-margin-bottom:16px;
+margin-bottom:20px;
 }
 
 .header h1{
-font-size:34px;
+font-size:42px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
+border-radius:28px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .title{
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.data{
-font-size:22px;
-line-height:1.8;
-font-weight:700;
-}
-
-.speakBtn{
-width:100%;
-border:none;
-background:#2563eb;
-color:#fff;
-padding:18px;
-border-radius:18px;
-font-size:22px;
+font-size:32px;
 font-weight:900;
 margin-bottom:16px;
+}
+
+.input{
+width:100%;
+padding:20px;
+font-size:24px;
+border-radius:18px;
+border:2px solid #d1d5db;
+margin-bottom:14px;
+}
+
+.textarea{
+width:100%;
+height:140px;
+padding:20px;
+font-size:24px;
+border-radius:18px;
+border:2px solid #d1d5db;
+margin-bottom:14px;
+resize:none;
+}
+
+.btn{
+width:100%;
+padding:24px;
+border:none;
+border-radius:22px;
+font-size:28px;
+font-weight:900;
+color:#fff;
+cursor:pointer;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.blue{
+background:#2563eb;
+}
+
+.scheduleBox{
+background:#f8fafc;
+border-radius:22px;
+padding:20px;
+margin-top:12px;
+font-size:24px;
+line-height:1.8;
 }
 
 .home{
 display:block;
+text-align:center;
 background:#475569;
 color:#fff;
 text-decoration:none;
-padding:20px;
-border-radius:20px;
-text-align:center;
-font-size:22px;
+padding:22px;
+border-radius:24px;
+font-size:26px;
 font-weight:900;
+margin-top:20px;
 }
 
 </style>
@@ -88,11 +119,35 @@ font-weight:900;
 <h1>📅 予定案内</h1>
 </div>
 
+<div class="card">
+
+<div class="title">
+予定登録
+</div>
+
+<input
+id="scheduleDate"
+type="date"
+class="input">
+
+<input
+id="scheduleTitle"
+type="text"
+class="input"
+placeholder="病院・買い物・デイサービス">
+
+<textarea
+id="scheduleMemo"
+class="textarea"
+placeholder="メモ"></textarea>
+
 <button
-class="speakBtn"
-onclick="readSchedule()">
-🔊 読み上げ
+class="btn orange"
+onclick="saveSchedule()">
+📅 予定を登録
 </button>
+
+</div>
 
 <div class="card">
 
@@ -100,8 +155,10 @@ onclick="readSchedule()">
 今日の予定
 </div>
 
-<div id="todayArea" class="data">
-読込中...
+<div
+id="todaySchedule"
+class="scheduleBox">
+予定はありません
 </div>
 
 </div>
@@ -112,11 +169,19 @@ onclick="readSchedule()">
 明日の予定
 </div>
 
-<div id="tomorrowArea" class="data">
-読込中...
+<div
+id="tomorrowSchedule"
+class="scheduleBox">
+予定はありません
 </div>
 
 </div>
+
+<button
+class="btn blue"
+onclick="speakSchedule()">
+🔊 読み上げ
+</button>
 
 <a
 href="index.html"
@@ -126,113 +191,147 @@ class="home">
 
 <script>
 
-const schedules =
-JSON.parse(
-localStorage.getItem(
-'schedules'
-) || '[]'
-);
+function saveSchedule(){
 
-const today =
-new Date();
+const date=
+document.getElementById('scheduleDate').value;
 
-const todayStr =
-today.toISOString().split('T')[0];
+const title=
+document.getElementById('scheduleTitle').value;
 
-const tomorrow =
-new Date();
+const memo=
+document.getElementById('scheduleMemo').value;
 
-tomorrow.setDate(
-today.getDate()+1
-);
+if(!date || !title){
 
-const tomorrowStr =
-tomorrow.toISOString().split('T')[0];
+alert('予定を入力してください');
 
-let todayHtml='';
-let tomorrowHtml='';
-
-schedules.forEach(item=>{
-
-if(item.date===todayStr){
-
-todayHtml +=
-
-(item.time||'') +
-
-' ' +
-
-(item.title||'') +
-
-'<br>';
+return;
 
 }
 
-if(item.date===tomorrowStr){
+const data={
+date:date,
+title:title,
+memo:memo,
+time:new Date().toLocaleString('ja-JP')
+};
 
-tomorrowHtml +=
+localStorage.setItem(
+'nsawSchedule',
+JSON.stringify(data)
+);
 
-(item.time||'') +
+loadSchedule();
 
-' ' +
-
-(item.title||'') +
-
-'<br>';
+alert('登録しました');
 
 }
 
-});
+function loadSchedule(){
 
-if(!todayHtml){
+const raw=
+localStorage.getItem('nsawSchedule');
 
-todayHtml =
+if(!raw)return;
+
+const data=
+JSON.parse(raw);
+
+const today=
+new Date().toISOString().split('T')[0];
+
+const tomorrowDate=
+new Date();
+
+tomorrowDate.setDate(
+tomorrowDate.getDate()+1
+);
+
+const tomorrow=
+tomorrowDate
+.toISOString()
+.split('T')[0];
+
+if(data.date===today){
+
+document.getElementById(
+'todaySchedule'
+).innerHTML=
+
+'📅 ' +
+data.title +
+
+'<br><br>' +
+
+(data.memo || 'メモなし');
+
+}else{
+
+document.getElementById(
+'todaySchedule'
+).innerHTML=
 '予定はありません';
 
 }
 
-if(!tomorrowHtml){
+if(data.date===tomorrow){
 
-tomorrowHtml =
+document.getElementById(
+'tomorrowSchedule'
+).innerHTML=
+
+'📅 ' +
+data.title +
+
+'<br><br>' +
+
+(data.memo || 'メモなし');
+
+}else{
+
+document.getElementById(
+'tomorrowSchedule'
+).innerHTML=
 '予定はありません';
 
 }
 
+}
+
+function speakSchedule(){
+
+const todayText=
 document.getElementById(
-'todayArea'
-).innerHTML =
-todayHtml;
-
-document.getElementById(
-'tomorrowArea'
-).innerHTML =
-tomorrowHtml;
-
-function readSchedule(){
-
-const text =
-
-'今日の予定は ' +
-
-document.getElementById(
-'todayArea'
-).innerText +
-
-'。明日の予定は ' +
-
-document.getElementById(
-'tomorrowArea'
+'todaySchedule'
 ).innerText;
 
-speechSynthesis.cancel();
+const tomorrowText=
+document.getElementById(
+'tomorrowSchedule'
+).innerText;
+
+const speech=
+new SpeechSynthesisUtterance(
+
+'今日の予定。' +
+todayText +
+
+'。明日の予定。' +
+tomorrowText
+
+);
+
+speech.lang='ja-JP';
 
 speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-text
-)
+speech
 );
 
 }
+
+window.onload=
+loadSchedule;
 
 </script>
 
