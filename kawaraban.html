@@ -204,9 +204,7 @@ font-size:22px;
 padding:22px;
 }
 }
-
 </style>
-
 </head>
 
 <body>
@@ -276,7 +274,157 @@ return url;
 
 }
 
-card.innerHTML =
+function makeShareUrl(id){
+
+return 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban='
++ encodeURIComponent(id);
+
+}
+
+function shareFacebook(url){
+
+window.open(
+'https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareLine(url){
+
+window.open(
+'https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareX(url,text){
+
+window.open(
+'https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(url) +
+'&text=' +
+encodeURIComponent(text),
+'_blank'
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert('コピーしました');
+
+}
+
+function loadSheet(){
+
+const script=
+document.createElement('script');
+
+script.src=
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json;responseHandler:handleSheet';
+
+document.body.appendChild(script);
+
+}
+
+window.handleSheet=function(json){
+
+const container=
+document.getElementById('news-container');
+
+if(
+!json ||
+!json.table ||
+!json.table.rows
+){
+
+container.innerHTML=
+'<div class="error">データ取得失敗</div>';
+
+return;
+
+}
+
+const rows=
+json.table.rows.slice().reverse();
+
+container.innerHTML='';
+
+rows.forEach(function(row,index){
+
+if(!row.c)return;
+
+const date=
+getVal(row.c[0]);
+
+const image=
+makeImageUrl(getVal(row.c[1]));
+
+const title=
+getVal(row.c[2]);
+
+const content=
+getVal(row.c[3]);
+
+const articleUrl=
+getVal(row.c[4]);
+
+if(
+!title &&
+!content &&
+!image
+){
+return;
+}
+
+const shareUrl=
+makeShareUrl(index+1);
+
+let bodyHtml='';
+
+if(
+content &&
+String(content).trim()!==''
+){
+
+bodyHtml=
+'<div class="card-text">' +
+esc(content) +
+'</div>';
+
+}else if(
+articleUrl &&
+String(articleUrl).trim()!==''
+){
+
+bodyHtml=
+'<a class="btn-link" target="_blank" href="' +
+esc(articleUrl) +
+'">📄 元記事を読む</a>';
+
+}else{
+
+bodyHtml=
+'<div class="card-text">記事準備中</div>';
+
+}
+
+const card=
+document.createElement('div');
+
+card.className='card';
+
+card.innerHTML=
 
 (image ?
 
@@ -332,17 +480,16 @@ container.appendChild(card);
 
 if(container.children.length===0){
 
-container.innerHTML =
+container.innerHTML=
 '<div class="error">記事がありません</div>';
 
 }
 
 };
 
-window.onload = loadSheet;
+window.onload=loadSheet;
 
 </script>
 
 </body>
-
 </html>
