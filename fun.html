@@ -43,7 +43,7 @@ padding:15px;
 background:#fff;
 border-radius:24px;
 overflow:hidden;
-margin-bottom:18px;
+margin-bottom:22px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
@@ -66,53 +66,53 @@ padding:18px;
 }
 
 .date{
-font-size:14px;
+font-size:18px;
 color:#94a3b8;
 margin-bottom:12px;
-font-weight:700;
+font-weight:900;
 }
 
 .genre{
 display:inline-block;
 background:#dcfce7;
 color:#16a34a;
-padding:6px 12px;
+padding:8px 14px;
 border-radius:999px;
-font-size:14px;
+font-size:18px;
 font-weight:900;
-margin-bottom:12px;
+margin-bottom:14px;
 }
 
 .title{
-font-size:24px;
+font-size:30px;
 font-weight:900;
 line-height:1.5;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
 .desc{
-font-size:18px;
+font-size:24px;
 line-height:1.8;
 color:#475569;
-margin-bottom:14px;
+margin-bottom:16px;
 white-space:pre-wrap;
 }
 
 .memo{
-font-size:15px;
+font-size:18px;
 line-height:1.7;
 color:#64748b;
 background:#f8fafc;
-padding:12px;
+padding:14px;
 border-radius:14px;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 .share{
 display:flex;
 flex-direction:column;
 gap:14px;
-margin-top:14px;
+margin-top:16px;
 }
 
 .shareBtn{
@@ -130,6 +130,9 @@ font-size:24px;
 font-weight:900;
 text-align:left;
 cursor:pointer;
+box-shadow:
+0 8px 20px rgba(0,0,0,.25),
+inset 0 1px 0 rgba(255,255,255,.15);
 }
 
 .shareBtn:after{
@@ -139,9 +142,11 @@ opacity:.8;
 }
 
 .sectionTitle{
-font-size:28px;
+font-size:34px;
 font-weight:900;
-margin:24px 0 14px;
+margin:36px 0 18px;
+padding-top:28px;
+border-top:4px solid #dbe3eb;
 }
 
 .home{
@@ -149,12 +154,21 @@ display:block;
 background:#475569;
 color:#fff;
 text-decoration:none;
-padding:18px;
+padding:22px;
 text-align:center;
-border-radius:18px;
-font-size:22px;
+border-radius:22px;
+font-size:24px;
 font-weight:900;
-margin-top:20px;
+margin-top:24px;
+}
+
+.loading{
+background:#fff;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
+font-weight:900;
 }
 
 </style>
@@ -169,7 +183,9 @@ const SHEET_NAME =
 
 function getVal(c){
 
-if(!c) return '';
+if(!c){
+return '';
+}
 
 return c.f || c.v || '';
 
@@ -177,40 +193,78 @@ return c.f || c.v || '';
 
 function getYoutubeId(url){
 
-if(!url)return '';
+if(!url){
+return '';
+}
 
 url=String(url);
 
 let m=url.match(/youtu\.be\/([^?&]+)/);
-if(m)return m[1];
+if(m){
+return m[1];
+}
 
 m=url.match(/[?&]v=([^&]+)/);
-if(m)return m[1];
+if(m){
+return m[1];
+}
 
 m=url.match(/embed\/([^?&]+)/);
-if(m)return m[1];
+if(m){
+return m[1];
+}
 
 m=url.match(/shorts\/([^?&]+)/);
-if(m)return m[1];
+if(m){
+return m[1];
+}
 
 return '';
 
 }
 
-function makeImageUrl(url){
+function shareFacebook(url){
 
-url=String(url||'').trim();
-
-if(url.includes('/file/d/')){
-
-const id=
-url.split('/file/d/')[1].split('/')[0];
-
-return 'https://docs.google.com/uc?export=view&id='+id;
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u="
++
+encodeURIComponent(url),
+"_blank"
+);
 
 }
 
-return url;
+function shareLine(url){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url="
++
+encodeURIComponent(url),
+"_blank"
+);
+
+}
+
+function shareX(url,text){
+
+window.open(
+"https://twitter.com/intent/tweet?url="
++
+encodeURIComponent(url)
++
+"&text="
++
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert("URLをコピーしました");
 
 }
 
@@ -234,64 +288,21 @@ document.body.appendChild(s);
 
 }
 
-function shareLine(url){
-
-window.open(
-'https://social-plugins.line.me/lineit/share?url='
-+
-encodeURIComponent(url),
-'_blank'
-);
-
-}
-
-function shareFacebook(url){
-
-window.open(
-'https://www.facebook.com/sharer/sharer.php?u='
-+
-encodeURIComponent(url),
-'_blank'
-);
-
-}
-
-function shareX(url,text){
-
-window.open(
-'https://twitter.com/intent/tweet?url='
-+
-encodeURIComponent(url)
-+
-'&text='
-+
-encodeURIComponent(text),
-'_blank'
-);
-
-}
-
-function copyUrl(url){
-
-navigator.clipboard.writeText(url);
-
-alert('URLをコピーしました');
-
-}
-
 function handleSheet(json){
 
 const rows=
-json.table.rows;
+json.table.rows || [];
 
 rows.reverse();
 
 let latest='';
 let archive='';
 
-rows.forEach((row,index)=>{
+rows.forEach(function(row,index){
 
-if(!row.c)return;
+if(!row.c){
+return;
+}
 
 const date=
 getVal(row.c[0]);
@@ -300,9 +311,7 @@ const title=
 getVal(row.c[2]);
 
 const image=
-makeImageUrl(
-getVal(row.c[3])
-);
+getVal(row.c[3]);
 
 const desc=
 getVal(row.c[4]);
@@ -322,6 +331,9 @@ getYoutubeId(video);
 const shareUrl=
 location.href;
 
+const shareText=
+title || "お楽しみ動画";
+
 const html=
 
 '<div class="card">' +
@@ -329,58 +341,118 @@ const html=
 (videoId ?
 
 '<div class="player">' +
-
-'<iframe src="https://www.youtube.com/embed/'
-+
+'<iframe src="https://www.youtube.com/embed/' +
 videoId +
 '" allowfullscreen></iframe>' +
-
 '</div>'
 
-:
-
-(image ?
-
-'<img class="thumb" src="'
-+
-image +
-'" loading="lazy">'
-
-: '')
-
-) +
+: '') +
 
 '<div class="body">' +
 
-'<div class="date">'
-+
+'<div class="date">' +
 date +
 '</div>' +
 
 (genre ?
 
-'<div class="genre">'
-+
+'<div class="genre">' +
 genre +
 '</div>'
 
 : '') +
 
-'<div class="title">'
-+
+'<div class="title">' +
 title +
 '</div>' +
 
-'<div class="desc">'
-+
+'<div class="desc">' +
 desc +
 '</div>' +
 
 (memo ?
 
-'<div class="memo">'
-+
+'<div class="memo">' +
 memo +
 '</div>'
 
-: '')
+: '') +
+
+'<div class="share">' +
+
+'<button class="shareBtn" onclick="shareLine(\'' +
+shareUrl +
+'\')">💬 LINEで送る</button>' +
+
+'<button class="shareBtn" onclick="copyUrl(\'' +
+shareUrl +
+'\')">📋 URLコピー</button>' +
+
+'<button class="shareBtn" onclick="shareFacebook(\'' +
+shareUrl +
+'\')">📘 Facebookへ投稿</button>' +
+
+'<button class="shareBtn" onclick="shareX(\'' +
+shareUrl +
+'\',\'' +
+shareText.replace(/'/g,"\\'") +
+'\')">✖ Xへ投稿</button>' +
+
+'</div>' +
+
+'</div>' +
+
+'</div>';
+
+if(index===0){
+
+latest += html;
+
+}else{
+
+archive += html;
+
+}
+
+});
+
+document.getElementById('latest-area').innerHTML =
+latest || '動画がありません';
+
+document.getElementById('archive-area').innerHTML =
+archive;
+
+}
+
+</script>
+
+</head>
+
+<body onload="loadSheet()">
+
+<header>
+🎬 お楽しみ動画
+</header>
+
+<div class="wrap">
+
+<div id="latest-area">
+読込中...
+</div>
+
+<div class="sectionTitle">
+📚 アーカイブ
+</div>
+
+<div id="archive-area"></div>
+
+<a
+href="index.html"
+class="home">
+🏠 トップへ戻る
+</a>
+
+</div>
+
+</body>
+</html>
