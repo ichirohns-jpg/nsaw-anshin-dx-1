@@ -107,7 +107,8 @@ class="input">
 
 <select
 id="city"
-class="input">
+class="input"
+onchange="changeArea()">
 
 <option>志木市</option>
 <option>新座市</option>
@@ -120,10 +121,15 @@ class="input">
 地区
 </div>
 
-<input
+<select
 id="areaCode"
-class="input"
-placeholder="本町・柏町・館・幸町など">
+class="input">
+
+</select>
+
+<option value="">選択してください</option>
+
+</select>
 
 <div class="label">
 家族電話
@@ -160,6 +166,142 @@ class="home">
 </a>
 
 <script>
+
+const AREA_DATA = {
+
+'志木市':[
+
+'本町1丁目','本町2丁目','本町3丁目',
+'本町4丁目','本町5丁目','本町6丁目',
+
+'柏町1丁目','柏町2丁目','柏町3丁目',
+'柏町4丁目','柏町5丁目','柏町6丁目',
+
+'幸町1丁目','幸町2丁目','幸町3丁目',
+
+'館1丁目','館2丁目',
+
+'上宗岡1丁目','上宗岡2丁目',
+'上宗岡3丁目','上宗岡4丁目',
+'上宗岡5丁目',
+
+'中宗岡1丁目','中宗岡2丁目',
+'中宗岡3丁目','中宗岡4丁目',
+'中宗岡5丁目',
+
+'下宗岡1丁目','下宗岡2丁目',
+'下宗岡3丁目','下宗岡4丁目',
+'下宗岡5丁目'
+
+],
+
+'新座市':[
+
+'野火止1丁目','野火止2丁目',
+'野火止3丁目','野火止4丁目',
+'野火止5丁目','野火止6丁目',
+'野火止7丁目','野火止8丁目',
+
+'東北1丁目','東北2丁目',
+
+'栗原1丁目','栗原2丁目',
+'栗原3丁目','栗原4丁目',
+'栗原5丁目','栗原6丁目',
+
+'片山1丁目','片山2丁目',
+'片山3丁目',
+
+'石神1丁目','石神2丁目',
+'石神3丁目','石神4丁目',
+'石神5丁目'
+
+],
+
+'朝霞市':[
+
+'本町1丁目','本町2丁目',
+'本町3丁目',
+
+'仲町1丁目','仲町2丁目',
+
+'根岸台1丁目','根岸台2丁目',
+'根岸台3丁目','根岸台4丁目',
+'根岸台5丁目','根岸台6丁目',
+'根岸台7丁目','根岸台8丁目'
+
+,
+
+'三原1丁目','三原2丁目',
+'三原3丁目','三原4丁目',
+'三原5丁目',
+
+'浜崎1丁目','浜崎2丁目',
+'浜崎3丁目','浜崎4丁目'
+
+],
+
+'和光市':[
+
+'本町',
+
+'丸山台1丁目',
+'丸山台2丁目',
+'丸山台3丁目',
+
+'白子1丁目',
+'白子2丁目',
+'白子3丁目',
+'白子4丁目',
+
+'中央1丁目',
+'中央2丁目',
+
+'新倉1丁目',
+'新倉2丁目',
+'新倉3丁目',
+'新倉4丁目',
+'新倉5丁目',
+'新倉6丁目',
+'新倉7丁目',
+'新倉8丁目'
+
+]
+
+};
+
+function changeArea(){
+
+const city =
+document.getElementById(
+'city'
+).value;
+
+const area =
+document.getElementById(
+'areaCode'
+);
+
+area.innerHTML='';
+
+AREA_DATA[city].forEach(item=>{
+
+const option =
+document.createElement(
+'option'
+);
+
+option.value =
+item;
+
+option.textContent =
+item;
+
+area.appendChild(
+option);
+
+});
+
+}
 
 function saveData(){
 
@@ -230,6 +372,8 @@ location.href =
 window.onload =
 function(){
 
+changeArea();
+
 document.getElementById(
 'userName'
 ).value =
@@ -243,6 +387,8 @@ document.getElementById(
 localStorage.getItem(
 'city'
 ) || '志木市';
+
+changeArea();
 
 document.getElementById(
 'areaCode'
