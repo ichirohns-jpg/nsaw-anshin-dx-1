@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>元気です</title>
+<title>今日の体調</title>
 
 <style>
 
@@ -15,83 +15,163 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef2f7;
+background:#f3f6fb;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
-text-align:center;
+color:#111827;
 }
 
 .header{
-background:linear-gradient(135deg,#16a34a,#15803d);
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#15803d
+);
+
 color:#fff;
+
 padding:28px;
-border-radius:28px;
-margin-bottom:18px;
+
+border-radius:30px;
+
+text-align:center;
+
+margin-bottom:20px;
+
 }
 
-.header h1{
+.title{
+
 font-size:34px;
+
 font-weight:900;
+
+}
+
+.sub{
+
+font-size:18px;
+
+margin-top:10px;
+
+opacity:.95;
+
 }
 
 .card{
+
 background:#fff;
-padding:24px;
-border-radius:24px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-margin-bottom:16px;
-}
 
-.bigBtn{
-width:100%;
-border:none;
-background:#16a34a;
-color:#fff;
-padding:40px;
-border-radius:28px;
-font-size:36px;
-font-weight:900;
-}
+border-radius:30px;
 
-.time{
-margin-top:20px;
-font-size:24px;
-font-weight:900;
-line-height:1.8;
-}
-
-.actionBtn{
-display:block;
-width:100%;
 padding:20px;
-border-radius:20px;
-text-decoration:none;
-text-align:center;
-font-size:22px;
+
+box-shadow:
+0 8px 20px
+rgba(0,0,0,.08);
+
+margin-bottom:20px;
+
+}
+
+.statusBtn{
+
+width:100%;
+
+border:none;
+
+border-radius:24px;
+
+padding:24px;
+
+margin-bottom:16px;
+
+font-size:30px;
+
 font-weight:900;
-color:#fff;
-margin-top:12px;
+
+text-align:left;
+
+background:#f8fafc;
+
+cursor:pointer;
+
+border:4px solid #e5e7eb;
+
+transition:.2s;
+
 }
 
-.telBtn{
+.statusBtn.active{
+
+background:#dcfce7;
+
+border-color:#16a34a;
+
+color:#166534;
+
+}
+
+.saveBtn{
+
+width:100%;
+
+border:none;
+
+border-radius:24px;
+
+padding:28px;
+
+font-size:32px;
+
+font-weight:900;
+
 background:#16a34a;
+
+color:#fff;
+
+cursor:pointer;
+
 }
 
-.lineBtn{
-background:#06c755;
+.result{
+
+margin-top:20px;
+
+font-size:24px;
+
+font-weight:900;
+
+text-align:center;
+
+color:#15803d;
+
+display:none;
+
 }
 
 .home{
+
 display:block;
-width:100%;
-border:none;
-background:#475569;
+
+text-align:center;
+
+background:#1e293b;
+
 color:#fff;
+
+text-decoration:none;
+
 padding:20px;
-border-radius:20px;
-font-size:22px;
+
+border-radius:24px;
+
+font-size:24px;
+
 font-weight:900;
-margin-top:16px;
+
 }
 
 </style>
@@ -101,163 +181,114 @@ margin-top:16px;
 <body>
 
 <div class="header">
-<h1>😊 元気です</h1>
+
+<div class="title">
+😊 今日の体調
+</div>
+
+<div class="sub">
+あてはまるものを1つ選んでください
+</div>
+
 </div>
 
 <div class="card">
 
 <button
-class="bigBtn"
-onclick="saveGenki()">
+class="statusBtn"
+onclick="selectStatus(this,'元気です')">
+☐ 😊 元気です
+</button>
 
-😊 元気です
+<button
+class="statusBtn"
+onclick="selectStatus(this,'少し不安')">
+☐ 😟 少し不安
+</button>
 
+<button
+class="statusBtn"
+onclick="selectStatus(this,'体調が悪い')">
+☐ 🤒 体調が悪い
+</button>
+
+<button
+class="saveBtn"
+onclick="saveStatus()">
+送信する
 </button>
 
 <div
-id="timeArea"
-class="time">
-
-まだ記録がありません
+id="result"
+class="result">
+✅ 送信しました
+</div>
 
 </div>
 
 <a
-id="telBtn"
-class="actionBtn telBtn"
-style="display:none"
-href="#">
-
-📞 家族へ電話
-
-</a>
-
-<a
-id="lineBtn"
-class="actionBtn lineBtn"
-style="display:none"
-href="#">
-
-💬 家族へLINE
-
-</a>
-
-<button
-class="home"
-onclick="goHome()">
-
+href="index.html"
+class="home">
 🏠 トップへ戻る
-
-</button>
-
-</div>
+</a>
 
 <script>
 
-function goHome(){
+let selectedStatus='';
 
-location.href =
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/';
+function selectStatus(btn,status){
 
-}
+document
+.querySelectorAll('.statusBtn')
+.forEach(function(b){
 
-function showButtons(){
+b.classList.remove('active');
 
-const tel =
-localStorage.getItem(
-'familyTel'
-) || '';
+b.innerHTML=
+b.innerHTML
+.replace('☑','☐');
 
-const line =
-localStorage.getItem(
-'familyLine'
-) || '';
+});
 
-if(tel){
+btn.classList.add('active');
 
-const telBtn =
-document.getElementById(
-'telBtn'
-);
+btn.innerHTML=
+btn.innerHTML
+.replace('☐','☑');
 
-telBtn.href =
-'tel:' + tel;
-
-telBtn.style.display =
-'block';
+selectedStatus=status;
 
 }
 
-if(line){
+function saveStatus(){
 
-const lineBtn =
-document.getElementById(
-'lineBtn'
-);
+if(!selectedStatus){
 
-lineBtn.href =
-line;
+alert('体調を選んでください');
 
-lineBtn.style.display =
-'block';
+return;
 
 }
-
-}
-
-function saveGenki(){
-
-const now =
-new Date();
-
-const data = {
-
-time:
-now.toLocaleString(
-'ja-JP'
-)
-
-};
 
 localStorage.setItem(
-'lastGenki',
-JSON.stringify(data)
+'todayCondition',
+selectedStatus
+);
+
+localStorage.setItem(
+'todayConditionTime',
+new Date().toLocaleString('ja-JP')
 );
 
 document.getElementById(
-'timeArea'
-).innerHTML =
+'result'
+).style.display='block';
 
-'最終送信<br><br>' +
+setTimeout(function(){
 
-data.time;
+location.href='index.html';
 
-showButtons();
-
-alert(
-'元気ですを送信しました'
-);
-
-}
-
-const last =
-JSON.parse(
-localStorage.getItem(
-'lastGenki'
-) || 'null'
-);
-
-if(last){
-
-document.getElementById(
-'timeArea'
-).innerHTML =
-
-'最終送信<br><br>' +
-
-last.time;
-
-showButtons();
+},1500);
 
 }
 
