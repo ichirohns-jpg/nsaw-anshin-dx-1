@@ -51,6 +51,7 @@ font-size:28px;
 font-weight:900;
 color:#fff;
 margin-bottom:12px;
+cursor:pointer;
 }
 
 .morning{
@@ -101,25 +102,25 @@ font-weight:900;
 
 <button
 class="btn morning"
-onclick="saveMedicine('morning')">
+onclick="saveMedicine('朝')">
 🌅 朝の薬
 </button>
 
 <button
 class="btn noon"
-onclick="saveMedicine('noon')">
+onclick="saveMedicine('昼')">
 ☀️ 昼の薬
 </button>
 
 <button
 class="btn evening"
-onclick="saveMedicine('evening')">
+onclick="saveMedicine('夕方')">
 🌇 夕方の薬
 </button>
 
 <button
 class="btn night"
-onclick="saveMedicine('night')">
+onclick="saveMedicine('寝る前')">
 🌙 寝る前の薬
 </button>
 
@@ -147,7 +148,58 @@ class="home">
 
 <script>
 
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+
+const USER_ID =
+localStorage.getItem('userId') || '';
+
+const USER_NAME =
+localStorage.getItem('userName') || '';
+
 function saveMedicine(type){
+
+const formData =
+new URLSearchParams();
+
+formData.append(
+'action',
+'watch'
+);
+
+formData.append(
+'id',
+USER_ID
+);
+
+formData.append(
+'name',
+USER_NAME
+);
+
+formData.append(
+'status',
+'服薬'
+);
+
+formData.append(
+'memo',
+type
+);
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':
+'application/x-www-form-urlencoded'
+},
+body:formData.toString()
+}
+)
+.then(r=>r.json())
+.then(res=>{
 
 const data =
 JSON.parse(
@@ -156,7 +208,21 @@ localStorage.getItem(
 ) || '{}'
 );
 
-data[type] = true;
+if(type==='朝'){
+data.morning=true;
+}
+
+if(type==='昼'){
+data.noon=true;
+}
+
+if(type==='夕方'){
+data.evening=true;
+}
+
+if(type==='寝る前'){
+data.night=true;
+}
 
 data.time =
 new Date()
@@ -172,8 +238,18 @@ JSON.stringify(data)
 showStatus();
 
 alert(
-'記録しました'
+type +
+'の薬を記録しました'
 );
+
+})
+.catch(()=>{
+
+alert(
+'通信エラー'
+);
+
+});
 
 }
 
@@ -186,7 +262,7 @@ localStorage.getItem(
 ) || '{}'
 );
 
-let html = '';
+let html='';
 
 html += data.morning ?
 '☑ 朝の薬<br>' :
