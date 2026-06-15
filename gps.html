@@ -136,6 +136,9 @@ class="home">
 
 <script>
 
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+
 function getGPS(){
 
 if(!navigator.geolocation){
@@ -161,31 +164,14 @@ pos.coords.longitude;
 const mapUrl =
 
 'https://maps.google.com/?q=' +
-
 lat +
-
 ',' +
-
 lng;
 
-const data = {
-
-lat:lat,
-lng:lng,
-
-mapUrl:mapUrl,
-
-time:
+const now =
 new Date()
 .toLocaleString(
 'ja-JP'
-)
-
-};
-
-localStorage.setItem(
-'lastGPS',
-JSON.stringify(data)
 );
 
 document.getElementById(
@@ -194,7 +180,7 @@ document.getElementById(
 
 '取得日時<br><br>' +
 
-data.time +
+now +
 
 '<br><br>' +
 
@@ -218,6 +204,61 @@ mapUrl;
 
 btn.style.display =
 'block';
+
+localStorage.setItem(
+'lastGPS',
+JSON.stringify({
+lat:lat,
+lng:lng,
+mapUrl:mapUrl,
+time:now
+})
+);
+
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
+const form =
+new FormData();
+
+form.append(
+'action',
+'watch'
+);
+
+form.append(
+'id',
+userId
+);
+
+form.append(
+'status',
+'GPS'
+);
+
+form.append(
+'memo',
+mapUrl
+);
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+body:form
+}
+)
+
+.then(r=>r.text())
+.then(()=>{
+
+alert(
+'現在地を送信しました'
+);
+
+});
 
 },
 
