@@ -251,6 +251,8 @@ processQuestion(q);
 
 };
 
+}
+
 function processQuestion(q){
 
 document.getElementById(
@@ -311,7 +313,13 @@ return;
 
 if(q.includes('病院')){
 
-searchFacility('病院');
+window.open(
+'https://www.google.com/maps/search/病院'
+);
+
+speak(
+'近くの病院を表示します'
+);
 
 return;
 
@@ -319,7 +327,41 @@ return;
 
 if(q.includes('薬局')){
 
-searchFacility('薬局');
+window.open(
+'https://www.google.com/maps/search/薬局'
+);
+
+speak(
+'近くの薬局を表示します'
+);
+
+return;
+
+}
+
+if(q.includes('コンビニ')){
+
+window.open(
+'https://www.google.com/maps/search/コンビニ'
+);
+
+speak(
+'近くのコンビニを表示します'
+);
+
+return;
+
+}
+
+if(q.includes('トイレ')){
+
+window.open(
+'https://www.google.com/maps/search/公衆トイレ'
+);
+
+speak(
+'近くのトイレを表示します'
+);
 
 return;
 
