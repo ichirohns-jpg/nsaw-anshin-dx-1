@@ -8,7 +8,7 @@
 
 <meta property="og:title" content="お楽しみ動画">
 <meta property="og:description" content="地域の暮らしに役立つ動画・楽しい動画をお届け">
-<meta property="og:image" content="icon.png">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
 
 <style>
 
@@ -303,26 +303,14 @@ if(!row.c){
 return;
 }
 
-const date=
-getVal(row.c[0]);
+const date=getVal(row.c[0]);
+const title=getVal(row.c[2]);
+const desc=getVal(row.c[4]);
+const video=getVal(row.c[5]);
+const genre=getVal(row.c[7]);
+const memo=getVal(row.c[8]);
 
-const title=
-getVal(row.c[2]);
-
-const desc=
-getVal(row.c[4]);
-
-const video=
-getVal(row.c[5]);
-
-const genre=
-getVal(row.c[7]);
-
-const memo=
-getVal(row.c[8]);
-
-const videoId=
-getYoutubeId(video);
+const videoId=getYoutubeId(video);
 
 const shareUrl=
 makeShareUrl(index+1);
@@ -331,3 +319,143 @@ const shareText=
 title || "お楽しみ動画";
 
 const card=
+
+'<div class="card">' +
+
+'<div class="player">' +
+
+(videoId ?
+
+'<iframe src="https://www.youtube.com/embed/' +
+videoId +
+'" allowfullscreen></iframe>'
+
+:
+
+'<div class="loading">動画がありません</div>'
+
+) +
+
+'</div>' +
+
+'<div class="body">' +
+
+'<div class="date">' +
+date +
+'</div>' +
+
+(genre ?
+
+'<div class="genre">' +
+genre +
+'</div>'
+
+: '') +
+
+'<div class="title">' +
+title +
+'</div>' +
+
+'<div class="desc">' +
+desc +
+'</div>' +
+
+(memo ?
+
+'<div class="memo">' +
+memo +
+'</div>'
+
+: '') +
+
+'<div class="share">' +
+
+'<button class="shareBtn" onclick="shareLine(\'' +
+shareUrl +
+'\')">💬 LINEで送る</button>' +
+
+'<button class="shareBtn" onclick="copyUrl(\'' +
+shareUrl +
+'\')">📋 URLコピー</button>' +
+
+'<button class="shareBtn" onclick="shareFacebook(\'' +
+shareUrl +
+'\')">📘 Facebookへ投稿</button>' +
+
+'<button class="shareBtn" onclick="shareX(\'' +
+shareUrl +
+'\',\'' +
+shareText.replace(/'/g,"\\'") +
+'\')">✖ Xへ投稿</button>' +
+
+'</div>' +
+
+'</div>' +
+
+'</div>';
+
+if(index < 5){
+
+latest += card;
+
+}else{
+
+archive += card;
+
+}
+
+});
+
+document.getElementById('latest-area').innerHTML =
+latest || '<div class="loading">動画がありません</div>';
+
+if(archive){
+
+document.getElementById('archive-wrap').style.display =
+'block';
+
+document.getElementById('archive-area').innerHTML =
+archive;
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body onload="loadSheet()">
+
+<header>
+🎬 お楽しみ動画
+</header>
+
+<div class="wrap">
+
+<div id="latest-area">
+<div class="loading">読込中...</div>
+</div>
+
+<div id="archive-wrap" style="display:none;">
+
+<div class="sectionTitle">
+📚 アーカイブ
+</div>
+
+<div id="archive-area"></div>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+
+🏠 トップへ戻る
+
+</a>
+
+</div>
+
+</body>
+</html>
