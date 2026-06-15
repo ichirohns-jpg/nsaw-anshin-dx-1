@@ -51,6 +51,7 @@ font-size:28px;
 font-weight:900;
 color:#fff;
 margin-bottom:12px;
+cursor:pointer;
 }
 
 .morning{
@@ -101,25 +102,25 @@ font-weight:900;
 
 <button
 class="btn morning"
-onclick="saveMedicine('朝の薬')">
+onclick="saveMedicine('morning','朝の薬')">
 🌅 朝の薬
 </button>
 
 <button
 class="btn noon"
-onclick="saveMedicine('昼の薬')">
+onclick="saveMedicine('noon','昼の薬')">
 ☀️ 昼の薬
 </button>
 
 <button
 class="btn evening"
-onclick="saveMedicine('夕方の薬')">
+onclick="saveMedicine('evening','夕方の薬')">
 🌇 夕方の薬
 </button>
 
 <button
 class="btn night"
-onclick="saveMedicine('寝る前の薬')">
+onclick="saveMedicine('night','寝る前の薬')">
 🌙 寝る前の薬
 </button>
 
@@ -150,7 +151,7 @@ class="home">
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-function saveMedicine(type){
+function saveMedicine(key,label){
 
 const now =
 new Date()
@@ -163,91 +164,93 @@ localStorage.getItem(
 'userId'
 ) || '';
 
-const form =
-new FormData();
-
-form.append(
-'action',
-'watch'
+const data =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
 );
 
-form.append(
-'id',
-userId
-);
+data[key] =
+true;
 
-form.append(
-'status',
-'服薬'
-);
+data.time =
+now;
 
-form.append(
-'memo',
-type
+localStorage.setItem(
+'medicineStatus',
+JSON.stringify(data)
 );
 
 fetch(
 GAS_URL,
 {
 method:'POST',
-body:form
+body:new URLSearchParams({
+action:'watch',
+id:userId,
+status:'服薬',
+memo:label
+})
 }
 )
+.catch(()=>{});
 
-.then(r=>r.text())
-
-.then(()=>{
-
-localStorage.setItem(
-'lastMedicine',
-JSON.stringify({
-type:type,
-time:now
-})
-);
-
-document.getElementById(
-'statusArea'
-).innerHTML =
-
-'☑ ' +
-
-type +
-
-'<br><br>' +
-
-now;
+showStatus();
 
 alert(
-'服薬を記録しました'
+label + 'を記録しました'
 );
-
-});
 
 }
 
-const last =
+function showStatus(){
+
+const data =
 JSON.parse(
 localStorage.getItem(
-'lastMedicine'
-) || 'null'
+'medicineStatus'
+) || '{}'
 );
 
-if(last){
+let html='';
+
+html += data.morning ?
+'✅ 朝の薬 服用済み<br><br>' :
+'⬜ 朝の薬 未服用<br><br>';
+
+html += data.noon ?
+'✅ 昼の薬 服用済み<br><br>' :
+'⬜ 昼の薬 未服用<br><br>';
+
+html += data.evening ?
+'✅ 夕方の薬 服用済み<br><br>' :
+'⬜ 夕方の薬 未服用<br><br>';
+
+html += data.night ?
+'✅ 寝る前の薬 服用済み<br><br>' :
+'⬜ 寝る前の薬 未服用<br><br>';
+
+if(data.time){
+
+html +=
+
+'<hr style="margin:20px 0">' +
+
+'🕒 最終記録<br><br>' +
+
+data.time;
+
+}
 
 document.getElementById(
 'statusArea'
 ).innerHTML =
-
-'☑ ' +
-
-last.type +
-
-'<br><br>' +
-
-last.time;
+html;
 
 }
+
+showStatus();
 
 </script>
 
