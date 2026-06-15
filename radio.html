@@ -133,9 +133,6 @@ padding:24px;
 font-size:24px;
 font-weight:900;
 text-align:left;
-box-shadow:
-0 8px 20px rgba(0,0,0,.25),
-inset 0 1px 0 rgba(255,255,255,.15);
 cursor:pointer;
 }
 
@@ -181,50 +178,24 @@ onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
 <script>
 
 function makeShareUrl(id){
-
-return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html?radio="
-+ encodeURIComponent(id);
-
+return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html?radio="+encodeURIComponent(id);
 }
 
 function shareFacebook(url){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u="
-+ encodeURIComponent(url),
-"_blank"
-);
-
+window.open("https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url),"_blank");
 }
 
 function shareLine(url){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url="
-+ encodeURIComponent(url),
-"_blank"
-);
-
+window.open("https://social-plugins.line.me/lineit/share?url="+encodeURIComponent(url),"_blank");
 }
 
 function shareX(url,text){
-
-window.open(
-"https://twitter.com/intent/tweet?url="
-+ encodeURIComponent(url)
-+ "&text="
-+ encodeURIComponent(text),
-"_blank"
-);
-
+window.open("https://twitter.com/intent/tweet?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(text),"_blank");
 }
 
 function copyUrl(url){
-
 navigator.clipboard.writeText(url);
-
 alert("URLをコピーしました");
-
 }
 
 const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
@@ -254,7 +225,6 @@ return c.f;
 }
 
 return "";
-
 }
 
 function getYoutubeId(url){
@@ -276,14 +246,13 @@ m=url.match(/shorts\/([^?&]+)/);
 if(m)return m[1];
 
 return "";
-
 }
 
 fetch(GVIZ_URL)
 
-.then(function(r){
+.then(function(response){
 
-return r.text();
+return response.text();
 
 })
 
@@ -298,7 +267,9 @@ text.lastIndexOf("}")+1
 );
 
 const rows=
-json.table.rows||[];
+json.table && json.table.rows
+? json.table.rows
+: [];
 
 let html="";
 
@@ -312,14 +283,13 @@ const title=getCell(row,2);
 const desc=getCell(row,3);
 const tags=getCell(row,4);
 
-const videoId=
-getYoutubeId(video);
+if(!video && !title && !desc){
+return;
+}
 
-const shareUrl=
-makeShareUrl(index+1);
-
-const shareText=
-title || "地域ラジオ";
+const videoId=getYoutubeId(video);
+const shareUrl=makeShareUrl(index+1);
+const shareText=title || "地域ラジオ";
 
 html+=`
 
@@ -327,12 +297,22 @@ html+=`
 
 <div class="player">
 
+${
+videoId
+?
+`
 <iframe
 src="https://www.youtube.com/embed/${videoId}"
 title="YouTube"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen>
 </iframe>
+`
+:
+`
+<div class="loading">動画がありません</div>
+`
+}
 
 </div>
 
@@ -377,3 +357,22 @@ ${desc}
 `;
 
 });
+
+document.getElementById("app").innerHTML=
+html || "<div class='loading'>記事がありません</div>";
+
+})
+
+.catch(function(err){
+
+document.getElementById("app").innerHTML=
+"<div class='loading'>読込失敗</div>";
+
+console.error(err);
+
+});
+
+</script>
+
+</body>
+</html>
