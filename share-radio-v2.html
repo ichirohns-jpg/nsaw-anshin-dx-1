@@ -3,122 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>地域ラジオ</title>
 
-<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="地域ラジオ">
-<meta property="og:description" content="志木市・新座市・朝霞市・和光市の最新情報を音声でお届けします。">
-<meta property="og:site_name" content="地域ラジオ">
-
+<meta property="og:description" content="志木市・新座市・朝霞市・和光市の地域ラジオ">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="地域ラジオ">
-<meta name="twitter:description" content="志木市・新座市・朝霞市・和光市の最新情報を音声でお届けします。">
+<meta name="twitter:description" content="志木市・新座市・朝霞市・和光市の地域ラジオ">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
 
 <style>
 
 *{
+box-sizing:border-box;
 margin:0;
 padding:0;
-box-sizing:border-box;
 }
 
 body{
-background:#f4f6f8;
+background:#eef3f8;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#1f2937;
-padding:20px;
+color:#111827;
+}
+
+.wrap{
+max-width:700px;
+margin:auto;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#111827,#1f2937,#374151);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+font-size:38px;
+font-weight:900;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+margin-bottom:20px;
 }
 
 .card{
-max-width:900px;
-margin:auto;
 background:#fff;
 border-radius:30px;
 overflow:hidden;
-box-shadow:0 12px 36px rgba(0,0,0,.12);
+margin-bottom:24px;
+box-shadow:0 10px 35px rgba(0,0,0,.12);
 }
 
-.hero{
+.thumb{
 width:100%;
 display:block;
 }
 
-.content{
-padding:30px;
-text-align:center;
+.date{
+padding:20px 22px 0;
+font-size:20px;
+font-weight:900;
+color:#64748b;
 }
 
-.badge{
+.tag{
 display:inline-block;
+margin:16px 22px;
+padding:10px 16px;
+border-radius:999px;
 background:#fee2e2;
 color:#dc2626;
-padding:10px 18px;
-border-radius:999px;
 font-size:18px;
 font-weight:900;
-margin-bottom:20px;
 }
 
-h1{
-font-size:42px;
+.title{
+padding:0 22px;
+font-size:38px;
 font-weight:900;
-margin-bottom:20px;
+line-height:1.45;
 }
 
 .desc{
-font-size:22px;
+padding:20px 22px;
+font-size:26px;
 line-height:1.8;
 color:#475569;
-margin-bottom:25px;
 }
 
-.btn{
+.listenBtn{
 display:block;
+margin:0 22px 22px;
+padding:24px;
+border-radius:24px;
+text-align:center;
 text-decoration:none;
-padding:18px;
-border-radius:18px;
-font-size:22px;
-font-weight:900;
-margin-bottom:12px;
+background:linear-gradient(135deg,#991b1b,#ef4444);
 color:#fff;
+font-size:32px;
+font-weight:900;
 }
 
-.open{
-background:#dc2626;
+.share{
+display:flex;
+flex-direction:column;
+gap:14px;
+padding:0 22px 24px;
 }
 
-.copy{
-background:#2563eb;
-border:none;
+.share button{
+
 width:100%;
+
+background:linear-gradient(
+180deg,
+#374151,
+#111827
+);
+
+color:#fff;
+
+border:none;
+
+border-radius:24px;
+
+padding:24px;
+
+font-size:24px;
+
+font-weight:900;
+
+text-align:left;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.25),
+inset 0 1px 0 rgba(255,255,255,.15);
+
 cursor:pointer;
+
 }
 
-.line{
-background:#06c755;
+.share button:after{
+content:" ＞";
+float:right;
+opacity:.8;
 }
 
-.fb{
-background:#1877f2;
-}
-
-.x{
-background:#111;
-}
-
-.note{
-margin-top:20px;
-font-size:16px;
-color:#94a3b8;
+.loading{
+background:#fff;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
+font-weight:900;
 }
 
 </style>
@@ -126,101 +164,231 @@ color:#94a3b8;
 
 <body>
 
-<div class="card">
+<div class="wrap">
 
-<img
-class="hero"
-src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg"
-alt="地域ラジオ">
-
-<div class="content">
-
-<div class="badge">
+<div class="header">
 📻 地域ラジオ
 </div>
 
-<h1>
-地域ラジオ
-</h1>
-
-<div class="desc">
-
-志木市・新座市・朝霞市・和光市の
-最新情報を音声でお届けします。
-
-</div>
-
-<a
-class="btn open"
-href="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html">
-
-📻 地域ラジオを開く
-
-</a>
-
-<button
-class="btn copy"
-onclick="copyText()">
-
-📋 紹介文をコピー
-
-</button>
-
-<a
-class="btn line"
-target="_blank"
-href="https://social-plugins.line.me/lineit/share?url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
-
-LINEで共有
-
-</a>
-
-<a
-class="btn fb"
-target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
-
-Facebookで共有
-
-</a>
-
-<a
-class="btn x"
-target="_blank"
-href="https://twitter.com/intent/tweet?url=https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
-
-Xで共有
-
-</a>
-
-<div class="note">
-
-SNSで共有すると
-画像・タイトル・説明付きで表示されます
-
-</div>
-
+<div id="app">
+<div class="loading">読込中...</div>
 </div>
 
 </div>
 
 <script>
 
-function copyText(){
+function makeShareUrl(id){
 
-const text =
-
-'📻地域ラジオ\n\n' +
-
-'志木市・新座市・朝霞市・和光市の最新情報を音声でお届けしています。\n\n' +
-
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html';
-
-navigator.clipboard.writeText(text);
-
-alert('コピーしました');
+return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html?radio="
++ encodeURIComponent(id);
 
 }
+
+function shareFacebook(url){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u="
++ encodeURIComponent(url),
+"_blank"
+);
+
+}
+
+function shareLine(url){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url="
++ encodeURIComponent(url),
+"_blank"
+);
+
+}
+
+function shareX(url,text){
+
+window.open(
+"https://twitter.com/intent/tweet?url="
++ encodeURIComponent(url)
++ "&text="
++ encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert("URLをコピーしました");
+
+}
+
+const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+const SHEET_NAME="地域ラジオ";
+
+const GVIZ_URL=
+"https://docs.google.com/spreadsheets/d/"
++ SHEET_ID +
+"/gviz/tq?sheet="
++ encodeURIComponent(SHEET_NAME)
++ "&tqx=out:json";
+
+function getCell(row,index){
+
+if(!row || !row.c || !row.c[index]){
+return "";
+}
+
+const c=row.c[index];
+
+if(c.v!==undefined && c.v!==null){
+return c.v;
+}
+
+if(c.f!==undefined && c.f!==null){
+return c.f;
+}
+
+return "";
+
+}
+
+function getYoutubeId(url){
+
+if(!url)return "";
+
+url=String(url);
+
+let m=url.match(/youtu\.be\/([^?&]+)/);
+if(m)return m[1];
+
+m=url.match(/[?&]v=([^&]+)/);
+if(m)return m[1];
+
+m=url.match(/embed\/([^?&]+)/);
+if(m)return m[1];
+
+m=url.match(/shorts\/([^?&]+)/);
+if(m)return m[1];
+
+return "";
+
+}
+
+fetch(GVIZ_URL)
+
+.then(function(r){
+
+return r.text();
+
+})
+
+.then(function(text){
+
+const json=
+JSON.parse(
+text.substring(
+text.indexOf("{"),
+text.lastIndexOf("}")+1
+)
+);
+
+const rows=json.table.rows||[];
+
+let html="";
+
+rows.reverse();
+
+rows.forEach(function(row,index){
+
+const date=getCell(row,0);
+const video=getCell(row,1);
+const title=getCell(row,2);
+const desc=getCell(row,3);
+const tags=getCell(row,4);
+
+const videoId=getYoutubeId(video);
+
+const shareUrl=
+makeShareUrl(index+1);
+
+const shareText=
+title || "地域ラジオ";
+
+html+=`
+
+<div class="card">
+
+<img
+class="thumb"
+src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg">
+
+<div class="date">
+${date}
+</div>
+
+<div class="tag">
+${tags}
+</div>
+
+<div class="title">
+${title}
+</div>
+
+<div class="desc">
+${desc}
+</div>
+
+<a
+class="listenBtn"
+href="https://www.youtube.com/watch?v=${videoId}"
+target="_blank">
+
+📻 ラジオを聴く
+
+</a>
+
+<div class="share">
+
+<button onclick="shareFacebook('${shareUrl}')">
+Facebook
+</button>
+
+<button onclick="shareLine('${shareUrl}')">
+LINE
+</button>
+
+<button onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
+X
+</button>
+
+<button onclick="copyUrl('${shareUrl}')">
+URLコピー
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("app").innerHTML=
+html;
+
+})
+
+.catch(function(err){
+
+document.getElementById("app").innerHTML=
+err;
+
+console.error(err);
+
+});
 
 </script>
 
