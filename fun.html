@@ -47,12 +47,18 @@ margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.thumb{
+.player{
 width:100%;
 aspect-ratio:16/9;
-object-fit:cover;
+background:#000;
+overflow:hidden;
+}
+
+.player iframe{
+width:100%;
+height:100%;
+border:none;
 display:block;
-background:#ddd;
 }
 
 .body{
@@ -102,17 +108,34 @@ border-radius:14px;
 margin-bottom:14px;
 }
 
-.btn{
-display:block;
-background:#16a34a;
+.share{
+display:flex;
+flex-direction:column;
+gap:14px;
+margin-top:14px;
+}
+
+.shareBtn{
+width:100%;
+background:linear-gradient(
+180deg,
+#374151,
+#111827
+);
 color:#fff;
-text-decoration:none;
-padding:16px;
-text-align:center;
-border-radius:14px;
-font-size:20px;
+border:none;
+border-radius:24px;
+padding:24px;
+font-size:24px;
 font-weight:900;
-margin-top:10px;
+text-align:left;
+cursor:pointer;
+}
+
+.shareBtn:after{
+content:" ＞";
+float:right;
+opacity:.8;
 }
 
 .sectionTitle{
@@ -152,25 +175,38 @@ return c.f || c.v || '';
 
 }
 
-function makeImageUrl(url){
+function getYoutubeId(url){
 
-url = String(url || '').trim();
+if(!url)return '';
 
-if(url.includes('drive.google.com/file/d/')){
+url=String(url);
 
-const id =
-url.split('/file/d/')[1].split('/')[0];
+let m=url.match(/youtu\.be\/([^?&]+)/);
+if(m)return m[1];
 
-return 'https://docs.google.com/uc?export=view&id=' + id;
+m=url.match(/[?&]v=([^&]+)/);
+if(m)return m[1];
+
+m=url.match(/embed\/([^?&]+)/);
+if(m)return m[1];
+
+m=url.match(/shorts\/([^?&]+)/);
+if(m)return m[1];
+
+return '';
 
 }
 
-if(url.includes('open?id=')){
+function makeImageUrl(url){
 
-const id =
-url.split('open?id=')[1].split('&')[0];
+url=String(url||'').trim();
 
-return 'https://docs.google.com/uc?export=view&id=' + id;
+if(url.includes('/file/d/')){
+
+const id=
+url.split('/file/d/')[1].split('/')[0];
+
+return 'https://docs.google.com/uc?export=view&id='+id;
 
 }
 
@@ -180,23 +216,72 @@ return url;
 
 function loadSheet(){
 
-const s =
+const s=
 document.createElement('script');
 
-s.src =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
+s.src=
+'https://docs.google.com/spreadsheets/d/'
++
+SHEET_ID
++
+'/gviz/tq?sheet='
++
+encodeURIComponent(SHEET_NAME)
++
 '&tqx=out:json;responseHandler:handleSheet';
 
 document.body.appendChild(s);
 
 }
 
+function shareLine(url){
+
+window.open(
+'https://social-plugins.line.me/lineit/share?url='
++
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareFacebook(url){
+
+window.open(
+'https://www.facebook.com/sharer/sharer.php?u='
++
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareX(url,text){
+
+window.open(
+'https://twitter.com/intent/tweet?url='
++
+encodeURIComponent(url)
++
+'&text='
++
+encodeURIComponent(text),
+'_blank'
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert('URLをコピーしました');
+
+}
+
 function handleSheet(json){
 
-const rows =
+const rows=
 json.table.rows;
 
 rows.reverse();
@@ -206,146 +291,96 @@ let archive='';
 
 rows.forEach((row,index)=>{
 
-if(!row.c) return;
+if(!row.c)return;
 
-const date =
+const date=
 getVal(row.c[0]);
 
-const title =
+const title=
 getVal(row.c[2]);
 
-const image =
+const image=
 makeImageUrl(
 getVal(row.c[3])
 );
 
-const desc =
+const desc=
 getVal(row.c[4]);
 
-const video =
+const video=
 getVal(row.c[5]);
 
-const genre =
+const genre=
 getVal(row.c[7]);
 
-const memo =
+const memo=
 getVal(row.c[8]);
 
-const html =
+const videoId=
+getYoutubeId(video);
+
+const shareUrl=
+location.href;
+
+const html=
 
 '<div class="card">' +
 
+(videoId ?
+
+'<div class="player">' +
+
+'<iframe src="https://www.youtube.com/embed/'
++
+videoId +
+'" allowfullscreen></iframe>' +
+
+'</div>'
+
+:
+
 (image ?
 
-'<img class="thumb" src="' +
+'<img class="thumb" src="'
++
 image +
-'" loading="lazy">' : '') +
+'" loading="lazy">'
+
+: '')
+
+) +
 
 '<div class="body">' +
 
-'<div class="date">' +
+'<div class="date">'
++
 date +
 '</div>' +
 
 (genre ?
 
-'<div class="genre">' +
+'<div class="genre">'
++
 genre +
 '</div>'
 
 : '') +
 
-'<div class="title">' +
+'<div class="title">'
++
 title +
 '</div>' +
 
-'<div class="desc">' +
+'<div class="desc">'
++
 desc +
 '</div>' +
 
 (memo ?
 
-'<div class="memo">' +
+'<div class="memo">'
++
 memo +
 '</div>'
 
-: '') +
-
-(video ?
-
-'<a class="btn" target="_blank" href="' +
-video +
-'">' +
-'▶ 動画を見る' +
-'</a>'
-
-: '') +
-
-'</div>' +
-
-'</div>';
-
-if(index === 0){
-
-latest += html;
-
-}else{
-
-archive += html;
-
-}
-
-});
-
-document.getElementById(
-'latest-area'
-).innerHTML =
-latest || '動画がありません';
-
-document.getElementById(
-'archive-area'
-).innerHTML =
-archive;
-
-}
-
-</script>
-
-</head>
-
-<body onload="loadSheet()">
-
-<header>
-
-🎬 お楽しみ動画
-
-</header>
-
-<div class="wrap">
-
-<div id="latest-area">
-
-読込中...
-
-</div>
-
-<div class="sectionTitle">
-
-📚 アーカイブ
-
-</div>
-
-<div id="archive-area"></div>
-
-<a
-href="index.html"
-class="home">
-
-🏠 トップへ戻る
-
-</a>
-
-</div>
-
-</body>
-</html>
+: '')
