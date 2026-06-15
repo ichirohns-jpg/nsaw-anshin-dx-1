@@ -51,6 +51,7 @@ padding:40px;
 border-radius:28px;
 font-size:36px;
 font-weight:900;
+cursor:pointer;
 }
 
 .time{
@@ -92,6 +93,7 @@ border-radius:20px;
 font-size:22px;
 font-weight:900;
 margin-top:16px;
+cursor:pointer;
 }
 
 </style>
@@ -153,6 +155,15 @@ onclick="goHome()">
 </div>
 
 <script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+
+const USER_ID =
+localStorage.getItem('userId') || '';
+
+const USER_NAME =
+localStorage.getItem('userName') || '';
 
 function goHome(){
 
@@ -219,6 +230,48 @@ now.toLocaleString(
 
 };
 
+const formData =
+new URLSearchParams();
+
+formData.append(
+'action',
+'watch'
+);
+
+formData.append(
+'id',
+USER_ID
+);
+
+formData.append(
+'name',
+USER_NAME
+);
+
+formData.append(
+'status',
+'帰宅'
+);
+
+formData.append(
+'memo',
+'帰宅しました'
+);
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+headers:{
+'Content-Type':
+'application/x-www-form-urlencoded'
+},
+body:formData.toString()
+}
+)
+.then(r=>r.json())
+.then(()=>{
+
 localStorage.setItem(
 'lastHome',
 JSON.stringify(data)
@@ -237,6 +290,15 @@ showButtons();
 alert(
 '帰宅を記録しました'
 );
+
+})
+.catch(()=>{
+
+alert(
+'通信エラー'
+);
+
+});
 
 }
 
