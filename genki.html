@@ -15,163 +15,73 @@ box-sizing:border-box;
 }
 
 body{
-background:#f3f6fb;
+background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
-color:#111827;
 }
 
 .header{
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#15803d
-);
-
+background:linear-gradient(135deg,#16a34a,#15803d);
 color:#fff;
-
 padding:28px;
-
-border-radius:30px;
-
+border-radius:28px;
 text-align:center;
-
-margin-bottom:20px;
-
+margin-bottom:18px;
 }
 
-.title{
-
+.header h1{
 font-size:34px;
-
 font-weight:900;
-
-}
-
-.sub{
-
-font-size:18px;
-
-margin-top:10px;
-
-opacity:.95;
-
 }
 
 .card{
-
 background:#fff;
-
-border-radius:30px;
-
-padding:20px;
-
-box-shadow:
-0 8px 20px
-rgba(0,0,0,.08);
-
-margin-bottom:20px;
-
-}
-
-.statusBtn{
-
-width:100%;
-
-border:none;
-
-border-radius:24px;
-
 padding:24px;
-
-margin-bottom:16px;
-
-font-size:30px;
-
-font-weight:900;
-
-text-align:left;
-
-background:#f8fafc;
-
-cursor:pointer;
-
-border:4px solid #e5e7eb;
-
-transition:.2s;
-
-}
-
-.statusBtn.active{
-
-background:#dcfce7;
-
-border-color:#16a34a;
-
-color:#166534;
-
-}
-
-.saveBtn{
-
-width:100%;
-
-border:none;
-
 border-radius:24px;
-
-padding:28px;
-
-font-size:32px;
-
-font-weight:900;
-
-background:#16a34a;
-
-color:#fff;
-
-cursor:pointer;
-
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.result{
-
-margin-top:20px;
-
-font-size:24px;
-
+.bigBtn{
+width:100%;
+border:none;
+padding:30px;
+border-radius:24px;
+font-size:30px;
 font-weight:900;
+color:#fff;
+margin-bottom:14px;
+}
 
+.green{
+background:#16a34a;
+}
+
+.orange{
+background:#f59e0b;
+}
+
+.red{
+background:#ef4444;
+}
+
+.status{
+font-size:24px;
+font-weight:900;
+line-height:1.8;
 text-align:center;
-
-color:#15803d;
-
-display:none;
-
 }
 
 .home{
-
 display:block;
-
-text-align:center;
-
-background:#1e293b;
-
+background:#475569;
 color:#fff;
-
 text-decoration:none;
-
 padding:20px;
-
-border-radius:24px;
-
-font-size:24px;
-
+border-radius:20px;
+text-align:center;
+font-size:22px;
 font-weight:900;
-
 }
 
 </style>
@@ -181,47 +91,41 @@ font-weight:900;
 <body>
 
 <div class="header">
-
-<div class="title">
-😊 今日の体調
-</div>
-
-<div class="sub">
-あてはまるものを1つ選んでください
-</div>
-
+<h1>😊 今日の体調</h1>
 </div>
 
 <div class="card">
 
 <button
-class="statusBtn"
-onclick="selectStatus(this,'元気です')">
-☐ 😊 元気です
+class="bigBtn green"
+onclick="saveGenki('元気です')">
+
+😊 元気です
+
 </button>
 
 <button
-class="statusBtn"
-onclick="selectStatus(this,'少し不安')">
-☐ 😟 少し不安
+class="bigBtn orange"
+onclick="saveGenki('少し不安')">
+
+😐 少し不安
+
 </button>
 
 <button
-class="statusBtn"
-onclick="selectStatus(this,'体調が悪い')">
-☐ 🤒 体調が悪い
-</button>
+class="bigBtn red"
+onclick="saveGenki('SOS')">
 
-<button
-class="saveBtn"
-onclick="saveStatus()">
-送信する
+🚨 SOS
+
 </button>
 
 <div
-id="result"
-class="result">
-✅ 送信しました
+id="statusArea"
+class="status">
+
+まだ送信していません
+
 </div>
 
 </div>
@@ -229,66 +133,112 @@ class="result">
 <a
 href="index.html"
 class="home">
+
 🏠 トップへ戻る
+
 </a>
 
 <script>
 
-let selectedStatus='';
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-function selectStatus(btn,status){
+function saveGenki(type){
 
-document
-.querySelectorAll('.statusBtn')
-.forEach(function(b){
-
-b.classList.remove('active');
-
-b.innerHTML=
-b.innerHTML
-.replace('☑','☐');
-
-});
-
-btn.classList.add('active');
-
-btn.innerHTML=
-btn.innerHTML
-.replace('☐','☑');
-
-selectedStatus=status;
-
-}
-
-function saveStatus(){
-
-if(!selectedStatus){
-
-alert('体調を選んでください');
-
-return;
-
-}
-
-localStorage.setItem(
-'todayCondition',
-selectedStatus
+const now =
+new Date()
+.toLocaleString(
+'ja-JP'
 );
 
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
+const form =
+new FormData();
+
+form.append(
+'action',
+'watch'
+);
+
+form.append(
+'id',
+userId
+);
+
+form.append(
+'status',
+'体調'
+);
+
+form.append(
+'memo',
+type
+);
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+body:form
+}
+)
+
+.then(r=>r.text())
+
+.then(()=>{
+
 localStorage.setItem(
-'todayConditionTime',
-new Date().toLocaleString('ja-JP')
+'lastGenki',
+JSON.stringify({
+type:type,
+time:now
+})
 );
 
 document.getElementById(
-'result'
-).style.display='block';
+'statusArea'
+).innerHTML =
 
-setTimeout(function(){
+'☑ ' +
 
-location.href='index.html';
+type +
 
-},1500);
+'<br><br>' +
+
+now;
+
+alert(
+'送信しました'
+);
+
+});
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
+);
+
+if(last){
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'☑ ' +
+
+last.type +
+
+'<br><br>' +
+
+last.time;
 
 }
 
