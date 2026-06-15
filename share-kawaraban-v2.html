@@ -38,31 +38,20 @@ margin-bottom:20px;
 }
 
 .homeBtn{
-
 width:100%;
-
 border:none;
-
 border-radius:24px;
-
 padding:24px;
-
 margin-top:20px;
-
 background:linear-gradient(
 135deg,
 #475569,
 #64748b
 );
-
 color:#fff;
-
 font-size:26px;
-
 font-weight:900;
-
 cursor:pointer;
-
 }
 
 .loading{
@@ -144,13 +133,9 @@ cursor:pointer;
 }
 
 .share button:after{
-
 content:" ＞";
-
 float:right;
-
 opacity:.8;
-
 }
 
 </style>
@@ -172,18 +157,57 @@ opacity:.8;
 <button
 class="homeBtn"
 onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
-
 🏠 トップへ戻る
-
 </button>
 
 </div>
 
 <script>
 
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"4市瓦版";
+
+const GVIZ_URL =
+"https://docs.google.com/spreadsheets/d/"
++ SHEET_ID
++ "/gviz/tq?sheet="
++ encodeURIComponent(SHEET_NAME)
++ "&tqx=out:json";
+
+function getVal(cell){
+
+if(!cell){
+return '';
+}
+
+return cell.f || cell.v || '';
+
+}
+
+function makeImageUrl(url){
+
+url = String(url || '').trim();
+
+if(url.includes('/file/d/')){
+
+const id =
+url.split('/file/d/')[1].split('/')[0];
+
+return 'https://docs.google.com/uc?export=view&id=' + id;
+
+}
+
+return url;
+
+}
+
 function makeShareUrl(id){
 
-return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban="
+return
+"https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban="
 + encodeURIComponent(id);
 
 }
@@ -228,49 +252,6 @@ alert("URLをコピーしました");
 
 }
 
-const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME="4市瓦版";
-
-const GVIZ_URL=
-"https://docs.google.com/spreadsheets/d/"
-+ SHEET_ID +
-"/gviz/tq?sheet="
-+ encodeURIComponent(SHEET_NAME)
-+ "&tqx=out:json";
-
-
-const GVIZ_URL=
-"https://docs.google.com/spreadsheets/d/"
-+ SHEET_ID +
-"/gviz/tq?sheet="
-+ encodeURIComponent(SHEET_NAME)
-+ "&tqx=out:json";
-
-function getVal(cell){
-
-if(!cell)return '';
-
-return cell.f || cell.v || '';
-
-}
-
-function makeImageUrl(url){
-
-url=String(url || '').trim();
-
-if(url.includes('/file/d/')){
-
-const id=
-url.split('/file/d/')[1].split('/')[0];
-
-return 'https://docs.google.com/uc?export=view&id=' + id;
-
-}
-
-return url;
-
-}
-
 fetch(GVIZ_URL)
 
 .then(function(response){
@@ -281,139 +262,21 @@ return response.text();
 
 .then(function(text){
 
-const json=
+const json =
 JSON.parse(
 text.substring(
 text.indexOf("{"),
-text.lastIndexOf("}")+1
+text.lastIndexOf("}") + 1
 )
 );
 
-const rows=
+const rows =
 json.table.rows || [];
 
-const params=
+const params =
 new URLSearchParams(location.search);
 
-const targetId=
+const targetId =
 params.get("kawaraban");
 
-let html="";
-
-if(targetId){
-
-const row=
-rows.slice().reverse()[Number(targetId)-1];
-
-if(row){
-
-const date=
-getVal(row.c[0]);
-
-const image=
-makeImageUrl(
-getVal(row.c[1])
-);
-
-const title=
-getVal(row.c[2]);
-
-const content=
-getVal(row.c[3]);
-
-const shareUrl=
-makeShareUrl(targetId);
-
-const shareText=
-title || "4市瓦版";
-
-html+=`
-
-<div class="card">
-
-${
-image
-?
-`
-<img
-class="thumb"
-src="${image}">
-`
-:
-''
-}
-
-<div class="date">
-${date}
-</div>
-
-<div class="tag">
-4市瓦版
-</div>
-
-<div class="title">
-${title}
-</div>
-
-<div class="desc">
-${content}
-</div>
-
-<div class="share">
-
-<button onclick="shareLine('${shareUrl}')">
-
-💬 LINEで送る
-
-</button>
-
-<button onclick="copyUrl('${shareUrl}')">
-
-📋 URLコピー
-
-</button>
-
-<button onclick="shareFacebook('${shareUrl}')">
-
-📘 Facebookへ投稿
-
-</button>
-
-<button onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
-
-✖ Xへ投稿
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-}
-
-document.getElementById("app").innerHTML=
-
-html ||
-
-"<div class='loading'>記事がありません</div>";
-
-})
-
-.catch(function(err){
-
-document.getElementById("app").innerHTML=
-
-"<div class='loading'>読込失敗</div>";
-
-console.error(err);
-
-});
-
-</script>
-
-</body>
-</html>
+let html = "";
