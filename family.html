@@ -76,10 +76,6 @@ border-left:8px solid #06b6d4;
 border-left:8px solid #2563eb;
 }
 
-.request{
-border-left:8px solid #f59e0b;
-}
-
 .schedule{
 border-left:8px solid #a855f7;
 }
@@ -132,13 +128,6 @@ margin-top:16px;
 <div class="card">
 <div class="title">💊 服薬状況</div>
 <div id="medicineArea" class="item medicine">
-記録なし
-</div>
-</div>
-
-<div class="card">
-<div class="title">💊 薬が残り少ない</div>
-<div id="requestArea" class="item request">
 記録なし
 </div>
 </div>
@@ -249,27 +238,6 @@ document.getElementById(
 'medicineArea'
 ).innerHTML =
 med;
-
-const request =
-JSON.parse(
-localStorage.getItem(
-'medicineRequest'
-) || 'null'
-);
-
-if(request){
-
-document.getElementById(
-'requestArea'
-).innerHTML =
-
-(request.type || '') +
-
-'<br><br>' +
-
-(request.time || '');
-
-}
 
 function loadSchedules(){
 
