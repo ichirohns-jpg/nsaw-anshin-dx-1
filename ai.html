@@ -45,6 +45,7 @@ color:#fff;
 font-size:32px;
 font-weight:900;
 margin-bottom:16px;
+cursor:pointer;
 }
 
 .card{
@@ -55,11 +56,31 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 margin-bottom:16px;
 }
 
+.title{
+font-size:24px;
+font-weight:900;
+margin-bottom:12px;
+}
+
 .result{
 font-size:22px;
 line-height:1.8;
 font-weight:700;
 min-height:120px;
+}
+
+.callBtn{
+display:block;
+width:100%;
+padding:18px;
+margin-top:12px;
+border-radius:18px;
+background:#16a34a;
+color:#fff;
+text-decoration:none;
+text-align:center;
+font-size:22px;
+font-weight:900;
 }
 
 .home{
@@ -71,17 +92,6 @@ padding:20px;
 border-radius:20px;
 text-align:center;
 font-size:22px;
-font-weight:900;
-}
-
-.navBtn{
-display:inline-block;
-margin-top:15px;
-padding:12px 20px;
-border-radius:14px;
-background:#2563eb;
-color:#fff;
-text-decoration:none;
 font-weight:900;
 }
 
@@ -102,9 +112,50 @@ onclick="startVoice()">
 </button>
 
 <div class="card">
-<div id="result" class="result">
-話してください
+
+<div class="title">
+🎤 聞き取った内容
 </div>
+
+<div
+id="speechText"
+class="result">
+
+まだ話していません
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+🤖 AIの回答
+</div>
+
+<div
+id="result"
+class="result">
+
+話してください
+
+</div>
+
+</div>
+
+<div
+id="actionArea"
+class="card"
+style="display:none">
+
+<div class="title">
+📞 候補
+</div>
+
+<div id="actionList">
+
+</div>
+
 </div>
 
 <a href="index.html" class="home">
@@ -118,7 +169,7 @@ const SHEET_ID =
 
 function getVal(cell){
 
-if(!cell) return '';
+if(!cell)return'';
 
 return cell.f || cell.v || '';
 
@@ -134,9 +185,7 @@ text;
 speechSynthesis.cancel();
 
 speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-text
-)
+new SpeechSynthesisUtterance(text)
 );
 
 }
@@ -150,18 +199,25 @@ in window
 )
 ){
 
-alert(
-'音声認識未対応'
-);
+alert('音声認識未対応');
 
 return;
 
 }
 
+document.getElementById(
+'speechText'
+).innerHTML =
+'🎤 聞いています...';
+
 const rec =
 new webkitSpeechRecognition();
 
 rec.lang='ja-JP';
+
+rec.interimResults=false;
+
+rec.continuous=false;
 
 rec.start();
 
@@ -170,58 +226,88 @@ rec.onresult=function(e){
 const q =
 e.results[0][0].transcript;
 
+document.getElementById(
+'speechText'
+).innerHTML =
+
+'✅ 聞き取れました<br><br>' +
+q;
+
 processQuestion(q);
 
 };
 
-}
-
 function processQuestion(q){
 
+document.getElementById(
+'actionArea'
+).style.display =
+'none';
+
 if(q.includes('ゴミ')){
-searchGarbage();
+
+speak(
+'ゴミページを開きます'
+);
+
+setTimeout(()=>{
+location.href='garbage.html';
+},1000);
+
 return;
+
 }
 
 if(q.includes('予定')){
-searchSchedule();
+
+speak(
+'予定ページを開きます'
+);
+
+setTimeout(()=>{
+location.href='schedule.html';
+},1000);
+
 return;
+
 }
 
 if(
 q.includes('包括') ||
 q.includes('相談')
 ){
+
 searchFacility('包括');
+
 return;
+
 }
 
 if(
 q.includes('避難')
 ){
+
 searchFacility('避難所');
+
 return;
+
 }
 
 if(
-q.includes('市役所')
+q.includes('タクシー') ||
+q.includes('車') ||
+q.includes('迎え')
 ){
-searchFacility('市役所');
+
+showTaxi();
+
 return;
+
 }
 
-if(
-q.includes('休日') ||
-q.includes('救急')
-){
-searchFacility('休日診療');
-return;
-}
 if(q.includes('病院')){
 
-window.open(
-'https://www.google.com/maps/search/病院'
-);
+searchFacility('病院');
 
 return;
 
@@ -229,29 +315,7 @@ return;
 
 if(q.includes('薬局')){
 
-window.open(
-'https://www.google.com/maps/search/薬局'
-);
-
-return;
-
-}
-
-if(q.includes('コンビニ')){
-
-window.open(
-'https://www.google.com/maps/search/コンビニ'
-);
-
-return;
-
-}
-
-if(q.includes('トイレ')){
-
-window.open(
-'https://www.google.com/maps/search/公衆トイレ'
-);
+searchFacility('薬局');
 
 return;
 
@@ -263,121 +327,35 @@ speak(
 
 }
 
-function searchFacility(type){
-
-const url =
-
-'https://docs.google.com/spreadsheets/d/' +
-
-SHEET_ID +
-
-'/gviz/tq?sheet=' +
-
-encodeURIComponent(
-'施設マスター'
-) +
-
-'&tqx=out:json';
-
-window.handleFacility =
-function(json){
-
-const rows =
-json.table.rows;
-
-for(let i=0;i<rows.length;i++){
-
-const row =
-rows[i];
-
-const facilityType =
-getVal(row.c[2]);
-
-if(
-facilityType === type
-){
-
-const name =
-getVal(row.c[3]);
-
-const address =
-getVal(row.c[4]);
-
-const tel =
-getVal(row.c[5]);
-
-const map =
-getVal(row.c[6]);
+function showTaxi(){
 
 document.getElementById(
-'result'
+'actionArea'
+).style.display =
+'block';
+
+document.getElementById(
+'actionList'
 ).innerHTML =
 
-'【' +
-type +
-'】<br><br>' +
+'<a class="callBtn" href="tel:0484710033">🚕 志木合同タクシー</a>' +
 
-name +
+'<a class="callBtn" href="tel:0492511111">🚕 富士見交通</a>' +
 
-'<br><br>' +
-
-address +
-
-'<br><br>' +
-
-(tel || '') +
-
-'<br><br>' +
-
-'<a class="navBtn" target="_blank" href="' +
-
-map +
-
-'">📍 ナビ開始</a>';
-
-speechSynthesis.speak(
-new SpeechSynthesisUtterance(
-name
-)
-);
-
-return;
-
-}
-
-}
+'<a class="callBtn" href="tel:0570038100">🚕 三和交通</a>';
 
 speak(
-'データが見つかりません'
+'タクシー会社を表示しました'
 );
-
-};
-
-const script =
-document.createElement(
-'script'
-);
-
-script.src =
-url +
-'&callback=handleFacility';
-
-document.body.appendChild(
-script);
 
 }
 
-function searchGarbage(){
+function searchFacility(type){
 
-location.href =
-'garbage.html';
-
-}
-
-function searchSchedule(){
-
-location.href =
-'schedule.html';
+speak(
+type +
+'を検索します'
+);
 
 }
 
