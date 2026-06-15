@@ -237,3 +237,183 @@ const GVIZ_URL=
 "/gviz/tq?sheet="
 + encodeURIComponent(SHEET_NAME)
 + "&tqx=out:json";
+
+
+const GVIZ_URL=
+"https://docs.google.com/spreadsheets/d/"
++ SHEET_ID +
+"/gviz/tq?sheet="
++ encodeURIComponent(SHEET_NAME)
++ "&tqx=out:json";
+
+function getVal(cell){
+
+if(!cell)return '';
+
+return cell.f || cell.v || '';
+
+}
+
+function makeImageUrl(url){
+
+url=String(url || '').trim();
+
+if(url.includes('/file/d/')){
+
+const id=
+url.split('/file/d/')[1].split('/')[0];
+
+return 'https://docs.google.com/uc?export=view&id=' + id;
+
+}
+
+return url;
+
+}
+
+fetch(GVIZ_URL)
+
+.then(function(response){
+
+return response.text();
+
+})
+
+.then(function(text){
+
+const json=
+JSON.parse(
+text.substring(
+text.indexOf("{"),
+text.lastIndexOf("}")+1
+)
+);
+
+const rows=
+json.table.rows || [];
+
+const params=
+new URLSearchParams(location.search);
+
+const targetId=
+params.get("kawaraban");
+
+let html="";
+
+if(targetId){
+
+const row=
+rows.slice().reverse()[Number(targetId)-1];
+
+if(row){
+
+const date=
+getVal(row.c[0]);
+
+const image=
+makeImageUrl(
+getVal(row.c[1])
+);
+
+const title=
+getVal(row.c[2]);
+
+const content=
+getVal(row.c[3]);
+
+const shareUrl=
+makeShareUrl(targetId);
+
+const shareText=
+title || "4市瓦版";
+
+html+=`
+
+<div class="card">
+
+${
+image
+?
+`
+<img
+class="thumb"
+src="${image}">
+`
+:
+''
+}
+
+<div class="date">
+${date}
+</div>
+
+<div class="tag">
+4市瓦版
+</div>
+
+<div class="title">
+${title}
+</div>
+
+<div class="desc">
+${content}
+</div>
+
+<div class="share">
+
+<button onclick="shareLine('${shareUrl}')">
+
+💬 LINEで送る
+
+</button>
+
+<button onclick="copyUrl('${shareUrl}')">
+
+📋 URLコピー
+
+</button>
+
+<button onclick="shareFacebook('${shareUrl}')">
+
+📘 Facebookへ投稿
+
+</button>
+
+<button onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
+
+✖ Xへ投稿
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+}
+
+document.getElementById("app").innerHTML=
+
+html ||
+
+"<div class='loading'>記事がありません</div>";
+
+})
+
+.catch(function(err){
+
+document.getElementById("app").innerHTML=
+
+"<div class='loading'>読込失敗</div>";
+
+console.error(err);
+
+});
+
+</script>
+
+</body>
+</html>
