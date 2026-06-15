@@ -297,11 +297,20 @@ text.lastIndexOf("}")+1
 
 const rows=json.table.rows||[];
 
+const params=
+new URLSearchParams(location.search);
+
+const targetId=
+params.get("radio");
+
 let html="";
 
-rows.reverse();
+if(targetId){
 
-rows.forEach(function(row,index){
+const row=
+rows.slice().reverse()[Number(targetId)-1];
+
+if(row){
 
 const date=getCell(row,0);
 const video=getCell(row,1);
@@ -309,10 +318,11 @@ const title=getCell(row,2);
 const desc=getCell(row,3);
 const tags=getCell(row,4);
 
-const videoId=getYoutubeId(video);
+const videoId=
+getYoutubeId(video);
 
 const shareUrl=
-makeShareUrl(index+1);
+makeShareUrl(targetId);
 
 const shareText=
 title || "地域ラジオ";
@@ -374,10 +384,13 @@ URLコピー
 
 `;
 
-});
+}
+
+}
 
 document.getElementById("app").innerHTML=
-html;
+html ||
+"<div class='loading'>記事がありません</div>";
 
 })
 
