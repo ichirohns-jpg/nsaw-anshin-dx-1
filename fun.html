@@ -200,26 +200,25 @@ return '';
 url=String(url);
 
 let m=url.match(/youtu\.be\/([^?&]+)/);
-if(m){
-return m[1];
-}
+if(m)return m[1];
 
 m=url.match(/[?&]v=([^&]+)/);
-if(m){
-return m[1];
-}
+if(m)return m[1];
 
 m=url.match(/embed\/([^?&]+)/);
-if(m){
-return m[1];
-}
+if(m)return m[1];
 
 m=url.match(/shorts\/([^?&]+)/);
-if(m){
-return m[1];
-}
+if(m)return m[1];
 
 return '';
+
+}
+
+function makeShareUrl(id){
+
+return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-fun-v2.html?fun="
++ encodeURIComponent(id);
 
 }
 
@@ -310,9 +309,6 @@ getVal(row.c[0]);
 const title=
 getVal(row.c[2]);
 
-const image=
-getVal(row.c[3]);
-
 const desc=
 getVal(row.c[4]);
 
@@ -329,130 +325,9 @@ const videoId=
 getYoutubeId(video);
 
 const shareUrl=
-location.href;
+makeShareUrl(index+1);
 
 const shareText=
 title || "お楽しみ動画";
 
-const html=
-
-'<div class="card">' +
-
-(videoId ?
-
-'<div class="player">' +
-'<iframe src="https://www.youtube.com/embed/' +
-videoId +
-'" allowfullscreen></iframe>' +
-'</div>'
-
-: '') +
-
-'<div class="body">' +
-
-'<div class="date">' +
-date +
-'</div>' +
-
-(genre ?
-
-'<div class="genre">' +
-genre +
-'</div>'
-
-: '') +
-
-'<div class="title">' +
-title +
-'</div>' +
-
-'<div class="desc">' +
-desc +
-'</div>' +
-
-(memo ?
-
-'<div class="memo">' +
-memo +
-'</div>'
-
-: '') +
-
-'<div class="share">' +
-
-'<button class="shareBtn" onclick="shareLine(\'' +
-shareUrl +
-'\')">💬 LINEで送る</button>' +
-
-'<button class="shareBtn" onclick="copyUrl(\'' +
-shareUrl +
-'\')">📋 URLコピー</button>' +
-
-'<button class="shareBtn" onclick="shareFacebook(\'' +
-shareUrl +
-'\')">📘 Facebookへ投稿</button>' +
-
-'<button class="shareBtn" onclick="shareX(\'' +
-shareUrl +
-'\',\'' +
-shareText.replace(/'/g,"\\'") +
-'\')">✖ Xへ投稿</button>' +
-
-'</div>' +
-
-'</div>' +
-
-'</div>';
-
-if(index===0){
-
-latest += html;
-
-}else{
-
-archive += html;
-
-}
-
-});
-
-document.getElementById('latest-area').innerHTML =
-latest || '動画がありません';
-
-document.getElementById('archive-area').innerHTML =
-archive;
-
-}
-
-</script>
-
-</head>
-
-<body onload="loadSheet()">
-
-<header>
-🎬 お楽しみ動画
-</header>
-
-<div class="wrap">
-
-<div id="latest-area">
-読込中...
-</div>
-
-<div class="sectionTitle">
-📚 アーカイブ
-</div>
-
-<div id="archive-area"></div>
-
-<a
-href="index.html"
-class="home">
-🏠 トップへ戻る
-</a>
-
-</div>
-
-</body>
-</html>
+const card=
