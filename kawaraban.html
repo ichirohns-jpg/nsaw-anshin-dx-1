@@ -198,13 +198,9 @@ font-size:32px;
 .card-text{
 font-size:24px;
 }
-.share-row a,
-.share-row button{
-font-size:22px;
-padding:22px;
-}
 }
 </style>
+
 </head>
 
 <body>
@@ -216,8 +212,12 @@ padding:22px;
 <div class="sub">志木市・朝霞市・新座市・和光市</div>
 </header>
 
-<button class="home" onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+<button
+class="home"
+onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
+
 🏠 トップへ戻る
+
 </button>
 
 <div class="section-title">
@@ -236,9 +236,7 @@ const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
 const SHEET_NAME='4市瓦版';
 
 function getVal(cell){
-if(!cell){
-return '';
-}
+if(!cell)return '';
 return cell.f || cell.v || '';
 }
 
@@ -252,61 +250,79 @@ return String(text || '')
 }
 
 function makeImageUrl(url){
+
 url=String(url || '').trim();
 
 if(url.includes('/file/d/')){
-const id=url.split('/file/d/')[1].split('/')[0];
+
+const id=
+url.split('/file/d/')[1].split('/')[0];
+
 return 'https://docs.google.com/uc?export=view&id=' + id;
+
 }
 
 return url;
+
 }
 
 function makeShareUrl(id){
-return 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban=' + encodeURIComponent(id);
+
+return 'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban='
++ encodeURIComponent(id);
+
 }
 
 function shareFacebook(url){
+
 window.open(
-'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
+'https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(url),
 '_blank'
 );
+
 }
 
 function shareLine(url){
+
 window.open(
-'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url),
+'https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(url),
 '_blank'
 );
+
 }
 
 function shareX(url,text){
+
 window.open(
-'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text),
+'https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(url) +
+'&text=' +
+encodeURIComponent(text),
 '_blank'
 );
+
 }
 
 function copyUrl(url){
-navigator.clipboard.writeText(url).then(function(){
+
+navigator.clipboard.writeText(url);
+
 alert('コピーしました');
-});
+
 }
 
 function loadSheet(){
 
-const script=document.createElement('script');
+const script=
+document.createElement('script');
 
 script.src=
-
 'https://docs.google.com/spreadsheets/d/' +
-
 SHEET_ID +
-
 '/gviz/tq?sheet=' +
-
 encodeURIComponent(SHEET_NAME) +
-
 '&tqx=out:json;responseHandler:handleSheet';
 
 document.body.appendChild(script);
@@ -316,29 +332,9 @@ document.body.appendChild(script);
 window.handleSheet=function(json){
 
 const container=
-
 document.getElementById('news-container');
 
-if(
-
-!json ||
-
-!json.table ||
-
-!json.table.rows
-
-){
-
-container.innerHTML=
-
-'<div class="error">データ取得失敗</div>';
-
-return;
-
-}
-
 const rows=
-
 json.table.rows.slice().reverse();
 
 container.innerHTML='';
@@ -359,16 +355,34 @@ getVal(row.c[2]);
 const content=
 getVal(row.c[3]);
 
-if(
-!title &&
-!content &&
-!image
-){
-return;
-}
+const link=
+getVal(row.c[4]);
 
 const shareUrl=
 makeShareUrl(index+1);
+
+let bodyHtml='';
+
+if(content){
+
+bodyHtml=
+'<div class="card-text">' +
+esc(content) +
+'</div>';
+
+}else if(link){
+
+bodyHtml=
+'<a class="btn-link" target="_blank" href="' +
+esc(link) +
+'">📄 記事を読む</a>';
+
+}else{
+
+bodyHtml=
+'<div class="card-text">記事準備中</div>';
+
+}
 
 const card=
 document.createElement('div');
@@ -381,9 +395,9 @@ card.innerHTML=
 
 '<div class="image-container"><img src="' +
 esc(image) +
-'"></div>' :
+'"></div>'
 
-'')
+: '')
 
 +
 
@@ -399,9 +413,7 @@ esc(date) +
 esc(title) +
 '</div>' +
 
-'<div class="card-text">' +
-esc(content) +
-'</div>' +
+bodyHtml +
 
 '<div class="share-row">' +
 
@@ -430,14 +442,6 @@ esc(title) +
 container.appendChild(card);
 
 });
-
-if(container.children.length===0){
-
-container.innerHTML=
-
-'<div class="error">記事がありません</div>';
-
-}
 
 };
 
