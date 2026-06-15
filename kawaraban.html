@@ -132,17 +132,22 @@ margin-bottom:20px;
 white-space:pre-wrap;
 }
 
-.btn-link{
+.article-links{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:18px;
+}
+
+.article-btn{
 display:block;
-text-align:center;
 background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:#fff;
 text-decoration:none;
-padding:20px;
-border-radius:20px;
-font-size:24px;
+padding:18px;
+border-radius:18px;
+font-size:22px;
 font-weight:900;
-margin-bottom:12px;
 }
 
 .share-row{
@@ -152,7 +157,6 @@ gap:14px;
 margin-top:22px;
 }
 
-.share-row a,
 .share-row button{
 width:100%;
 border:none;
@@ -161,20 +165,9 @@ padding:24px;
 font-size:24px;
 font-weight:900;
 text-align:left;
-text-decoration:none;
 color:#fff;
 cursor:pointer;
 background:linear-gradient(180deg,#374151,#111827);
-box-shadow:
-0 8px 20px rgba(0,0,0,.25),
-inset 0 1px 0 rgba(255,255,255,.15);
-}
-
-.share-row a::after,
-.share-row button::after{
-content:" ＞";
-float:right;
-opacity:.8;
 }
 
 .loading,
@@ -187,23 +180,6 @@ font-size:24px;
 font-weight:900;
 }
 
-@media(max-width:700px){
-header{
-font-size:34px;
-padding:24px 16px;
-}
-.card-title{
-font-size:32px;
-}
-.card-text{
-font-size:24px;
-}
-.share-row a,
-.share-row button{
-font-size:22px;
-padding:22px;
-}
-}
 </style>
 
 </head>
@@ -257,8 +233,7 @@ url=String(url || '').trim();
 
 if(url.includes('/file/d/')){
 
-const id=
-url.split('/file/d/')[1].split('/')[0];
+const id=url.split('/file/d/')[1].split('/')[0];
 
 return 'https://docs.google.com/uc?export=view&id=' + id;
 
@@ -341,9 +316,12 @@ if(
 !json.table ||
 !json.table.rows
 ){
+
 container.innerHTML=
 '<div class="error">データ取得失敗</div>';
+
 return;
+
 }
 
 const rows=
@@ -355,50 +333,69 @@ rows.forEach(function(row,index){
 
 if(!row.c)return;
 
-const date=
-getVal(row.c[0]);
+const date=getVal(row.c[0]);
+const image=makeImageUrl(getVal(row.c[1]));
+const title=getVal(row.c[2]);
+const content=getVal(row.c[3]);
 
-const image=
-makeImageUrl(getVal(row.c[1]));
+const shikiTitle=getVal(row.c[4]);
+const shikiUrl=getVal(row.c[5]);
 
-const title=
-getVal(row.c[2]);
+const niizaTitle=getVal(row.c[6]);
+const niizaUrl=getVal(row.c[7]);
 
-const content=
-getVal(row.c[3]);
+const asakaTitle=getVal(row.c[8]);
+const asakaUrl=getVal(row.c[9]);
 
-const articleUrl=
-getVal(row.c[4]);
+const wakoTitle=getVal(row.c[10]);
+const wakoUrl=getVal(row.c[11]);
 
 const shareUrl=
 makeShareUrl(index+1);
 
-let bodyHtml='';
+let linksHtml='';
 
-if(
-content &&
-String(content).trim()!==''
-){
+if(shikiTitle && shikiUrl){
 
-bodyHtml=
-'<div class="card-text">' +
-esc(content) +
-'</div>';
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+esc(shikiUrl) +
+'">📍志木市：' +
+esc(shikiTitle) +
+'</a>';
 
-}else if(
-articleUrl &&
-String(articleUrl).trim()!==''
-){
+}
 
-bodyHtml=
-'<a class="btn-link" target="_blank" href="' +
-esc(articleUrl) +
-'">📄 元記事を読む</a>';
+if(niizaTitle && niizaUrl){
 
-}else{
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+esc(niizaUrl) +
+'">📍新座市：' +
+esc(niizaTitle) +
+'</a>';
 
-bodyHtml=
-'<div class="card-text">記事準備中</div>';
+}
+
+if(asakaTitle && asakaUrl){
+
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+esc(asakaUrl) +
+'">📍朝霞市：' +
+esc(asakaTitle) +
+'</a>';
+
+}
+
+if(wakoTitle && wakoUrl){
+
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+esc(wakoUrl) +
+'">📍和光市：' +
+esc(wakoTitle) +
+'</a>';
 
 }
 
@@ -429,7 +426,13 @@ esc(date) +
 esc(title) +
 '</div>' +
 
-bodyHtml +
+'<div class="card-text">' +
+esc(content) +
+'</div>' +
+
+'<div class="article-links">' +
+linksHtml +
+'</div>' +
 
 '<div class="share-row">' +
 
