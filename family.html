@@ -80,6 +80,10 @@ border-left:8px solid #2563eb;
 border-left:8px solid #f59e0b;
 }
 
+.schedule{
+border-left:8px solid #a855f7;
+}
+
 .btn{
 display:block;
 width:100%;
@@ -112,7 +116,7 @@ margin-top:16px;
 </div>
 
 <div class="card">
-<div class="title">😊 元気です</div>
+<div class="title">😊 今日の体調</div>
 <div id="genkiArea" class="item genki">
 記録なし
 </div>
@@ -133,9 +137,16 @@ margin-top:16px;
 </div>
 
 <div class="card">
-<div class="title">💊 薬がない</div>
+<div class="title">💊 薬が残り少ない</div>
 <div id="requestArea" class="item request">
 記録なし
+</div>
+</div>
+
+<div class="card">
+<div class="title">📅 今後の予定</div>
+<div id="scheduleArea" class="item schedule">
+読込中...
 </div>
 </div>
 
@@ -147,6 +158,9 @@ margin-top:16px;
 </div>
 
 <script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
 const lastSOS =
 JSON.parse(
@@ -256,6 +270,84 @@ document.getElementById(
 (request.time || '');
 
 }
+
+function loadSchedules(){
+
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
+fetch(
+GAS_URL +
+'?action=scheduleList&id=' +
+encodeURIComponent(userId)
+)
+
+.then(r=>r.json())
+
+.then(res=>{
+
+const area =
+document.getElementById(
+'scheduleArea'
+);
+
+if(
+!res.data ||
+!res.data.length
+){
+
+area.innerHTML =
+'予定なし';
+
+return;
+
+}
+
+let html='';
+
+res.data.forEach(item=>{
+
+html +=
+
+'<div style="margin-bottom:18px">' +
+
+'<b>' +
+(item.date || '') +
+' ' +
+(item.time || '') +
+'</b><br>' +
+
+(item.title || '') +
+'<br>' +
+
+(item.place || '') +
+'<br>' +
+
+(item.memo || '') +
+
+'</div>';
+
+});
+
+area.innerHTML =
+html;
+
+})
+
+.catch(()=>{
+
+document.getElementById(
+'scheduleArea'
+).innerHTML =
+'取得失敗';
+
+});
+
+}
+
+loadSchedules();
 
 const gps =
 JSON.parse(
