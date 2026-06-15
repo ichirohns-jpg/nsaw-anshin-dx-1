@@ -1,368 +1,292 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>4市瓦版</title>
+<script>
 
-<style>
-:root{
---blue:#2563eb;
---bg:#eef2f7;
---text:#111827;
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"4市瓦版";
+
+const GVIZ_URL =
+"https://docs.google.com/spreadsheets/d/"
++ SHEET_ID +
+"/gviz/tq?sheet="
++ encodeURIComponent(SHEET_NAME)
++ "&tqx=out:json";
+
+function getCell(row,index){
+
+if(!row || !row.c || !row.c[index]){
+return "";
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+const c=row.c[index];
 
-body{
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-background:var(--bg);
-color:var(--text);
-padding:10px;
+if(c.v!==undefined && c.v!==null){
+return c.v;
 }
 
-.container{max-width:520px;margin:auto}
-
-header{
-background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
-color:#fff;
-text-align:center;
-padding:24px;
-border-radius:24px;
-margin-bottom:20px;
-font-size:34px;
-font-weight:900;
-box-shadow:0 12px 30px rgba(0,0,0,.25);
+if(c.f!==undefined && c.f!==null){
+return c.f;
 }
 
-.sub{
-font-size:16px;
-margin-top:8px;
-font-weight:700;
+return "";
+
 }
 
-.section-title{
-font-size:38px;
-font-weight:900;
-margin:20px 0;
-border-left:10px solid var(--blue);
-padding-left:14px;
+function formatDate(value){
+
+if(!value)return "";
+
+const text=
+String(value).trim();
+
+let m=
+text.match(/Date\((\d+),(\d+),(\d+)\)/);
+
+if(m){
+
+return m[1]
++"年"
++(Number(m[2])+1)
++"月"
++m[3]
++"日";
+
 }
 
-#news-container{
-display:flex;
-flex-direction:column;
-gap:24px;
+return text;
+
 }
 
-.card{
-background:#fff;
-border-radius:30px;
-overflow:hidden;
-box-shadow:0 15px 40px rgba(0,0,0,.15);
-border:1px solid #e5e7eb;
+function parseGViz(text){
+
+const match=
+text.match(/\{[\s\S]*\}/);
+
+if(!match){
+
+throw new Error(
+"GViz取得失敗"
+);
+
 }
 
-.image-container{
-position:relative;
-width:100%;
-padding-top:177.77%;
-background:#e5e7eb;
-overflow:hidden;
+return JSON.parse(match[0]);
+
 }
 
-.image-container img{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-object-position:center;
+function makeShareUrl(id){
+
+return
+"https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban="
++ encodeURIComponent(id);
+
 }
 
-.card-content{
-padding:20px;
+function shareFacebook(url){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u="
++ encodeURIComponent(url),
+"_blank"
+);
+
 }
 
-.city-tag{
-display:inline-block;
-background:#dbeafe;
-color:#1d4ed8;
-padding:8px 14px;
-border-radius:999px;
-font-size:16px;
-font-weight:900;
-margin-bottom:12px;
+function shareLine(url){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url="
++ encodeURIComponent(url),
+"_blank"
+);
+
 }
 
-.card-title{
-font-size:34px;
-font-weight:900;
-line-height:1.4;
-margin-bottom:14px;
+function shareX(url,text){
+
+window.open(
+"https://twitter.com/intent/tweet?url="
++ encodeURIComponent(url)
++ "&text="
++ encodeURIComponent(text),
+"_blank"
+);
+
 }
 
-.card-text{
-font-size:24px;
-line-height:1.8;
-color:#475569;
-margin-bottom:18px;
-white-space:pre-wrap;
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert("URLをコピーしました");
+
 }
 
-.btn-link{
-display:block;
-text-align:center;
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:#fff;
-text-decoration:none;
-padding:20px;
-border-radius:18px;
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
+fetch(GVIZ_URL)
+
+.then(function(response){
+
+return response.text();
+
+})
+
+.then(function(text){
+
+const json =
+parseGViz(text);
+
+const rows =
+json.table.rows || [];
+
+let items=[];
+
+for(
+let i=0;
+i<rows.length;
+i++
+){
+
+const row=
+rows[i];
+
+const date=
+formatDate(
+getCell(row,0)
+);
+
+const image=
+getCell(row,1);
+
+const title=
+getCell(row,2);
+
+const desc=
+getCell(row,3);
+
+if(
+!date &&
+!image &&
+!title &&
+!desc
+){
+continue;
 }
 
-.share-row{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-top:18px;
+items.push({
+
+id:i+1,
+
+date:date,
+
+image:image,
+
+title:title,
+
+desc:desc
+
+});
+
 }
 
-.share-row a,
-.share-row button{
-border:none;
-text-align:center;
-padding:16px 8px;
-border-radius:16px;
-font-size:20px;
-font-weight:900;
-text-decoration:none;
-color:#fff;
-cursor:pointer;
+items.reverse();
+
+let html="";
+
+items.forEach(function(item){
+
+const shareUrl=
+makeShareUrl(item.id);
+
+const shareText=
+item.title || "4市瓦版";
+
+html+=`
+
+<div class="card">
+
+${
+item.image
+?
+`
+<img
+src="${item.image}"
+class="thumb"
+loading="lazy">
+`
+:
+''
 }
 
-.share-fb{background:#1877f2}
-.share-line{background:#06c755}
-.share-x{background:#000}
-.share-copy{background:#475569}
-
-.home{
-display:block;
-width:100%;
-border:none;
-background:#475569;
-color:#fff;
-padding:20px;
-border-radius:20px;
-font-size:24px;
-font-weight:900;
-margin-top:24px;
-}
-
-.loading,.error{
-background:#fff;
-padding:30px;
-border-radius:24px;
-text-align:center;
-font-size:24px;
-font-weight:900;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<header>
-📰 4市瓦版
-<div class="sub">志木市・朝霞市・新座市・和光市</div>
-</header>
-
-<div class="section-title">最新の回覧板データー</div>
-
-<div id="news-container">
-<div class="loading">読込中...</div>
+<div class="date">
+${item.date}
 </div>
 
-<button class="home" onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/'">
-🏠 トップへ戻る
+<div class="tag">
+4市瓦版
+</div>
+
+<div class="title">
+${item.title}
+</div>
+
+<div class="desc">
+${item.desc}
+</div>
+
+<div class="share">
+
+<button onclick="shareLine('${shareUrl}')">
+
+💬 LINEで送る
+
+</button>
+
+<button onclick="copyUrl('${shareUrl}')">
+
+📋 URLをコピー
+
+</button>
+
+<button onclick="shareFacebook('${shareUrl}')">
+
+📘 Facebookへ投稿
+
+</button>
+
+<button onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
+
+✖ Xへ投稿
+
 </button>
 
 </div>
 
-<script>
+</div>
 
-const SHEET_ID='149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-const SHEET_NAME='4市瓦版';
-
-function getVal(cell){
-
-if(!cell)return '';
-
-return cell.f||cell.v||'';
-
-}
-
-function esc(text){
-
-return String(text||'')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#39;');
-
-}
-
-function makeImageUrl(url){
-
-url=String(url||'').trim();
-
-if(url.includes('/file/d/')){
-
-const id=url.split('/file/d/')[1].split('/')[0];
-
-return 'https://docs.google.com/uc?export=view&id='+id;
-
-}
-
-return url;
-
-}
-
-function copyPage(){
-
-const url='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/kawaraban.html';
-
-navigator.clipboard.writeText(url).then(function(){
-
-alert('コピーしました');
+`;
 
 });
 
-}
+document.getElementById("app").innerHTML=
 
-window.handleSheet=function(json){
+html ||
 
-const container=document.getElementById('news-container');
+"<div class='loading'>記事がありません</div>";
 
-if(!json||!json.table||!json.table.rows){
+})
 
-container.innerHTML=
-'<div class="error">データ取得失敗</div>';
+.catch(function(err){
 
-return;
+document.getElementById("app").innerHTML=
 
-}
+"<div class='loading'>読込失敗</div>";
 
-const rows=json.table.rows.slice().reverse();
-
-container.innerHTML='';
-
-rows.forEach(function(row){
-
-if(!row.c)return;
-
-const date=getVal(row.c[0]);
-const image=makeImageUrl(getVal(row.c[1]));
-const title=getVal(row.c[2]);
-const content=getVal(row.c[3]);
-
-const shikiTitle=getVal(row.c[4]);
-const shikiUrl=getVal(row.c[5]);
-
-const niizaTitle=getVal(row.c[6]);
-const niizaUrl=getVal(row.c[7]);
-
-const asakaTitle=getVal(row.c[8]);
-const asakaUrl=getVal(row.c[9]);
-
-const wakoTitle=getVal(row.c[10]);
-const wakoUrl=getVal(row.c[11]);
-
-if(!title&&!content&&!image)return;
-
-const shareUrl=
-'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/kawaraban.html';
-
-const card=document.createElement('div');
-
-card.className='card';
-
-card.innerHTML=
-
-(image
-?'<div class="image-container"><img src="'+esc(image)+'"></div>'
-:'')
-
-+
-
-'<div class="card-content">'+
-
-'<div class="city-tag">4市瓦版</div>'+
-
-'<div class="card-title">'+
-esc(title)+
-'</div>'+
-
-'<div style="font-size:18px;color:#64748b;font-weight:700;margin-bottom:12px;">'+
-esc(date)+
-'</div>'+
-
-'<div class="card-text">'+
-esc(content)+
-'</div>'+
-
-(shikiTitle
-?'<a class="btn-link" target="_blank" href="'+esc(shikiUrl)+'">志木市：'+esc(shikiTitle)+'</a>'
-:'')
-
-+
-
-(niizaTitle
-?'<a class="btn-link" target="_blank" href="'+esc(niizaUrl)+'">新座市：'+esc(niizaTitle)+'</a>'
-:'')
-
-+
-
-(asakaTitle
-?'<a class="btn-link" target="_blank" href="'+esc(asakaUrl)+'">朝霞市：'+esc(asakaTitle)+'</a>'
-:'')
-
-+
-
-(wakoTitle
-?'<a class="btn-link" target="_blank" href="'+esc(wakoUrl)+'">和光市：'+esc(wakoTitle)+'</a>'
-:'')
-
-+
-
-'<div class="share-row">'+
-
-'<a class="share-fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+
-encodeURIComponent(shareUrl)+
-'">Facebook</a>'+
-
-'<a class="share-line" target="_blank" href="https://social-plugins.line.me/lineit/share?url='+
-encodeURIComponent(shareUrl)+
-'">LINE</a>'+
-
-'<a class="share-x" target="_blank" href="https://twitter.com/intent/tweet?url='+
-encodeURIComponent(shareUrl)+
-'&text='+
-encodeURIComponent(title)+
-'">X</a>'+
-
-'<button class="share-copy" onclick="copyPage()">コピー</button>'+
-
-'</div>'+
-
-'</div>';
-
-container.appendChild(card);
+console.error(err);
 
 });
+
+</script>
+
+</body>
+</html>
