@@ -77,7 +77,7 @@ border-left:8px solid #2563eb;
 }
 
 .schedule{
-border-left:8px solid #a855f7;
+border-left:8px solid #8b5cf6;
 }
 
 .btn{
@@ -107,28 +107,28 @@ margin-top:16px;
 <div class="card">
 <div class="title">🚨 SOS</div>
 <div id="sosArea" class="item sos">
-記録なし
+読込中...
 </div>
 </div>
 
 <div class="card">
 <div class="title">😊 今日の体調</div>
 <div id="genkiArea" class="item genki">
-記録なし
+読込中...
 </div>
 </div>
 
 <div class="card">
 <div class="title">🏠 帰宅しました</div>
 <div id="homeArea" class="item homeStatus">
-記録なし
+読込中...
 </div>
 </div>
 
 <div class="card">
 <div class="title">💊 服薬状況</div>
 <div id="medicineArea" class="item medicine">
-記録なし
+読込中...
 </div>
 </div>
 
@@ -142,7 +142,7 @@ margin-top:16px;
 <div class="card">
 <div class="title">📍 現在地</div>
 <div id="gpsArea" class="item gps">
-位置情報なし
+読込中...
 </div>
 </div>
 
@@ -151,163 +151,114 @@ margin-top:16px;
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-const lastSOS =
-JSON.parse(
+const USER_ID =
 localStorage.getItem(
-'lastSOS'
-) || 'null'
-);
+'userId'
+) || '';
 
-if(lastSOS){
+function loadFamily(){
+
+fetch(
+GAS_URL +
+'?action=family&id=' +
+encodeURIComponent(USER_ID)
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+if(data.sos){
 
 document.getElementById(
 'sosArea'
 ).innerHTML =
 
-(lastSOS.mainType || '') +
-'<br>' +
-
-(lastSOS.memo || '') +
-'<br>' +
-
-(lastSOS.time || '');
+data.sos;
 
 }
 
-const lastGenki =
-JSON.parse(
-localStorage.getItem(
-'lastGenki'
-) || 'null'
-);
-
-if(lastGenki){
+if(data.genki){
 
 document.getElementById(
 'genkiArea'
 ).innerHTML =
 
-'最終送信<br><br>' +
-
-(lastGenki.time || '');
+data.genki;
 
 }
 
-const lastHome =
-JSON.parse(
-localStorage.getItem(
-'lastHome'
-) || 'null'
-);
-
-if(lastHome){
+if(data.home){
 
 document.getElementById(
 'homeArea'
 ).innerHTML =
 
-'最終帰宅<br><br>' +
-
-(lastHome.time || '');
+data.home;
 
 }
 
-const medicine =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
-let med='';
-
-med += medicine.morning ? '☑ 朝<br>' : '☐ 朝<br>';
-med += medicine.noon ? '☑ 昼<br>' : '☐ 昼<br>';
-med += medicine.evening ? '☑ 夕方<br>' : '☐ 夕方<br>';
-med += medicine.night ? '☑ 寝る前<br>' : '☐ 寝る前<br>';
-
-if(medicine.time){
-
-med +=
-'<br>最終記録<br>' +
-medicine.time;
-
-}
+if(data.medicine){
 
 document.getElementById(
 'medicineArea'
 ).innerHTML =
-med;
 
-function loadSchedules(){
-
-const userId =
-localStorage.getItem(
-'userId'
-) || '';
-
-fetch(
-GAS_URL +
-'?action=scheduleList&id=' +
-encodeURIComponent(userId)
-)
-
-.then(r=>r.json())
-
-.then(res=>{
-
-const area =
-document.getElementById(
-'scheduleArea'
-);
-
-if(
-!res.data ||
-!res.data.length
-){
-
-area.innerHTML =
-'予定なし';
-
-return;
+data.medicine;
 
 }
 
-let html='';
+if(data.schedule){
 
-res.data.forEach(item=>{
+document.getElementById(
+'scheduleArea'
+).innerHTML =
 
-html +=
+data.schedule;
 
-'<div style="margin-bottom:18px">' +
+}
 
-'<b>' +
-(item.date || '') +
-' ' +
-(item.time || '') +
-'</b><br>' +
+if(data.gps){
 
-(item.title || '') +
-'<br>' +
+document.getElementById(
+'gpsArea'
+).innerHTML =
 
-(item.place || '') +
-'<br>' +
+data.gps;
 
-(item.memo || '') +
-
-'</div>';
-
-});
-
-area.innerHTML =
-html;
+}
 
 })
 
 .catch(()=>{
 
 document.getElementById(
+'sosArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'genkiArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'homeArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'medicineArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
 'scheduleArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'gpsArea'
 ).innerHTML =
 '取得失敗';
 
@@ -315,32 +266,7 @@ document.getElementById(
 
 }
 
-loadSchedules();
-
-const gps =
-JSON.parse(
-localStorage.getItem(
-'lastGPS'
-) || 'null'
-);
-
-if(gps){
-
-document.getElementById(
-'gpsArea'
-).innerHTML =
-
-gps.time +
-
-'<br><br>' +
-
-'<a class="btn" target="_blank" href="' +
-
-gps.mapUrl +
-
-'">📍 地図を見る</a>';
-
-}
+loadFamily();
 
 </script>
 
