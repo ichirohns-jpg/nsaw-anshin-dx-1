@@ -169,7 +169,7 @@ encodeURIComponent(USER_ID)
 let sos='記録なし';
 let genki='記録なし';
 let home='記録なし';
-let medicine='記録なし';
+let medicine='';
 let gps='記録なし';
 
 rows.forEach(row=>{
@@ -212,16 +212,25 @@ time;
 
 if(status==='服薬'){
 
-medicine =
+medicine +=
+
+'💊 ' +
+
 memo +
-'<br><br>' +
-time;
+
+'<br>' +
+
+time +
+
+'<br><br>';
 
 }
 
 if(status==='GPS'){
 
 gps =
+
+'📍 最終位置取得<br><br>' +
 
 time +
 
@@ -255,7 +264,8 @@ home;
 document.getElementById(
 'medicineArea'
 ).innerHTML =
-medicine;
+
+medicine || '記録なし';
 
 document.getElementById(
 'gpsArea'
@@ -270,6 +280,31 @@ loadSchedule();
 
 document.getElementById(
 'sosArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'genkiArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'homeArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'medicineArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'gpsArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'scheduleArea'
 ).innerHTML =
 '取得失敗';
 
@@ -329,6 +364,15 @@ document.getElementById(
 'scheduleArea'
 ).innerHTML =
 html;
+
+})
+
+.catch(()=>{
+
+document.getElementById(
+'scheduleArea'
+).innerHTML =
+'取得失敗';
 
 });
 
