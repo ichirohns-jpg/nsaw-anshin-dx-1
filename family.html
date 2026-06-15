@@ -94,6 +94,18 @@ background:linear-gradient(135deg,#475569,#334155);
 margin-top:16px;
 }
 
+.mapBtn{
+display:block;
+margin-top:12px;
+padding:16px;
+border-radius:16px;
+background:#2563eb;
+color:#fff;
+text-decoration:none;
+text-align:center;
+font-weight:900;
+}
+
 </style>
 
 </head>
@@ -106,44 +118,32 @@ margin-top:16px;
 
 <div class="card">
 <div class="title">🚨 SOS</div>
-<div id="sosArea" class="item sos">
-読込中...
-</div>
+<div id="sosArea" class="item sos">読込中...</div>
 </div>
 
 <div class="card">
 <div class="title">😊 今日の体調</div>
-<div id="genkiArea" class="item genki">
-読込中...
-</div>
+<div id="genkiArea" class="item genki">読込中...</div>
 </div>
 
 <div class="card">
 <div class="title">🏠 帰宅しました</div>
-<div id="homeArea" class="item homeStatus">
-読込中...
-</div>
+<div id="homeArea" class="item homeStatus">読込中...</div>
 </div>
 
 <div class="card">
 <div class="title">💊 服薬状況</div>
-<div id="medicineArea" class="item medicine">
-読込中...
-</div>
+<div id="medicineArea" class="item medicine">読込中...</div>
 </div>
 
 <div class="card">
 <div class="title">📅 今後の予定</div>
-<div id="scheduleArea" class="item schedule">
-読込中...
-</div>
+<div id="scheduleArea" class="item schedule">読込中...</div>
 </div>
 
 <div class="card">
 <div class="title">📍 現在地</div>
-<div id="gpsArea" class="item gps">
-読込中...
-</div>
+<div id="gpsArea" class="item gps">読込中...</div>
 </div>
 
 <script>
@@ -152,81 +152,117 @@ const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
 const USER_ID =
-localStorage.getItem(
-'userId'
-) || '';
+localStorage.getItem('userId') || '';
 
 function loadFamily(){
 
 fetch(
 GAS_URL +
-'?action=family&id=' +
+'?action=records&id=' +
 encodeURIComponent(USER_ID)
 )
 
 .then(r=>r.json())
 
-.then(data=>{
+.then(rows=>{
 
-if(data.sos){
+let sos='記録なし';
+let genki='記録なし';
+let home='記録なし';
+let medicine='記録なし';
+let gps='記録なし';
+
+rows.forEach(row=>{
+
+const status =
+row.status || '';
+
+const memo =
+row.memo || '';
+
+const time =
+row.time || '';
+
+if(status==='SOS'){
+
+sos =
+memo +
+'<br><br>' +
+time;
+
+}
+
+if(status==='体調'){
+
+genki =
+memo +
+'<br><br>' +
+time;
+
+}
+
+if(status==='帰宅'){
+
+home =
+memo +
+'<br><br>' +
+time;
+
+}
+
+if(status==='服薬'){
+
+medicine =
+memo +
+'<br><br>' +
+time;
+
+}
+
+if(status==='GPS'){
+
+gps =
+
+time +
+
+'<br><br>' +
+
+'<a class="mapBtn" target="_blank" href="' +
+
+memo +
+
+'">📍 地図を見る</a>';
+
+}
+
+});
 
 document.getElementById(
 'sosArea'
 ).innerHTML =
-
-data.sos;
-
-}
-
-if(data.genki){
+sos;
 
 document.getElementById(
 'genkiArea'
 ).innerHTML =
-
-data.genki;
-
-}
-
-if(data.home){
+genki;
 
 document.getElementById(
 'homeArea'
 ).innerHTML =
-
-data.home;
-
-}
-
-if(data.medicine){
+home;
 
 document.getElementById(
 'medicineArea'
 ).innerHTML =
-
-data.medicine;
-
-}
-
-if(data.schedule){
-
-document.getElementById(
-'scheduleArea'
-).innerHTML =
-
-data.schedule;
-
-}
-
-if(data.gps){
+medicine;
 
 document.getElementById(
 'gpsArea'
 ).innerHTML =
+gps;
 
-data.gps;
-
-}
+loadSchedule();
 
 })
 
@@ -237,30 +273,62 @@ document.getElementById(
 ).innerHTML =
 '取得失敗';
 
-document.getElementById(
-'genkiArea'
-).innerHTML =
-'取得失敗';
+});
 
-document.getElementById(
-'homeArea'
-).innerHTML =
-'取得失敗';
+}
 
-document.getElementById(
-'medicineArea'
-).innerHTML =
-'取得失敗';
+function loadSchedule(){
+
+fetch(
+GAS_URL +
+'?action=scheduleList&id=' +
+encodeURIComponent(USER_ID)
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+if(
+!data.data ||
+!data.data.length
+){
 
 document.getElementById(
 'scheduleArea'
 ).innerHTML =
-'取得失敗';
+'予定なし';
+
+return;
+
+}
+
+let html='';
+
+data.data.forEach(item=>{
+
+html +=
+
+'📅 ' +
+
+(item.date || '') +
+
+' ' +
+
+(item.time || '') +
+
+'<br>' +
+
+(item.title || '') +
+
+'<br><br>';
+
+});
 
 document.getElementById(
-'gpsArea'
+'scheduleArea'
 ).innerHTML =
-'取得失敗';
+html;
 
 });
 
