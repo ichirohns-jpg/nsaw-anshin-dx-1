@@ -81,6 +81,52 @@ margin-top:10px;
 
 }
 
+.statusCard{
+
+background:#ffffff;
+
+border-radius:30px;
+
+padding:22px;
+
+margin-bottom:18px;
+
+box-shadow:
+0 8px 20px
+rgba(0,0,0,.08);
+
+}
+
+.statusTitle{
+
+font-size:26px;
+
+font-weight:900;
+
+margin-bottom:16px;
+
+color:#111827;
+
+}
+
+.statusBox{
+
+background:#f8fafc;
+
+border-radius:20px;
+
+padding:16px;
+
+margin-bottom:12px;
+
+font-size:20px;
+
+font-weight:900;
+
+line-height:1.8;
+
+}
+
 .grid{
 
 display:grid;
@@ -248,6 +294,46 @@ NSAW
 
 </div>
 
+<div class="statusCard">
+
+<div class="statusTitle">
+現在の状態
+</div>
+
+<div
+id="statusGenki"
+class="statusBox">
+
+😊 元気確認なし
+
+</div>
+
+<div
+id="statusMedicine"
+class="statusBox">
+
+💊 服薬記録なし
+
+</div>
+
+<div
+id="statusSchedule"
+class="statusBox">
+
+📅 予定なし
+
+</div>
+
+<div
+id="statusGPS"
+class="statusBox">
+
+📍 位置情報なし
+
+</div>
+
+</div>
+
 <div class="grid">
 
 <a href="genki.html" class="btn green">
@@ -372,10 +458,6 @@ NSAW
 管理
 </div>
 
-<a href="emergency.html" class="link">
-🚨 緊急連絡履歴
-</a>
-
 <a href="family.html" class="link">
 👪 支援者ページ
 </a>
@@ -393,6 +475,86 @@ NSAW
 </a>
 
 </div>
+
+<script>
+
+const lastGenki =
+JSON.parse(
+localStorage.getItem(
+'lastGenki'
+) || 'null'
+);
+
+if(lastGenki){
+
+document.getElementById(
+'statusGenki'
+).innerHTML =
+
+'😊 ' +
+(lastGenki.type || '') +
+'<br>' +
+(lastGenki.time || '');
+
+}
+
+const medicineData =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+if(medicineData.time){
+
+document.getElementById(
+'statusMedicine'
+).innerHTML =
+
+'💊 最終服薬<br>' +
+medicineData.time;
+
+}
+
+const scheduleData =
+JSON.parse(
+localStorage.getItem(
+'lastSchedule'
+) || 'null'
+);
+
+if(scheduleData){
+
+document.getElementById(
+'statusSchedule'
+).innerHTML =
+
+'📅 ' +
+(scheduleData.title || '') +
+'<br>' +
+(scheduleData.date || '');
+
+}
+
+const lastGPS =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
+) || 'null'
+);
+
+if(lastGPS){
+
+document.getElementById(
+'statusGPS'
+).innerHTML =
+
+'📍 最終位置取得<br>' +
+(lastGPS.time || '');
+
+}
+
+</script>
 
 </body>
 </html>
