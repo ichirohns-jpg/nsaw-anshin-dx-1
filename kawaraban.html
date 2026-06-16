@@ -259,52 +259,6 @@ return url;
 
 }
 
-function makeShareUrl(no){
-
-return 'share-kawaraban-v2.html?kawaraban=' + no;
-
-}
-
-function shareLine(url){
-
-window.open(
-'https://social-plugins.line.me/lineit/share?url=' +
-encodeURIComponent(url),
-'_blank'
-);
-
-}
-
-function shareFacebook(url){
-
-window.open(
-'https://www.facebook.com/sharer/sharer.php?u=' +
-encodeURIComponent(url),
-'_blank'
-);
-
-}
-
-function shareX(url,title){
-
-window.open(
-'https://twitter.com/intent/tweet?url=' +
-encodeURIComponent(url) +
-'&text=' +
-encodeURIComponent(title),
-'_blank'
-);
-
-}
-
-function copyUrl(url){
-
-navigator.clipboard.writeText(url);
-
-alert('URLをコピーしました');
-
-}
-
 function loadSheet(){
 
 const script =
@@ -433,7 +387,8 @@ wakoTitle +
 }
 
 const shareUrl =
-makeShareUrl(index + 1);
+'share-kawaraban-v2.html?kawaraban=' +
+(index + 1);
 
 const card =
 document.createElement('div');
@@ -441,71 +396,32 @@ document.createElement('div');
 card.className='card';
 
 card.innerHTML =
-
 (image ?
-
-'<div class="image-container">' +
-'<img src="' +
-esc(image) +
-'">' +
-'</div>'
-
+'<div class="image-container"><img src="' +
+image +
+'"></div>'
 : '')
-
 +
-
-'<div class="card-content">' +
-
-'<div class="city-tag">' +
-'4市瓦版' +
-'</div>' +
-
+'<div class="card-content">'
++
+'<div class="city-tag">4市瓦版</div>'
++
 '<div class="date">' +
-esc(date) +
-'</div>' +
-
+date +
+'</div>'
++
 '<div class="card-title">' +
-esc(title) +
-'</div>' +
-
+title +
+'</div>'
++
 '<div class="card-text">' +
-esc(content) +
-'</div>' +
-
+content +
+'</div>'
++
 '<div class="article-links">' +
 linksHtml +
-'</div>' +
-
-'<div class="share-row">' +
-
-'<button class="share-btn" onclick="shareLine(\'' +
-shareUrl +
-'\')">' +
-'💬 LINEで送る' +
-'</button>' +
-
-'<button class="share-btn" onclick="shareFacebook(\'' +
-shareUrl +
-'\')">' +
-'📘 Facebookへ投稿' +
-'</button>' +
-
-'<button class="share-btn" onclick="shareX(\'' +
-shareUrl +
-'\',\'' +
-esc(title) +
-'\')">' +
-'✖ Xへ投稿' +
-'</button>' +
-
-'<button class="share-btn" onclick="copyUrl(\'' +
-shareUrl +
-'\')">' +
-'📋 URLコピー' +
-'</button>' +
-
-'</div>' +
-
+'</div>'
++
 '</div>';
 
 container.appendChild(card);
