@@ -87,11 +87,6 @@ overflow:hidden;
 box-shadow:0 12px 30px rgba(0,0,0,.15);
 }
 
-.image-container img{
-width:100%;
-display:block;
-}
-
 .card-content{
 padding:20px;
 }
@@ -175,6 +170,11 @@ border-radius:24px;
 text-align:center;
 font-size:24px;
 font-weight:900;
+}
+
+.image-container img{
+width:100%;
+display:block;
 }
 
 </style>
@@ -349,52 +349,29 @@ const content=getVal(row.c[3]);
 
 const shikiTitle=getVal(row.c[4]);
 const shikiUrl=getVal(row.c[5]);
-
 const niizaTitle=getVal(row.c[6]);
 const niizaUrl=getVal(row.c[7]);
-
 const asakaTitle=getVal(row.c[8]);
 const asakaUrl=getVal(row.c[9]);
-
 const wakoTitle=getVal(row.c[10]);
 const wakoUrl=getVal(row.c[11]);
 
 let linksHtml='';
 
 if(shikiTitle && shikiUrl){
-linksHtml +=
-'<a class="article-btn" target="_blank" href="' +
-shikiUrl +
-'">📍志木市：' +
-shikiTitle +
-'</a>';
+linksHtml += '<a class="article-btn" target="_blank" href="' + shikiUrl + '">📍志木市：' + shikiTitle + '</a>';
 }
 
 if(niizaTitle && niizaUrl){
-linksHtml +=
-'<a class="article-btn" target="_blank" href="' +
-niizaUrl +
-'">📍新座市：' +
-niizaTitle +
-'</a>';
+linksHtml += '<a class="article-btn" target="_blank" href="' + niizaUrl + '">📍新座市：' + niizaTitle + '</a>';
 }
 
 if(asakaTitle && asakaUrl){
-linksHtml +=
-'<a class="article-btn" target="_blank" href="' +
-asakaUrl +
-'">📍朝霞市：' +
-asakaTitle +
-'</a>';
+linksHtml += '<a class="article-btn" target="_blank" href="' + asakaUrl + '">📍朝霞市：' + asakaTitle + '</a>';
 }
 
 if(wakoTitle && wakoUrl){
-linksHtml +=
-'<a class="article-btn" target="_blank" href="' +
-wakoUrl +
-'">📍和光市：' +
-wakoTitle +
-'</a>';
+linksHtml += '<a class="article-btn" target="_blank" href="' + wakoUrl + '">📍和光市：' + wakoTitle + '</a>';
 }
 
 const shareUrl =
@@ -420,17 +397,11 @@ image +
 
 '<div class="city-tag">4市瓦版</div>' +
 
-'<div class="date">' +
-date +
-'</div>' +
+'<div class="date">' + date + '</div>' +
 
-'<div class="card-title">' +
-title +
-'</div>' +
+'<div class="card-title">' + title + '</div>' +
 
-'<div class="card-text">' +
-content +
-'</div>' +
+'<div class="card-text">' + content + '</div>' +
 
 '<div class="article-links">' +
 linksHtml +
@@ -438,23 +409,13 @@ linksHtml +
 
 '<div class="share-row">' +
 
-'<button class="share-btn" onclick="shareLine(\'' +
-shareUrl +
-'\')">💬 LINEで送る</button>' +
+'<button class="share-btn" onclick="shareLine(\'' + shareUrl + '\')">💬 LINEで送る</button>' +
 
-'<button class="share-btn" onclick="shareFacebook(\'' +
-shareUrl +
-'\')">📘 Facebookへ投稿</button>' +
+'<button class="share-btn" onclick="shareFacebook(\'' + shareUrl + '\')">📘 Facebookへ投稿</button>' +
 
-'<button class="share-btn" onclick="shareX(\'' +
-shareUrl +
-'\',\'' +
-title +
-'\')">✖ Xへ投稿</button>' +
+'<button class="share-btn" onclick="shareX(\'' + shareUrl + '\',\'' + title + '\')">✖ Xへ投稿</button>' +
 
-'<button class="share-btn" onclick="copyUrl(\'' +
-shareUrl +
-'\')">📋 URLコピー</button>' +
+'<button class="share-btn" onclick="copyUrl(\'' + shareUrl + '\')">📋 URLコピー</button>' +
 
 '</div>' +
 
