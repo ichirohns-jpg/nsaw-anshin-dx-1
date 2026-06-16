@@ -320,11 +320,7 @@ window.handleSheet = function(json){
 const container =
 document.getElementById('news-container');
 
-if(
-!json ||
-!json.table ||
-!json.table.rows
-){
+if(!json || !json.table || !json.table.rows){
 
 container.innerHTML =
 '<div class="error">データ取得失敗</div>';
@@ -349,10 +345,13 @@ const content=getVal(row.c[3]);
 
 const shikiTitle=getVal(row.c[4]);
 const shikiUrl=getVal(row.c[5]);
+
 const niizaTitle=getVal(row.c[6]);
 const niizaUrl=getVal(row.c[7]);
+
 const asakaTitle=getVal(row.c[8]);
 const asakaUrl=getVal(row.c[9]);
+
 const wakoTitle=getVal(row.c[10]);
 const wakoUrl=getVal(row.c[11]);
 
