@@ -132,6 +132,7 @@ margin-bottom:16px;
 display:flex;
 flex-direction:column;
 gap:12px;
+margin-top:16px;
 }
 
 .article-btn{
@@ -143,6 +144,27 @@ padding:18px;
 border-radius:18px;
 font-size:20px;
 font-weight:900;
+}
+
+.share-row{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:18px;
+}
+
+.share-btn{
+display:block;
+border:none;
+background:#111827;
+color:#fff;
+padding:18px;
+border-radius:18px;
+font-size:20px;
+font-weight:900;
+cursor:pointer;
+width:100%;
+text-align:left;
 }
 
 .loading,
@@ -214,7 +236,9 @@ function esc(str){
 return String(str || '')
 .replace(/&/g,'&amp;')
 .replace(/</g,'&lt;')
-.replace(/>/g,'&gt;');
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#39;');
 
 }
 
@@ -232,6 +256,52 @@ return 'https://docs.google.com/uc?export=view&id=' + id;
 }
 
 return url;
+
+}
+
+function makeShareUrl(no){
+
+return 'share-kawaraban-v2.html?kawaraban=' + no;
+
+}
+
+function shareLine(url){
+
+window.open(
+'https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareFacebook(url){
+
+window.open(
+'https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareX(url,title){
+
+window.open(
+'https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(url) +
+'&text=' +
+encodeURIComponent(title),
+'_blank'
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert('URLをコピーしました');
 
 }
 
@@ -272,9 +342,9 @@ return;
 const rows =
 json.table.rows.slice().reverse();
 
-container.innerHTML = '';
+container.innerHTML='';
 
-rows.forEach(function(row){
+rows.forEach(function(row,index){
 
 if(!row.c)return;
 
@@ -292,6 +362,79 @@ getVal(row.c[2]);
 const content =
 getVal(row.c[3]);
 
+const shikiTitle =
+getVal(row.c[4]);
+
+const shikiUrl =
+getVal(row.c[5]);
+
+const niizaTitle =
+getVal(row.c[6]);
+
+const niizaUrl =
+getVal(row.c[7]);
+
+const asakaTitle =
+getVal(row.c[8]);
+
+const asakaUrl =
+getVal(row.c[9]);
+
+const wakoTitle =
+getVal(row.c[10]);
+
+const wakoUrl =
+getVal(row.c[11]);
+
+let linksHtml='';
+
+if(shikiTitle && shikiUrl){
+
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+shikiUrl +
+'">📍志木市：' +
+shikiTitle +
+'</a>';
+
+}
+
+if(niizaTitle && niizaUrl){
+
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+niizaUrl +
+'">📍新座市：' +
+niizaTitle +
+'</a>';
+
+}
+
+if(asakaTitle && asakaUrl){
+
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+asakaUrl +
+'">📍朝霞市：' +
+asakaTitle +
+'</a>';
+
+}
+
+if(wakoTitle && wakoUrl){
+
+linksHtml +=
+'<a class="article-btn" target="_blank" href="' +
+wakoUrl +
+'">📍和光市：' +
+wakoTitle +
+'</a>';
+
+}
+
+const shareUrl =
+makeShareUrl(index + 1);
+
 const card =
 document.createElement('div');
 
@@ -303,7 +446,7 @@ card.innerHTML =
 
 '<div class="image-container">' +
 '<img src="' +
-image +
+esc(image) +
 '">' +
 '</div>'
 
@@ -318,15 +461,49 @@ image +
 '</div>' +
 
 '<div class="date">' +
-date +
+esc(date) +
 '</div>' +
 
 '<div class="card-title">' +
-title +
+esc(title) +
 '</div>' +
 
 '<div class="card-text">' +
-content +
+esc(content) +
+'</div>' +
+
+'<div class="article-links">' +
+linksHtml +
+'</div>' +
+
+'<div class="share-row">' +
+
+'<button class="share-btn" onclick="shareLine(\'' +
+shareUrl +
+'\')">' +
+'💬 LINEで送る' +
+'</button>' +
+
+'<button class="share-btn" onclick="shareFacebook(\'' +
+shareUrl +
+'\')">' +
+'📘 Facebookへ投稿' +
+'</button>' +
+
+'<button class="share-btn" onclick="shareX(\'' +
+shareUrl +
+'\',\'' +
+esc(title) +
+'\')">' +
+'✖ Xへ投稿' +
+'</button>' +
+
+'<button class="share-btn" onclick="copyUrl(\'' +
+shareUrl +
+'\')">' +
+'📋 URLコピー' +
+'</button>' +
+
 '</div>' +
 
 '</div>';
@@ -341,3 +518,12 @@ container.innerHTML =
 '<div class="error">記事がありません</div>';
 
 }
+
+};
+
+window.onload = loadSheet;
+
+</script>
+
+</body>
+</html>
