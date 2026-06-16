@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- FacebookやLINEが最優先で読み込むタイトルと説明文をここに固定しました -->
-<title>4市瓦版（公式）｜志木・朝霞・新座・和光</title>
+<title>4市瓦版</title>
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="4市瓦版（公式）">
-<meta property="og:description" content="志木市・朝霞市・新座市・和光市の地域行政・イベント最新情報をお届けします。">
+<meta property="og:title" content="4市瓦版">
+<meta property="og:description" content="志木市・朝霞市・新座市・和光市の最新情報">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
@@ -64,9 +63,7 @@ return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html
 function shareFacebook(url){ window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "_blank"); }
 function shareLine(url){ window.open("https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(url), "_blank"); }
 function shareX(url,text){ window.open("https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(text), "_blank"); }
-if (typeof copyUrl !== 'function') {
 function copyUrl(url){ navigator.clipboard.writeText(url); alert("URLをコピーしました"); }
-}
 
 fetch(GVIZ_URL)
 .then(function(response){ return response.text(); })
