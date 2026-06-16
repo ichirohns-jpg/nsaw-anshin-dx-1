@@ -22,7 +22,12 @@ text-align:center;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e293b,
+#334155
+);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -119,6 +124,15 @@ id="timeArea"
 class="time">
 
 まだ記録がありません
+
+</div>
+
+<div
+id="homeCount"
+class="time"
+style="font-size:18px;color:#64748b;">
+
+本日の帰宅回数 0回
 
 </div>
 
@@ -263,6 +277,26 @@ time:now
 })
 );
 
+const count =
+Number(
+localStorage.getItem(
+'homeCount'
+) || '0'
+) + 1;
+
+localStorage.setItem(
+'homeCount',
+count
+);
+
+document.getElementById(
+'homeCount'
+).innerHTML =
+
+'本日の帰宅回数 ' +
+count +
+'回';
+
 document.getElementById(
 'timeArea'
 ).innerHTML =
@@ -280,6 +314,19 @@ alert(
 });
 
 }
+
+const homeCount =
+localStorage.getItem(
+'homeCount'
+) || '0';
+
+document.getElementById(
+'homeCount'
+).innerHTML =
+
+'本日の帰宅回数 ' +
+homeCount +
+'回';
 
 const last =
 JSON.parse(
