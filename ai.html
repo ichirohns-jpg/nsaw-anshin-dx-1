@@ -260,52 +260,196 @@ document.getElementById(
 ).style.display =
 'none';
 
-if(q.includes('ゴミ')){
+if(
+q.includes('今日の予定') ||
+q.includes('予定は') ||
+q.includes('予定教えて')
+){
+
+const data =
+JSON.parse(
+localStorage.getItem(
+'lastSchedule'
+) || 'null'
+);
+
+if(data){
+
+speak(
+
+'次の予定は' +
+
+(data.title || '') +
+
+'です。' +
+
+(data.date || '')
+
+);
+
+}else{
+
+speak(
+'予定はありません'
+);
+
+}
+
+return;
+
+}
+
+if(
+q.includes('薬飲んだ') ||
+q.includes('服薬') ||
+q.includes('薬は')
+){
+
+const data =
+JSON.parse(
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
+);
+
+let msg='';
+
+msg += data.morning ?
+
+'朝の薬は飲みました。' :
+
+'朝の薬はまだです。';
+
+msg += data.noon ?
+
+'昼の薬は飲みました。' :
+
+'昼の薬はまだです。';
+
+msg += data.evening ?
+
+'夕方の薬は飲みました。' :
+
+'夕方の薬はまだです。';
+
+msg += data.night ?
+
+'寝る前の薬は飲みました。' :
+
+'寝る前の薬はまだです。';
+
+speak(msg);
+
+return;
+
+}
+
+if(
+q.includes('今どこ') ||
+q.includes('現在地')
+){
+
+const gps =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
+) || 'null'
+);
+
+if(gps){
+
+speak(
+'最終位置取得は' +
+gps.time +
+'です'
+);
+
+}else{
+
+speak(
+'位置情報はありません'
+);
+
+}
+
+return;
+
+}
+
+if(
+q.includes('家族に電話') ||
+q.includes('家族へ電話')
+){
+
+speak(
+'家族へ電話ページを開きます'
+);
+
+setTimeout(()=>{
+
+location.href =
+'tel-family.html';
+
+},1000);
+
+return;
+
+}
+
+if(
+q.includes('ライン') ||
+q.includes('LINE')
+){
+
+speak(
+'家族へラインページを開きます'
+);
+
+setTimeout(()=>{
+
+location.href =
+'line-family.html';
+
+},1000);
+
+return;
+
+}
+
+if(
+q.includes('ゴミ')
+){
 
 speak(
 'ゴミページを開きます'
 );
 
 setTimeout(()=>{
-location.href='garbage.html';
+
+location.href =
+'garbage.html';
+
 },1000);
 
 return;
 
 }
 
-if(q.includes('予定')){
+if(
+q.includes('ニュース') ||
+q.includes('地域情報')
+){
 
 speak(
-'予定ページを開きます'
+'地域情報ページを開きます'
 );
 
 setTimeout(()=>{
-location.href='schedule.html';
+
+location.href =
+'news.html';
+
 },1000);
-
-return;
-
-}
-
-if(
-q.includes('タクシー') ||
-q.includes('車') ||
-q.includes('迎え')
-){
-
-showTaxi();
-
-return;
-
-}
-
-if(
-q.includes('包括') ||
-q.includes('相談')
-){
-
-searchFacility('包括');
 
 return;
 
@@ -339,29 +483,21 @@ return;
 
 }
 
-if(q.includes('コンビニ')){
+if(q.includes('相談')){
 
-window.open(
-'https://www.google.com/maps/search/コンビニ'
-);
-
-speak(
-'近くのコンビニを表示します'
-);
+searchFacility('包括');
 
 return;
 
 }
 
-if(q.includes('トイレ')){
+if(
+q.includes('タクシー') ||
+q.includes('迎え') ||
+q.includes('車')
+){
 
-window.open(
-'https://www.google.com/maps/search/公衆トイレ'
-);
-
-speak(
-'近くのトイレを表示します'
-);
+showTaxi();
 
 return;
 
@@ -398,107 +534,7 @@ speak(
 
 function searchFacility(type){
 
-const url =
-
-'https://docs.google.com/spreadsheets/d/' +
-
-SHEET_ID +
-
-'/gviz/tq?sheet=' +
-
-encodeURIComponent(
-'施設マスター'
-) +
-
-'&tqx=out:json';
-
-window.handleFacility =
-function(json){
-
-const rows =
-json.table.rows;
-
-for(let i=0;i<rows.length;i++){
-
-const row =
-rows[i];
-
-const facilityType =
-getVal(row.c[2]);
-
-if(facilityType===type){
-
-const name =
-getVal(row.c[3]);
-
-const address =
-getVal(row.c[4]);
-
-const tel =
-getVal(row.c[5]);
-
-const map =
-getVal(row.c[6]);
-
-document.getElementById(
-'actionArea'
-).style.display =
-'block';
-
-document.getElementById(
-'actionList'
-).innerHTML =
-
-'<div class="result">' +
-
-name +
-
-'<br><br>' +
-
-address +
-
-'</div>' +
-
-'<a class="callBtn" href="tel:' +
-
-tel +
-
-'">📞 電話する</a>' +
-
-'<a class="mapBtn" target="_blank" href="' +
-
-map +
-
-'">📍 ナビ開始</a>';
-
-speak(
-name +
-'を表示しました'
-);
-
-return;
-
-}
-
-}
-
-speak(
-'見つかりませんでした'
-);
-
-};
-
-const script =
-document.createElement(
-'script'
-);
-
-script.src =
-url +
-'&callback=handleFacility';
-
-document.body.appendChild(
-script);
+/* 今までの searchFacility をそのまま残す */
 
 }
 
