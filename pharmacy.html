@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>薬局案内</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#22c55e,#16a34a);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:34px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:24px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.searchBtn{
+width:100%;
+border:none;
+background:#22c55e;
+color:#fff;
+padding:28px;
+border-radius:24px;
+font-size:30px;
+font-weight:900;
+}
+
+.result{
+font-size:20px;
+line-height:1.8;
+font-weight:700;
+}
+
+.mapBtn{
+display:block;
+margin-top:12px;
+padding:18px;
+border-radius:18px;
+background:#2563eb;
+color:#fff;
+text-decoration:none;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>💊 薬局案内</h1>
+</div>
+
+<div class="card">
+
+<button
+class="searchBtn"
+onclick="searchPharmacy()">
+
+💊 近くの薬局を探す
+
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+検索結果
+</div>
+
+<div
+id="result"
+class="result">
+
+ボタンを押してください
+
+</div>
+
+<a
+id="mapBtn"
+class="mapBtn"
+target="_blank"
+style="display:none">
+
+📍 Googleマップで開く
+
+</a>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+
+🏠 トップへ戻る
+
+</a>
+
+<script>
+
+function searchPharmacy(){
+
+const url =
+'https://www.google.com/maps/search/薬局';
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'現在地周辺の薬局をGoogleマップで検索します';
+
+const btn =
+document.getElementById(
+'mapBtn'
+);
+
+btn.href =
+url;
+
+btn.style.display =
+'block';
+
+window.open(
+url,
+'_blank'
+);
+
+}
+
+</script>
+
+</body>
+</html>
