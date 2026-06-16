@@ -379,3 +379,130 @@ document.getElementById(
 'actionArea'
 ).style.display =
 'block';
+
+document.getElementById(
+'actionList'
+).innerHTML =
+
+'<a class="callBtn" href="tel:0484710033">🚕 志木合同タクシー</a>' +
+
+'<a class="callBtn" href="tel:0492511111">🚕 富士見交通</a>' +
+
+'<a class="callBtn" href="tel:0570038100">🚕 三和交通</a>';
+
+speak(
+'タクシー会社を表示しました'
+);
+
+}
+
+function searchFacility(type){
+
+const url =
+
+'https://docs.google.com/spreadsheets/d/' +
+
+SHEET_ID +
+
+'/gviz/tq?sheet=' +
+
+encodeURIComponent(
+'施設マスター'
+) +
+
+'&tqx=out:json';
+
+window.handleFacility =
+function(json){
+
+const rows =
+json.table.rows;
+
+for(let i=0;i<rows.length;i++){
+
+const row =
+rows[i];
+
+const facilityType =
+getVal(row.c[2]);
+
+if(facilityType===type){
+
+const name =
+getVal(row.c[3]);
+
+const address =
+getVal(row.c[4]);
+
+const tel =
+getVal(row.c[5]);
+
+const map =
+getVal(row.c[6]);
+
+document.getElementById(
+'actionArea'
+).style.display =
+'block';
+
+document.getElementById(
+'actionList'
+).innerHTML =
+
+'<div class="result">' +
+
+name +
+
+'<br><br>' +
+
+address +
+
+'</div>' +
+
+'<a class="callBtn" href="tel:' +
+
+tel +
+
+'">📞 電話する</a>' +
+
+'<a class="mapBtn" target="_blank" href="' +
+
+map +
+
+'">📍 ナビ開始</a>';
+
+speak(
+name +
+'を表示しました'
+);
+
+return;
+
+}
+
+}
+
+speak(
+'見つかりませんでした'
+);
+
+};
+
+const script =
+document.createElement(
+'script'
+);
+
+script.src =
+url +
+'&callback=handleFacility';
+
+document.body.appendChild(
+script);
+
+}
+
+</script>
+
+</body>
+</html>
