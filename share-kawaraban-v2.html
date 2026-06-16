@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- ロボットが100%文章を拾い上げるための、正しいタグの並び順 -->
 <title>4市瓦版</title>
+
 <meta name="description" content="志木市・朝霞市・新座市・和光市の最新情報">
 
 <meta property="og:type" content="website">
@@ -20,100 +20,222 @@
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
 
 <style>
-*{ margin:0; padding:0; box-sizing:border-box; }
-body{ background:#eef3f8; font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif; color:#111827; }
-.wrap{ max-width:700px; margin:auto; padding:16px; }
-.header{ background:linear-gradient(135deg,#0f172a,#1d4ed8,#2563eb); color:#fff; padding:28px; border-radius:28px; text-align:center; font-size:38px; font-weight:900; margin-bottom:20px; }
-.card{ background:#fff; border-radius:30px; overflow:hidden; box-shadow:0 10px 35px rgba(0,0,0,.12); }
-.thumb{ width:100%; display:block; }
-.date{ padding:20px 22px 0; font-size:20px; font-weight:900; color:#64748b; }
-.tag{ display:inline-block; margin:16px 22px; padding:10px 16px; border-radius:999px; background:#dbeafe; color:#1d4ed8; font-size:18px; font-weight:900; }
-.title{ padding:0 22px; font-size:38px; font-weight:900; line-height:1.45; }
-.desc{ padding:20px 22px; font-size:26px; line-height:1.8; color:#475569; }
-.share{ display:flex; flex-direction:column; gap:14px; padding:20px; }
-.share button{ width:100%; background:linear-gradient(180deg,#374151,#111827); color:#fff; border:none; border-radius:24px; padding:24px; font-size:24px; font-weight:900; text-align:left; cursor:pointer; }
-.share button:after{ content:" ＞"; float:right; opacity:.8; }
-.homeBtn{ width:100%; margin-top:20px; background:linear-gradient(180deg,#475569,#111827); color:#fff; border:none; border-radius:24px; padding:24px; font-size:24px; font-weight:900; cursor:pointer; }
-.loading{ background:#fff; padding:30px; border-radius:24px; text-align:center; font-size:24px; font-weight:900; }
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef3f8;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#111827;
+}
+
+.wrap{
+max-width:700px;
+margin:auto;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#0f172a,#1d4ed8,#2563eb);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+font-size:38px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.card{
+background:#fff;
+border-radius:30px;
+overflow:hidden;
+box-shadow:0 10px 35px rgba(0,0,0,.12);
+}
+
+.thumb{
+width:100%;
+display:block;
+}
+
+.date{
+padding:20px 22px 0;
+font-size:20px;
+font-weight:900;
+color:#64748b;
+}
+
+.tag{
+display:inline-block;
+margin:16px 22px;
+padding:10px 16px;
+border-radius:999px;
+background:#dbeafe;
+color:#1d4ed8;
+font-size:18px;
+font-weight:900;
+}
+
+.title{
+padding:0 22px;
+font-size:38px;
+font-weight:900;
+line-height:1.45;
+}
+
+.desc{
+padding:20px 22px;
+font-size:26px;
+line-height:1.8;
+color:#475569;
+}
+
+.share{
+display:flex;
+flex-direction:column;
+gap:14px;
+padding:20px;
+}
+
+.share button{
+width:100%;
+background:linear-gradient(180deg,#374151,#111827);
+color:#fff;
+border:none;
+border-radius:24px;
+padding:24px;
+font-size:24px;
+font-weight:900;
+text-align:left;
+cursor:pointer;
+}
+
+.share button:after{
+content:" ＞";
+float:right;
+opacity:.8;
+}
+
+.homeBtn{
+width:100%;
+margin-top:20px;
+background:linear-gradient(180deg,#475569,#111827);
+color:#fff;
+border:none;
+border-radius:24px;
+padding:24px;
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+}
+
+.loading{
+background:#fff;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
+font-weight:900;
+}
+
 </style>
+
 </head>
 
 <body>
+
 <div class="wrap">
-<div id="app"></div>
+
+<div id="app">
+
+<div class="loading">
+読込中...
+</div>
+
+</div>
+
 </div>
 
 <script>
-const SHEET_ID = "149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME = "4市瓦版";
-const GVIZ_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?sheet=" + encodeURIComponent(SHEET_NAME) + "&tqx=out:json";
 
-function getVal(cell){ if(!cell){ return ''; } return cell.f || cell.v || ''; }
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"4市瓦版";
+
+function getVal(cell){
+
+if(!cell)return '';
+
+return cell.f || cell.v || '';
+
+}
 
 function makeImageUrl(url){
+
 url = String(url || '').trim();
+
 if(url.includes('/file/d/')){
-const id = url.split('/file/d/')[1].split('/')[0];
+
+const id =
+url.split('/file/d/')[1].split('/')[0];
+
 return 'https://docs.google.com/uc?export=view&id=' + id;
+
 }
+
 return url;
+
 }
 
 function makeShareUrl(id){
-return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban=" + encodeURIComponent(id);
+
+return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban=" +
+encodeURIComponent(id);
+
 }
 
-function shareFacebook(url){ window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "_blank"); }
-function shareLine(url){ window.open("https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(url), "_blank"); }
-function shareX(url,text){ window.open("https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(text), "_blank"); }
-function copyUrl(url){ navigator.clipboard.writeText(url); alert("URLをコピーしました"); }
+function shareFacebook(url){
 
-fetch(GVIZ_URL)
-.then(function(response){ return response.text(); })
-.then(function(text){
-const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
-const rows = json.table.rows || [];
-const params = new URLSearchParams(location.search);
-const targetId = params.get("kawaraban");
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(url),
+"_blank"
+);
 
-let html = "";
-html += '<div class="header">📰 4市瓦版</div>';
-
-if(targetId){
-const row = rows.slice().reverse()[Number(targetId)-1];
-if(row){
-const date = getVal(row.c[0]);
-const image = makeImageUrl(getVal(row.c[1]));
-const title = getVal(row.c[2]);
-const content = getVal(row.c[3]);
-const shareUrl = makeShareUrl(targetId);
-const shareText = title || "4市瓦版";
-
-html += '<div class="card">';
-if(image) html += '<img src="' + image + '" class="thumb" alt="画像">';
-html += '<div class="date">' + date + '</div>';
-html += '<div class="tag">最新情報</div>';
-html += '<div class="title">' + title + '</div>';
-html += '<div class="desc">' + content.replace(/\n/g, '<br>') + '</div>';
-html += '<div class="share">';
-html += '<button onclick="shareLine(\'' + shareUrl + '\')">LINEで共有</button>';
-html += '<button onclick="shareFacebook(\'' + shareUrl + '\')">Facebookで共有</button>';
-html += '<button onclick="shareX(\'' + shareUrl + '\', \'' + shareText + '\')">X(旧Twitter)で共有</button>';
-html += '<button onclick="copyUrl(\'' + shareUrl + '\')">URLをコピー</button>';
-html += '</div>';
-html += '</div>';
-html += '<button class="homeBtn" onclick="location.href=\'index.html\'">🏠 トップへ戻る</button>';
-} else {
-html += '<div class="loading">記事が見つかりませんでした。</div>';
 }
-} else {
-html += '<div class="loading">記事IDが指定されていません。</div>';
+
+function shareLine(url){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(url),
+"_blank"
+);
+
 }
-document.getElementById("app").innerHTML = html;
-})
-.catch(function(error){
-document.getElementById("app").innerHTML = '<div class="header">📰 4市瓦版</div><div class="loading">データの読み込みに失敗しました。</div>';
-});
-</script>
-</body>
-</html>
+
+function shareX(url,text){
+
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(url) +
+"&text=" +
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert("URLをコピーしました");
+
+}
