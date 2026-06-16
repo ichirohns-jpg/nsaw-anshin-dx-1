@@ -21,109 +21,12 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#16a34a,#15803d);
+background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
 color:#fff;
 padding:28px;
 border-radius:28px;
 text-align:center;
-margin-bottom:16px;
-}
-
-.header h1{
-font-size:34px;
-font-weight:900;
-}
-
-.card{
-background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:26px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.data{
-font-size:24px;
-line-height:1.8;
-font-weight:700;
-}
-
-.home{
-display:block;
-background:#475569;
-color:#fff;
-text-decoration:none;
-padding:20px;
-border-radius:20px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-<h1>🗑 ゴミの日案内</h1>
-</div>
-
-<div class="card">
-<div class="title">
-今日のゴミ
-</div>
-
-<div id="todayGarbage" class="data">
-読込中...
-</div>
-</div>
-
-<div class="card">
-<div class="title">
-明日のゴミ
-</div>
-
-<div id="tomorrowGarbage" class="data">
-読込中...
-</div>
-</div>
-
-<a
-href="index.html"
-class="home">
-🏠 トップへ戻る
-</a>
-
-<script>
-
-const SHEET_ID =
-'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-
-function getVal(cell){
-
-if(!cell) return '';
-
-return cell.f || cell.v || '';
-
-}
-
-function loadGarbage(){
-
-const url =
-
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=ゴミ&tqx=out:json';
-
-fetch(url)
+margin-bottom:16px
 
 .then(r=>r.text())
 
@@ -133,7 +36,7 @@ const json =
 JSON.parse(
 text.substring(
 47,
-text.length-2
+text.length - 2
 )
 );
 
@@ -160,7 +63,7 @@ document.getElementById(
 function handleGarbage(json){
 
 const rows =
-json.table.rows;
+json.table.rows || [];
 
 const areaCode =
 localStorage.getItem(
@@ -171,10 +74,14 @@ const days =
 ['日','月','火','水','木','金','土'];
 
 const today =
-days[new Date().getDay()];
+days[
+new Date().getDay()
+];
 
 const tomorrow =
-days[(new Date().getDay()+1)%7];
+days[
+(new Date().getDay()+1)%7
+];
 
 let todayText =
 '今日は収集ありません';
@@ -182,7 +89,11 @@ let todayText =
 let tomorrowText =
 '明日は収集ありません';
 
-for(let i=0;i<rows.length;i++){
+for(
+let i=0;
+i<rows.length;
+i++
+){
 
 const row =
 rows[i];
@@ -257,4 +168,3 @@ loadGarbage;
 
 </body>
 </html>
-  
