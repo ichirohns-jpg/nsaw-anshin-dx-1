@@ -7,7 +7,6 @@
 <title>NSAW あんしん見守りDX</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -18,20 +17,16 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:14px;
+color:#111827;
 }
 
 .header{
-background:linear-gradient(
-135deg,
-#0f172a,
-#1e293b
-);
+background:linear-gradient(135deg,#0f172a,#1e293b);
 padding:28px;
-border-radius:36px;
-margin-bottom:20px;
-box-shadow:0 15px 40px rgba(0,0,0,.18);
+border-radius:32px;
+margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,.18);
 text-align:center;
-min-height:140px;
 }
 
 .nsaw{
@@ -39,53 +34,59 @@ font-size:18px;
 letter-spacing:10px;
 font-weight:700;
 color:#94a3b8;
-margin-bottom:12px;
+margin-bottom:10px;
 }
 
 .mainTitle{
-font-size:30px;
+font-size:34px;
 font-weight:900;
-color:#ffffff;
+color:#fff;
 line-height:1.3;
 }
 
 .subTitle{
-font-size:14px;
+font-size:15px;
 color:#cbd5e1;
 margin-top:10px;
 }
 
-.statusCard{
-background:#ffffff;
-border-radius:30px;
-padding:22px;
-margin-bottom:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.statusTitle{
-font-size:28px;
-font-weight:900;
+.card{
+background:#fff;
+border-radius:26px;
+padding:20px;
 margin-bottom:16px;
-color:#111827;
+box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
-.statusBox{
+.todayDate{
+font-size:30px;
+font-weight:900;
+text-align:center;
+margin-bottom:16px;
+}
+
+.infoBox{
 background:#f8fafc;
 border-left:8px solid #2563eb;
-border-radius:20px;
-padding:20px;
-font-size:24px;
+border-radius:18px;
+padding:18px;
+font-size:22px;
 font-weight:900;
 line-height:1.8;
 margin-bottom:12px;
+}
+
+.sectionTitle{
+font-size:26px;
+font-weight:900;
+margin-bottom:14px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:14px;
-margin-bottom:20px;
+margin-bottom:16px;
 }
 
 .btn{
@@ -93,73 +94,26 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-height:130px;
-border-radius:30px;
+height:124px;
+border-radius:26px;
 text-decoration:none;
 color:#fff;
 font-size:42px;
 font-weight:900;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
+box-shadow:0 10px 24px rgba(0,0,0,.15);
 }
 
 .btn div{
 font-size:22px;
-margin-top:10px;
+margin-top:8px;
 }
 
-.green{
-background:linear-gradient(
-135deg,
-#16a34a,
-#15803d
-);
-}
-
-.red{
-background:linear-gradient(
-135deg,
-#ef4444,
-#dc2626
-);
-}
-
-.blue{
-background:linear-gradient(
-135deg,
-#2563eb,
-#1d4ed8
-);
-}
-
-.orange{
-background:linear-gradient(
-135deg,
-#f97316,
-#ea580c
-);
-}
-
-.purple{
-background:linear-gradient(
-135deg,
-#8b5cf6,
-#7c3aed
-);
-}
-
-.card{
-background:#fff;
-border-radius:30px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.sectionTitle{
-font-size:26px;
-font-weight:900;
-margin-bottom:12px;
-}
+.green{background:linear-gradient(135deg,#16a34a,#15803d);}
+.red{background:linear-gradient(135deg,#ef4444,#dc2626);}
+.blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);}
+.orange{background:linear-gradient(135deg,#f97316,#ea580c);}
+.purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);}
+.dark{background:linear-gradient(135deg,#334155,#0f172a);}
 
 .link{
 display:block;
@@ -174,59 +128,41 @@ border-bottom:1px solid #e5e7eb;
 .link:last-child{
 border-bottom:none;
 }
-
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-
-<div class="nsaw">
-NSAW
+<div class="nsaw">NSAW</div>
+<div class="mainTitle">あんしん見守りDX</div>
+<div class="subTitle">家族と地域をつなぐ生活支援システム</div>
 </div>
 
-<div class="mainTitle">
-あんしん見守りDX
+<div class="card">
+
+<div id="todayDate" class="todayDate">
+今日の日付
 </div>
 
-<div class="subTitle">
-家族と地域をつなぐ生活支援システム
+<div id="todaySchedule" class="infoBox">
+📅 今日の予定はありません
 </div>
 
+<div id="todayGarbage" class="infoBox">
+🗑 ゴミ情報はありません
 </div>
 
-<div class="statusCard">
-
-<div class="statusTitle">
-📋 今日のご案内
+<div id="todayMedicine" class="infoBox">
+💊 服薬記録はありません
 </div>
-
-<div
-id="statusSchedule"
-class="statusBox">
-
-📅 予定なし
 
 </div>
 
-<div
-id="statusMedicine"
-class="statusBox">
+<div class="card">
 
-💊 服薬記録なし
-
-</div>
-
-<div
-id="statusGPS"
-class="statusBox">
-
-📍 位置情報なし
-
-</div>
-
+<div class="sectionTitle">
+見守り
 </div>
 
 <div class="grid">
@@ -241,11 +177,6 @@ class="statusBox">
 <div>SOS</div>
 </a>
 
-<a href="home.html" class="btn blue">
-🏠
-<div>帰宅しました</div>
-</a>
-
 <a href="medicine.html" class="btn orange">
 💊
 <div>服薬確認</div>
@@ -256,91 +187,185 @@ class="statusBox">
 <div>現在地</div>
 </a>
 
+<a href="home.html" class="btn blue">
+🏠
+<div>帰宅しました</div>
+</a>
+
 <a href="schedule.html" class="btn orange">
 📅
 <div>予定</div>
 </a>
 
-<a href="garbage.html" class="btn green">
-🗑
-<div>ゴミ</div>
-</a>
+</div>
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+AIサポート
+</div>
 
 <a href="ai.html" class="btn purple">
 🎤
 <div>AIに聞く</div>
 </a>
 
-<a href="news.html" class="btn blue">
-📰
-<div>地域情報</div>
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+地域情報
+</div>
+
+<a href="kawaraban.html" class="link">
+📰 4市瓦版
 </a>
 
-<a href="emergency.html" class="btn red">
-🚑
-<div>緊急連絡</div>
+<a href="radio.html" class="link">
+📻 地域ラジオ
+</a>
+
+<a href="fun.html" class="link">
+🎬 お楽しみ動画
+</a>
+
+<a href="news.html" class="link">
+📰 地域情報
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+生活支援
+</div>
+
+<a href="garbage.html" class="link">
+🗑 ゴミの日案内
+</a>
+
+<a href="hospital.html" class="link">
+🏥 病院を探す
+</a>
+
+<a href="pharmacy.html" class="link">
+💊 薬局を探す
+</a>
+
+<a href="support.html" class="link">
+🤝 地域相談
+</a>
+
+<a href="evacuation.html" class="link">
+🏃 避難所案内
+</a>
+
+<a href="disaster.html" class="link">
+🚨 防災情報
+</a>
+
+<a href="medicine-request.html" class="link">
+💊 薬が残り少ない
+</a>
+
+<a href="tel-family.html" class="link">
+📞 家族へ電話
+</a>
+
+<a href="line-family.html" class="link">
+💬 家族へLINE
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+管理
+</div>
+
+<a href="family.html" class="link">
+👪 支援者ページ
+</a>
+
+<a href="history.html" class="link">
+📋 利用履歴
+</a>
+
+<a href="qr.html" class="link">
+📱 QRコード
+</a>
+
+<a href="register.html" class="link">
+⚙️ 本人登録
 </a>
 
 </div>
 
 <script>
+const weekNames =
+['日','月','火','水','木','金','土'];
 
-const medicineData =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
+const now =
+new Date();
+
+document.getElementById('todayDate').innerHTML =
+now.getFullYear() + '年' +
+(now.getMonth() + 1) + '月' +
+now.getDate() + '日（' +
+weekNames[now.getDay()] + '）';
 
 const scheduleData =
 JSON.parse(
-localStorage.getItem(
-'lastSchedule'
-) || 'null'
-);
-
-const lastGPS =
-JSON.parse(
-localStorage.getItem(
-'lastGPS'
-) || 'null'
+localStorage.getItem('lastSchedule') || 'null'
 );
 
 if(scheduleData){
 
-document.getElementById(
-'statusSchedule'
-).innerHTML =
-
-'📅 ' +
+document.getElementById('todaySchedule').innerHTML =
+'📅 今日の予定<br>' +
 (scheduleData.title || '') +
 '<br>' +
 (scheduleData.date || '');
 
 }
 
+const medicineData =
+JSON.parse(
+localStorage.getItem('medicineStatus') || '{}'
+);
+
 if(medicineData.time){
 
-document.getElementById(
-'statusMedicine'
-).innerHTML =
+let medicineText =
+'💊 服薬状況<br>';
 
-'💊 最終服薬<br>' +
-medicineData.time;
+medicineText += medicineData.morning ? '✅ 朝の薬<br>' : '⬜ 朝の薬<br>';
+medicineText += medicineData.noon ? '✅ 昼の薬<br>' : '⬜ 昼の薬<br>';
+medicineText += medicineData.evening ? '✅ 夕方の薬<br>' : '⬜ 夕方の薬<br>';
+medicineText += medicineData.night ? '✅ 寝る前の薬<br>' : '⬜ 寝る前の薬<br>';
 
-}
-
-if(lastGPS){
-
-document.getElementById(
-'statusGPS'
-).innerHTML =
-
-'📍 最終位置取得<br>' +
-(lastGPS.time || '');
+document.getElementById('todayMedicine').innerHTML =
+medicineText;
 
 }
 
+const city =
+localStorage.getItem('city') || '';
+
+const areaCode =
+localStorage.getItem('areaCode') || '';
+
+if(city || areaCode){
+
+document.getElementById('todayGarbage').innerHTML =
+'🗑 ゴミの日は「ゴミの日案内」で確認してください<br>' +
+city + ' ' + areaCode;
+
+}
 </script>
 
 </body>
