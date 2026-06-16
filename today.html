@@ -220,3 +220,424 @@ font-size:26px;
 </div>
 
 </div>
+
+<div class="card">
+
+<div class="sectionTitle">
+今日
+</div>
+
+<div id="todayList">
+<div class="empty">
+読み込み中...
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+明日
+</div>
+
+<div id="tomorrowList">
+<div class="empty">
+読み込み中...
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<a class="bigBtn backBtn" href="index.html?v=final1">
+⬅️ 最初の画面に戻る
+</a>
+
+<a class="bigBtn addBtn" href="voice.html?v=newgas1">
+➕ 予定を入れる
+</a>
+
+</div>
+
+<div class="bottomSpace"></div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbw4YiYDnGsBAliOBrOp8m7hAWuLI-reu4J2vXKcVnERsU95uvgRS9a8avVhwvpALp3I/exec';
+
+const statusBox =
+document.getElementById("statusBox");
+
+const todayList =
+document.getElementById("todayList");
+
+const tomorrowList =
+document.getElementById("tomorrowList");
+
+const reloadBtn =
+document.getElementById("reloadBtn");
+
+let isDeleting =
+false;
+
+function stopAllSpeech(){
+
+try{
+
+if(window.speechSynthesis){
+window.speechSynthesis.cancel();
+}
+
+}catch(e){}
+
+}
+
+window.addEventListener(
+"load",
+function(){
+
+stopAllSpeech();
+loadSchedule();
+
+}
+);
+
+window.addEventListener(
+"pageshow",
+function(){
+
+stopAllSpeech();
+
+}
+);
+
+function escapeHtml(str){
+
+return String(str || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+
+}
+
+function normalizeList(data){
+
+if(data && data.ok === true){
+
+return {
+
+today:Array.isArray(data.today)
+? data.today : [],
+
+tomorrow:Array.isArray(data.tomorrow)
+? data.tomorrow : []
+
+};
+
+}
+
+if(data && data.status === "success"){
+
+return {
+
+today:Array.isArray(data.today)
+? data.today : [],
+
+tomorrow:Array.isArray(data.tomorrow)
+? data.tomorrow : []
+
+};
+
+}
+
+return {
+
+today:[],
+tomorrow:[]
+
+};
+
+}
+
+function buildList(
+list,
+emptyText
+){
+
+if(
+!list ||
+list.length===0
+){
+
+return `
+<div class="empty">
+${emptyText}
+</div>
+`;
+
+}
+
+let html = "";
+
+list.forEach(function(item){
+
+const title =
+item.text ||
+item.title ||
+"";
+
+const start =
+item.start ||
+"";
+
+const end =
+item.end ||
+"";
+
+const row =
+item.row ||
+"";
+
+html += `
+<div class="scheduleCard">
+
+${
+start || end
+?
+`<div class="time">
+${escapeHtml(start)}
+〜
+${escapeHtml(end)}
+</div>`
+:
+""
+}
+
+<div class="todoText">
+${escapeHtml(title)}
+</div>
+
+<button
+class="deleteBtn"
+data-row="${escapeHtml(row)}">
+
+この予定を消す
+
+</button>
+
+</div>
+`;
+
+});
+
+return html;
+
+}
+
+async function loadSchedule(){
+
+stopAllSpeech();
+
+statusBox.innerText =
+"予定を読み込み中...";
+
+todayList.innerHTML =
+'<div class="empty">読み込み中...</div>';
+
+tomorrowList.innerHTML =
+'<div class="empty">読み込み中...</div>';
+
+try{
+
+const url =
+GAS_URL +
+'?mode=today&t=' +
+Date.now();
+
+const response =
+await fetch(url);
+
+const data =
+await response.json();
+
+if(
+!(data.ok===true) &&
+!(data.status==="success")
+){
+
+throw new Error(
+data.error ||
+data.message ||
+"予定を取得できませんでした"
+);
+
+}
+
+const lists =
+normalizeList(data);
+
+todayList.innerHTML =
+buildList(
+lists.today,
+"今日の予定はありません"
+);
+
+tomorrowList.innerHTML =
+buildList(
+lists.tomorrow,
+"明日の予定はありません"
+);
+
+statusBox.innerText =
+"読み込みました";
+
+bindDeleteButtons();
+
+}catch(error){
+
+statusBox.innerText =
+"読み込み失敗";
+
+todayList.innerHTML =
+`
+<div class="error">
+${escapeHtml(
+error.message ||
+String(error)
+)}
+</div>
+`;
+
+tomorrowList.innerHTML =
+`
+<div class="empty">
+表示できません
+</div>
+`;
+
+}
+
+}
+
+function bindDeleteButtons(){
+
+const buttons =
+document.querySelectorAll(
+".deleteBtn"
+);
+
+buttons.forEach(function(btn){
+
+btn.onclick =
+async function(){
+
+if(isDeleting){
+return;
+}
+
+const row =
+btn.getAttribute(
+"data-row"
+) || "";
+
+if(!row){
+
+alert(
+"削除用の番号がありません"
+);
+
+return;
+
+}
+
+const ok =
+confirm(
+"この予定を消しますか？"
+);
+
+if(!ok){
+return;
+}
+
+isDeleting = true;
+
+btn.disabled = true;
+
+statusBox.innerText =
+"削除中...";
+
+try{
+
+const url =
+GAS_URL +
+'?mode=delete&row=' +
+encodeURIComponent(row) +
+'&t=' +
+Date.now();
+
+const response =
+await fetch(url);
+
+const data =
+await response.json();
+
+if(
+!(data.ok===true) &&
+!(data.status==="success")
+){
+
+throw new Error(
+data.error ||
+data.message ||
+"削除できませんでした"
+);
+
+}
+
+statusBox.innerText =
+"削除しました";
+
+await loadSchedule();
+
+}catch(error){
+
+statusBox.innerText =
+"削除失敗";
+
+alert(
+error.message ||
+"削除できませんでした"
+);
+
+}finally{
+
+isDeleting = false;
+
+btn.disabled = false;
+
+}
+
+};
+
+});
+
+}
+
+reloadBtn.onclick =
+function(){
+
+loadSchedule();
+
+};
+
+</script>
+
+</body>
+</html>
