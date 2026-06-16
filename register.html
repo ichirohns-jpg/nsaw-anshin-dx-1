@@ -21,7 +21,12 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e293b,
+#334155
+);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -124,11 +129,6 @@ onchange="changeArea()">
 <select
 id="areaCode"
 class="input">
-
-</select>
-
-<option value="">選択してください</option>
-
 </select>
 
 <div class="label">
@@ -173,9 +173,8 @@ const AREA_DATA = {
 
 '本町1丁目','本町2丁目','本町3丁目',
 '本町4丁目','本町5丁目','本町6丁目',
-
 '柏町1丁目','柏町2丁目','柏町3丁目',
-'柏町4丁目','柏町5丁目','柏町6丁目',
+'柏町4丁目','柏町5丁目','柏町6丁目'
 
 '幸町1丁目','幸町2丁目','幸町3丁目',
 
@@ -214,6 +213,46 @@ const AREA_DATA = {
 '石神1丁目','石神2丁目',
 '石神3丁目','石神4丁目',
 '石神5丁目'
+
+],
+
+'朝霞市':[
+
+'青葉台1丁目',
+'青葉台2丁目',
+
+'朝志ケ丘1丁目',
+'朝志ケ丘2丁目',
+'朝志ケ丘3丁目',
+'朝志ケ丘4丁目',
+
+'泉水1丁目',
+'泉水2丁目',
+'泉水3丁目',
+
+'岡1丁目',
+'岡2丁目',
+'岡3丁目',
+
+'北原1丁目',
+'北原2丁目'
+
+],
+
+'和光市':[
+
+'新倉1丁目',
+'新倉2丁目',
+'新倉3丁目',
+
+'白子1丁目',
+'白子2丁目',
+'白子3丁目',
+'白子4丁目',
+
+'本町',
+'丸山台1丁目',
+'丸山台2丁目'
 
 ]
 
@@ -329,6 +368,20 @@ document.getElementById(
 ).value =
 localStorage.getItem(
 'userName'
+) || '';
+
+document.getElementById(
+'familyTel'
+).value =
+localStorage.getItem(
+'familyTel'
+) || '';
+
+document.getElementById(
+'familyLine'
+).value =
+localStorage.getItem(
+'familyLine'
 ) || '';
 
 };
