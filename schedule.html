@@ -203,32 +203,57 @@ localStorage.getItem(
 'userId'
 ) || '';
 
-const params =
+const form =
+new FormData();
 
-'?action=scheduleAdd' +
+form.append(
+'action',
+'scheduleAdd'
+);
 
-'&id=' +
-encodeURIComponent(
+form.append(
+'id',
 userId
-) +
+);
 
-'&date=' +
-encodeURIComponent(
+form.append(
+'name',
+localStorage.getItem(
+'userName'
+) || ''
+);
+
+form.append(
+'date',
 date
-) +
+);
 
-'&title=' +
-encodeURIComponent(
+form.append(
+'time',
+''
+);
+
+form.append(
+'title',
 title
-) +
+);
 
-'&memo=' +
-encodeURIComponent(
+form.append(
+'place',
+''
+);
+
+form.append(
+'memo',
 memo
 );
 
 fetch(
-GAS_URL + params
+GAS_URL,
+{
+method:'POST',
+body:form
+}
 )
 
 .then(r=>r.text())
@@ -242,8 +267,6 @@ alert(
 loadSchedules();
 
 });
-
-}
 
 function loadSchedules(){
 
@@ -379,3 +402,4 @@ class="home">
 
 </body>
 </html>
+
