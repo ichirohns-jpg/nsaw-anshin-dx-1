@@ -109,239 +109,25 @@ color:#111827;
 
 }
 
-.dashboard{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:12px;
-
-}
-
 .statusBox{
 
 background:#f8fafc;
 
-border-radius:22px;
+border-left:8px solid #2563eb;
 
-padding:16px;
-
-font-size:18px;
-
-font-weight:900;
-
-line-height:1.7;
-
-min-height:110px;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-}
-
-.grid{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:14px;
-
-margin-bottom:20px;
-
-}
-
-.btn{
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
-
-height:130px;
-
-border-radius:30px;
-
-text-decoration:none;
-
-color:#fff;
-
-font-size:42px;
-
-font-weight:900;
-
-box-shadow:
-0 10px 25px
-rgba(0,0,0,.15);
-
-}
-
-.btn div{
-
-font-size:22px;
-
-margin-top:10px;
-
-}
-
-.green{
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#15803d
-);
-}
-
-.red{
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#dc2626
-);
-}
-
-.blue{
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#1d4ed8
-);
-}
-
-.orange{
-background:
-linear-gradient(
-135deg,
-#f97316,
-#ea580c
-);
-}
-
-.purple{
-background:
-linear-gradient(
-135deg,
-#8b5cf6,
-#7c3aed
-);
-}
-
-.card{
-
-background:#fff;
-
-border-radius:30px;
+border-radius:20px;
 
 padding:20px;
 
-margin-bottom:18px;
-
-box-shadow:
-0 8px 20px
-rgba(0,0,0,.08);
-
-}
-
-.sectionTitle{
-
-font-size:26px;
+font-size:24px;
 
 font-weight:900;
+
+line-height:1.8;
 
 margin-bottom:12px;
 
 }
-
-.link{
-
-display:block;
-
-padding:18px;
-
-font-size:22px;
-
-font-weight:900;
-
-text-decoration:none;
-
-color:#111827;
-
-border-bottom:
-1px solid #e5e7eb;
-
-}
-
-.link:last-child{
-
-border-bottom:none;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-
-<div class="nsaw">
-NSAW
-</div>
-
-<div class="mainTitle">
-あんしん見守りDX
-</div>
-
-<div class="subTitle">
-家族と地域をつなぐ生活支援システム
-</div>
-
-</div>
-
-<div class="statusCard">
-
-<div class="statusTitle">
-今日の状態
-</div>
-
-<div class="dashboard">
-
-<div
-id="statusGenki"
-class="statusBox">
-
-😊 元気確認なし
-
-</div>
-
-<div
-id="statusMedicine"
-class="statusBox">
-
-💊 服薬記録なし
-
-</div>
-
-<div
-id="statusSchedule"
-class="statusBox">
-
-📅 予定なし
-
-</div>
 
 <div
 id="statusGPS"
@@ -353,9 +139,12 @@ class="statusBox">
 
 </div>
 
-</div>
-
 <div class="grid">
+
+<a href="genki.html" class="btn green">
+😊
+<div>元気です</div>
+</a>
 
 <a href="sos.html" class="btn red">
 🚨
@@ -375,11 +164,6 @@ class="statusBox">
 <a href="gps.html" class="btn blue">
 📍
 <div>現在地</div>
-</a>
-
-<a href="genki.html" class="btn green">
-😊
-<div>元気です</div>
 </a>
 
 <a href="schedule.html" class="btn orange">
@@ -409,94 +193,6 @@ class="statusBox">
 
 </div>
 
-<div class="card">
-
-<div class="sectionTitle">
-生活サポート
-</div>
-
-<a href="hospital.html" class="link">
-🏥 病院を探す
-</a>
-
-<a href="pharmacy.html" class="link">
-💊 薬局を探す
-</a>
-
-<a href="support.html" class="link">
-🤝 地域相談
-</a>
-
-<a href="evacuation.html" class="link">
-🏃 避難所案内
-</a>
-
-<a href="disaster.html" class="link">
-🚨 防災情報
-</a>
-
-<a href="medicine-request.html" class="link">
-💊 薬が残り少ない
-</a>
-
-<a href="tel-family.html" class="link">
-📞 家族へ電話
-</a>
-
-<a href="line-family.html" class="link">
-💬 家族へLINE
-</a>
-
-</div>
-
-<div class="card">
-
-<div class="sectionTitle">
-地域情報
-</div>
-
-<a href="news.html" class="link">
-📰 地域情報
-</a>
-
-<a href="kawaraban.html" class="link">
-📰 4市瓦版
-</a>
-
-<a href="radio.html" class="link">
-📻 地域ラジオ
-</a>
-
-<a href="fun.html" class="link">
-🎬 お楽しみ動画
-</a>
-
-</div>
-
-<div class="card">
-
-<div class="sectionTitle">
-管理
-</div>
-
-<a href="family.html" class="link">
-👪 支援者ページ
-</a>
-
-<a href="history.html" class="link">
-📋 利用履歴
-</a>
-
-<a href="qr.html" class="link">
-📱 QRコード
-</a>
-
-<a href="register.html" class="link">
-⚙️ 本人登録
-</a>
-
-</div>
-
 <script>
 
 const lastGenki =
@@ -506,19 +202,6 @@ localStorage.getItem(
 ) || 'null'
 );
 
-if(lastGenki){
-
-document.getElementById(
-'statusGenki'
-).innerHTML =
-
-'😊 ' +
-(lastGenki.type || '') +
-'<br>' +
-(lastGenki.time || '');
-
-}
-
 const medicineData =
 JSON.parse(
 localStorage.getItem(
@@ -526,21 +209,17 @@ localStorage.getItem(
 ) || '{}'
 );
 
-if(medicineData.time){
-
-document.getElementById(
-'statusMedicine'
-).innerHTML =
-
-'💊 最終服薬<br>' +
-medicineData.time;
-
-}
-
 const scheduleData =
 JSON.parse(
 localStorage.getItem(
 'lastSchedule'
+) || 'null'
+);
+
+const lastGPS =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
 ) || 'null'
 );
 
@@ -557,12 +236,16 @@ document.getElementById(
 
 }
 
-const lastGPS =
-JSON.parse(
-localStorage.getItem(
-'lastGPS'
-) || 'null'
-);
+if(medicineData.time){
+
+document.getElementById(
+'statusMedicine'
+).innerHTML =
+
+'💊 最終服薬<br>' +
+medicineData.time;
+
+}
 
 if(lastGPS){
 
