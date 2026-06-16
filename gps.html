@@ -201,6 +201,15 @@ document.getElementById(
 data.display_name ||
 '住所取得失敗';
 
+})
+
+.catch(()=>{
+
+document.getElementById(
+'addressArea'
+).innerHTML =
+'住所取得失敗';
+
 });
 
 document.getElementById(
@@ -284,8 +293,84 @@ lat
 
 form.append(
 'lng',
-lng
+fetch(
+GAS_URL,
+{
+method:'POST',
+body:form
+}
+)
+
+.then(r=>r.text())
+
+.then(()=>{
+
+alert(
+'現在地を送信しました'
 );
+
+});
+
+},
+
+function(){
+
+alert(
+'位置情報取得失敗'
+);
+
+}
+
+);
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'lastGPS'
+) || 'null'
+);
+
+if(last){
+
+document.getElementById(
+'gpsInfo'
+).innerHTML =
+
+'取得日時<br><br>' +
+
+last.time +
+
+'<br><br>' +
+
+'緯度: ' +
+
+last.lat +
+
+'<br>' +
+
+'経度: ' +
+
+last.lng;
+
+const btn =
+document.getElementById(
+'mapBtn'
+);
+
+btn.href =
+last.mapUrl;
+
+btn.style.display =
+'block';
+
+}
+
+</script>
+
+</body>
+</html>
 
 fetch(
 GAS_URL,
