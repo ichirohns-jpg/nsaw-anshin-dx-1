@@ -167,7 +167,7 @@ GAS_URL +
 encodeURIComponent(USER_ID)
 )
 
-.then(json=>json.json())
+.then(r=>r.json())
 
 .then(json=>{
 
@@ -195,13 +195,9 @@ row.time || row.date || '';
 if(status==='SOS'){
 
 sos =
-
 '🚨 ' +
-
 memo +
-
 '<br><br>' +
-
 time;
 
 }
@@ -209,13 +205,9 @@ time;
 if(status==='体調'){
 
 genki =
-
 '😊 ' +
-
 memo +
-
 '<br><br>' +
-
 time;
 
 }
@@ -223,13 +215,9 @@ time;
 if(status==='帰宅'){
 
 home =
-
 '🏠 ' +
-
 memo +
-
 '<br><br>' +
-
 time;
 
 }
@@ -237,15 +225,10 @@ time;
 if(status==='服薬'){
 
 medicine +=
-
 '💊 ' +
-
 memo +
-
 '<br>' +
-
 time +
-
 '<br><br>';
 
 }
@@ -253,35 +236,24 @@ time +
 if(status==='GPS'){
 
 gps =
-
 '📍 最終位置取得<br><br>' +
-
 time +
-
 '<br><br>' +
-
 '<a class="mapBtn" target="_blank" href="' +
-
 memo +
-
 '">📍 地図を見る</a>';
 
 }
 
 if(
-
 status.indexOf('救急')>-1 ||
 status.indexOf('困っています')>-1 ||
 status.indexOf('電話してください')>-1
-
 ){
 
 emergency =
-
 status +
-
 '<br><br>' +
-
 time;
 
 }
@@ -321,3 +293,129 @@ emergency;
 loadSchedule();
 
 })
+
+.catch(()=>{
+
+document.getElementById(
+'sosArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'genkiArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'homeArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'medicineArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'gpsArea'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'emergencyArea'
+).innerHTML =
+'取得失敗';
+
+});
+
+}
+
+function loadSchedule(){
+
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
+fetch(
+GAS_URL +
+'?action=scheduleList&id=' +
+encodeURIComponent(
+userId
+)
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+let html='';
+
+if(
+!data.data ||
+!data.data.length
+){
+
+html='予定なし';
+
+}else{
+
+data.data.forEach(item=>{
+
+html +=
+
+'📅 ' +
+(item.date || '') +
+
+'<br>' +
+
+'📝 ' +
+(item.title || '') +
+
+'<br>' +
+
+(item.memo || '') +
+
+'<br><br>';
+
+});
+
+}
+
+document.getElementById(
+'scheduleArea'
+).innerHTML =
+html;
+
+})
+
+.catch(()=>{
+
+document.getElementById(
+'scheduleArea'
+).innerHTML =
+'取得失敗';
+
+});
+
+}
+
+loadFamily();
+
+setInterval(
+loadFamily,
+60000
+);
+
+</script>
+
+<a
+href="index.html"
+class="btn">
+
+🏠 トップへ戻る
+
+</a>
+
+</body>
+</html>
