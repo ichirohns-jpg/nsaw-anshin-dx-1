@@ -314,6 +314,20 @@ document.getElementById(
 ).innerHTML =
 html;
 
+})
+
+.catch(()=>{
+
+document.getElementById(
+'todaySchedule'
+).innerHTML =
+'取得失敗';
+
+document.getElementById(
+'tomorrowSchedule'
+).innerHTML =
+'取得失敗';
+
 });
 
 }
