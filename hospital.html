@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>地域サポート</title>
+<title>病院案内</title>
 
 <style>
 
@@ -21,7 +21,7 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
+background:linear-gradient(135deg,#ef4444,#dc2626);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -32,50 +32,6 @@ margin-bottom:18px;
 .header h1{
 font-size:34px;
 font-weight:900;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-bottom:16px;
-}
-
-.bigBtn{
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-text-decoration:none;
-height:120px;
-border-radius:24px;
-color:#fff;
-font-size:24px;
-font-weight:900;
-}
-
-.blue{
-background:#2563eb;
-}
-
-.green{
-background:#16a34a;
-}
-
-.orange{
-background:#ea580c;
-}
-
-.red{
-background:#dc2626;
-}
-
-.purple{
-background:#7c3aed;
-}
-
-.gray{
-background:#475569;
 }
 
 .card{
@@ -89,49 +45,36 @@ box-shadow:0 8px 24px rgba(0,0,0,.08);
 .title{
 font-size:24px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
-.item{
-padding:16px;
-border-bottom:1px solid #e5e7eb;
-}
-
-.name{
-font-size:22px;
+.searchBtn{
+width:100%;
+border:none;
+background:#ef4444;
+color:#fff;
+padding:28px;
+border-radius:24px;
+font-size:30px;
 font-weight:900;
-margin-bottom:8px;
 }
 
-.addr{
-font-size:16px;
-margin-bottom:8px;
+.result{
+font-size:20px;
+line-height:1.8;
+font-weight:700;
 }
 
-.tel{
-font-size:18px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.navBtn{
-display:inline-block;
-padding:10px 16px;
+.mapBtn{
+display:block;
+margin-top:12px;
+padding:18px;
+border-radius:18px;
 background:#2563eb;
 color:#fff;
 text-decoration:none;
-border-radius:12px;
-font-weight:900;
-margin-right:6px;
-}
-
-.callBtn{
-display:inline-block;
-padding:10px 16px;
-background:#16a34a;
-color:#fff;
-text-decoration:none;
-border-radius:12px;
+text-align:center;
+font-size:22px;
 font-weight:900;
 }
 
@@ -154,173 +97,87 @@ font-weight:900;
 <body>
 
 <div class="header">
-<h1>🏥 地域サポート</h1>
+<h1>🏥 病院案内</h1>
 </div>
 
-<div class="grid">
+<div class="card">
 
-<a href="https://www.google.com/maps/search/病院" target="_blank" class="bigBtn blue">
-🏥<br>病院
-</a>
+<button
+class="searchBtn"
+onclick="searchHospital()">
 
-<a href="https://www.google.com/maps/search/薬局" target="_blank" class="bigBtn green">
-💊<br>薬局
-</a>
+🏥 近くの病院を探す
 
-<a href="https://www.google.com/maps/search/コンビニ" target="_blank" class="bigBtn orange">
-🏪<br>コンビニ
-</a>
-
-<a href="https://www.google.com/maps/search/公衆トイレ" target="_blank" class="bigBtn purple">
-🚻<br>トイレ
-</a>
+</button>
 
 </div>
 
 <div class="card">
 
 <div class="title">
-地域施設
+検索結果
 </div>
 
-<div id="facilityArea">
+<div
+id="result"
+class="result">
 
-読込中...
+ボタンを押してください
 
 </div>
 
 </div>
 
-<a href="index.html" class="home">
+<a
+id="mapBtn"
+class="mapBtn"
+target="_blank"
+style="display:none">
+
+📍 Googleマップで開く
+
+</a>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+
 🏠 トップへ戻る
+
 </a>
 
 <script>
 
-const SHEET_ID =
-'149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc';
-
-function getVal(cell){
-
-if(!cell) return '';
-
-return cell.f || cell.v || '';
-
-}
-
-function loadFacility(){
+function searchHospital(){
 
 const url =
-
-'https://docs.google.com/spreadsheets/d/' +
-
-SHEET_ID +
-
-'/gviz/tq?sheet=' +
-
-encodeURIComponent(
-'施設マスター'
-) +
-
-'&tqx=out:json';
-
-const script =
-document.createElement(
-'script'
-);
-
-script.src =
-url +
-'&callback=handleSheet';
-
-document.body.appendChild(
-script);
-
-}
-
-function handleSheet(json){
-
-const rows =
-json.table.rows;
-
-let html='';
-
-for(let i=0;i<rows.length;i++){
-
-const row =
-rows[i];
-
-const type =
-getVal(row.c[2]);
-
-const name =
-getVal(row.c[3]);
-
-const address =
-getVal(row.c[4]);
-
-const tel =
-getVal(row.c[5]);
-
-const map =
-getVal(row.c[6]);
-
-if(
-type !== '包括' &&
-type !== '避難所' &&
-type !== '市役所' &&
-type !== '休日診療' &&
-type !== '警察' &&
-type !== '消防'
-){
-continue;
-}
-
-html +=
-
-'<div class="item">' +
-
-'<div class="name">' +
-type + '｜' + name +
-'</div>' +
-
-'<div class="addr">' +
-address +
-'</div>' +
-
-'<div class="tel">' +
-(tel || '') +
-'</div>' +
-
-(map ?
-
-'<a class="navBtn" target="_blank" href="' +
-map +
-'">📍 ナビ</a>'
-
-: '') +
-
-(tel ?
-
-'<a class="callBtn" href="tel:' +
-tel +
-'">📞 電話</a>'
-
-: '') +
-
-'</div>';
-
-}
+'https://www.google.com/maps/search/病院';
 
 document.getElementById(
-'facilityArea'
+'result'
 ).innerHTML =
-html || '施設データなし';
+
+'現在地周辺の病院をGoogleマップで検索します';
+
+const btn =
+document.getElementById(
+'mapBtn'
+);
+
+btn.href =
+url;
+
+btn.style.display =
+'block';
+
+window.open(
+url,
+'_blank'
+);
 
 }
-
-window.onload =
-loadFacility;
 
 </script>
 
