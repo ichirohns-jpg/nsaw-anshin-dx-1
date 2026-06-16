@@ -8,7 +8,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="4市瓦版">
-<meta property="og:description" content="志木市・朝霞市・新座市・和光市の最新情報">
+<meta property="og:description" content="志木市・朝霞市・新座市・和光市の最新情報をお届けします。">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
@@ -146,15 +146,7 @@ font-weight:900;
 <body>
 
 <div class="wrap">
-
-<div class="header">
-📰 4市瓦版
-</div>
-
-<div id="app">
-<div class="loading">
-読込中...
-</div>
+<div id="app"></div>
 </div>
 
 <script>
@@ -177,7 +169,6 @@ return 'https://docs.google.com/uc?export=view&id=' + id;
 return url;
 }
 
-// 修正箇所：returnの後に改行を入れず、1行で完全なURLを返すように変更
 function makeShareUrl(id){
 return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban=" + encodeURIComponent(id);
 }
@@ -211,6 +202,9 @@ const targetId = params.get("kawaraban");
 
 let html = "";
 
+// 画面表示用のヘッダーを、データ読み込み完了後にJavaScript側で組み立てるように変更
+html += '<div class="header">📰 4市瓦版</div>';
+
 if(targetId){
 const row = rows.slice().reverse()[Number(targetId)-1];
 if(row){
@@ -221,7 +215,6 @@ const content = getVal(row.c[3]);
 const shareUrl = makeShareUrl(targetId);
 const shareText = title || "4市瓦版";
 
-// 途中で切れていた後半のHTML生成処理を追加
 html += '<div class="card">';
 if(image) html += '<img src="' + image + '" class="thumb" alt="画像">';
 html += '<div class="date">' + date + '</div>';
@@ -237,16 +230,16 @@ html += '</div>';
 html += '</div>';
 html += '<button class="homeBtn" onclick="location.href=\'index.html\'">🏠 トップへ戻る</button>';
 } else {
-html = '<div class="loading">記事が見つかりませんでした。</div>';
+html += '<div class="loading">記事が見つかりませんでした。</div>';
 }
 } else {
-html = '<div class="loading">記事IDが指定されていません。</div>';
+html += '<div class="loading">記事IDが指定されていません。</div>';
 }
 
 document.getElementById("app").innerHTML = html;
 })
 .catch(function(error){
-document.getElementById("app").innerHTML = '<div class="loading">データの読み込みに失敗しました。</div>';
+document.getElementById("app").innerHTML = '<div class="header">📰 4市瓦版</div><div class="loading">データの読み込みに失敗しました。</div>';
 });
 
 </script>
