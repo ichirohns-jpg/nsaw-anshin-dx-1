@@ -114,6 +114,15 @@ class="info">
 
 </div>
 
+<div
+id="addressArea"
+class="info"
+style="margin-top:10px;color:#2563eb;">
+
+住所取得待機中
+
+</div>
+
 <a
 id="mapBtn"
 class="mapBtn"
@@ -174,6 +183,26 @@ new Date()
 'ja-JP'
 );
 
+fetch(
+'https://nominatim.openstreetmap.org/reverse?format=json&lat=' +
+lat +
+'&lon=' +
+lng
+)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+document.getElementById(
+'addressArea'
+).innerHTML =
+
+data.display_name ||
+'住所取得失敗';
+
+});
+
 document.getElementById(
 'gpsInfo'
 ).innerHTML =
@@ -215,10 +244,15 @@ time:now
 })
 );
 
+localStorage.setItem(
+'lastLocation',
+mapUrl
+);
+
 const userId =
-localStorage.getItem(
-'userId'
-) || '';
+localStorage.getItem('userId') ||
+new URLSearchParams(location.search).get('id') ||
+'';
 
 const form =
 new FormData();
@@ -243,6 +277,16 @@ form.append(
 mapUrl
 );
 
+form.append(
+'lat',
+lat
+);
+
+form.append(
+'lng',
+lng
+);
+
 fetch(
 GAS_URL,
 {
@@ -252,6 +296,7 @@ body:form
 )
 
 .then(r=>r.text())
+
 .then(()=>{
 
 alert(
