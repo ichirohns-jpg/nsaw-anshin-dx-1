@@ -99,7 +99,7 @@ rgba(0,0,0,.08);
 
 .statusTitle{
 
-font-size:26px;
+font-size:28px;
 
 font-weight:900;
 
@@ -109,21 +109,38 @@ color:#111827;
 
 }
 
+.dashboard{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:12px;
+
+}
+
 .statusBox{
 
 background:#f8fafc;
 
-border-radius:20px;
+border-radius:22px;
 
 padding:16px;
 
-margin-bottom:12px;
-
-font-size:20px;
+font-size:18px;
 
 font-weight:900;
 
-line-height:1.8;
+line-height:1.7;
+
+min-height:110px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
 
 }
 
@@ -297,8 +314,10 @@ NSAW
 <div class="statusCard">
 
 <div class="statusTitle">
-現在の状態
+今日の状態
 </div>
+
+<div class="dashboard">
 
 <div
 id="statusGenki"
@@ -329,6 +348,8 @@ id="statusGPS"
 class="statusBox">
 
 📍 位置情報なし
+
+</div>
 
 </div>
 
@@ -424,54 +445,6 @@ class="statusBox">
 
 <a href="line-family.html" class="link">
 💬 家族へLINE
-</a>
-
-</div>
-
-<div class="card">
-
-<div class="sectionTitle">
-地域情報
-</div>
-
-<a href="news.html" class="link">
-📰 地域情報
-</a>
-
-<a href="kawaraban.html" class="link">
-📰 4市瓦版
-</a>
-
-<a href="radio.html" class="link">
-📻 地域ラジオ
-</a>
-
-<a href="fun.html" class="link">
-🎬 お楽しみ動画
-</a>
-
-</div>
-
-<div class="card">
-
-<div class="sectionTitle">
-管理
-</div>
-
-<a href="family.html" class="link">
-👪 支援者ページ
-</a>
-
-<a href="history.html" class="link">
-📋 利用履歴
-</a>
-
-<a href="qr.html" class="link">
-📱 QRコード
-</a>
-
-<a href="register.html" class="link">
-⚙️ 本人登録
 </a>
 
 </div>
