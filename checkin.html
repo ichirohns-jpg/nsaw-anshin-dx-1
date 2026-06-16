@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>生存確認</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#22c55e,#16a34a);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:34px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+margin-bottom:16px;
+}
+
+.bigBtn{
+width:100%;
+border:none;
+background:#22c55e;
+color:#fff;
+padding:40px;
+border-radius:28px;
+font-size:36px;
+font-weight:900;
+}
+
+.status{
+margin-top:20px;
+font-size:24px;
+font-weight:900;
+line-height:1.8;
+text-align:center;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>✅ 生存確認</h1>
+</div>
+
+<div class="card">
+
+<button
+class="bigBtn"
+onclick="sendCheckin()">
+
+✅ 今日も元気です
+
+</button>
+
+<div
+id="statusArea"
+class="status">
+
+まだ送信していません
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+
+🏠 トップへ戻る
+
+</a>
+
+<script>
+
+function sendCheckin(){
+
+const now =
+new Date()
+.toLocaleString(
+'ja-JP'
+);
+
+localStorage.setItem(
+'lastCheckin',
+JSON.stringify({
+time:now
+})
+);
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'✅ 送信済み<br><br>' +
+
+now;
+
+alert(
+'生存確認を送信しました'
+);
+
+}
+
+const last =
+JSON.parse(
+localStorage.getItem(
+'lastCheckin'
+) || 'null'
+);
+
+if(last){
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'✅ 前回送信<br><br>' +
+
+last.time;
+
+}
+
+</script>
+
+</body>
+</html>
