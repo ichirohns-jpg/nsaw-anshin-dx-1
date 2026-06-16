@@ -176,23 +176,6 @@ return cell.f || cell.v || '';
 
 }
 
-function makeImageUrl(url){
-
-url = String(url || '').trim();
-
-if(url.includes('/file/d/')){
-
-const id =
-url.split('/file/d/')[1].split('/')[0];
-
-return 'https://docs.google.com/uc?export=view&id=' + id;
-
-}
-
-return url;
-
-}
-
 function makeShareUrl(id){
 
 return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-kawaraban-v2.html?kawaraban=" +
@@ -239,3 +222,135 @@ navigator.clipboard.writeText(url);
 alert("URLをコピーしました");
 
 }
+
+function loadSheet(){
+
+const script =
+document.createElement('script');
+
+script.src =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json;responseHandler:handleSheet';
+
+document.body.appendChild(script);
+
+}
+
+window.handleSheet = function(json){
+
+const params =
+new URLSearchParams(location.search);
+
+const targetId =
+params.get("kawaraban");
+
+const rows =
+json.table.rows.slice().reverse();
+
+const row =
+rows[Number(targetId)-1];
+
+let html='';
+
+html +=
+'<div class="header">📰 4市瓦版</div>';
+
+if(!row){
+
+html +=
+'<div class="loading">記事が見つかりませんでした。</div>';
+
+document.getElementById("app").innerHTML =
+html;
+
+return;
+
+}
+
+const date =
+getVal(row.c[0]);
+
+const title =
+getVal(row.c[2]);
+
+const content =
+getVal(row.c[3]);
+
+const shareUrl =
+makeShareUrl(targetId);
+
+const shareText =
+title || "4市瓦版";
+
+html +=
+'<div class="card">';
+
+html +=
+'<img src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg" class="thumb">';
+
+html +=
+'<div class="date">' +
+date +
+'</div>';
+
+html +=
+'<div class="tag">4市瓦版</div>';
+
+html +=
+'<div class="title">' +
+title +
+'</div>';
+
+html +=
+'<div class="desc">' +
+String(content).replace(/\n/g,'<br>') +
+'</div>';
+
+html +=
+'<div class="share">';
+
+html +=
+'<button onclick="shareLine(\'' +
+shareUrl +
+'\')">LINEで共有</button>';
+
+html +=
+'<button onclick="shareFacebook(\'' +
+shareUrl +
+'\')">Facebookで共有</button>';
+
+html +=
+'<button onclick="shareX(\'' +
+shareUrl +
+'\',\'' +
+shareText +
+'\')">X(旧Twitter)で共有</button>';
+
+html +=
+'<button onclick="copyUrl(\'' +
+shareUrl +
+'\')">URLをコピー</button>';
+
+html +=
+'</div>';
+
+html +=
+'</div>';
+
+html +=
+'<button class="homeBtn" onclick="location.href=\'index.html\'">🏠 トップへ戻る</button>';
+
+document.getElementById("app").innerHTML =
+html;
+
+};
+
+loadSheet();
+
+</script>
+
+</body>
+</html>
