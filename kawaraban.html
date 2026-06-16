@@ -259,22 +259,6 @@ return url;
 
 }
 
-function loadSheet(){
-
-const script =
-document.createElement('script');
-
-script.src =
-'https://docs.google.com/spreadsheets/d/' +
-SHEET_ID +
-'/gviz/tq?sheet=' +
-encodeURIComponent(SHEET_NAME) +
-'&tqx=out:json;responseHandler:handleSheet';
-
-document.body.appendChild(script);
-
-}
-
 function shareLine(url){
 
 window.open(
@@ -312,6 +296,22 @@ function copyUrl(url){
 navigator.clipboard.writeText(url);
 
 alert('URLをコピーしました');
+
+}
+
+function loadSheet(){
+
+const script =
+document.createElement('script');
+
+script.src =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json;responseHandler:handleSheet';
+
+document.body.appendChild(script);
 
 }
 
@@ -384,53 +384,39 @@ document.createElement('div');
 card.className='card';
 
 card.innerHTML =
-
 (image ?
-'<div class="image-container"><img src="' +
-image +
-'"></div>'
+'<div class="image-container"><img src="' + image + '"></div>'
 : '')
-
 +
-
-'<div class="card-content">' +
-
-'<div class="city-tag">4市瓦版</div>' +
-
-'<div class="date">' + date + '</div>' +
-
-'<div class="card-title">' + title + '</div>' +
-
-'<div class="card-text">' + content + '</div>' +
-
-'<div class="article-links">' +
-linksHtml +
-'</div>' +
-
-'<div class="share-row">' +
-
-'<button class="share-btn" onclick="shareLine(\'' + shareUrl + '\')">💬 LINEで送る</button>' +
-
-'<button class="share-btn" onclick="shareFacebook(\'' + shareUrl + '\')">📘 Facebookへ投稿</button>' +
-
-'<button class="share-btn" onclick="shareX(\'' + shareUrl + '\',\'' + title + '\')">✖ Xへ投稿</button>' +
-
-'<button class="share-btn" onclick="copyUrl(\'' + shareUrl + '\')">📋 URLコピー</button>' +
-
-'</div>' +
-
+'<div class="card-content">'
++
+'<div class="city-tag">4市瓦版</div>'
++
+'<div class="date">' + date + '</div>'
++
+'<div class="card-title">' + title + '</div>'
++
+'<div class="card-text">' + content + '</div>'
++
+'<div class="article-links">' + linksHtml + '</div>'
++
+'<div class="share-row">'
++
+'<button class="share-btn" onclick="shareLine(\'' + shareUrl + '\')">💬 LINEで送る</button>'
++
+'<button class="share-btn" onclick="shareFacebook(\'' + shareUrl + '\')">📘 Facebookへ投稿</button>'
++
+'<button class="share-btn" onclick="shareX(\'' + shareUrl + '\',\'' + title + '\')">✖ Xへ投稿</button>'
++
+'<button class="share-btn" onclick="copyUrl(\'' + shareUrl + '\')">📋 URLコピー</button>'
++
+'</div>'
++
 '</div>';
 
 container.appendChild(card);
 
 });
-
-if(container.children.length===0){
-
-container.innerHTML =
-'<div class="error">記事がありません</div>';
-
-}
 
 };
 
