@@ -21,7 +21,12 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e293b,
+#334155
+);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -56,10 +61,21 @@ font-weight:900;
 line-height:1.8;
 }
 
-.red{background:#fee2e2;}
-.blue{background:#dbeafe;}
-.green{background:#dcfce7;}
-.orange{background:#ffedd5;}
+.red{
+background:#fee2e2;
+}
+
+.blue{
+background:#dbeafe;
+}
+
+.green{
+background:#dcfce7;
+}
+
+.orange{
+background:#ffedd5;
+}
 
 .home{
 display:block;
@@ -85,97 +101,156 @@ margin-top:16px;
 
 <div class="card">
 <div class="title">🚨 SOS</div>
-<div id="sosHistory" class="item red">履歴なし</div>
+<div id="sosHistory" class="item red">
+履歴なし
+</div>
 </div>
 
 <div class="card">
 <div class="title">📍 GPS</div>
-<div id="gpsHistory" class="item blue">履歴なし</div>
+<div id="gpsHistory" class="item blue">
+履歴なし
+</div>
 </div>
 
 <div class="card">
 <div class="title">📅 予定</div>
-<div id="scheduleHistory" class="item blue">履歴なし</div>
+<div id="scheduleHistory" class="item blue">
+履歴なし
+</div>
 </div>
 
 <div class="card">
 <div class="title">🏠 帰宅</div>
-<div id="homeHistory" class="item green">履歴なし</div>
+<div id="homeHistory" class="item green">
+履歴なし
+</div>
 </div>
 
 <div class="card">
 <div class="title">💊 服薬</div>
-<div id="medicineHistory" class="item orange">履歴なし</div>
+<div id="medicineHistory" class="item orange">
+履歴なし
+</div>
 </div>
 
-<a href="index.html" class="home">
+<a
+href="index.html"
+class="home">
+
 🏠 トップへ戻る
+
 </a>
 
 <script>
 
 const lastGPS =
 JSON.parse(
-localStorage.getItem('lastGPS') || 'null'
+localStorage.getItem(
+'lastGPS'
+) || 'null'
 );
 
 if(lastGPS){
-document.getElementById('gpsHistory').innerHTML =
+
+document.getElementById(
+'gpsHistory'
+).innerHTML =
+
 '📍 位置送信<br>' +
+
 (lastGPS.time || '');
+
 }
 
 const lastSOS =
 JSON.parse(
-localStorage.getItem('lastSOS') || 'null'
+localStorage.getItem(
+'lastSOS'
+) || 'null'
 );
 
 if(lastSOS){
-document.getElementById('sosHistory').innerHTML =
+
+document.getElementById(
+'sosHistory'
+).innerHTML =
+
+  
 (lastSOS.mainType || '') +
+
 '<br>' +
-(lastSOS.type || '') +
+
+(lastSOS.memo || '') +
+
 '<br>' +
+
 (lastSOS.time || '');
+
 }
 
 const lastHome =
 JSON.parse(
-localStorage.getItem('lastHome') || 'null'
+localStorage.getItem(
+'lastHome'
+) || 'null'
 );
 
 if(lastHome){
-document.getElementById('homeHistory').innerHTML =
+
+document.getElementById(
+'homeHistory'
+).innerHTML =
+
 '🏠 帰宅<br>' +
+
 (lastHome.time || '');
+
 }
 
 const scheduleData =
 JSON.parse(
-localStorage.getItem('lastSchedule') || 'null'
+localStorage.getItem(
+'lastSchedule'
+) || 'null'
 );
 
 if(scheduleData){
-document.getElementById('scheduleHistory').innerHTML =
+
+document.getElementById(
+'scheduleHistory'
+).innerHTML =
+
 '📅 ' +
+
 (scheduleData.title || '') +
+
 '<br>' +
+
 (scheduleData.date || '');
+
 }
 
 const medicineData =
 JSON.parse(
-localStorage.getItem('medicineStatus') || '{}'
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
 );
 
 if(medicineData.time){
-document.getElementById('medicineHistory').innerHTML =
+
+document.getElementById(
+'medicineHistory'
+).innerHTML =
+
 '💊 最終服薬<br>' +
+
 medicineData.time;
+
 }
 
 </script>
 
 </body>
 </html>
-
