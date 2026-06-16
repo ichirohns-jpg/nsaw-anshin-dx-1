@@ -7,6 +7,7 @@
 <title>NSAW あんしん見守りDX</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -21,7 +22,11 @@ color:#111827;
 }
 
 .header{
-background:linear-gradient(135deg,#0f172a,#1e293b);
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e293b
+);
 padding:28px;
 border-radius:32px;
 margin-bottom:18px;
@@ -59,7 +64,7 @@ box-shadow:0 8px 22px rgba(0,0,0,.08);
 }
 
 .todayDate{
-font-size:30px;
+font-size:22px;
 font-weight:900;
 text-align:center;
 margin-bottom:16px;
@@ -70,7 +75,7 @@ background:#f8fafc;
 border-left:8px solid #2563eb;
 border-radius:18px;
 padding:18px;
-font-size:22px;
+font-size:20px;
 font-weight:900;
 line-height:1.8;
 margin-bottom:12px;
@@ -108,12 +113,45 @@ font-size:22px;
 margin-top:8px;
 }
 
-.green{background:linear-gradient(135deg,#16a34a,#15803d);}
-.red{background:linear-gradient(135deg,#ef4444,#dc2626);}
-.blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);}
-.orange{background:linear-gradient(135deg,#f97316,#ea580c);}
-.purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);}
-.dark{background:linear-gradient(135deg,#334155,#0f172a);}
+.green{
+background:linear-gradient(
+135deg,
+#16a34a,
+#15803d
+);
+}
+
+.red{
+background:linear-gradient(
+135deg,
+#ef4444,
+#dc2626
+);
+}
+
+.blue{
+background:linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+}
+
+.orange{
+background:linear-gradient(
+135deg,
+#f97316,
+#ea580c
+);
+}
+
+.purple{
+background:linear-gradient(
+135deg,
+#8b5cf6,
+#7c3aed
+);
+}
 
 .link{
 display:block;
@@ -128,25 +166,37 @@ border-bottom:1px solid #e5e7eb;
 .link:last-child{
 border-bottom:none;
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
-<div class="nsaw">NSAW</div>
-<div class="mainTitle">あんしん見守りDX</div>
-<div class="subTitle">家族と地域をつなぐ生活支援システム</div>
+
+<div class="nsaw">
+NSAW
+</div>
+
+<div class="mainTitle">
+あんしん見守りDX
+</div>
+
+<div class="subTitle">
+家族と地域をつなぐ生活支援システム
+</div>
+
 </div>
 
 <div class="card">
 
 <div id="todayDate" class="todayDate">
-今日の日付
+📅 今日の日付
 </div>
 
 <div id="todaySchedule" class="infoBox">
-📅 今日の予定はありません
+📅 今日は予定がありません
 </div>
 
 <div id="todayGarbage" class="infoBox">
@@ -198,6 +248,7 @@ border-bottom:none;
 </a>
 
 </div>
+
 </div>
 
 <div class="card">
@@ -306,66 +357,66 @@ AIサポート
 </div>
 
 <script>
+
 const weekNames =
 ['日','月','火','水','木','金','土'];
 
 const now =
 new Date();
 
-document.getElementById('todayDate').innerHTML =
+document.getElementById(
+'todayDate'
+).innerHTML =
+
+'📅 ' +
 now.getFullYear() + '年' +
-(now.getMonth() + 1) + '月' +
+(now.getMonth()+1) + '月' +
 now.getDate() + '日（' +
-weekNames[now.getDay()] + '）';
+weekNames[now.getDay()] +
+'）';
 
 const scheduleData =
 JSON.parse(
-localStorage.getItem('lastSchedule') || 'null'
+localStorage.getItem(
+'lastSchedule'
+) || 'null'
 );
 
 if(scheduleData){
 
-document.getElementById('todaySchedule').innerHTML =
+document.getElementById(
+'todaySchedule'
+).innerHTML =
+
 '📅 今日の予定<br>' +
+
 (scheduleData.title || '') +
+
 '<br>' +
+
 (scheduleData.date || '');
 
 }
 
 const medicineData =
 JSON.parse(
-localStorage.getItem('medicineStatus') || '{}'
+localStorage.getItem(
+'medicineStatus'
+) || '{}'
 );
 
 if(medicineData.time){
 
-let medicineText =
-'💊 服薬状況<br>';
+document.getElementById(
+'todayMedicine'
+).innerHTML =
 
-medicineText += medicineData.morning ? '✅ 朝の薬<br>' : '⬜ 朝の薬<br>';
-medicineText += medicineData.noon ? '✅ 昼の薬<br>' : '⬜ 昼の薬<br>';
-medicineText += medicineData.evening ? '✅ 夕方の薬<br>' : '⬜ 夕方の薬<br>';
-medicineText += medicineData.night ? '✅ 寝る前の薬<br>' : '⬜ 寝る前の薬<br>';
+'💊 最終服薬<br>' +
 
-document.getElementById('todayMedicine').innerHTML =
-medicineText;
+medicineData.time;
 
 }
 
-const city =
-localStorage.getItem('city') || '';
-
-const areaCode =
-localStorage.getItem('areaCode') || '';
-
-if(city || areaCode){
-
-document.getElementById('todayGarbage').innerHTML =
-'🗑 ゴミの日は「ゴミの日案内」で確認してください<br>' +
-city + ' ' + areaCode;
-
-}
 </script>
 
 </body>
