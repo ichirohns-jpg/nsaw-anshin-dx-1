@@ -21,7 +21,12 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#16a34a,#15803d);
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e293b,
+#334155
+);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -151,6 +156,74 @@ new Date()
 .toLocaleString(
 'ja-JP'
 );
+
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
+const form =
+new FormData();
+
+form.append(
+'action',
+'watch'
+);
+
+form.append(
+'id',
+userId
+);
+
+form.append(
+'status',
+'体調'
+);
+
+form.append(
+'memo',
+type
+);
+
+fetch(
+GAS_URL,
+{
+method:'POST',
+body:form
+}
+)
+
+.then(r=>r.text())
+
+.then(()=>{
+
+localStorage.setItem(
+'lastGenki',
+JSON.stringify({
+type:type,
+time:now
+})
+);
+
+document.getElementById(
+'statusArea'
+).innerHTML =
+
+'😊 送信済み<br><br>' +
+
+type +
+
+'<br><br>' +
+
+now;
+
+alert(
+'送信しました'
+);
+
+});
+
+}
 
 const userId =
 localStorage.getItem(
