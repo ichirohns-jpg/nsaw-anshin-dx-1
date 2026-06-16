@@ -176,13 +176,17 @@ class="msg">
 <button
 class="btn readBtn"
 onclick="speakGarbage()">
+
 🔊 音声で読む
+
 </button>
 
 <button
 class="btn backBtn"
 onclick="history.back()">
+
 戻る
+
 </button>
 
 </div>
@@ -206,13 +210,7 @@ return row.c[index]
 }
 
 const weekNames = [
-"日",
-"月",
-"火",
-"水",
-"木",
-"金",
-"土"
+"日","月","火","水","木","金","土"
 ];
 
 const todayDateObj =
@@ -305,28 +303,36 @@ const week =
 String(cell(row,2));
 
 if(
-cityName === city &&
-areaName === area
+cityName===city &&
+areaName===area
 ){
 
 if(
-week.indexOf(today) > -1
+week.indexOf(today)>-1
 ){
 
 todayData = {
+
 type:cell(row,3),
-msg:cell(row,6) || cell(row,4)
+
+msg:cell(row,6) ||
+cell(row,4)
+
 };
 
 }
 
 if(
-week.indexOf(tomorrow) > -1
+week.indexOf(tomorrow)>-1
 ){
 
 tomorrowData = {
+
 type:cell(row,3),
-msg:cell(row,6) || cell(row,4)
+
+msg:cell(row,6) ||
+cell(row,4)
+
 };
 
 }
@@ -383,7 +389,7 @@ document.getElementById(
 document.getElementById(
 "tomorrowMsg"
 ).innerHTML =
-"明日の収集はありません。<br><br>次回収集日に前日の夜ではなく、収集日の朝8時30分までに出してください。";
+"明日の収集はありません";
 
 }
 
@@ -418,6 +424,7 @@ function speakGarbage(){
 const text =
 
 "今日のゴミは" +
+
 document.getElementById(
 "todayType"
 ).innerText +
@@ -466,3 +473,4 @@ loadGarbage();
 
 </body>
 </html>
+
