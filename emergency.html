@@ -104,9 +104,7 @@ margin-bottom:10px;
 </div>
 
 <div class="warning">
-
 緊急時のみ使用してください
-
 </div>
 
 <button
@@ -129,8 +127,8 @@ onclick="sendEmergency('📞 折り返し希望')">
 
 <button
 class="home-btn"
-onclick="history.back()">
-🏠 戻る
+onclick="location.href='index.html'">
+🏠 トップへ戻る
 </button>
 
 </div>
@@ -159,7 +157,9 @@ const GAS_URL =
 const USER_ID =
 new URLSearchParams(
 location.search
-).get("id") || "";
+).get("id") ||
+localStorage.getItem("userId") ||
+"";
 
 async function sendEmergency(status){
 
@@ -212,7 +212,20 @@ body:body.toString()
 const json =
 await response.json();
 
-if(json.status==="OK"){
+if(
+json.status==="OK" ||
+json.status==="success" ||
+json.ok===true
+){
+
+localStorage.setItem(
+"lastSOS",
+JSON.stringify({
+mainType:"緊急連絡",
+type:status,
+time:new Date().toLocaleString("ja-JP")
+})
+);
 
 alert(
 "送信しました"
@@ -278,9 +291,7 @@ color:#ff8a80;
 ${item.status || ""}
 </div>
 
-<div style="
-opacity:.8;
-">
+<div style="opacity:.8;">
 ${item.date || ""}
 </div>
 
@@ -296,8 +307,7 @@ ${item.memo || ""}
 document.getElementById(
 "historyArea"
 ).innerHTML =
-html ||
-"履歴なし";
+html || "履歴なし";
 
 }catch(error){
 
