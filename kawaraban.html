@@ -155,6 +155,7 @@ margin-top:18px;
 
 .share-btn{
 display:block;
+width:100%;
 border:none;
 background:#111827;
 color:#fff;
@@ -163,7 +164,6 @@ border-radius:18px;
 font-size:20px;
 font-weight:900;
 cursor:pointer;
-width:100%;
 text-align:left;
 }
 
@@ -275,6 +275,46 @@ document.body.appendChild(script);
 
 }
 
+function shareLine(url){
+
+window.open(
+'https://social-plugins.line.me/lineit/share?url=' +
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareFacebook(url){
+
+window.open(
+'https://www.facebook.com/sharer/sharer.php?u=' +
+encodeURIComponent(url),
+'_blank'
+);
+
+}
+
+function shareX(url,title){
+
+window.open(
+'https://twitter.com/intent/tweet?url=' +
+encodeURIComponent(url) +
+'&text=' +
+encodeURIComponent(title),
+'_blank'
+);
+
+}
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert('URLをコピーしました');
+
+}
+
 window.handleSheet = function(json){
 
 const container =
@@ -302,88 +342,59 @@ rows.forEach(function(row,index){
 
 if(!row.c)return;
 
-const date =
-getVal(row.c[0]);
+const date=getVal(row.c[0]);
+const image=makeImageUrl(getVal(row.c[1]));
+const title=getVal(row.c[2]);
+const content=getVal(row.c[3]);
 
-const image =
-makeImageUrl(
-getVal(row.c[1])
-);
+const shikiTitle=getVal(row.c[4]);
+const shikiUrl=getVal(row.c[5]);
 
-const title =
-getVal(row.c[2]);
+const niizaTitle=getVal(row.c[6]);
+const niizaUrl=getVal(row.c[7]);
 
-const content =
-getVal(row.c[3]);
+const asakaTitle=getVal(row.c[8]);
+const asakaUrl=getVal(row.c[9]);
 
-const shikiTitle =
-getVal(row.c[4]);
-
-const shikiUrl =
-getVal(row.c[5]);
-
-const niizaTitle =
-getVal(row.c[6]);
-
-const niizaUrl =
-getVal(row.c[7]);
-
-const asakaTitle =
-getVal(row.c[8]);
-
-const asakaUrl =
-getVal(row.c[9]);
-
-const wakoTitle =
-getVal(row.c[10]);
-
-const wakoUrl =
-getVal(row.c[11]);
+const wakoTitle=getVal(row.c[10]);
+const wakoUrl=getVal(row.c[11]);
 
 let linksHtml='';
 
 if(shikiTitle && shikiUrl){
-
 linksHtml +=
 '<a class="article-btn" target="_blank" href="' +
 shikiUrl +
 '">📍志木市：' +
 shikiTitle +
 '</a>';
-
 }
 
 if(niizaTitle && niizaUrl){
-
 linksHtml +=
 '<a class="article-btn" target="_blank" href="' +
 niizaUrl +
 '">📍新座市：' +
 niizaTitle +
 '</a>';
-
 }
 
 if(asakaTitle && asakaUrl){
-
 linksHtml +=
 '<a class="article-btn" target="_blank" href="' +
 asakaUrl +
 '">📍朝霞市：' +
 asakaTitle +
 '</a>';
-
 }
 
 if(wakoTitle && wakoUrl){
-
 linksHtml +=
 '<a class="article-btn" target="_blank" href="' +
 wakoUrl +
 '">📍和光市：' +
 wakoTitle +
 '</a>';
-
 }
 
 const shareUrl =
@@ -396,32 +407,57 @@ document.createElement('div');
 card.className='card';
 
 card.innerHTML =
+
 (image ?
 '<div class="image-container"><img src="' +
 image +
 '"></div>'
 : '')
+
 +
-'<div class="card-content">'
-+
-'<div class="city-tag">4市瓦版</div>'
-+
+
+'<div class="card-content">' +
+
+'<div class="city-tag">4市瓦版</div>' +
+
 '<div class="date">' +
 date +
-'</div>'
-+
+'</div>' +
+
 '<div class="card-title">' +
 title +
-'</div>'
-+
+'</div>' +
+
 '<div class="card-text">' +
 content +
-'</div>'
-+
+'</div>' +
+
 '<div class="article-links">' +
 linksHtml +
-'</div>'
-+
+'</div>' +
+
+'<div class="share-row">' +
+
+'<button class="share-btn" onclick="shareLine(\'' +
+shareUrl +
+'\')">💬 LINEで送る</button>' +
+
+'<button class="share-btn" onclick="shareFacebook(\'' +
+shareUrl +
+'\')">📘 Facebookへ投稿</button>' +
+
+'<button class="share-btn" onclick="shareX(\'' +
+shareUrl +
+'\',\'' +
+title +
+'\')">✖ Xへ投稿</button>' +
+
+'<button class="share-btn" onclick="copyUrl(\'' +
+shareUrl +
+'\')">📋 URLコピー</button>' +
+
+'</div>' +
+
 '</div>';
 
 container.appendChild(card);
