@@ -164,6 +164,12 @@ new Date()
 'ja-JP'
 );
 
+const today =
+new Date()
+.toLocaleDateString(
+'ja-JP'
+);
+
 const userId =
 localStorage.getItem(
 'userId'
@@ -175,6 +181,9 @@ localStorage.getItem(
 'medicineStatus'
 ) || '{}'
 );
+
+data.date =
+today;
 
 data[key] =
 true;
@@ -217,6 +226,27 @@ localStorage.getItem(
 'medicineStatus'
 ) || '{}'
 );
+
+const today =
+new Date()
+.toLocaleDateString(
+'ja-JP'
+);
+
+if(data.date !== today){
+
+data.morning = false;
+data.noon = false;
+data.evening = false;
+data.night = false;
+data.date = today;
+
+localStorage.setItem(
+'medicineStatus',
+JSON.stringify(data)
+);
+
+}
 
 let html='';
 
