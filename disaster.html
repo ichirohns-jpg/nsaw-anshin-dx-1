@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>防災情報</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#dc2626,#991b1b);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:34px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:24px;
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.btn{
+display:block;
+width:100%;
+padding:24px;
+margin-bottom:12px;
+border:none;
+border-radius:22px;
+background:#dc2626;
+color:#fff;
+font-size:26px;
+font-weight:900;
+}
+
+.result{
+font-size:20px;
+line-height:1.8;
+font-weight:700;
+}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>🚨 防災情報</h1>
+</div>
+
+<div class="card">
+
+<button
+class="btn"
+onclick="openWeather()">
+
+🌧 気象警報を見る
+
+</button>
+
+<button
+class="btn"
+onclick="openHazard()">
+
+🗺 ハザードマップ
+
+</button>
+
+<button
+class="btn"
+onclick="openRiver()">
+
+🌊 河川情報
+
+</button>
+
+<div
+id="result"
+class="result">
+
+防災情報を確認してください
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="home">
+
+🏠 トップへ戻る
+
+</a>
+
+<script>
+
+function openWeather(){
+
+window.open(
+'https://www.jma.go.jp/'
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'気象庁の警報情報を開きました';
+
+}
+
+function openHazard(){
+
+window.open(
+'https://disaportal.gsi.go.jp/'
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'ハザードマップを開きました';
+
+}
+
+function openRiver(){
+
+window.open(
+'https://www.river.go.jp/'
+);
+
+document.getElementById(
+'result'
+).innerHTML =
+
+'河川情報を開きました';
+
+}
+
+</script>
+
+</body>
+</html>
