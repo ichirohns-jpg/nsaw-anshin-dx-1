@@ -1,105 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>利用履歴</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef2f7;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+margin-bottom:18px;
+}
+
+.header h1{
+font-size:34px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:22px;
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:26px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.item{
+padding:18px;
+border-radius:18px;
+font-size:22px;
+font-weight:900;
+line-height:1.8;
+}
+
+.red{background:#fee2e2;}
+.blue{background:#dbeafe;}
+.green{background:#dcfce7;}
+.orange{background:#ffedd5;}
+
+.home{
+display:block;
+background:#475569;
+color:#fff;
+text-decoration:none;
+padding:20px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin-top:16px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>📋 利用履歴</h1>
+</div>
+
 <div class="card">
-
-<div class="title">
-📅 予定
-</div>
-
-<div id="scheduleHistory" class="item blue">
-履歴なし
-</div>
-
+<div class="title">🚨 SOS</div>
+<div id="sosHistory" class="item red">履歴なし</div>
 </div>
 
 <div class="card">
-
-<div class="title">
-🏠 帰宅
+<div class="title">📍 GPS</div>
+<div id="gpsHistory" class="item blue">履歴なし</div>
 </div>
 
-<div id="homeHistory" class="item green">
-履歴なし
+<div class="card">
+<div class="title">📅 予定</div>
+<div id="scheduleHistory" class="item blue">履歴なし</div>
 </div>
 
+<div class="card">
+<div class="title">🏠 帰宅</div>
+<div id="homeHistory" class="item green">履歴なし</div>
 </div>
+
+<div class="card">
+<div class="title">💊 服薬</div>
+<div id="medicineHistory" class="item orange">履歴なし</div>
+</div>
+
+<a href="index.html" class="home">
+🏠 トップへ戻る
+</a>
+
+<script>
 
 const lastGPS =
 JSON.parse(
-localStorage.getItem(
-'lastGPS'
-) || 'null'
+localStorage.getItem('lastGPS') || 'null'
 );
 
 if(lastGPS){
-
-document.getElementById(
-'gpsHistory'
-).innerHTML =
-
+document.getElementById('gpsHistory').innerHTML =
 '📍 位置送信<br>' +
-lastGPS.time;
-
+(lastGPS.time || '');
 }
 
 const lastSOS =
 JSON.parse(
-localStorage.getItem(
-'lastSOS'
-) || 'null'
+localStorage.getItem('lastSOS') || 'null'
 );
 
 if(lastSOS){
-
-document.getElementById(
-'sosHistory'
-).innerHTML =
-
+document.getElementById('sosHistory').innerHTML =
 (lastSOS.mainType || '') +
 '<br>' +
 (lastSOS.type || '') +
 '<br>' +
 (lastSOS.time || '');
-
 }
 
 const lastHome =
 JSON.parse(
-localStorage.getItem(
-'lastHome'
-) || 'null'
+localStorage.getItem('lastHome') || 'null'
 );
 
 if(lastHome){
-
-document.getElementById(
-'homeHistory'
-).innerHTML =
-
+document.getElementById('homeHistory').innerHTML =
 '🏠 帰宅<br>' +
-lastHome.time;
-
+(lastHome.time || '');
 }
 
 const scheduleData =
 JSON.parse(
-localStorage.getItem(
-'lastSchedule'
-) || 'null'
+localStorage.getItem('lastSchedule') || 'null'
 );
 
 if(scheduleData){
-
-document.getElementById(
-'scheduleHistory'
-).innerHTML =
-
+document.getElementById('scheduleHistory').innerHTML =
 '📅 ' +
 (scheduleData.title || '') +
 '<br>' +
 (scheduleData.date || '');
+}
 
+const medicineData =
+JSON.parse(
+localStorage.getItem('medicineStatus') || '{}'
+);
+
+if(medicineData.time){
+document.getElementById('medicineHistory').innerHTML =
+'💊 最終服薬<br>' +
+medicineData.time;
 }
 
 </script>
 
 </body>
 </html>
+
