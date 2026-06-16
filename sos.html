@@ -21,7 +21,11 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#dc2626,#b91c1c);
+background:linear-gradient(
+135deg,
+#dc2626,
+#b91c1c
+);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -220,6 +224,11 @@ document.getElementById(
 'memo'
 ).value =
 last.memo || '';
+
+document.getElementById(
+'mainType'
+).value =
+last.mainType || '体調が悪い';
 
 }
 
