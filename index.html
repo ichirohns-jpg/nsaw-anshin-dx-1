@@ -263,7 +263,7 @@ AIサポート
 </a>
 
 <a href="news.html" class="link">
-📰 地域情報
+🛒 スーパー情報
 </a>
 
 </div>
@@ -354,45 +354,6 @@ now.getFullYear() + '年' +
 now.getDate() + '日（' +
 weekNames[now.getDay()] +
 '）';
-
-const scheduleData =
-JSON.parse(
-localStorage.getItem(
-'lastSchedule'
-) || 'null'
-);
-
-if(scheduleData){
-
-document.getElementById(
-'todaySchedule'
-).innerHTML =
-
-'📅 今日の予定<br>' +
-(scheduleData.title || '') +
-'<br>' +
-(scheduleData.date || '');
-
-}
-
-const medicineData =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
-if(medicineData.time){
-
-document.getElementById(
-'todayMedicine'
-).innerHTML =
-
-'💊 最終服薬<br>' +
-
-medicineData.time;
-
-}
 
 </script>
 
