@@ -114,44 +114,135 @@ margin-top:8px;
 }
 
 .green{
-background:linear-gradient(
-135deg,
-#16a34a,
-#15803d
-);
+background:linear-gradient(135deg,#16a34a,#15803d);
 }
 
 .red{
-background:linear-gradient(
-135deg,
-#ef4444,
-#dc2626
-);
+background:linear-gradient(135deg,#ef4444,#dc2626);
 }
 
 .blue{
-background:linear-gradient(
-135deg,
-#2563eb,
-#1d4ed8
-);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 }
 
 .orange{
-background:linear-gradient(
-135deg,
-#f97316,
-#ea580c
-);
+background:linear-gradient(135deg,#f97316,#ea580c);
 }
 
 .purple{
-background:linear-gradient(
-135deg,
-#8b5cf6,
-#7c3aed
-);
+background:linear-gradient(135deg,#8b5cf6,#7c3aed);
 }
+
+.link{
+display:block;
+padding:18px;
+font-size:22px;
+font-weight:900;
+text-decoration:none;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
+}
+
+.link:last-child{
+border-bottom:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="nsaw">
+NSAW
+</div>
+
+<div class="mainTitle">
+あんしん見守りDX
+</div>
+
+<div class="subTitle">
+家族と地域をつなぐ生活支援システム
+</div>
+
+</div>
+
+<div class="card">
+
+<div id="todayDate" class="todayDate">
+📅 今日の日付
+</div>
+
+<div id="todaySchedule" class="infoBox">
+📅 今日は予定がありません
+</div>
+
+<div id="todayGarbage" class="infoBox">
+🗑 ゴミ情報はありません
+</div>
+
+<div id="todayMedicine" class="infoBox">
+💊 服薬記録はありません
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+見守り
+</div>
+
+<div class="grid">
+
+<a href="genki.html" class="btn green">
+😊
+<div>元気です</div>
+</a>
+
+<a href="sos.html" class="btn red">
+🚨
+<div>SOS</div>
+</a>
+
+<a href="medicine.html" class="btn orange">
+💊
+<div>服薬確認</div>
+</a>
+
+<a href="gps.html" class="btn blue">
+📍
+<div>現在地</div>
+</a>
+
+<a href="home.html" class="btn blue">
+🏠
+<div>帰宅しました</div>
+</a>
+
+<a href="schedule.html" class="btn orange">
+📅
+<div>予定</div>
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+AIサポート
+</div>
+
+<a href="ai.html" class="btn purple">
+🎤
+<div>AIに聞く</div>
+</a>
+
+</div>
 
 <div class="card">
 
@@ -278,11 +369,8 @@ document.getElementById(
 ).innerHTML =
 
 '📅 今日の予定<br>' +
-
 (scheduleData.title || '') +
-
 '<br>' +
-
 (scheduleData.date || '');
 
 }
@@ -310,4 +398,3 @@ medicineData.time;
 
 </body>
 </html>
-
