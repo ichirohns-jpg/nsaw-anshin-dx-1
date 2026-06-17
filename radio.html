@@ -59,9 +59,6 @@ color:#fff;
 font-size:26px;
 font-weight:900;
 cursor:pointer;
-box-shadow:
-0 8px 20px rgba(0,0,0,.25),
-inset 0 1px 0 rgba(255,255,255,.15);
 }
 
 .card{
@@ -142,12 +139,6 @@ font-weight:900;
 cursor:pointer;
 }
 
-.share button:after{
-content:" ＞";
-float:right;
-opacity:.8;
-}
-
 .loading{
 background:#fff;
 padding:30px;
@@ -175,14 +166,12 @@ onclick="location.href='index.html'">
 🏠 トップへ戻る
 </button>
 
-<button
-class="homeBtn"
-onclick="location.href='kawaraban.html'">
-📰 4市瓦版
-</button>
-
 <div id="app">
-<div class="loading">読込中...</div>
+
+<div class="loading">
+読込中...
+</div>
+
 </div>
 
 </div>
@@ -190,35 +179,79 @@ onclick="location.href='kawaraban.html'">
 <script>
 
 function makeShareUrl(id){
-return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html?radio="+encodeURIComponent(id);
+
+return
+"https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html?radio="
++
+encodeURIComponent(id);
+
 }
 
 function shareFacebook(url){
-window.open("https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url),"_blank");
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u="
++
+encodeURIComponent(url),
+"_blank"
+);
+
 }
 
 function shareLine(url){
-window.open("https://social-plugins.line.me/lineit/share?url="+encodeURIComponent(url),"_blank");
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url="
++
+encodeURIComponent(url),
+"_blank"
+);
+
 }
 
 function shareX(url,text){
-window.open("https://twitter.com/intent/tweet?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(text),"_blank");
+
+window.open(
+"https://twitter.com/intent/tweet?url="
++
+encodeURIComponent(url)
++
+"&text="
++
+encodeURIComponent(text),
+"_blank"
+);
+
 }
 
 function copyUrl(url){
+
 navigator.clipboard.writeText(url);
-alert("URLをコピーしました");
+
+alert(
+"URLをコピーしました"
+);
+
 }
 
-const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME="地域ラジオ";
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-const GVIZ_URL=
+const SHEET_NAME =
+"地域ラジオ";
+
+const GVIZ_URL =
 "https://docs.google.com/spreadsheets/d/"
-+ SHEET_ID +
++
+SHEET_ID
++
 "/gviz/tq?sheet="
-+ encodeURIComponent(SHEET_NAME)
-+ "&tqx=out:json";
++
+encodeURIComponent(
+SHEET_NAME
+)
++
+"&tqx=out:json";
 
 function getCell(row,index){
 
@@ -228,15 +261,8 @@ return "";
 
 const c=row.c[index];
 
-if(c.v!==undefined && c.v!==null){
-return c.v;
-}
+return c.f || c.v || "";
 
-if(c.f!==undefined && c.f!==null){
-return c.f;
-}
-
-return "";
 }
 
 function getYoutubeId(url){
@@ -258,17 +284,14 @@ m=url.match(/shorts\/([^?&]+)/);
 if(m)return m[1];
 
 return "";
+
 }
 
 fetch(GVIZ_URL)
 
-.then(function(response){
+.then(r=>r.text())
 
-return response.text();
-
-})
-
-.then(function(text){
+.then(text=>{
 
 const json=
 JSON.parse(
@@ -279,51 +302,58 @@ text.lastIndexOf("}")+1
 );
 
 const rows=
-json.table && json.table.rows
-? json.table.rows
-: [];
+json.table.rows || [];
 
 let html="";
 
 rows.reverse();
 
-rows.forEach(function(row,index){
+rows.forEach((row,index)=>{
 
-const date=getCell(row,0);
+const rawDate=getCell(row,0);
 const video=getCell(row,1);
 const title=getCell(row,2);
 const desc=getCell(row,3);
 const tags=getCell(row,4);
 
-if(!video && !title && !desc){
-return;
+let date=rawDate;
+
+const d=new Date(rawDate);
+
+if(!isNaN(d)){
+
+date=
+d.getFullYear()+"年"+
+(d.getMonth()+1)+"月"+
+d.getDate()+"日";
+
 }
 
-const videoId=getYoutubeId(video);
-const shareUrl=makeShareUrl(index+1);
-const shareText=title || "地域ラジオ";
+const videoId=
+getYoutubeId(video);
 
-html+=`
+const shareUrl=
+makeShareUrl(index+1);
+
+html += `
 
 <div class="card">
 
 <div class="player">
 
-${
-videoId
-?
-`
-<iframe
+${videoId ?
+
+`<iframe
 src="https://www.youtube.com/embed/${videoId}"
-title="YouTube"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen>
-</iframe>
-`
+</iframe>`
+
 :
-`
-<div class="loading">動画がありません</div>
-`
+
+`<div class="loading">
+動画がありません
+</div>`
+
 }
 
 </div>
@@ -351,15 +381,15 @@ ${desc}
 </button>
 
 <button onclick="copyUrl('${shareUrl}')">
-📋 URLをコピー
+📋 URLコピー
 </button>
 
 <button onclick="shareFacebook('${shareUrl}')">
-📘 Facebookへ投稿
+📘 Facebook
 </button>
 
-<button onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
-✖ Xへ投稿
+<button onclick="shareX('${shareUrl}','${title}')">
+✖ X
 </button>
 
 </div>
@@ -370,17 +400,18 @@ ${desc}
 
 });
 
-document.getElementById("app").innerHTML=
-html || "<div class='loading'>記事がありません</div>";
+document.getElementById("app").innerHTML =
+html ||
+"<div class='loading'>記事がありません</div>";
 
 })
 
-.catch(function(err){
-
-document.getElementById("app").innerHTML=
-"<div class='loading'>読込失敗</div>";
+.catch(err=>{
 
 console.error(err);
+
+document.getElementById("app").innerHTML =
+"<div class='loading'>読込失敗</div>";
 
 });
 
