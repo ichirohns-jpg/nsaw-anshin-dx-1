@@ -156,8 +156,37 @@ font-weight:900;
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
 
-const USER_ID =
+function getUserId(){
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const idFromUrl =
+params.get('id') || '';
+
+const idFromStorage =
 localStorage.getItem('userId') || '';
+
+const userId =
+idFromUrl || idFromStorage;
+
+if(userId){
+
+localStorage.setItem(
+'userId',
+userId
+);
+
+}
+
+return userId;
+
+}
+
+const USER_ID =
+getUserId();
 
 function loadFamily(){
 
@@ -246,9 +275,9 @@ memo +
 }
 
 if(
-status.indexOf('救急')>-1 ||
-status.indexOf('困っています')>-1 ||
-status.indexOf('電話してください')>-1
+status.indexOf('救急') > -1 ||
+status.indexOf('困っています') > -1 ||
+status.indexOf('電話してください') > -1
 ){
 
 emergency =
@@ -332,17 +361,10 @@ document.getElementById(
 
 function loadSchedule(){
 
-const userId =
-localStorage.getItem(
-'userId'
-) || '';
-
 fetch(
 GAS_URL +
 '?action=scheduleList&id=' +
-encodeURIComponent(
-userId
-)
+encodeURIComponent(USER_ID)
 )
 
 .then(r=>r.json())
@@ -412,9 +434,7 @@ loadFamily,
 <a
 href="index.html"
 class="btn">
-
 🏠 トップへ戻る
-
 </a>
 
 </body>
