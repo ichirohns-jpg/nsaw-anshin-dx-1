@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>地域ラジオ</title>
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:title" content="地域ラジオ">
 <meta property="og:description" content="志木市・新座市・朝霞市・和光市の地域ラジオ">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="地域ラジオ">
@@ -36,48 +38,19 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#111827,#1f2937,#374151);
-color:#fff;
-padding:28px;
-border-radius:28px;
-text-align:center;
-font-size:38px;
-font-weight:900;
-box-shadow:0 10px 30px rgba(0,0,0,.25);
-margin-bottom:20px;
-}
-
-.homeBtn{
-
-width:100%;
-
-margin-top:20px;
-
-border:none;
-
-border-radius:24px;
-
-padding:24px;
-
 background:linear-gradient(
 135deg,
 #111827,
 #1f2937,
 #374151
 );
-
 color:#fff;
-
-font-size:24px;
-
+padding:28px;
+border-radius:28px;
+text-align:center;
+font-size:38px;
 font-weight:900;
-
-cursor:pointer;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.25),
-inset 0 1px 0 rgba(255,255,255,.15);
-
+margin-bottom:20px;
 }
 
 .card{
@@ -133,45 +106,20 @@ padding:0 22px 24px;
 }
 
 .share button{
-
 width:100%;
-
 background:linear-gradient(
 180deg,
 #374151,
 #111827
 );
-
 color:#fff;
-
 border:none;
-
 border-radius:24px;
-
 padding:24px;
-
 font-size:24px;
-
 font-weight:900;
-
 text-align:left;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.25),
-inset 0 1px 0 rgba(255,255,255,.15);
-
 cursor:pointer;
-
-}
-
-.share button:after{
-
-content:" ＞";
-
-float:right;
-
-opacity:.8;
-
 }
 
 .loading{
@@ -183,7 +131,26 @@ font-size:24px;
 font-weight:900;
 }
 
+.homeBtn{
+width:100%;
+margin-top:20px;
+border:none;
+border-radius:24px;
+padding:24px;
+background:linear-gradient(
+135deg,
+#111827,
+#1f2937,
+#374151
+);
+color:#fff;
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+}
+
 </style>
+
 </head>
 
 <body>
@@ -200,7 +167,7 @@ font-weight:900;
 
 <button
 class="homeBtn"
-onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.html'">
+onclick="location.href='radio.html'">
 
 📻 地域ラジオへ戻る
 
@@ -213,7 +180,8 @@ onclick="location.href='https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/radio.h
 function makeShareUrl(id){
 
 return "https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-radio-v2.html?radio="
-+ encodeURIComponent(id);
++
+encodeURIComponent(id);
 
 }
 
@@ -221,7 +189,8 @@ function shareFacebook(url){
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u="
-+ encodeURIComponent(url),
++
+encodeURIComponent(url),
 "_blank"
 );
 
@@ -231,7 +200,8 @@ function shareLine(url){
 
 window.open(
 "https://social-plugins.line.me/lineit/share?url="
-+ encodeURIComponent(url),
++
+encodeURIComponent(url),
 "_blank"
 );
 
@@ -241,9 +211,12 @@ function shareX(url,text){
 
 window.open(
 "https://twitter.com/intent/tweet?url="
-+ encodeURIComponent(url)
-+ "&text="
-+ encodeURIComponent(text),
++
+encodeURIComponent(url)
++
+"&text="
++
+encodeURIComponent(text),
 "_blank"
 );
 
@@ -257,15 +230,22 @@ alert("URLをコピーしました");
 
 }
 
-const SHEET_ID="149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-const SHEET_NAME="地域ラジオ";
+const SHEET_ID=
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME=
+"地域ラジオ";
 
 const GVIZ_URL=
 "https://docs.google.com/spreadsheets/d/"
-+ SHEET_ID +
++
+SHEET_ID
++
 "/gviz/tq?sheet="
-+ encodeURIComponent(SHEET_NAME)
-+ "&tqx=out:json";
++
+encodeURIComponent(SHEET_NAME)
++
+"&tqx=out:json";
 
 function getCell(row,index){
 
@@ -275,15 +255,7 @@ return "";
 
 const c=row.c[index];
 
-if(c.v!==undefined && c.v!==null){
-return c.v;
-}
-
-if(c.f!==undefined && c.f!==null){
-return c.f;
-}
-
-return "";
+return c.f || c.v || "";
 
 }
 
@@ -311,13 +283,9 @@ return "";
 
 fetch(GVIZ_URL)
 
-.then(function(r){
+.then(r=>r.text())
 
-return r.text();
-
-})
-
-.then(function(text){
+.then(text=>{
 
 const json=
 JSON.parse(
@@ -327,13 +295,12 @@ text.lastIndexOf("}")+1
 )
 );
 
-const rows=json.table.rows||[];
-
-const params=
-new URLSearchParams(location.search);
+const rows=
+json.table.rows || [];
 
 const targetId=
-params.get("radio");
+new URLSearchParams(location.search)
+.get("radio");
 
 let html="";
 
@@ -353,13 +320,7 @@ const tags=getCell(row,4);
 const videoId=
 getYoutubeId(video);
 
-const shareUrl=
-makeShareUrl(targetId);
-
-const shareText=
-title || "地域ラジオ";
-
-html+=`
+html=`
 
 <div class="card">
 
@@ -367,45 +328,19 @@ html+=`
 class="thumb"
 src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg">
 
-<div class="date">
-${date}
-</div>
+<div class="date">${date}</div>
 
-<div class="tag">
-${tags}
-</div>
+<div class="tag">${tags}</div>
 
-<div class="title">
-${title}
-</div>
+<div class="title">${title}</div>
 
-<div class="desc">
-${desc}
-</div>
-
-<div class="share">
-
-<button onclick="shareLine('${shareUrl}')">
-💬 LINEで送る
-</button>
-
-<button onclick="copyUrl('${shareUrl}')">
-📋 URLをコピー
-</button>
-
-<button onclick="shareFacebook('${shareUrl}')">
-📘 Facebookへ投稿
-</button>
-
-<button onclick="shareX('${shareUrl}','${String(shareText).replace(/'/g,"\\'")}')">
-✖ Xへ投稿
-</button>
-
-</div>
+<div class="desc">${desc}</div>
 
 </div>
 
 `;
+
+document.title=title || "地域ラジオ";
 
 }
 
@@ -417,12 +352,12 @@ html ||
 
 })
 
-.catch(function(err){
-
-document.getElementById("app").innerHTML=
-err;
+.catch(err=>{
 
 console.error(err);
+
+document.getElementById("app").innerHTML=
+"<div class='loading'>読込失敗</div>";
 
 });
 
