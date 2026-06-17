@@ -147,7 +147,7 @@ class="home">
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+'https://script.google.com/macros/s/AKfycbxH23_zris78LFP_5d0lXJe7gFwbVESIX5uNT0eGEKIPWgf71m-bM1CFX64fBu-wBmk/exec';
 
 function saveGenki(type){
 
@@ -160,7 +160,9 @@ new Date()
 const userId =
 localStorage.getItem(
 'userId'
-) || '';
+) ||
+new URLSearchParams(location.search).get('id') ||
+'';
 
 const form =
 new FormData();
@@ -221,72 +223,12 @@ alert(
 '送信しました'
 );
 
-});
-
-}
-
-const userId =
-localStorage.getItem(
-'userId'
-) || '';
-
-const form =
-new FormData();
-
-form.append(
-'action',
-'watch'
-);
-
-form.append(
-'id',
-userId
-);
-
-form.append(
-'status',
-'体調'
-);
-
-form.append(
-'memo',
-type
-);
-
-fetch(
-GAS_URL,
-{
-method:'POST',
-body:form
-}
-)
-
-.then(r=>r.text())
-
-.then(()=>{
-
-localStorage.setItem(
-'lastGenki',
-JSON.stringify({
-type:type,
-time:now
 })
-);
 
-document.getElementById(
-'statusArea'
-).innerHTML =
-
-'😊 送信済み<br><br>' +
-
-type +
-
-'<br><br>' +
-
-now;
+.catch(()=>{
 
 alert(
-'送信しました'
+'送信失敗'
 );
 
 });
