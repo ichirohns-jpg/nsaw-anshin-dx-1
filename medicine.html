@@ -154,7 +154,7 @@ class="home">
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+'https://script.google.com/macros/s/AKfycbxH23_zris78LFP_5d0lXJe7gFwbVESIX5uNT0eGEKIPWgf71m-bM1CFX64fBu-wBmk/exec';
 
 function saveMedicine(key,label){
 
@@ -173,7 +173,9 @@ new Date()
 const userId =
 localStorage.getItem(
 'userId'
-) || '';
+) ||
+new URLSearchParams(location.search).get('id') ||
+'';
 
 const data =
 JSON.parse(
@@ -208,13 +210,26 @@ memo:label
 })
 }
 )
-.catch(()=>{});
+
+.then(r=>r.text())
+
+.then(()=>{
 
 showStatus();
 
 alert(
 label + 'を記録しました'
 );
+
+})
+
+.catch(()=>{
+
+alert(
+'送信失敗'
+);
+
+});
 
 }
 
