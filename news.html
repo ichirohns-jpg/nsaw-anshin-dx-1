@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>地域情報｜見守りDX</title>
+<title>スーパー情報｜見守りDX</title>
 
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
@@ -30,7 +30,7 @@ padding:16px;
 }
 
 .header{
-background:#1976d2;
+background:#16a34a;
 color:#fff;
 border-radius:26px;
 padding:22px;
@@ -66,7 +66,7 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 
 .category{
 display:inline-block;
-background:#1976d2;
+background:#16a34a;
 color:#fff;
 padding:8px 14px;
 border-radius:999px;
@@ -118,11 +118,11 @@ padding:30px;
 </div>
 
 <div class="title">
-📰 地域情報
+🛒 スーパー情報
 </div>
 
 <div class="sub">
-地域のお知らせを確認します
+近くのスーパー・特売情報を確認します
 </div>
 
 </div>
@@ -154,7 +154,7 @@ padding:30px;
 </div>
 
 <div>
-地域情報
+スーパー情報
 </div>
 
 </div>
@@ -169,7 +169,7 @@ const SHEET_ID =
 const url =
 "https://docs.google.com/spreadsheets/d/" +
 SHEET_ID +
-"/gviz/tq?sheet=%E5%9C%B0%E5%9F%9F%E6%83%85%E5%A0%B1&tqx=out:json";
+"/gviz/tq?sheet=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E6%83%85%E5%A0%B1&tqx=out:json";
 
 fetch(url)
 
@@ -189,39 +189,51 @@ let html = "";
 
 rows.forEach(r=>{
 
-const category =
-r.c[0]?.v || "";
-
-const title =
+const city =
 r.c[1]?.v || "";
 
-const body =
+const store =
 r.c[2]?.v || "";
 
-const date =
+const item =
 r.c[3]?.v || "";
 
-if(!title) return;
+const price =
+r.c[4]?.v || "";
+
+const body =
+r.c[5]?.v || "";
+
+const flyer =
+r.c[6]?.v || "";
+
+if(!store) return;
 
 html += `
 
 <div class="card">
 
 <div class="category">
-${category}
+📍 ${city}
 </div>
 
 <div class="newsTitle">
-${title}
+${store}
 </div>
 
 <div class="newsText">
+🛒 ${item}<br><br>
+💴 ${price}<br><br>
 ${body}
 </div>
 
-<div class="date">
-${date}
-</div>
+${
+flyer
+?
+`<a href="${flyer}" target="_blank">📄 チラシを見る</a>`
+:
+''
+}
 
 </div>
 
@@ -231,8 +243,22 @@ ${date}
 
 document.getElementById(
 "newsList"
-).innerHTML = html;
+).innerHTML =
+html ||
+'<div class="card"><div class="loading">情報がありません</div></div>';
+
+})
+
+.catch(()=>{
+
+document.getElementById(
+"newsList"
+).innerHTML =
+'<div class="card"><div class="loading">読込失敗</div></div>';
 
 });
 
 </script>
+
+</body>
+</html>
