@@ -221,6 +221,86 @@ row.memo || '';
 const time =
 row.time || row.date || '';
 
+<div class="card">
+<div class="title">📍 現在地</div>
+<div id="gpsArea" class="item gps">読込中...</div>
+</div>
+
+<div class="card">
+<div class="title">🚨 緊急連絡</div>
+<div id="emergencyArea" class="item sos">読込中...</div>
+</div>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+
+function getUserId(){
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const idFromUrl =
+params.get('id') || '';
+
+const idFromStorage =
+localStorage.getItem('userId') || '';
+
+const userId =
+idFromUrl || idFromStorage;
+
+if(userId){
+
+localStorage.setItem(
+'userId',
+userId
+);
+
+}
+
+return userId;
+
+}
+
+const USER_ID =
+getUserId();
+
+function loadFamily(){
+
+fetch(
+GAS_URL +
+'?action=records&id=' +
+encodeURIComponent(USER_ID)
+)
+
+.then(r=>r.json())
+
+.then(json=>{
+
+const rows =
+json.data || json || [];
+
+let sos='記録なし';
+let genki='記録なし';
+let home='記録なし';
+let medicine='';
+let gps='記録なし';
+let emergency='記録なし';
+
+rows.forEach(row=>{
+
+const status =
+row.status || '';
+
+const memo =
+row.memo || '';
+
+const time =
+row.time || row.date || '';
+
 if(status==='SOS'){
 
 sos =
@@ -364,7 +444,9 @@ function loadSchedule(){
 fetch(
 GAS_URL +
 '?action=scheduleList&id=' +
-encodeURIComponent(USER_ID)
+encodeURIComponent(
+USER_ID
+)
 )
 
 .then(r=>r.json())
@@ -434,7 +516,9 @@ loadFamily,
 <a
 href="index.html"
 class="btn">
+
 🏠 トップへ戻る
+
 </a>
 
 </body>
