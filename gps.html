@@ -146,7 +146,7 @@ class="home">
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+'https://script.google.com/macros/s/AKfycbxH23_zris78LFP_5d0lXJe7gFwbVESIX5uNT0eGEKIPWgf71m-bM1CFX64fBu-wBmk/exec';
 
 function getGPS(){
 
@@ -293,6 +293,9 @@ lat
 
 form.append(
 'lng',
+lng
+);
+
 fetch(
 GAS_URL,
 {
@@ -309,83 +312,12 @@ alert(
 '現在地を送信しました'
 );
 
-});
+})
 
-},
-
-function(){
+.catch(()=>{
 
 alert(
-'位置情報取得失敗'
-);
-
-}
-
-);
-
-}
-
-const last =
-JSON.parse(
-localStorage.getItem(
-'lastGPS'
-) || 'null'
-);
-
-if(last){
-
-document.getElementById(
-'gpsInfo'
-).innerHTML =
-
-'取得日時<br><br>' +
-
-last.time +
-
-'<br><br>' +
-
-'緯度: ' +
-
-last.lat +
-
-'<br>' +
-
-'経度: ' +
-
-last.lng;
-
-const btn =
-document.getElementById(
-'mapBtn'
-);
-
-btn.href =
-last.mapUrl;
-
-btn.style.display =
-'block';
-
-}
-
-</script>
-
-</body>
-</html>
-
-fetch(
-GAS_URL,
-{
-method:'POST',
-body:form
-}
-)
-
-.then(r=>r.text())
-
-.then(()=>{
-
-alert(
-'現在地を送信しました'
+'送信失敗'
 );
 
 });
