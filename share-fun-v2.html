@@ -7,10 +7,11 @@
 
 <title>お楽しみ動画</title>
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:title" content="お楽しみ動画">
 <meta property="og:description" content="地域の暮らしに役立つ動画">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/share-fun-v2.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="お楽しみ動画">
@@ -38,7 +39,11 @@ padding:16px;
 }
 
 .header{
-background:linear-gradient(135deg,#16a34a,#22c55e);
+background:linear-gradient(
+135deg,
+#16a34a,
+#22c55e
+);
 color:#fff;
 padding:28px;
 border-radius:28px;
@@ -210,11 +215,9 @@ json.table.rows || [];
 
 rows.reverse();
 
-const params =
-new URLSearchParams(location.search);
-
 const targetId =
-params.get("fun");
+new URLSearchParams(location.search)
+.get("fun");
 
 let html = "";
 
@@ -225,28 +228,20 @@ rows[Number(targetId)-1];
 
 if(row && row.c){
 
-const date =
-getVal(row.c[0]);
+const date=getVal(row.c[0]);
+const title=getVal(row.c[2]);
+const desc=getVal(row.c[4]);
+const video=getVal(row.c[5]);
+const genre=getVal(row.c[7]);
+const memo=getVal(row.c[8]);
 
-const title =
-getVal(row.c[2]);
-
-const desc =
-getVal(row.c[4]);
-
-const video =
-getVal(row.c[5]);
-
-const genre =
-getVal(row.c[7]);
-
-const memo =
-getVal(row.c[8]);
+document.title =
+title || "お楽しみ動画";
 
 const videoId =
 getYoutubeId(video);
 
-html += `
+html = `
 
 <div class="header">
 🎬 お楽しみ動画
@@ -267,41 +262,27 @@ class="homeBtn">
 ${
 videoId
 ?
-`
-<iframe
+`<iframe
 src="https://www.youtube.com/embed/${videoId}"
 allowfullscreen>
-</iframe>
-`
+</iframe>`
 :
-`
-<div class="loading">
+`<div class="loading">
 動画がありません
-</div>
-`
+</div>`
 }
 
 </div>
 
-<div class="date">
-${date}
-</div>
+<div class="date">${date}</div>
 
-<div class="genre">
-${genre}
-</div>
+<div class="genre">${genre}</div>
 
-<div class="title">
-${title}
-</div>
+<div class="title">${title}</div>
 
-<div class="desc">
-${desc}
-</div>
+<div class="desc">${desc}</div>
 
-<div class="memo">
-${memo}
-</div>
+<div class="memo">${memo}</div>
 
 </div>
 
@@ -325,9 +306,7 @@ html +
 <body onload="loadSheet()">
 
 <div class="loading">
-
 読込中...
-
 </div>
 
 </body>
