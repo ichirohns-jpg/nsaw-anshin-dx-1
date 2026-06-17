@@ -174,7 +174,7 @@ onclick="saveSchedule()">
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+'https://script.google.com/macros/s/AKfycbxH23_zris78LFP_5d0lXJe7gFwbVESIX5uNT0eGEKIPWgf71m-bM1CFX64fBu-wBmk/exec';
 
 function saveSchedule(){
 
@@ -206,7 +206,9 @@ return;
 const userId =
 localStorage.getItem(
 'userId'
-) || '';
+) ||
+new URLSearchParams(location.search).get('id') ||
+'';
 
 const form =
 new FormData();
@@ -271,6 +273,14 @@ alert(
 
 loadSchedules();
 
+})
+
+.catch(()=>{
+
+alert(
+'登録失敗'
+);
+
 });
 
 }
@@ -280,18 +290,14 @@ function loadSchedules(){
 const userId =
 localStorage.getItem(
 'userId'
-) || '';
+) ||
+new URLSearchParams(location.search).get('id') ||
+'';
 
 fetch(
-
 GAS_URL +
-
 '?action=scheduleList&id=' +
-
-encodeURIComponent(
-userId
-)
-
+encodeURIComponent(userId)
 )
 
 .then(r=>r.json())
@@ -315,13 +321,11 @@ data.data.forEach(item=>{
 html +=
 
 '📅 ' +
-
 (item.date || '') +
 
 '<br>' +
 
 '🏥 ' +
-
 (item.title || '') +
 
 '<br>' +
