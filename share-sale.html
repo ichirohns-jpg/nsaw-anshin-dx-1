@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>スーパー情報</title>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="スーパー情報">
+<meta property="og:description" content="地域のお得な特売情報">
+
+<meta property="og:image"
+content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+
+<meta name="twitter:card"
+content="summary_large_image">
+
+<meta name="twitter:title"
+content="スーパー情報">
+
+<meta name="twitter:description"
+content="地域のお得な特売情報">
+
+<meta name="twitter:image"
+content="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef4fb;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+}
+
+.wrap{
+max-width:800px;
+margin:auto;
+padding:16px;
+}
+
+.header{
+background:linear-gradient(
+135deg,
+#16a34a,
+#22c55e
+);
+color:#fff;
+padding:28px;
+border-radius:28px;
+font-size:36px;
+font-weight:900;
+text-align:center;
+margin-bottom:20px;
+}
+
+.card{
+background:#fff;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+
+.thumb{
+width:100%;
+display:block;
+}
+
+.loading{
+padding:40px;
+font-size:24px;
+font-weight:900;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+🛒 スーパー情報
+</div>
+
+<div id="app">
+
+<div class="loading">
+読込中...
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"スーパー情報";
+
+function getVal(c){
+
+if(!c){
+return "";
+}
+
+return c.f || c.v || "";
+
+}
+
+function loadSheet(){
+
+const s =
+document.createElement("script");
+
+s.src =
+"https://docs.google.com/spreadsheets/d/"
++
+SHEET_ID
++
+"/gviz/tq?sheet="
++
+encodeURIComponent(SHEET_NAME)
++
+"&tqx=out:json;responseHandler:handleSheet";
+
+document.body.appendChild(s);
+
+}
+
+function handleSheet(json){
+
+const rows =
+json.table.rows || [];
+
+rows.reverse();
+
+const params =
+new URLSearchParams(location.search);
+
+const targetId =
+params.get("sale");
+
+let html = "";
+
+if(targetId){
+
+const row =
+rows[Number(targetId)-1];
+
+if(row && row.c){
+
+const date =
+getVal(row.c[0]);
+
+const city =
+getVal(row.c[1]);
+
+const store =
+getVal(row.c[2]);
+
+const item =
+getVal(row.c[3]);
+
+const price =
+getVal(row.c[4]);
+
+const body =
+getVal(row.c[5]);
+
+html = `
+
+<div class="card">
+
+<img
+class="thumb"
+src="https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/top.jpg">
+
+<div style="padding:22px;">
+
+<div style="
+font-size:18px;
+font-weight:900;
+color:#64748b;
+margin-bottom:12px;
+">
+
+${date}　${city}
+
+</div>
+
+<div style="
+font-size:34px;
+font-weight:900;
+margin-bottom:12px;
+">
+
+${store}
+
+</div>
+
+<div style="
+font-size:28px;
+font-weight:900;
+margin-bottom:12px;
+">
+
+🛒 ${item}
+
+</div>
+
+<div style="
+font-size:28px;
+font-weight:900;
+color:#dc2626;
+margin-bottom:16px;
+">
+
+💴 ${price}
+
+</div>
+
+<div style="
+font-size:22px;
+line-height:1.8;
+color:#475569;
+">
+
+${body}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+}
+
+document.getElementById("app").innerHTML =
+html ||
+'<div class="loading">情報がありません</div>';
+
+}
+
+</script>
+
+</body>
+
+</html>
