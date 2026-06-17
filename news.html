@@ -136,7 +136,8 @@ padding:30px;
 
 <div class="header">
 
-<div class="back"
+<div
+class="back"
 onclick="location.href='index.html'">
 
 ← トップへ戻る
@@ -206,6 +207,14 @@ encodeURIComponent(text)
 
 }
 
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert('URLをコピーしました');
+
+}
+
 fetch(url)
 
 .then(res=>res.text())
@@ -247,7 +256,9 @@ r.c[6]?.v || "";
 if(!store)return;
 
 const shareText =
-store + " " + item + " " + price;
+store + " " +
+item + " " +
+price;
 
 html += `
 
@@ -307,6 +318,14 @@ class="shareBtn"
 onclick="shareX(location.href,'${shareText}')">
 
 ✖ Xへ投稿
+
+</button>
+
+<button
+class="shareBtn"
+onclick="copyUrl(location.href)">
+
+📋 URLをコピー
 
 </button>
 
