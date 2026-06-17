@@ -135,16 +135,17 @@ localStorage.getItem(
 'areaCode'
 ) || '';
 
+const userId =
+localStorage.getItem(
+'userId'
+) || '';
+
 const qrUrl =
-location.origin +
-location.pathname
-.replace(
-'qr.html',
-'index.html'
-) +
-'?user=' +
+
+'https://ichirohns-jpg.github.io/nsaw-anshin-dx-1/family.html?id=' +
+
 encodeURIComponent(
-userName
+userId
 );
 
 document.getElementById(
@@ -161,7 +162,13 @@ city +
 
 ' ' +
 
-areaCode;
+areaCode +
+
+'<br><br>' +
+
+'ID<br>' +
+
+userId;
 
 QRCode.toCanvas(
 
