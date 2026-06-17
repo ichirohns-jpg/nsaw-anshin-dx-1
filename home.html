@@ -169,7 +169,7 @@ onclick="goHome()">
 <script>
 
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyi5N-yWWLodlWnncZYtrOwe2w6I9Puf6F5aC6vvtpREKZZfbA5o_XBEp_DonYlLf3r/exec';
+'https://script.google.com/macros/s/AKfycbxH23_zris78LFP_5d0lXJe7gFwbVESIX5uNT0eGEKIPWgf71m-bM1CFX64fBu-wBmk/exec';
 
 function goHome(){
 
@@ -233,7 +233,9 @@ new Date()
 const userId =
 localStorage.getItem(
 'userId'
-) || '';
+) ||
+new URLSearchParams(location.search).get('id') ||
+'';
 
 const form =
 new FormData();
@@ -302,13 +304,20 @@ document.getElementById(
 ).innerHTML =
 
 '最終帰宅<br><br>' +
-
 now;
 
 showButtons();
 
 alert(
 '帰宅を記録しました'
+);
+
+})
+
+.catch(()=>{
+
+alert(
+'送信失敗'
 );
 
 });
@@ -342,7 +351,6 @@ document.getElementById(
 ).innerHTML =
 
 '最終帰宅<br><br>' +
-
 last.time;
 
 showButtons();
