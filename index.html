@@ -310,24 +310,57 @@ AIサポート
 🤝 地域相談
 </a>
 
-<a href="evacuation.html" class="link">
-🏃 避難所案内
+<div class="card">
+
+<div class="sectionTitle">
+見守り
+</div>
+
+<div class="grid">
+
+<a href="genki.html" class="btn green">
+😊
+<div>元気です</div>
 </a>
 
-<a href="disaster.html" class="link">
-🚨 防災情報
+<a href="sos.html" class="btn red">
+🚨
+<div>SOS</div>
 </a>
 
-<a href="medicine-request.html" class="link">
-💊 薬が残り少ない
+<a href="medicine.html" class="btn orange">
+💊
+<div>服薬確認</div>
 </a>
 
-<a href="tel-family.html" class="link">
-📞 家族へ電話
+<a href="gps.html" class="btn blue">
+📍
+<div>現在地</div>
 </a>
 
-<a href="line-family.html" class="link">
-💬 家族へLINE
+<a href="home.html" class="btn blue">
+🏠
+<div>帰宅しました</div>
+</a>
+
+<a href="schedule.html" class="btn orange">
+📅
+<div>予定</div>
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+AIサポート
+</div>
+
+<a href="ai.html" class="btn purple">
+🎤
+<div>AIに聞く</div>
 </a>
 
 </div>
@@ -335,89 +368,45 @@ AIサポート
 <div class="card">
 
 <div class="sectionTitle">
-管理
+地域情報
 </div>
 
-<a href="family.html" class="link">
-👪 支援者ページ
+<a href="kawaraban.html" class="link">
+📰 4市瓦版
 </a>
 
-<a href="history.html" class="link">
-📋 利用履歴
+<a href="radio.html" class="link">
+📻 地域ラジオ
 </a>
 
-<a href="qr.html" class="link">
-📱 QRコード
+<a href="fun.html" class="link">
+🎬 お楽しみ動画
 </a>
 
-<a href="register.html" class="link">
-⚙️ 本人登録
+<a href="news.html" class="link">
+📰 地域情報
 </a>
 
 </div>
 
-<script>
+<div class="card">
 
-const weekNames =
-['日','月','火','水','木','金','土'];
+<div class="sectionTitle">
+生活支援
+</div>
 
-const now =
-new Date();
+<a href="garbage.html" class="link">
+🗑 ゴミの日案内
+</a>
 
-document.getElementById(
-'todayDate'
-).innerHTML =
+<a href="hospital.html" class="link">
+🏥 病院を探す
+</a>
 
-'📅 ' +
-now.getFullYear() + '年' +
-(now.getMonth()+1) + '月' +
-now.getDate() + '日（' +
-weekNames[now.getDay()] +
-'）';
+<a href="pharmacy.html" class="link">
+💊 薬局を探す
+</a>
 
-const scheduleData =
-JSON.parse(
-localStorage.getItem(
-'lastSchedule'
-) || 'null'
-);
-
-if(scheduleData){
-
-document.getElementById(
-'todaySchedule'
-).innerHTML =
-
-'📅 今日の予定<br>' +
-
-(scheduleData.title || '') +
-
-'<br>' +
-
-(scheduleData.date || '');
-
-}
-
-const medicineData =
-JSON.parse(
-localStorage.getItem(
-'medicineStatus'
-) || '{}'
-);
-
-if(medicineData.time){
-
-document.getElementById(
-'todayMedicine'
-).innerHTML =
-
-'💊 最終服薬<br>' +
-
-medicineData.time;
-
-}
-
-</script>
-
-</body>
-</html>
+<a href="support.html" class="link">
+🤝 地域相談
+</a>
