@@ -126,6 +126,7 @@ color:#fff;
 font-size:22px;
 font-weight:900;
 box-shadow:0 8px 20px rgba(0,0,0,.18);
+cursor:pointer;
 }
 
 .loading{
@@ -304,26 +305,22 @@ class="flyerBtn">
 📄 チラシを見る
 </a>` : ''}
 
-<button
-class="shareBtn"
+<button class="shareBtn"
 onclick="copyUrl(shareUrl)">
 📋 URLをコピー
 </button>
 
-<button
-class="shareBtn"
+<button class="shareBtn"
 onclick="shareFacebook(shareUrl)">
 📘 Facebookへ投稿
 </button>
 
-<button
-class="shareBtn"
+<button class="shareBtn"
 onclick="shareLine(shareUrl)">
 💬 LINEで送る
 </button>
 
-<button
-class="shareBtn"
+<button class="shareBtn"
 onclick="shareX(shareUrl,'${shareText}')">
 ✖ Xへ投稿
 </button>
