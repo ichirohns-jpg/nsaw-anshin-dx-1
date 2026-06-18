@@ -335,7 +335,13 @@ const memo=getVal(row.c[8]);
 
 const videoId=getYoutubeId(video);
 
-const card=
+const shareUrl =
+makeShareUrl(index+1);
+
+const shareText =
+title;
+
+const card =
 
 '<div class="card">' +
 
@@ -357,42 +363,38 @@ videoId +
 
 '<div class="body">' +
 
-'<div class="date">' +
-date +
-'</div>' +
+'<div class="date">' + date + '</div>' +
 
-'<div class="genre">' +
-genre +
-'</div>' +
+'<div class="genre">' + genre + '</div>' +
 
-'<div class="title">' +
-title +
-'</div>' +
+'<div class="title">' + title + '</div>' +
 
-'<div class="desc">' +
-desc +
-'</div>' +
+'<div class="desc">' + desc + '</div>' +
 
 (memo ?
-
-'<div class="memo">' +
-memo +
-'</div>'
-
+'<div class="memo">' + memo + '</div>'
 : '') +
+
+'<div class="share">' +
+
+'<button class="shareBtn" onclick="copyUrl(\'' + shareUrl + '\')">📋 URLをコピー</button>' +
+
+'<button class="shareBtn" onclick="shareFacebook(\'' + shareUrl + '\')">📘 Facebookへ投稿</button>' +
+
+'<button class="shareBtn" onclick="shareLine(\'' + shareUrl + '\')">💬 LINEで送る</button>' +
+
+'<button class="shareBtn" onclick="shareX(\'' + shareUrl + '\',\'' + shareText.replace(/'/g,"\\'") + '\')">✖ Xへ投稿</button>' +
+
+'</div>' +
 
 '</div>' +
 
 '</div>';
 
 if(index < 5){
-
 latest += card;
-
 }else{
-
 archive += card;
-
 }
 
 });
@@ -451,5 +453,3 @@ archive;
 
 </body>
 </html>
-
-
