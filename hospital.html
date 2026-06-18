@@ -49,14 +49,30 @@ margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
+.label{
+font-size:22px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.select{
+width:100%;
+padding:18px;
+border-radius:18px;
+border:2px solid #d1d5db;
+font-size:22px;
+font-weight:700;
+margin-bottom:18px;
+}
+
 .searchBtn{
 width:100%;
 border:none;
 background:#ef4444;
 color:#fff;
-padding:28px;
+padding:24px;
 border-radius:24px;
-font-size:30px;
+font-size:28px;
 font-weight:900;
 cursor:pointer;
 }
@@ -159,11 +175,55 @@ font-weight:900;
 
 <div class="card">
 
+<div class="label">
+診療科
+</div>
+
+<select id="kindSelect" class="select">
+
+<option value="">
+選択してください
+</option>
+
+<option>総合病院</option>
+<option>内科</option>
+<option>外科</option>
+<option>整形外科</option>
+<option>眼科</option>
+<option>耳鼻科</option>
+<option>皮膚科</option>
+<option>歯科</option>
+<option>心療内科</option>
+<option>精神科</option>
+<option>脳神経外科</option>
+<option>泌尿器科</option>
+<option>婦人科</option>
+<option>小児科</option>
+
+</select>
+
+<div class="label">
+市
+</div>
+
+<select id="citySelect" class="select">
+
+<option value="">
+選択してください
+</option>
+
+<option>志木市</option>
+<option>新座市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+
+</select>
+
 <button
 class="searchBtn"
 onclick="searchHospital()">
 
-🏥 Googleマップで探す
+🔍 検索する
 
 </button>
 
@@ -172,7 +232,7 @@ onclick="searchHospital()">
 <div id="hospitalList">
 
 <div class="loading">
-読込中...
+条件を選んで検索してください
 </div>
 
 </div>
@@ -193,20 +253,13 @@ const SHEET_ID =
 const SHEET_NAME =
 "病院情報";
 
+let allRows = [];
+
 function cell(row,index){
 
 return row.c[index]
 ? (row.c[index].v || row.c[index].f || "")
 : "";
-
-}
-
-function searchHospital(){
-
-window.open(
-'https://www.google.com/maps/search/病院',
-'_blank'
-);
 
 }
 
@@ -219,8 +272,6 @@ SHEET_ID +
 encodeURIComponent(SHEET_NAME) +
 "&tqx=out:json";
 
-try{
-
 const txt =
 await fetch(url)
 .then(r=>r.text());
@@ -230,20 +281,45 @@ JSON.parse(
 txt.substring(47).slice(0,-2)
 );
 
-const rows =
-json.table.rows || [];
+allRows =
+(json.table.rows || [])
+.slice(1);
+
+}
+
+function searchHospital(){
+
+const kind =
+document.getElementById(
+"kindSelect"
+).value;
+
+const city =
+document.getElementById(
+"citySelect"
+).value;
+
+if(!kind || !city){
+
+alert(
+"診療科と市を選択してください"
+);
+
+return;
+
+}
 
 let html = "";
 
-rows.forEach(row=>{
+allRows.forEach(row=>{
 
-const city =
+const cityName =
 cell(row,0);
 
-const name =
+const kindName =
 cell(row,1);
 
-const kind =
+const name =
 cell(row,2);
 
 const address =
@@ -258,7 +334,12 @@ cell(row,5);
 const time =
 cell(row,6);
 
-if(!name)return;
+if(
+cityName !== city ||
+kindName !== kind
+){
+return;
+}
 
 const mapUrl =
 "https://www.google.com/maps/search/" +
@@ -271,7 +352,7 @@ html += `
 <div class="hospitalCard">
 
 <div class="city">
-${city}
+${cityName}
 </div>
 
 <div class="name">
@@ -279,7 +360,7 @@ ${name}
 </div>
 
 <div class="kind">
-${kind}
+${kindName}
 </div>
 
 <div class="info">
@@ -320,17 +401,7 @@ document.getElementById(
 
 html ||
 
-'<div class="loading">病院情報がありません</div>';
-
-}catch(e){
-
-document.getElementById(
-"hospitalList"
-).innerHTML =
-
-'<div class="loading">読込失敗</div>';
-
-}
+'<div class="loading">該当する病院がありません</div>';
 
 }
 
