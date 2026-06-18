@@ -16,71 +16,63 @@ box-sizing:border-box;
 
 body{
 background:#eef2f7;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-padding:16px;
-}
+font-family:"Hiragino
 
-.header{
-background:linear-gradient(
-135deg,
-#0f172a,
-#1e293b,
-#334155
-);
-color:#fff;
-padding:28px;
-border-radius:28px;
-text-align:center;
-margin-bottom:18px;
-}
-
-.header h1{
-font-size:34px;
-font-weight:900;
-}
-
-.card{
-background:#fff;
-padding:20px;
-border-radius:24px;
-margin-bottom:16px;
-box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:24px;
+.city{
+display:inline-block;
+background:#dcfce7;
+color:#15803d;
+padding:8px 14px;
+border-radius:999px;
+font-size:16px;
 font-weight:900;
 margin-bottom:12px;
 }
 
-.searchBtn{
-width:100%;
-border:none;
-background:#22c55e;
-color:#fff;
-padding:28px;
-border-radius:24px;
+.name{
 font-size:30px;
 font-weight:900;
+margin-bottom:10px;
 }
 
-.result{
+.kind{
+font-size:20px;
+font-weight:700;
+margin-bottom:12px;
+color:#475569;
+}
+
+.info{
 font-size:20px;
 line-height:1.8;
-font-weight:700;
+margin-bottom:14px;
 }
 
-.mapBtn{
+.btn{
 display:block;
-margin-top:12px;
+width:100%;
 padding:18px;
 border-radius:18px;
-background:#2563eb;
-color:#fff;
 text-decoration:none;
 text-align:center;
 font-size:22px;
 font-weight:900;
+margin-top:10px;
+}
+
+.telBtn{
+background:#16a34a;
+color:#fff;
+}
+
+.mapBtn{
+background:#2563eb;
+color:#fff;
+}
+
+.urlBtn{
+background:#7c3aed;
+color:#fff;
 }
 
 .home{
@@ -92,6 +84,15 @@ padding:20px;
 border-radius:20px;
 text-align:center;
 font-size:22px;
+font-weight:900;
+}
+
+.loading{
+background:#fff;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
 font-weight:900;
 }
 
@@ -107,39 +108,56 @@ font-weight:900;
 
 <div class="card">
 
+<div class="title">
+分類
+</div>
+
+<select id="kindSelect" class="select">
+
+<option value="">
+選択してください
+</option>
+
+<option>調剤薬局</option>
+<option>ドラッグストア</option>
+<option>休日対応</option>
+<option>24時間対応</option>
+<option>在宅対応</option>
+
+</select>
+
+<div class="title">
+市
+</div>
+
+<select id="citySelect" class="select">
+
+<option value="">
+選択してください
+</option>
+
+<option>志木市</option>
+<option>新座市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+
+</select>
+
 <button
 class="searchBtn"
 onclick="searchPharmacy()">
 
-💊 近くの薬局を探す
+🔍 検索する
 
 </button>
 
 </div>
 
-<div class="card">
+<div id="pharmacyList">
 
-<div class="title">
-検索結果
+<div class="loading">
+条件を選んで検索してください
 </div>
-
-<div
-id="result"
-class="result">
-
-ボタンを押してください
-
-</div>
-
-<a
-id="mapBtn"
-class="mapBtn"
-target="_blank"
-style="display:none">
-
-📍 Googleマップで開く
-
-</a>
 
 </div>
 
@@ -153,34 +171,165 @@ class="home">
 
 <script>
 
-function searchPharmacy(){
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
 
-const url =
-'https://www.google.com/maps/search/薬局';
+const SHEET_NAME =
+"薬局情報";
 
-document.getElementById(
-'result'
-).innerHTML =
+let allRows = [];
 
-'現在地周辺の薬局をGoogleマップで検索します';
+function cell(row,index){
 
-const btn =
-document.getElementById(
-'mapBtn'
-);
-
-btn.href =
-url;
-
-btn.style.display =
-'block';
-
-window.open(
-url,
-'_blank'
-);
+return row.c[index]
+? (row.c[index].v || row.c[index].f || "")
+: "";
 
 }
+
+async function loadPharmacy(){
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json";
+
+const txt =
+await fetch(url)
+.then(r=>r.text());
+
+const json =
+JSON.parse(
+txt.substring(47).slice(0,-2)
+);
+
+allRows =
+(json.table.rows || [])
+.slice(1);
+
+}
+
+function searchPharmacy(){
+
+const kind =
+document.getElementById(
+"kindSelect"
+).value;
+
+const city =
+document.getElementById(
+"citySelect"
+).value;
+
+if(!kind || !city){
+
+alert(
+"分類と市を選択してください"
+);
+
+return;
+
+}
+
+let html = "";
+
+allRows.forEach(row=>{
+
+const cityName =
+cell(row,0);
+
+const kindName =
+cell(row,1);
+
+const name =
+cell(row,2);
+
+const address =
+cell(row,3);
+
+const tel =
+cell(row,4);
+
+const site =
+cell(row,5);
+
+const time =
+cell(row,6);
+
+if(
+cityName !== city ||
+kindName !== kind
+){
+return;
+}
+
+const mapUrl =
+"https://www.google.com/maps/search/" +
+encodeURIComponent(
+name + " " + address
+);
+
+html += `
+
+<div class="pharmacyCard">
+
+<div class="city">
+${cityName}
+</div>
+
+<div class="name">
+${name}
+</div>
+
+<div class="kind">
+${kindName}
+</div>
+
+<div class="info">
+📍 ${address}<br>
+📞 ${tel}<br>
+🕒 ${time}
+</div>
+
+<a
+href="tel:${tel}"
+class="btn telBtn">
+📞 電話する
+</a>
+
+<a
+href="${mapUrl}"
+target="_blank"
+class="btn mapBtn">
+📍 地図を見る
+</a>
+
+<a
+href="${site}"
+target="_blank"
+class="btn urlBtn">
+🌐 ホームページ
+</a>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"pharmacyList"
+).innerHTML =
+
+html ||
+
+'<div class="loading">該当する薬局がありません</div>';
+
+}
+
+loadPharmacy();
 
 </script>
 
