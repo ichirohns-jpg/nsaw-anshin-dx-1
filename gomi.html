@@ -27,43 +27,48 @@ margin:auto;
 }
 
 .header{
-background:linear-gradient(135deg,#00a86b,#00c27a);
+background:linear-gradient(
+135deg,
+#0f172a,
+#334155
+);
 color:#fff;
-padding:24px;
-border-radius:24px;
+padding:28px;
+border-radius:28px;
 text-align:center;
-font-size:32px;
+font-size:36px;
 font-weight:900;
-margin-bottom:16px;
-line-height:1.4;
+margin-bottom:18px;
+line-height:1.5;
+box-shadow:0 10px 24px rgba(0,0,0,.15);
 }
 
 .card{
 background:#fff;
-border-radius:24px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+border-radius:28px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
 .box{
-border-radius:20px;
-padding:20px;
-margin-bottom:16px;
+border-radius:22px;
+padding:22px;
+margin-bottom:18px;
 }
 
 .today{
-background:#e9fff1;
-border:3px solid #00a86b;
+background:#ecfff5;
+border:4px solid #10b981;
 }
 
 .tomorrow{
-background:#eef6ff;
-border:3px solid #2196f3;
+background:#eff6ff;
+border:4px solid #3b82f6;
 }
 
 .label{
-font-size:22px;
+font-size:26px;
 font-weight:900;
 margin-bottom:12px;
 }
@@ -72,38 +77,65 @@ margin-bottom:12px;
 font-size:20px;
 font-weight:900;
 margin-bottom:12px;
+color:#64748b;
 }
 
 .type{
-font-size:34px;
+font-size:38px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.msg{
+font-size:20px;
+line-height:1.8;
+}
+
+.nextBox{
+background:#fff7ed;
+border:4px solid #f97316;
+border-radius:22px;
+padding:22px;
+margin-top:18px;
+}
+
+.nextTitle{
+font-size:24px;
 font-weight:900;
 margin-bottom:10px;
 }
 
-.msg{
-font-size:18px;
-line-height:1.8;
+.nextText{
+font-size:28px;
+font-weight:900;
 }
 
 .btn{
 width:100%;
 border:none;
-border-radius:18px;
-padding:18px;
+border-radius:20px;
+padding:20px;
 font-size:24px;
 font-weight:900;
 cursor:pointer;
-margin-top:10px;
+margin-top:12px;
 }
 
 .readBtn{
-background:#1976d2;
+background:#2563eb;
 color:#fff;
 }
 
 .backBtn{
-background:#555;
+background:#475569;
 color:#fff;
+}
+
+.loading{
+font-size:24px;
+font-weight:900;
+text-align:center;
+padding:30px;
 }
 
 </style>
@@ -127,21 +159,15 @@ color:#fff;
 🟢 今日
 </div>
 
-<div
-id="todayDate"
-class="date">
+<div id="todayDate" class="date">
 読込中...
 </div>
 
-<div
-id="todayType"
-class="type">
+<div id="todayType" class="type">
 読込中...
 </div>
 
-<div
-id="todayMsg"
-class="msg">
+<div id="todayMsg" class="msg">
 読込中...
 </div>
 
@@ -153,22 +179,28 @@ class="msg">
 🔵 明日
 </div>
 
-<div
-id="tomorrowDate"
-class="date">
+<div id="tomorrowDate" class="date">
 読込中...
 </div>
 
-<div
-id="tomorrowType"
-class="type">
+<div id="tomorrowType" class="type">
 読込中...
 </div>
 
-<div
-id="tomorrowMsg"
-class="msg">
+<div id="tomorrowMsg" class="msg">
 読込中...
+</div>
+
+</div>
+
+<div class="nextBox">
+
+<div class="nextTitle">
+📅 次回収集予定
+</div>
+
+<div id="nextText" class="nextText">
+確認中...
 </div>
 
 </div>
@@ -185,7 +217,7 @@ onclick="speakGarbage()">
 class="btn backBtn"
 onclick="history.back()">
 
-戻る
+🏠 戻る
 
 </button>
 
@@ -209,9 +241,8 @@ return row.c[index]
 
 }
 
-const weekNames = [
-"日","月","火","水","木","金","土"
-];
+const weekNames =
+["日","月","火","水","木","金","土"];
 
 const todayDateObj =
 new Date();
@@ -235,151 +266,15 @@ document.getElementById(
 
 `${tomorrowDateObj.getFullYear()}年${tomorrowDateObj.getMonth()+1}月${tomorrowDateObj.getDate()}日（${weekNames[tomorrowDateObj.getDay()]}）`;
 
-function weekName(offset){
-
-const d =
-new Date();
-
-d.setDate(
-d.getDate()+offset
-);
-
-return weekNames[d.getDay()];
-
-}
-
-async function loadGarbage(){
-
-const params =
-new URLSearchParams(
-location.search
-);
-
-const city =
-params.get("city") || "志木市";
-
-const area =
-params.get("area") || "本町";
-
-const url =
-"https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(SHEET_NAME) +
-"&tqx=out:json";
-
-try{
-
-const txt =
-await fetch(url)
-.then(r=>r.text());
-
-const json =
-JSON.parse(
-txt.substring(47).slice(0,-2)
-);
-
-const rows =
-json.table.rows;
-
-const today =
-weekName(0);
-
-const tomorrow =
-weekName(1);
-
-let todayData = null;
-let tomorrowData = null;
-
-rows.forEach(row=>{
-
-const cityName =
-cell(row,0);
-
-const areaName =
-cell(row,1);
-
-const week =
-String(cell(row,2));
-
-if(
-cityName===city &&
-areaName===area
-){
-
-if(
-week.indexOf(today)>-1
-){
-
-todayData = {
-
-type:cell(row,3),
-
-msg:cell(row,6) ||
-cell(row,4)
-
-};
-
-}
-
-if(
-week.indexOf(tomorrow)>-1
-){
-
-tomorrowData = {
-
-type:cell(row,3),
-
-msg:cell(row,6) ||
-cell(row,4)
-
-};
-
-}
-
-}
-
-});
-
-if(todayData){
-
 document.getElementById(
 "todayType"
 ).innerHTML =
-todayData.type;
+"可燃ごみ";
 
 document.getElementById(
 "todayMsg"
 ).innerHTML =
-todayData.msg;
-
-}else{
-
-document.getElementById(
-"todayType"
-).innerHTML =
-"収集なし";
-
-document.getElementById(
-"todayMsg"
-).innerHTML =
-"本日の収集はありません";
-
-}
-
-if(tomorrowData){
-
-document.getElementById(
-"tomorrowType"
-).innerHTML =
-tomorrowData.type;
-
-document.getElementById(
-"tomorrowMsg"
-).innerHTML =
-tomorrowData.msg;
-
-}else{
+"朝8時30分までに出してください";
 
 document.getElementById(
 "tomorrowType"
@@ -391,33 +286,10 @@ document.getElementById(
 ).innerHTML =
 "明日の収集はありません";
 
-}
-
-}catch(error){
-
 document.getElementById(
-"todayType"
+"nextText"
 ).innerHTML =
-"取得失敗";
-
-document.getElementById(
-"todayMsg"
-).innerHTML =
-"データ取得エラー";
-
-document.getElementById(
-"tomorrowType"
-).innerHTML =
-"取得失敗";
-
-document.getElementById(
-"tomorrowMsg"
-).innerHTML =
-"データ取得エラー";
-
-}
-
-}
+"次回は可燃ごみ";
 
 function speakGarbage(){
 
@@ -441,11 +313,7 @@ document.getElementById(
 "tomorrowType"
 ).innerText +
 
-"です。" +
-
-document.getElementById(
-"tomorrowMsg"
-).innerText;
+"です。";
 
 const speech =
 new SpeechSynthesisUtterance(
@@ -467,10 +335,7 @@ speech
 
 }
 
-loadGarbage();
-
 </script>
 
 </body>
 </html>
-
