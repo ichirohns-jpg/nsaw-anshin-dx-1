@@ -18,6 +18,7 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
+color:#111827;
 }
 
 .header{
@@ -32,39 +33,108 @@ padding:28px;
 border-radius:28px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 10px 24px rgba(0,0,0,.15);
 }
 
 .header h1{
-font-size:34px;
+font-size:36px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-padding:24px;
+padding:22px;
 border-radius:24px;
-margin-bottom:16px;
+margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
-.btn{
-display:block;
+.title{
+font-size:22px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.select{
 width:100%;
-padding:24px;
-margin-bottom:12px;
-border-radius:22px;
+padding:18px;
+border-radius:18px;
+border:2px solid #d1d5db;
+font-size:22px;
+font-weight:700;
+margin-bottom:18px;
+}
+
+.searchBtn{
+width:100%;
+border:none;
 background:#7c3aed;
 color:#fff;
-text-decoration:none;
-text-align:center;
-font-size:26px;
+padding:24px;
+border-radius:24px;
+font-size:28px;
 font-weight:900;
+cursor:pointer;
+}
+
+.supportCard{
+background:#fff;
+padding:22px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.city{
+display:inline-block;
+background:#ede9fe;
+color:#6d28d9;
+padding:8px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.name{
+font-size:30px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.kind{
+font-size:20px;
+font-weight:700;
+margin-bottom:12px;
+color:#475569;
 }
 
 .info{
 font-size:20px;
 line-height:1.8;
-font-weight:700;
+margin-bottom:14px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:18px;
+border-radius:18px;
+text-decoration:none;
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin-top:10px;
+}
+
+.telBtn{
+background:#16a34a;
+color:#fff;
+}
+
+.urlBtn{
+background:#2563eb;
+color:#fff;
 }
 
 .home{
@@ -76,6 +146,15 @@ padding:20px;
 border-radius:20px;
 text-align:center;
 font-size:22px;
+font-weight:900;
+}
+
+.loading{
+background:#fff;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
 font-weight:900;
 }
 
@@ -91,107 +170,234 @@ font-weight:900;
 
 <div class="card">
 
-<a
-class="btn"
-onclick="showSupport()">
+<div class="title">
+市
+</div>
 
-🤝 包括支援センター
+<select id="citySelect" class="select">
 
-</a>
+<option value="">選択してください</option>
 
-<div
-id="result"
-class="info">
+<option>志木市</option>
+<option>新座市</option>
+<option>朝霞市</option>
+<option>和光市</option>
 
-ボタンを押してください
+</select>
 
+<div class="title">
+大分類
+</div>
+
+<select id="mainSelect" class="select">
+
+<option value="">選択してください</option>
+
+<option>健康</option>
+<option>お金</option>
+<option>生活</option>
+<option>人とのつながり</option>
+<option>住まい</option>
+<option>スマホ・手続き</option>
+
+</select>
+
+<div class="title">
+中分類
+</div>
+
+<select id="subSelect" class="select">
+
+<option value="">選択してください</option>
+
+<option>介護</option>
+<option>認知症</option>
+<option>健康相談</option>
+<option>こころの相談</option>
+<option>生活費</option>
+<option>貸付制度</option>
+<option>買い物</option>
+<option>配食</option>
+<option>見守り</option>
+<option>サロン</option>
+<option>将棋</option>
+<option>カラオケ</option>
+<option>空き家</option>
+<option>住宅改修</option>
+<option>スマホ教室</option>
+
+</select>
+
+<button
+class="searchBtn"
+onclick="searchSupport()">
+
+🔍 検索する
+
+</button>
+
+</div>
+
+<div id="supportList">
+
+<div class="loading">
+条件を選んで検索してください
 </div>
 
 </div>
 
-<a
-href="index.html"
-class="home">
-
+<a href="index.html" class="home">
 🏠 トップへ戻る
-
 </a>
 
 <script>
 
-function showSupport(){
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"地域相談";
+
+let allRows = [];
+
+function cell(row,index){
+
+return row.c[index]
+? (row.c[index].v || row.c[index].f || "")
+: "";
+
+}
+
+async function loadSupport(){
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json";
+
+const txt =
+await fetch(url)
+.then(r=>r.text());
+
+const json =
+JSON.parse(
+txt.substring(47).slice(0,-2)
+);
+
+allRows =
+(json.table.rows || [])
+.slice(1);
+
+}
+
+function searchSupport(){
 
 const city =
-localStorage.getItem(
-'city'
-) || '';
+document.getElementById(
+"citySelect"
+).value;
 
-let name='';
-let tel='';
-let map='';
+const main =
+document.getElementById(
+"mainSelect"
+).value;
 
-if(city==='志木市'){
+const sub =
+document.getElementById(
+"subSelect"
+).value;
 
-name='志木市高齢者あんしん相談センター';
-tel='0484858587';
-map='https://www.google.com/maps/search/志木市高齢者あんしん相談センター';
+if(!city || !main || !sub){
 
-}
+alert(
+"市・大分類・中分類を選択してください"
+);
 
-else if(city==='新座市'){
-
-name='新座市地域包括支援センター';
-tel='0484805853';
-map='https://www.google.com/maps/search/新座市地域包括支援センター';
-
-}
-
-else if(city==='朝霞市'){
-
-name='朝霞市地域包括支援センター';
-tel='0484631928';
-map='https://www.google.com/maps/search/朝霞市地域包括支援センター';
+return;
 
 }
 
-else{
+let html = "";
 
-name='和光市地域包括支援センター';
-tel='0484659933';
-map='https://www.google.com/maps/search/和光市地域包括支援センター';
+allRows.forEach(row=>{
 
+const cityName = cell(row,1);
+const mainName = cell(row,3);
+const subName = cell(row,4);
+const name = cell(row,5);
+const tel = cell(row,6);
+const site = cell(row,7);
+const time = cell(row,8);
+const memo = cell(row,9);
+
+if(
+cityName !== city ||
+mainName !== main ||
+subName !== sub
+){
+return;
 }
+
+html += `
+
+<div class="supportCard">
+
+<div class="city">
+${cityName}
+</div>
+
+<div class="name">
+${name}
+</div>
+
+<div class="kind">
+${mainName} ＞ ${subName}
+</div>
+
+<div class="info">
+📞 ${tel}<br>
+🕒 ${time}<br>
+📝 ${memo}
+</div>
+
+<a
+href="tel:${tel}"
+class="btn telBtn">
+
+📞 電話する
+
+</a>
+
+<a
+href="${site}"
+target="_blank"
+class="btn urlBtn">
+
+🌐 ホームページ
+
+</a>
+
+</div>
+
+`;
+
+});
 
 document.getElementById(
-'result'
+"supportList"
 ).innerHTML =
 
-name +
+html ||
 
-'<br><br>' +
-
-'☎ ' +
-
-tel +
-
-'<br><br>' +
-
-'<a class="btn" href="tel:' +
-
-tel +
-
-'">電話する</a>' +
-
-'<a class="btn" target="_blank" href="' +
-
-map +
-
-'">地図を見る</a>';
+'<div class="loading">該当する相談先がありません</div>';
 
 }
+
+loadSupport();
 
 </script>
 
 </body>
 </html>
-
