@@ -16,7 +16,74 @@ box-sizing:border-box;
 
 body{
 background:#eef2f7;
-font-family:"Hiragino
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+padding:16px;
+color:#111827;
+}
+
+.header{
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e293b,
+#334155
+);
+color:#fff;
+padding:28px;
+border-radius:28px;
+text-align:center;
+margin-bottom:18px;
+box-shadow:0 10px 24px rgba(0,0,0,.15);
+}
+
+.header h1{
+font-size:36px;
+font-weight:900;
+}
+
+.card{
+background:#fff;
+padding:22px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:22px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.select{
+width:100%;
+padding:18px;
+border-radius:18px;
+border:2px solid #d1d5db;
+font-size:22px;
+font-weight:700;
+margin-bottom:18px;
+}
+
+.searchBtn{
+width:100%;
+border:none;
+background:#16a34a;
+color:#fff;
+padding:24px;
+border-radius:24px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+}
+
+.pharmacyCard{
+background:#fff;
+padding:22px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
 
 .city{
 display:inline-block;
@@ -237,26 +304,13 @@ let html = "";
 
 allRows.forEach(row=>{
 
-const cityName =
-cell(row,0);
-
-const kindName =
-cell(row,1);
-
-const name =
-cell(row,2);
-
-const address =
-cell(row,3);
-
-const tel =
-cell(row,4);
-
-const site =
-cell(row,5);
-
-const time =
-cell(row,6);
+const cityName = cell(row,0);
+const kindName = cell(row,1);
+const name = cell(row,2);
+const address = cell(row,3);
+const tel = cell(row,4);
+const site = cell(row,5);
+const time = cell(row,6);
 
 if(
 cityName !== city ||
@@ -275,17 +329,11 @@ html += `
 
 <div class="pharmacyCard">
 
-<div class="city">
-${cityName}
-</div>
+<div class="city">${cityName}</div>
 
-<div class="name">
-${name}
-</div>
+<div class="name">${name}</div>
 
-<div class="kind">
-${kindName}
-</div>
+<div class="kind">${kindName}</div>
 
 <div class="info">
 📍 ${address}<br>
@@ -293,23 +341,15 @@ ${kindName}
 🕒 ${time}
 </div>
 
-<a
-href="tel:${tel}"
-class="btn telBtn">
+<a href="tel:${tel}" class="btn telBtn">
 📞 電話する
 </a>
 
-<a
-href="${mapUrl}"
-target="_blank"
-class="btn mapBtn">
+<a href="${mapUrl}" target="_blank" class="btn mapBtn">
 📍 地図を見る
 </a>
 
-<a
-href="${site}"
-target="_blank"
-class="btn urlBtn">
+<a href="${site}" target="_blank" class="btn urlBtn">
 🌐 ホームページ
 </a>
 
