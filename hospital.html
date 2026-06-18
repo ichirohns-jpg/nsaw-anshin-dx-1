@@ -18,6 +18,7 @@ body{
 background:#eef2f7;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 padding:16px;
+color:#111827;
 }
 
 .header{
@@ -32,25 +33,20 @@ padding:28px;
 border-radius:28px;
 text-align:center;
 margin-bottom:18px;
+box-shadow:0 10px 24px rgba(0,0,0,.15);
 }
 
 .header h1{
-font-size:34px;
+font-size:36px;
 font-weight:900;
 }
 
 .card{
 background:#fff;
-padding:20px;
+padding:22px;
 border-radius:24px;
-margin-bottom:16px;
+margin-bottom:18px;
 box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:24px;
-font-weight:900;
-margin-bottom:12px;
 }
 
 .searchBtn{
@@ -62,25 +58,72 @@ padding:28px;
 border-radius:24px;
 font-size:30px;
 font-weight:900;
+cursor:pointer;
 }
 
-.result{
+.hospitalCard{
+background:#fff;
+padding:22px;
+border-radius:24px;
+margin-bottom:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.city{
+display:inline-block;
+background:#dbeafe;
+color:#1d4ed8;
+padding:8px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.name{
+font-size:30px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.kind{
+font-size:20px;
+font-weight:700;
+margin-bottom:12px;
+color:#475569;
+}
+
+.info{
 font-size:20px;
 line-height:1.8;
-font-weight:700;
+margin-bottom:14px;
 }
 
-.mapBtn{
+.btn{
 display:block;
-margin-top:12px;
+width:100%;
 padding:18px;
 border-radius:18px;
-background:#2563eb;
-color:#fff;
 text-decoration:none;
 text-align:center;
 font-size:22px;
 font-weight:900;
+margin-top:10px;
+}
+
+.telBtn{
+background:#16a34a;
+color:#fff;
+}
+
+.mapBtn{
+background:#2563eb;
+color:#fff;
+}
+
+.urlBtn{
+background:#7c3aed;
+color:#fff;
 }
 
 .home{
@@ -92,6 +135,15 @@ padding:20px;
 border-radius:20px;
 text-align:center;
 font-size:22px;
+font-weight:900;
+}
+
+.loading{
+background:#fff;
+padding:30px;
+border-radius:24px;
+text-align:center;
+font-size:24px;
 font-weight:900;
 }
 
@@ -111,37 +163,19 @@ font-weight:900;
 class="searchBtn"
 onclick="searchHospital()">
 
-🏥 近くの病院を探す
+🏥 Googleマップで探す
 
 </button>
 
 </div>
 
-<div class="card">
+<div id="hospitalList">
 
-<div class="title">
-検索結果
-</div>
-
-<div
-id="result"
-class="result">
-
-ボタンを押してください
-
+<div class="loading">
+読込中...
 </div>
 
 </div>
-
-<a
-id="mapBtn"
-class="mapBtn"
-target="_blank"
-style="display:none">
-
-📍 Googleマップで開く
-
-</a>
 
 <a
 href="index.html"
@@ -153,34 +187,154 @@ class="home">
 
 <script>
 
+const SHEET_ID =
+"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
+
+const SHEET_NAME =
+"病院情報";
+
+function cell(row,index){
+
+return row.c[index]
+? (row.c[index].v || row.c[index].f || "")
+: "";
+
+}
+
 function searchHospital(){
 
-const url =
-'https://www.google.com/maps/search/病院';
-
-document.getElementById(
-'result'
-).innerHTML =
-
-'現在地周辺の病院をGoogleマップで検索します';
-
-const btn =
-document.getElementById(
-'mapBtn'
-);
-
-btn.href =
-url;
-
-btn.style.display =
-'block';
-
 window.open(
-url,
+'https://www.google.com/maps/search/病院',
 '_blank'
 );
 
 }
+
+async function loadHospital(){
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME) +
+"&tqx=out:json";
+
+try{
+
+const txt =
+await fetch(url)
+.then(r=>r.text());
+
+const json =
+JSON.parse(
+txt.substring(47).slice(0,-2)
+);
+
+const rows =
+json.table.rows || [];
+
+let html = "";
+
+rows.forEach(row=>{
+
+const city =
+cell(row,0);
+
+const name =
+cell(row,1);
+
+const kind =
+cell(row,2);
+
+const address =
+cell(row,3);
+
+const tel =
+cell(row,4);
+
+const site =
+cell(row,5);
+
+const time =
+cell(row,6);
+
+if(!name)return;
+
+const mapUrl =
+"https://www.google.com/maps/search/" +
+encodeURIComponent(
+name + " " + address
+);
+
+html += `
+
+<div class="hospitalCard">
+
+<div class="city">
+${city}
+</div>
+
+<div class="name">
+${name}
+</div>
+
+<div class="kind">
+${kind}
+</div>
+
+<div class="info">
+📍 ${address}<br>
+📞 ${tel}<br>
+🕒 ${time}
+</div>
+
+<a
+href="tel:${tel}"
+class="btn telBtn">
+📞 電話する
+</a>
+
+<a
+href="${mapUrl}"
+target="_blank"
+class="btn mapBtn">
+📍 地図を見る
+</a>
+
+<a
+href="${site}"
+target="_blank"
+class="btn urlBtn">
+🌐 ホームページ
+</a>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"hospitalList"
+).innerHTML =
+
+html ||
+
+'<div class="loading">病院情報がありません</div>';
+
+}catch(e){
+
+document.getElementById(
+"hospitalList"
+).innerHTML =
+
+'<div class="loading">読込失敗</div>';
+
+}
+
+}
+
+loadHospital();
 
 </script>
 
