@@ -71,6 +71,25 @@ font-size:22px;
 font-weight:900;
 }
 
+.areaBox{
+background:#dbeafe;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+text-align:center;
+font-size:24px;
+font-weight:900;
+color:#1e3a8a;
+}
+
+.todayCard{
+border-left:10px solid #22c55e;
+}
+
+.tomorrowCard{
+border-left:10px solid #3b82f6;
+}
+
 </style>
 
 </head>
@@ -81,7 +100,16 @@ font-weight:900;
 <h1>🗑 今日と明日のゴミ</h1>
 </div>
 
-<div class="card">
+<div
+class="areaBox"
+id="areaName">
+
+地区確認中...
+
+</div>
+
+<div
+class="card todayCard">
 
 <div class="title">
 🗑 今日
@@ -97,7 +125,8 @@ class="item">
 
 </div>
 
-<div class="card">
+<div
+class="card tomorrowCard">
 
 <div class="title">
 🗑 明日
@@ -145,7 +174,7 @@ SHEET_ID +
 '/gviz/tq?sheet=' +
 
 encodeURIComponent(
-'ゴミ収集'
+'ゴミ'
 ) +
 
 '&tqx=out:json';
@@ -162,7 +191,7 @@ JSON.parse(
 
 text.substring(
 47,
-text.length - 2
+text.length-2
 )
 
 );
@@ -199,6 +228,11 @@ localStorage.getItem(
 'areaCode'
 ) || '';
 
+document.getElementById(
+'areaName'
+).innerHTML =
+areaCode || '地区未登録';
+
 const days =
 ['日','月','火','水','木','金','土'];
 
@@ -212,11 +246,8 @@ days[
 (new Date().getDay()+1)%7
 ];
 
-let todayText =
-'今日は収集ありません';
-
-let tomorrowText =
-'明日は収集ありません';
+let todayList = [];
+let tomorrowList = [];
 
 for(
 let i=0;
@@ -243,36 +274,30 @@ const memo =
 getVal(row.c[4]);
 
 if(
-areaCode.indexOf(area) === -1
+areaCode.indexOf(area)===-1
 ){
 continue;
 }
 
 if(
-week.indexOf(today) > -1
+week.indexOf(today)>-1
 ){
 
-todayText =
-
-garbage +
-
-'<br><br>' +
-
-memo;
+todayList.push(
+'🗑 '+garbage+
+'<br>'+memo
+);
 
 }
 
 if(
-week.indexOf(tomorrow) > -1
+week.indexOf(tomorrow)>-1
 ){
 
-tomorrowText =
-
-garbage +
-
-'<br><br>' +
-
-memo;
+tomorrowList.push(
+'🗑 '+garbage+
+'<br>'+memo
+);
 
 }
 
@@ -281,12 +306,26 @@ memo;
 document.getElementById(
 'todayGarbage'
 ).innerHTML =
-todayText;
+
+todayList.length
+?
+todayList.join(
+'<hr style="margin:15px 0;">'
+)
+:
+'今日は収集ありません';
 
 document.getElementById(
 'tomorrowGarbage'
 ).innerHTML =
-tomorrowText;
+
+tomorrowList.length
+?
+tomorrowList.join(
+'<hr style="margin:15px 0;">'
+)
+:
+'明日は収集ありません';
 
 }
 
