@@ -55,6 +55,17 @@ font-weight:900;
 margin-bottom:10px;
 }
 
+.userArea{
+background:#f8fafc;
+border:2px solid #cbd5e1;
+padding:18px;
+border-radius:20px;
+font-size:22px;
+font-weight:900;
+margin-bottom:18px;
+line-height:1.6;
+}
+
 .select{
 width:100%;
 padding:18px;
@@ -159,7 +170,6 @@ font-weight:900;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -170,20 +180,13 @@ font-weight:900;
 
 <div class="card">
 
-<div class="title">
-市
+<div
+id="userArea"
+class="userArea">
+
+登録情報を確認中...
+
 </div>
-
-<select id="citySelect" class="select">
-
-<option value="">選択してください</option>
-
-<option>志木市</option>
-<option>新座市</option>
-<option>朝霞市</option>
-<option>和光市</option>
-
-</select>
 
 <div class="title">
 大分類
@@ -260,6 +263,12 @@ const SHEET_NAME =
 
 let allRows = [];
 
+const city =
+localStorage.getItem("city") || "";
+
+const area =
+localStorage.getItem("area") || "";
+
 function cell(row,index){
 
 return row.c[index]
@@ -269,6 +278,16 @@ return row.c[index]
 }
 
 async function loadSupport(){
+
+document.getElementById(
+"userArea"
+).innerHTML =
+
+"登録市：" +
+(city || "未登録") +
+"<br>" +
+"登録地区：" +
+(area || "未登録");
 
 const url =
 "https://docs.google.com/spreadsheets/d/" +
@@ -294,11 +313,6 @@ allRows =
 
 function searchSupport(){
 
-const city =
-document.getElementById(
-"citySelect"
-).value;
-
 const main =
 document.getElementById(
 "mainSelect"
@@ -309,10 +323,10 @@ document.getElementById(
 "subSelect"
 ).value;
 
-if(!city || !main || !sub){
+if(!main || !sub){
 
 alert(
-"市・大分類・中分類を選択してください"
+"大分類・中分類を選択してください"
 );
 
 return;
@@ -390,7 +404,6 @@ document.getElementById(
 ).innerHTML =
 
 html ||
-
 '<div class="loading">該当する相談先がありません</div>';
 
 }
