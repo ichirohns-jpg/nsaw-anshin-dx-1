@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -321,36 +320,36 @@ weekNames[now.getDay()] +
 '）';
 
 const city =
-localStorage.getItem('city') || '';
+localStorage.getItem(
+'city'
+) || '';
 
 const area =
-localStorage.getItem('area') ||
-localStorage.getItem('areaCode') ||
+localStorage.getItem(
+'area'
+) ||
+localStorage.getItem(
+'areaCode'
+) ||
 '';
 
-if(
-!city ||
-!area
-){
-
 document.getElementById(
 'todayGarbage'
 ).innerHTML =
-'🗑 地区未登録';
 
-}else{
+city && area
 
-document.getElementById(
-'todayGarbage'
-).innerHTML =
+?
 
 '🗑 ' +
 city +
 ' ' +
 area +
-' 登録済';
+' 登録済'
 
-}
+:
+
+'🗑 地区未登録';
 
 </script>
 
