@@ -159,7 +159,9 @@ function getVal(cell){
 
 if(!cell)return'';
 
-return cell.f || cell.v || '';
+return String(
+cell.f || cell.v || ''
+).trim();
 
 }
 
@@ -200,38 +202,33 @@ handleGarbage(
 json
 );
 
-})
-
-.catch(()=>{
-
-document.getElementById(
-'todayGarbage'
-).innerHTML =
-'取得失敗';
-
-document.getElementById(
-'tomorrowGarbage'
-).innerHTML =
-'取得失敗';
-
 });
-
-}
 
 function handleGarbage(json){
 
 const rows =
 json.table.rows || [];
 
+/* 原因調査 */
+alert(
+'件数=' + rows.length
+);
+
 const city =
-localStorage.getItem(
+(localStorage.getItem(
 'city'
-) || '';
+) || '').trim();
 
 const area =
+(
 localStorage.getItem(
 'area'
-) || '';
+) ||
+localStorage.getItem(
+'areaCode'
+) ||
+''
+).trim();
 
 document.getElementById(
 'areaName'
@@ -254,14 +251,9 @@ days[
 let todayList = [];
 let tomorrowList = [];
 
-for(
-let i=0;
-i<rows.length;
-i++
-){
+for(let i=0;i<rows.length;i++){
 
-const row =
-rows[i];
+const row = rows[i];
 
 const rowCity =
 getVal(row.c[0]);
@@ -295,8 +287,10 @@ week.indexOf(today)>-1
 ){
 
 todayList.push(
-'🗑 '+garbage+
-'<br><br>'+memo
+'🗑 ' +
+garbage +
+'<br><br>' +
+memo
 );
 
 }
@@ -306,8 +300,10 @@ week.indexOf(tomorrow)>-1
 ){
 
 tomorrowList.push(
-'🗑 '+garbage+
-'<br><br>'+memo
+'🗑 ' +
+garbage +
+'<br><br>' +
+memo
 );
 
 }
@@ -320,9 +316,7 @@ document.getElementById(
 
 todayList.length
 ?
-todayList.join(
-'<hr style="margin:15px 0;">'
-)
+todayList.join('<hr>')
 :
 '今日は収集ありません';
 
@@ -332,9 +326,7 @@ document.getElementById(
 
 tomorrowList.length
 ?
-tomorrowList.join(
-'<hr style="margin:15px 0;">'
-)
+tomorrowList.join('<hr>')
 :
 '明日は収集ありません';
 
