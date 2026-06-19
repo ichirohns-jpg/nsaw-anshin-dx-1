@@ -320,6 +320,11 @@ city
 );
 
 localStorage.setItem(
+'area',
+areaCode
+);
+
+localStorage.setItem(
 'areaCode',
 areaCode
 );
@@ -378,6 +383,39 @@ document.getElementById(
 localStorage.getItem(
 'familyLine'
 ) || '';
+
+const savedCity =
+localStorage.getItem(
+'city'
+);
+
+if(savedCity){
+
+document.getElementById(
+'city'
+).value =
+savedCity;
+
+changeArea();
+
+}
+
+const savedArea =
+localStorage.getItem(
+'area'
+) ||
+localStorage.getItem(
+'areaCode'
+);
+
+if(savedArea){
+
+document.getElementById(
+'areaCode'
+).value =
+savedArea;
+
+}
 
 };
 
