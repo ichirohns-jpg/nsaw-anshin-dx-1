@@ -121,25 +121,56 @@ cursor:pointer;
 margin-top:12px;
 }
 
-.readBtn{
-background:#2563eb;
+.btn{
+background:#10b981;
 color:#fff;
 }
 
-.backBtn{
-background:#475569;
-color:#fff;
+.btn:active{
+transform:scale(.98);
 }
 
-.loading{
-font-size:24px;
-font-weight:900;
+.info{
+font-size:18px;
+line-height:1.8;
+color:#475569;
+margin-top:10px;
+}
+
+.footer{
 text-align:center;
-padding:30px;
+font-size:16px;
+color:#64748b;
+padding:20px;
+}
+
+@media(max-width:768px){
+
+.header{
+font-size:30px;
+padding:22px;
+}
+
+.type{
+font-size:32px;
+}
+
+.label{
+font-size:22px;
+}
+
+.nextText{
+font-size:24px;
+}
+
+.btn{
+font-size:22px;
+padding:18px;
+}
+
 }
 
 </style>
-
 </head>
 
 <body>
@@ -147,28 +178,29 @@ padding:30px;
 <div class="wrap">
 
 <div class="header">
-🗑️ 今日のゴミ<br>
-🗑️ 明日のゴミ
+🗑️ ゴミ収集案内
 </div>
+
+<div id="result">
 
 <div class="card">
 
 <div class="box today">
 
 <div class="label">
-🟢 今日
+本日の収集
 </div>
 
-<div id="todayDate" class="date">
-読込中...
+<div class="date" id="todayDate">
+読み込み中...
 </div>
 
-<div id="todayType" class="type">
-読込中...
+<div class="type" id="todayType">
+確認中...
 </div>
 
-<div id="todayMsg" class="msg">
-読込中...
+<div class="msg">
+本日の収集内容を表示します
 </div>
 
 </div>
@@ -176,19 +208,15 @@ padding:30px;
 <div class="box tomorrow">
 
 <div class="label">
-🔵 明日
+次回の収集
 </div>
 
-<div id="tomorrowDate" class="date">
-読込中...
+<div class="date" id="nextDate">
+確認中...
 </div>
 
-<div id="tomorrowType" class="type">
-読込中...
-</div>
-
-<div id="tomorrowMsg" class="msg">
-読込中...
+<div class="type" id="nextType">
+確認中...
 </div>
 
 </div>
@@ -196,142 +224,16 @@ padding:30px;
 <div class="nextBox">
 
 <div class="nextTitle">
-📅 次回収集予定
+地区情報
 </div>
 
-<div id="nextText" class="nextText">
-確認中...
+<div class="nextText" id="areaName">
+読み込み中...
 </div>
 
 </div>
-
-<button
-class="btn readBtn"
-onclick="speakGarbage()">
-🔊 音声で読む
-</button>
-
-<button
-class="btn backBtn"
-onclick="history.back()">
-🏠 戻る
-</button>
 
 </div>
 
 </div>
 
-<script>
-
-const SHEET_ID =
-"149lAFx3oPGjB0UqDpPWZJqt_bBeDWMPd-Rfc6LXQgoc";
-
-const SHEET_NAME =
-"ゴミ";
-
-function cell(row,index){
-
-return row.c[index]
-? (row.c[index].v || row.c[index].f || "")
-: "";
-
-}
-
-const weekNames =
-["日","月","火","水","木","金","土"];
-
-const todayDateObj =
-new Date();
-
-const tomorrowDateObj =
-new Date();
-
-tomorrowDateObj.setDate(
-todayDateObj.getDate()+1
-);
-
-document.getElementById(
-"todayDate"
-).innerHTML =
-
-`${todayDateObj.getFullYear()}年${todayDateObj.getMonth()+1}月${todayDateObj.getDate()}日（${weekNames[todayDateObj.getDay()]}）`;
-
-document.getElementById(
-"tomorrowDate"
-).innerHTML =
-
-`${tomorrowDateObj.getFullYear()}年${tomorrowDateObj.getMonth()+1}月${tomorrowDateObj.getDate()}日（${weekNames[tomorrowDateObj.getDay()]}）`;
-
-document.getElementById(
-"todayType"
-).innerHTML =
-"可燃ごみ";
-
-document.getElementById(
-"todayMsg"
-).innerHTML =
-"朝8時30分までに出してください";
-
-document.getElementById(
-"tomorrowType"
-).innerHTML =
-"収集なし";
-
-document.getElementById(
-"tomorrowMsg"
-).innerHTML =
-"明日の収集はありません";
-
-document.getElementById(
-"nextText"
-).innerHTML =
-"次回は可燃ごみ";
-
-function speakGarbage(){
-
-const text =
-
-"今日のゴミは" +
-
-document.getElementById(
-"todayType"
-).innerText +
-
-"です。" +
-
-document.getElementById(
-"todayMsg"
-).innerText +
-
-"。明日のゴミは" +
-
-document.getElementById(
-"tomorrowType"
-).innerText +
-
-"です。";
-
-const speech =
-new SpeechSynthesisUtterance(
-text
-);
-
-speech.lang =
-"ja-JP";
-
-speech.rate = 1;
-
-speech.pitch = 1;
-
-speechSynthesis.cancel();
-
-speechSynthesis.speak(
-speech
-);
-
-}
-
-</script>
-
-</body>
-</html>
