@@ -174,7 +174,7 @@ SHEET_ID +
 '/gviz/tq?sheet=' +
 
 encodeURIComponent(
-'ゴミ'
+'ゴミ収集'
 ) +
 
 '&tqx=out:json';
@@ -223,15 +223,20 @@ function handleGarbage(json){
 const rows =
 json.table.rows || [];
 
-const areaCode =
+const city =
 localStorage.getItem(
-'areaCode'
+'city'
+) || '';
+
+const area =
+localStorage.getItem(
+'area'
 ) || '';
 
 document.getElementById(
 'areaName'
 ).innerHTML =
-areaCode || '地区未登録';
+city + ' ' + area;
 
 const days =
 ['日','月','火','水','木','金','土'];
@@ -258,10 +263,10 @@ i++
 const row =
 rows[i];
 
-const city =
+const rowCity =
 getVal(row.c[0]);
 
-const area =
+const rowArea =
 getVal(row.c[1]);
 
 const week =
@@ -274,7 +279,13 @@ const memo =
 getVal(row.c[4]);
 
 if(
-areaCode.indexOf(area)===-1
+rowCity !== city
+){
+continue;
+}
+
+if(
+rowArea !== area
 ){
 continue;
 }
@@ -285,7 +296,7 @@ week.indexOf(today)>-1
 
 todayList.push(
 '🗑 '+garbage+
-'<br>'+memo
+'<br><br>'+memo
 );
 
 }
@@ -296,7 +307,7 @@ week.indexOf(tomorrow)>-1
 
 tomorrowList.push(
 '🗑 '+garbage+
-'<br>'+memo
+'<br><br>'+memo
 );
 
 }
